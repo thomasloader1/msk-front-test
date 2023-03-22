@@ -46,7 +46,7 @@ const CustomHome: React.FC = () => {
   return (
     <div className="nc-PageHome relative">
       <Helmet>
-        <title>CustomHome || MSK React Template</title>
+        <title>CustomHome | MSK</title>
       </Helmet>
 
       {/* ======== ALL SECTIONS ======== */}

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, HashRouter, BrowserRouter } from "react-router-dom";
 import { Page } from "./types";
 import ScrollToTop from "./ScrollToTop";
 import Footer from "components/Footer/Footer";
@@ -38,11 +38,12 @@ import PageHomeDemo7 from "containers/PageHome/PageHomeDemo7";
 import PageSingleTemp4Sidebar from "containers/PageSingle/PageSingleTemp4Sidebar";
 import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
 import CustomHome from "containers/PageHome/CustomHome";
+import FooterEduman from "components/Footer/FooterEduman";
 
 export const pages: Page[] = [
-  { path: "/", exact: true, component: PageHome },
+  { path: "/", exact: true, component: CustomHome },
   { path: "/custom-home", exact: true, component: CustomHome },
-  { path: "/#", exact: true, component: PageHome },
+  { path: "/#", exact: true, component: CustomHome },
   //
   { path: "/home-header-style1", exact: true, component: PageHome },
   { path: "/home-header-style2", exact: true, component: PageHome },
@@ -113,12 +114,14 @@ export const pages: Page[] = [
   //
 ];
 
+
 const Routes = () => {
+
   return (
     <BrowserRouter
-      basename={
-        import.meta.env.VITE_LRT_OR_RTL === "rtl" ? "/ncmaz-rtl" : "/ncmaz"
-      }
+       basename={
+        "/custom-home"
+      } 
     >
       <MediaRunningContainer />
 
@@ -137,7 +140,9 @@ const Routes = () => {
         })}
         <Route component={Page404} />
       </Switch>
-      <Footer />
+
+      <FooterEduman />
+      {/* <Footer /> */}
       {/* MEDIA */}
     </BrowserRouter>
   );

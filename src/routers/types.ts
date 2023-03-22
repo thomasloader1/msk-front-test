@@ -3,6 +3,7 @@ import { ComponentType } from "react";
 export interface LocationStates {
   "/"?: {};
   "/custom-home"?: {};
+  "/#/custom-home"?: {};
   "/#"?: {};
   "/archive/:slug"?: {};
   "/archive-video/:slug"?: {};

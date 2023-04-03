@@ -8,7 +8,7 @@ const ContactFormSection = () => {
         <>
             <div className="">
                 <div className="contact-area-wrapper">
-                    <div className="section-title mb-50">
+                    <div className={`section-title mb-50`}>
                         <h2>Get in Touch</h2>
                     </div>
                     <div className="contact-form">
@@ -29,7 +29,7 @@ const ContactFormSection = () => {
                                         <input type="text" placeholder="Email" />
                                     </div>
                                 </div>
-                                <div className="col-xl-6">
+                                <div className={`col-xl-6`}>
                                     <div className="contact-select">
                                         <select className="">
                                             <option defaultValue="Subject">Course</option>

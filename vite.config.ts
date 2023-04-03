@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from 'path';
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/",
@@ -13,23 +14,4 @@ export default defineConfig({
   },
 
   plugins: [react(), tsconfigPaths()],
-  
-  css: {
-    preprocessorOptions: {
-      // Agrega un prefijo personalizado para las clases de Bootstrap
-      module: {
-        localsConvention: 'camelCaseOnly',
-        generateScopedName: 'bts-[local]'
-      },
-      sass: {
-        additionalData: `@import "bootstrap-css";`
-      },
-      less: {
-        additionalData: `@import "bootstrap-css";`
-      },
-      stylus: {
-        additionalData: `@import "bootstrap-css";`
-      }
-    }
-  }
 });

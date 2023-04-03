@@ -3,6 +3,7 @@ import { ComponentType } from "react";
 export interface LocationStates {
   "/"?: {};
   "/custom-home"?: {};
+  "/#/custom-home"?: {};
   "/#"?: {};
   "/archive/:slug"?: {};
   "/archive-video/:slug"?: {};
@@ -36,6 +37,8 @@ export interface LocationStates {
   "/page404"?: {};
   "/dashboard"?: {};
   "/subscription"?: {};
+  "/store"?: {};
+  "/course-details"?: {};
   //
   "/theme-cyan-blueGrey"?: {};
   "/theme-blue-blueGrey"?: {};

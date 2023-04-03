@@ -7,7 +7,7 @@ function App() {
     const { VITE_OM_WP_API } = import.meta.env
 
     const fetchData = async () => {
-      const request = await fetch(VITE_OM_WP_API)
+      const request = await fetch(`${VITE_OM_WP_API}/categories`)
       const data = await request.json()
       console.log({data})
     }

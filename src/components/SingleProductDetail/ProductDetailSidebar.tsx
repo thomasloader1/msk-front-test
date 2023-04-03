@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import ModalVideo from 'react-modal-video';
+import img from "../../images/eduman/course-video.png"
+import fai from '../../styles/fai/fontAwesome5Pro.module.css'
 
 const ProductDetailSidebar = () => {
 
@@ -12,9 +14,9 @@ const ProductDetailSidebar = () => {
             <div className="course-widget-wrapper mb-30">
                 <ModalVideo channel='youtube' isOpen={isOpen} videoId='vWLcyFtni6U' onClose={() => { openVideoModal(); }} />
                 <div className="course-video-thumb w-img">
-                    <img src="/assets/img/course/course-video.png" alt="img not found" />
+                    <img src={img} alt="img not found" />
                     <div className="sidber-video-btn">
-                        <span className="popup-video" onClick={() => { openVideoModal(); }}><i className="fas fa-play"></i></span>
+                        <span className="popup-video" onClick={() => { openVideoModal(); }}><i className={`${fai.fas} ${fai["fa-play"]}`}></i></span>
                     </div>
                 </div>
                 <div className="course-video-price">

@@ -56,7 +56,7 @@ const MainNav2: FC<MainNav2Props> = () => {
           <div className="hidden items-center xl:flex space-x-2">
             <Navigation navigations={NAVIGATION_SHORT_DEMO} />
             <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000"></div>
-            <DarkModeContainer />
+            {/* <DarkModeContainer /> */}
 
             <ButtonSecondary href={"/login"} sizeClass="px-4 py-2 sm:px-5">
               Log in

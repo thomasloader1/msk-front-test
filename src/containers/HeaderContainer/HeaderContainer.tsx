@@ -55,7 +55,7 @@ const HeaderContainer: FC<HeaderContainerProps> = ({ className = "" }) => {
     },
   ]);
   const [headerSelected, setHeaderSelected] =
-    React.useState<SiteHeaders>("Header 3");
+    React.useState<SiteHeaders>("Header 2");
 
   const [isTopOfPage, setIsTopOfPage] = React.useState(window.pageYOffset < 5);
   const location = useLocation();
@@ -219,7 +219,7 @@ const HeaderContainer: FC<HeaderContainerProps> = ({ className = "" }) => {
     <>
       <div ref={anchorRef} className="h-1 absolute invisible"></div>
       {renderHeader()}
-      {renderControlSelections()}
+      {/* renderControlSelections() */}
     </>
   );
 };

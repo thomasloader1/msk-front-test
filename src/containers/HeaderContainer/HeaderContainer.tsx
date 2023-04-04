@@ -218,7 +218,7 @@ const HeaderContainer: FC<HeaderContainerProps> = ({ className = "" }) => {
   return (
     <>
       <div ref={anchorRef} className="h-1 absolute invisible"></div>
-      {renderHeader()}
+      <Header isTopOfPage={isTopOfPage} mainNavStyle={"style2"} />
       {/* renderControlSelections() */}
     </>
   );

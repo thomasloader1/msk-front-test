@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import MyRouter from "routers/index";
+import MyRouter from "routers/msk";
 
 function App() {
 

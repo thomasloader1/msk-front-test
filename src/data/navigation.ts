@@ -423,3 +423,21 @@ export const NAVIGATION_SHORT_DEMO: NavItemType[] = [
     name: "How it works",
   },
 ];
+
+export const NAVIGATION_MSK: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/",
+    name: "Home",
+  },
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Tienda",
+  },
+  {
+    id: ncNanoId(),
+    href: "/shop",
+    name: "Carrito",
+  },
+];

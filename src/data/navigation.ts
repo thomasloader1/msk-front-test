@@ -424,6 +424,24 @@ export const NAVIGATION_SHORT_DEMO: NavItemType[] = [
   },
 ];
 
+//////////////////////////////////////////////
+const aboutMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Tienda",
+  },
+  // {
+  //   id: ncNanoId(),
+  //   href:
+  //     import.meta.env.VITE_LRT_OR_RTL !== "rtl"
+  //       ? "https://chisnghiax.com/ncmaz-rtl/"
+  //       : "/",
+  //   name: "Home Demo - RTL",
+  //   targetBlank: import.meta.env.VITE_LRT_OR_RTL !== "rtl",
+  // },
+];
+
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
@@ -432,12 +450,19 @@ export const NAVIGATION_MSK: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/store",
-    name: "Tienda",
+    href: "/about",
+    name: "Qué ofrecemos",
+    type: "dropdown",
+    children: aboutMenu,
   },
-  {
-    id: ncNanoId(),
-    href: "/shop",
-    name: "Carrito",
-  },
+  // {
+  //   id: ncNanoId(),
+  //   href: "/store",
+  //   name: "Tienda",
+  // },
+  // {
+  //   id: ncNanoId(),
+  //   href: "/shop",
+  //   name: "Carrito",
+  // },
 ];

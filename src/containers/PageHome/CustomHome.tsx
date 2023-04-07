@@ -4,18 +4,14 @@ import SectionMagazine1 from "./SectionMagazine1";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import { PostDataType } from "data/types";
-import {
-  DEMO_POSTS,
-  DEMO_POSTS_AUDIO,
-  DEMO_POSTS_VIDEO,
-} from "data/posts";
+import { DEMO_POSTS, DEMO_POSTS_AUDIO, DEMO_POSTS_VIDEO } from "data/posts";
 import { DEMO_CATEGORIES } from "data/taxonomies";
 import SectionMagazine4 from "./SectionMagazine4";
 import SectionAds from "./SectionAds";
 import SectionGridPosts from "./SectionGridPosts";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionHero from "components/SectionHero/SectionHero";
-import rightImg from "images/hero-right.png";
+import rightImg from "images/hero-msk.png";
 import Vector1 from "images/Vector1.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
@@ -45,37 +41,34 @@ const CustomHome: React.FC = () => {
         <div className="container relative">
           {/* === SECTION  === */}
           <SectionHero
-          rightImg={rightImg}
-          className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
-          heading={
-            <span>
-              Far from face <br /> but not from {` `}
-              <span className="relative pr-3">
-                <img
-                  className="w-full absolute top-1/2 -left-1 transform -translate-y-1/2"
-                  src={Vector1}
-                  alt=""
-                />
-                <span className="relative">heart</span>
+            rightImg={rightImg}
+            className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
+            heading={
+              <span>
+                Una propuesta moderna
+                <br />
+                para
+                <span className="font-lora"> expandir </span>
+                tus
+                <br />
+                metas profesionales
               </span>
-            </span>
-          }
-          btnText="Getting started"
-          subHeading="Let stay at home and share with everyone the most beautiful stories in your hometown 🎈"
-        />
+            }
+            btnText="Comienza tu experiencia"
+          />
 
-        <SectionGridCategoryBox
-          headingCenter={false}
-          categoryCardType="card2"
-          className="pb-16 lg:pb-28"
-          categories={DEMO_CATEGORIES.filter((_, i) => i < 5)}
-        />
-        
-        <BrandSlider />
+          <SectionGridCategoryBox
+            headingCenter={false}
+            categoryCardType="card2"
+            className="pb-16 lg:pb-28"
+            categories={DEMO_CATEGORIES.filter((_, i) => i < 5)}
+          />
+
+          <BrandSlider />
 
           {/* === SECTION  === */}
 
-        <SectionMagazine4
+          <SectionMagazine4
             className="py-16 lg:py-28"
             heading="Life styles 🎨 "
             posts={MAGAZINE2_POSTS}
@@ -85,8 +78,8 @@ const CustomHome: React.FC = () => {
           {/* === SECTION 3 === */}
           <SectionAds />
 
-           {/* === SECTION 6 === */}
-           <div className="relative py-16 my-32">
+          {/* === SECTION 6 === */}
+          <div className="relative py-16 my-32">
             <BackgroundSection />
             <SectionSliderPosts
               postCardName="card9"
@@ -104,10 +97,8 @@ const CustomHome: React.FC = () => {
             posts={MAGAZINE1_POSTS}
             tabs={MAGAZINE1_TABS}
           />
-
         </div>
         {/* ======= END CONTAINER ============= */}
-
 
         {/* === SECTION 11 === */}
         <div className="dark bg-neutral-900 dark:bg-black dark:bg-opacity-20 text-neutral-100">
@@ -126,10 +117,9 @@ const CustomHome: React.FC = () => {
 
         {/* === SECTION  === */}
         <div className="container grid grid-cols-1 md:grid-cols-2 gap-4 my-40">
-          <ContactForm />    
+          <ContactForm />
         </div>
 
-       
         {/* ======= END ALL SECTIONS ============= */}
       </div>
     </div>

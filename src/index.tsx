@@ -10,7 +10,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./styles/index.scss";
 import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
-import "./styles/flaticon.css"
+import "./styles/flaticon.css";
+import "./fonts/Lora/Lora-Italic.ttf";
 //
 const RtlImportCssLazy = React.lazy(() => import("RtlImportCss"));
 document

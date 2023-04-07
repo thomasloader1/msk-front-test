@@ -118,15 +118,9 @@ export const pages: Page[] = [
   //
 ];
 
-
 const Routes = () => {
-
   return (
-    <BrowserRouter
-       basename={
-        "/custom-home"
-      } 
-    >
+    <BrowserRouter basename={"/custom-home"}>
       <MediaRunningContainer />
 
       <ScrollToTop />

@@ -1,4 +1,14 @@
 // Font Family
 $nunito: 'Nunito Sans', sans-serif;
 $raleway: 'Raleway', sans-serif;
+$lora: 'Lora', serif;
 $fontawesome: "Font Awesome 5 Pro";
+
+@font-face {
+  font-family: "Lora";
+  src: url("../../fonts/Lora/Lora-italic.ttf");
+}
+
+.font-lora {
+  font-family: "Lora", serif;
+}

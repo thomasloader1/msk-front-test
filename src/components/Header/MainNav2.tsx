@@ -55,7 +55,7 @@ const MainNav2: FC<MainNav2Props> = () => {
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
           <div className="hidden items-center xl:flex space-x-2">
             <Navigation navigations={NAVIGATION_MSK} />
-            <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000"></div>
+            <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000 pr-5"></div>
             {/* <DarkModeContainer /> */}
 
             <ButtonSecondary
@@ -69,7 +69,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             <ButtonPrimary
               href={"/signup"}
               sizeClass="px-4 py-2 sm:px-5"
-              className="font-bold"
+              className="font-semibold"
             >
               Crear cuenta
             </ButtonPrimary>

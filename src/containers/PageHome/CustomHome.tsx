@@ -20,7 +20,7 @@ import ContactForm from "components/ContactForm/ContactForm";
 //
 const POSTS: PostDataType[] = DEMO_POSTS;
 //
-const MAGAZINE1_TABS = ["all", "Garden", "Fitness", "Design"];
+const MAGAZINE1_TABS = ["Todo", "Novedades", "Recomendados", "Especialidades"];
 const MAGAZINE1_POSTS = DEMO_POSTS.filter((_, i) => i >= 8 && i < 16);
 const MAGAZINE2_POSTS = DEMO_POSTS.filter((_, i) => i >= 0 && i < 7);
 //
@@ -56,28 +56,22 @@ const CustomHome: React.FC = () => {
             }
             btnText="Comienza tu experiencia"
           />
-
           <SectionGridCategoryBox
             headingCenter={false}
             categoryCardType="card2"
             className="pb-16 lg:pb-28"
-            categories={DEMO_CATEGORIES.filter((_, i) => i < 5)}
+            categories={DEMO_CATEGORIES.filter((_, i) => i < 4)}
           />
-
           <BrandSlider />
-
           {/* === SECTION  === */}
-
           <SectionMagazine4
             className="py-16 lg:py-28"
-            heading="Life styles 🎨 "
+            heading="Oportunidades para ti"
             posts={MAGAZINE2_POSTS}
             tabs={MAGAZINE1_TABS}
           />
-
           {/* === SECTION 3 === */}
           <SectionAds />
-
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />
@@ -90,7 +84,6 @@ const CustomHome: React.FC = () => {
               uniqueSliderClass="pageHome-section6"
             />
           </div>
-
           {/* === SECTION 4 === */}
           <SectionMagazine1
             className="py-16 lg:py-28"

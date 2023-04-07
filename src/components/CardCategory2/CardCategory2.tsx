@@ -25,7 +25,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
       {index && (
         <Badge
           color={color as TwMainColor}
-          name={index}
+          name="NUEVO"
           className="absolute -top-2 sm:top-3 left-3"
         />
       )}
@@ -34,14 +34,14 @@ const CardCategory2: FC<CardCategory2Props> = ({
         src={thumbnail}
       />
       <div className="mt-3 ">
-        <h2 className={`text-base sm:text-lg font-semibold `}>
+        <h2 className={`text-base sm:text-lg  `}>
           <span className="line-clamp-1">{name}</span>
         </h2>
-        <span
+        {/* <span
           className={`block mt-[2px] text-sm text-neutral-500 dark:text-neutral-400`}
         >
           {count} Articles
-        </span>
+        </span> */}
       </div>
     </Link>
   );

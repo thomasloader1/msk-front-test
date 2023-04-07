@@ -32,7 +32,11 @@ const SectionHero: FC<SectionHeroProps> = ({
             </span>
           ) : null}
           {!!btnText && (
-            <ButtonPrimary href="/login" rounded="rounded-lg">
+            <ButtonPrimary
+              href="/login"
+              rounded="rounded-lg"
+              className="font-semibold"
+            >
               {btnText}
             </ButtonPrimary>
           )}

@@ -28,7 +28,7 @@ const Badge: FC<BadgeProps> = ({
           hasHover ? "hover:bg-gray-800" : ""
         }`;
       case "green":
-        return `text-green-800 bg-green-100 ${
+        return `text-green-800 bg-teal-300 ${
           hasHover ? "hover:bg-green-800" : ""
         }`;
       case "purple":
@@ -55,7 +55,7 @@ const Badge: FC<BadgeProps> = ({
   };
 
   const CLASSES =
-    "nc-Badge  inline-flex px-2.5 py-1 rounded-full font-medium text-xs " +
+    "nc-Badge  inline-flex px-2.5 py-1 rounded font-medium text-xs " +
     className;
   return !!href ? (
     <Link

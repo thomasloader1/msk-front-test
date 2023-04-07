@@ -21,7 +21,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             <form action="" method="POST" className="relative">
               <Input
                 type="search"
-                placeholder="Search items"
+                placeholder="Buscar"
                 className="pr-10 w-full"
                 sizeClass="h-[42px] pl-4 py-3"
               />
@@ -58,11 +58,20 @@ const MainNav2: FC<MainNav2Props> = () => {
             <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000"></div>
             {/* <DarkModeContainer /> */}
 
-            <ButtonSecondary href={"/login"} sizeClass="px-4 py-2 sm:px-5">
-              Log in
+            <ButtonSecondary
+              href={"/login"}
+              sizeClass="px-4 py-2 sm:px-5"
+              className="border-solid border-1 border-neutral-200 text-neutral-400"
+              bordered
+            >
+              Iniciar sesión
             </ButtonSecondary>
-            <ButtonPrimary href={"/signup"} sizeClass="px-4 py-2 sm:px-5">
-              Create account
+            <ButtonPrimary
+              href={"/signup"}
+              sizeClass="px-4 py-2 sm:px-5"
+              className="font-bold"
+            >
+              Crear cuenta
             </ButtonPrimary>
           </div>
           <div className="flex items-center space-x-1.5 xl:hidden">

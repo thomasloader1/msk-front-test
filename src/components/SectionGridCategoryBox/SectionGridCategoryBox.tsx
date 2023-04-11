@@ -55,12 +55,13 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
       >
         Cursos por especialidades
       </Heading>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 ">
         {categories.map((item, i) => (
           <CardComponentName
             index={i < 1 ? `#${i + 1}` : undefined}
             key={item.id}
             taxonomy={item}
+            className="rounded-lg"
           />
         ))}
         <Link

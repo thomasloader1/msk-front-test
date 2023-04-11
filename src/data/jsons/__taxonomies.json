@@ -33,27 +33,27 @@
   },
   {
     "id": 5,
-    "name": "Automotive",
+    "name": "Anestesiología",
     "href": "/archive/the-demo-archive-slug",
-    "thumbnail": "https://images.unsplash.com/photo-1528297506728-9533d2ac3fa4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    "count": 16,
-    "color": "pink"
+    "thumbnail": "src/images/courses/infectology.png",
+    "count": 21,
+    "color": "yellow"
   },
   {
     "id": 6,
-    "name": "Toys",
+    "name": "Nutrición",
     "href": "/archive/the-demo-archive-slug",
-    "thumbnail": "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80",
-    "count": 25,
-    "color": "blue"
+    "thumbnail": "src/images/courses/infectology.png",
+    "count": 21,
+    "color": "yellow"
   },
   {
     "id": 7,
-    "name": "Outdoors",
+    "name": "Medicina Interna",
     "href": "/archive/the-demo-archive-slug",
-    "thumbnail": "https://images.unsplash.com/photo-1498049794561-7780e7231661?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    "count": 14,
-    "color": "gray"
+    "thumbnail": "src/images/courses/infectology.png",
+    "count": 21,
+    "color": "yellow"
   },
   {
     "id": 8,

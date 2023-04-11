@@ -13,6 +13,8 @@ export interface Card9Props {
   ratio?: string;
   post: PostDataType;
   hoverClass?: string;
+  showDescription?: boolean;
+  badgeColor?: string;
 }
 
 const Card9: FC<Card9Props> = ({
@@ -20,25 +22,45 @@ const Card9: FC<Card9Props> = ({
   ratio = "aspect-w-3 aspect-h-3 sm:aspect-h-4",
   post,
   hoverClass = "",
+  showDescription = false,
+  badgeColor = "yellow",
 }) => {
-  const { title, href, featuredImage, categories, author, date, postType } =
-    post;
+  const {
+    title,
+    href,
+    featuredImage,
+    categories,
+    author,
+    date,
+    postType,
+    desc,
+  } = post;
 
   const renderMeta = () => {
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
           <h2 className="block text-lg font-semibold text-white ">
-            <span className="line-clamp-2" title={title}>
+            <span className="text-xl" title={title}>
               {title}
             </span>
           </h2>
           <Link to={author.href} className="flex mt-2.5 relative">
-            <span className="block text-neutral-200 hover:text-white font-medium truncate">
-              {author.displayName}
-            </span>
-            <span className="mx-[6px] font-medium">·</span>
-            <span className="font-normal truncate">{date}</span>
+            {showDescription ? (
+              <div className="hidden sm:block mt-2">
+                <span className="text-neutral-300 text-sm line-clamp-1">
+                  {desc}
+                </span>
+              </div>
+            ) : (
+              <>
+                <span className="block text-neutral-200 hover:text-white font-medium truncate">
+                  {author.displayName}
+                </span>
+                <span className="mx-[6px] font-medium">·</span>
+                <span className="font-normal truncate">{date}</span>
+              </>
+            )}
           </Link>
         </div>
       </div>
@@ -82,7 +104,7 @@ const Card9: FC<Card9Props> = ({
       <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
         <Link to={href} className="absolute inset-0"></Link>
         <div className="mb-3">
-          <CategoryBadgeList categories={categories} />
+          <CategoryBadgeList categories={categories} color={badgeColor} />
         </div>
         {renderMeta()}
       </div>

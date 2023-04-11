@@ -6,12 +6,14 @@ export interface CategoryBadgeListProps {
   className?: string;
   itemClass?: string;
   categories: PostDataType["categories"];
+  color?: string;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   className = "flex flex-wrap space-x-2",
   itemClass,
   categories,
+  color,
 }) => {
   return (
     <div
@@ -24,7 +26,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
           key={index}
           name={item.name}
           href={item.href}
-          color={item.color as any}
+          color={(color as any) || (item.color as any)}
         />
       ))}
     </div>

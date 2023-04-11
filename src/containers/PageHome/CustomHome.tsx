@@ -7,7 +7,7 @@ import { PostDataType } from "data/types";
 import { DEMO_POSTS, DEMO_POSTS_AUDIO, DEMO_POSTS_VIDEO } from "data/posts";
 import { DEMO_CATEGORIES } from "data/taxonomies";
 import SectionMagazine4 from "./SectionMagazine4";
-import SectionAds from "./SectionAds";
+import HomeExtraInfo from "./HomeExtraInfo";
 import SectionGridPosts from "./SectionGridPosts";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionHero from "components/SectionHero/SectionHero";
@@ -16,6 +16,7 @@ import Vector1 from "images/Vector1.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
+import { TOP_COURSES } from "data/courses";
 
 //
 const POSTS: PostDataType[] = DEMO_POSTS;
@@ -71,16 +72,17 @@ const CustomHome: React.FC = () => {
             tabs={MAGAZINE1_TABS}
           />
           {/* === SECTION 3 === */}
-          <SectionAds />
+          <HomeExtraInfo />
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />
+
             <SectionSliderPosts
               postCardName="card9"
-              heading="Explore latest audio articles"
-              subHeading="Click on the icon to enjoy the music or podcast 🎧"
+              heading="Nuestros cursos mas elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
-              posts={DEMO_POSTS_AUDIO.filter((_, i) => i > 3 && i < 10)}
+              posts={TOP_COURSES}
               uniqueSliderClass="pageHome-section6"
             />
           </div>

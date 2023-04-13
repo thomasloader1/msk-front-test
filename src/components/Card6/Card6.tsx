@@ -2,20 +2,30 @@ import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
 import PostCardMeta from "components/PostCardMeta/PostCardMeta";
 import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
+import { BlogDataType, PostDataType } from "data/types";
 import { Link } from "react-router-dom";
 import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 
 export interface Card6Props {
   className?: string;
-  post: PostDataType;
+  post: PostDataType | BlogDataType;
+  authorRow?: boolean;
 }
 
-const Card6: FC<Card6Props> = ({ className = "h-full", post }) => {
-  const { title, href, readingTime, featuredImage, categories, postType } =
-    post;
+const Card6: FC<Card6Props> = ({ className = "h-full", post, authorRow }) => {
+  const {
+    title,
+    href,
+    readingTime,
+    featuredImage,
+    categories,
+    postType,
+    author,
+    date,
+  } = post;
 
   return (
     <div
@@ -31,7 +41,14 @@ const Card6: FC<Card6Props> = ({ className = "h-full", post }) => {
               {title}
             </Link>
           </h2>
-          <PostCardMeta meta={{ ...post }} />
+          <CardAuthor2
+            className="relative my-4"
+            date={date}
+            author={author}
+            flex={authorRow}
+          />
+
+          {/* <PostCardMeta meta={{ ...post }} /> */}
         </div>
         <div className="flex items-center flex-wrap justify-between mt-auto">
           <PostCardLikeAndComment className="relative" postData={post} />

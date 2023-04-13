@@ -10,12 +10,13 @@ import Card10 from "components/Card10/Card10";
 import Card11 from "components/Card11/Card11";
 import Card10V2 from "components/Card10/Card10V2";
 import ncNanoId from "utils/ncNanoId";
+import { CourseDataType } from "data/courses";
 
 export interface SectionSliderPostsProps {
   className?: string;
   heading: string;
   subHeading?: string;
-  posts: PostDataType[];
+  posts: PostDataType[] | CourseDataType[];
   postCardName?: "card4" | "card7" | "card9" | "card10" | "card10V2" | "card11";
   sliderStype?: "style1" | "style2";
   perView?: 2 | 3 | 4;
@@ -33,6 +34,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   uniqueSliderClass,
 }) => {
   const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
+  const top_picks = posts.sort((a, b) => b.viewdCount - a.viewdCount);
 
   const MY_GLIDE = new Glide(`.${UNIQUE_CLASS}`, {
     // @ts-ignore
@@ -110,14 +112,14 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         {renderHeading()}
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {posts.map((item, index) => (
+            {top_picks.map((item, index) => (
               <li
                 key={index}
                 className={`glide__slide h-auto  ${
                   sliderStype === "style2" ? "pb-12 xl:pb-16" : ""
                 }`}
               >
-                <CardName post={item} />
+                <CardName post={item} showDescription />
               </li>
             ))}
           </ul>

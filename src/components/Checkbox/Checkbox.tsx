@@ -14,14 +14,14 @@ const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name }) => {
           id={name}
           name={name}
           type="checkbox"
-          className="focus:ring-action-primary h-4 w-4 text-primary border-primary"
+          className="focus:ring-action-primary h-4 w-4 text-primary border-gray-400 rounded-sm"
         />
       </div>
       {label && (
         <div className="ml-3 text-sm">
           <label
             htmlFor={name}
-            className="text-paragraph-small text-black dark:text-white"
+            className="text-paragraph-small text-gray-600 dark:text-white"
           >
             {label}
           </label>

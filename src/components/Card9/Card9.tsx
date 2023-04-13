@@ -7,11 +7,12 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
+import { CourseDataType } from "data/courses";
 
 export interface Card9Props {
   className?: string;
   ratio?: string;
-  post: PostDataType;
+  post: PostDataType | CourseDataType;
   hoverClass?: string;
   showDescription?: boolean;
   badgeColor?: string;
@@ -45,23 +46,25 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h2>
-          <Link to={author.href} className="flex mt-2.5 relative">
-            {showDescription ? (
-              <div className="hidden sm:block mt-2">
-                <span className="text-neutral-300 text-sm line-clamp-1">
-                  {desc}
-                </span>
-              </div>
-            ) : (
-              <>
-                <span className="block text-neutral-200 hover:text-white font-medium truncate">
-                  {author.displayName}
-                </span>
-                <span className="mx-[6px] font-medium">·</span>
-                <span className="font-normal truncate">{date}</span>
-              </>
-            )}
-          </Link>
+          {author && author.href ? (
+            <Link to={author.href} className="flex mt-2.5 relative">
+              <span className="block text-neutral-200 hover:text-white font-medium truncate">
+                {author.displayName}
+              </span>
+              <span className="mx-[6px] font-medium">·</span>
+              <span className="font-normal truncate">{date}</span>
+            </Link>
+          ) : (
+            <>
+              {showDescription ? (
+                <div className="hidden sm:block mt-2">
+                  <span className="text-neutral-300 text-sm line-clamp-1">
+                    {desc}
+                  </span>
+                </div>
+              ) : null}
+            </>
+          )}
         </div>
       </div>
     );

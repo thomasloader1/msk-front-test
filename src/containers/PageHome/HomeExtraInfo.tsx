@@ -35,7 +35,7 @@ const SectionAds: FC<SectionAdsProps> = ({
           <ButtonPrimary className="font-semibold py-4 w-48">
             Me interesa
           </ButtonPrimary>
-          <p className="pl-4">💳 Pagos sin intereses</p>
+          <p>💳 Pagos sin intereses</p>
         </div>
       </div>
       <img src={imgAds} alt="" />

@@ -7,7 +7,14 @@
 @use "../abstract" as *;
 
 // contact-style
-
+.contact-area {
+	background: blue;
+	display: flex;
+	width: 100%;
+}
+.contact-form {
+	width: 100%;
+}
 .contact-from-input input {
 	height: 60px;
 	width: 100%;

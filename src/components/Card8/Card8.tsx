@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import SocialsShare from "components/SocialsShare/SocialsShare";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import { CourseDataType } from "data/courses";
 
 export interface Card8Props {
   className?: string;
-  post: PostDataType;
+  post: PostDataType | CourseDataType;
   badgeColor?: string;
 }
 

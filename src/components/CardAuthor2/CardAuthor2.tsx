@@ -8,6 +8,7 @@ export interface CardAuthor2Props
   className?: string;
   readingTime?: PostDataType["readingTime"];
   hoverReadingTime?: boolean;
+  flex?: boolean;
 }
 
 const CardAuthor2: FC<CardAuthor2Props> = ({
@@ -15,6 +16,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
   author,
   readingTime,
   date,
+  flex,
   hoverReadingTime = true,
 }) => {
   const { displayName, href = "/", avatar } = author;
@@ -31,14 +33,14 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
         imgUrl={avatar}
         userName={displayName}
       />
-      <div>
+      <div className={flex ? "flex gap-4" : ""}>
         <h2
           className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium`}
         >
           {displayName}
         </h2>
         <span
-          className={`flex items-center mt-1 text-xs text-neutral-500 dark:text-neutral-400`}
+          className={`flex items-center  text-xs text-neutral-500 dark:text-neutral-400`}
         >
           <span>{date}</span>
           {readingTime && (

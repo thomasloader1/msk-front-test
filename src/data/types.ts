@@ -57,11 +57,38 @@ export interface PostDataType {
   galleryImgs?: string[];
 }
 
+export interface BlogDataType {
+  index: number;
+  id: string;
+  featuredImage: string;
+  title: string;
+  desc: string;
+  date: string;
+  href: string;
+  commentCount: number;
+  viewdCount: number;
+  readingTime: number;
+  bookmark: {
+    count: number;
+    isBookmarked: boolean;
+  };
+  like: {
+    count: number;
+    isLiked: boolean;
+  };
+  author: any;
+  categoriesId?: number[];
+  categories: any;
+  postType: string;
+}
+
 export type TwMainColor =
   | "pink"
   | "green"
   | "yellow"
+  | "yellow-strong"
   | "red"
+  | "red-strong"
   | "indigo"
   | "blue"
   | "purple"

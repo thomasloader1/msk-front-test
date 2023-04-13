@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
 import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
+import { BlogDataType, PostDataType } from "data/types";
 import { Link } from "react-router-dom";
 import SocialsShare from "components/SocialsShare/SocialsShare";
 import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
@@ -11,7 +11,7 @@ import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeatur
 
 export interface Card2Props {
   className?: string;
-  post: PostDataType;
+  post: PostDataType | BlogDataType;
   size?: "normal" | "large";
 }
 

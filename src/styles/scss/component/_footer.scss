@@ -20,7 +20,7 @@
 		margin-bottom: 20px;
 	}
 	p {
-		color: $theme-color-2-2;
+		color: white;
 		margin-bottom: 30px;
 	}
 	h3 {
@@ -105,53 +105,39 @@
 		&:hover {
 			background: $theme-color;
 		}
+		img {
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 10px;
+		}
 	}
 }
 
 // footer-style
 .copyright-area {
 	background: #1a1f27;
-	border-radius: 10px 10px 0 0;
+	border-radius: 0 0 10px 10px;
 	padding: 30px 20px;
+	display: flex;
+	justify-content: space-between;
 	@media #{$sm,$xs} {
 		padding: 30px 15px;
 	}
-}
-.copy-right-support {
-	display: flex;
-	align-items: center;
-	top: 5px;
-	position: relative;
-	@media #{$xs} {
-		margin-bottom: 25px;
-		margin-top: 10px;
-	}
-	@media #{$sm} {
-		margin-bottom: 20px;
-	}
-	p {
-		color: #a2a2a2;
-		margin-bottom: 3px;
-		font-size: 14px;
-	}
-	span {
-		color: $theme-color;
-	}
-}
-.copy-right-svg {
-	margin-right: 20px;
-}
-.copyright-svg-content {
-	h5 {
-		color: $white;
-		font-size: 18px;
-		font-weight: 700;
-		font-family: "Nunito Sans", sans-serif;
-		@media #{$sm} {
-			font-size: 16px;
+	.footer-column {
+		.discounts {
+			color: white;
+			font-weight: 500;
+			font-size: 18px;
+			max-width: 320px;
+			margin-top: 4px;
+			font-family: "Inter";
 		}
 	}
 }
+.divisor {
+	border-right: 1px solid #373a3e;
+}
+
 .copyright-subcribe {
 	position: relative;
 	@media #{$md} {
@@ -224,7 +210,13 @@
 		left: 20px;
 	}
 }
+
+.footer-main {
+	margin-top: 46px;
+}
+
 .copyright-text {
+	
 	width: 196px;
 	position: relative;
 	top: 9px;
@@ -232,6 +224,9 @@
 		margin-bottom: 30px;
 	}
 	p {
+		font-size: 22px;
+		font-weight: 700;
+		font-family: "Raleway";
 		color: $white;
 	}
 	span {

@@ -48,9 +48,10 @@
 }
 .support-contact {
 	padding: 25px 30px 25px 30px;
-	background: #f8f8f9;
+	background: #F8F8F9;
 	border-radius: 5px;
 	border: 1px solid #f8f8f9;
+	margin-top: 122px;
 	@media #{$xs} {
 		padding: 25px 20px 25px 20px;
 	}
@@ -63,9 +64,8 @@
 .support-info-phone {
 	span {
 		font-size: 18px;
-		font-weight: 700;
+		font-weight: 500;
 		color: $heading-color;
-		margin-bottom: 10px;
 		display: block;
 	}
 	p {
@@ -76,27 +76,25 @@
 		}
 	}
 }
-.support-info-email {
+.support-info-whatsapp {
 	span {
 		font-size: 18px;
-		font-weight: 700;
+		font-weight: 500;
 		color: $heading-color;
-		margin-bottom: 10px;
 		display: block;
 	}
 }
-.support-info-email {
+.support-info-whatsapp {
 	a {
 		margin-bottom: 2px;
 		display: block;
 	}
 }
-.support-info-location {
+.support-info-email {
 	span {
 		font-size: 18px;
-		font-weight: 700;
+		font-weight: 500;
 		color: $heading-color;
-		margin-bottom: 10px;
 		display: block;
 	}
 }

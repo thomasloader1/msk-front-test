@@ -9,6 +9,23 @@ $fontawesome: "Font Awesome 5 Pro";
   src: url("../../fonts/Lora/Lora-italic.ttf");
 }
 
+@font-face {
+  font-family: "Raleway";
+  src: url("../../fonts/Raleway/static/Raleway-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  weight: 500;
+  src: url("../../fonts/Raleway/static/Raleway-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  weight: 700;
+  src: url("../../fonts/Raleway/static/Raleway-SemiBold.ttf");
+}
+
 .font-lora {
   font-family: "Lora", serif;
 }

@@ -19,7 +19,16 @@ const SectionMagazine1: FC<SectionMagazine1Props> = ({
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
 
+  const [auxPosts, setPosts] = useState<BlogDataType[]>(posts);
   const handleClickTab = (item: string) => {
+    if (item === "Todo") {
+      setPosts(posts);
+    } else {
+      const filteredPosts = posts.filter((post) =>
+        post.categories?.some((category: any) => category.name === item)
+      );
+      setPosts(filteredPosts);
+    }
     if (item === tabActive) {
       return;
     }
@@ -34,11 +43,11 @@ const SectionMagazine1: FC<SectionMagazine1Props> = ({
         heading={heading}
         onClickTab={handleClickTab}
       />
-      {!posts.length && <span>Nothing we found!</span>}
+      {!auxPosts.length && <span>No hay posts disponibles</span>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-        {posts[0] && <Card2 size="large" post={posts[0]} />}
+        {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} />}
         <div className="grid gap-6 md:gap-8">
-          {posts
+          {auxPosts
             .map((item, index) => (
               <Card6
                 key={index}

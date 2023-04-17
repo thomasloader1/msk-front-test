@@ -21,10 +21,20 @@ const ContactFormSection = () => {
           </div>
           <div className="contact-form">
             <form action="#" className="">
-              <div className="grid grid-row-6 gap-4">
+              <div className="grid grid-cols-2 grid-row-6 gap-4">
                 <div className="col-xl-6">
                   <div className="contact-from-input">
-                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Ingresar nombre" />
+                  </div>
+                </div>
+                <div className="col-xl-6">
+                  <div className="contact-from-input">
+                    <input type="text" placeholder="Ingresar apellido" />
+                  </div>
+                </div>
+                <div className="col-xl-6">
+                  <div className="contact-from-input ">
+                    <input type="text" placeholder="Ingresar e-mail" />
                   </div>
                 </div>
                 <div className="col-xl-6">
@@ -32,32 +42,35 @@ const ContactFormSection = () => {
                     <input type="text" placeholder="Phone" />
                   </div>
                 </div>
-                <div className="col-xl-6">
-                  <div className="contact-from-input ">
-                    <input type="text" placeholder="Email" />
-                  </div>
-                </div>
                 <div className={`col-xl-6`}>
                   <div className="contact-select">
                     <select className="">
-                      <option defaultValue="Subject">Course</option>
+                      <option defaultValue="Subject">
+                        Seleccionar profesión
+                      </option>
                       <option defaultValue="Subject">Financial Aid</option>
                       <option defaultValue="Subject">Payment</option>
                       <option defaultValue="Subject">Information</option>
                     </select>
                   </div>
                 </div>
-                <div className="col-xl-12">
-                  <div className="contact-from-input ">
-                    <textarea placeholder="Message" name="message"></textarea>
-                  </div>
+              </div>
+              <div className="col-xl-12 mt-4">
+                <div className="contact-from-input">
+                  <textarea placeholder="Message" name="message"></textarea>
                 </div>
-                <div className="col-xl-2 ">
-                  <div className="cont-btn ">
-                    <button type="button" className="cont-btn">
-                      Submit
-                    </button>
-                  </div>
+              </div>
+              <div className="flex gap-1 mt-2 mb-4">
+                <Checkbox name="telephone" label="Acepto las" />
+                <a className="text-primary text-sm">
+                  condiciones de privacidad
+                </a>
+              </div>
+              <div className="col-xl-2 mt-2">
+                <div className="cont-btn">
+                  <button type="button" className="cont-btn">
+                    Submit
+                  </button>
                 </div>
               </div>
             </form>

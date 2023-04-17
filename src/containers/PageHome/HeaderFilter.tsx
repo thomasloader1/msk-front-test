@@ -36,8 +36,8 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
           ))}
         </Nav>
         <span className="hidden sm:block flex-shrink-0">
-          <ButtonSecondary className="!leading-none">
-            <span>View all</span>
+          <ButtonSecondary className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400">
+            <span>Ver más</span>
             <i className="ml-3 las la-arrow-right text-xl"></i>
           </ButtonSecondary>
         </span>

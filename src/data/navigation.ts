@@ -429,7 +429,12 @@ const aboutMenu: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/store",
-    name: "Tienda",
+    name: "Cursos para personal médico",
+  },
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Cursos para otras profesiones",
   },
   // {
   //   id: ncNanoId(),
@@ -441,19 +446,43 @@ const aboutMenu: NavItemType[] = [
   //   targetBlank: import.meta.env.VITE_LRT_OR_RTL !== "rtl",
   // },
 ];
-
-export const NAVIGATION_MSK: NavItemType[] = [
+const resourcesMenu: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/",
-    name: "Home",
+    href: "/store",
+    name: "Guías profesionales",
   },
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Blog",
+  },
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Webinars",
+  },
+  {
+    id: ncNanoId(),
+    href: "/store",
+    name: "Podcasts",
+  },
+];
+
+export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/about",
     name: "Qué ofrecemos",
     type: "dropdown",
     children: aboutMenu,
+  },
+  {
+    id: ncNanoId(),
+    href: "/about",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenu,
   },
   // {
   //   id: ncNanoId(),

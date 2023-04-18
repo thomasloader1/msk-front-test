@@ -26,7 +26,7 @@ const Heading: React.FC<HeadingProps> = ({
         }
       >
         <h2 className={`text-3xl md:text-4xl`} {...args}>
-          {children || `Section Heading`}
+          {children}
         </h2>
         {desc && (
           <span className="mt-2 lg:text-lg md:mt-3 font-normal block text-base sm:text-xl text-neutral-500 dark:text-neutral-400">

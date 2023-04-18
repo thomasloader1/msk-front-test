@@ -932,6 +932,44 @@
 	background: $white;
 	position: relative;
 }
+
+.requirements {
+	background: #F3F3F6;
+	display: flex;
+	border-radius: 16px;
+	padding: 26px 40px;
+	position: relative;
+	h3 {
+		font-family: Raleway;
+		font-weight: 600;
+	}
+	ul {
+		li {
+			margin-top: 12px;
+		}
+	}
+	.absolute-img {
+		position: absolute;
+		bottom: 0;
+		right: 30px;
+	}
+}
+
+.modules {
+	.accordion {
+		outline: 1px solid #ccc;
+	}
+	ul li {
+		padding: 12px 16px;
+		.item-mark {
+			background: #C1C7D2;
+			border-radius: 6px;
+			width: 18px;
+			height: 12px;
+			margin-top: 4px;
+		}
+	}
+}
 .protfolio-course-2-wrapper:hover {
 	.course-cart {
 		opacity: 1;

@@ -11,13 +11,41 @@ import Card11 from "components/Card11/Card11";
 import Card10V2 from "components/Card10/Card10V2";
 import ncNanoId from "utils/ncNanoId";
 import { CourseDataType } from "data/courses";
+import Card3 from "components/Card3/Card3";
+import Card2 from "components/Card2/Card2";
+import Card1 from "components/Card1/Card1";
+import Card5 from "components/Card5/Card5";
+import Card6 from "components/Card6/Card6";
+import Card12 from "components/Card12/Card12";
+import Card13 from "components/Card13/Card13";
+import Card14 from "components/Card14/Card14";
+import Card18 from "components/Card18/Card18";
+import Card19 from "components/Card19/Card19";
+import Card20 from "components/Card20/Card20";
 
 export interface SectionSliderPostsProps {
   className?: string;
-  heading: string;
+  heading?: string;
   subHeading?: string;
   posts: PostDataType[] | CourseDataType[];
-  postCardName?: "card4" | "card7" | "card9" | "card10" | "card10V2" | "card11";
+  postCardName?:
+    | "card1"
+    | "card2"
+    | "card3"
+    | "card4"
+    | "card5"
+    | "card6"
+    | "card7"
+    | "card9"
+    | "card10"
+    | "card10V2"
+    | "card11"
+    | "card12"
+    | "card13"
+    | "card14"
+    | "card18"
+    | "card19"
+    | "card20";
   sliderStype?: "style1" | "style2";
   perView?: 2 | 3 | 4;
   uniqueSliderClass: string;
@@ -71,8 +99,18 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
 
   const getPostComponent = () => {
     switch (postCardName) {
+      case "card1":
+        return Card1;
+      case "card2":
+        return Card2;
+      case "card3":
+        return Card3;
       case "card4":
         return Card4;
+      case "card5":
+        return Card5;
+      case "card6":
+        return Card6;
       case "card7":
         return Card7;
       case "card9":
@@ -83,6 +121,18 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         return Card10V2;
       case "card11":
         return Card11;
+      case "card12":
+        return Card12;
+      case "card13":
+        return Card13;
+      case "card14":
+        return Card14;
+      case "card18":
+        return Card18;
+      case "card19":
+        return Card19;
+      case "card20":
+        return Card20;
 
       default:
         return Card4;
@@ -90,6 +140,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   };
 
   const renderHeading = () => {
+    if (!heading) return null;
     if (sliderStype === "style1") {
       return (
         <Heading desc={subHeading} hasNextPrev>
@@ -116,7 +167,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               <li
                 key={index}
                 className={`glide__slide h-auto  ${
-                  sliderStype === "style2" ? "pb-12 xl:pb-16" : ""
+                  sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
                 }`}
               >
                 <CardName post={item} showDescription />

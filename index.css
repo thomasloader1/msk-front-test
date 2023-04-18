@@ -760,22 +760,23 @@ h4 {
   }
 }
 
-[type=button] {
+[type="button"] {
   -webkit-appearance: none !important;
 }
 
-.nc-section-rounded-none *[class*=rounded],
-.nc-section-rounded-none *[class*=nc-box] {
+.nc-section-rounded-none *[class*="rounded"],
+.nc-section-rounded-none *[class*="nc-box"] {
   border-radius: 0 !important;
 }
 
-.nc-section-rounded-md *[class*=rounded],
-.nc-section-rounded-md *[class*=nc-box] {
+.nc-section-rounded-md *[class*="rounded"],
+.nc-section-rounded-md *[class*="nc-box"] {
   @apply rounded-md !important;
 }
 
 .nc-google-shadow {
-  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 3px 5px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 3px 5px -1px rgba(0, 0, 0, 0.2);
 }
 
 .nc-CardLarge1--hasAnimation .nc-CardLarge1__left {
@@ -810,7 +811,8 @@ h4 {
   }
 }
 .nc-custom-shadow-1 {
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
 .nc-MainNav.notOnTop {

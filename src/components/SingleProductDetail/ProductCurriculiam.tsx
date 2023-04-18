@@ -1,65 +1,75 @@
-import Accordion from 'components/Accordion/Accordion';
-import React, { FC, useState } from 'react';
-
+import Accordion from "components/Accordion/Accordion";
+import React, { FC, useState } from "react";
 
 const ProductCurriculiam: FC = () => {
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-    const handleAccordionClick = (index: number) => {
-        setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-    };
-    return (
-        <div className='my-4'>
-            <Accordion title="Accordion 1" index={1} currentIndex={openIndex}
-                setCurrentIndex={() => handleAccordionClick(1)}>
-                <div className="course-curriculum-content flex justify-between items-center p-3">
-                    <div className="course-curriculum-info">
-                        <i className="flaticon-youtube"></i>
-                        <h4>Importing the libraries</h4>
-                    </div>
-                    <div className="course-curriculum-meta">
-                        <span>6:30</span>
-                        <span className="time"> <i className="flaticon-lock"></i></span>
-                    </div>
-                </div>
-                <div
-                    className="course-curriculum-content flex justify-between items-center p-3">
-                    <div className="course-curriculum-info">
-                        <i className="flaticon-youtube"></i>
-                        <h4>Importing the libraries</h4>
-                    </div>
-                    <div className="course-curriculum-meta">
-                        <span>8:30</span>
-                        <span className="time"> <i className="flaticon-lock"></i></span>
-                    </div>
-                </div>
+  const handleAccordionClick = (index: number) => {
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
+  const accordionContent = [
+    {
+      title: "Módulo 1 • Insuficiencia cardíaca y miocardiopatías",
+      content: [
+        "ICAD y síndrome cardiorrenal",
+        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
+        "Mecanismos básicos y fisiopatología",
+        "Cardiooncologia",
+      ],
+    },
+    {
+      title: "Módulo 2 • Arritmias",
+      content: [
+        "ICAD y síndrome cardiorrenal",
+        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
+        "Mecanismos básicos y fisiopatología",
+        "Cardiooncologia",
+      ],
+    },
+    {
+      title:
+        "Módulo 3 • Trastornos sistémicos que afectan al aparato circulatorio",
+      content: [
+        "ICAD y síndrome cardiorrenal",
+        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
+        "Mecanismos básicos y fisiopatología",
+        "Cardiooncologia",
+      ],
+    },
+  ];
+
+  return (
+    <div className="my-4">
+      <div className="flex flex-col gap-3 pt-7 pb-6">
+        <h4 className="font-bold">Que temas verás</h4>
+        <p>10 módulos • 250 horas estimadas</p>
+      </div>
+      <div className="modules">
+        {accordionContent.map((item, index) => {
+          return (
+            <Accordion
+              title={item.title}
+              index={index}
+              currentIndex={openIndex}
+              setCurrentIndex={() => handleAccordionClick(index)}
+            >
+              <ul>
+                {item.content.map((item, index) => {
+                  return (
+                    <li className="flex gap-2">
+                      <div className="item-mark" />
+                      <span>{item}</span>
+                    </li>
+                  );
+                })}
+              </ul>
             </Accordion>
-            <Accordion title="Accordion 2" index={2} currentIndex={openIndex}
-                setCurrentIndex={() => handleAccordionClick(2)}>
-                <div className="course-curriculum-content flex justify-between items-center p-3">
-                    <div className="course-curriculum-info">
-                        <i className="flaticon-youtube"></i>
-                        <h4>Importing the libraries</h4>
-                    </div>
-                    <div className="course-curriculum-meta">
-                        <span>6:30</span>
-                        <span className="time"> <i className="flaticon-lock"></i></span>
-                    </div>
-                </div>
-                <div
-                    className="course-curriculum-content flex justify-between items-center p-3">
-                    <div className="course-curriculum-info">
-                        <i className="flaticon-youtube"></i>
-                        <h4>Importing the libraries</h4>
-                    </div>
-                    <div className="course-curriculum-meta">
-                        <span>8:30</span>
-                        <span className="time"> <i className="flaticon-lock"></i></span>
-                    </div>
-                </div>
-            </Accordion>
-        </div>
-    )
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default ProductCurriculiam;

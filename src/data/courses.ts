@@ -27,6 +27,7 @@ export interface CourseDataType {
   price?: string;
   discount_price?: string;
   length?: string;
+  content?: string;
 }
 
 // TABS LIST
@@ -49,7 +50,10 @@ const HOME_COURSES = [
     bookmark: { count: 3007, isBookmarked: false },
     like: { count: 3366, isLiked: true },
     authorId: 3,
-    author: "",
+    author: {
+      name: "American College of Cardiology",
+      img: "src/images/avatar/avatar_1.png",
+    },
     categories: [{ name: "Cardiología" }],
     postType: "standard",
     list: [
@@ -61,6 +65,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
   {
     index: 2,
@@ -84,6 +89,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
   {
     index: 3,
@@ -107,6 +113,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
   {
     index: 4,
@@ -130,6 +137,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
   {
     index: 5,
@@ -153,6 +161,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
   {
     index: 6,
@@ -176,6 +185,7 @@ const HOME_COURSES = [
     price: "150",
     discount_price: "100",
     length: "250 horas",
+    content: "10 Módulos",
   },
 ];
 
@@ -546,4 +556,110 @@ const TOP_COURSES = [
   },
 ];
 
-export { TABS_HOME, TABS_BLOG, HOME_COURSES, TOP_COURSES };
+const DETAILS_COURSES = [
+  {
+    index: 1,
+    id: "9e3e3994-a3ed-47ca-a014-d4483884cfe2",
+    featuredImage: "src/images/brands/acp_2.png",
+    title: "ACCSAP. Programa de actualización en cardiología clínica",
+    desc: "American College of Cardiology",
+    date: "May 20, 2021",
+    href: "/single/this-is-single-slug",
+    commentCount: 11,
+    viewdCount: 2504,
+    readingTime: 2,
+    bookmark: { count: 3007, isBookmarked: false },
+    like: { count: 3366, isLiked: true },
+    authorId: 3,
+    author: {
+      name: "American College of Cardiology",
+      img: "src/images/avatar/avatar_1.png",
+    },
+    categories: [{ name: "Cardiología" }],
+    postType: "standard",
+    list: [
+      {
+        title: "Matriz de priorización",
+      },
+    ],
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
+    content: "10 Módulos",
+  },
+  {
+    index: 2,
+    id: "af92a665-4a4d-4cff-9e17-89456df21fb5",
+    featuredImage: "src/images/brands/cmpba.png",
+    title: "Curso de preparación oposiciones de anestesia y reanimación",
+    desc: "Tropos",
+    date: "May 20, 2021",
+    href: "/single/this-is-single-slug",
+    commentCount: 13,
+    viewdCount: 9999,
+    readingTime: 5,
+    bookmark: { count: 3751, isBookmarked: false },
+    like: { count: 3024, isLiked: false },
+    authorId: 4,
+    author: "",
+    categories: [{ name: "Anestesiología" }],
+    postType: "video",
+    videoUrl: "https://www.youtube.com/watch?v=U5afsxvz75c",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
+    content: "10 Módulos",
+  },
+  {
+    index: 3,
+    id: "dffe0224-ebff-4803-bb66-e8d128656284",
+    featuredImage: "src/images/brands/esem.png",
+    title: "Curso de Endocrinología y Nutrición",
+    desc: "Tropos",
+    date: "May 20, 2021",
+    href: "/single/this-is-single-slug",
+    commentCount: 33,
+    viewdCount: 8888,
+    readingTime: 2,
+    bookmark: { count: 76, isBookmarked: false },
+    like: { count: 222, isLiked: false },
+    authorId: 4,
+
+    author: "",
+    categories: [{ name: "Nutrición" }],
+    postType: "standard",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
+    content: "10 Módulos",
+  },
+  {
+    index: 4,
+    id: "5ac7cb90-4694-42e8-8883-16372711eaa8",
+    featuredImage: "src/images/brands/afeme.png",
+    title: "Curso online de preparación oposiciones de medicina interna",
+    desc: "Tropos",
+    date: "May 20, 2021",
+    href: "/single/this-is-single-slug",
+    commentCount: 49,
+    viewdCount: 10000,
+    readingTime: 6,
+    bookmark: { count: 264, isBookmarked: true },
+    like: { count: 3735, isLiked: true },
+    authorId: 5,
+
+    author: "",
+    categories: [{ name: "Medicina Interna" }],
+    postType: "standard",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
+    content: "10 Módulos",
+  },
+];
+
+export { TABS_HOME, TABS_BLOG, HOME_COURSES, TOP_COURSES, DETAILS_COURSES };

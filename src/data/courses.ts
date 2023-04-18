@@ -22,6 +22,11 @@ export interface CourseDataType {
   categoriesId?: number[];
   categories: any;
   postType: string;
+  level?: string;
+  list?: any[];
+  price?: string;
+  discount_price?: string;
+  length?: string;
 }
 
 // TABS LIST
@@ -29,7 +34,6 @@ const TABS_HOME = ["Todo", "Novedades", "Recomendados", "Especialidades"];
 const TABS_BLOG = ["Todo", "Actualidad", "Entrevistas", "Opinión"];
 
 // COURSES LIST
-
 const HOME_COURSES = [
   {
     index: 1,
@@ -48,6 +52,15 @@ const HOME_COURSES = [
     author: "",
     categories: [{ name: "Cardiología" }],
     postType: "standard",
+    list: [
+      {
+        title: "Matriz de priorización",
+      },
+    ],
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
   {
     index: 2,
@@ -63,11 +76,14 @@ const HOME_COURSES = [
     bookmark: { count: 3751, isBookmarked: false },
     like: { count: 3024, isLiked: false },
     authorId: 4,
-
     author: "",
     categories: [{ name: "Anestesiología" }],
     postType: "video",
     videoUrl: "https://www.youtube.com/watch?v=U5afsxvz75c",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
   {
     index: 3,
@@ -87,6 +103,10 @@ const HOME_COURSES = [
     author: "",
     categories: [{ name: "Nutrición" }],
     postType: "standard",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
   {
     index: 4,
@@ -106,6 +126,10 @@ const HOME_COURSES = [
     author: "",
     categories: [{ name: "Medicina Interna" }],
     postType: "standard",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
   {
     index: 5,
@@ -125,6 +149,10 @@ const HOME_COURSES = [
     categories: [{ name: "Cardiología" }],
     postType: "video",
     videoUrl: "https://www.youtube.com/watch?v=dBsicD0ItD0&t=32s",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
   {
     index: 6,
@@ -144,6 +172,10 @@ const HOME_COURSES = [
     author: "",
     categories: [{ name: "Medicina Interna" }],
     postType: "standard",
+    level: "Básico",
+    price: "150",
+    discount_price: "100",
+    length: "250 horas",
   },
 ];
 

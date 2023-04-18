@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from "react";
 import Tag from "components/Tag/Tag";
-import { SinglePageType } from "./PageSingle";
+import { SinglePageType } from "../PageMission";
 import SingleAuthor from "./SingleAuthor";
 import SingleCommentForm from "./SingleCommentForm";
 import SingleCommentLists from "./SingleCommentLists";

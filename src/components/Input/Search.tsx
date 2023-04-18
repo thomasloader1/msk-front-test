@@ -1,0 +1,7 @@
+/* 
+  Create a Search component as a React function component that renders an input element with a type of text and a placeholder of Search.
+  The component should accept a searchValue prop and use it as the value of the input element.
+  The component should accept a handleSearchChange prop and use it as the onChange handler of the input element.
+  The component should accept a handleSearchSubmit prop and use it as the onSubmit handler of the form element.
+  The component should accept a className prop and use it to set the className of the form element.
+*/

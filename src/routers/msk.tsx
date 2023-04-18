@@ -41,12 +41,15 @@ import CustomHome from "containers/PageHome/CustomHome";
 import FooterEduman from "components/Footer/FooterEduman";
 import PageStore from "containers/PageStore/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
+import PageMission from "containers/PageMSK/PageMission";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: CustomHome },
   { path: "/custom-home", exact: true, component: CustomHome },
   { path: "/#", exact: true, component: CustomHome },
-    //
+  //
+  { path: "/mision", component: PageMission },
+
   { path: "/search", component: PageSearch },
   { path: "/about", component: PageAbout },
   { path: "/contact", component: PageContact },
@@ -57,18 +60,11 @@ export const pages: Page[] = [
   { path: "/dashboard", component: PageDashboard },
   { path: "/store", component: PageStore },
   { path: "/course-details", component: PageSingleProduct },
-
 ];
 
-
 const Routes = () => {
-
   return (
-    <BrowserRouter
-       basename={
-        "/"
-      } 
-    >
+    <BrowserRouter basename={"/"}>
       <MediaRunningContainer />
 
       <ScrollToTop />

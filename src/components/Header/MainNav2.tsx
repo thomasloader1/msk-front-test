@@ -61,7 +61,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             <ButtonSecondary
               href={"/login"}
               sizeClass="px-4 py-2 sm:px-5"
-              className="border-solid border-1 border-neutral-200 text-neutral-400"
+              className="border-solid border-1 border-neutral-200 text-neutral-500"
               bordered
             >
               Iniciar sesión

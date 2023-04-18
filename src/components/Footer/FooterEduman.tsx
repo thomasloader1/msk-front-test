@@ -91,7 +91,7 @@ const FooterEduman = () => {
                 <div className="footer-widget f-w3 mt-24">
                   <ul>
                     <li>
-                      <Link to="/course">Nuestra misión</Link>
+                      <Link to="/mision">Nuestra misión</Link>
                     </li>
                     <li>
                       <Link to="/course">Conviértete en Partner</Link>

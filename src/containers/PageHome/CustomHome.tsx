@@ -3,28 +3,17 @@ import SectionSliderPosts from "./SectionSliderPosts";
 import BlogSummary from "./BlogSummary";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import { PostDataType } from "data/types";
-import { DEMO_POSTS, DEMO_POSTS_AUDIO, DEMO_POSTS_VIDEO } from "data/posts";
 import { DEMO_CATEGORIES } from "data/taxonomies";
 import CoursesForYou from "./CoursesForYou";
 import HomeExtraInfo from "./HomeExtraInfo";
-import SectionGridPosts from "./SectionGridPosts";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionHero from "components/SectionHero/SectionHero";
 import rightImg from "images/hero-msk.png";
-import Vector1 from "images/Vector1.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { HOME_COURSES, TABS_BLOG, TABS_HOME, TOP_COURSES } from "data/courses";
+import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/courses";
 import { HOME_POSTS } from "data/blog";
-
-//
-const POSTS: PostDataType[] = DEMO_POSTS;
-//
-const MAGAZINE1_POSTS = DEMO_POSTS.filter((_, i) => i >= 8 && i < 16);
-const MAGAZINE2_POSTS = DEMO_POSTS.filter((_, i) => i >= 0 && i < 7);
-//
 
 const CustomHome: React.FC = () => {
   return (

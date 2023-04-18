@@ -30,7 +30,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
       </Helmet>
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5">
-          {/* <CategoryBadgeList itemClass="!px-3" categories={categories} /> */}
+          <CategoryBadgeList itemClass="!px-3" categories={categories} />
           <SingleTitle mainClass={titleMainClass} title={title} />
           {!!desc && !hiddenDesc && (
             <span className="block text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1">

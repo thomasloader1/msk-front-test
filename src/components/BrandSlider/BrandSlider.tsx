@@ -2,8 +2,6 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import { BRANDS } from "data/brands";
-import className from "./style.scss";
-console.log({ className });
 
 // Import Swiper styles
 import "swiper/css/bundle";

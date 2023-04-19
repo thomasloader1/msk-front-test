@@ -1183,11 +1183,15 @@
 	ul {
 		li {
 			position: relative;
-			padding-left: 26px;
 			margin-bottom: 15px;
+			display: flex;
+			align-items: flex-start;
+			gap: 12px;
+			img {
+				margin-top: 4px;
+			}
 			&::before {
 				position: absolute;
-				content: "\f00c";
 				font-family: "Font Awesome 5 Pro";
 				left: 0px;
 				color: $theme-color;
@@ -1207,8 +1211,6 @@
 }
 .course-instructors {
 	padding: 25px 30px 25px 30px;
-	background: #fcfdff;
-	border: 1px solid $border;
 	border-radius: 5px;
 }
 .instructors-img {
@@ -1223,6 +1225,16 @@
 	}
 }
 .intructors-content {
+	ul li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-left: 10px;
+		i {
+			font-size: 4px;
+			padding: 0;
+		}
+	}
 	p {
 		margin-bottom: 0;
 	}
@@ -1233,6 +1245,12 @@
 	}
 	h5 {
 		margin-bottom: 0px;
+		font-family: Poppins;
+		font-weight: 600 !important;
+		font-size: 16px;
+	}
+	p {
+		font-family: Poppins;
 	}
 }
 .intructors-review {
@@ -1350,6 +1368,7 @@
 .course-vide-icon {
 	display: flex;
 	align-items: center;
+	gap: 10px;
 	i {
 		line-height: 1;
 		margin-right: 15px;
@@ -1368,9 +1387,9 @@
 }
 .course-video-price {
 	span {
-		font-size: 30px;
+		font-size: 28px;
 		color: $heading-color;
-		font-weight: 900;
+		font-weight: 600;
 	}
 }
 .course-video-body {

@@ -1,40 +1,50 @@
-import React, { FC } from 'react';
-import fai from "../../styles/fai/fontAwesome5Pro.module.css"
-interface Props{
-    img: string;
+import React, { FC } from "react";
+import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+interface Props {
+  instructor: any;
 }
 
-const ProductDetailsInstructor: FC<Props> = ({img}) => {
-    return (
-        <div className="course-instructors">
-            <h3>instructors</h3>
-            <div className="instructors-heading">
-                <div className="instructors-img w-img">
-                    <img src={img} alt="img not found" />
-                </div>
-                <div className="instructors-body">
-                    <h5>David Allberto</h5>
-                    <span>Data Scientist, BDevs Ltd.</span>
-                    <div className="intructors-review">
-                        <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                        <span>4.7 (54 reviews)</span>
-                    </div>
-                    <div className="instructors-footer">
-                        <i className={`${fai.fas} ${fai["fa-desktop"]}`}></i>
-                        <span>3 Coursess</span>
-                        <i className={`${fai.far} ${fai["fa-user-friends"]}`}></i>
-                        <span>78,742 Students</span>
-                    </div>
-                </div>
-            </div>
-            <div className="intructors-content">
-                <p>Professionally, I come from the Data Science consulting space with experience in
-                    finance, retail, transport and other industries. I was trained by the best
-                    analytics mentors at Deloitte Australia and since starting on Udemy I have
-                    passed on my knowledge to spread around the world</p>
-            </div>
+const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
+  return (
+    <div className="course-instructors">
+      <div className="instructors-heading">
+        <div className="instructors-img w-img">
+          <img src={instructor.img} alt="img not found" />
         </div>
-    );
+        <div className="instructors-body">
+          <h5>{instructor.name}</h5>
+          <p className="mt-2">{instructor.role}</p>
+          <p className="text-primary font-semibold mt-2 text-sm">
+            Ver biografía
+          </p>
+        </div>
+      </div>
+      <div className="intructors-content">
+        <h5 className="mb-2">Especialidad</h5>
+        <ul>
+          {instructor.specialties.map((specialty: string, index: number) => {
+            return (
+              <li key={`spec_${index}`}>
+                <i className={`${fai.fa} ${fai["fa-circle"]}`}></i>
+                {specialty}
+              </li>
+            );
+          })}
+        </ul>
+        <h5 className="mt-4 mb-2">Hospitales / Centros</h5>
+        <ul>
+          {instructor.centres.map((specialty: string, index: number) => {
+            return (
+              <li key={`spec_${index}`}>
+                <i className={`${fai.fa} ${fai["fa-circle"]}`}></i>
+                {specialty}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default ProductDetailsInstructor;

@@ -53,11 +53,12 @@ const ProductCurriculiam: FC = () => {
               index={index}
               currentIndex={openIndex}
               setCurrentIndex={() => handleAccordionClick(index)}
+              key={`acc_${index}`}
             >
               <ul>
                 {item.content.map((item, index) => {
                   return (
-                    <li className="flex gap-2">
+                    <li className="flex gap-2" key={`acc_item_${index}`}>
                       <div className="item-mark" />
                       <span>{item}</span>
                     </li>

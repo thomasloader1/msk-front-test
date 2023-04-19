@@ -957,7 +957,8 @@ p {
 .video-cart-btn {
 	height: 55px;
 	padding: 0px 20px;
-	display: inline-block;
+	display: flex;
+	justify-content: center;
 	background-color: $theme-color;
 	line-height: 55px;
 	border-radius: 4px;
@@ -976,14 +977,15 @@ p {
 .video-wishlist-btn {
 	height: 55px;
 	padding: 0px 20px;
-	display: inline-block;
-	background-color: #eff1f6;
+	display: flex;
 	line-height: 55px;
 	border-radius: 4px;
 	font-size: 16px;
 	font-weight: 600;
-	color: $heading-color;
+	color: $theme-color;
+	outline: 1px solid $theme-color;
 	@include transition(0.3s);
+	justify-content: center;
 	&:hover {
 		background-color: $theme-color;
 		color: $white;

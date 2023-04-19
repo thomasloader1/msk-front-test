@@ -28,6 +28,8 @@ export interface CourseDataType {
   discount_price?: string;
   length?: string;
   content?: string;
+  summary?: string;
+  modality?: string;
 }
 
 // TABS LIST
@@ -66,6 +68,17 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
+    modality: "100% online, todo el día",
+    available: "24 meses",
+    counseling: true,
+    certification: true,
+    language: "Español",
   },
   {
     index: 2,
@@ -90,6 +103,12 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 3,
@@ -114,6 +133,12 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 4,
@@ -138,6 +163,12 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 5,
@@ -162,6 +193,12 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 6,
@@ -186,6 +223,12 @@ const HOME_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
 ];
 
@@ -587,6 +630,12 @@ const DETAILS_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 2,
@@ -611,6 +660,12 @@ const DETAILS_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 3,
@@ -635,6 +690,12 @@ const DETAILS_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
   {
     index: 4,
@@ -659,6 +720,12 @@ const DETAILS_COURSES = [
     discount_price: "100",
     length: "250 horas",
     content: "10 Módulos",
+    summary: `Este prestigioso programa desarrollado por el American College
+    of Cardiology le permitirá al profesional actualizar y
+    fortalecer sus conocimientos sobre guías, y protocolos clínicos
+    y de práctica, obtener información de investigaciones emergentes
+    y su aplicación a la práctica y el rendimiento de su práctica
+    profesional alcanzando los más altos estándares internacionales.`,
   },
 ];
 

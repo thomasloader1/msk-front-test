@@ -14,6 +14,7 @@ export interface LocationStates {
   "/home-header-style2"?: {};
   "/home-header-style2-logedin"?: {};
   //
+  "/my-profile"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //

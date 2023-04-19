@@ -202,7 +202,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
         <ContactForm />
       </div>
-      <div className="container relative py-16 ">
+      <div className="container relative py-16 mt-16 ">
         <BackgroundSection />
         <SectionSliderPosts
           postCardName="card9"

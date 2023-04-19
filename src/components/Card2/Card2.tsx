@@ -8,17 +8,22 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import PostCardLikeAction from "components/PostCardLikeAction/PostCardLikeAction";
 
 export interface Card2Props {
   className?: string;
   post: PostDataType | BlogDataType;
   size?: "normal" | "large";
+  hideDesc?: boolean;
+  hideAuthor?: boolean;
 }
 
 const Card2: FC<Card2Props> = ({
   className = "h-full",
   size = "normal",
   post,
+  hideDesc,
+  hideAuthor,
 }) => {
   const {
     title,
@@ -34,10 +39,10 @@ const Card2: FC<Card2Props> = ({
 
   return (
     <div
-      className={`nc-Card2 group relative flex flex-col  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden ${className}`}
+      className={`nc-Card2 group relative flex flex-col  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden ${className} rounded-lg`}
       data-nc-id="Card2"
     >
-      <span className="block flex-shrink-0 flex-grow relative w-full h-0 pt-[75%] sm:pt-[55%] rounded-xl sm:rounded-b-none overflow-hidden">
+      <span className="block flex-shrink-0 flex-grow relative w-full h-0 pt-[75%] sm:pt-[55%] rounded-lg overflow-hidden">
         <NcImage
           containerClassName="absolute inset-0"
           src={featuredImage}
@@ -58,7 +63,7 @@ const Card2: FC<Card2Props> = ({
         <div className="space-y-3">
           <CategoryBadgeList itemClass="relative" categories={categories} />
           <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors ${
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-12 ${
               size === "large" ? "text-lg sm:text-2xl" : "text-base"
             }`}
           >
@@ -66,18 +71,27 @@ const Card2: FC<Card2Props> = ({
               {title}
             </Link>
           </h2>
-          <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2">
-            {desc}
-          </span>
+          {hideDesc ? null : (
+            <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2">
+              {desc}
+            </span>
+          )}
         </div>
-        <CardAuthor2 className="relative my-4" date={date} author={author} />
+        {hideAuthor ? null : (
+          <CardAuthor2 className="relative my-4" date={date} author={author} />
+        )}
         <div className="flex items-center justify-between mt-auto">
-          <PostCardLikeAndComment className="relative" postData={post} />
-          <PostCardSaveAction
+          <PostCardLikeAction
+            className="relative pl-3 py-1 pr-4 mt-3"
+            postId={""}
+            likeCount={1200}
+            isLiked={true}
+          />
+          {/* <PostCardSaveAction
             className="relative"
             postData={post}
             readingTime={readingTime}
-          />
+          /> */}
         </div>
       </div>
     </div>

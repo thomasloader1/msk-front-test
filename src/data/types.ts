@@ -30,6 +30,20 @@ export interface PostAuthorType {
   jobName: string;
   href: string;
 }
+export interface User {
+  id: string | number;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  avatar: string;
+  bgImage?: string;
+  email?: string;
+  count: number;
+  gender: string;
+  desc: string;
+  jobName: string;
+  href: string;
+}
 
 export interface PostDataType {
   id: string | number;

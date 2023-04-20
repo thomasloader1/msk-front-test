@@ -9,6 +9,7 @@ export interface HeaderFilterProps {
   tabs: string[];
   heading: string;
   onClickTab: (item: string) => void;
+  desc: string;
 }
 
 const HeaderFilter: FC<HeaderFilterProps> = ({
@@ -16,10 +17,13 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
   tabs,
   heading = "🎈 Latest Articles",
   onClickTab,
+  desc = "",
 }) => {
   return (
     <div className="flex flex-col mb-8 relative">
-      <Heading>{heading}</Heading>
+      {desc.length || heading.length ? (
+        <Heading desc={desc}>{heading}</Heading>
+      ) : null}
       <div className="flex items-center justify-between">
         <Nav
           className="sm:space-x-2"

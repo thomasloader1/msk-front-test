@@ -9,13 +9,15 @@ export interface SectionMagazine1Props {
   posts: BlogDataType[];
   heading?: string;
   className?: string;
+  desc?: string;
 }
 
 const SectionMagazine1: FC<SectionMagazine1Props> = ({
   posts,
   tabs,
-  heading = "Latest Articles 🎈 ",
+  heading = "Blog",
   className = "",
+  desc = "",
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
 
@@ -42,21 +44,24 @@ const SectionMagazine1: FC<SectionMagazine1Props> = ({
         tabs={tabs}
         heading={heading}
         onClickTab={handleClickTab}
+        desc={desc}
       />
       {!auxPosts.length && <span>No hay posts disponibles</span>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} />}
-        <div className="grid gap-6 md:gap-8">
-          {auxPosts
-            .map((item, index) => (
-              <Card6
-                key={index}
-                post={item}
-                className="rounded-3xl"
-                authorRow
-              />
-            ))
-            .filter((_, index) => index > 0)}
+        <div>
+          <div className="grid gap-6 md:gap-8">
+            {auxPosts
+              .map((item, index) => (
+                <Card6
+                  key={index}
+                  post={item}
+                  className="rounded-3xl"
+                  authorRow
+                />
+              ))
+              .filter((_, index) => index > 0)}
+          </div>
         </div>
       </div>
     </div>

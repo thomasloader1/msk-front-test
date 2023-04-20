@@ -4,7 +4,7 @@ const TABS_BLOG = ["Todo", "Actualidad", "Entrevistas", "Opinión"];
 
 // COURSES LIST
 
-const HOME_POSTS = [
+const POSTS = [
   {
     index: 1,
     id: "af92a665-4a4d-4cff-9e17-89456df21fb5",
@@ -92,4 +92,4 @@ const HOME_POSTS = [
   },
 ];
 
-export { TABS_HOME, TABS_BLOG, HOME_POSTS };
+export { TABS_HOME, TABS_BLOG, POSTS };

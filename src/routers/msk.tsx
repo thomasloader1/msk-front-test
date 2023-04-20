@@ -44,10 +44,12 @@ import FooterEduman from "components/Footer/FooterEduman";
 import PageStore from "containers/PageStore/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
 import PageMission from "containers/PageMSK/PageMission";
+import PageBlog from "containers/PageMSK/PageBlog";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: CustomHome },
-  { path: "/custom-home", exact: true, component: CustomHome },
+  { path: "/home", exact: true, component: CustomHome },
+  { path: "/blog", exact: true, component: PageBlog },
   { path: "/#", exact: true, component: CustomHome },
   //
   { path: "/mision", component: PageMission },

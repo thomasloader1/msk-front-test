@@ -13,7 +13,7 @@ import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGri
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/courses";
-import { HOME_POSTS } from "data/blog";
+import { POSTS } from "data/blog";
 
 const CustomHome: React.FC = () => {
   return (
@@ -77,7 +77,7 @@ const CustomHome: React.FC = () => {
           {/* === SECTION 4 === */}
           <BlogSummary
             className="py-16 lg:py-28"
-            posts={HOME_POSTS}
+            posts={POSTS}
             tabs={TABS_BLOG}
           />
         </div>

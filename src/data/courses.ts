@@ -41,7 +41,7 @@ const HOME_COURSES = [
   {
     index: 1,
     id: "9e3e3994-a3ed-47ca-a014-d4483884cfe2",
-    featuredImage: "src/images/home/opp1.png",
+    featuredImage: "/src/images/home/opp1.png",
     title: "ACCSAP. Programa de actualización en cardiología clínica",
     desc: "American College of Cardiology",
     date: "May 20, 2021",
@@ -54,7 +54,7 @@ const HOME_COURSES = [
     authorId: 3,
     author: {
       name: "American College of Cardiology",
-      img: "src/images/avatar/avatar_1.png",
+      img: "/src/images/avatar/avatar_1.png",
     },
     categories: [{ name: "Cardiología" }],
     postType: "standard",
@@ -83,7 +83,7 @@ const HOME_COURSES = [
   {
     index: 2,
     id: "af92a665-4a4d-4cff-9e17-89456df21fb5",
-    featuredImage: "src/images/home/opp2.png",
+    featuredImage: "/src/images/home/opp2.png",
     title: "Curso de preparación oposiciones de anestesia y reanimación",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -113,7 +113,7 @@ const HOME_COURSES = [
   {
     index: 3,
     id: "dffe0224-ebff-4803-bb66-e8d128656284",
-    featuredImage: "src/images/home/opp3.png",
+    featuredImage: "/src/images/home/opp3.png",
     title: "Curso de Endocrinología y Nutrición",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -143,7 +143,7 @@ const HOME_COURSES = [
   {
     index: 4,
     id: "5ac7cb90-4694-42e8-8883-16372711eaa8",
-    featuredImage: "src/images/home/opp4.png",
+    featuredImage: "/src/images/home/opp4.png",
     title: "Curso online de preparación oposiciones de medicina interna",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -173,7 +173,7 @@ const HOME_COURSES = [
   {
     index: 5,
     id: "f82a8455-3a14-4af9-b6d2-ac6cd74e007c",
-    featuredImage: "src/images/home/opp5.png",
+    featuredImage: "/src/images/home/opp5.png",
     title: "Curso de Cardiología",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -203,7 +203,7 @@ const HOME_COURSES = [
   {
     index: 6,
     id: "54c11c92-049f-4353-8cdb-f7ec70d3ae75",
-    featuredImage: "src/images/home/opp6.png",
+    featuredImage: "/src/images/home/opp6.png",
     title: "Curso superior en médicina interna. MKSAP 18",
     desc: "American College of Cardiology",
     date: "May 20, 2021",
@@ -278,7 +278,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -330,7 +330,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -382,7 +382,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -434,7 +434,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -486,7 +486,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -538,7 +538,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -590,7 +590,7 @@ const TOP_COURSES = [
         id: 3,
         name: "Medicina General",
         href: "/archive/the-demo-archive-slug",
-        thumbnail: "src/images/courses/medical.png",
+        thumbnail: "/src/images/courses/medical.png",
         count: 15,
         color: "yellow",
         taxonomy: "category",
@@ -603,7 +603,7 @@ const DETAILS_COURSES = [
   {
     index: 1,
     id: "9e3e3994-a3ed-47ca-a014-d4483884cfe2",
-    featuredImage: "src/images/brands/acp_2.png",
+    featuredImage: "/src/images/brands/acp_2.png",
     title: "ACCSAP. Programa de actualización en cardiología clínica",
     desc: "American College of Cardiology",
     date: "May 20, 2021",
@@ -616,7 +616,7 @@ const DETAILS_COURSES = [
     authorId: 3,
     author: {
       name: "American College of Cardiology",
-      img: "src/images/avatar/avatar_1.png",
+      img: "/src/images/avatar/avatar_1.png",
     },
     categories: [{ name: "Cardiología" }],
     postType: "standard",
@@ -640,7 +640,7 @@ const DETAILS_COURSES = [
   {
     index: 2,
     id: "af92a665-4a4d-4cff-9e17-89456df21fb5",
-    featuredImage: "src/images/brands/cmpba.png",
+    featuredImage: "/src/images/brands/cmpba.png",
     title: "Curso de preparación oposiciones de anestesia y reanimación",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -670,7 +670,7 @@ const DETAILS_COURSES = [
   {
     index: 3,
     id: "dffe0224-ebff-4803-bb66-e8d128656284",
-    featuredImage: "src/images/brands/esem.png",
+    featuredImage: "/src/images/brands/esem.png",
     title: "Curso de Endocrinología y Nutrición",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -700,7 +700,7 @@ const DETAILS_COURSES = [
   {
     index: 4,
     id: "5ac7cb90-4694-42e8-8883-16372711eaa8",
-    featuredImage: "src/images/brands/afeme.png",
+    featuredImage: "/src/images/brands/afeme.png",
     title: "Curso online de preparación oposiciones de medicina interna",
     desc: "Tropos",
     date: "May 20, 2021",
@@ -729,4 +729,35 @@ const DETAILS_COURSES = [
   },
 ];
 
-export { TABS_HOME, TABS_BLOG, HOME_COURSES, TOP_COURSES, DETAILS_COURSES };
+const USER_COURSES = [
+  {
+    id: "9e3e3994-a3ed-47ca-a014-d4483884cfe2",
+    featuredImage: "/src/images/home/opp1.png",
+    title: "ACCSAP. Programa de actualización en cardiología clínica",
+    status: true,
+    payment: "Aprobado",
+  },
+  {
+    id: "9e3e3994-a3ed-47ca-a01234-d4483884cfe2",
+    featuredImage: "/src/images/home/opp2.png",
+    title: "ACCSAP. Programa de actualización en cardiología clínica",
+    status: true,
+    payment: "Aprobado",
+  },
+  {
+    id: "9e3e3994-a3ed-47ca-a014-d4483884cfe2123",
+    featuredImage: "/src/images/home/opp3.png",
+    title: "ACCSAP. Programa de actualización en cardiología clínica",
+    status: false,
+    payment: "Desaprobado",
+  },
+];
+
+export {
+  TABS_HOME,
+  TABS_BLOG,
+  HOME_COURSES,
+  TOP_COURSES,
+  DETAILS_COURSES,
+  USER_COURSES,
+};

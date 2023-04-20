@@ -152,7 +152,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         return (
                           <li key={`ev_${index}`}>
                             <img
-                              src="src/images/vectors/isotipo.svg"
+                              src="/src/images/vectors/isotipo.svg"
                               width="20"
                               alt=""
                             />{" "}
@@ -169,7 +169,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         return (
                           <li key={`ev_r_${index}`}>
                             <img
-                              src="src/images/vectors/isotipo.svg"
+                              src="/src/images/vectors/isotipo.svg"
                               width="20"
                               alt=""
                             />{" "}

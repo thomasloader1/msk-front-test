@@ -58,7 +58,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           guías profesionales y webinars. Además, contamos con el respaldo de
           grandes instituciones de todo el mundo que certifican nuestros cursos.
         </p>
-        <img src="src/images/misc/woman_pc.png" alt="" />
+        <img src="/src/images/misc/woman_pc.png" alt="" />
         <p className="font-lora text- text-xl">
           Quienes hacemos Medical & Scientific Knowledge queremos acompañar y
           ayudar a cada persona en un camino de retos y crecimiento laboral.

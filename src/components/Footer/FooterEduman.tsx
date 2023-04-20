@@ -42,7 +42,7 @@ const FooterEduman = () => {
                   <div className="footer-img">
                     <Link to="/">
                       <img
-                        src="src/images/msk-logo-light.svg"
+                        src="/src/images/msk-logo-light.svg"
                         alt="footer-logo"
                         width="150"
                       />
@@ -59,28 +59,28 @@ const FooterEduman = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="src/icons/fb.svg" />
+                      <img src="/src/icons/fb.svg" />
                     </a>
                     <a
                       href="https://www.instagram.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="src/icons/ig.svg" />
+                      <img src="/src/icons/ig.svg" />
                     </a>
                     <a
                       href="https://www.youtube.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="src/icons/yt.svg" className="pt-0.5" />
+                      <img src="/src/icons/yt.svg" className="pt-0.5" />
                     </a>
                     <a
                       href="https://www.linkedin.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="src/icons/in.svg" />
+                      <img src="/src/icons/in.svg" />
                     </a>
                   </div>
                 </div>

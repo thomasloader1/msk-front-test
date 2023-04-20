@@ -7,6 +7,7 @@ import Page404 from "containers/Page404/Page404";
 import PageArchive from "containers/PageArchive/PageArchive";
 import PageAuthor from "containers/PageAuthor/PageAuthor";
 import PageProfile from "containers/PageMSK/PageProfile";
+import PageAccount from "containers/PageMSK/PageAccount";
 import PageSearch from "containers/PageSearch/PageSearch";
 import PageSingle from "containers/PageSingle/PageSingle";
 import PageSingleHasSidebar from "containers/PageSingle/PageSingleHasSidebar";
@@ -58,7 +59,7 @@ export const pages: Page[] = [
   { path: "/login", component: PageLogin },
   { path: "/signup", component: PageSignUp },
   { path: "/forgot-pass", component: PageForgotPass },
-  { path: "/dashboard", component: PageDashboard },
+  { path: "/my-account", component: PageAccount },
   { path: "/my-profile", component: PageProfile },
   { path: "/store", component: PageStore },
   { path: "/course-details", component: PageSingleProduct },

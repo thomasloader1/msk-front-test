@@ -30,13 +30,7 @@ export interface PageAuthorProps {
 }
 const posts: PostDataType[] = DEMO_POSTS.filter((_, i) => i < 12);
 const USER: PostAuthorType = USERS[0];
-const FILTERS = [
-  { name: "Most Recent" },
-  { name: "Curated by Admin" },
-  { name: "Most Appreciated" },
-  { name: "Most Discussed" },
-  { name: "Most Viewed" },
-];
+const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Todo", "Mis cursos", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {

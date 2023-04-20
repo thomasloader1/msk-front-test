@@ -10,7 +10,7 @@ import SingleHeader from "../PageMSK/mission/SingleHeader";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
-  featuredImage: "src/images/misc/mission.png",
+  featuredImage: "/src/images/misc/mission.png",
   title: "Nuestra misión",
   desc: "We’re an online magazine dedicated to covering the best in international product design. We started as a little blog back in 2002 covering student work and over time",
   date: "May 20, 2021",
@@ -106,7 +106,7 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
             <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
             <img
               className="mission-image"
-              src="src/images/misc/mission.png"
+              src="/src/images/misc/mission.png"
               alt=""
             />
           </div>

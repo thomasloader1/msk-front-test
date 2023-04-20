@@ -14,27 +14,27 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
     {
       title: "Modalidad",
       property: "modality",
-      icon: "src/images/icons/pc.svg",
+      icon: "/src/images/icons/pc.svg",
     },
     {
       title: "Curso disponible",
       property: "available",
-      icon: "src/images/icons/clock.svg",
+      icon: "/src/images/icons/clock.svg",
     },
     {
       title: "Asesoramiento académico",
       property: "counseling",
-      icon: "src/images/icons/bubble.svg",
+      icon: "/src/images/icons/bubble.svg",
     },
     {
       title: "Certificación",
       property: "certification",
-      icon: "src/images/icons/prize.svg",
+      icon: "/src/images/icons/prize.svg",
     },
     {
       title: "Idioma",
       property: "language",
-      icon: "src/images/icons/lang.svg",
+      icon: "/src/images/icons/lang.svg",
     },
   ];
   return (

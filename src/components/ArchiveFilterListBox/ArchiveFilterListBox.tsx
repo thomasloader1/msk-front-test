@@ -21,7 +21,7 @@ const ArchiveFilterListBox: FC<ArchiveFilterListBoxProps> = ({
       data-nc-id="ArchiveFilterListBox"
     >
       <Listbox value={selected} onChange={setSelected}>
-        <div className="relative md:min-w-[200px]">
+        <div className="relative md:min-w-[200px] border rounded">
           <Listbox.Button as={"div"}>
             <ButtonDropdown>{selected.name}</ButtonDropdown>
           </Listbox.Button>

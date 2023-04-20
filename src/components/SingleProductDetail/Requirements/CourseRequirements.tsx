@@ -16,11 +16,11 @@ const SectionAds: FC<SectionAdsProps> = ({
         <h3>Qué necesitas</h3>
         <ul>
           <li className="flex gap-1">
-            <img src="src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
+            <img src="/src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
             <span>Ser profesional médico</span>
           </li>
           <li className="flex gap-1">
-            <img src="src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
+            <img src="/src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
             <span>Ser profesional médico</span>
           </li>
         </ul>

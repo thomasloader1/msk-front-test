@@ -224,3 +224,8 @@
   color: #9200AD;
 }
 
+.invert-image {
+  img {
+    filter: invert(100%);
+  }
+}

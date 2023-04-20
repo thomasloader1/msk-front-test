@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import SocialsShare from "components/SocialsShare/SocialsShare";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/types";
 
 export interface Card8Props {
   className?: string;

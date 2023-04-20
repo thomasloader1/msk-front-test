@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SectionLatestPosts from "./SectionLatestPosts";
-import SectionSliderPosts from "./SectionSliderPosts";
+import SectionSliderPosts from "../PageMSK/home/SectionSliderPosts";
 import SectionMagazine1 from "./SectionMagazine1";
 import SectionVideos from "./SectionVideos";
 import SectionLargeSlider from "./SectionLargeSlider";

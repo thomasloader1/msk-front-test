@@ -5,12 +5,12 @@ import CardCategory4 from "components/CardCategory4/CardCategory4";
 import CardCategory5 from "components/CardCategory5/CardCategory5";
 import Heading from "components/Heading/Heading";
 import { DEMO_CATEGORIES } from "data/taxonomies";
-import { TaxonomyType } from "data/types";
+import { Specialty, TaxonomyType } from "data/types";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export interface SectionGridCategoryBoxProps {
-  categories?: TaxonomyType[];
+  categories?: TaxonomyType[] | Specialty[];
   headingCenter?: boolean;
   categoryCardType?: "card1" | "card2" | "card3" | "card4" | "card5";
   className?: string;

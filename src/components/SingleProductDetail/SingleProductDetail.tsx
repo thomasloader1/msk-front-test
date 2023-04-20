@@ -8,10 +8,12 @@ import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 import instructorImg from "../../images/avatar/avatar_1.png";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { CourseDataType, DETAILS_COURSES, HOME_COURSES } from "data/courses";
-import SectionSliderPosts from "containers/PageHome/SectionSliderPosts";
+import { DETAILS_COURSES, HOME_COURSES } from "data/MSK/courses";
+import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
+import { CourseDataType } from "data/types";
+
 interface Props {
   product: CourseDataType;
 }

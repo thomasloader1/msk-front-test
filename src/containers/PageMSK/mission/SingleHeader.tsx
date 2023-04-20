@@ -26,7 +26,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
   return (
     <>
       <Helmet>
-        <title>Single || Blog Magazine React Template</title>
+        <title>Misión</title>
       </Helmet>
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5">

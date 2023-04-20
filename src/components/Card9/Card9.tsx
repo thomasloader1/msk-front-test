@@ -7,12 +7,12 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/MSK/courses";
 
 export interface Card9Props {
   className?: string;
   ratio?: string;
-  post: PostDataType | CourseDataType;
+  post: any;
   hoverClass?: string;
   showDescription?: boolean;
   badgeColor?: string;

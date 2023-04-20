@@ -22,8 +22,8 @@ import { USERS } from "data/users";
 import Card1 from "components/Card1/Card1";
 import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
-import SectionSliderPosts from "containers/PageHome/SectionSliderPosts";
-import { HOME_COURSES } from "data/courses";
+import SectionSliderPosts from "./home/SectionSliderPosts";
+import { HOME_COURSES } from "data/MSK/courses";
 
 export interface PageAuthorProps {
   className?: string;

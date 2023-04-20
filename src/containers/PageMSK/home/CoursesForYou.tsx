@@ -1,9 +1,16 @@
 import React, { FC, useState } from "react";
 import Card8 from "components/Card8/Card8";
-import { SectionMagazine1Props } from "./SectionMagazine1";
 import HeaderFilter from "./HeaderFilter";
 import Card9 from "components/Card9/Card9";
 import { CourseDataType } from "data/MSK/courses";
+import { PostDataType } from "data/types";
+
+interface SectionMagazine1Props {
+  tabs: string[];
+  posts: PostDataType[];
+  heading?: string;
+  className?: string;
+}
 
 interface Props {
   courses: CourseDataType[];

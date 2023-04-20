@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
-import { TaxonomyType } from "data/types";
+import { Specialty, TaxonomyType } from "data/types";
 import { NavLink } from "react-router-dom";
 
 export interface CardCategory1Props {
   className?: string;
-  taxonomy: TaxonomyType;
+  taxonomy: any;
   size?: "large" | "normal";
 }
 

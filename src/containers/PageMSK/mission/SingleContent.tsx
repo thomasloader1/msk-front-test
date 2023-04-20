@@ -6,8 +6,8 @@ import SingleCommentForm from "./SingleCommentForm";
 import SingleCommentLists from "./SingleCommentLists";
 import SingleContentDemo from "./SingleContentDemo";
 import { useLocation } from "react-router";
-import SectionSliderPosts from "containers/PageHome/SectionSliderPosts";
-import { HOME_COURSES } from "data/courses";
+import SectionSliderPosts from "../home/SectionSliderPosts";
+import { HOME_COURSES } from "data/MSK/courses";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 
 export interface SingleContentProps {

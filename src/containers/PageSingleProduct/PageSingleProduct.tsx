@@ -1,6 +1,6 @@
 import SingleProductDetail from "components/SingleProductDetail/SingleProductDetail";
 import React from "react";
-import { HOME_COURSES } from "data/courses";
+import { HOME_COURSES } from "data/MSK/courses";
 
 const PageSingleProduct = () => {
   return (

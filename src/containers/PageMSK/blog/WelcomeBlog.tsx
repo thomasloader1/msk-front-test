@@ -3,12 +3,12 @@ import HeaderFilter from "./HeaderFilter";
 import Card19 from "components/Card19/Card19";
 import Card18 from "components/Card18/Card18";
 import { PostDataType } from "data/types";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/MSK/courses";
 import Heading from "components/Heading/Heading";
 
 interface WelcomeBlogProps {
   tabs: string[];
-  posts: PostDataType[] | CourseDataType[];
+  posts: any[];
   heading?: string;
   className?: string;
 }

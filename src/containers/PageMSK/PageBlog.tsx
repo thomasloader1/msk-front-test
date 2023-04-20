@@ -1,5 +1,5 @@
 import React from "react";
-import SectionSliderPosts from "../PageHome/SectionSliderPosts";
+import SectionSliderPosts from "./home/SectionSliderPosts";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import { DEMO_CATEGORIES } from "data/taxonomies";
@@ -12,7 +12,7 @@ import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/courses";
+import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { POSTS } from "data/blog";
 import WelcomeBlog from "./blog/WelcomeBlog";
 import { DEMO_POSTS_NEWS } from "data/posts";
@@ -30,8 +30,6 @@ const PageBlog: React.FC = () => {
       {/* ======== ALL SECTIONS ======== */}
       <div className="relative overflow-hidden">
         {/* ======== BG GLASS ======== */}
-        <BgGlassmorphism />
-
         {/* ======= START CONTAINER ============= */}
         <div className="container relative">
           {/* === SECTION  === */}

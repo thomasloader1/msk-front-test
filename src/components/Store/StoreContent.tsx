@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/MSK/courses";
 
 interface Props {
   products: CourseDataType[];

@@ -23,7 +23,6 @@ import PageForgotPass from "containers/PageForgotPass/PageForgotPass";
 import PageDashboard from "containers/PageDashboard/PageDashboard";
 import PageSubcription from "containers/PageSubcription/PageSubcription";
 import HeaderContainer from "containers/HeaderContainer/HeaderContainer";
-import PageHome from "containers/PageHome/PageHome";
 import PageHomeDemo2 from "containers/PageHome/PageHomeDemo2";
 import PageHomeDemo3 from "containers/PageHome/PageHomeDemo3";
 import PageAuthorV2 from "containers/PageAuthor/PageAuthorV2";
@@ -39,7 +38,7 @@ import PageHomeDemo6 from "containers/PageHome/PageHomeDemo6";
 import PageHomeDemo7 from "containers/PageHome/PageHomeDemo7";
 import PageSingleTemp4Sidebar from "containers/PageSingle/PageSingleTemp4Sidebar";
 import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
-import CustomHome from "containers/PageHome/CustomHome";
+import PageHome from "containers/PageMSK/PageHome";
 import FooterEduman from "components/Footer/FooterEduman";
 import PageStore from "containers/PageStore/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
@@ -47,10 +46,10 @@ import PageMission from "containers/PageMSK/PageMission";
 import PageBlog from "containers/PageMSK/PageBlog";
 
 export const pages: Page[] = [
-  { path: "/", exact: true, component: CustomHome },
-  { path: "/home", exact: true, component: CustomHome },
+  { path: "/", exact: true, component: PageHome },
   { path: "/blog", exact: true, component: PageBlog },
-  { path: "/#", exact: true, component: CustomHome },
+  { path: "/blog/1", component: PageSingleHasSidebar },
+  { path: "/#", exact: true, component: PageHome },
   //
   { path: "/mision", component: PageMission },
 
@@ -61,8 +60,8 @@ export const pages: Page[] = [
   { path: "/login", component: PageLogin },
   { path: "/signup", component: PageSignUp },
   { path: "/forgot-pass", component: PageForgotPass },
-  { path: "/my-account", component: PageAccount },
-  { path: "/my-profile", component: PageProfile },
+  { path: "/mi-cuenta", component: PageAccount },
+  { path: "/mi-perfil", component: PageProfile },
   { path: "/store", component: PageStore },
   { path: "/course-details", component: PageSingleProduct },
 ];

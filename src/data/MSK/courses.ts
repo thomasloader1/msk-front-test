@@ -1,37 +1,3 @@
-export interface CourseDataType {
-  index: number;
-  id: string;
-  featuredImage: string;
-  title: string;
-  desc: string;
-  date: string;
-  href: string;
-  commentCount: number;
-  viewdCount: number;
-  readingTime: number;
-  bookmark: {
-    count: number;
-    isBookmarked: boolean;
-  };
-  like: {
-    count: number;
-    isLiked: boolean;
-  };
-  authorId: number;
-  author: any;
-  categoriesId?: number[];
-  categories: any;
-  postType: string;
-  level?: string;
-  list?: any[];
-  price?: string;
-  discount_price?: string;
-  length?: string;
-  content?: string;
-  summary?: string;
-  modality?: string;
-}
-
 // TABS LIST
 const TABS_HOME = ["Todo", "Novedades", "Recomendados", "Especialidades"];
 const TABS_BLOG = ["Todo", "Actualidad", "Entrevistas", "Opinión"];

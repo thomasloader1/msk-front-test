@@ -6,7 +6,7 @@ import Badge from "components/Badge/Badge";
 
 export interface CardCategory4Props {
   className?: string;
-  taxonomy: TaxonomyType;
+  taxonomy: any;
   index?: string;
 }
 

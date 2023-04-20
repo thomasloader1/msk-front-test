@@ -4,6 +4,7 @@ export interface LocationStates {
   "/"?: {};
   "/home"?: {};
   "/blog"?: {};
+  "/blog/1"?: {};
   "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};
@@ -15,8 +16,8 @@ export interface LocationStates {
   "/home-header-style2"?: {};
   "/home-header-style2-logedin"?: {};
   //
-  "/my-profile"?: {};
-  "/my-account"?: {};
+  "/mi-perfil"?: {};
+  "/mi-cuenta"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { FC, useState } from "react";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/types";
 
 interface Props {
   product: CourseDataType;

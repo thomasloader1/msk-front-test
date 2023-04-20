@@ -1,7 +1,7 @@
 import React from "react";
 import NcImage from "components/NcImage/NcImage";
 import Pagination from "components/Pagination/Pagination";
-import { USER_COURSES } from "data/courses";
+import { USER_COURSES } from "data/MSK/courses";
 
 const courses = USER_COURSES;
 

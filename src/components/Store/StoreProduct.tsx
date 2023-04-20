@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import course1 from "../../images/eduman/course-01.jpg";
 import { Link } from "react-router-dom";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/MSK/courses";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 
 interface Props {

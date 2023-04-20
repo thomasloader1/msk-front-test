@@ -68,7 +68,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">
       <Helmet>
-        <title>Dashboard || Blog Magazine React Template</title>
+        <title>Mi cuenta</title>
       </Helmet>
       <LayoutPage
         heading="Mi cuenta"

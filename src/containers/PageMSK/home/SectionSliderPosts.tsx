@@ -10,7 +10,7 @@ import Card10 from "components/Card10/Card10";
 import Card11 from "components/Card11/Card11";
 import Card10V2 from "components/Card10/Card10V2";
 import ncNanoId from "utils/ncNanoId";
-import { CourseDataType } from "data/courses";
+import { CourseDataType } from "data/MSK/courses";
 import Card3 from "components/Card3/Card3";
 import Card2 from "components/Card2/Card2";
 import Card1 from "components/Card1/Card1";
@@ -27,7 +27,7 @@ export interface SectionSliderPostsProps {
   className?: string;
   heading?: string;
   subHeading?: string;
-  posts: PostDataType[] | CourseDataType[];
+  posts: any;
   postCardName?:
     | "card1"
     | "card2"
@@ -62,7 +62,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   uniqueSliderClass,
 }) => {
   const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
-  const top_picks = posts.sort((a, b) => b.viewdCount - a.viewdCount);
+  const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
   const MY_GLIDE = new Glide(`.${UNIQUE_CLASS}`, {
     // @ts-ignore
@@ -163,7 +163,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         {renderHeading()}
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {top_picks.map((item, index) => (
+            {top_picks.map((item: any, index: number) => (
               <li
                 key={index}
                 className={`glide__slide h-auto  ${

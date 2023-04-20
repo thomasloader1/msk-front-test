@@ -1,12 +1,10 @@
 import React from "react";
-import SectionSliderPosts from "../PageMSK/home/SectionSliderPosts";
-import BlogSummary from "./BlogSummary";
+import SectionSliderPosts from "./home/SectionSliderPosts";
+import BlogSummary from "./home/BlogSummary";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import { DEMO_CATEGORIES } from "data/taxonomies";
-import CoursesForYou from "./CoursesForYou";
-import HomeExtraInfo from "./HomeExtraInfo";
-import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
+import CoursesForYou from "./home/CoursesForYou";
+import HomeExtraInfo from "./home/HomeExtraInfo";
 import SectionHero from "components/SectionHero/SectionHero";
 import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
@@ -14,25 +12,28 @@ import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { POSTS } from "data/blog";
+import { SPECIALTIES } from "data/MSK/specialties";
 
 const PageHome: React.FC = () => {
   return (
     <div className="nc-PageHome relative">
+      {/* === SEO === */}
       <Helmet>
-        <title>PageHome | MSK</title>
+        <html lang="es" />
+        <title>MSK | Inicio</title>
+        <meta
+          name="description"
+          content="Una propuesta moderna para expandir tus metas profesionales"
+        />
       </Helmet>
+      {/* === END SEO === */}
 
-      {/* ======== ALL SECTIONS ======== */}
       <div className="relative overflow-hidden">
-        {/* ======== BG GLASS ======== */}
-        <BgGlassmorphism />
-
-        {/* ======= START CONTAINER ============= */}
         <div className="container relative">
-          {/* === SECTION  === */}
           <SectionHero
             rightImg={rightImg}
             className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
+            btnText="Comienza tu experiencia"
             heading={
               <span>
                 Una propuesta moderna
@@ -44,16 +45,14 @@ const PageHome: React.FC = () => {
                 metas profesionales
               </span>
             }
-            btnText="Comienza tu experiencia"
           />
           <SectionGridCategoryBox
             headingCenter={false}
             categoryCardType="card2"
             className="pb-16 lg:pb-28"
-            categories={DEMO_CATEGORIES.filter((_, i) => i < 4)}
+            categories={SPECIALTIES.filter((_, i) => i < 4)}
           />
           <BrandSlider />
-          {/* === SECTION  === */}
           <CoursesForYou
             className="py-16 lg:py-28"
             heading="Oportunidades para ti"
@@ -82,12 +81,10 @@ const PageHome: React.FC = () => {
           />
         </div>
         {/* ======= END CONTAINER ============= */}
-
         {/* === SECTION  === */}
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-40">
           <ContactForm />
         </div>
-
         {/* ======= END ALL SECTIONS ============= */}
       </div>
     </div>

@@ -5,7 +5,7 @@ import ButtonPrimary from "components/Button/ButtonPrimary";
 import ButtonSecondary from "components/Button/ButtonSecondary";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
-import { HOME_COURSES } from "data/courses";
+import { HOME_COURSES } from "data/MSK/courses";
 
 export interface PageSubcriptionProps {
   className?: string;

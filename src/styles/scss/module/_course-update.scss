@@ -1,14 +1,16 @@
+@use "../abstract" as *;
+
 .course-update {
   background: linear-gradient(267.82deg, #FF5D5E 45.08%, #882526 119.76%);
   height: 300px;
-  display: flex;
-  align-items: center;
   gap: 24px;
+  display: flex;
   .info-wrapper {
     flex-grow: 1;
     z-index: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100%;
     h3 {
       font-size: 36px;
@@ -36,6 +38,7 @@
         }
       }
     }
+   
   }
   .cta {
     display: flex;
@@ -47,9 +50,26 @@
     height: 100%;
     img {
       position: absolute;
-      top: -50px;
+      top: 50px;
       left: 100px;
       z-index: 0;
+    }
+  }
+  @media #{$md, $sm, $xs} {
+    flex-direction: column;
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    height: 400px;
+    .info-wrapper {
+      flex-grow: 1;
+      z-index: 1;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      h3 {
+        font-size: 18px;
+      }
     }
   }
 }

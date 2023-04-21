@@ -94,7 +94,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
   return (
     <section className="course-detalis-area my-5 pb-90">
-      <div className="container grid grid-cols-[65%_35%]">
+      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
         <div className="">
           <div className="course-detalis-wrapper mb-30">
             <div className="course-heading mb-20">
@@ -197,7 +197,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className="col-xxl-4 col-xl-4 col-lg-8 col-md-8">
+        <div className="order-first lg:order-last">
           <ProductDetailSidebar product={product} />
         </div>
       </div>

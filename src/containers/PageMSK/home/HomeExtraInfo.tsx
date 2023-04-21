@@ -11,14 +11,14 @@ const SectionAds: FC<SectionAdsProps> = ({
   imgAds = imgAdsDef,
 }) => {
   return (
-    <div className="extra-info text-white">
+    <div className="extra-info grid lg:grid-cols-3 md:grid-cols-1 place-items-center text-white">
       <div className="info-wrapper items-center">
         <p className="font-bold text-2xl">
           ¡Actualizamos nuestro <br />
           Curso de Administración <br />y gestión hospitalaria!
         </p>
       </div>
-      <div className="info-wrapper">
+      <div className="info-wrapper px-8 md:px-0 colspan-3">
         <p className="text-lg">
           Ahora con análisis de <span className="font-bold">casos reales</span>{" "}
           y herramientas de gestión hospitalaria ⤵️
@@ -31,7 +31,7 @@ const SectionAds: FC<SectionAdsProps> = ({
       </div>
 
       <div className="info-wrapper">
-        <div className="cta">
+        <div className="cta mx-auto md:mx-0">
           <ButtonPrimary className="font-semibold py-4 w-48">
             Me interesa
           </ButtonPrimary>

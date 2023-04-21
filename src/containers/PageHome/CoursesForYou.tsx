@@ -3,7 +3,7 @@ import Card8 from "components/Card8/Card8";
 import { SectionMagazine1Props } from "./SectionMagazine1";
 import HeaderFilter from "./HeaderFilter";
 import Card9 from "components/Card9/Card9";
-import { CourseDataType } from "data/MSK/courses";
+import { CourseDataType } from "data/types";
 
 interface Props {
   courses: CourseDataType[];

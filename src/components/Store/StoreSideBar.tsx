@@ -2,12 +2,12 @@ import React, { useReducer } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 
 const initialState = {
-  isActive: true,
-  isActiveA: true,
-  isActiveB: true,
-  isActiveC: true,
-  isActiveD: true,
-  isActiveE: true,
+  isActive: false,
+  isActiveA: false,
+  isActiveB: false,
+  isActiveC: false,
+  isActiveD: false,
+  isActiveE: false,
 };
 const reducer = (state: any, action: any) => {
   switch (action) {
@@ -67,6 +67,17 @@ const StoreSideBar = () => {
     { label: "Traumatología", id: "tra" },
   ];
 
+  const resources = [
+    { label: "Curso", id: "course" },
+    { label: "E-book", id: "ebook" },
+  ];
+
+  const professions = [
+    { label: "Personal médico", id: "per_med" },
+    { label: "Personal de enfermería", id: "per_enf" },
+    { label: "Auxiliar", id: "aux" },
+  ];
+
   const duration = [
     { label: "Hasta 100 horas", id: "less_100" },
     { label: "De 100 a 300 horas", id: "100_to_300" },
@@ -122,96 +133,22 @@ const StoreSideBar = () => {
             Recurso
           </h3>
           <ul>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-25"
-                  name="rating"
-                />
-                <label className="edu-check-star" htmlFor="e-25">
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  (25)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-24"
-                  name="rating"
-                />
-                <label className="edu-check-star" htmlFor="e-24">
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  (25)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-12"
-                  name="rating"
-                />
-                <label className="edu-check-star" htmlFor="e-12">
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  (12)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-28"
-                  name="rating"
-                />
-                <label className="edu-check-star" htmlFor="e-28">
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  (28)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-14"
-                  name="rating"
-                />
-                <label className="edu-check-star" htmlFor="e-14">
-                  <i className={`${fai.fas} ${fai["fa-star"]}`}></i>{" "}
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>{" "}
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                  (14)
-                </label>
-              </div>
-            </li>
+            {resources.map((resource, index: number) => {
+              return (
+                <li key={index}>
+                  <div className="course-sidebar-list">
+                    <input
+                      className="edu-check-box"
+                      type="checkbox"
+                      id={resource.id}
+                    />
+                    <label className="edu-check-label" htmlFor={resource.id}>
+                      {resource.label}
+                    </label>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -225,45 +162,22 @@ const StoreSideBar = () => {
             Profesión
           </h3>
           <ul>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-85"
-                  name="price"
-                />
-                <label className="edu-check-label" htmlFor="e-85">
-                  All (85)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="e-all"
-                  name="price"
-                />
-                <label className="edu-check-label" htmlFor="e-all">
-                  Free (21)
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="course-sidebar-list">
-                <input
-                  className="edu-check-box"
-                  type="radio"
-                  id="f-all"
-                  name="price"
-                />
-                <label className="edu-check-label" htmlFor="f-all">
-                  Paid (54)
-                </label>
-              </div>
-            </li>
+            {professions.map((profession, index: number) => {
+              return (
+                <li key={index}>
+                  <div className="course-sidebar-list">
+                    <input
+                      className="edu-check-box"
+                      type="checkbox"
+                      id={profession.id}
+                    />
+                    <label className="edu-check-label" htmlFor={profession.id}>
+                      {profession.label}
+                    </label>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

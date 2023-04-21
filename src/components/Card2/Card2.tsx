@@ -80,19 +80,19 @@ const Card2: FC<Card2Props> = ({
         {hideAuthor ? null : (
           <CardAuthor2 className="relative my-4" date={date} author={author} />
         )}
-        <div className="flex items-center justify-between mt-auto">
+        {/* <div className="flex items-center justify-between mt-auto">
           <PostCardLikeAction
             className="relative pl-3 py-1 pr-4 mt-3"
             postId={""}
             likeCount={1200}
             isLiked={true}
           />
-          {/* <PostCardSaveAction
+          <PostCardSaveAction
             className="relative"
             postData={post}
             readingTime={readingTime}
-          /> */}
-        </div>
+          />
+        </div> */}
       </div>
     </div>
   );

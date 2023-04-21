@@ -9,6 +9,7 @@ export interface PostMeta2Props {
   hiddenCategories?: boolean;
   size?: "large" | "normal";
   avatarRounded?: string;
+  hideDate?: boolean;
 }
 
 const PostMeta2: FC<PostMeta2Props> = ({
@@ -17,6 +18,7 @@ const PostMeta2: FC<PostMeta2Props> = ({
   hiddenCategories = false,
   size = "normal",
   avatarRounded,
+  hideDate = false,
 }) => {
   const { date, author, categories, readingTime } = meta;
   return (
@@ -59,13 +61,17 @@ const PostMeta2: FC<PostMeta2Props> = ({
             </>
           )}
         </div>
-        <div className="text-xs mt-[6px]">
-          <span className="text-neutral-700 dark:text-neutral-300">{date}</span>
-          <span className="mx-2 font-semibold">·</span>
-          <span className="text-neutral-700 dark:text-neutral-300">
-            {readingTime} min read
-          </span>
-        </div>
+        {hideDate ? null : (
+          <div className="text-xs mt-[6px]">
+            <span className="text-neutral-700 dark:text-neutral-300">
+              {date}
+            </span>
+            <span className="mx-2 font-semibold">·</span>
+            <span className="text-neutral-700 dark:text-neutral-300">
+              {readingTime} min read
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -38,8 +38,8 @@ import PageHomeDemo7 from "containers/PageHome/PageHomeDemo7";
 import PageSingleTemp4Sidebar from "containers/PageSingle/PageSingleTemp4Sidebar";
 import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
 import CustomHome from "containers/PageHome/CustomHome";
-import FooterEduman from "components/Footer/FooterEduman";
-import PageStore from "containers/PageStore/PageStore";
+import FooterEduman from "components/Footer/FooterMSK";
+import PageStore from "containers/PageMSK/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
 
 export const pages: Page[] = [

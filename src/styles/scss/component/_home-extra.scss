@@ -2,13 +2,12 @@
   background: linear-gradient(267.82deg, #FF5D5E 45.08%, #882526 119.76%);
   border-radius: 39px;
   width: 100%;
-  height: 190px;
-  display: flex;
-  align-items: center;
+  min-height: 190px;
+  // display: flex;
+  // align-items: center;
   gap: 24px;
   position: relative;
   .info-wrapper {
-    flex-grow: 1;
     z-index: 1;
     display: flex;
     flex-direction: column;

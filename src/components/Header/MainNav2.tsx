@@ -55,29 +55,32 @@ const MainNav2: FC<MainNav2Props> = () => {
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
           <div className="hidden items-center xl:flex space-x-2">
             <Navigation navigations={NAVIGATION_MSK} />
-            <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000 pr-5"></div>
-            {/* <DarkModeContainer /> */}
+            {false && (
+              <>
+                <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000 pr-5"></div>
 
-            <ButtonSecondary
-              href={"/login"}
-              sizeClass="px-4 py-2 sm:px-5"
-              className="border-solid border-1 border-neutral-200 text-neutral-500"
-              bordered
-            >
-              Iniciar sesión
-            </ButtonSecondary>
-            <ButtonPrimary
-              href={"/signup"}
-              sizeClass="px-4 py-2 sm:px-5"
-              className="font-semibold"
-            >
-              Crear cuenta
-            </ButtonPrimary>
+                <ButtonSecondary
+                  href={"/login"}
+                  sizeClass="px-4 py-2 sm:px-5"
+                  className="border-solid border-1 border-neutral-200 text-neutral-500"
+                  bordered
+                >
+                  Iniciar sesión
+                </ButtonSecondary>
+                <ButtonPrimary
+                  href={"/signup"}
+                  sizeClass="px-4 py-2 sm:px-5"
+                  className="font-semibold"
+                >
+                  Crear cuenta
+                </ButtonPrimary>
+              </>
+            )}
           </div>
           <div className="flex items-center space-x-1.5 xl:hidden">
-            <ButtonPrimary href={"/signup"} sizeClass="px-4 py-2 sm:px-5">
+            {/* <ButtonPrimary href={"/signup"} sizeClass="px-4 py-2 sm:px-5">
               Create account
-            </ButtonPrimary>
+            </ButtonPrimary> */}
             <ErrorBoundary>
               <MenuBar />
             </ErrorBoundary>

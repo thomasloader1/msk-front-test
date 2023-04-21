@@ -1,10 +1,5 @@
 import React, { FC, useEffect, useRef } from "react";
-import Tag from "components/Tag/Tag";
 import { SinglePageType } from "../PageMission";
-import SingleAuthor from "./SingleAuthor";
-import SingleCommentForm from "./SingleCommentForm";
-import SingleCommentLists from "./SingleCommentLists";
-import SingleContentDemo from "./SingleContentDemo";
 import { useLocation } from "react-router";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import { HOME_COURSES } from "data/MSK/courses";

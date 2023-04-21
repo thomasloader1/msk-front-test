@@ -40,7 +40,7 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
   return (
     <div className="course-video-widget">
       <div className="course-widget-wrapper mb-30">
-        <div className="course-video-thumb w-img">
+        <div className="course-video-thumb w-img hidden lg:flex">
           <img src={product.featuredImage} alt="img not found" />
         </div>
         <div className="course-video-price">

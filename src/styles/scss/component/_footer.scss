@@ -120,10 +120,32 @@
 	padding: 30px 20px;
 	display: flex;
 	justify-content: space-between;
-	@media #{$sm,$xs} {
+	flex-wrap: wrap;
+
+	@media #{$md,$sm,$xs} {
 		padding: 30px 15px;
+		.divisor {
+			border-right: 0px solid #373a3e;
+		}
+		.discounts {
+			padding-top: 16px;
+			padding-bottom: 16px;
+			text-align: center;
+		}
+		.copyright-text {
+			width: 100%;
+		}
+		.widget__subscribe {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
 	}
 	.footer-column {
+		margin-left: auto;
+		margin-right: auto;
 		.discounts {
 			color: white;
 			font-weight: 500;
@@ -216,7 +238,6 @@
 }
 
 .copyright-text {
-	
 	width: 196px;
 	position: relative;
 	top: 9px;

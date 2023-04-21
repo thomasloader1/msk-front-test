@@ -6,6 +6,10 @@
 
 @use "../abstract" as *;
 
+.store-header {
+	background: red;
+}
+
 // course-style
 .course-area {
 	background: $section-bg;
@@ -562,9 +566,9 @@
 		width: 100%;
 		height: auto;
 		position: absolute;
-		top: 50%;
 		left: 0;
-		transform: translateY(-50%);
+		// top: 50%;
+		// transform: translateY(-50%);
 	}
 }
 .student-course-linkter {

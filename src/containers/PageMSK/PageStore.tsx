@@ -1,4 +1,4 @@
-import LayoutPageSwiper from "components/LayoutPage/LayoutPageSwiper";
+import StoreLayout from "./store/StoreLayout";
 import { CheckIcon } from "@heroicons/react/solid";
 import React, { FC, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
@@ -24,7 +24,7 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
       className={`nc-PageSubcription ${className}`}
       data-nc-id="PageSubcription"
     >
-      <LayoutPageSwiper
+      <StoreLayout
         subHeading="Pricing to fit the needs of any companie size."
         headingEmoji="💎"
         heading="Store"
@@ -33,7 +33,7 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
           <StoreBar onSearch={(e) => triggerSearch(e)} />
           <StoreContent products={productList} />
         </section>
-      </LayoutPageSwiper>
+      </StoreLayout>
     </div>
   );
 };

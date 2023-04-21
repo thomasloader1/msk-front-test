@@ -20,14 +20,15 @@ const FooterEduman = () => {
               </p>
             </div>
             <div className="divisor" />
-            <div className="footer-column ">
-              <div className="copyright-subcribe">
+            <div className="footer-column">
+              <div className="copyright-subcribe ">
                 <form action="#" className="widget__subscribe">
-                  <div className="field">
+                  <div className="field ">
                     <input type="email" placeholder="Ingresar e-mail" />
                   </div>
                   <button type="submit">
-                    Subscribe<i className="fas fa-paper-plane"></i>
+                    Suscribirme
+                    <img src="/src/images/icons/plane.svg" />
                   </button>
                 </form>
               </div>

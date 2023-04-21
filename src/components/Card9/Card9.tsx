@@ -7,7 +7,7 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import { CourseDataType } from "data/MSK/courses";
+import { CourseDataType } from "data/types";
 
 export interface Card9Props {
   className?: string;
@@ -75,31 +75,19 @@ const Card9: FC<Card9Props> = ({
       className={`nc-Card9 relative flex flex-col group rounded-3xl overflow-hidden z-0 ${hoverClass} ${className}`}
       data-nc-id="Card9"
     >
-      <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
+      {/* <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
         <PostCardLikeAndComment className="relative" postData={post} />
         <PostCardSaveAction className="relative" postData={post} />
-      </div>
+      </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>
-      {postType === "audio" ? (
-        <div className="absolute inset-0">
-          <PostFeaturedMedia post={post} />
-        </div>
-      ) : (
-        <Link to={href}>
-          <NcImage
-            containerClassName="absolute inset-0 rounded-3xl"
-            className="object-cover w-full h-full rounded-3xl"
-            src={featuredImage}
-          />
-          <PostTypeFeaturedIcon
-            className="absolute top-3 left-3 group-hover:hidden"
-            postType={postType}
-            wrapSize="w-7 h-7"
-            iconSize="w-4 h-4"
-          />
-          <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </Link>
-      )}
+      <Link to={href}>
+        <NcImage
+          containerClassName="absolute inset-0 rounded-3xl"
+          className="object-cover w-full h-full rounded-3xl"
+          src={featuredImage}
+        />
+        <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+      </Link>
       <Link
         to={href}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"

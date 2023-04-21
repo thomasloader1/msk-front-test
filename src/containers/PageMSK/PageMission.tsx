@@ -2,10 +2,8 @@ import React, { FC, ReactNode, useEffect } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/mission/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
-import SingleRelatedPosts from "../PageSingle/SingleRelatedPosts";
 import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
-import { Sidebar } from "../PageSingle/Sidebar";
 import SingleHeader from "../PageMSK/mission/SingleHeader";
 
 const SINGLE: SinglePageType = {

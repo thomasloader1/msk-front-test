@@ -69,7 +69,7 @@ const ContactFormSection = () => {
               <div className="col-xl-2 mt-2">
                 <div className="cont-btn">
                   <button type="button" className="cont-btn">
-                    Submit
+                    Enviar
                   </button>
                 </div>
               </div>

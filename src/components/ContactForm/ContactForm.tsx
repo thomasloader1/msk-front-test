@@ -6,7 +6,7 @@ import Checkbox from "components/Checkbox/Checkbox";
 const ContactFormSection = () => {
   return (
     <>
-      <div className="col-span-2">
+      <div className="col-span-2" id="contactanos">
         <div className="contact-area-wrapper">
           <div className={`section-title mb-50`}>
             <h2>Contáctanos</h2>

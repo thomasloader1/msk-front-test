@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { FC, useState } from "react";
-import { CourseDataType } from "data/types";
+import { FetchCourseType } from "data/types";
 
 interface Props {
-  product: CourseDataType;
+  product: FetchCourseType;
 }
 
 const ProductDetailSidebar: FC<Props> = ({ product }) => {
@@ -28,12 +28,12 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
     },
     {
       title: "Certificación",
-      property: "certification",
+      property: "diploma",
       icon: "/src/images/icons/prize.svg",
     },
     {
       title: "Idioma",
-      property: "language",
+      property: "language_name",
       icon: "/src/images/icons/lang.svg",
     },
   ];
@@ -41,7 +41,7 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
     <div className="course-video-widget">
       <div className="course-widget-wrapper mb-30">
         <div className="course-video-thumb w-img hidden lg:flex">
-          <img src={product.featuredImage} alt="img not found" />
+          <img src={product.image} alt="img not found" />
         </div>
         <div className="course-video-price">
           <span>💳 Pagos sin intereses</span>
@@ -57,12 +57,7 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
                   </div>
                   <div className="video-corse-info">
                     <span>
-                      {typeof product[data.property as keyof typeof product] ==
-                      "boolean"
-                        ? product[data.property as keyof typeof product]
-                          ? "Sí"
-                          : "No"
-                        : product[data.property as keyof typeof product]}
+                      {product[data.property as keyof typeof product]}
                     </span>
                   </div>
                 </li>
@@ -71,12 +66,9 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
           </ul>
         </div>
         <div className="flex gap-2">
-          <Link to="/cart" className="video-cart-btn w-full">
-            Añadir al carrito
-          </Link>
-          <Link to="/wishlist" className="video-wishlist-btn w-full">
-            Favorito
-          </Link>
+          <a href="#contactanos" className="video-cart-btn w-full">
+            Contactáctanos
+          </a>
         </div>
       </div>
     </div>

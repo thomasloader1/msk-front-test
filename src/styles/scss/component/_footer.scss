@@ -198,7 +198,7 @@
 	right: 10px;
 	height: 50px;
 	width: 160px;
-	background: $theme-color;
+	background: $primary;
 	border-radius: 5px;
 	color: $white;
 	font-weight: 600;
@@ -206,6 +206,10 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
+	&:hover {
+		color: $white;
+		background: $secondary;
+	}
 	@media #{$xs} {
 		margin-bottom: 20px;
 		position: relative;
@@ -214,10 +218,7 @@
 	@media #{$lg} {
 		width: 130px;
 	}
-	&:hover {
-		background: $theme-color-2;
-		color: $heading-color;
-	}
+	
 }
 .widget__subscribe .field {
 	position: relative;

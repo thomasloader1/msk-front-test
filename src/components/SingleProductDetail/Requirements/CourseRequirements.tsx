@@ -21,7 +21,7 @@ const SectionAds: FC<SectionAdsProps> = ({
           </li>
           <li className="flex gap-1">
             <img src="/src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
-            <span>Ser profesional médico</span>
+            <span>Un ordenador y acceso a internet.</span>
           </li>
         </ul>
       </div>

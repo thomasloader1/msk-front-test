@@ -45,16 +45,6 @@ export interface User {
   href: string;
 }
 
-export interface Specialty {
-  id: string | number;
-  name: string;
-  href?: string;
-  thumbnail?: string;
-  count?: number;
-  color?: string;
-  desc?: string;
-}
-
 export interface PostDataType {
   id: string | number;
   author: PostAuthorType;
@@ -122,6 +112,47 @@ export interface VideoType {
   id: string;
   title: string;
   thumbnail: string;
+}
+
+export interface FetchCourseType {
+  id: number;
+  father_id: number;
+  father_post_type: string;
+  language_code: string;
+  language_name: string;
+  title: string;
+  image: string;
+  categories: Category[];
+  professions: Profession[];
+  duration: string;
+  permalink: string;
+  temario_link: string;
+  why_course: string;
+  is_new: boolean;
+  nac_schools: null;
+  int_schools: null;
+  isbn: string;
+  purchase_option: string;
+  diploma: null;
+  is_free: boolean;
+  total_price: string;
+  price_installments: string;
+}
+
+export interface Category {
+  term_id: number;
+  name: string;
+  slug: string;
+}
+
+export interface Profession {
+  id: number;
+  name: string;
+}
+
+export interface Specialty {
+  id: number;
+  name: string;
 }
 
 export interface CourseDataType {

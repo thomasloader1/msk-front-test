@@ -43,7 +43,7 @@ export interface LocationStates {
   "/dashboard"?: {};
   "/subscription"?: {};
   "/store"?: {};
-  "/course-details"?: {};
+  "/curso/:slug"?: {};
   //
   "/theme-cyan-blueGrey"?: {};
   "/theme-blue-blueGrey"?: {};

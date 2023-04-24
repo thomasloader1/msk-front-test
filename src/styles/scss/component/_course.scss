@@ -871,8 +871,8 @@
 	color: $theme-color;
 	font-weight: 600;
 }
-.course-sidebar-list label {
-	padding-top: 3px;
+.course-sidebar-list {
+	display: flex;
 }
 .course-sidebar-list input[type="checkbox"] {
 	border: 1px solid $border;

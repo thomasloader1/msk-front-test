@@ -1,5 +1,6 @@
-import React, { useReducer } from "react";
+import React, { FC, useReducer } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+import { Profession, Specialty } from "data/types";
 
 const initialState = {
   isActive: false,
@@ -36,46 +37,24 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-const StoreSideBar = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+interface Props {
+  professions: Profession[];
+  specialties: Specialty[];
+  onChangeSpecialty: (specialty: Specialty) => void;
+  onChangeProfession: (specialty: Profession) => void;
+}
 
-  const categories = [
-    { label: "Anestesiología y dolor", id: "an_dol" },
-    { label: "Cardiología", id: "car" },
-    { label: "Cirugía", id: "cir" },
-    { label: "Dermatología", id: "der" },
-    { label: "Diabetes", id: "dia" },
-    { label: "Emergentología", id: "eme" },
-    { label: "Gastroenterología", id: "gas" },
-    { label: "Geriatría", id: "ger" },
-    { label: "Ginecología", id: "gin" },
-    { label: "Infectología", id: "inf" },
-    { label: "Inglés técnico", id: "ing" },
-    { label: "Kinesiología", id: "kin" },
-    { label: "Medicina familiar", id: "med_fam" },
-    { label: "Medicina general", id: "med_gen" },
-    { label: "Medicina intensiva", id: "med_int" },
-    { label: "Nutrición", id: "nut" },
-    { label: "Obstetricia", id: "obs" },
-    { label: "Odontología", id: "odo" },
-    { label: "Oftalmología", id: "oft" },
-    { label: "Oncología", id: "onc" },
-    { label: "Psicología", id: "psi" },
-    { label: "Psiquiatría", id: "psi" },
-    { label: "Pediatría", id: "ped" },
-    { label: "Hematología", id: "hem" },
-    { label: "Traumatología", id: "tra" },
-  ];
+const StoreSideBar: FC<Props> = ({
+  professions,
+  specialties,
+  onChangeSpecialty,
+  onChangeProfession,
+}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const resources = [
     { label: "Curso", id: "course" },
     { label: "E-book", id: "ebook" },
-  ];
-
-  const professions = [
-    { label: "Personal médico", id: "per_med" },
-    { label: "Personal de enfermería", id: "per_enf" },
-    { label: "Auxiliar", id: "aux" },
   ];
 
   const duration = [
@@ -104,17 +83,21 @@ const StoreSideBar = () => {
                 </label>
               </div>
             </li>
-            {categories.map((category, index) => {
+            {specialties.map((specialty, index) => {
               return (
                 <li key={index}>
                   <div className="course-sidebar-list">
                     <input
                       className="edu-check-box"
                       type="checkbox"
-                      id={category.id}
+                      id={`specialty_${specialty.id}`}
+                      onChange={(event) => onChangeSpecialty(specialty)}
                     />
-                    <label className="edu-check-label" htmlFor={category.id}>
-                      {category.label}
+                    <label
+                      className="edu-check-label"
+                      htmlFor={`specialty_${specialty.id}`}
+                    >
+                      {specialty.name}
                     </label>
                   </div>
                 </li>
@@ -169,10 +152,14 @@ const StoreSideBar = () => {
                     <input
                       className="edu-check-box"
                       type="checkbox"
-                      id={profession.id}
+                      id={`profession_${profession.id}`}
+                      onChange={(event) => onChangeProfession(profession)}
                     />
-                    <label className="edu-check-label" htmlFor={profession.id}>
-                      {profession.label}
+                    <label
+                      className="edu-check-label"
+                      htmlFor={`profession_${profession.id}`}
+                    >
+                      {profession.name}
                     </label>
                   </div>
                 </li>

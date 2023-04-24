@@ -63,7 +63,7 @@ export const pages: Page[] = [
   { path: "/mi-cuenta", component: PageAccount },
   { path: "/mi-perfil", component: PageProfile },
   { path: "/store", component: PageStore },
-  { path: "/course-details", component: PageSingleProduct },
+  { path: "/curso/:slug", component: PageSingleProduct },
 ];
 
 const Routes = () => {

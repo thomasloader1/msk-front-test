@@ -44,7 +44,6 @@ import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: CustomHome },
-  { path: "/custom-home", exact: true, component: CustomHome },
   { path: "/#", exact: true, component: CustomHome },
   //
   { path: "/home-header-style1", exact: true, component: PageHome },
@@ -107,7 +106,7 @@ export const pages: Page[] = [
   { path: "/dashboard", component: PageDashboard },
   { path: "/subscription", component: PageSubcription },
   { path: "/store", component: PageStore },
-  { path: "/course-details", component: PageSingleProduct },
+  { path: "/curso/:slug", component: PageSingleProduct },
   //
   { path: "/home-demo-2", component: PageHomeDemo2 },
   { path: "/home-demo-3", component: PageHomeDemo3 },

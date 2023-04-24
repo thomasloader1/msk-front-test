@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
@@ -12,10 +12,10 @@ import { DETAILS_COURSES, HOME_COURSES } from "data/MSK/courses";
 import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
-import { CourseDataType } from "data/types";
+import { CourseDataType, FetchCourseType } from "data/types";
 
 interface Props {
-  product: CourseDataType;
+  product: FetchCourseType;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
@@ -24,6 +24,17 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const htmlElement = document.createElement("div");
+    htmlElement.innerHTML = product.why_course;
+    if (textRef.current) {
+      textRef.current.innerHTML = "";
+      textRef.current.appendChild(htmlElement);
+    }
+  });
 
   const evaluations = [
     [
@@ -97,15 +108,15 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
         <div className="">
           <div className="course-detalis-wrapper mb-30">
-            <div className="course-heading mb-20">
+            <div className="course-heading mb-10">
               <h2 className="font-semibold">{product.title}</h2>
             </div>
             <div className="course-detelis-meta">
-              <div className="course-meta-wrapper border-line-meta">
+              {/* <div className="course-meta-wrapper border-line-meta">
                 <div className="course-meta-img">
-                  {/* <Link to="/instructor-profile"> */}
-                  <img src={product.author.img} alt="course-meta" />
-                  {/* </Link> */}
+                  <Link to="/instructor-profile">
+                  <img src={product.image} alt="course-meta" />
+                  </Link>
                 </div>
                 <div>
                   <span>Creado por</span>
@@ -115,18 +126,20 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <div className="border-line-meta">
                 <p>Contenido</p>
                 <span className="font-bold">{product.content}</span>
-              </div>
+              </div> */}
 
               <div className="">
                 <p>Duración</p>
-                <span className="font-bold">{product.length} estimadas</span>
+                <span className="font-bold">
+                  {product.duration} horas estimadas
+                </span>
               </div>
             </div>
             <div className="course-description pt-45 pb-30">
               <div className="course-Description">
                 <h4 className="font-semibold text-xl">Qué aprenderás</h4>
               </div>
-              <p>{product.summary}</p>
+              <div ref={textRef} />
             </div>
             <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
               <SectionSliderPosts

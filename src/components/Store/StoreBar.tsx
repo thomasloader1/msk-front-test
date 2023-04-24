@@ -2,34 +2,37 @@ import React, { FC, useEffect, useState } from "react";
 
 interface Props {
   onSearch: (searchTerm: string) => void;
+  length: number;
 }
 
-const StoreBar: FC<Props> = (props) => {
+const StoreBar: FC<Props> = ({ onSearch, length }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      props.onSearch(searchTerm);
-    }, 2000);
+    if (searchTerm) {
+      const timer = setTimeout(() => {
+        onSearch(searchTerm);
+      }, 500);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchTerm, props]);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [searchTerm, onSearch]);
 
   function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
   }
-  return (
+  return length ? (
     <div className=" course-bar-up-area">
       <div className="container">
         <div className="grid grid-cols-1">
           <div className="course-main-wrapper mb-30">
-            <div className="bar-filter">
+            {/* <div className="bar-filter">
               <i className="flaticon-filter"></i>
               <span>Filtros</span>
               <span>(0)</span>
-            </div>
+            </div> */}
             <div className="corse-bar-wrapper">
               <div className="bar-search">
                 <form action="#">
@@ -51,12 +54,15 @@ const StoreBar: FC<Props> = (props) => {
               <div className="course-sidebar-wrapper">
                 <div className="curse-tab-left-wrap">
                   <div className="course-results">
-                    Mostrando <span className="course-result-showing">15</span>{" "}
-                    de <span className="course-result-number">60</span>{" "}
+                    Mostrando{" "}
+                    <span className="course-result-showing">
+                      {length > 9 ? 9 : length}
+                    </span>{" "}
+                    de <span className="course-result-number">{length}</span>{" "}
                     resultados
                   </div>
                 </div>
-                <div className="couse-dropdown">
+                {/* <div className="couse-dropdown">
                   <div className="course-drop-inner">
                     <select>
                       <option>Más nuevos</option>
@@ -65,14 +71,14 @@ const StoreBar: FC<Props> = (props) => {
                       <option>Duración</option>
                     </select>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default StoreBar;

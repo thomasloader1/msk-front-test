@@ -959,7 +959,7 @@ p {
 	padding: 0px 20px;
 	display: flex;
 	justify-content: center;
-	background-color: $theme-color;
+	background-color: $primary;
 	line-height: 55px;
 	border-radius: 4px;
 	font-size: 16px;
@@ -967,8 +967,8 @@ p {
 	color: $white;
 	@include transition(0.3s);
 	&:hover {
-		background-color: $theme-color-2;
-		color: $heading-color;
+		background-color: $secondary;
+		color: $white;
 	}
 	i {
 		margin-right: 10px;
@@ -996,7 +996,7 @@ p {
 }
 .cont-btn {
 	height: 55px;
-	background: $theme-color;
+	background: $primary;
 	color: $white;
 	text-align: center;
 	width: 150px;
@@ -1006,8 +1006,8 @@ p {
 	display: inline-block;
 	line-height: 55px;
 	&:hover {
-		color: $heading-color;
-		background: $theme-color-2;
+		color: $white;
+		background: $secondary;
 	}
 }
 .event-btn {

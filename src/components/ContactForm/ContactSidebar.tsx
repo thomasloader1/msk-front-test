@@ -7,7 +7,7 @@ const ContactSidebar = () => {
         <div className="support-contact-inner">
           <div className="support-item">
             <div className="support-icon">
-              <img src="src/icons/phone.svg" alt="" width="20" />
+              <img src="/src/images/icons/phone.svg" alt="" width="20" />
             </div>
             <div className="support-info-phone">
               <span>Teléfono</span>
@@ -17,7 +17,7 @@ const ContactSidebar = () => {
           </div>
           <div className="support-item">
             <div className="support-icon">
-              <img src="src/icons/whatsapp.svg" alt="" width="20" />
+              <img src="/src/images/icons/whatsapp.svg" alt="" width="20" />
             </div>
             <div className="support-info-whatsapp">
               <span>Whatsapp</span>
@@ -26,7 +26,7 @@ const ContactSidebar = () => {
           </div>
           <div className="support-item">
             <div className="support-icon">
-              <img src="src/icons/email.svg" alt="" width="20" />
+              <img src="/src/images/icons/email.svg" alt="" width="20" />
             </div>
             <div className="support-info-email">
               <span>Email</span>

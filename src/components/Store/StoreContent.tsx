@@ -3,6 +3,7 @@ import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
 import { FetchCourseType, Profession, Specialty } from "data/types";
+import { useStoreFilters } from "context/storeFilters/StoreContext";
 
 interface Props {
   products: FetchCourseType[];
@@ -12,6 +13,8 @@ interface Props {
 
 const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const { storeFilters, addFilter, removeFilter } = useStoreFilters();
+
   const itemsPerPage = 9;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -30,10 +33,10 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   };
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    console.log(specialty);
+    addFilter("specialties", specialty);
   };
   const onChangeProfession = (profession: Profession) => {
-    console.log(profession);
+    addFilter("professions", profession);
   };
 
   return (

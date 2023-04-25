@@ -42,7 +42,7 @@ export interface LocationStates {
   "/page404"?: {};
   "/dashboard"?: {};
   "/subscription"?: {};
-  "/store"?: {};
+  "/tienda"?: {};
   "/curso/:slug"?: {};
   //
   "/theme-cyan-blueGrey"?: {};

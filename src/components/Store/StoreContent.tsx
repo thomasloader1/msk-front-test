@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -33,8 +33,15 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   };
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    addFilter("specialties", specialty);
+    const specialtyExists = storeFilters.specialties.filter(
+      (item: Specialty) => {
+        return item.name == specialty.name;
+      }
+    );
+    if (specialtyExists.length) removeFilter("specialties", specialty);
+    else addFilter("specialties", specialty);
   };
+
   const onChangeProfession = (profession: Profession) => {
     addFilter("professions", profession);
   };

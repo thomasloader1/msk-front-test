@@ -10,6 +10,7 @@ import axios from "axios";
 import Skeleton from "components/Skeleton/Skeleton";
 import LoadingImage from "components/Loader/Image";
 import { FetchCourseType } from "data/types";
+import { useStoreFilters } from "context/storeFilters/StoreContext";
 
 export interface PageSubcriptionProps {
   className?: string;
@@ -21,6 +22,9 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
   const [products, setProducts] = useState<FetchCourseType[]>([]);
   const [specialties, setSpecialties] = useState([]);
   const [professions, setProfessions] = useState([]);
+  const { storeFilters } = useStoreFilters();
+
+  // FETCH DATA
   useEffect(() => {
     setLoading(true);
     axios
@@ -56,12 +60,37 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
       });
   }, []);
 
+  // FILTERS
+  useEffect(() => {
+    filterBySpecialtiesAndProfessions();
+  }, [storeFilters]);
+
+  const filterBySpecialtiesAndProfessions = () => {
+    const selectedSpecialties = storeFilters.specialties.map(
+      (filter: any) => filter.name
+    );
+    if (!selectedSpecialties.length) {
+      setProducts(auxProducts);
+    } else {
+      const otrosProductos = products.filter((product) => {
+        const prodSpecialties = product.categories.map(
+          (category) => category.name
+        );
+        return selectedSpecialties.every((specialty) =>
+          prodSpecialties.includes(specialty)
+        );
+      });
+      setProducts(otrosProductos);
+    }
+  };
+
   const triggerSearch = (event: any) => {
     const filteredProducts = auxProducts.filter((product) =>
       product.title.toLowerCase().includes(event)
     );
     setProducts(filteredProducts);
   };
+
   const triggerFilter = async (event: any) => {
     let sortedProducts: FetchCourseType[] = [];
     setLoading(true);

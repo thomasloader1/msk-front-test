@@ -27,7 +27,7 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
       .get("https://wp.msklatam.com/wp-json/wp/api/products")
       .then((response) => {
         setLoading(false);
-        setAuxProducts(response.data.products);
+        setAuxProducts([...response.data.products]);
         setProducts(response.data.products);
       })
       .catch((error) => {
@@ -62,6 +62,52 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
     );
     setProducts(filteredProducts);
   };
+  const triggerFilter = async (event: any) => {
+    let sortedProducts: FetchCourseType[] = [];
+    setLoading(true);
+    switch (event) {
+      case "":
+        sortedProducts = [...auxProducts];
+        break;
+      case "newer":
+        sortedProducts = products.sort((a, b) => {
+          const isNewA = Boolean(a.is_new);
+          const isNewB = Boolean(b.is_new);
+          if (isNewA === isNewB) {
+            return 0;
+          } else if (isNewA) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        break;
+      case "duration":
+        sortedProducts = await products.sort((a, b) => {
+          let durationA = parseInt(a.duration);
+          let durationB = parseInt(b.duration);
+
+          if (isNaN(durationA)) {
+            durationA = 0;
+          }
+          if (isNaN(durationB)) {
+            durationB = 0;
+          }
+          if (durationA < durationB) {
+            return 1;
+          }
+          if (durationA > durationB) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
+      default:
+        break;
+    }
+    setLoading(false);
+    setProducts(sortedProducts);
+  };
 
   let loaders = [];
   for (let i = 0; i < 9; i++) {
@@ -80,6 +126,7 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
           <StoreBar
             onSearch={(e) => triggerSearch(e)}
+            onFilter={(e) => triggerFilter(e)}
             length={products.length}
           />
           {isLoading ? (

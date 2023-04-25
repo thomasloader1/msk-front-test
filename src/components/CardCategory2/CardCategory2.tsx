@@ -15,7 +15,24 @@ const CardCategory2: FC<CardCategory2Props> = ({
   taxonomy,
   index,
 }) => {
-  const { count, name, href = "/", thumbnail, color } = taxonomy;
+  const { count, href = "/", name, color } = taxonomy;
+  console.log(taxonomy);
+  let thumbnail = "/src/images/courses/";
+  switch (name) {
+    case "Cardiología":
+      thumbnail = thumbnail + "cardiology.png";
+      break;
+    case "Enfermería":
+      thumbnail = thumbnail + "nursing.png";
+      break;
+    case "Medicina General":
+      thumbnail = thumbnail + "medical.png";
+      break;
+    case "Infectología":
+      thumbnail = thumbnail + "infectology.png";
+      break;
+  }
+  console.log(thumbnail);
   return (
     <Link
       to={href}

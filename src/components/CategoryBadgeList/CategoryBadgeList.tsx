@@ -5,12 +5,12 @@ import Badge from "components/Badge/Badge";
 export interface CategoryBadgeListProps {
   className?: string;
   itemClass?: string;
-  categories: Category[];
+  categories: any[];
   color?: string;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
-  className = "flex flex-wrap space-x-2",
+  className = "flex flex-wrap",
   itemClass,
   categories,
   color,

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SectionVideos from "./SectionVideos";
-import SectionSliderPosts from "./SectionSliderPosts";
+import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import { DEMO_CATEGORIES } from "data/taxonomies";
 import { DEMO_POSTS, DEMO_POSTS_AUDIO } from "data/posts";
 import SectionHero from "components/SectionHero/SectionHero";

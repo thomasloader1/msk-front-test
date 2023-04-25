@@ -10,7 +10,7 @@ import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeatur
 
 export interface Card7Props {
   className?: string;
-  post: PostDataType;
+  post: any;
   hoverClass?: string;
   ratio?: string;
 }

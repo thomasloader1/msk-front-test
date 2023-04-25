@@ -48,9 +48,6 @@ const Accordion: FC<Props> = ({
           </svg>
           <h2 className="text-lg font-medium">{title}</h2>
         </div>
-        <span className="accordion-tittle-inner">
-          <span>{children.length} lectures • 47m</span>
-        </span>
       </div>
       {isOpen && children}
     </div>

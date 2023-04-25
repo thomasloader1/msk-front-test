@@ -8,7 +8,7 @@ import PostCardMetaV2 from "components/PostCardMeta/PostCardMetaV2";
 
 export interface Card10Props {
   className?: string;
-  post: PostDataType;
+  post: any;
 }
 
 const Card10: FC<Card10Props> = ({ className = "h-full", post }) => {

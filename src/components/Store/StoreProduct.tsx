@@ -1,8 +1,6 @@
-import React, { FC } from "react";
-import course1 from "../../images/eduman/course-01.jpg";
+import { FC } from "react";
 import { Link } from "react-router-dom";
-import fai from "../../styles/fai/fontAwesome5Pro.module.css";
-import { CourseDataType, FetchCourseType } from "data/types";
+import { FetchCourseType } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 
 interface Props {
@@ -31,7 +29,7 @@ const StoreProduct: FC<Props> = ({
                 categories={product.categories}
                 color="yellow"
               />
-              <Link to="/curso/${}">
+              <Link to={`/curso/${product.id}`}>
                 <h3>{product.title}</h3>
               </Link>
               {/* <div className="cart-lavel">
@@ -53,13 +51,13 @@ const StoreProduct: FC<Props> = ({
                 </ul>
               </div> */}
               <div className="course-action">
-                <Link to="/curso/${}" className="view-details-btn">
+                <Link to={`/curso/${product.id}`} className="view-details-btn">
                   Ver más
                 </Link>
                 <button className="wishlist-btn">
                   <i className="flaticon-like"></i>
                 </button>
-                <Link to="/curso/${}" className="c-share-btn">
+                <Link to={`/curso/${product.id}`} className="c-share-btn">
                   <i className="flaticon-previous"></i>
                 </Link>
               </div>
@@ -75,9 +73,9 @@ const StoreProduct: FC<Props> = ({
             <span>${product.discount_price}</span>
             <del>${product.price}</del>
           </div> */}
-          <div className="portfolio-course-2">
+          <div className="portfolio-course-2 line-clamp-3">
             <h3>
-              <Link to="/curso/${}">{product.title}</Link>
+              <Link to={`/curso/${product.id}`}>{product.title}</Link>
             </h3>
           </div>
           {/* <p className="text-sm">{product.desc}</p> */}
@@ -86,12 +84,15 @@ const StoreProduct: FC<Props> = ({
       <div className="course-2-footer">
         <div className="coursee-clock">
           <i className="flaticon-clock"></i>
-          <span>{product.duration}</span>
+          <span>{product.duration || "-"} horas</span>
         </div>
 
-        <div className="course-network text-primary">
-          <span>Descubrir</span>
-        </div>
+        <Link
+          to={`/curso/${product.id}`}
+          className="course-network text-primary"
+        >
+          Descubrir
+        </Link>
       </div>
     </div>
   );

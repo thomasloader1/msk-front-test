@@ -23,11 +23,19 @@ const StorePagination: FC<Props> = ({
   return (
     <div className="edu-pagination mt-30 mb-20">
       <ul>
-        <li>
-          <a>
-            <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-          </a>
-        </li>
+        {currentPage > 1 ? (
+          <li
+            onClick={() => onPageChange(currentPage - 1)}
+            className="cursor-pointer"
+          >
+            <a>
+              <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+            </a>
+          </li>
+        ) : (
+          ""
+        )}
+
         {pages.map((page) => {
           return (
             <li
@@ -44,7 +52,10 @@ const StorePagination: FC<Props> = ({
           );
         })}
 
-        <li>
+        <li
+          onClick={() => onPageChange(currentPage + 1)}
+          className="cursor-pointer"
+        >
           <a>
             <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
           </a>

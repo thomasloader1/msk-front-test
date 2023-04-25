@@ -2,11 +2,13 @@ import React, { FC, useEffect, useState } from "react";
 
 interface Props {
   onSearch: (searchTerm: string) => void;
+  onFilter: (selectedOption: string) => void;
   length: number;
 }
 
-const StoreBar: FC<Props> = ({ onSearch, length }) => {
+const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
 
   useEffect(() => {
     if (searchTerm) {
@@ -20,9 +22,14 @@ const StoreBar: FC<Props> = ({ onSearch, length }) => {
     }
   }, [searchTerm, onSearch]);
 
-  function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  }
+  };
+
+  const handleSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value);
+    onFilter(event.target.value);
+  };
   return length ? (
     <div className=" course-bar-up-area">
       <div className="container">
@@ -62,16 +69,15 @@ const StoreBar: FC<Props> = ({ onSearch, length }) => {
                     resultados
                   </div>
                 </div>
-                {/* <div className="couse-dropdown">
+                <div className="couse-dropdown">
                   <div className="course-drop-inner">
-                    <select>
-                      <option>Más nuevos</option>
-                      <option>Más populares</option>
-                      <option>5 Estrellas</option>
-                      <option>Duración</option>
+                    <select onChange={handleSelectOption}>
+                      <option value="">Seleccione una opción</option>
+                      <option value="newer">Más nuevos</option>
+                      <option value="duration">Duración</option>
                     </select>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>

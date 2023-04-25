@@ -12,7 +12,7 @@ export interface Card19Props {
   className?: string;
   ratio?: string;
   titleClass?: string;
-  post: PostDataType;
+  post: any;
   hoverClass?: string;
   showCategories?: boolean;
 }

@@ -39,7 +39,7 @@ const ContactFormSection = () => {
                 </div>
                 <div className="col-xl-6">
                   <div className="contact-from-input ">
-                    <input type="text" placeholder="Phone" />
+                    <input type="text" placeholder="Teléfono" />
                   </div>
                 </div>
                 <div className={`col-xl-6`}>

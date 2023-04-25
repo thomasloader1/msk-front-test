@@ -57,7 +57,7 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
                   </div>
                   <div className="video-corse-info">
                     <span>
-                      {product[data.property as keyof typeof product]}
+                      {/* {product[data.property as keyof typeof product]} */}
                     </span>
                   </div>
                 </li>

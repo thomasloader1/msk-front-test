@@ -9,7 +9,7 @@ import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
 
 export interface Card11Props {
   className?: string;
-  post: PostDataType;
+  post: any;
   ratio?: string;
   hiddenAuthor?: boolean;
 }

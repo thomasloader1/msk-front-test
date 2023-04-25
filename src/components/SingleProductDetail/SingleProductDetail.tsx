@@ -3,7 +3,6 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
-import ProductProgressbar from "./ProductProgressbar";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 import instructorImg from "../../images/avatar/avatar_1.png";
 import BrandSlider from "components/BrandSlider/BrandSlider";

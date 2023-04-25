@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SectionLatestPosts from "./SectionLatestPosts";
-import SectionSliderPosts from "./SectionSliderPosts";
+import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import SectionVideos from "./SectionVideos";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";

@@ -8,7 +8,7 @@ import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 
 export interface Card4Props {
   className?: string;
-  post: PostDataType;
+  post: any;
 }
 
 const Card4: FC<Card4Props> = ({ className = "h-full", post }) => {

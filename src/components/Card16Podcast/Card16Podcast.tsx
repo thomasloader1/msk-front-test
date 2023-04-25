@@ -10,7 +10,7 @@ import NcImage from "components/NcImage/NcImage";
 
 export interface Card16PodcastProps {
   className?: string;
-  post: PostDataType;
+  post: any;
   ratio?: string;
 }
 

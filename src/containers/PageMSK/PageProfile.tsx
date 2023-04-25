@@ -43,6 +43,10 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     setTabActive(item);
   };
 
+  const onPageChange = (page: number) => {
+    console.log("Change", page);
+  };
+
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
       <Helmet>
@@ -100,7 +104,11 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
           {/* PAGINATION */}
           <div className="flex justify-center">
-            <StorePagination />
+            <StorePagination
+              totalPages={4}
+              currentPage={1}
+              onPageChange={onPageChange}
+            />
           </div>
         </main>
         <div className="relative py-16 my-32">

@@ -18,7 +18,7 @@ const MainNav2: FC<MainNav2Props> = () => {
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
           <Logo />
           <div className="hidden sm:block flex-grow max-w-xs">
-            <form action="" method="POST" className="relative">
+            {/* <form action="" method="POST" className="relative">
               <Input
                 type="search"
                 placeholder="Buscar"
@@ -49,7 +49,7 @@ const MainNav2: FC<MainNav2Props> = () => {
                 </svg>
               </span>
               <input type="submit" hidden value="" />
-            </form>
+            </form> */}
           </div>
         </div>
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">

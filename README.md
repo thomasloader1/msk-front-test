@@ -2,9 +2,9 @@
 Las rutas de la app estan en `src/routers/msk.tsx` desde aca se puede ver las pages y components que usa actualmente este sitio
 
 ## Rutas dispobiles de WP
+
+### Home
 - https://wp.msklatam.com/wp-json/wp/api/home -> tiene toda la data en un solo endpoint
-
-
 - https://wp.msklatam.com/wp-json/wp/api/home/hero
 - https://wp.msklatam.com/wp-json/wp/api/home/tarjetas
 - https://wp.msklatam.com/wp-json/wp/api/home/banner
@@ -12,3 +12,14 @@ Las rutas de la app estan en `src/routers/msk.tsx` desde aca se puede ver las pa
 - https://wp.msklatam.com/wp-json/wp/api/home/best-sellers
 - https://wp.msklatam.com/wp-json/wp/api/home/destacados
 - https://wp.msklatam.com/wp-json/wp/api/home/webinar 
+
+### Posteos
+- https://wp.msklatam.com/wp-json/wp/api/posts
+- https://wp.msklatam.com/wp-json/wp/api/posts/id
+
+### Productos
+- https://wp.msklatam.com/wp-json/wp/api/products
+- https://wp.msklatam.com/wp-json/wp/api/product/id
+  
+### Tienda
+- https://wp.msklatam.com/wp-json/wp/api/shop

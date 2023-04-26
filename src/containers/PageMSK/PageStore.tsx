@@ -69,18 +69,34 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: any) => filter.name
     );
-    if (!selectedSpecialties.length) {
+    const selectedProfessions = storeFilters.professions.map(
+      (filter: any) => filter.name
+    );
+    if (!(selectedSpecialties.length || selectedProfessions.length)) {
       setProducts(auxProducts);
     } else {
-      const otrosProductos = products.filter((product) => {
+      const filteredProducts = products.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
         );
-        return selectedSpecialties.every((specialty) =>
+        const prodProfessions = product.professions.map(
+          (profession) => profession.name
+        );
+        const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
+        const professionsMatch = selectedProfessions.every((profession) =>
+          prodProfessions.some((prodProfession) => {
+            console.log(prodProfession, profession);
+            return prodProfession
+              .toLowerCase()
+              .includes(profession.toLowerCase());
+          })
+        );
+
+        return specialtiesMatch && professionsMatch;
       });
-      setProducts(otrosProductos);
+      setProducts(filteredProducts);
     }
   };
 

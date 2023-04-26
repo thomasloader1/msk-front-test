@@ -43,12 +43,18 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   };
 
   const onChangeProfession = (profession: Profession) => {
-    addFilter("professions", profession);
+    const professionExists = storeFilters.professions.filter(
+      (item: Profession) => {
+        return item.name == profession.name;
+      }
+    );
+    if (professionExists.length) removeFilter("professions", profession);
+    else addFilter("professions", profession);
   };
 
   return (
     <section className="container course-content-area pb-90">
-      <div className="grid grid-cols-1 md:grid-cols-[40%_60%] lg:grid-cols-[20%_80%] gap-4 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-[40%_60%] lg:grid-cols-[30%_70%] gap-4 mb-10">
         <div className="flex flex-col">
           <StoreSideBar
             specialties={specialties}

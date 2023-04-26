@@ -1,5 +1,4 @@
-import React, { FC, useReducer } from "react";
-import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+import { FC, useReducer } from "react";
 import { Profession, Specialty } from "data/types";
 
 const initialState = {
@@ -75,14 +74,6 @@ const StoreSideBar: FC<Props> = ({
             Categorías
           </h3>
           <ul>
-            <li>
-              <div className="course-sidebar-list">
-                <input className="edu-check-box" type="checkbox" id="todas" />
-                <label className="edu-check-label" htmlFor="todas">
-                  Ver todas
-                </label>
-              </div>
-            </li>
             {specialties.map((specialty, index) => {
               return (
                 <li key={index}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import BlogSummary from "./home/BlogSummary";
 import { Helmet } from "react-helmet";
@@ -11,10 +11,20 @@ import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGri
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/MSK/courses";
-import { POSTS } from "data/blog";
 import { SPECIALTIES } from "data/MSK/specialties";
+import axios from "axios";
+import { POSTS } from "data/blog";
 
 const PageHome: React.FC = () => {
+  const [posts, setPosts] = useState([]);
+  const fetchPosts = async () => {
+    const res = await axios.get("https://wp.msklatam.com/wp-json/wp/api/posts");
+    setPosts(res.data);
+    console.log("TRAIGO", res.data);
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   return (
     <div className="nc-PageHome relative">
       {/* === SEO === */}

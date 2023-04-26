@@ -105,7 +105,7 @@ export const pages: Page[] = [
   { path: "/forgot-pass", component: PageForgotPass },
   { path: "/dashboard", component: PageDashboard },
   { path: "/subscription", component: PageSubcription },
-  { path: "/store", component: PageStore },
+  // { path: "/store", component: PageStore },
   { path: "/curso/:slug", component: PageSingleProduct },
   //
   { path: "/home-demo-2", component: PageHomeDemo2 },

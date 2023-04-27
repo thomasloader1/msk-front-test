@@ -204,4 +204,7 @@ export type ContactUs = {
   Email: string;
   Profession: string;
   Message: string;
+  Specialty: string;
+  Phone: string;
+  Contact_Method: string;
 }

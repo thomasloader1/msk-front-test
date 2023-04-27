@@ -3,22 +3,26 @@ import Card18 from "components/Card18/Card18";
 import Heading from "components/Heading/Heading";
 import { DEMO_POSTS_NEWS } from "data/posts";
 import { DEMO_CATEGORIES } from "data/taxonomies";
-import { PostDataType, TaxonomyType, TwMainColor } from "data/types";
+import { FetchPostType, TaxonomyType, TwMainColor } from "data/types";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
-const postsDemo1: PostDataType[] = DEMO_POSTS_NEWS.filter(
-  (_, i) => i > 0 && i < 6
-);
-const postsDemo2: PostDataType[] = DEMO_POSTS_NEWS.filter(
-  (_, i) => i > 5 && i < 11
-);
-const postsDemo3: PostDataType[] = DEMO_POSTS_NEWS.filter(
-  (_, i) => i > 11 && i < 17
-);
+const postsDemo1: FetchPostType[] = [];
+const postsDemo2: FetchPostType[] = [];
+const postsDemo3: FetchPostType[] = [];
+
+// const postsDemo1: FetchPostType[] = DEMO_POSTS_NEWS.filter(
+//   (_, i) => i > 0 && i < 6
+// );
+// const postsDemo2: FetchPostType[] = DEMO_POSTS_NEWS.filter(
+//   (_, i) => i > 5 && i < 11
+// );
+// const postsDemo3: FetchPostType[] = DEMO_POSTS_NEWS.filter(
+//   (_, i) => i > 11 && i < 17
+// );
 
 export interface SectionMagazine11Props {
-  posts?: PostDataType[][];
+  posts?: FetchPostType[][];
   className?: string;
   categories?: TaxonomyType[];
 }
@@ -30,7 +34,7 @@ const SectionMagazine11: FC<SectionMagazine11Props> = ({
 }) => {
   const renderListByCat = (
     category: TaxonomyType,
-    listPosts: PostDataType[]
+    listPosts: FetchPostType[]
   ) => {
     return (
       <div key={category.id} className={`flex flex-col space-y-4`}>
@@ -63,9 +67,9 @@ const SectionMagazine11: FC<SectionMagazine11Props> = ({
                     name={""}
                     color={category.color as TwMainColor}
                   />
-                  <Link to={post.href} title={post.title} className="flex">
+                  {/* <Link to={post.href} title={post.title} className="flex">
                     {post.title}
-                  </Link>
+                  </Link> */}
                 </h2>
               </li>
             ))}

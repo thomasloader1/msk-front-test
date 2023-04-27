@@ -45,6 +45,34 @@ export interface User {
   href: string;
 }
 
+export interface PostAuthor {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  categories: PostCategory[];
+}
+
+export interface PostCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+}
+
+export interface FetchPostType {
+  id: number;
+  date: string;
+  link: string;
+  title: string;
+  excerpt: string;
+  thumbnail: string;
+  image?: string;
+  categories: PostCategory[];
+  tags: string[];
+  author: PostAuthor;
+}
+
 export interface PostDataType {
   id: string | number;
   author: PostAuthorType;
@@ -151,6 +179,11 @@ export interface Profession {
 }
 
 export interface Specialty {
+  id: number;
+  name: string;
+}
+
+export interface DurationFilter {
   id: number;
   name: string;
 }

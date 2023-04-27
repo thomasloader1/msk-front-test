@@ -54,7 +54,7 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = "" }) => {
 
   return (
     <div className={`nc-SectionHero3 ${className}`}>
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No encontramos publicaciones.!</span>}
       {posts.length && renderMain()}
       {posts.length > 1 && renderSubPosts()}
     </div>

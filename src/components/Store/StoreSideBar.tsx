@@ -57,9 +57,9 @@ const StoreSideBar: FC<Props> = ({
   ];
 
   const duration = [
-    { label: "Hasta 100 horas", id: "less_100" },
-    { label: "De 100 a 300 horas", id: "100_to_300" },
-    { label: "Más de 300 horas", id: "more_300" },
+    { name: "Hasta 100 horas", id: 1 },
+    { name: "De 100 a 300 horas", id: 2 },
+    { name: "Más de 300 horas", id: 3 },
   ];
 
   return (
@@ -177,10 +177,13 @@ const StoreSideBar: FC<Props> = ({
                     <input
                       className="edu-check-box"
                       type="checkbox"
-                      id={item.id}
+                      id={`dur_${item.id}`}
                     />
-                    <label className="edu-check-label" htmlFor={item.id}>
-                      {item.label}
+                    <label
+                      className="edu-check-label"
+                      htmlFor={`dur_${item.id}`}
+                    >
+                      {item.name}
                     </label>
                   </div>
                 </li>

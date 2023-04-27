@@ -23,7 +23,7 @@ import PageBlog from "containers/PageMSK/PageBlog";
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
   { path: "/blog", exact: true, component: PageBlog },
-  { path: "/blog/1", component: PageSingleHasSidebar },
+  { path: "/blog/:slug", component: PageSingleHasSidebar },
   { path: "/#", exact: true, component: PageHome },
   //
   { path: "/mision", component: PageMission },

@@ -4,6 +4,7 @@ import { HOME_COURSES } from "data/MSK/courses";
 import { FetchCourseType } from "data/types";
 import axios from "axios";
 import LoadingText from "components/Loader/Text";
+import { API_URL } from "data/api";
 
 const PageSingleProduct = () => {
   const slug = window.location.pathname.split("/").pop();
@@ -11,10 +12,12 @@ const PageSingleProduct = () => {
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
+    console.log("AAAA");
     if (slug) {
       axios
-        .get(`https://wp.msklatam.com/wp-json/wp/api/product/${slug}`)
+        .get(`${API_URL}/product/${slug}`)
         .then((response) => {
+          console.log("AAAA", response.data);
           setLoading(false);
           setProduct(response.data.products[0]);
         })

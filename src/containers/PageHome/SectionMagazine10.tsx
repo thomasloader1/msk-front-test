@@ -32,7 +32,7 @@ const SectionMagazine10: FC<SectionMagazine10Props> = ({
           onClickTab={handleClickTab}
         />
       )}
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No encontramos publicaciones.!</span>}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-5 gap-5">
           {posts

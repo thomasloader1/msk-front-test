@@ -32,7 +32,7 @@ const SectionMagazine5: FC<SectionMagazine5Props> = ({
         heading={heading}
         onClickTab={handleClickTab}
       />
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No encontramos publicaciones.!</span>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-7">
         {posts[0] && <Card12 post={posts[0]} />}
         <div className="grid grid-cols-1 gap-5 md:gap-7">

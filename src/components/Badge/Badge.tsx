@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export interface BadgeProps {
   className?: string;
   name: ReactNode;
-  color?: TwMainColor;
+  color?: TwMainColor | string;
   href?: string;
 }
 
@@ -53,6 +53,34 @@ const Badge: FC<BadgeProps> = ({
         }`;
       case "blue":
         return `text-blue-800 bg-blue-100 ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "blue-post":
+        return `text-neutral-900 bg-blue-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "yellow-strong-post":
+        return `text-neutral-900 bg-yellow-strong-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "yellow-post":
+        return `text-neutral-900 bg-yellow-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "orange-post":
+        return `text-neutral-900 bg-orange-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "red-post":
+        return `text-neutral-900 bg-red-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "emerald-post":
+        return `text-neutral-900 bg-emerald-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
+      case "brown-post":
+        return `text-neutral-900 bg-brown-post ${
           hasHover ? "hover:bg-blue-800" : ""
         }`;
       default:

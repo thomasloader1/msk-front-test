@@ -61,7 +61,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   uniqueSliderClass,
 }) => {
   const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
-  const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
+  // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
   const MY_GLIDE = new Glide(`.${UNIQUE_CLASS}`, {
     // @ts-ignore
@@ -162,16 +162,18 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         {renderHeading()}
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {top_picks.map((item: any, index: number) => (
-              <li
-                key={index}
-                className={`glide__slide h-auto  ${
-                  sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
-                }`}
-              >
-                <CardName post={item} showDescription />
-              </li>
-            ))}
+            {posts
+              .filter((_: any, i: number) => i < 6 && i >= 1)
+              .map((item: any, index: number) => (
+                <li
+                  key={index}
+                  className={`glide__slide h-auto  ${
+                    sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
+                  }`}
+                >
+                  <CardName post={item} showDescription />
+                </li>
+              ))}
           </ul>
         </div>
         {sliderStype === "style2" && (

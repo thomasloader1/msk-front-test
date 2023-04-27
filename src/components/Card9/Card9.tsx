@@ -1,13 +1,7 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
 import { Link } from "react-router-dom";
-import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
-import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import { CourseDataType } from "data/types";
 
 export interface Card9Props {
   className?: string;
@@ -26,16 +20,12 @@ const Card9: FC<Card9Props> = ({
   showDescription = false,
   badgeColor = "yellow",
 }) => {
-  const {
-    title,
-    href,
-    featuredImage,
-    categories,
-    author,
-    date,
-    postType,
-    desc,
-  } = post;
+  const { title, categories, id, image } = post;
+
+  // const author = {
+  //   href: "",
+  //   displayName: "",
+  // };
 
   const renderMeta = () => {
     return (
@@ -46,25 +36,16 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h2>
-          {author && author.href ? (
-            <Link to={author.href} className="flex mt-2.5 relative">
-              <span className="block text-neutral-200 hover:text-white font-medium truncate">
-                {author.displayName}
-              </span>
-              <span className="mx-[6px] font-medium">·</span>
-              <span className="font-normal truncate">{date}</span>
-            </Link>
-          ) : (
-            <>
+
+          {/* <>
               {showDescription ? (
                 <div className="hidden sm:block mt-2">
                   <span className="text-neutral-300 text-sm line-clamp-1">
-                    {desc}
+                    {author}
                   </span>
                 </div>
               ) : null}
-            </>
-          )}
+            </> */}
         </div>
       </div>
     );
@@ -80,20 +61,20 @@ const Card9: FC<Card9Props> = ({
         <PostCardSaveAction className="relative" postData={post} />
       </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>
-      <Link to={href}>
+      <Link to={`/curso/${id}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-3xl"
           className="object-cover w-full h-full rounded-3xl"
-          src={featuredImage}
+          src={image}
         />
         <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
       </Link>
       <Link
-        to={href}
+        to={`/curso/${id}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
-        <Link to={href} className="absolute inset-0"></Link>
+        <Link to={`/curso/${id}`} className="absolute inset-0"></Link>
         <div className="mb-3">
           <CategoryBadgeList categories={categories} color={badgeColor} />
         </div>

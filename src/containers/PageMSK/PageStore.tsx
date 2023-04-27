@@ -1,22 +1,19 @@
+import { FC, useEffect, useState } from "react";
 import StoreLayout from "./store/StoreLayout";
-import { CheckIcon } from "@heroicons/react/solid";
-import React, { FC, useEffect, useState } from "react";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ButtonSecondary from "components/Button/ButtonSecondary";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
-import { HOME_COURSES } from "data/MSK/courses";
 import axios from "axios";
-import Skeleton from "components/Skeleton/Skeleton";
 import LoadingImage from "components/Loader/Image";
+import { Helmet } from "react-helmet";
 import { FetchCourseType } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreContext";
+import { API_URL } from "data/api";
 
-export interface PageSubcriptionProps {
+export interface PageStoreProps {
   className?: string;
 }
 
-const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
+const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [isLoading, setLoading] = useState(false);
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
   const [products, setProducts] = useState<FetchCourseType[]>([]);
@@ -28,7 +25,7 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://wp.msklatam.com/wp-json/wp/api/products")
+      .get(`${API_URL}/products`)
       .then((response) => {
         setLoading(false);
         setAuxProducts([...response.data.products]);
@@ -159,10 +156,18 @@ const PageStore: FC<PageSubcriptionProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
   return (
-    <div
-      className={`nc-PageSubcription ${className}`}
-      data-nc-id="PageSubcription"
-    >
+    <div className={`nc-PageStore ${className}`} data-nc-id="PageStore">
+      {/* === SEO === */}
+      <Helmet>
+        <html lang="es" />
+        <title>MSK | Tienda</title>
+        <meta
+          name="description"
+          content="Una propuesta moderna para expandir tus metas profesionales"
+        />
+      </Helmet>
+      {/* === END SEO === */}
+
       <StoreLayout
         subHeading="Pricing to fit the needs of any companie size."
         headingEmoji="💎"

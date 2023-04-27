@@ -10,20 +10,29 @@ import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { HOME_COURSES, TABS_BLOG, TABS_HOME } from "data/MSK/courses";
+import { TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
-import { POSTS } from "data/blog";
+import { API_URL } from "data/api";
 
 const PageHome: React.FC = () => {
   const [posts, setPosts] = useState([]);
+  const [courses, setCourses] = useState([]);
   const fetchPosts = async () => {
-    const res = await axios.get("https://wp.msklatam.com/wp-json/wp/api/posts");
-    setPosts(res.data);
-    console.log("TRAIGO", res.data);
+    const res = await axios.get(`${API_URL}/posts`);
+    const formattedPosts = res.data.posts.map((post: any) => ({
+      ...post,
+      image: post.thumbnail,
+    }));
+    setPosts(formattedPosts);
+  };
+  const fetchCourses = async () => {
+    const res = await axios.get(`${API_URL}/products`);
+    setCourses(res.data.products);
   };
   useEffect(() => {
     fetchPosts();
+    fetchCourses();
   }, []);
   return (
     <div className="nc-PageHome relative">
@@ -66,7 +75,7 @@ const PageHome: React.FC = () => {
           <CoursesForYou
             className="py-16 lg:py-28"
             heading="Oportunidades para ti"
-            courses={HOME_COURSES}
+            courses={courses}
             tabs={TABS_HOME}
           />
           {/* === SECTION 3 === */}
@@ -79,14 +88,14 @@ const PageHome: React.FC = () => {
               heading="Nuestros cursos mas elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
-              posts={HOME_COURSES}
+              posts={posts}
               uniqueSliderClass="pageHome-section6"
             />
           </div>
           {/* === SECTION 4 === */}
           <BlogSummary
             className="py-16 lg:py-28"
-            posts={POSTS}
+            posts={posts}
             tabs={TABS_BLOG}
           />
         </div>

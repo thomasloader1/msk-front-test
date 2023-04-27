@@ -4,7 +4,7 @@ export interface LocationStates {
   "/"?: {};
   "/home"?: {};
   "/blog"?: {};
-  "/blog/1"?: {};
+  "/blog/:slug"?: {};
   "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};
@@ -43,6 +43,7 @@ export interface LocationStates {
   "/dashboard"?: {};
   "/subscription"?: {};
   "/tienda"?: {};
+  "/store"?: {};
   "/curso/:slug"?: {};
   //
   "/theme-cyan-blueGrey"?: {};

@@ -49,7 +49,7 @@ const PageHomeDemo6: React.FC = () => {
       <div className="relative overflow-hidden">
         {/* ======= START CONTAINER ============= */}
         <div className="container relative">
-          <SectionMagazine10 tabs={[]} heading="" posts={MAGAZINE1_POSTS} />
+          {/* <SectionMagazine10 tabs={[]} heading="" posts={MAGAZINE1_POSTS} /> */}
           {/* === SECTION 9 === */}
           <SectionMagazine9
             gapClassName="gap-6"
@@ -60,12 +60,12 @@ const PageHomeDemo6: React.FC = () => {
           <SectionAds imgAds={imgAds} className="pt-16 lg:pt-24" />
 
           {/* === SECTION 4 === */}
-          <SectionMagazine2
+          {/* <SectionMagazine2
             className="pt-16 lg:pt-24"
             heading="Latest Articles"
             posts={MAGAZINE2_POSTS}
             tabs={MAGAZINE1_TABS}
-          />
+          /> */}
 
           {/* === SECTION 11 === */}
           <SectionMagazine11 className="py-16 lg:py-24" />

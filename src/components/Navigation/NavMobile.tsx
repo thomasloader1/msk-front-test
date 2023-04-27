@@ -37,24 +37,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
               isChild ? "" : "uppercase tracking-wide"
             }`}
           >
-            <NavLink
-              exact
-              strict
-              className="py-2.5 px-4 select-none"
-              to={{
-                pathname: item.href || undefined,
-              }}
-              activeClassName="text-secondary"
-            >
-              {item.name}
-            </NavLink>
-
             <Disclosure.Button
               as="button"
-              className="py-2.5 px-4 flex flex-1 justify-end select-none focus:outline-none focus:ring-0"
+              className="py-2.5 px-4 flex flex-1 justify-end select-none focus:outline-none focus:ring-0 uppercase"
             >
+              {item.name}
               <ChevronDownIcon
-                className="ml-2 h-4 w-4 text-neutral-500"
+                className="ml-auto h-4 w-4 text-neutral-500"
                 aria-hidden="true"
               />
             </Disclosure.Button>

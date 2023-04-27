@@ -10,7 +10,7 @@ const ContactFormSection = () => {
         <div className="contact-area-wrapper">
           <div className={`section-title mb-50`}>
             <h2>Contáctanos</h2>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-6">
               <p className="text-gray-400">Quiero hablar por</p>
               <div className="mt-1 flex gap-4">
                 <Checkbox name="telephone" label="Teléfono" />

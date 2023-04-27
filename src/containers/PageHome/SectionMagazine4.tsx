@@ -31,11 +31,11 @@ const SectionMagazine4: FC<SectionMagazine4Props> = ({
         onClickTab={handleClickTab}
       />
 
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No encontramos publicaciones.!</span>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-        {posts[0] && (
+        {/* {posts[0] && (
           <Card8 className="sm:col-span-2 rounded-3xl" post={posts[0]} />
-        )}
+        )} */}
         {posts
           .filter((_, i) => i < 3 && i >= 1)
           .map((item, index) => (
@@ -46,7 +46,7 @@ const SectionMagazine4: FC<SectionMagazine4Props> = ({
           .map((item, index) => (
             <Card9 key={index} post={item} showDescription />
           ))}
-        {posts[5] && <Card8 className="sm:col-span-2" post={posts[5]} />}
+        {/* {posts[5] && <Card8 className="sm:col-span-2" post={posts[5]} />} */}
       </div>
     </div>
   );

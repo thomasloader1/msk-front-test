@@ -1,10 +1,11 @@
 import axios from "axios";
-import { Profession, Specialty } from "data/types";
+import { DurationFilter, Profession, Specialty } from "data/types";
 import React, { createContext, useReducer, useContext } from "react";
 
 type Filter = {
   specialties: Specialty[];
   professions: Profession[];
+  duration: DurationFilter[];
 };
 
 type State = {
@@ -16,14 +17,14 @@ type Action =
       type: "ADD_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession;
+        filterValue: Specialty | Profession | DurationFilter;
       };
     }
   | {
       type: "REMOVE_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession;
+        filterValue: Specialty | Profession | DurationFilter;
       };
     };
 
@@ -31,11 +32,11 @@ type ContextType = {
   storeFilters: Filter;
   addFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession
+    filterValue: Specialty | Profession | DurationFilter
   ) => void;
   removeFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession
+    filterValue: Specialty | Profession | DurationFilter
   ) => void;
 };
 
@@ -67,6 +68,7 @@ const StoreFiltersContext = createContext<ContextType>({
   storeFilters: {
     specialties: [],
     professions: [],
+    duration: [],
   },
   addFilter: () => {},
   removeFilter: () => {},
@@ -76,6 +78,7 @@ const initialState: State = {
   storeFilters: {
     specialties: [],
     professions: [],
+    duration: [],
   },
 };
 
@@ -114,14 +117,14 @@ function StoreFiltersProvider(props: { children: React.ReactNode }) {
 
   function addFilter(
     filterType: keyof Filter,
-    filterValue: Specialty | Profession
+    filterValue: Specialty | Profession | DurationFilter
   ) {
     dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
   }
 
   function removeFilter(
     filterType: keyof Filter,
-    filterValue: Specialty | Profession
+    filterValue: Specialty | Profession | DurationFilter
   ) {
     dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
   }

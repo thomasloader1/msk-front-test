@@ -26,8 +26,8 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
       ) : null}
       <div className="flex items-center justify-between">
         <Nav
-          className="sm:space-x-2"
-          containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base"
+          className="sm:space-x-2 md:flex-nowrap flex-wrap gap-2"
+          containerClassName="relative flex text-sm md:text-base"
         >
           {tabs.map((item, index) => (
             <NavItem

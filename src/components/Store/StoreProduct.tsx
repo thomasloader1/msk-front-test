@@ -74,9 +74,9 @@ const StoreProduct: FC<Props> = ({
             <del>${product.price}</del>
           </div> */}
           <div className="portfolio-course-2 line-clamp-3">
-            <h3>
-              <Link to={`/curso/${product.id}`}>{product.title}</Link>
-            </h3>
+            <Link to={`/curso/${product.id}`}>
+              <h3 className="font-bold text-sm">{product.title}</h3>
+            </Link>
           </div>
           {/* <p className="text-sm">{product.desc}</p> */}
         </div>
@@ -89,7 +89,7 @@ const StoreProduct: FC<Props> = ({
 
         <Link
           to={`/curso/${product.id}`}
-          className="course-network text-primary"
+          className="course-network text-primary font-bold"
         >
           Descubrir
         </Link>

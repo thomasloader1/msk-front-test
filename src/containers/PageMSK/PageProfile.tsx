@@ -1,40 +1,42 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { DEMO_POSTS } from "data/posts";
-import { PostAuthorType, PostDataType } from "data/types";
-import Pagination from "components/Pagination/Pagination";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import { DEMO_AUTHORS } from "data/authors";
+import { FetchPostType, PostAuthorType, PostDataType } from "data/types";
 import Nav from "components/Nav/Nav";
 import NavItem from "components/NavItem/NavItem";
 import Avatar from "components/Avatar/Avatar";
-import SocialsList from "components/SocialsList/SocialsList";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 import { Helmet } from "react-helmet";
-import SectionSubscribe2 from "components/SectionSubscribe2/SectionSubscribe2";
-import Card11 from "components/Card11/Card11";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
-import { DEMO_CATEGORIES } from "data/taxonomies";
-import ButtonSecondary from "components/Button/ButtonSecondary";
-import SectionSliderNewAuthors from "components/SectionSliderNewAthors/SectionSliderNewAuthors";
-import NcImage from "components/NcImage/NcImage";
 import { USERS } from "data/users";
-import Card1 from "components/Card1/Card1";
 import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import { HOME_COURSES } from "data/MSK/courses";
+import axios from "axios";
+import { API_URL } from "data/api";
 
 export interface PageAuthorProps {
   className?: string;
 }
-const posts: PostDataType[] = DEMO_POSTS.filter((_, i) => i < 12);
 const USER: PostAuthorType = USERS[0];
 const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Todo", "Mis cursos", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
+  const [posts, setPosts] = useState<FetchPostType[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
+  const fetchPosts = async () => {
+    const res = await axios.get(`${API_URL}/posts`);
+    const formattedPosts = res.data.posts.map((post: any) => ({
+      ...post,
+      image: post.thumbnail,
+    }));
+    setPosts(formattedPosts);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleClickTab = (item: string) => {
     if (item === tabActive) {

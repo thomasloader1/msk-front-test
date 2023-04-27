@@ -37,14 +37,14 @@ import PageHomeDemo6 from "containers/PageHome/PageHomeDemo6";
 import PageHomeDemo7 from "containers/PageHome/PageHomeDemo7";
 import PageSingleTemp4Sidebar from "containers/PageSingle/PageSingleTemp4Sidebar";
 import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
-import CustomHome from "containers/PageHome/CustomHome";
+// import CustomHome from "containers/PageHome/CustomHome";
 import FooterEduman from "components/Footer/FooterMSK";
 import PageStore from "containers/PageMSK/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
 
 export const pages: Page[] = [
-  { path: "/", exact: true, component: CustomHome },
-  { path: "/#", exact: true, component: CustomHome },
+  { path: "/", exact: true, component: PageHome },
+  { path: "/#", exact: true, component: PageHome },
   //
   { path: "/home-header-style1", exact: true, component: PageHome },
   { path: "/home-header-style2", exact: true, component: PageHome },

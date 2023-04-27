@@ -9,7 +9,7 @@ function App() {
     const fetchData = async () => {
       const request = await fetch(`${VITE_OM_WP_API}/categories`);
       const data = await request.json();
-      console.log({ data });
+      // console.log({ data });
     };
 
     fetchData();

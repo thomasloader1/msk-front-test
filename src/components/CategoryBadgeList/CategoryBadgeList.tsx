@@ -13,7 +13,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   className = "flex flex-wrap",
   itemClass,
   categories,
-  color,
+  color = "yellow",
 }) => {
   return (
     <div
@@ -21,7 +21,12 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       data-nc-id="CategoryBadgeList"
     >
       {categories.map((item, index) => (
-        <Badge className={itemClass} key={index} name={item.name} />
+        <Badge
+          className={itemClass}
+          key={index}
+          name={item.name}
+          color={color}
+        />
       ))}
     </div>
   );

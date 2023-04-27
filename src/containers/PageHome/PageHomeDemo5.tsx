@@ -66,11 +66,11 @@ const PageHomeDemo5: React.FC = () => {
           </div>
 
           {/* === SECTION 4 === */}
-          <SectionMagazine2
+          {/* <SectionMagazine2
             className="py-16 lg:py-28"
             posts={MAGAZINE2_POSTS}
             tabs={MAGAZINE1_TABS}
-          />
+          /> */}
 
           {/* === SECTION 3 === */}
           <SectionAds />
@@ -111,12 +111,12 @@ const PageHomeDemo5: React.FC = () => {
           </div>
 
           {/* === SECTION 11 === */}
-          <SectionMagazine4
+          {/* <SectionMagazine4
             className="py-16 lg:py-28"
             heading="Life styles 🎨 "
             posts={MAGAZINE2_POSTS}
             tabs={MAGAZINE1_TABS}
-          />
+          /> */}
 
           {/* === SECTION 12 === */}
           <div className="relative py-16">

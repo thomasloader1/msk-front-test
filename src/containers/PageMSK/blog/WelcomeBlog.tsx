@@ -2,13 +2,13 @@ import React, { FC, useState } from "react";
 import HeaderFilter from "./HeaderFilter";
 import Card19 from "components/Card19/Card19";
 import Card18 from "components/Card18/Card18";
-import { PostDataType } from "data/types";
+import { FetchPostType, PostDataType } from "data/types";
 import { CourseDataType } from "data/types";
 import Heading from "components/Heading/Heading";
 
 interface WelcomeBlogProps {
   tabs: string[];
-  posts: any[];
+  posts: FetchPostType[];
   heading?: string;
   className?: string;
 }
@@ -44,7 +44,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
           onClickTab={handleClickTab}
         />
       )}
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No hay posts disponibles</span>}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         {posts[0] && <Card19 className="" post={posts[0]} />}
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-5 gap-5">

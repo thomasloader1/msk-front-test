@@ -93,7 +93,7 @@ const SectionMagazine6: FC<SectionMagazine6Props> = ({
         heading={heading}
         onClickTab={handleClickTab}
       />
-      {!posts.length && <span>Nothing we found!</span>}
+      {!posts.length && <span>No encontramos publicaciones.!</span>}
       {posts[0] && renderMain()}
     </div>
   );

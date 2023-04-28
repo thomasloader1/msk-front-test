@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ContactUs, SignUp } from 'data/types';
+import { ContactUs, SignUp,Newsletter } from 'data/types';
 import { Login } from 'data/types';
 
 const baseURLLocal = 'http://localhost:8000/api/crm'
@@ -62,6 +62,15 @@ class ApiService {
     }
   };
 
+  async postNewsletter(jsonData: Newsletter){
+    try {
+      const { data } = await axios.post(`${baseURLLocal}/CreateLeadHomeNewsletter`,jsonData);
+      return data;
+      // return jsonData;
+    } catch (e) {
+      return e;
+    }
+  };
   // Aquí puedes agregar más métodos según tus necesidades
 }
 

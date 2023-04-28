@@ -5,7 +5,6 @@ import Checkbox from "components/Checkbox/Checkbox";
 import Radio from "components/Radio/Radio";
 import {ContactUs} from '../../data/types';
 import api from '../../Services/api';
-import axios from 'axios';
 // import 'react-intl-tel-input/dist/main.css';
 // import IntlTelInput from 'react-intl-tel-input';
 

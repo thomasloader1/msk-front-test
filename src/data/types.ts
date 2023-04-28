@@ -208,3 +208,7 @@ export type ContactUs = {
   Phone: string;
   Contact_Method: string;
 }
+
+export type Newsletter = {
+  Email: string;
+}

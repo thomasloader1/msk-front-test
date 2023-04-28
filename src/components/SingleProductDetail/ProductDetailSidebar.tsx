@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import React, { FC, useState } from "react";
-import { FetchCourseType } from "data/types";
+import { Details, FetchCourseType, Ficha } from "data/types";
 
 interface Props {
-  product: FetchCourseType;
+  ficha: Ficha;
+  details: Details;
 }
 
-const ProductDetailSidebar: FC<Props> = ({ product }) => {
+const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openVideoModal = () => setIsOpen(!isOpen);
 
@@ -41,25 +42,27 @@ const ProductDetailSidebar: FC<Props> = ({ product }) => {
     <div className="course-video-widget">
       <div className="course-widget-wrapper mb-30">
         <div className="course-video-thumb w-img hidden lg:flex">
-          <img src={product.image} alt="img not found" />
+          <img src={ficha.image} alt="img not found" />
         </div>
         <div className="course-video-price">
           <span>💳 Pagos sin intereses</span>
         </div>
         <div className="course-video-body">
           <ul>
-            {courseData.map((data, index) => {
+            {Object.keys(details).map((key, index) => {
               return (
                 <li key={`data_${index}`}>
                   <div className="course-vide-icon">
-                    <img src={data.icon} />
-                    <span>{data.title}</span>
-                  </div>
-                  <div className="video-corse-info">
+                    <img
+                      src={details[key as keyof typeof details].icon}
+                      width="15"
+                    />
                     <span>
-                      {/* {product[data.property as keyof typeof product]} */}
+                      {details[key as keyof typeof details].value}{" "}
+                      {key == "duration" ? "horas" : ""}
                     </span>
                   </div>
+                  <div className="video-corse-info"></div>
                 </li>
               );
             })}

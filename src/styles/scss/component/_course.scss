@@ -1091,12 +1091,22 @@
 		font-size: 14px;
 	}
 }
-.course-meta-img img {
-	width: 50px;
-	height: 50px;
-	border: 3px solid $white;
-	box-shadow: 0px 3px 10px rgba(17, 32, 81, 0.08);
-	border-radius: 50%;
+
+.course-meta-img {
+	position: relative;
+	min-width: 50px;
+	min-height: 50px;
+	overflow: hidden;
+	margin-right: 8px;
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover; 
+		border-radius: 50%;
+	}
 }
 .course-detelis-meta {
 	display: flex;
@@ -1210,23 +1220,30 @@
 }
 .instructors-heading {
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
 	margin-bottom: 15px;
 	gap: 20px;
 	.instructors-img {
-		width: 100px;
+		position: relative;
+		min-width: 78px;
+		min-height: 78px;
+		overflow: hidden;
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover; 
+			border-radius: 50%;
+		}
 	}
 }
 .course-instructors {
 	padding: 25px 30px 25px 30px;
 	border-radius: 5px;
 }
-.instructors-img {
-	img {
-		margin-bottom: 5px;
-	}
-}
+
 .course-instructors {
 	h3 {
 		margin-bottom: 20px;

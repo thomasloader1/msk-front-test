@@ -13,12 +13,12 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
   return (
     <div className="course-instructors">
       <div className="instructors-heading">
-        <div className="instructors-img w-img">
-          <img src={instructor.img} alt="img not found" />
+        <div className="instructors-img">
+          <img src={instructor.image} alt="img not found" />
         </div>
         <div className="instructors-body">
           <h5>{instructor.name}</h5>
-          <p className="mt-2">{instructor.role}</p>
+          <p className="mt-2">{instructor.description}</p>
           <p
             onClick={triggerDisplayBiography}
             className="text-primary font-semibold mt-2 text-sm cursor-pointer"

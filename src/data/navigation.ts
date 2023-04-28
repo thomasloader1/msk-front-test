@@ -449,22 +449,22 @@ const aboutMenu: NavItemType[] = [
 const resourcesMenu: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/tienda",
+    href: "/guias-profesionales",
     name: "Guías profesionales",
   },
   {
     id: ncNanoId(),
-    href: "/tienda",
+    href: "/blog",
     name: "Blog",
   },
   {
     id: ncNanoId(),
-    href: "/tienda",
+    href: "/webinars",
     name: "Webinars",
   },
   {
     id: ncNanoId(),
-    href: "/tienda",
+    href: "/podcasts",
     name: "Podcasts",
   },
 ];
@@ -472,14 +472,14 @@ const resourcesMenu: NavItemType[] = [
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/about",
+    href: "/tienda",
     name: "Qué ofrecemos",
     type: "dropdown",
     children: aboutMenu,
   },
   {
     id: ncNanoId(),
-    href: "/about",
+    href: "/recursos",
     name: "Recursos",
     type: "dropdown",
     children: resourcesMenu,

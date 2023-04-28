@@ -34,6 +34,16 @@ const PageHome: React.FC = () => {
     fetchPosts();
     fetchCourses();
   }, []);
+
+  const scrollToContactForm = () => {
+    const contactForm = document.getElementById("contactanos");
+    if (contactForm) {
+      window.scrollTo({
+        top: document.getElementById("contactanos")!.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <div className="nc-PageHome relative">
       {/* === SEO === */}
@@ -53,6 +63,7 @@ const PageHome: React.FC = () => {
             rightImg={rightImg}
             className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
             btnText="Comienza tu experiencia"
+            btnOnClick={scrollToContactForm}
             heading={
               <span>
                 Una propuesta moderna
@@ -79,7 +90,7 @@ const PageHome: React.FC = () => {
             tabs={TABS_HOME}
           />
           {/* === SECTION 3 === */}
-          <HomeExtraInfo />
+          <HomeExtraInfo btnOnClick={scrollToContactForm} />
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />

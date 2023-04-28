@@ -37,7 +37,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       });
 
     axios
-      .get("https://msklatam.com/msk-laravel/public/api/professions")
+      .get("https://www.msklatam.com/msk-laravel/public/api/store/professions")
       .then((response) => {
         setProfessions(response.data);
       })

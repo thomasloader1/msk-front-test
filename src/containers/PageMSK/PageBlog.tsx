@@ -32,7 +32,7 @@ const PageBlog: React.FC = () => {
   return (
     <div className="nc-PageHome relative">
       <Helmet>
-        <title>PageBlog | MSK</title>
+        <title>MSK | Blog</title>
       </Helmet>
 
       {/* ======== ALL SECTIONS ======== */}

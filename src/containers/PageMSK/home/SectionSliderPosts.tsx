@@ -163,7 +163,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
             {posts
-              .filter((_: any, i: number) => i < 6 && i >= 1)
+              // .filter((_: any, i: number) => i < 6 && i >= 1)
               .map((item: any, index: number) => (
                 <li
                   key={index}

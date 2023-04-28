@@ -1,25 +1,23 @@
 import SingleProductDetail from "components/SingleProductDetail/SingleProductDetail";
 import React, { useEffect, useState } from "react";
 import { HOME_COURSES } from "data/MSK/courses";
-import { FetchCourseType } from "data/types";
+import { FetchCourseType, FetchSingleProduct } from "data/types";
 import axios from "axios";
 import LoadingText from "components/Loader/Text";
 import { API_URL } from "data/api";
 
 const PageSingleProduct = () => {
-  const slug = window.location.pathname.split("/").pop();
-  const [product, setProduct] = useState<FetchCourseType>();
+  const slug = window.location.href.split("/").pop();
+  const [product, setProduct] = useState<FetchSingleProduct>();
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    console.log("AAAA");
     if (slug) {
       axios
         .get(`${API_URL}/product/${slug}`)
         .then((response) => {
-          console.log("AAAA", response.data);
           setLoading(false);
-          setProduct(response.data.products[0]);
+          setProduct(response.data);
         })
         .catch((error) => {
           setLoading(false);

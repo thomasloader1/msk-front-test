@@ -1,43 +1,38 @@
 import Accordion from "components/Accordion/Accordion";
-import React, { FC, useState } from "react";
+import { Topic } from "data/types";
+import React, { FC, useEffect, useRef, useState } from "react";
 
-const ProductCurriculiam: FC = () => {
+interface Props {
+  topics: Topic;
+}
+
+const ProductCurriculiam: FC<Props> = ({ topics }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+  const [accordionContent, setAccordionContent] = useState<any[]>([]);
+  const [auxTopics, setAuxTopics] = useState<Topic>(topics);
   const handleAccordionClick = (index: number) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
-  const accordionContent = [
-    {
-      title: "Módulo 1 • Insuficiencia cardíaca y miocardiopatías",
-      content: [
-        "ICAD y síndrome cardiorrenal",
-        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
-        "Mecanismos básicos y fisiopatología",
-        "Cardiooncologia",
-      ],
-    },
-    {
-      title: "Módulo 2 • Arritmias",
-      content: [
-        "ICAD y síndrome cardiorrenal",
-        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
-        "Mecanismos básicos y fisiopatología",
-        "Cardiooncologia",
-      ],
-    },
-    {
-      title:
-        "Módulo 3 • Trastornos sistémicos que afectan al aparato circulatorio",
-      content: [
-        "ICAD y síndrome cardiorrenal",
-        "Terapias avanzadas en trasplante. Dispositivos y manejo quirúrgico",
-        "Mecanismos básicos y fisiopatología",
-        "Cardiooncologia",
-      ],
-    },
-  ];
+  useEffect(() => {
+    const formattedTopics: any[] = [];
+    Object.keys(topics).map((key, index) => {
+      if (key != "data") formattedTopics.push(topics[index]);
+    });
+    setAccordionContent(formattedTopics);
+  }, [auxTopics]);
+
+  const parseToHTML = (htmlString: string): JSX.Element => {
+    const textNodes = htmlString.split("\n").map((line, i) => (
+      <React.Fragment key={i}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+    return <>{textNodes}</>;
+  };
+
+  useEffect(() => {});
 
   return (
     <div className="my-4">
@@ -45,30 +40,23 @@ const ProductCurriculiam: FC = () => {
         <h4 className="font-bold">Que temas verás</h4>
         <p>10 módulos • 250 horas estimadas</p>
       </div>
-      <div className="modules">
-        {accordionContent.map((item, index) => {
-          return (
-            <Accordion
-              title={item.title}
-              index={index}
-              currentIndex={openIndex}
-              setCurrentIndex={() => handleAccordionClick(index)}
-              key={`acc_${index}`}
-            >
-              <ul>
-                {item.content.map((item, index) => {
-                  return (
-                    <li className="flex gap-2" key={`acc_item_${index}`}>
-                      <div className="item-mark" />
-                      <span>{item}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Accordion>
-          );
-        })}
-      </div>
+      {accordionContent.length ? (
+        <div className="modules">
+          {accordionContent.map((item, index) => {
+            return (
+              <Accordion
+                title={item.card_title}
+                index={index}
+                currentIndex={openIndex}
+                setCurrentIndex={() => handleAccordionClick(index)}
+                key={`acc_${index}`}
+              >
+                <p className="p-3">{parseToHTML(item.card_body)}</p>
+              </Accordion>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 };

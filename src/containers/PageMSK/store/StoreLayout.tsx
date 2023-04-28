@@ -32,10 +32,16 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
             pagination={{ enabled: true, clickable: true }}
           >
             <SwiperSlide>
-              <CourseUpdate />
-            </SwiperSlide>
-            <SwiperSlide>
-              <CourseUpdate />
+              <img
+                src="/src/images/banners/tienda_desktop.jpg"
+                alt="hero"
+                className="store-banner-desktop hidden md:block w-full"
+              />
+              <img
+                src="/src/images/banners/tienda_mobile.jpg"
+                alt="hero"
+                className="store-banner-desktop block md:hidden w-full"
+              />
             </SwiperSlide>
           </Swiper>
         </header>

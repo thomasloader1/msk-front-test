@@ -7,6 +7,7 @@ export interface SectionHeroProps {
   heading: ReactNode;
   subHeading?: string;
   btnText: string;
+  btnOnClick: () => void;
 }
 
 const SectionHero: FC<SectionHeroProps> = ({
@@ -15,6 +16,7 @@ const SectionHero: FC<SectionHeroProps> = ({
   heading,
   subHeading,
   btnText,
+  btnOnClick,
 }) => {
   return (
     <div
@@ -33,7 +35,7 @@ const SectionHero: FC<SectionHeroProps> = ({
           ) : null}
           {!!btnText && (
             <ButtonPrimary
-              href="/login"
+              onClick={() => btnOnClick()}
               rounded="rounded-lg"
               className="font-semibold"
             >

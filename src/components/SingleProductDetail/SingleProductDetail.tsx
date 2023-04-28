@@ -11,194 +11,83 @@ import { DETAILS_COURSES, HOME_COURSES } from "data/MSK/courses";
 import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
-import { CourseDataType, FetchCourseType } from "data/types";
+import {
+  CourseDataType,
+  FetchCourseType,
+  FetchSingleProduct,
+} from "data/types";
+import ProductEvaluation from "./ProductEvaluation";
 
 interface Props {
-  product: FetchCourseType;
+  product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
-  const [isActive, setActive] = useState(false);
-
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
-
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
-    htmlElement.innerHTML = product.why_course;
+    htmlElement.innerHTML = product.description;
     if (textRef.current) {
       textRef.current.innerHTML = "";
       textRef.current.appendChild(htmlElement);
     }
-  });
-
-  const evaluations = [
-    [
-      {
-        desc: "El primer paso en la cursada es la navegación del contenido teórico en PDF descargable, así como también en formato interactivo a través de la misma plataforma.",
-      },
-      {
-        desc: "Cada apartado incluye videos y audios creados por los más grandes expertos de la American Board of Internal Medicine.",
-      },
-      {
-        desc: "Tendrá a disposición preguntas de evaluación y más de 500 casos clínicos que permiten evaluar su progreso y profundizar en los aspectos prácticos.",
-      },
-    ],
-    [
-      {
-        desc: "Al final de cada módulo encontrará una evaluación para comprobar lo aprendido, cuya calificación mínima deber ser igual o superior a 8.",
-      },
-      {
-        desc: "Finalmente, se realiza el examen final. Para superarlo, se debe obtener una nota igual o superior a 8.",
-      },
-    ],
-  ];
-
-  const instructors = [
-    {
-      img: instructorImg,
-      name: "Patrick T. O’Gara, MD, MACC",
-      role: "Editor en jefe CMP",
-      specialties: [
-        "Doctor en Medicina",
-        "Especialista en obstetricia, ginecología y salud pública",
-        "Fellow American College Obstetricians & Gynecologist (ACOG, USA).",
-      ],
-      centres: [
-        "Lipsun Hospital, San Francisco, California",
-        "Lipsun Hospital, San Francisco, California",
-      ],
-    },
-    {
-      img: instructorImg,
-      name: "Patrick T. O’Gara, MD, MACC",
-      role: "Editor en jefe CMP",
-      specialties: [
-        "Doctor en Medicina",
-        "Especialista en obstetricia, ginecología y salud pública",
-        "Fellow American College Obstetricians & Gynecologist (ACOG, USA).",
-      ],
-      centres: [
-        "Lipsun Hospital, San Francisco, California",
-        "Lipsun Hospital, San Francisco, California",
-      ],
-    },
-    {
-      img: instructorImg,
-      name: "Patrick T. O’Gara, MD, MACC",
-      role: "Editor en jefe CMP",
-      specialties: [
-        "Doctor en Medicina",
-        "Especialista en obstetricia, ginecología y salud pública",
-        "Fellow American College Obstetricians & Gynecologist (ACOG, USA).",
-      ],
-      centres: [
-        "Lipsun Hospital, San Francisco, California",
-        "Lipsun Hospital, San Francisco, California",
-      ],
-    },
-  ];
-
+  }, [location]);
   return (
     <section className="course-detalis-area my-5 pb-90">
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
         <div className="">
           <div className="course-detalis-wrapper mb-30">
             <div className="course-heading mb-10">
-              <h2 className="font-semibold">{product.title}</h2>
+              <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
             <div className="course-detelis-meta">
-              {/* <div className="course-meta-wrapper border-line-meta">
+              <div className="course-meta-wrapper border-line-meta">
                 <div className="course-meta-img">
-                  <Link to="/instructor-profile">
-                  <img src={product.image} alt="course-meta" />
-                  </Link>
+                  <img src={product.authors[0].image} alt="course-meta" />
                 </div>
                 <div>
                   <span>Creado por</span>
-                  <h6 className="font-bold">{product.author.name}</h6>
+                  <h6 className="font-bold">{product.authors[0].name}</h6>
                 </div>
               </div>
               <div className="border-line-meta">
                 <p>Contenido</p>
-                <span className="font-bold">{product.content}</span>
-              </div> */}
-
-              <div className="">
+                <span className="font-bold">
+                  {product.temario["data"]?.row_count} Módulos
+                </span>
+              </div>
+              <div className="border-line-meta">
                 <p>Duración</p>
                 <span className="font-bold">
-                  {product.duration} horas estimadas
+                  {product.details["duration"].value} Horas estimadas
                 </span>
               </div>
             </div>
-            <div className="course-description pt-45 pb-30">
-              <div className="course-Description">
-                <h4 className="font-semibold text-xl">Qué aprenderás</h4>
+            {product.description ? (
+              <div className="course-description pt-45 pb-30">
+                <div className="course-Description">
+                  <h4 className="font-semibold text-xl">Qué aprenderás</h4>
+                </div>
+                <div ref={textRef} />
               </div>
-              <div ref={textRef} />
-            </div>
+            ) : null}
+
             <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
               <SectionSliderPosts
                 postCardName="card20"
                 sliderStype="style2"
-                posts={DETAILS_COURSES}
+                posts={product.avales}
                 uniqueSliderClass="pageHome-section6"
               />
             </div>
-            <CourseRequirements />
-            <ProductCurriculiam />
+            <CourseRequirements requirements={product.requirements} />
+            <ProductCurriculiam topics={product.temario} />
 
-            <div className="course-learn-wrapper">
-              <div className="course-learn">
-                <div className="course-leranm-tittle">
-                  <h4 className="mb-15 font-semibold text-xl">
-                    Cómo evaluamos
-                  </h4>
-                </div>
-
-                <div className="grid grid-col-2 grid-flow-col">
-                  <div className="course-leran-text f-left">
-                    <ul>
-                      {evaluations[0].map((evaluation, index) => {
-                        return (
-                          <li key={`ev_${index}`}>
-                            <img
-                              src="/src/images/vectors/isotipo.svg"
-                              width="20"
-                              alt=""
-                            />{" "}
-                            {evaluation.desc}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-
-                  <div className="course-leran-text">
-                    <ul>
-                      {evaluations[1].map((evaluation, index) => {
-                        return (
-                          <li key={`ev_r_${index}`}>
-                            <img
-                              src="/src/images/vectors/isotipo.svg"
-                              width="20"
-                              alt=""
-                            />{" "}
-                            {evaluation.desc}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProductEvaluation evaluations={product.evaluacion} />
             <h4 className="mt-6 font-bold">Quiénes lo desarrollan</h4>
             <div className="grid grid-cols-2">
-              {instructors.map((instructor, index) => {
+              {product.authors.map((instructor, index) => {
                 return (
                   <ProductDetailsInstructor
                     instructor={instructor}
@@ -210,23 +99,28 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           </div>
         </div>
         <div className="order-first lg:order-last">
-          <ProductDetailSidebar product={product} />
+          <ProductDetailSidebar
+            ficha={product.ficha}
+            details={product.details}
+          />
         </div>
       </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
         <ContactForm />
       </div>
-      <div className="container relative py-16 mt-16 ">
-        <BackgroundSection />
-        <SectionSliderPosts
-          postCardName="card9"
-          heading="Descubre otras capacitaciones destacadas"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          posts={HOME_COURSES}
-          uniqueSliderClass="pageHome-section6"
-        />
-      </div>
+      {product.related_products.length ? (
+        <div className="container relative py-16 mt-16 ">
+          <BackgroundSection />
+          <SectionSliderPosts
+            postCardName="card9"
+            heading="Descubre otras capacitaciones destacadas"
+            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+            sliderStype="style2"
+            posts={product.related_products}
+            uniqueSliderClass="pageHome-section6"
+          />
+        </div>
+      ) : null}
     </section>
   );
 };

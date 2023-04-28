@@ -71,6 +71,7 @@ export interface FetchPostType {
   categories: PostCategory[];
   tags: string[];
   author: PostAuthor;
+  content: string;
 }
 
 export interface PostDataType {
@@ -142,6 +143,100 @@ export interface VideoType {
   thumbnail: string;
 }
 
+export interface FichaDataHidden {
+  profession: string;
+  category: string;
+  price: string;
+  certificate: string;
+  hours: string;
+  product_id: number;
+  product_permalink: string;
+}
+
+export interface FichaCategory {
+  term_id: number;
+  name: string;
+  slug: string;
+}
+
+export interface Ficha {
+  data_hidden: FichaDataHidden;
+  novedad: string;
+  categorias: FichaCategory[];
+  title: string;
+  image: string;
+  code: string;
+  isbn: string;
+  description: string | null;
+}
+
+export interface DetailsItem {
+  value: string;
+  icon: string;
+  title: string;
+}
+export interface Details {
+  duration: DetailsItem;
+  modality: DetailsItem;
+  flexibility: DetailsItem;
+  content: DetailsItem;
+}
+
+export interface Aval {
+  index: number;
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface Requirement {
+  description: string;
+}
+
+export interface TopicData {
+  row_count: number;
+  estimated_time: string;
+  rows_per_page: number;
+  temario_link: string;
+}
+export interface Topic {
+  data?: TopicData;
+  [index: number]: {
+    card_title: string;
+    card_body: string;
+  };
+}
+
+export interface Evaluation {
+  data?: {
+    row_count: number;
+    rows_per_page: number;
+  };
+  [index: number]: {
+    methodology: string;
+  };
+}
+
+export interface ProductAuthor {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  specialties: string[];
+  centres: string[];
+}
+export interface FetchSingleProduct {
+  ficha: Ficha;
+  description: string;
+  details: Details;
+  avales: Aval[];
+  requirements: Requirement[];
+  temario: Topic;
+  evaluacion: Evaluation;
+  authors: ProductAuthor[];
+  related_products: FetchCourseType[];
+}
 export interface FetchCourseType {
   id: number;
   father_id: number;

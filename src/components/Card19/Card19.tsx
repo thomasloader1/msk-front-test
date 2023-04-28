@@ -21,7 +21,7 @@ const Card19: FC<Card19Props> = ({
   hoverClass = "",
   showCategories = true,
 }) => {
-  const { title, image, categories, link } = post;
+  const { id, title, image, categories, link } = post;
 
   const renderMeta = () => {
     return (
@@ -43,7 +43,7 @@ const Card19: FC<Card19Props> = ({
         <PostCardSaveAction className="relative" postData={post} />
       </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>(
-      <Link to={link}>
+      <Link to={`/blog/${id}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-xl"
           className="object-cover w-full h-full rounded-xl"
@@ -59,11 +59,11 @@ const Card19: FC<Card19Props> = ({
       </Link>
       )
       <Link
-        to={link}
+        to={`/blog/${id}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-80"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-5 sm:p-10 flex flex-col flex-grow">
-        <Link to={link} className="absolute inset-0"></Link>
+        <Link to={`/blog/${id}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
             <CategoryBadgeList categories={categories} />

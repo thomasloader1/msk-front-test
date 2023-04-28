@@ -71,7 +71,7 @@ const StoreSideBar: FC<Props> = ({
           }`}
         >
           <h3 className="drop-btn" onClick={() => dispatch("categories")}>
-            Categorías
+            Especialidades
           </h3>
           <ul>
             {specialties.map((specialty, index) => {

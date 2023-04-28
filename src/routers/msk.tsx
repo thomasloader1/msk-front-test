@@ -22,20 +22,18 @@ import PageBlog from "containers/PageMSK/PageBlog";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
-  { path: "/blog", exact: true, component: PageBlog },
-  { path: "/blog/:slug", component: PageSingleHasSidebar },
   { path: "/#", exact: true, component: PageHome },
-  //
   { path: "/mision", component: PageMission },
-
-  { path: "/page404", component: Page404 },
-  { path: "/login", component: PageLogin },
-  { path: "/signup", component: PageSignUp },
-  { path: "/forgot-pass", component: PageForgotPass },
-  { path: "/mi-cuenta", component: PageAccount },
-  { path: "/mi-perfil", component: PageProfile },
   { path: "/tienda", component: PageStore },
   { path: "/curso/:slug", component: PageSingleProduct },
+  { path: "/page404", component: Page404 },
+  // { path: "/blog", exact: true, component: PageBlog },
+  // { path: "/blog/:slug", component: PageSingleHasSidebar },
+  // { path: "/login", component: PageLogin },
+  // { path: "/signup", component: PageSignUp },
+  // { path: "/forgot-pass", component: PageForgotPass },
+  // { path: "/mi-cuenta", component: PageAccount },
+  // { path: "/mi-perfil", component: PageProfile },
 ];
 
 const Routes = () => {

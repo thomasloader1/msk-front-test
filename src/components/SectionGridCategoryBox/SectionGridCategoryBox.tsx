@@ -25,7 +25,6 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
   className = "",
 }) => {
   let CardComponentName = CardCategory2;
-  console.log(categoryCardType);
   switch (categoryCardType) {
     case "card1":
       CardComponentName = CardCategory1;
@@ -65,7 +64,7 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
           />
         ))}
         <Link
-          to={"/"}
+          to={"/tienda"}
           className="h-full w-full text-primary font-semibold flex items-center justify-center text-center"
         >
           Ver todas

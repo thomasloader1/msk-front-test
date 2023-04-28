@@ -42,11 +42,6 @@ const Card2: FC<Card2Props> = ({
       data-nc-id="Card2"
     >
       <span className="block flex-shrink-0 flex-grow relative w-full h-0 pt-[75%] sm:pt-[55%] rounded-lg overflow-hidden">
-        <NcImage
-          containerClassName="absolute inset-0"
-          src={image}
-          alt={title}
-        />
         {/* <PostTypeFeaturedIcon
           className="absolute bottom-2 left-2"
           postType={postType}

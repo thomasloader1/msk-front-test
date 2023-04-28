@@ -23,3 +23,21 @@ Las rutas de la app estan en `src/routers/msk.tsx` desde aca se puede ver las pa
   
 ### Tienda
 - https://wp.msklatam.com/wp-json/wp/api/shop
+
+## Rutas dispobiles de Backend MSK
+
+## GET
+
+### Profesiones
+- https://www.msklatam.com/msk-laravel/public/api/professions
+
+### Especialidades
+- https://msklatam.com/msk-laravel/public/api/specialities
+
+### Profesiones que debe tener la tienda
+- https://www.msklatam.com/msk-laravel/public/api/store/professions
+
+## POST
+
+### Formulario de contacto
+- https://msklatam.com/msk-laravel/public/api/CreateLeadMSKCRM

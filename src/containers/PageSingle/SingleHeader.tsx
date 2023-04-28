@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import { FetchPostType } from "data/types";
 
 export interface SingleHeaderProps {
-  pageData: FetchPostType;
+  pageData: FetchPostType | any;
   hiddenDesc?: boolean;
   metaActionStyle?: "style1" | "style2";
   titleMainClass?: string;

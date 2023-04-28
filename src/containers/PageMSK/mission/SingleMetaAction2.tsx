@@ -8,7 +8,7 @@ import NcDropDown from "components/NcDropDown/NcDropDown";
 
 export interface SingleMetaAction2Props {
   className?: string;
-  meta: PostDataType;
+  meta: PostDataType | any;
 }
 
 const SingleMetaAction2: FC<SingleMetaAction2Props> = ({

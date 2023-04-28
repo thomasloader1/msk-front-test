@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export interface PostMeta2Props {
   className?: string;
-  meta: FetchPostType;
+  meta: any;
   hiddenCategories?: boolean;
   size?: "large" | "normal";
   avatarRounded?: string;

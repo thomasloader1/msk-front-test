@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { FetchPostType } from "data/types";
 
 export interface SingleContentProps {
-  data: FetchPostType;
+  data: FetchPostType | any;
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {

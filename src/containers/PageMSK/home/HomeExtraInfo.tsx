@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export interface SectionAdsProps {
   className?: string;
   imgAds?: string;
-  btnOnClick: () => void;
+  btnOnClick?: () => void;
 }
 
 const SectionAds: FC<SectionAdsProps> = ({
@@ -14,7 +14,10 @@ const SectionAds: FC<SectionAdsProps> = ({
   btnOnClick,
 }) => {
   return (
-    <div onClick={() => btnOnClick()} className="cursor-pointer">
+    <div
+      onClick={() => (btnOnClick ? btnOnClick() : "")}
+      className="cursor-pointer"
+    >
       <img
         src="/src/images/banners/promo-home_desktop.png"
         alt="hero"

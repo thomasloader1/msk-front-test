@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
 
 const FooterEduman = () => {
+  const scrollToContactForm = () => {
+    const contactForm = document.getElementById("contactanos");
+    if (contactForm) {
+      window.scrollTo({
+        top: document.getElementById("contactanos")!.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <footer>
       <div className="footer-area">
@@ -94,7 +103,7 @@ const FooterEduman = () => {
                     <li>
                       <Link to="/mision">Nuestra misión</Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/course">Conviértete en Partner</Link>
                     </li>
                     <li>
@@ -102,7 +111,7 @@ const FooterEduman = () => {
                     </li>
                     <li>
                       <Link to="/course">Convenios</Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -112,9 +121,14 @@ const FooterEduman = () => {
                 <div className="footer-widget f-w4 mt-24">
                   <ul>
                     <li>
-                      <Link to="/course">Contacto</Link>
+                      <span
+                        onClick={scrollToContactForm}
+                        className="cursor-pointer"
+                      >
+                        Contacto
+                      </span>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/contact">Términos y condiciones</Link>
                     </li>
                     <li>
@@ -125,7 +139,7 @@ const FooterEduman = () => {
                     </li>
                     <li>
                       <Link to="/faq-page">Condiciones de contratación</Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

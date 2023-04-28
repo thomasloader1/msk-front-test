@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 export interface PostActionDropdownProps {
   containerClassName?: string;
   iconClass?: string;
-  postData: FetchPostType;
+  postData: any;
   dropdownPositon?: "up" | "down";
 }
 

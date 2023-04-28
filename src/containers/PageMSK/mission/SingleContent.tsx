@@ -1,19 +1,30 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { SinglePageType } from "../PageMission";
 import { useLocation } from "react-router";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import { HOME_COURSES } from "data/MSK/courses";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
+import axios from "axios";
+import { API_URL } from "data/api";
 
 export interface SingleContentProps {
   data: SinglePageType;
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
+  const [courses, setCourses] = useState([]);
   const { tags, author, commentCount, comments } = data;
   const commentRef = useRef<HTMLDivElement>(null);
   //
   const location = useLocation();
+
+  const fetchCourses = async () => {
+    const res = await axios.get(`${API_URL}/products`);
+    setCourses(res.data.products);
+  };
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
   useEffect(() => {
     //  SCROLL TO COMMENT AREA
@@ -76,7 +87,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           heading="Comienza tu experiencia aquí"
           subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
           sliderStype="style2"
-          posts={HOME_COURSES}
+          posts={courses}
           uniqueSliderClass="pageHome-section6"
         />
       </div>

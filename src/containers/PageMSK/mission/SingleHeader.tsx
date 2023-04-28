@@ -39,14 +39,14 @@ const SingleHeader: FC<SingleHeaderProps> = ({
           )}
           <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
           <div className="flex  sm:flex-row justify-between ">
-            <PostMeta2
+            {/* <PostMeta2
               size="large"
               className="leading-none flex-shrink-0"
               meta={pageData}
               avatarRounded="rounded-full shadow-inner"
               hiddenCategories
               hideDate
-            />
+            /> */}
             <SingleMetaAction2 meta={pageData} />
           </div>
         </div>

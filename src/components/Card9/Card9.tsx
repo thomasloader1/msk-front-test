@@ -21,6 +21,7 @@ const Card9: FC<Card9Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, image } = post;
+  const imageURL = image.replace('mx.', '')
 
   // const author = {
   //   href: "",
@@ -65,7 +66,7 @@ const Card9: FC<Card9Props> = ({
         <NcImage
           containerClassName="absolute inset-0 rounded-3xl"
           className="object-cover w-full h-full rounded-3xl"
-          src={image}
+          src={imageURL}
         />
         <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
       </Link>

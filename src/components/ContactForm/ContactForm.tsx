@@ -13,18 +13,19 @@ const ContactFormSection = () => {
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>('');
+  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>('');
   const [acceptConditions, setAcceptConditions] = useState(false)
 
   const handleOptionProfessionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
-    setSelectedOption(value);
+    setSelectedOptionProfession(value);
     setShowInputProfession(value === 'Otra Profesión');
   };
 
   const handleOptionSpecialtyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
-    setSelectedOption(value);
+    setSelectedOptionSpecialty(value);
     setShowInputSpecialties(value === 'Otra Especialidad');
   };
 
@@ -102,7 +103,7 @@ const ContactFormSection = () => {
 
                 <div className={`col-xl-6`}>
                   <div className="contact-select">
-                    <select className="" value={selectedOption} onChange={handleOptionProfessionChange}>
+                    <select className="" value={selectedOptionProfession} onChange={handleOptionProfessionChange}>
                       <option defaultValue="">
                         Seleccionar profesión
                       </option>
@@ -118,7 +119,7 @@ const ContactFormSection = () => {
 
                 <div className={`col-xl-6`}>
                   <div className="contact-select">
-                    <select className="" value={selectedOption} onChange={handleOptionSpecialtyChange}>
+                    <select className="" value={selectedOptionSpecialty} onChange={handleOptionSpecialtyChange}>
                       <option defaultValue="">
                         Seleccionar especialidad
                       </option>
@@ -127,7 +128,7 @@ const ContactFormSection = () => {
                   </div>
                   {showInputSpecialties && (
                     <div className="contact-from-input my-4">
-                      <input type="text" placeholder="Ingresar profesion" />
+                      <input type="text" placeholder="Ingresar especialidad" />
                     </div>
                   )}
                 </div>

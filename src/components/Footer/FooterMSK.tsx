@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
+import {Newsletter} from '../../data/types';
+import api from '../../Services/api';
 
 const FooterEduman = () => {
   const scrollToContactForm = () => {
@@ -11,6 +13,29 @@ const FooterEduman = () => {
         behavior: "smooth",
       });
     }
+  };
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const formData = new FormData(event.target as HTMLFormElement);
+      console.log({formData, target: event.target});
+      
+      const jsonData: Newsletter = {
+        Email: '',
+      }
+  
+      formData.forEach((value, key, parent) => {
+  
+        if (key === 'Email') {
+          jsonData.Email = value as string;
+        }
+        
+      });
+      console.log({jsonData});
+    
+      const {response} = await api.postNewsletter(jsonData);
+      
+      console.log(response);
+    
   };
   return (
     <footer>
@@ -31,9 +56,9 @@ const FooterEduman = () => {
             <div className="divisor" />
             <div className="footer-column">
               <div className="copyright-subcribe ">
-                <form action="#" className="widget__subscribe">
+                <form onSubmit={handleSubmit} method="post" className="widget__subscribe">
                   <div className="field ">
-                    <input type="email" placeholder="Ingresar e-mail" />
+                    <input type="email" name="Email" placeholder="Ingresar e-mail" />
                   </div>
                   <button type="submit">
                     Suscribirme

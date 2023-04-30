@@ -317,3 +317,27 @@ export interface CourseDataType {
   summary?: string;
   modality?: string;
 }
+
+
+export type SignUp = {
+  email: string;
+  last_name: string;
+}
+export type Login = {
+  email: string;
+  password: string;
+}
+export type ContactUs = {
+  Name: string;
+  Last_Name: string;
+  Email: string;
+  Profession: string;
+  Description: string;
+  Specialty: string;
+  Phone: string;
+  Preferencia_de_contactaci_n: string;
+}
+
+export type Newsletter = {
+  Email: string;
+}

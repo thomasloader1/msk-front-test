@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { ContactUs, SignUp,Newsletter } from 'data/types';
+import { ContactUs, SignUp, Newsletter } from 'data/types';
 import { Login } from 'data/types';
 
 const baseURLLocal = 'http://localhost:8000/api/crm'
+const baseURLPRD = 'https://msklatam.com/msk-laralvel/public/api/crm'
 
 const apiSignUpURL = `https://msklatam.com/msk-laralvel/public/api/signup`;
 const apiSignInURL = `https://msklatam.com/msk-laralvel/public/api/login`;
@@ -45,16 +46,16 @@ class ApiService {
 
   async getEmailByIdZohoCRM(module: string, email: string) {
     try {
-      const { data } = await axios.get(`${baseURLLocal}/GetByEmail/${module}/${email}`);
+      const { data } = await axios.get(`${baseURLPRD}/GetByEmail/${module}/${email}`);
       return data;
     } catch (e) {
       return e;
     }
   }
 
-  async postContactUs(jsonData: ContactUs){
+  async postContactUs(jsonData: ContactUs) {
     try {
-      const { data } = await axios.post(`${baseURLLocal}/CreateLeadHomeContactUs`,jsonData);
+      const { data } = await axios.post(`${baseURLPRD}/CreateLeadHomeContactUs`, jsonData);
       return data;
       // return jsonData;
     } catch (e) {
@@ -62,9 +63,9 @@ class ApiService {
     }
   };
 
-  async postNewsletter(jsonData: Newsletter){
+  async postNewsletter(jsonData: Newsletter) {
     try {
-      const { data } = await axios.post(`${baseURLLocal}/CreateLeadHomeNewsletter`,jsonData);
+      const { data } = await axios.post(`${baseURLPRD}/CreateLeadHomeNewsletter`, jsonData);
       return data;
       // return jsonData;
     } catch (e) {

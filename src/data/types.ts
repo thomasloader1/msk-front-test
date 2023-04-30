@@ -331,11 +331,14 @@ export type ContactUs = {
   Name: string;
   Last_Name: string;
   Email: string;
-  Profession: string;
+  Profesion: string;
   Description: string;
-  Specialty: string;
+  Especialidad: string;
   Phone: string;
   Preferencia_de_contactaci_n: string;
+  Otra_especialidad?: string;
+  Otra_profesion?: string;
+  Cursos_consultados?: string;
 }
 
 export type Newsletter = {

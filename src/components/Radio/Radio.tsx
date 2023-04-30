@@ -12,6 +12,7 @@ const Radio: React.FC<RadioProps> = ({ name, label, id }) => {
         name={name}
         type="radio"
         className="focus:ring-action-primary h-4 w-4 text-action-primary border-primary"
+        required
       />
       {label && (
         <label

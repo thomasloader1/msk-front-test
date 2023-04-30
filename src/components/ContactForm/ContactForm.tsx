@@ -3,12 +3,12 @@ import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput, { getCountryCallingCode } from 'react-phone-number-input'
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
 import axios from "axios";
 import Radio from "components/Radio/Radio";
-import {ContactUs} from '../../data/types';
+import { ContactUs } from '../../data/types';
 import api from '../../Services/api';
 // import 'react-intl-tel-input/dist/main.css';
 // import IntlTelInput from 'react-intl-tel-input';
@@ -21,11 +21,24 @@ const ContactFormSection = () => {
   const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>('');
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>('');
   const [acceptConditions, setAcceptConditions] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+
+  const handlePhoneChange = (value: string) => {
+    setPhoneNumber(value);
+  };
+
   const handleOptionSpecialtyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
     setShowInputSpecialties(value === 'Otra Especialidad');
   };
+
+  const handleOptionProfessionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    setSelectedOptionProfession(value);
+    setShowInputProfession(value === 'Otra Profesión');
+  };
+
   useEffect(() => {
     axios
       .get(`${API_BACKEND_URL}/professions`)
@@ -45,24 +58,26 @@ const ContactFormSection = () => {
         console.log(error);
       });
   }, [])
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log({formData, target: event.target});
-  
-    
+    console.log({ formData, target: event.target });
+
+
     const jsonData: ContactUs = {
       Name: '',
       Last_Name: '',
       Email: '',
-      Profession: '',
+      Profesion: '',
       Description: '',
-      Specialty: '',
+      Especialidad: '',
       Phone: '',
       Preferencia_de_contactaci_n: ''
     }
-    
+
     const selectedOption = (event.target as HTMLFormElement).querySelector('input[name="Preferencia_de_contactaci_n"]:checked') as HTMLInputElement;
+
     if (selectedOption) {
       const label = selectedOption.id;
       // console.log({label});
@@ -80,25 +95,32 @@ const ContactFormSection = () => {
         jsonData.Email = value as string;
       }
       if (key === 'Phone') {
-        jsonData.Phone = value as string;
+        jsonData.Phone = phoneNumber;
       }
-      if (key === 'Profession') {
-        jsonData.Profession = value as string;
+      if (key === 'Profesion') {
+        jsonData.Profesion = value as string;
       }
       if (key === 'Description') {
         jsonData.Description = value as string;
       }
-      if (key === 'Specialty') {
-        jsonData.Specialty = value as string;
+      if (key === 'Especialidad') {
+        jsonData.Especialidad = value as string;
       }
-      
+
+      if (key === 'Otra_especialidad') {
+        jsonData.Otra_especialidad = value as string;
+      }
+      if (key === 'Otra_profesion') {
+        jsonData.Otra_profesion = value as string;
+      }
+
     });
-    console.log({jsonData});
-  
-    const {response} = await api.postContactUs(jsonData);
-    
+    console.log({ jsonData });
+
+    const { response } = await api.postContactUs(jsonData);
+
     console.log(response);
-  
+
   };
   return (
     <>
@@ -112,8 +134,8 @@ const ContactFormSection = () => {
                   <p className="text-gray-400">Quiero hablar por</p>
                   <div className="mt-1 flex gap-4">
                     <Radio name="Preferencia_de_contactaci_n" label="Teléfono" id="Contact_Method_Teléfono" />
-                    <Radio name="Preferencia_de_contactaci_n" label="E-mail" id="Contact_Method_E-mail"/>
-                    <Radio name="Preferencia_de_contactaci_n" label="Whatsapp" id="Contact_Method_Whatsapp"/>
+                    <Radio name="Preferencia_de_contactaci_n" label="E-mail" id="Contact_Method_E-mail" />
+                    <Radio name="Preferencia_de_contactaci_n" label="Whatsapp" id="Contact_Method_Whatsapp" />
                   </div>
                 </div>
               </div>
@@ -135,14 +157,20 @@ const ContactFormSection = () => {
                 </div>
 
                 <div className="col-xl-6">
-                  <div className="contact-from-input ">
-                    <input type="text" placeholder="Teléfono" />
+                  <div className="contact-from-input intl-input">
+                    <PhoneInput
+                      name='Phone'
+                      id='Phone'
+                      placeholder="Ingresar numero telefonico"
+                      defaultCountry="MX"
+                      value={phoneNumber}
+                      onChange={handlePhoneChange} />
                   </div>
                 </div>
 
                 <div className={`col-xl-6`}>
                   <div className="contact-select">
-                    <select className="" id="Profession" name="Profession" value={selectedOptionProfession} onChange={handleOptionProfessionChange}>
+                    <select className="" id="Profesion" name="Profesion" value={selectedOptionProfession} onChange={handleOptionProfessionChange}>
                       <option defaultValue="">
                         Seleccionar profesión
                       </option>
@@ -151,14 +179,14 @@ const ContactFormSection = () => {
                   </div>
                   {showInputProfession && (
                     <div className="contact-from-input my-4">
-                      <input type="text" placeholder="Ingresar profesion" />
+                      <input type="text" name="Otra_profesion" placeholder="Ingresar profesion" />
                     </div>
                   )}
                 </div>
 
                 <div className={`col-xl-6`}>
                   <div className="contact-select">
-                    <select className="" value={selectedOptionSpecialty} onChange={handleOptionSpecialtyChange}>
+                    <select className="" id="Especialidad" name="Especialidad" value={selectedOptionSpecialty} onChange={handleOptionSpecialtyChange}>
                       <option defaultValue="">
                         Seleccionar especialidad
                       </option>
@@ -167,7 +195,7 @@ const ContactFormSection = () => {
                   </div>
                   {showInputSpecialties && (
                     <div className="contact-from-input my-4">
-                      <input type="text" placeholder="Ingresar especialidad" />
+                      <input type="text" name="Otra_especialidad" placeholder="Ingresar especialidad" />
                     </div>
                   )}
                 </div>
@@ -178,7 +206,7 @@ const ContactFormSection = () => {
                 </div>
               </div>
               <div className="flex gap-1 mt-2 mb-4">
-                <Checkbox name="Terms_And_Conditions"  value={acceptConditions} useStateCallback={setAcceptConditions} label="Acepto las" />
+                <Checkbox name="Terms_And_Conditions" value={acceptConditions} useStateCallback={setAcceptConditions} label="Acepto las" />
                 <a className="text-primary text-sm">
                   condiciones de privacidad
                 </a>
@@ -190,8 +218,8 @@ const ContactFormSection = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
       <div className="">

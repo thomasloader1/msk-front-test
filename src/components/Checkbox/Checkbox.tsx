@@ -18,6 +18,7 @@ const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name, value = 
           type="checkbox"
           className="focus:ring-action-primary h-4 w-4 text-primary border-gray-400 rounded-sm"
           onChange={() => useStateCallback(!value)}
+          required
         />
       </div>
       {label && (

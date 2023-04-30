@@ -18,6 +18,7 @@ import { API_URL } from "data/api";
 const PageHome: React.FC = () => {
   const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [bestSeller, setBestSeller] = useState([]);
   const fetchPosts = async () => {
     const res = await axios.get(`${API_URL}/posts`);
     const formattedPosts = res.data.posts.map((post: any) => ({
@@ -30,9 +31,14 @@ const PageHome: React.FC = () => {
     const res = await axios.get(`${API_URL}/products?country=mx`);
     setCourses(res.data.products);
   };
+  const fetchBestSeller = async () => {
+    const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
+    setBestSeller(res.data.products);
+  };
   useEffect(() => {
-    fetchPosts();
+    //fetchPosts();
     fetchCourses();
+    fetchBestSeller();
   }, []);
 
   const scrollToContactForm = () => {
@@ -99,16 +105,16 @@ const PageHome: React.FC = () => {
               heading="Nuestros cursos mas elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
-              posts={posts}
+              posts={bestSeller}
               uniqueSliderClass="pageHome-section6"
             />
           </div>
           {/* === SECTION 4 === */}
-          <BlogSummary
+          {/* <BlogSummary
             className="py-16 lg:py-28"
             posts={posts}
             tabs={TABS_BLOG}
-          />
+          /> */}
         </div>
         {/* ======= END CONTAINER ============= */}
         {/* === SECTION  === */}

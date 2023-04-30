@@ -19,6 +19,7 @@ const Card8: FC<Card8Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, image } = post;
+  const imageURL = image.replace('mx.', '')
   return (
     <div
       className={`nc-Card8 group relative [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden z-0 ${className}`}
@@ -31,7 +32,7 @@ const Card8: FC<Card8Props> = ({
       >
         <NcImage
           containerClassName="absolute inset-0"
-          src={image}
+          src={imageURL}
           alt={title}
         />
         {/* <PostTypeFeaturedIcon

@@ -28,23 +28,23 @@ export interface SectionSliderPostsProps {
   subHeading?: string;
   posts: any;
   postCardName?:
-    | "card1"
-    | "card2"
-    | "card3"
-    | "card4"
-    | "card5"
-    | "card6"
-    | "card7"
-    | "card9"
-    | "card10"
-    | "card10V2"
-    | "card11"
-    | "card12"
-    | "card13"
-    | "card14"
-    | "card18"
-    | "card19"
-    | "card20";
+  | "card1"
+  | "card2"
+  | "card3"
+  | "card4"
+  | "card5"
+  | "card6"
+  | "card7"
+  | "card9"
+  | "card10"
+  | "card10V2"
+  | "card11"
+  | "card12"
+  | "card13"
+  | "card14"
+  | "card18"
+  | "card19"
+  | "card20";
   sliderStype?: "style1" | "style2";
   perView?: 2 | 3 | 4;
   uniqueSliderClass: string;
@@ -156,6 +156,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   };
 
   const CardName = getPostComponent();
+  console.log({ posts })
   return (
     <div className={`nc-SectionSliderPosts ${className}`}>
       <div className={`${UNIQUE_CLASS}`}>
@@ -167,9 +168,8 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               .map((item: any, index: number) => (
                 <li
                   key={index}
-                  className={`glide__slide h-auto  ${
-                    sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
-                  }`}
+                  className={`glide__slide h-auto  ${sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
+                    }`}
                 >
                   <CardName post={item} showDescription />
                 </li>

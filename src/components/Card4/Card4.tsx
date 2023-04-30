@@ -12,8 +12,10 @@ export interface Card4Props {
 }
 
 const Card4: FC<Card4Props> = ({ className = "h-full", post }) => {
-  const { title, href, featuredImage, categories, author, date, readingTime } =
+  const { title, href, image, featuredImage, categories, author, date, readingTime } =
     post;
+
+  const imageURL = image.replace("mx.", "");
 
   return (
     <div
@@ -21,7 +23,7 @@ const Card4: FC<Card4Props> = ({ className = "h-full", post }) => {
       data-nc-id="Card4"
     >
       <span className="block flex-shrink-0 relative w-full aspect-w-16 aspect-h-9 rounded-t-xl overflow-hidden">
-        <NcImage containerClassName="absolute inset-0" src={featuredImage} />
+        <NcImage containerClassName="absolute inset-0" src={featuredImage ? featuredImage : imageURL} />
       </span>
 
       <Link to={href} className="absolute inset-0"></Link>

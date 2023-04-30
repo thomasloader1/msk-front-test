@@ -47,6 +47,7 @@
     "@types/node": "^18.0.6",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/react-phone-number-input": "^3.0.14",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-logger": "^3.0.9",
     "@vitejs/plugin-react": "^2.0.0",

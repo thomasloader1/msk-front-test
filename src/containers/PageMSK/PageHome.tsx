@@ -27,7 +27,7 @@ const PageHome: React.FC = () => {
     setPosts(formattedPosts);
   };
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products`);
+    const res = await axios.get(`${API_URL}/products?country=mx`);
     setCourses(res.data.products);
   };
   useEffect(() => {

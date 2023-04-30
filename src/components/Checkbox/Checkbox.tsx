@@ -4,9 +4,11 @@ export interface CheckboxProps {
   label?: string;
   subLabel?: string;
   name: string;
+  useStateCallback?: Function
+  value?: boolean
 }
 
-const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name }) => {
+const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name, value = false, useStateCallback = () => { } }) => {
   return (
     <div className="flex items-start">
       <div className="flex items-center h-5">
@@ -15,6 +17,7 @@ const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name }) => {
           name={name}
           type="checkbox"
           className="focus:ring-action-primary h-4 w-4 text-primary border-gray-400 rounded-sm"
+          onChange={() => useStateCallback(!value)}
         />
       </div>
       {label && (

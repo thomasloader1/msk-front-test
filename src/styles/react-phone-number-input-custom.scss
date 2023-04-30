@@ -1,0 +1,17 @@
+.PhoneInputCountry {
+    background-color: transparent !important;
+
+    &--focus {
+        color: #9200AD !important;
+    }
+}
+
+.intl-input {
+    height: 60px;
+    width: 100%;
+    background: #f8f8f9;
+    border: none;
+    padding-left: 20px;
+    border-radius: 4px;
+    outline: 0;
+}

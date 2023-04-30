@@ -3,10 +3,10 @@ import { ContactUs, SignUp, Newsletter } from 'data/types';
 import { Login } from 'data/types';
 
 const baseURLLocal = 'http://localhost:8000/api/crm'
-const baseURLPRD = 'https://msklatam.com/msk-laralvel/public/api/crm'
+const baseURLPRD = 'https://msklatam.com/msk-laravel/public/api/crm'
 
-const apiSignUpURL = `https://msklatam.com/msk-laralvel/public/api/signup`;
-const apiSignInURL = `https://msklatam.com/msk-laralvel/public/api/login`;
+const apiSignUpURL = `https://msklatam.com/msk-laravel/public/api/signup`;
+const apiSignInURL = `https://msklatam.com/msk-laravel/public/api/login`;
 
 class ApiService {
   baseUrl = apiSignUpURL;

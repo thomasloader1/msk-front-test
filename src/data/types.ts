@@ -328,7 +328,7 @@ export type Login = {
   password: string;
 }
 export type ContactUs = {
-  Name: string;
+  First_Name: string;
   Last_Name: string;
   Email: string;
   Profesion: string;
@@ -336,6 +336,7 @@ export type ContactUs = {
   Especialidad: string;
   Phone: string;
   Preferencia_de_contactaci_n: string;
+  Pais: string | {};
   Otra_especialidad?: string;
   Otra_profesion?: string;
   Cursos_consultados?: string;

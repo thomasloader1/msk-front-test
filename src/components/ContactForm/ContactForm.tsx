@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import 'react-phone-number-input/style.css'
-import PhoneInput, { getCountryCallingCode } from 'react-phone-number-input'
+import PhoneInput, { Country, getCountryCallingCode, parsePhoneNumber } from 'react-phone-number-input'
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
 import axios from "axios";
@@ -22,10 +22,33 @@ const ContactFormSection = () => {
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>('');
   const [acceptConditions, setAcceptConditions] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const formRef = useRef<HTMLFormElement>(null)
+
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
+    console.log(value, typeof value)
+    if (typeof value !== 'undefined') {
+      const parsedPhoneNumber = parsePhoneNumber(value);
+      if (parsedPhoneNumber?.country) {
+        setSelectedCountry(parsedPhoneNumber.country);
+      }
+    }
   };
+
+  const resetForm = () => {
+    if (formRef.current) {
+      formRef.current.reset();
+      setPhoneNumber('')
+      setShowInputProfession(false)
+      setShowInputSpecialties(false)
+      setAcceptConditions(false)
+      setSelectedOptionProfession('')
+      setSelectedOptionSpecialty('')
+    }
+  };
+
 
   const handleOptionSpecialtyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -66,14 +89,15 @@ const ContactFormSection = () => {
 
 
     const jsonData: ContactUs = {
-      Name: '',
+      First_Name: '',
       Last_Name: '',
       Email: '',
       Profesion: '',
       Description: '',
       Especialidad: '',
       Phone: '',
-      Preferencia_de_contactaci_n: ''
+      Preferencia_de_contactaci_n: '',
+      Pais: ''
     }
 
     const selectedOption = (event.target as HTMLFormElement).querySelector('input[name="Preferencia_de_contactaci_n"]:checked') as HTMLInputElement;
@@ -85,8 +109,8 @@ const ContactFormSection = () => {
     }
 
     formData.forEach((value, key, parent) => {
-      if (key === 'Name') {
-        jsonData.Name = value as string;
+      if (key === 'First_Name') {
+        jsonData.First_Name = value as string;
       }
       if (key === 'Last_Name') {
         jsonData.Last_Name = value as string;
@@ -96,6 +120,7 @@ const ContactFormSection = () => {
       }
       if (key === 'Phone') {
         jsonData.Phone = phoneNumber;
+        jsonData.Pais = selectedCountry;
       }
       if (key === 'Profesion') {
         jsonData.Profesion = value as string;
@@ -120,14 +145,14 @@ const ContactFormSection = () => {
     const { response } = await api.postContactUs(jsonData);
 
     console.log(response);
-
+    resetForm();
   };
   return (
     <>
       <div className="col-span-2" id="contactanos">
         <div className="contact-area-wrapper">
           <div className="contact-form">
-            <form onSubmit={handleSubmit} action="/leads" className="">
+            <form onSubmit={handleSubmit} action="/leads" className="" autoComplete="off" ref={formRef}>
               <div className={`section-title mb-50`}>
                 <h2>Contáctanos</h2>
                 <div className="flex gap-6">
@@ -142,7 +167,7 @@ const ContactFormSection = () => {
               <div className="grid grid-cols-2 grid-row-6 gap-4">
                 <div className="col-xl-6">
                   <div className="contact-from-input">
-                    <input type="text" id="Name" name="Name" placeholder="Ingresar nombre" />
+                    <input type="text" id="First_Name" name="First_Name" placeholder="Ingresar nombre" />
                   </div>
                 </div>
                 <div className="col-xl-6">
@@ -164,7 +189,9 @@ const ContactFormSection = () => {
                       placeholder="Ingresar numero telefonico"
                       defaultCountry="MX"
                       value={phoneNumber}
-                      onChange={handlePhoneChange} />
+                      onChange={handlePhoneChange}
+                    />
+
                   </div>
                 </div>
 

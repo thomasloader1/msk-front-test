@@ -20,21 +20,20 @@ const ContactFormSection = () => {
       Last_Name: '',
       Email: '',
       Profession: '',
-      Message: '',
+      Description: '',
       Specialty: '',
       Phone: '',
-      Contact_Method: ''
+      Preferencia_de_contactaci_n: ''
     }
     
-    const selectedOption = (event.target as HTMLFormElement).querySelector('input[name="Contact_Method"]:checked') as HTMLInputElement;
+    const selectedOption = (event.target as HTMLFormElement).querySelector('input[name="Preferencia_de_contactaci_n"]:checked') as HTMLInputElement;
     if (selectedOption) {
       const label = selectedOption.id;
       // console.log({label});
-      jsonData.Contact_Method = label.replace(/^Contact_Method_/, '');
+      jsonData.Preferencia_de_contactaci_n = label.replace(/^Contact_Method_/, '');
     }
 
     formData.forEach((value, key, parent) => {
-
       if (key === 'Name') {
         jsonData.Name = value as string;
       }
@@ -50,8 +49,8 @@ const ContactFormSection = () => {
       if (key === 'Profession') {
         jsonData.Profession = value as string;
       }
-      if (key === 'Message') {
-        jsonData.Message = value as string;
+      if (key === 'Description') {
+        jsonData.Description = value as string;
       }
       if (key === 'Specialty') {
         jsonData.Specialty = value as string;
@@ -76,9 +75,9 @@ const ContactFormSection = () => {
                 <div className="flex gap-6">
                   <p className="text-gray-400">Quiero hablar por</p>
                   <div className="mt-1 flex gap-4">
-                    <Radio name="Contact_Method" label="Teléfono" id="Contact_Method_Teléfono" />
-                    <Radio name="Contact_Method" label="E-mail" id="Contact_Method_E-mail"/>
-                    <Radio name="Contact_Method" label="Whatsapp" id="Contact_Method_Whatsapp"/>
+                    <Radio name="Preferencia_de_contactaci_n" label="Teléfono" id="Contact_Method_Teléfono" />
+                    <Radio name="Preferencia_de_contactaci_n" label="E-mail" id="Contact_Method_E-mail"/>
+                    <Radio name="Preferencia_de_contactaci_n" label="Whatsapp" id="Contact_Method_Whatsapp"/>
                   </div>
                 </div>
               </div>
@@ -163,7 +162,7 @@ const ContactFormSection = () => {
               </div>
               <div className="col-xl-12 mt-4">
                 <div className="contact-from-input">
-                  <textarea placeholder="Message" id="Message" name="Message"></textarea>
+                  <textarea placeholder="Message" id="Message" name="Description"></textarea>
                 </div>
               </div>
               <div className="flex gap-1 mt-2 mb-4">

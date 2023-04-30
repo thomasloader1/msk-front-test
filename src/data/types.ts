@@ -203,10 +203,10 @@ export type ContactUs = {
   Last_Name: string;
   Email: string;
   Profession: string;
-  Message: string;
+  Description: string;
   Specialty: string;
   Phone: string;
-  Contact_Method: string;
+  Preferencia_de_contactaci_n: string;
 }
 
 export type Newsletter = {

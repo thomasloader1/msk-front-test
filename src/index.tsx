@@ -11,7 +11,7 @@ import "./index.css";
 import "./styles/index.scss";
 import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
 import "./styles/flaticon.css";
-import "./fonts/Lora/Lora-Italic.ttf";
+import "./fonts/Lora/Lora-VariableFont_wght.ttf";
 //
 const RtlImportCssLazy = React.lazy(() => import("RtlImportCss"));
 document

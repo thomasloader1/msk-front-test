@@ -271,6 +271,7 @@ export interface Category {
 export interface Profession {
   id: number;
   name: string;
+  slug: string;
 }
 
 export interface Specialty {
@@ -280,6 +281,12 @@ export interface Specialty {
 }
 
 export interface DurationFilter {
+  id: number;
+  name: string;
+  value?: string;
+}
+
+export interface ResourceFilter {
   id: number;
   name: string;
 }
@@ -318,15 +325,14 @@ export interface CourseDataType {
   modality?: string;
 }
 
-
 export type SignUp = {
   email: string;
   last_name: string;
-}
+};
 export type Login = {
   email: string;
   password: string;
-}
+};
 export type ContactUs = {
   First_Name: string;
   Last_Name: string;
@@ -340,8 +346,8 @@ export type ContactUs = {
   Otra_especialidad?: string;
   Otra_profesion?: string;
   Cursos_consultados?: string;
-}
+};
 
 export type Newsletter = {
   Email: string;
-}
+};

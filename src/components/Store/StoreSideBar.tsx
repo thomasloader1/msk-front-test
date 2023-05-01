@@ -1,5 +1,10 @@
 import { FC, useReducer } from "react";
-import { Profession, Specialty } from "data/types";
+import {
+  DurationFilter,
+  Profession,
+  ResourceFilter,
+  Specialty,
+} from "data/types";
 
 const initialState = {
   isActive: false,
@@ -40,7 +45,9 @@ interface Props {
   professions: Profession[];
   specialties: Specialty[];
   onChangeSpecialty: (specialty: Specialty) => void;
-  onChangeProfession: (specialty: Profession) => void;
+  onChangeProfession: (profession: Profession) => void;
+  onChangeResource: (resource: ResourceFilter) => void;
+  onChangeDuration: (duration: DurationFilter) => void;
 }
 
 const StoreSideBar: FC<Props> = ({
@@ -48,18 +55,20 @@ const StoreSideBar: FC<Props> = ({
   specialties,
   onChangeSpecialty,
   onChangeProfession,
+  onChangeResource,
+  onChangeDuration,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const resources = [
-    { label: "Curso", id: "course" },
-    { label: "E-book", id: "ebook" },
+  const resources: ResourceFilter[] = [
+    { name: "Curso", id: 1 },
+    { name: "E-book", id: 2 },
   ];
 
   const duration = [
-    { name: "Hasta 100 horas", id: 1 },
-    { name: "De 100 a 300 horas", id: 2 },
-    { name: "Más de 300 horas", id: 3 },
+    { name: "Hasta 100 horas", id: 1, value: "less_100" },
+    { name: "De 100 a 300 horas", id: 2, value: "100_300" },
+    { name: "Más de 300 horas", id: 3, value: "more_300" },
   ];
 
   return (
@@ -76,7 +85,7 @@ const StoreSideBar: FC<Props> = ({
           <ul>
             {specialties.map((specialty, index) => {
               return (
-                <li key={index}>
+                <li key={`spe_${index}`}>
                   <div className="course-sidebar-list">
                     <input
                       className="edu-check-box"
@@ -114,10 +123,14 @@ const StoreSideBar: FC<Props> = ({
                     <input
                       className="edu-check-box"
                       type="checkbox"
-                      id={resource.id}
+                      id={`res_${resource.id}`}
+                      onChange={(event) => onChangeResource(resource)}
                     />
-                    <label className="edu-check-label" htmlFor={resource.id}>
-                      {resource.label}
+                    <label
+                      className="edu-check-label"
+                      htmlFor={`res_${resource.id}`}
+                    >
+                      {resource.name}
                     </label>
                   </div>
                 </li>
@@ -172,12 +185,13 @@ const StoreSideBar: FC<Props> = ({
           <ul>
             {duration.map((item, index) => {
               return (
-                <li key={index}>
+                <li key={`dur_${index}`}>
                   <div className="course-sidebar-list">
                     <input
                       className="edu-check-box"
                       type="checkbox"
                       id={`dur_${item.id}`}
+                      onChange={(event) => onChangeDuration(item)}
                     />
                     <label
                       className="edu-check-label"

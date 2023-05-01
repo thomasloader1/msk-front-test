@@ -93,6 +93,7 @@ const PageHome: React.FC = () => {
             className="py-16 lg:py-28"
             heading="Oportunidades para ti"
             courses={courses}
+            bestSeller={bestSeller}
             tabs={TABS_HOME}
           />
           {/* === SECTION 3 === */}

@@ -1,10 +1,16 @@
-import { DurationFilter, Profession, Specialty } from "data/types";
+import {
+  ResourceFilter,
+  DurationFilter,
+  Profession,
+  Specialty,
+} from "data/types";
 import React, { createContext, useReducer, useContext } from "react";
 
 type Filter = {
   specialties: Specialty[];
   professions: Profession[];
   duration: DurationFilter[];
+  resources: ResourceFilter[];
 };
 
 type State = {
@@ -16,14 +22,14 @@ type Action =
       type: "ADD_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter;
+        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
       };
     }
   | {
       type: "REMOVE_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter;
+        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
       };
     };
 
@@ -31,11 +37,11 @@ type ContextType = {
   storeFilters: Filter;
   addFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
   removeFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
 };
 
@@ -44,6 +50,7 @@ const StoreFiltersContext = createContext<ContextType>({
     specialties: [],
     professions: [],
     duration: [],
+    resources: [],
   },
   addFilter: () => {},
   removeFilter: () => {},
@@ -54,6 +61,7 @@ const initialState: State = {
     specialties: [],
     professions: [],
     duration: [],
+    resources: [],
   },
 };
 

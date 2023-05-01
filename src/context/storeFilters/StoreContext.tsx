@@ -1,11 +1,17 @@
 import axios from "axios";
-import { DurationFilter, Profession, Specialty } from "data/types";
+import {
+  DurationFilter,
+  Profession,
+  ResourceFilter,
+  Specialty,
+} from "data/types";
 import React, { createContext, useReducer, useContext } from "react";
 
 type Filter = {
   specialties: Specialty[];
   professions: Profession[];
   duration: DurationFilter[];
+  resources: ResourceFilter[];
 };
 
 type State = {
@@ -17,14 +23,14 @@ type Action =
       type: "ADD_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter;
+        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
       };
     }
   | {
       type: "REMOVE_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter;
+        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
       };
     };
 
@@ -32,11 +38,11 @@ type ContextType = {
   storeFilters: Filter;
   addFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
   removeFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
 };
 
@@ -69,6 +75,7 @@ const StoreFiltersContext = createContext<ContextType>({
     specialties: [],
     professions: [],
     duration: [],
+    resources: [],
   },
   addFilter: () => {},
   removeFilter: () => {},
@@ -79,6 +86,7 @@ const initialState: State = {
     specialties: [],
     professions: [],
     duration: [],
+    resources: [],
   },
 };
 
@@ -103,7 +111,18 @@ function reducer(state: State, action: Action): State {
           [action.payload.filterType]: state.storeFilters[
             action.payload.filterType
           ].filter(
-            (filterValue: any) => filterValue !== action.payload.filterValue
+            (
+              filterValue:
+                | Specialty
+                | Profession
+                | DurationFilter
+                | ResourceFilter
+            ) => {
+              return (
+                filterValue !== action.payload.filterValue &&
+                filterValue.name !== action.payload.filterValue.name
+              );
+            }
           ),
         },
       };
@@ -115,19 +134,19 @@ function reducer(state: State, action: Action): State {
 function StoreFiltersProvider(props: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function addFilter(
+  const addFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
-  ) {
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
+  ) => {
     dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
-  }
+  };
 
-  function removeFilter(
+  const removeFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
-  ) {
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
+  ) => {
     dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
-  }
+  };
 
   return (
     <StoreFiltersContext.Provider

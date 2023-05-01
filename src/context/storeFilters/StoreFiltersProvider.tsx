@@ -1,10 +1,16 @@
-import { DurationFilter, Profession, Specialty } from "data/types";
+import {
+  DurationFilter,
+  Profession,
+  ResourceFilter,
+  Specialty,
+} from "data/types";
 import React, { createContext, useReducer } from "react";
 
 interface Filter {
   specialties: Specialty[];
   professions: Profession[];
   duration: DurationFilter[];
+  resources: ResourceFilter[];
 }
 
 interface State {
@@ -15,7 +21,7 @@ interface Action {
   type: "ADD_FILTER" | "REMOVE_FILTER";
   payload: {
     filterType: keyof Filter;
-    filterValue: Specialty | Profession | DurationFilter;
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
   };
 }
 
@@ -23,11 +29,11 @@ type StoreFiltersContextType = {
   state: State;
   addFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
   removeFilter: (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
 };
 
@@ -36,6 +42,7 @@ const initialState: State = {
     specialties: [],
     professions: [],
     duration: [],
+    resources: [],
   },
 };
 
@@ -80,7 +87,7 @@ export const StoreFiltersProvider: React.FC<any> = ({ children }) => {
 
   const addFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => {
     dispatch({
       type: "ADD_FILTER",
@@ -93,7 +100,7 @@ export const StoreFiltersProvider: React.FC<any> = ({ children }) => {
 
   const removeFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter
+    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => {
     dispatch({
       type: "REMOVE_FILTER",

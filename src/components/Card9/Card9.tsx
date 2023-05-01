@@ -21,7 +21,7 @@ const Card9: FC<Card9Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, image } = post;
-  const imageURL = image.replace('mx.', '')
+  const imageURL = image.replace("mx.", "");
 
   // const author = {
   //   href: "",

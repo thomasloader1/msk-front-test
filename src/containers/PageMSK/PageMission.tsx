@@ -10,7 +10,7 @@ const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/src/images/misc/mission.png",
   title: "Nuestra misión",
-  desc: "We’re an online magazine dedicated to covering the best in international product design. We started as a little blog back in 2002 covering student work and over time",
+  desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
   commentCount: 14,

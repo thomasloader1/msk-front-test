@@ -5,7 +5,13 @@ import StoreContent from "components/Store/StoreContent";
 import axios from "axios";
 import LoadingImage from "components/Loader/Image";
 import { Helmet } from "react-helmet";
-import { FetchCourseType } from "data/types";
+import {
+  DurationFilter,
+  FetchCourseType,
+  Profession,
+  ResourceFilter,
+  Specialty,
+} from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreContext";
 import { API_URL } from "data/api";
 
@@ -39,6 +45,19 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     axios
       .get("https://www.msklatam.com/msk-laravel/public/api/store/professions")
       .then((response) => {
+        response.data.map((profession: any) => {
+          switch (profession.name) {
+            case "Personal médico":
+              profession.slug = "medicos";
+              break;
+            case "Personal de enfermería y auxiliares":
+              profession.slug = "enfermeros-auxiliares";
+              break;
+            case "Otra profesión":
+              profession.slug = "otra-profesion";
+              break;
+          }
+        });
         setProfessions(response.data);
       })
       .catch((error) => {
@@ -64,12 +83,26 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   const filterBySpecialtiesAndProfessions = () => {
     const selectedSpecialties = storeFilters.specialties.map(
-      (filter: any) => filter.name
+      (filter: Specialty) => filter.name
     );
     const selectedProfessions = storeFilters.professions.map(
-      (filter: any) => filter.name
+      (filter: Profession) => filter.slug
     );
-    if (!(selectedSpecialties.length || selectedProfessions.length)) {
+    const selectedResources = storeFilters.resources.map(
+      (filter: ResourceFilter) => filter.name
+    );
+    const selectedDurations = storeFilters.duration.map(
+      (filter: DurationFilter) => filter.value
+    );
+
+    if (
+      !(
+        selectedSpecialties.length ||
+        selectedProfessions.length ||
+        selectedResources.length ||
+        selectedDurations.length
+      )
+    ) {
       setProducts(auxProducts);
     } else {
       const filteredProducts = products.filter((product) => {
@@ -79,19 +112,45 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         const prodProfessions = product.professions.map(
           (profession) => profession.name
         );
+        const prodDuration = product.duration;
+
         const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
         const professionsMatch = selectedProfessions.every((profession) =>
           prodProfessions.some((prodProfession) => {
-            console.log(prodProfession, profession);
             return prodProfession
               .toLowerCase()
               .includes(profession.toLowerCase());
           })
         );
 
-        return specialtiesMatch && professionsMatch;
+        const resourcesMatch = selectedResources.every((resource) => {
+          if (resource === "Curso") {
+            return product.duration !== null;
+          } else if (resource === "E-book") {
+            return product.duration === null;
+          }
+        });
+
+        const durationsMatch = selectedDurations.every((duration) => {
+          const currentDuration = parseInt(prodDuration);
+          switch (duration) {
+            case "less_100":
+              return currentDuration <= 100;
+            case "100_300":
+              return currentDuration > 100 && currentDuration <= 300;
+            case "more_300":
+              return currentDuration > 300;
+          }
+        });
+
+        return (
+          specialtiesMatch &&
+          professionsMatch &&
+          resourcesMatch &&
+          durationsMatch
+        );
       });
       setProducts(filteredProducts);
     }

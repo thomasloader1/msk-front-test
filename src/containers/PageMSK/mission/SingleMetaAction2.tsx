@@ -17,6 +17,25 @@ const SingleMetaAction2: FC<SingleMetaAction2Props> = ({
 }) => {
   const { id, bookmark } = meta;
 
+  const socialShare = (event: any, meta: any) => {
+    const url = window.location.href;
+    switch (event.id) {
+      case "Twitter":
+        window.open(`https://twitter.com/intent/tweet?url=${url}&via=MSK`);
+        break;
+      case "Facebook":
+        window.open(`https://www.facebook.com/sharer.php?u=${url}`);
+        break;
+      // case "LinkedIn":
+      //   window.open(
+      //     `https://www.linkedin.com/shareArticle?mini=true&url=${url}`
+      //   );
+      //   break;
+      // case "Reddit":
+      //   window.open(`https://www.reddit.com/submit?url=${url}`);
+      //   break;
+    }
+  };
   return (
     <div className={`nc-SingleMetaAction2 ${className}`}>
       <div className="flex flex-row space-x-2.5 items-center">
@@ -54,7 +73,7 @@ const SingleMetaAction2: FC<SingleMetaAction2Props> = ({
               />
             </svg>
           )}
-          onClick={() => {}}
+          onClick={(event) => socialShare(event, meta)}
           data={SOCIALS_DATA}
         />
         {/* <PostActionDropdown

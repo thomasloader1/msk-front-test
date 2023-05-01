@@ -63,7 +63,7 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
                   <div className="course-results">
                     Mostrando{" "}
                     <span className="course-result-showing">
-                      {length > 9 ? 9 : length}
+                      {length > 18 ? 18 : length}
                     </span>{" "}
                     de <span className="course-result-number">{length}</span>{" "}
                     resultados
@@ -73,7 +73,7 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
                   <div className="course-drop-inner">
                     <select onChange={handleSelectOption}>
                       <option value="">Seleccione una opción</option>
-                      <option value="newer">Más nuevos</option>
+                      {/* <option value="newer">Más nuevos</option> */}
                       <option value="duration">Duración</option>
                     </select>
                   </div>

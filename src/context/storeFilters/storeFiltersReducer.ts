@@ -1,23 +1,23 @@
+import React, { createContext, useReducer, useContext } from "react";
 import {
   ResourceFilter,
   DurationFilter,
   Profession,
   Specialty,
 } from "data/types";
-import React, { createContext, useReducer, useContext } from "react";
 
-type Filter = {
+export type Filter = {
   specialties: Specialty[];
   professions: Profession[];
   duration: DurationFilter[];
   resources: ResourceFilter[];
 };
 
-type State = {
+export type State = {
   storeFilters: Filter;
 };
 
-type Action =
+export type Action =
   | {
       type: "ADD_FILTER";
       payload: {
@@ -31,41 +31,12 @@ type Action =
         filterType: keyof Filter;
         filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
       };
+    }
+  | {
+      type: "CLEAR_FILTERS";
     };
 
-type ContextType = {
-  storeFilters: Filter;
-  addFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-  removeFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-};
-
-const StoreFiltersContext = createContext<ContextType>({
-  storeFilters: {
-    specialties: [],
-    professions: [],
-    duration: [],
-    resources: [],
-  },
-  addFilter: () => {},
-  removeFilter: () => {},
-});
-
-const initialState: State = {
-  storeFilters: {
-    specialties: [],
-    professions: [],
-    duration: [],
-    resources: [],
-  },
-};
-
-function reducer(state: State, action: Action): State {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
       return {
@@ -85,14 +56,27 @@ function reducer(state: State, action: Action): State {
           ...state.storeFilters,
           [action.payload.filterType]: state.storeFilters[
             action.payload.filterType
-          ].filter(
-            (filterValue: any) => filterValue !== action.payload.filterValue
-          ),
+          ].filter((filterValue: any) => {
+            return (
+              filterValue !== action.payload.filterValue &&
+              filterValue.name !== action.payload.filterValue.name
+            );
+          }),
+        },
+      };
+    case "CLEAR_FILTERS":
+      return {
+        ...state,
+        storeFilters: {
+          specialties: [],
+          professions: [],
+          duration: [],
+          resources: [],
         },
       };
     default:
       return state;
   }
-}
+};
 
 export default reducer;

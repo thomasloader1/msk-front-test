@@ -7,30 +7,17 @@ interface Props {
 }
 
 const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
 
-  useEffect(() => {
-    if (searchTerm) {
-      const timer = setTimeout(() => {
-        onSearch(searchTerm);
-      }, 500);
-
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [searchTerm, onSearch]);
-
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    onSearch(event.target.value);
   };
 
   const handleSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
     onFilter(event.target.value);
   };
-  return length ? (
+  return (
     <div className=" course-bar-up-area">
       <div className="container">
         <div className="grid grid-cols-1">
@@ -47,7 +34,6 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
                     <input
                       type="text"
                       placeholder="Buscar"
-                      value={searchTerm}
                       onChange={handleSearchInput}
                     />
                     <button type="submit">
@@ -84,7 +70,7 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default StoreBar;

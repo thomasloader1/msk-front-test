@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
-import {Newsletter} from '../../data/types';
-import api from '../../Services/api';
+import { Newsletter } from "../../data/types";
+import api from "../../Services/api";
 
 const FooterEduman = () => {
   const scrollToContactForm = () => {
@@ -14,28 +14,25 @@ const FooterEduman = () => {
       });
     }
   };
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const formData = new FormData(event.target as HTMLFormElement);
-      console.log({formData, target: event.target});
-      
-      const jsonData: Newsletter = {
-        Email: '',
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    console.log({ formData, target: event.target });
+
+    const jsonData: Newsletter = {
+      Email: "",
+    };
+
+    formData.forEach((value, key, parent) => {
+      if (key === "Email") {
+        jsonData.Email = value as string;
       }
-  
-      formData.forEach((value, key, parent) => {
-  
-        if (key === 'Email') {
-          jsonData.Email = value as string;
-        }
-        
-      });
-      console.log({jsonData});
-    
-      const {response} = await api.postNewsletter(jsonData);
-      
-      console.log(response);
-    
+    });
+    console.log({ jsonData });
+
+    const { response } = await api.postNewsletter(jsonData);
+
+    console.log(response);
   };
   return (
     <footer>
@@ -56,9 +53,17 @@ const FooterEduman = () => {
             <div className="divisor" />
             <div className="footer-column">
               <div className="copyright-subcribe ">
-                <form onSubmit={handleSubmit} method="post" className="widget__subscribe">
+                <form
+                  onSubmit={handleSubmit}
+                  method="post"
+                  className="widget__subscribe"
+                >
                   <div className="field ">
-                    <input type="email" name="Email" placeholder="Ingresar e-mail" />
+                    <input
+                      type="email"
+                      name="Email"
+                      placeholder="Ingresar e-mail"
+                    />
                   </div>
                   <button type="submit">
                     Suscribirme
@@ -82,11 +87,11 @@ const FooterEduman = () => {
                         width="150"
                       />
                     </Link>
-                    <p>
+                    <p className="footer-copyright">
                       Una propuesta moderna que desafía a expandir las metas
                       profesionales
-                      <br />© 2023 • Medical&Scientific Knowledge S.L.
                     </p>
+                    <p>© 2023 • Medical&Scientific Knowledge S.L.</p>
                   </div>
                   <div className="footer-icon">
                     <a
@@ -128,15 +133,15 @@ const FooterEduman = () => {
                     <li>
                       <Link to="/mision">Nuestra misión</Link>
                     </li>
-                    {/* <li>
-                      <Link to="/course">Conviértete en Partner</Link>
+                    <li>
+                      <Link to="/partners">Conviértete en Partner</Link>
                     </li>
                     <li>
-                      <Link to="/course">Preguntas frecuentes</Link>
+                      <Link to="/faq">Preguntas frecuentes</Link>
                     </li>
                     <li>
-                      <Link to="/course">Convenios</Link>
-                    </li> */}
+                      <Link to="/convenios">Convenios</Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -153,18 +158,22 @@ const FooterEduman = () => {
                         Contacto
                       </span>
                     </li>
-                    {/* <li>
-                      <Link to="/contact">Términos y condiciones</Link>
+                    <li>
+                      <Link to="/terminos-y-condiciones">
+                        Términos y condiciones
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/contact">Política de privacidad</Link>
+                      <Link to="/privacidad">Política de privacidad</Link>
                     </li>
                     <li>
-                      <Link to="/contact">Política de cookies</Link>
+                      <Link to="/cookies">Política de cookies</Link>
                     </li>
                     <li>
-                      <Link to="/faq-page">Condiciones de contratación</Link>
-                    </li> */}
+                      <Link to="/contratacion">
+                        Condiciones de contratación
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>

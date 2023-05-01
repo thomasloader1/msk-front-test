@@ -1,6 +1,6 @@
 import { StoreFiltersProvider } from "context/storeFilters/StoreContext";
 import React, { useEffect } from "react";
-import MyRouter from "routers/msk";
+import MyRouter from "routers";
 
 function App() {
   useEffect(() => {

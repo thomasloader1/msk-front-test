@@ -69,6 +69,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
           }`}
           to={{
             pathname: item.href || undefined,
+            search: item.search,
           }}
           activeClassName="text-secondary"
         >

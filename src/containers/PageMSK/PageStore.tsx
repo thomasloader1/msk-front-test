@@ -25,10 +25,11 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [products, setProducts] = useState<FetchCourseType[]>([]);
   const [specialties, setSpecialties] = useState([]);
   const [professions, setProfessions] = useState([]);
-  const { storeFilters } = useStoreFilters();
+  const { storeFilters, clearFilters } = useStoreFilters();
 
   // FETCH DATA
   useEffect(() => {
+    clearFilters();
     setLoading(true);
     axios
       .get(`${API_URL}/products?country=mx`)
@@ -105,7 +106,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     ) {
       setProducts(auxProducts);
     } else {
-      const filteredProducts = products.filter((product) => {
+      const filteredProducts = auxProducts.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
         );
@@ -157,10 +158,15 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   };
 
   const triggerSearch = (event: any) => {
-    const filteredProducts = auxProducts.filter((product) =>
-      product.title.toLowerCase().includes(event)
-    );
-    setProducts(filteredProducts);
+    if (event) {
+      const filteredProducts = auxProducts.filter((product) =>
+        product.title.toLowerCase().includes(event)
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(auxProducts);
+      applyFilters();
+    }
   };
 
   const triggerFilter = async (event: any) => {

@@ -430,11 +430,13 @@ const aboutMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Cursos para personal médico",
+    search: "?profesion=medicos",
   },
   {
     id: ncNanoId(),
     href: "/tienda",
     name: "Cursos para otras profesiones",
+    search: "?profesion=otra-profesion",
   },
   // {
   //   id: ncNanoId(),

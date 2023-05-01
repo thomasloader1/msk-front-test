@@ -78,10 +78,10 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   // FILTERS
   useEffect(() => {
-    filterBySpecialtiesAndProfessions();
+    applyFilters();
   }, [storeFilters]);
 
-  const filterBySpecialtiesAndProfessions = () => {
+  const applyFilters = () => {
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );

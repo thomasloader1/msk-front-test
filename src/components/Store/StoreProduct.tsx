@@ -82,10 +82,16 @@ const StoreProduct: FC<Props> = ({
         </div>
       </div>
       <div className="course-2-footer">
-        <div className="coursee-clock">
-          <i className="flaticon-clock"></i>
-          <span>{product.duration || "-"} horas</span>
-        </div>
+        {product.duration ? (
+          <div className="coursee-clock">
+            <i className="flaticon-clock"></i>
+            <span>{product.duration} horas</span>
+          </div>
+        ) : (
+          <span className="bg-blue-200 px-3 py-0.5 text-blue-700 rounded text-semibold">
+            E-book
+          </span>
+        )}
 
         <Link
           to={`/curso/${product.id}`}

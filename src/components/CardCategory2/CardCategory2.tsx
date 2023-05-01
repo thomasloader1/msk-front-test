@@ -49,7 +49,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
         src={thumbnail}
       />
       <div className="mt-3 ">
-        <h2 className={`text-base sm:text-lg  `}>
+        <h2 className={`text-base sm:text-lg`}>
           <span className="line-clamp-1">{name}</span>
         </h2>
         {/* <span

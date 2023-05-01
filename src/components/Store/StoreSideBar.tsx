@@ -1,10 +1,11 @@
-import { FC, useReducer } from "react";
+import { FC, useEffect, useReducer, useState } from "react";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "data/types";
+import { useStoreFilters } from "context/storeFilters/StoreContext";
 
 const initialState = {
   isActive: false,
@@ -59,6 +60,8 @@ const StoreSideBar: FC<Props> = ({
   onChangeDuration,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const { storeFilters } = useStoreFilters();
 
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
@@ -70,6 +73,69 @@ const StoreSideBar: FC<Props> = ({
     { name: "De 100 a 300 horas", id: 2, value: "100_300" },
     { name: "Más de 300 horas", id: 3, value: "more_300" },
   ];
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const searchQuery = currentUrl.split("?");
+    if (searchQuery[1]) {
+      let filterTitle = "";
+      let filterQuery = "";
+      if (searchQuery[1].length) {
+        filterTitle = searchQuery[1].split("=")[0];
+        filterQuery = searchQuery[1].split("=")[1];
+      }
+
+      const professionExists = professions.filter(
+        (item) => item.slug == filterQuery
+      );
+      const specialtiesExists = specialties.filter((item) => {
+        return item.name == decodeURIComponent(filterQuery);
+      });
+      let filterExists: Profession[] | Specialty[] = [];
+
+      if (professionExists.length) filterExists = professionExists;
+      if (specialtiesExists.length) filterExists = specialtiesExists;
+      let filterName = "";
+      let filterId = 0;
+
+      if (filterExists.length && initialLoad) {
+        filterId = filterExists[0].id;
+        filterName = filterExists[0].name;
+        switch (filterTitle) {
+          case "profesion":
+            onChangeProfession({
+              id: filterId,
+              name: filterName,
+              slug: filterQuery,
+            });
+            break;
+          case "especialidad":
+            onChangeSpecialty({
+              id: filterId,
+              name: filterName,
+            });
+        }
+        setInitialLoad(false);
+      }
+    }
+  }, [onChangeProfession, onChangeSpecialty]);
+
+  const isChecked = (type: string, value: any) => {
+    switch (type) {
+      case "professions":
+        return !!storeFilters[type as keyof typeof storeFilters].filter(
+          (profession: any) => {
+            return profession.slug == value.slug;
+          }
+        ).length;
+      case "specialties":
+        return !!storeFilters[type as keyof typeof storeFilters].filter(
+          (specialty: any) => {
+            return specialty.name == value.name;
+          }
+        ).length;
+    }
+  };
 
   return (
     <>
@@ -92,6 +158,7 @@ const StoreSideBar: FC<Props> = ({
                       type="checkbox"
                       id={`specialty_${specialty.id}`}
                       onChange={(event) => onChangeSpecialty(specialty)}
+                      checked={isChecked("specialties", specialty)}
                     />
                     <label
                       className="edu-check-label"
@@ -158,6 +225,7 @@ const StoreSideBar: FC<Props> = ({
                       type="checkbox"
                       id={`profession_${profession.id}`}
                       onChange={(event) => onChangeProfession(profession)}
+                      checked={isChecked("professions", profession)}
                     />
                     <label
                       className="edu-check-label"

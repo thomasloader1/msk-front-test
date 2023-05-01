@@ -20,6 +20,7 @@ export interface NavItemType {
   megaMenu?: MegamenuItem[];
   type?: "dropdown" | "megaMenu" | "none";
   isNew?: boolean;
+  search?: string;
 }
 
 export interface NavigationItemProps {
@@ -272,6 +273,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         className="flex items-center font-normal text-neutral-6000 dark:text-neutral-300 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
         to={{
           pathname: item.href || undefined,
+          search: item.search,
         }}
         activeClassName="font-semibold text-neutral-700 dark:!text-neutral-200"
       >

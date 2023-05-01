@@ -4,22 +4,22 @@ const SPECIALTIES: Specialty[] = [
   {
     id: 1,
     name: "Cardiología",
-    href: "/tienda",
+    href: "/tienda?especialidad=Cardiología",
   },
   {
     id: 2,
     name: "Enfermería",
-    href: "/tienda",
+    href: "/tienda?especialidad=Enfermería",
   },
   {
     id: 3,
     name: "Medicina General",
-    href: "/tienda",
+    href: "/tienda?especialidad=Medicina General",
   },
   {
     id: 4,
     name: "Infectología",
-    href: "/tienda",
+    href: "/tienda?especialidad=Infectología",
   },
   {
     id: 5,

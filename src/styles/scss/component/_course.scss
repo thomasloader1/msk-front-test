@@ -958,9 +958,12 @@
 	ul {
 		li {
 			margin-top: 12px;
+			z-index: 1;
+			position: relative;
 		}
 	}
 	.absolute-img {
+		z-index: 0;
 		position: absolute;
 		bottom: 0;
 		right: 30px;

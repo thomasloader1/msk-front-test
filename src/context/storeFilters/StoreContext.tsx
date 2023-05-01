@@ -6,33 +6,7 @@ import {
   Specialty,
 } from "data/types";
 import React, { createContext, useReducer, useContext } from "react";
-
-type Filter = {
-  specialties: Specialty[];
-  professions: Profession[];
-  duration: DurationFilter[];
-  resources: ResourceFilter[];
-};
-
-type State = {
-  storeFilters: Filter;
-};
-
-type Action =
-  | {
-      type: "ADD_FILTER";
-      payload: {
-        filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
-      };
-    }
-  | {
-      type: "REMOVE_FILTER";
-      payload: {
-        filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
-      };
-    };
+import reducer, { Action, Filter, State } from "./storeFiltersReducer";
 
 type ContextType = {
   storeFilters: Filter;
@@ -44,30 +18,7 @@ type ContextType = {
     filterType: keyof Filter,
     filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => void;
-};
-
-const fetchSpecialties = async () => {
-  try {
-    const response = await axios.get(
-      "https://msklatam.com/msk-laravel/public/api/specialities"
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
-const fetchProfessions = async () => {
-  try {
-    const response = await axios.get(
-      "https://msklatam.com/msk-laravel/public/api/professions"
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  clearFilters: () => void;
 };
 
 const StoreFiltersContext = createContext<ContextType>({
@@ -79,6 +30,7 @@ const StoreFiltersContext = createContext<ContextType>({
   },
   addFilter: () => {},
   removeFilter: () => {},
+  clearFilters: () => {},
 });
 
 const initialState: State = {
@@ -89,47 +41,6 @@ const initialState: State = {
     resources: [],
   },
 };
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "ADD_FILTER":
-      return {
-        ...state,
-        storeFilters: {
-          ...state.storeFilters,
-          [action.payload.filterType]: [
-            ...state.storeFilters[action.payload.filterType],
-            action.payload.filterValue,
-          ],
-        },
-      };
-    case "REMOVE_FILTER":
-      return {
-        ...state,
-        storeFilters: {
-          ...state.storeFilters,
-          [action.payload.filterType]: state.storeFilters[
-            action.payload.filterType
-          ].filter(
-            (
-              filterValue:
-                | Specialty
-                | Profession
-                | DurationFilter
-                | ResourceFilter
-            ) => {
-              return (
-                filterValue !== action.payload.filterValue &&
-                filterValue.name !== action.payload.filterValue.name
-              );
-            }
-          ),
-        },
-      };
-    default:
-      return state;
-  }
-}
 
 function StoreFiltersProvider(props: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -148,9 +59,18 @@ function StoreFiltersProvider(props: { children: React.ReactNode }) {
     dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
   };
 
+  const clearFilters = () => {
+    dispatch({ type: "CLEAR_FILTERS" });
+  };
+
   return (
     <StoreFiltersContext.Provider
-      value={{ storeFilters: state.storeFilters, addFilter, removeFilter }}
+      value={{
+        storeFilters: state.storeFilters,
+        addFilter,
+        removeFilter,
+        clearFilters,
+      }}
     >
       {props.children}
     </StoreFiltersContext.Provider>

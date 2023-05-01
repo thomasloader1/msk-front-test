@@ -14,11 +14,13 @@ const StoreProduct: FC<Props> = ({
   className,
   hoverEffect = false,
 }): any => {
+
+  const imageURL = product.image.replace("mx.", "");
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
         <Link to={`/curso/${product.id}`}>
-          <img src={product.image} alt="course-img" />
+          <img src={imageURL} alt="course-img" />
         </Link>
       </div>
       {hoverEffect ? (

@@ -32,7 +32,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     clearFilters();
     setLoading(true);
     axios
-      .get(`${API_URL}/products`)
+      .get(`${API_URL}/products?country=mx`)
       .then((response) => {
         setLoading(false);
         setAuxProducts([...response.data.products]);

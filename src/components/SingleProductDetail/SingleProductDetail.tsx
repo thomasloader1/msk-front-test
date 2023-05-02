@@ -10,11 +10,13 @@ import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
 import { Alert } from "components/Alert/Alert";
 
+
 interface Props {
   product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
+  console.log(product);
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,39 +35,43 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             <div className="course-heading mb-10">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
-            <div className="course-detelis-meta">
+            {product.authors.length || product.temario || (product.details && product.details["duration"]) ? 
+            (<div className="course-detelis-meta">
+            {product.authors.length ? (
+              <>
               <div className="course-meta-wrapper border-line-meta">
-                {product.authors.length ? (
-                  <>
-                    <div className="course-meta-img">
-                      <img src={product.authors[0].image.replace('mx.', '')} alt="course-meta" />
-                    </div>
+                <div className="course-meta-img">
+                  <img src={product.authors[0].image.replace('mx.', '')} alt="course-meta" />
+                </div>
 
-                    <div>
-                      <span>Creado por</span>
-                      <h6 className="font-bold">{product.authors[0].name}</h6>
-                    </div>
-                  </>
-                ) : null}
+                <div>
+                  <span>Creado por</span>
+                  <h6 className="font-bold">{product.authors[0].name}</h6>
+                </div>
               </div>
-              {product.temario ? (
-                <div className="border-line-meta">
-                  <p>Contenido</p>
-                  <span className="font-bold">
-                    {product.temario["data"]?.row_count} Módulos
-                  </span>
-                </div>
-              ) : null}
-
-              {product.details && product.details["duration"] ? (
-                <div className="border-line-meta">
-                  <p>Duración</p>
-                  <span className="font-bold">
-                    {product.details["duration"].value} Horas estimadas
-                  </span>
-                </div>
-              ) : null}
+              </>
+            ) : null}
+          {product.temario ? (
+            <div className="border-line-meta">
+              <p>Contenido</p>
+              <span className="font-bold">
+                {product.temario["data"]?.row_count} Módulos
+              </span>
             </div>
+          ) : null}
+
+          {product.details && product.details["duration"] ? (
+            <div className="border-line-meta">
+              <p>Duración</p>
+              <span className="font-bold">
+                {product.details["duration"].value} Horas estimadas
+              </span>
+            </div>
+          ) : null}
+        </div>) 
+            :
+            (<></>)}
+            
             {product.description ? (
               <div className="course-description pt-45 pb-30">
                 <div className="course-Description">
@@ -89,20 +95,27 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             {product.requirements ? (
               <CourseRequirements requirements={product.requirements} />
             ) : (
-              <Alert type="info">"No encontramos los requerimientos"</Alert>
+              <></>
             )}
             {product.temario ? (
               <ProductCurriculiam topics={product.temario} />
             ) : (
-              <Alert type="info">"No encontramos el temario"</Alert>
+              <></>
             )}
 
             {product.evaluacion ? (
               <ProductEvaluation evaluations={product.evaluacion} />
             ) : (
-              <Alert type="info">"No encontramos la forma de evaluar"</Alert>
+              <></>
             )}
-            <h4 className="mt-6 font-bold">Quiénes lo desarrollan</h4>
+
+          {product.goals ? (
+              <><h4 className="font-semibold text-xl">Objetivos</h4><p>{<div dangerouslySetInnerHTML={{ __html: product.goals }} />}</p></>
+            ) : (
+              <p></p>
+            )}
+            {product.authors.length ? (<h4 className="mt-6 font-bold">Quiénes lo desarrollan</h4>) :
+            (<p></p>)}
             <div className="grid grid-cols-2">
               {product.authors.length ? (
                 product.authors.map((instructor, index) => {
@@ -114,7 +127,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   );
                 })
               ) : (
-                <Alert type="info">"No se encontraron los instructores"</Alert>
+                <p></p>
               )}
             </div>
           </div>

@@ -19,7 +19,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
   const location = useLocation();
 
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products`);
+    const res = await axios.get(`${API_URL}/products?country=mx`);
     setCourses(res.data.products);
   };
   useEffect(() => {

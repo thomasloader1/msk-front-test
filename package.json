@@ -41,6 +41,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/glidejs__glide": "^3.4.2",
     "@types/jest": "^28.1.6",
     "@types/lodash": "^4.14.182",

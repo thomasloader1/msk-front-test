@@ -14,7 +14,7 @@ const PageSingleProduct = () => {
     setLoading(true);
     if (slug) {
       axios
-        .get(`${API_URL}/product/${slug}`)
+        .get(`${API_URL}/product/${slug}?country=mx`)
         .then((response) => {
           setLoading(false);
           setProduct(response.data);

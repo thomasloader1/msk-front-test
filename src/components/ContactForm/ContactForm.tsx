@@ -13,7 +13,7 @@ import api from '../../Services/api';
 // import 'react-intl-tel-input/dist/main.css';
 // import IntlTelInput from 'react-intl-tel-input';
 
-const ContactFormSection = () => {
+const ContactFormSection = ({ productName = '' }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
@@ -138,7 +138,9 @@ const ContactFormSection = () => {
       if (key === 'Otra_profesion') {
         jsonData.Otra_profesion = value as string;
       }
-
+      if (key === 'Cursos_consultados' && productName !== '') {
+        jsonData.Cursos_consultados = productName;
+      }
     });
     console.log({ jsonData });
 
@@ -153,6 +155,7 @@ const ContactFormSection = () => {
         <div className="contact-area-wrapper">
           <div className="contact-form">
             <form onSubmit={handleSubmit} action="/leads" className="" autoComplete="off" ref={formRef}>
+              <input type="hidden" name="Cursos_consultados" id="Cursos_consultados" value={productName} />
               <div className={`section-title mb-50`}>
                 <h2>Contáctanos</h2>
                 <div className="flex gap-6">

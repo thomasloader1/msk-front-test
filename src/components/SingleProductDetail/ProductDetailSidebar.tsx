@@ -42,7 +42,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
     <div className="course-video-widget">
       <div className="course-widget-wrapper mb-30">
         <div className="course-video-thumb w-img hidden lg:flex">
-          <img src={ficha.image} alt="img not found" />
+          <img src={ficha.image.replace('mx.', '')} alt="img not found" />
         </div>
         <div className="course-video-price">
           <span>💳 Pagos sin intereses</span>

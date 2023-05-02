@@ -38,7 +38,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 {product.authors.length ? (
                   <>
                     <div className="course-meta-img">
-                      <img src={product.authors[0].image} alt="course-meta" />
+                      <img src={product.authors[0].image.replace('mx.', '')} alt="course-meta" />
                     </div>
 
                     <div>
@@ -127,7 +127,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         </div>
       </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
-        <ContactFormSection />
+        <ContactFormSection productName={product.ficha.title} />
       </div>
       {product.related_products.length ? (
         <div className="container relative py-16 mt-16 ">

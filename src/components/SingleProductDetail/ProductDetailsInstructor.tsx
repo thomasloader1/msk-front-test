@@ -14,7 +14,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
     <div className="course-instructors">
       <div className="instructors-heading">
         <div className="instructors-img">
-          <img src={instructor.image} alt="img not found" />
+          <img src={instructor.image.replace('mx.', '')} alt="img not found" />
         </div>
         <div className="instructors-body">
           <h5>{instructor.name}</h5>

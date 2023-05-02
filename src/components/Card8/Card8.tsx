@@ -18,7 +18,7 @@ const Card8: FC<Card8Props> = ({
   post,
   badgeColor = "yellow",
 }) => {
-  const { title, categories, id, image } = post;
+  const { title, categories, id, slug, image } = post;
   const imageURL = image.replace("mx.", "");
   return (
     <div
@@ -27,7 +27,7 @@ const Card8: FC<Card8Props> = ({
     >
       {/* <SocialsShare className="absolute hidden md:grid gap-[5px] right-4 top-4 opacity-0 z-[-1] group-hover:z-10 group-hover:opacity-100 transition-all duration-300" /> */}
       <Link
-        to={`/curso/${id}`}
+        to={`/curso/${slug}`}
         className="block w-full h-0 pt-[100%] sm:pt-[55%] overflow-hidden"
       >
         <NcImage
@@ -45,17 +45,17 @@ const Card8: FC<Card8Props> = ({
         /> */}
       </Link>
       <Link
-        to={`/curso/${id}`}
+        to={`/curso/${slug}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"
       ></Link>
       <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 flex flex-col">
-        <Link to={`/curso/${id}`} className="absolute inset-0" />
+        <Link to={`/curso/${slug}`} className="absolute inset-0" />
         <CategoryBadgeList color={badgeColor} categories={categories} />
         <h2
           className={`mt-3 relative block font-semibold text-neutral-50 text-lg sm:text-2xl`}
         >
           <Link
-            to={`/curso/${id}`}
+            to={`/curso/${slug}`}
             className="line-clamp-3 text-2xl hover:text-white"
             title={title}
           >

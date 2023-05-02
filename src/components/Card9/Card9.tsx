@@ -20,7 +20,7 @@ const Card9: FC<Card9Props> = ({
   showDescription = false,
   badgeColor = "yellow",
 }) => {
-  const { title, categories, id, image } = post;
+  const { title, categories, id, slug, image } = post;
   const imageURL = image.replace("mx.", "");
 
   // const author = {
@@ -62,7 +62,7 @@ const Card9: FC<Card9Props> = ({
         <PostCardSaveAction className="relative" postData={post} />
       </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>
-      <Link to={`/curso/${id}`}>
+      <Link to={`/curso/${slug}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-3xl"
           className="object-cover w-full h-full rounded-3xl"
@@ -71,11 +71,11 @@ const Card9: FC<Card9Props> = ({
         <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
       </Link>
       <Link
-        to={`/curso/${id}`}
+        to={`/curso/${slug}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
-        <Link to={`/curso/${id}`} className="absolute inset-0"></Link>
+        <Link to={`/curso/${slug}`} className="absolute inset-0"></Link>
         <div className="mb-3">
           <CategoryBadgeList categories={categories} color={badgeColor} />
         </div>

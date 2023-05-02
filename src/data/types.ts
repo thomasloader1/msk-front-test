@@ -240,6 +240,7 @@ export interface FetchSingleProduct {
 }
 export interface FetchCourseType {
   id: number;
+  slug: string;
   father_id: number;
   father_post_type: string;
   language_code: string;

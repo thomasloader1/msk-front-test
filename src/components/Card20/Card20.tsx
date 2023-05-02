@@ -12,7 +12,10 @@ export interface Card20Props {
 }
 
 const Card20: FC<Card20Props> = ({ className = "h-full", post }) => {
-  const { title, description, image } = post;
+  let { title, description, image } = post;
+  if (image) {
+    image = image.replace('mx.', '');
+  }
 
   return (
     <div
@@ -22,7 +25,7 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post }) => {
       <div className="block flex-shrink-0 flex-grow relative w-full h-0 aspect-w-4 aspect-h-3 rounded-lg overflow-hidden">
         <NcImage
           containerClassName="absolute inset-0"
-          src={image?.replace('mx.', '')}
+          src={image}
           alt={title}
         />
       </div>

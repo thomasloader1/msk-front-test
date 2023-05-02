@@ -232,6 +232,7 @@ export interface FetchSingleProduct {
   details: Details;
   avales: Aval[];
   requirements: Requirement[];
+  goals: string;
   temario: Topic;
   evaluacion: Evaluation;
   authors: ProductAuthor[];

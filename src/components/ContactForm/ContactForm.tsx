@@ -23,7 +23,8 @@ const ContactFormSection = ({ productName = '' }) => {
   const [acceptConditions, setAcceptConditions] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
-  const formRef = useRef<HTMLFormElement>(null)
+  const formRef = useRef<HTMLFormElement>(null);
+  let [formSent, setFormSent] = useState(false);
 
 
   const handlePhoneChange = (value: string) => {
@@ -147,6 +148,7 @@ const ContactFormSection = ({ productName = '' }) => {
     const { response } = await api.postContactUs(jsonData);
 
     console.log(response);
+    setFormSent(true);
     resetForm();
   };
   return (
@@ -248,6 +250,7 @@ const ContactFormSection = ({ productName = '' }) => {
                   </button>
                 </div>
               </div>
+              <p className="success-message" style={{ visibility: formSent ? "visible" : "hidden" }}>Gracias! Tu mensaje fué enviado correctamente.</p>
             </form>
           </div>
         </div>

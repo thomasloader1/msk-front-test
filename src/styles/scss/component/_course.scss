@@ -956,6 +956,10 @@
 		font-weight: 600;
 	}
 	ul {
+		padding-right: 190px;
+		@media #{$sm,$xs} {
+			padding-right: 0;
+		}
 		li {
 			margin-top: 12px;
 			z-index: 1;
@@ -967,6 +971,10 @@
 		position: absolute;
 		bottom: 0;
 		right: 30px;
+		opacity: 0.8;
+		@media #{$sm,$xs} {
+			opacity: 0.2;
+		}
 	}
 }
 

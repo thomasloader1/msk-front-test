@@ -348,6 +348,10 @@ export type ContactUs = {
   Otra_especialidad?: string;
   Otra_profesion?: string;
   Cursos_consultados?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
 };
 
 export type Newsletter = {

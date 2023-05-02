@@ -98,7 +98,11 @@ const ContactFormSection = ({ productName = '' }) => {
       Especialidad: '',
       Phone: '',
       Preferencia_de_contactaci_n: '',
-      Pais: ''
+      Pais: '',
+      utm_source:'',
+      utm_medium:'',
+      utm_campaign:'',
+      utm_content:'',
     }
 
     const selectedOption = (event.target as HTMLFormElement).querySelector('input[name="Preferencia_de_contactaci_n"]:checked') as HTMLInputElement;
@@ -132,7 +136,6 @@ const ContactFormSection = ({ productName = '' }) => {
       if (key === 'Especialidad') {
         jsonData.Especialidad = value as string;
       }
-
       if (key === 'Otra_especialidad') {
         jsonData.Otra_especialidad = value as string;
       }
@@ -142,6 +145,16 @@ const ContactFormSection = ({ productName = '' }) => {
       if (key === 'Cursos_consultados' && productName !== '') {
         jsonData.Cursos_consultados = productName;
       }
+      if (key === 'utm_source') {
+        jsonData.utm_source = value as string;;
+      }if (key === 'utm_medium') {
+        jsonData.utm_medium = value as string;;
+      }if (key === 'utm_campaign') {
+        jsonData.utm_campaign = value as string;;
+      }if (key === 'utm_content') {
+        jsonData.utm_content = value as string;;
+      }
+
     });
     console.log({ jsonData });
 
@@ -158,6 +171,12 @@ const ContactFormSection = ({ productName = '' }) => {
           <div className="contact-form">
             <form onSubmit={handleSubmit} action="/leads" className="" autoComplete="off" ref={formRef}>
               <input type="hidden" name="Cursos_consultados" id="Cursos_consultados" value={productName} />
+
+              <input type="hidden" name="utm_source" disabled/>
+              <input type="hidden" name="utm_medium" disabled/>
+              <input type="hidden" name="utm_campaign" disabled/>
+              <input type="hidden" name="utm_content" disabled/>
+
               <div className={`section-title mb-50`}>
                 <h2>Contáctanos</h2>
                 <div className="flex gap-6">

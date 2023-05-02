@@ -69,9 +69,9 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
           </ul>
         </div>
         <div className="flex gap-2">
-          <a href="#contactanos" className="video-cart-btn w-full">
+          <button onClick={scrollToContactForm} className="video-cart-btn w-full">
             Contactáctanos
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -79,3 +79,12 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
 };
 
 export default ProductDetailSidebar;
+const scrollToContactForm = () => {
+  const contactForm = document.getElementById("contactanos");
+  if (contactForm) {
+    window.scrollTo({
+      top: document.getElementById("contactanos")!.offsetTop,
+      behavior: "smooth",
+    });
+  }
+};

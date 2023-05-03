@@ -8,9 +8,31 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <title>MSK</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lcl6NolAAAAAD266w8qmfc6nCkUuq7zjY5wK_wA"></script>
+    <script>
+      function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6Lcl6NolAAAAAD266w8qmfc6nCkUuq7zjY5wK_wA', {action: 'submit'}).then(function(token) {
+            let form =  e.target;
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'g-recaptcha-response';
+            input.value = token;
+
+            form.appendChild(input);
+
+            form.submit();
+            
+          });
+        });
+      }
+  </script>
   </head>
   <body>
     <div id="root"></div>
+
+    
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

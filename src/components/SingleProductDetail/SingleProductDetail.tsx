@@ -8,7 +8,8 @@ import CourseRequirements from "./Requirements/CourseRequirements";
 import { FetchSingleProduct } from "data/types";
 import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
-import { Alert } from "components/Alert/Alert";
+import axios from "axios";
+import { API_URL } from "data/api";
 
 
 interface Props {
@@ -18,10 +19,16 @@ interface Props {
 const SingleProductDetail: FC<Props> = ({ product }) => {
   console.log(product);
   const textRef = useRef<HTMLDivElement>(null);
+  const [bestSeller, setBestSeller] = useState([]);
+  const fetchBestSeller = async () => {
+    const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
+    setBestSeller(res.data.products);
+  };
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
     htmlElement.innerHTML = product.description;
+    fetchBestSeller()
     if (textRef.current) {
       textRef.current.innerHTML = "";
       textRef.current.appendChild(htmlElement);
@@ -150,7 +157,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             heading="Descubre otras capacitaciones destacadas"
             subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
             sliderStype="style2"
-            posts={product.related_products}
+            posts={bestSeller}
             uniqueSliderClass="pageHome-section6"
           />
         </div>

@@ -7,9 +7,11 @@ import LoadingText from "components/Loader/Text";
 import { API_URL } from "data/api";
 
 const PageSingleProduct = () => {
+
   const slug = window.location.href.split("/").pop();
   const [product, setProduct] = useState<FetchSingleProduct>();
   const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     if (slug) {

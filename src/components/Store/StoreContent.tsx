@@ -100,7 +100,7 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
               return (
                 <StoreProduct
                   product={product}
-                  key={`${product.id}_${index}`}
+                  key={`${product.slug}_${index}`}
                 />
               );
             })}

@@ -19,7 +19,7 @@ const StoreProduct: FC<Props> = ({
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
-        <Link to={`/curso/${product.id}`}>
+        <Link to={`/curso/${product.slug}`}>
           <img src={imageURL} alt="course-img" />
         </Link>
       </div>
@@ -31,7 +31,7 @@ const StoreProduct: FC<Props> = ({
                 categories={product.categories}
                 color="yellow"
               />
-              <Link to={`/curso/${product.id}`}>
+              <Link to={`/curso/${product.slug}`}>
                 <h3>{product.title}</h3>
               </Link>
               {/* <div className="cart-lavel">
@@ -53,13 +53,13 @@ const StoreProduct: FC<Props> = ({
                 </ul>
               </div> */}
               <div className="course-action">
-                <Link to={`/curso/${product.id}`} className="view-details-btn">
+                <Link to={`/curso/${product.slug}`} className="view-details-btn">
                   Ver más
                 </Link>
                 <button className="wishlist-btn">
                   <i className="flaticon-like"></i>
                 </button>
-                <Link to={`/curso/${product.id}`} className="c-share-btn">
+                <Link to={`/curso/${product.slug}`} className="c-share-btn">
                   <i className="flaticon-previous"></i>
                 </Link>
               </div>
@@ -76,7 +76,7 @@ const StoreProduct: FC<Props> = ({
             <del>${product.price}</del>
           </div> */}
           <div className="portfolio-course-2 line-clamp-3">
-            <Link to={`/curso/${product.id}`}>
+            <Link to={`/curso/${product.slug}`}>
               <h3 className="font-bold text-sm">{product.title}</h3>
             </Link>
           </div>
@@ -96,7 +96,7 @@ const StoreProduct: FC<Props> = ({
         )}
 
         <Link
-          to={`/curso/${product.id}`}
+          to={`/curso/${product.slug}`}
           className="course-network text-primary font-bold"
         >
           Descubrir

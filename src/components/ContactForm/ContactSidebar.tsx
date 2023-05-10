@@ -29,7 +29,7 @@ const ContactSidebar = () => {
               <img src="/src/images/icons/email.svg" alt="" width="20" />
             </div>
             <div className="support-info-email">
-              <span>Email</span>
+              <span>E-mail</span>
               <a href="#">hola@msklatam.com</a>
             </div>
           </div>

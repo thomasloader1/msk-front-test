@@ -47,6 +47,8 @@ const SingleHeader: FC<SingleHeaderProps> = ({
               hiddenCategories
               hideDate
             /> */}
+
+            <p className="dark:text-neutral-100 msk-logo-text"><img className="" src="/src/images/vectors/isotipo.svg" width="30" alt="" />MSK - Medical & Scientific Knowledge</p>
             <SingleMetaAction2 meta={pageData} />
           </div>
         </div>

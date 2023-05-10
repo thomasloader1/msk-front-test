@@ -66,8 +66,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         </p>
         <img src="/src/images/misc/woman_pc.png" alt="" />
         <p className="font-lora text- text-xl">
-          Quienes hacemos Medical & Scientific Knowledge queremos acompañar y
-          ayudar a cada persona en un camino de retos y crecimiento laboral.
+          Quienes hacemos Medical & Scientific Knowledge <strong>queremos acompañar y ayudar a cada persona en un camino de retos y crecimiento laboral.</strong>
           Todos los cursos que ofrecemos están desarrollados por sellos,
           instituciones y autores de prestigio. La capacitación se realiza en un
           campus virtual práctico y cada profesional tendrá el apoyo y la

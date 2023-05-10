@@ -14,6 +14,7 @@ import { TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
 import { API_URL } from "data/api";
+import Heading from "../../components/Heading/Heading";
 
 const PageHome: React.FC = () => {
   const [posts, setPosts] = useState([]);
@@ -92,6 +93,7 @@ const PageHome: React.FC = () => {
           <CoursesForYou
             className="py-16 lg:py-28"
             heading="Oportunidades para ti"
+            desc="Cursos destacados para realizar a distancia"
             courses={courses}
             bestSeller={bestSeller}
             tabs={TABS_HOME}

@@ -23,6 +23,9 @@
 	padding: 15px 20px;
 	border-radius: 4px;
 	outline: 0;
+	&::placeholder {
+		font-size: 16px;
+	}
 }
 .contact-from-input textarea {
 	height: 170px;
@@ -33,6 +36,9 @@
 	border-radius: 4px;
 	resize: none;
 	outline: 0;
+	&::placeholder{
+		font-size: 16px;
+	}
 }
 .support-item {
 	&:last-child {

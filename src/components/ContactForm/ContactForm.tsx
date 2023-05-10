@@ -210,7 +210,7 @@ const ContactFormSection = ({ productName = '' }) => {
                     <PhoneInput
                       name='Phone'
                       id='Phone'
-                      placeholder="Ingresar numero telefonico"
+                      placeholder="Ingresar número telefónico"
                       defaultCountry="MX"
                       value={phoneNumber}
                       onChange={handlePhoneChange}
@@ -253,7 +253,7 @@ const ContactFormSection = ({ productName = '' }) => {
               </div>
               <div className="col-xl-12 mt-4">
                 <div className="contact-from-input">
-                  <textarea placeholder="Message" id="Message" name="Description"></textarea>
+                  <textarea placeholder="Mensaje" id="Message" name="Description"></textarea>
                 </div>
               </div>
               <div className="flex gap-1 mt-2 mb-4">

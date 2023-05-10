@@ -1012,6 +1012,10 @@ p {
 		color: $white;
 		background: $secondary;
 	}
+	&:disabled{
+		background: #e5e7eb;
+		color: #7c838f;
+	}
 }
 .event-btn {
 	height: 55px;

@@ -9,6 +9,7 @@ interface SectionMagazine1Props {
   tabs: string[];
   posts: PostDataType[];
   heading?: string;
+  desc?: string;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ interface Props {
   tabs: any;
   className: string;
   heading: string;
+  desc: string;
   bestSeller: FetchCourseType[];
 }
 
@@ -26,6 +28,7 @@ const CoursesForYou: FC<Props> = ({
   tabs,
   className = "",
   heading = "Latest Articles 🎈 ",
+  desc = "",
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [localCourses, setLocalCourses] = useState<FetchCourseType[]>([]);
@@ -67,6 +70,7 @@ const CoursesForYou: FC<Props> = ({
       <HeaderFilter
         tabActive={tabActive}
         tabs={tabs}
+        desc={desc}
         heading={heading}
         onClickTab={handleClickTab}
       />

@@ -83,6 +83,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   }, [storeFilters]);
 
   const applyFilters = () => {
+    //console.log('applying filters');
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -118,7 +119,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
-        const professionsMatch = selectedProfessions.every((profession) =>
+        const professionsMatch = selectedProfessions.some((profession) => // If a product matches at least one profession, show it
           prodProfessions.some((prodProfession) => {
             return prodProfession
               .toLowerCase()
@@ -126,13 +127,14 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
           })
         );
 
-        const resourcesMatch = selectedResources.every((resource) => {
+        const resourcesMatch = selectedResources.every((resource) => { //TODO: figure out why this isn't working
           if (resource === "Curso") {
             return product.duration !== null;
-          } else if (resource === "E-book") {
+          } else if (resource === "Guías") {
             return product.duration === null;
           }
         });
+
 
         const durationsMatch = selectedDurations.every((duration) => {
           const currentDuration = parseInt(prodDuration);
@@ -243,6 +245,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}
             length={products.length}
+            filtersCount = {storeFilters.specialties.length + storeFilters.professions.length + storeFilters.resources.length + storeFilters.duration.length}
           />
           {isLoading ? (
             <div className="container grid grid-cols-3 gap-10">

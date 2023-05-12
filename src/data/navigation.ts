@@ -435,8 +435,8 @@ const aboutMenu: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/tienda",
-    name: "Cursos para otras profesiones",
-    search: "?profesion=otra-profesion",
+    name: "Enfermería y otras profesiones",
+    search: "?profesion=otra-profesion,enfermeros-auxiliares",
   },
   // {
   //   id: ncNanoId(),
@@ -451,8 +451,9 @@ const aboutMenu: NavItemType[] = [
 const resourcesMenu: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/guias-profesionales",
+    href: "/tienda",
     name: "Guías profesionales",
+    search: "?recurso=2",
   },
   {
     id: ncNanoId(),

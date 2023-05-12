@@ -7712,7 +7712,7 @@ div.tagcloud a:hover {
   z-index: -1;
 }
 
-.bar-secrch-icon input {
+.bar-search-icon input {
   height: 60px;
   padding: 0 40px;
   font-size: 14px;
@@ -7724,11 +7724,11 @@ div.tagcloud a:hover {
   border-radius: 3px;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
-  .bar-secrch-icon input {
+  .bar-search-icon input {
     min-width: 100%;
   }
 }
-.bar-secrch-icon input ::placeholder {
+.bar-search-icon input ::placeholder {
   color: #a4a7af;
 }
 
@@ -7777,7 +7777,7 @@ div.tagcloud a:hover {
   flex-grow: 1;
 }
 
-.bar-secrch-icon button {
+.bar-search-icon button {
   position: absolute;
   top: 50%;
   left: 20px;
@@ -7797,7 +7797,6 @@ div.tagcloud a:hover {
 }
 .bar-filter span {
   color: #141517;
-  font-weight: 600;
   margin-right: 5px;
 }
 .bar-filter i {

@@ -4,9 +4,10 @@ interface Props {
   onSearch: (searchTerm: string) => void;
   onFilter: (selectedOption: string) => void;
   length: number;
+  filtersCount : number;
 }
 
-const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
+const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,15 +23,16 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length }) => {
       <div className="container">
         <div className="grid grid-cols-1">
           <div className="course-main-wrapper mb-30">
-            {/* <div className="bar-filter">
+            <div className="bar-filter">
               <i className="flaticon-filter"></i>
               <span>Filtros</span>
-              <span>(0)</span>
-            </div> */}
+              <span>({filtersCount})</span>
+            </div>
             <div className="corse-bar-wrapper">
               <div className="bar-search">
                 <form action="#">
-                  <div className="bar-secrch-icon position-relative">
+                  <div className="bar-search-icon position-relative">
+                    <i className="flaticon-search"></i>
                     <input
                       type="text"
                       placeholder="Buscar"

@@ -65,7 +65,7 @@ const StoreSideBar: FC<Props> = ({
 
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
-    { name: "E-book", id: 2 },
+    { name: "Guías profesionales", id: 2 },
   ];
 
   const duration = [
@@ -85,36 +85,56 @@ const StoreSideBar: FC<Props> = ({
         filterQuery = searchQuery[1].split("=")[1];
       }
 
-      const professionExists = professions.filter(
-        (item) => item.slug == filterQuery
-      );
-      const specialtiesExists = specialties.filter((item) => {
-        return item.name == decodeURIComponent(filterQuery);
-      });
-      let filterExists: Profession[] | Specialty[] = [];
+      const filterQueries = filterQuery.split(","); // split the filterQuery at each comma
+      const matchingProfessions: Profession[] = [];
+      const matchingSpecialties: Specialty[] = [];
+      const matchingResources: ResourceFilter[] = [];
 
-      if (professionExists.length) filterExists = professionExists;
-      if (specialtiesExists.length) filterExists = specialtiesExists;
-      let filterName = "";
-      let filterId = 0;
-
-      if (filterExists.length && initialLoad) {
-        filterId = filterExists[0].id;
-        filterName = filterExists[0].name;
-        switch (filterTitle) {
-          case "profesion":
-            onChangeProfession({
-              id: filterId,
-              name: filterName,
-              slug: filterQuery,
-            });
-            break;
-          case "especialidad":
-            onChangeSpecialty({
-              id: filterId,
-              name: filterName,
-            });
+      // loop through each filter query to find matching professions and specialties
+      filterQueries.forEach((query) => {
+        const professionExists = professions.filter(
+            (item) => item.slug === query.trim()
+        );
+        if (professionExists.length) {
+          matchingProfessions.push(professionExists[0]);
+        } else {
+          const specialtiesExists = specialties.filter(
+              (item) => item.name === decodeURIComponent(query.trim())
+          );
+          if (specialtiesExists.length) {
+            matchingSpecialties.push(specialtiesExists[0]);
+          }else{
+            const resourceExists = resources.filter(
+                (item) => item.id.toString() === decodeURIComponent(query.trim())
+            );
+            if (resourceExists.length) {
+              matchingResources.push(resourceExists[0]);
+            }
+          }
         }
+      });
+
+      // set the initial load only if there are matching professions or specialties
+      if ((matchingProfessions.length || matchingSpecialties.length || matchingResources) && initialLoad) {
+        matchingProfessions.forEach((profession) => {
+          onChangeProfession({
+            id: profession.id,
+            name: profession.name,
+            slug: profession.slug,
+          });
+        });
+        matchingSpecialties.forEach((specialty) => {
+          onChangeSpecialty({
+            id: specialty.id,
+            name: specialty.name,
+          });
+        });
+        matchingResources.forEach((resource) => {
+            onChangeResource({
+                id: resource.id,
+                name: resource.name,
+            });
+        });
         setInitialLoad(false);
       }
     }
@@ -133,6 +153,12 @@ const StoreSideBar: FC<Props> = ({
           (specialty: any) => {
             return specialty.name == value.name;
           }
+        ).length;
+      case "resources":
+        return !!storeFilters[type as keyof typeof storeFilters].filter(
+            (resource: any) => {
+              return resource.id == value.id;
+            }
         ).length;
     }
   };
@@ -192,6 +218,7 @@ const StoreSideBar: FC<Props> = ({
                       type="checkbox"
                       id={`res_${resource.id}`}
                       onChange={(event) => onChangeResource(resource)}
+                      checked={isChecked("resources", resource)}
                     />
                     <label
                       className="edu-check-label"

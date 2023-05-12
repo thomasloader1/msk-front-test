@@ -24,7 +24,7 @@ const SectionHero: FC<SectionHeroProps> = ({
       data-nc-id="SectionHero"
     >
       <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 items-center relative text-center lg:text-left">
-        <div className="w-screen max-w-full space-y-5 lg:space-y-7">
+        <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1">
           <h2 className="!leading-tight font-semibold text-neutral-900 section-hero-title dark:text-neutral-100">
             {heading}
           </h2>
@@ -43,7 +43,7 @@ const SectionHero: FC<SectionHeroProps> = ({
             </ButtonPrimary>
           )}
         </div>
-        <div className="flex-grow">
+        <div className="hero-img">
           <img className="w-full" src={rightImg} alt="" />
         </div>
       </div>

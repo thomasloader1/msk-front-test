@@ -91,7 +91,7 @@ const StoreProduct: FC<Props> = ({
           </div>
         ) : (
           <span className="bg-blue-200 px-3 py-0.5 text-blue-700 rounded text-semibold">
-            E-book
+            Guía
           </span>
         )}
 

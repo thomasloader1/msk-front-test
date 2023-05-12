@@ -45,6 +45,11 @@
 		font-size: 18px;
 	}
 }
+
+.hero-img{
+	flex: 1.25;
+}
+
 .hero-height {
 	height: 900px;
 	@media #{$md} {

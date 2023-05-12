@@ -61,7 +61,7 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   const onChangeResource = (resource: ResourceFilter) => {
     const resourceExists = storeFilters.resources.filter(
       (item: ResourceFilter) => {
-        return item.name == resource.name;
+        return item.id == resource.id;
       }
     );
     if (resourceExists.length) {

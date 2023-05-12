@@ -667,21 +667,30 @@
 	position: relative;
 	z-index: 2;
 }
-.bar-secrch-icon input {
-	height: 60px;
-	padding: 0 40px;
-	font-size: 14px;
-	color: $heading-color;
-	outline: none;
-	border: 1px solid $border;
-	min-width: 420px;
-	background-color: $white;
-	border-radius: 3px;
-	@media #{$lg,$md,$sm,$xs} {
-		min-width: 100%;
+.bar-search-icon{
+	position: relative;
+	i {
+		position: absolute;
+		top: 50%;
+		left: 15px;
+		transform: translateY(-43%);
 	}
-	::placeholder {
-		color: #a4a7af;
+	input {
+		height: 60px;
+		padding: 0 40px;
+		font-size: 14px;
+		color: $heading-color;
+		outline: none;
+		border: 1px solid $border;
+		min-width: 420px;
+		background-color: $white;
+		border-radius: 3px;
+		@media #{$lg,$md,$sm,$xs} {
+			min-width: 100%;
+		}
+		::placeholder {
+			color: #a4a7af;
+		}
 	}
 }
 
@@ -727,7 +736,7 @@
 .course-sidebar-tab {
 	flex-grow: 1;
 }
-.bar-secrch-icon button {
+.bar-search-icon button {
 	position: absolute;
 	top: 50%;
 	left: 20px;
@@ -745,7 +754,6 @@
 	border-radius: 3px;
 	span {
 		color: $heading-color;
-		font-weight: 600;
 		margin-right: 5px;
 	}
 	i {

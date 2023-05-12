@@ -319,7 +319,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         to={{
           pathname: item.href || undefined,
         }}
-        activeClassName="!font-semibold !text-neutral-900 bg-neutral-100 dark:bg-neutral-800 dark:!text-neutral-100"
+        activeClassName="!text-neutral-900 dark:bg-neutral-800 dark:!text-neutral-100"
       >
         {item.name}
         {item.type && (

@@ -40,6 +40,11 @@ const PageHome: React.FC = () => {
     //fetchPosts();
     fetchCourses();
     fetchBestSeller();
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log(position)
+    }, function (err) {
+      console.log(err)
+    });
   }, []);
 
   const scrollToContactForm = () => {

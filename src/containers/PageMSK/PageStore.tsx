@@ -32,7 +32,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     clearFilters();
     setLoading(true);
     axios
-      .get(`${API_URL}/products?country=mx`)
+      .get(`${API_URL}/products?limit=-1&country=mx`)
       .then((response) => {
         setLoading(false);
         setAuxProducts([...response.data.products]);
@@ -245,7 +245,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}
             length={products.length}
-            filtersCount = {storeFilters.specialties.length + storeFilters.professions.length + storeFilters.resources.length + storeFilters.duration.length}
+            filtersCount={storeFilters.specialties.length + storeFilters.professions.length + storeFilters.resources.length + storeFilters.duration.length}
           />
           {isLoading ? (
             <div className="container grid grid-cols-3 gap-10">

@@ -167,7 +167,7 @@ export interface Ficha {
   image: string;
   code: string;
   isbn: string;
-  description: string | null;
+  description: string;
 }
 
 export interface DetailsItem {

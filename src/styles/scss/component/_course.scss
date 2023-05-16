@@ -986,9 +986,21 @@
 	}
 }
 
+.modules-description{
+	color: $description-text;
+}
+
 .modules {
 	.accordion {
-		outline: 1px solid #ccc;
+		border: 1px solid $border2;
+		border-bottom: 0;
+		&:last-child{
+			border-bottom: 1px solid $border2;
+		}
+		.accordion-content{
+			color: $modules-text;
+			border-top: 1px solid $border2;
+		}
 	}
 	ul li {
 		padding: 12px 16px;
@@ -1046,7 +1058,7 @@
 	}
 }
 // .course-deteals
-.course-detalis-area {
+.course-details-area {
 	margin-top: -60px;
 	position: relative;
 	z-index: 5;
@@ -1055,7 +1067,7 @@
 		padding-top: 110px;
 	}
 }
-.course-detalis-wrapper {
+.course-details-wrapper {
 	padding: 40px 30px 0 30px;
 	background: $white;
 	border-radius: 5px;
@@ -1177,24 +1189,14 @@
 }
 .border-line-meta {
 	position: relative;
-	&:before {
+	&:after {
 		position: absolute;
 		content: "";
 		width: 1px;
 		height: 40px;
 		background: #edeef2;
-		right: -45px;
-		top: 10px;
-		@media #{$xl} {
-			right: -35px;
-			top: 6px;
-		}
-		@media #{$lg} {
-			right: -70px;
-		}
-		@media #{$md} {
-			right: -25px;
-		}
+		top: 50%;
+		transform: translateY(-50%);
 		@media #{$xs,$sm} {
 			display: none;
 		}
@@ -1270,11 +1272,15 @@
 	}
 }
 .intructors-content {
+	h5{
+		font-size: 12px;
+	}
 	ul li {
 		display: flex;
 		align-items: center;
 		gap: 10px;
 		margin-left: 10px;
+		font-size: 12px;
 		i {
 			font-size: 4px;
 			padding: 0;

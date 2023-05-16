@@ -14,6 +14,19 @@
 }
 .contact-form {
 	width: 100%;
+	.section-title{
+		.preferences{
+			align-items: end;
+			p, label{
+				color: $description-text;
+				font-size: 1rem;
+				font-family: $nunito;
+			}
+		}
+		.talk-through{
+
+		}
+	}
 }
 .contact-from-input input {
 	height: 60px;
@@ -57,7 +70,7 @@
 	background: #F8F8F9;
 	border-radius: 5px;
 	border: 1px solid #f8f8f9;
-	margin-top: 122px;
+	margin-top: 105px;
 	@media #{$xs} {
 		padding: 25px 20px 25px 20px;
 	}

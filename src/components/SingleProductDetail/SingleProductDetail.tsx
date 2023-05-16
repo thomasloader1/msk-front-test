@@ -35,10 +35,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     }
   }, [location]);
   return (
-    <section className="course-detalis-area my-5 pb-90">
+    <section className="course-details-area my-5 pb-90">
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
         <div className="">
-          <div className="course-detalis-wrapper mb-30">
+          <div className="course-details-wrapper mb-30">
             <div className="course-heading mb-10">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
@@ -46,7 +46,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               (<div className="course-detelis-meta">
                 {product.authors.length ? (
                   <>
-                    <div className="course-meta-wrapper border-line-meta">
+                    <div className="course-meta-wrapper">
                       <div className="course-meta-img">
                         <img src={product.authors[0].image.replace('mx.', '')} alt="course-meta" />
                       </div>
@@ -56,22 +56,25 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         <h6 className="font-bold">{product.authors[0].name}</h6>
                       </div>
                     </div>
+                    <div className="border-line-meta"></div>
                   </>
                 ) : null}
                 {product.temario ? (
-                  <div className="border-line-meta">
-                    <p>Contenido</p>
-                    <span className="font-bold">
-                      {product.temario["data"]?.row_count} Módulos
-                    </span>
-                  </div>
+                    <>
+                      <div>
+                        <p>Contenido</p>
+                        <span className="font-bold">{product.temario["data"]?.row_count} módulos</span>
+                      </div>
+                      <div className="border-line-meta"></div>
+                    </>
+
                 ) : null}
 
                 {product.details && product.details["duration"] ? (
-                  <div className="border-line-meta">
+                  <div className="">
                     <p>Duración</p>
                     <span className="font-bold">
-                      {product.details["duration"].value} Horas estimadas
+                      {product.details["duration"].value} horas estimadas
                     </span>
                   </div>
                 ) : null}
@@ -122,7 +125,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : (
               <p></p>
             )}
-            {product.authors.length ? (<h4 className="mt-6 font-bold">Quiénes lo desarrollan</h4>) :
+            {product.authors.length ? (<h4 className="mt-6 font-bold pt-6 text-xl">Quiénes lo desarrollan</h4>) :
               (<p></p>)}
             <div className="grid grid-cols-2">
               {product.authors.length ? (

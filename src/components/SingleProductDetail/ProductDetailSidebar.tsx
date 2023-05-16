@@ -38,6 +38,14 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
       icon: "/src/images/icons/lang.svg",
     },
   ];
+
+  let translations: {[key: string]: string} = {
+    duration: 'Duración',
+    modality: 'Modalidad',
+    flexibility: 'Flexibilidad',
+    content: 'Contenido'
+  };
+
   return (
     <div className="course-video-widget">
       <div className="course-widget-wrapper mb-30">
@@ -50,6 +58,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
         <div className="course-video-body">
           <ul>
             {Object.keys(details).map((key, index) => {
+
               return (
                 <li key={`data_${index}`}>
                   <div className="course-vide-icon">
@@ -58,7 +67,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
                       width="15"
                     />
                     <span>
-                      {details[key as keyof typeof details].value}{" "}
+                      {translations[key] ? (translations[key] + ':') : ''} {details[key as keyof typeof details].value}{" "}
                       {key == "duration" ? "horas" : ""}
                     </span>
                   </div>

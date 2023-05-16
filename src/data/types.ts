@@ -329,7 +329,10 @@ export interface CourseDataType {
 
 export type SignUp = {
   email: string;
+  first_name: string;
   last_name: string;
+  phone: string;
+  password: string;
 };
 export type Login = {
   email: string;

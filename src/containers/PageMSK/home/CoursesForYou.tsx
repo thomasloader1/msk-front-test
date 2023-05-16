@@ -75,7 +75,7 @@ const CoursesForYou: FC<Props> = ({
         onClickTab={handleClickTab}
       />
 
-      {!localCourses.length && <span>No encontramos publicaciones.!</span>}
+      {!localCourses || !localCourses.length && <span>No encontramos publicaciones.!</span>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {localCourses[0] && (
           <Card8 className="sm:col-span-2 rounded-3xl" post={localCourses[0]} />

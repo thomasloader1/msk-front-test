@@ -31,7 +31,7 @@ const Accordion: FC<Props> = ({
   return (
     <div className="overflow-hidden accordion">
       <div
-        className={`bg-natural-100 border-b p-4 cursor-pointer flex items-center justify-between ${
+        className={`bg-natural-100 p-4 cursor-pointer flex items-center justify-between ${
           isAnimating ? "opacity-0" : ""
         }`}
         onClick={toggleAccordion}

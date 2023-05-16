@@ -37,11 +37,11 @@ const ProductCurriculiam: FC<Props> = ({ topics }) => {
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
-        <h4 className="font-bold">Que temas verás</h4>
-        <p>10 módulos • 250 horas estimadas</p>
+        <h4 className="font-semibold text-xl">Qué temas verás</h4>
+        <p className="modules-description">10 módulos • 250 horas estimadas</p>
       </div>
       {accordionContent.length ? (
-        <div className="modules">
+        <div className="modules pb-6">
           {accordionContent.map((item, index) => {
             return (
               <Accordion
@@ -51,7 +51,7 @@ const ProductCurriculiam: FC<Props> = ({ topics }) => {
                 setCurrentIndex={() => handleAccordionClick(index)}
                 key={`acc_${index}`}
               >
-                <p className="p-3">{parseToHTML(item.card_body)}</p>
+                <p className="accordion-content p-3">{parseToHTML(item.card_body)}</p>
               </Accordion>
             );
           })}

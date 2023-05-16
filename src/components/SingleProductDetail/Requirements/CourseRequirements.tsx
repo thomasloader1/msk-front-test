@@ -16,7 +16,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
   return (
     <div className="requirements">
       <div>
-        <h3>Qué necesitas</h3>
+        <h3 className="text-xl">Qué necesitas</h3>
         <ul>
           {requirements.map((requirement, index) => {
             return (

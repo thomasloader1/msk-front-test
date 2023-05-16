@@ -67,6 +67,8 @@ const ContactFormSection = ({ productName = '' }) => {
     axios
       .get(`${API_BACKEND_URL}/professions`)
       .then((response) => {
+        console.log("PRINT PROFESSIONS");
+        console.log(response.data);
         setProfessions(response.data);
       })
       .catch((error) => {
@@ -177,10 +179,10 @@ const ContactFormSection = ({ productName = '' }) => {
               <input type="hidden" name="utm_campaign" disabled/>
               <input type="hidden" name="utm_content" disabled/>
 
-              <div className={`section-title mb-50`}>
+              <div className={`section-title mb-30`}>
                 <h2>Contáctanos</h2>
-                <div className="flex gap-6">
-                  <p className="text-gray-400">Quiero hablar por</p>
+                <div className="flex gap-6 preferences">
+                  <p className="talk-through">Quiero hablar por</p>
                   <div className="mt-1 flex gap-4">
                     <Radio name="Preferencia_de_contactaci_n" label="Teléfono" id="Contact_Method_Teléfono" />
                     <Radio name="Preferencia_de_contactaci_n" label="E-mail" id="Contact_Method_E-mail" />
@@ -225,7 +227,7 @@ const ContactFormSection = ({ productName = '' }) => {
                       <option defaultValue="">
                         Seleccionar profesión
                       </option>
-                      {professions.map((p => (<option key={p.id} value={p.name}>{p.name}</option>)))}
+                      {professions ? professions.map((p => (<option key={p.id} value={p.name}>{p.name}</option>))) : ''}
                     </select>
                   </div>
                   {showInputProfession && (

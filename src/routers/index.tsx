@@ -34,7 +34,7 @@ export const pages: Page[] = [
 
 const Routes = () => {
   return (
-    <HashRouter basename={"/"}>
+    <BrowserRouter basename={"/"}>
       <MediaRunningContainer />
 
       <ScrollToTop />
@@ -56,7 +56,7 @@ const Routes = () => {
       <FooterEduman />
       {/* <Footer /> */}
       {/* MEDIA */}
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

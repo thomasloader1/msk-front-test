@@ -10,6 +10,7 @@ import axios from "axios";
 import Radio from "components/Radio/Radio";
 import { ContactUs } from '../../data/types';
 import api from '../../Services/api';
+import {useHistory} from "react-router-dom";
 // import 'react-intl-tel-input/dist/main.css';
 // import IntlTelInput from 'react-intl-tel-input';
 
@@ -26,6 +27,10 @@ const ContactFormSection = ({ productName = '' }) => {
   const formRef = useRef<HTMLFormElement>(null);
   let [formSent, setFormSent] = useState(false);
 
+  const history = useHistory();
+  const changeRoute = (newRoute: string): void => {
+    history.push(newRoute);
+  };
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -165,6 +170,8 @@ const ContactFormSection = ({ productName = '' }) => {
     console.log(response);
     setFormSent(true);
     resetForm();
+    changeRoute("/gracias?origen=contact")
+
   };
   return (
     <>

@@ -18,6 +18,7 @@ export interface LocationStates {
   //
   "/mi-perfil"?: {};
   "/mi-cuenta"?: {};
+  "/gracias"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //

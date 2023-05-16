@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import bts from "../../styles/bts.module.css";
 import { Newsletter } from "../../data/types";
 import api from "../../Services/api";
@@ -13,6 +13,11 @@ const FooterEduman = () => {
         behavior: "smooth",
       });
     }
+  };
+
+  const history = useHistory();
+  const changeRoute = (newRoute: string): void => {
+    history.push(newRoute);
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,6 +38,8 @@ const FooterEduman = () => {
     const { response } = await api.postNewsletter(jsonData);
 
     console.log(response);
+    changeRoute("/gracias?origen=newsletter")
+
   };
   return (
     <footer>

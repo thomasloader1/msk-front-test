@@ -32,6 +32,7 @@ export const pages: Page[] = [
   { path: "/mi-cuenta", component: PageAccount },
   { path: "/mi-perfil", component: PageProfile },
   { path: "/gracias", component: PageThankYou },
+  { path: "/politicas-de-privacidad", component: PageMission },
 ];
 
 const Routes = () => {

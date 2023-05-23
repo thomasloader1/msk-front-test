@@ -48,12 +48,12 @@ const subPages: DashboardPage[] = [
     icon: "personal-data",
     pageName: "Datos personales",
   },
-  {
+ /* {
     sPath: "/metodo-pego",
     component: AccountPayment,
     icon: "payment",
     pageName: "Método de pago",
-  },
+  },*/
   {
     sPath: "/cerrar-sesion",
     component: AccountPayment,
@@ -85,7 +85,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                     <NavLink
                       className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
                       to={`${url}${sPath}`}
-                      activeClassName="bg-red-400 dark:bg-neutral-800 text-neutral-100 dark:text-neutral-100 invert-image"
+                      activeClassName="bg-red-400 dark:bg-neutral-800 text-neutral-100 dark:text-neutral-100 invert-image active-account-menu-item"
                     >
                       <img
                         src={`/src/images/icons/${icon}.svg`}

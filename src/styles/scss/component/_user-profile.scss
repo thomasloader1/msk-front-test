@@ -357,3 +357,12 @@
         width: 817px;
     }
 }
+
+.active-account-menu-item{
+    &:active{
+        color: white;
+    }
+    &:focus{
+        color: white;
+    }
+}

@@ -150,13 +150,13 @@ const otherPageChildMenus: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/signup",
+    href: "/crear-cuenta",
     name: "Signup",
   },
   {
     id: ncNanoId(),
-    href: "/forgot-pass",
-    name: "Forgot Password",
+    href: "/recuperar",
+    name: "Recuperar Contraseña",
   },
   {
     id: ncNanoId(),

@@ -37,9 +37,9 @@ export interface LocationStates {
   "/search-v2"?: {};
   "/about"?: {};
   "/contact"?: {};
-  "/login"?: {};
-  "/signup"?: {};
-  "/forgot-pass"?: {};
+  "/iniciar-sesion"?: {};
+  "/crear-cuenta"?: {};
+  "/recuperar"?: {};
   "/page404"?: {};
   "/dashboard"?: {};
   "/subscription"?: {};

@@ -68,7 +68,7 @@ const MainNav2: FC<MainNav2Props> = () => {
                   Iniciar sesión
                 </ButtonSecondary>
                 <ButtonPrimary
-                  href={"/signup"}
+                  href={"/crear-cuenta"}
                   sizeClass="px-4 py-2 sm:px-5"
                   className="font-semibold"
                 >
@@ -78,7 +78,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             )}
           </div>
           <div className="flex items-center space-x-1.5 xl:hidden">
-            {/* <ButtonPrimary href={"/signup"} sizeClass="px-4 py-2 sm:px-5">
+            {/* <ButtonPrimary href={"/crear-cuenta"} sizeClass="px-4 py-2 sm:px-5">
               Create account
             </ButtonPrimary> */}
             <ErrorBoundary>

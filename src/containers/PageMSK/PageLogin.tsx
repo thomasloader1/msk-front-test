@@ -73,7 +73,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             <label className="block">
               <span className="flex justify-between items-center text-neutral-800 dark:text-neutral-200">
                 Contraseña
-                <NcLink to="/forgot-pass" className="text-sm">
+                <NcLink to="/recuperar" className="text-sm">
                   ¿Olvidaste tu contraseña?
                 </NcLink>
               </span>
@@ -90,7 +90,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}
-            <NcLink to="/signup">Créala aquí</NcLink>
+            <NcLink to="/crear-cuenta">Créala aquí</NcLink>
           </span>
         </div>
       </LayoutPage>

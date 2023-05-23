@@ -30,6 +30,15 @@ const CardCategory2: FC<CardCategory2Props> = ({
     case "Infectología":
       thumbnail = thumbnail + "infectology.png";
       break;
+    case "Mis Cursos":
+      thumbnail = thumbnail + "laptop.png";
+      break;
+    case "Centro de ayuda":
+      thumbnail = thumbnail + "comment.png";
+      break
+    case "Configurar mi cuenta":
+      thumbnail = thumbnail + "gauge.png";
+      break;
   }
   return (
     <Link

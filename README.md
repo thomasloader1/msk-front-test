@@ -41,3 +41,16 @@ Las rutas de la app estan en `src/routers/msk.tsx` desde aca se puede ver las pa
 
 ### Formulario de contacto
 - https://msklatam.com/msk-laravel/public/api/CreateLeadMSKCRM
+
+## Mi Cuenta
+
+### Logeo y deslogeo (POST)
+- https://msklatam.com/msk-laravel/public/api/login (Al logearse te devuelve un Token Bearer que se deberia almacenar en un estado)
+- https://msklatam.com/msk-laravel/public/api/logout (RUTA PROTEGIDA, necesita el token para revocarlo)
+
+### Perfil (GET)
+- https://msklatam.com/msk-laravel/public/api/profile/{email} (RUTA PROTEGIDA, necesita el token para retornar el perfil completo del usuario)
+
+### Cambio de PW (POST)
+- https://msklatam.com/msk-laravel/public/api/RequestPasswordChange (RUTA QUE DEBE ESTAR EN EL SUBMIT DEL FORM /forgot-pass (front-end), al enviar deberia de enviarte un mail a la casilla que se ingreso al input y en el mail al hacer un click en el boton de continuar te llevaria a otra ruta para ingresar la contraseña)
+- https://msklatam.com/msk-laravel/public/api/newPassword (RUTA QUE ACTUALIZA LA PW EN ZOHO)

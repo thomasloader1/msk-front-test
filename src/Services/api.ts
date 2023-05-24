@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 import { ContactUs, SignUp, Newsletter } from 'data/types';
 import { Login } from 'data/types';
 
@@ -35,12 +36,11 @@ class ApiService {
     }
   }
 
-  async postLogin(jsonData: Login) {
+  async postLogin(jsonData: Login): Promise<AxiosResponse<any>> {
     try {
-      const { data } = await axios.post(apiSignInURL, jsonData);
-      return data;
-    } catch (e) {
-      return e;
+      return  await axios.post(apiSignInURL, jsonData);
+    } catch (error: any) {
+      return error.response;
     }
   }
 

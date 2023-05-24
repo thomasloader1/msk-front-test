@@ -1,52 +1,58 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, { FC } from "react";
+import React, {FC, useState} from "react";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import {Login} from "../../data/types";
+import { useHistory, useLocation } from 'react-router-dom';
 
 export interface PageLoginProps {
   className?: string;
 }
 
 
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  const formData = new FormData(event.target as HTMLFormElement);
-  console.log({ formData, target: event.target });
-
-  const jsonData: Login = {
-    email: '',
-    password: '',
-  }
-
-  formData.forEach((value, key, parent) => {
-    if (key === 'email') {
-      jsonData.email = value as string;
-    }
-    if (key === 'password') {
-      jsonData.password = value as string;
-    }
-  });
-  console.log(jsonData);
-
-  const { response } = await api.postLogin(jsonData);
-  console.log(response);
-
-  if (response.data.status != 200){
-    console.log('error');
-  }else{
-    console.log('login');
-  }
-
-  //changeRoute("/gracias?origen=contact")
-};
-
 //const { response } = await api.postContactUs(jsonData);
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
+  const [loginError, setLoginError] = useState<string>("sadas");
+  const history = useHistory();
+
+  const changeRoute = (newRoute: string): void => { history.push(newRoute);};
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    console.log({ formData, target: event.target });
+
+    const jsonData: Login = {
+      email: '',
+      password: '',
+    }
+
+    formData.forEach((value, key, parent) => {
+      if (key === 'email') {
+        jsonData.email = value as string;
+      }
+      if (key === 'password') {
+        jsonData.password = value as string;
+      }
+    });
+    console.log(jsonData);
+
+    const {data, status} = await api.postLogin(jsonData);
+    console.log("arr", data, status);
+
+    if (status == 200){
+      console.log('login');
+      changeRoute("/gracias?origen=contact")
+    }else{
+      console.log('error');
+      setLoginError(data.message);
+    }
+  };
+
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
       <Helmet>
@@ -88,6 +94,10 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
           </form>
 
           {/* ==== */}
+          <span className="red block text-center">
+            {loginError}
+          </span>
+
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}
             <NcLink to="/crear-cuenta">Créala aquí</NcLink>

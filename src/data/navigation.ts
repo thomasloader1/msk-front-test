@@ -472,6 +472,21 @@ const resourcesMenu: NavItemType[] = [
   },
 ];
 
+const accountMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta/inicio",
+    name: "Mi Cuenta",
+    search: "",
+  },
+  {
+    id: ncNanoId(),
+    href: "/mi-perfil",
+    name: "Mi Perfil",
+    search: "",
+  },
+];
+
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
@@ -497,4 +512,14 @@ export const NAVIGATION_MSK: NavItemType[] = [
   //   href: "/shop",
   //   name: "Carrito",
   // },
+];
+
+export const NAVIGATION_USER: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta",
+    name: "Mi Cuenta",
+    type: "dropdown",
+    children: accountMenu,
+  },
 ];

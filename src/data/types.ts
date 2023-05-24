@@ -360,3 +360,18 @@ export type ContactUs = {
 export type Newsletter = {
   Email: string;
 };
+
+export interface User {
+  username: string;
+  name: string;
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+}
+
+export interface AuthAction {
+  type: string;
+  payload?: any;
+}

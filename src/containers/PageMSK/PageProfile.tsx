@@ -42,7 +42,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       const token = localStorage.getItem("token");
       if (token) {
         const headers = {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOTcwNmE2MmE4MzUzNDc5YTE0NDkyMmMxOWI4Zjg2ZjI3M2Q2MDEwN2U4ZmE3NGZkMzkyMjBhMzhmODAxODY1MmNiOWJlZTNmNzhhNGFmNWYiLCJpYXQiOjE2ODUwNTEwNzUuNjYwOTU0OTUyMjM5OTkwMjM0Mzc1LCJuYmYiOjE2ODUwNTEwNzUuNjYwOTU4MDUxNjgxNTE4NTU0Njg3NSwiZXhwIjoxNzE2NjczNDc1LjY1ODE0OTk1NzY1Njg2MDM1MTU2MjUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ruGsnIHE5RAbtGlfDGc4krdVI3GglhsmZwDtYT_jQmpX_lpLLvT0s5L-IF6CiW_2kS2DSKNPgW_Sna90nCsurlKu8XaLKw_3SxBYhyPEAh_wULRtjfLZ0FNcKxn7PTX7iosS5njT4Vhqfu1E1YGjTYagsq6cqvtYH56-TZJ1M9UyzLrnNSYheShra6WkVn2h-L4ZEJ9uqEZ_SBoOB8f8oacVmzuRq3gSTaQ7ZsDN9LjlqggAETpKkKhkncBXOk5SnfPjW2aqaitiynfQ5xW2b57mb0W4pVAzFRVhar6J51ocdC8LuQFoam-bhiK_cDmr6hlIutNGcWWSDYFpuZrIKx5O5T3wlwkev4J8QiSx3ga0rO9UwNyLOWJ9QMBH9kQAlwfFqKFEL-VISAKPOqaUdRWkHbatY9IT4QhZYOidIZBBzOGSTZVkA2AF0P2gh92Yjc-rdFmGNJ-E0M67-VtvjHHKDXBFny149NJ69n2mTr_1ncvwY007TW2TEGn8PdKCqd5qir-VwG_LoPv7yqU0-2DSeuPNMb-SGlvnXvFywgWKLCDWR2KU_-dJa0j6Cge7uo4YhCWh9kAmJNPOTT-oLxn571a2RKRyXcwu0mnOX8n2LXOoPgWJQxY3tBtysX1HZTVGhxGT1R62BIG_Gq2z0pNEHxEEg2PmOdaV0JDsNRk`,
+          Authorization: `Bearer ${token}`,
         };
 
         const res = await axios.get(

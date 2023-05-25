@@ -16,7 +16,7 @@ export interface PageLoginProps {
 //const { response } = await api.postContactUs(jsonData);
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
-  const [loginError, setLoginError] = useState<string>("sadas");
+  const [loginError, setLoginError] = useState<string>("");
   const { state, dispatch } = useContext(AuthContext);
 
   const history = useHistory();

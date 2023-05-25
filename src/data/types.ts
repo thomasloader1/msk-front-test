@@ -30,19 +30,61 @@ export interface PostAuthorType {
   jobName: string;
   href: string;
 }
+export interface Contact {
+  id: number;
+  entity_id_crm: string;
+  name: string;
+  last_name: string;
+  profession: string;
+  speciality: string | null;
+  user_id: number;
+  rfc: string;
+  dni: string | null;
+  fiscal_regime: string;
+  phone: string;
+  email: string;
+  sex: string;
+  date_of_birth: string | null;
+  country: string;
+  postal_code: string;
+  address: string | null;
+  created_at: string;
+  updated_at: string;
+  validate: string;
+  contracts: Contract[];
+}
+
+export interface Contract {
+  id: number;
+  contact_id: number;
+  installments: number | null;
+  entity_id_crm: string;
+  so_crm: string;
+  status: string;
+  status_payment: string;
+  country: string;
+  currency: string;
+  products: Product[];
+}
+
+export interface Product {
+  contract_id: number;
+  contract_entity_id: string;
+  entity_id_crm: string;
+  quantity: number;
+  product_code: number;
+  price: string;
+  discount: string;
+}
+
 export interface User {
-  id: string | number;
-  firstName: string;
-  lastName: string;
-  displayName: string;
-  avatar: string;
-  bgImage?: string;
-  email?: string;
-  count: number;
-  gender: string;
-  desc: string;
-  jobName: string;
-  href: string;
+  id: number;
+  name: string;
+  email: string;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  contact: Contact;
 }
 
 export interface PostAuthor {
@@ -361,11 +403,6 @@ export type ContactUs = {
 export type Newsletter = {
   Email: string;
 };
-
-export interface User {
-  username: string;
-  name: string;
-}
 
 export interface AuthState {
   isAuthenticated: boolean;

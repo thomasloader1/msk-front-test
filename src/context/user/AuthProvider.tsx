@@ -11,6 +11,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const initialState: AuthState = {
     isAuthenticated: false,
     user: null,
+    email: null,
     token: null,
   };
 
@@ -18,8 +19,10 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      dispatch({ type: "LOGIN", payload: { token } });
+    const email = localStorage.getItem("email");
+    if (token && email) {
+      const data = { access_token: token, email };
+      dispatch({ type: "LOGIN", payload: data });
     }
   }, []);
 

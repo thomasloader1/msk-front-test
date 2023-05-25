@@ -9,6 +9,7 @@ export const AuthContext = createContext<{
     isAuthenticated: false,
     user: null,
     token: null,
+    email: null,
   },
   dispatch: () => {},
 });

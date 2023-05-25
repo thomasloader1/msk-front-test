@@ -1,25 +1,29 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, {FC, useState} from "react";
+import React, { FC, useContext, useReducer, useState } from "react";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "../../Services/api";
-import {Login} from "../../data/types";
-import { useHistory, useLocation } from 'react-router-dom';
+import { Login } from "../../data/types";
+import { useHistory, useLocation } from "react-router-dom";
+import { AuthContext } from "context/user/AuthContext";
 
 export interface PageLoginProps {
   className?: string;
 }
 
-
 //const { response } = await api.postContactUs(jsonData);
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const [loginError, setLoginError] = useState<string>("sadas");
+  const { state, dispatch } = useContext(AuthContext);
+
   const history = useHistory();
 
-  const changeRoute = (newRoute: string): void => { history.push(newRoute);};
+  const changeRoute = (newRoute: string): void => {
+    history.push(newRoute);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,28 +31,29 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     console.log({ formData, target: event.target });
 
     const jsonData: Login = {
-      email: '',
-      password: '',
-    }
+      email: "",
+      password: "",
+    };
 
     formData.forEach((value, key, parent) => {
-      if (key === 'email') {
+      if (key === "email") {
         jsonData.email = value as string;
       }
-      if (key === 'password') {
+      if (key === "password") {
         jsonData.password = value as string;
       }
     });
     console.log(jsonData);
 
-    const {data, status} = await api.postLogin(jsonData);
+    const { data, status } = await api.postLogin(jsonData);
     console.log("arr", data, status);
 
-    if (status == 200){
-      console.log('login');
-      changeRoute("/gracias?origen=contact")
-    }else{
-      console.log('error');
+    if (status == 200) {
+      const loginData = { ...data, email: jsonData.email };
+      dispatch({ type: "LOGIN", payload: loginData });
+      changeRoute("/gracias?origen=contact");
+    } else {
+      console.log("error");
       setLoginError(data.message);
     }
   };
@@ -64,7 +69,12 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       >
         <div className="max-w-md mx-auto space-y-6">
           {/* FORM */}
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6" action="#" method="post">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 gap-6"
+            action="#"
+            method="post"
+          >
             <label className="block">
               <span className="text-neutral-800 dark:text-neutral-200">
                 E-mail
@@ -94,9 +104,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
           </form>
 
           {/* ==== */}
-          <span className="red block text-center">
-            {loginError}
-          </span>
+          <span className="red block text-center">{loginError}</span>
 
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}

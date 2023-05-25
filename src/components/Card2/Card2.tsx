@@ -32,8 +32,8 @@ const Card2: FC<Card2Props> = ({
   hideDesc,
   hideAuthor,
 }) => {
-  const { title, image, categories } = post;
-
+  const { title, image, slug, categories } = post;
+  const imageURL = image?.replace("mx.", "");
   const url = "";
 
   return (
@@ -42,6 +42,12 @@ const Card2: FC<Card2Props> = ({
       data-nc-id="Card2"
     >
       <span className="block flex-shrink-0 flex-grow relative w-full h-0 pt-[75%] sm:pt-[55%] rounded-lg overflow-hidden">
+        <NcImage
+          containerClassName="absolute inset-0"
+          src={imageURL}
+          alt={title}
+          height="100"
+        />
         {/* <PostTypeFeaturedIcon
           className="absolute bottom-2 left-2"
           postType={postType}
@@ -50,9 +56,8 @@ const Card2: FC<Card2Props> = ({
         /> */}
       </span>
 
-      <SocialsShare className="absolute hidden md:grid gap-[5px] right-4 top-4 opacity-0 z-[-1] group-hover:z-10 group-hover:opacity-100 transition-all duration-300" />
-      <Link to={url} className="absolute inset-0" />
-
+      {/* <SocialsShare className="absolute hidden md:grid gap-[5px] right-4 top-4 opacity-0 z-[-1] group-hover:z-10 group-hover:opacity-100 transition-all duration-300" /> */}
+      <Link to={`/curso/${slug}`} className="absolute inset-0" />
       <div className="p-4 sm:p-5 flex flex-col">
         <div className="space-y-3">
           <CategoryBadgeList

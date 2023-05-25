@@ -62,6 +62,7 @@ export interface PostCategory {
 
 export interface FetchPostType {
   id: number;
+  slug: string;
   date: string;
   link: string;
   title: string;
@@ -369,6 +370,8 @@ export interface User {
 export interface AuthState {
   isAuthenticated: boolean;
   user: User | null;
+  email: string | null;
+  token: string | null;
 }
 
 export interface AuthAction {

@@ -15,7 +15,8 @@ import {
   NAVIGATION_MSK,
   NAVIGATION_USER,
 } from "data/navigation";
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useContext } from "react";
+import { useHistory } from "react-router-dom";
 const solutions = [
   {
     name: "Eden Tuan",
@@ -39,7 +40,13 @@ const solutions = [
 export interface MainNav2Props {}
 
 const MainNav2: FC<MainNav2Props> = () => {
-  const { state } = React.useContext(AuthContext);
+  const { state } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
+  const history = useHistory();
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/");
+  };
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
@@ -86,7 +93,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             {state.isAuthenticated ? (
               <>
                 <ButtonSecondary
-                  href={"/"}
+                  onClick={() => handleLogout()}
                   sizeClass="px-4 py-2 sm:px-5"
                   className="border-solid border-1 border-neutral-200"
                   bordered

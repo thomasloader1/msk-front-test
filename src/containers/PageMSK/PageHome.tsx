@@ -14,20 +14,11 @@ import { TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
 import { API_URL } from "data/api";
-import Heading from "../../components/Heading/Heading";
 
 const PageHome: React.FC = () => {
-  const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
-  const fetchPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const formattedPosts = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
-    setPosts(formattedPosts);
-  };
+
   const fetchCourses = async () => {
     const res = await axios.get(`${API_URL}/products?limit=-1&country=mx`);
     setCourses(res.data.products);
@@ -37,14 +28,16 @@ const PageHome: React.FC = () => {
     setBestSeller(res.data.products);
   };
   useEffect(() => {
-    //fetchPosts();
     fetchCourses();
     fetchBestSeller();
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log(position)
-    }, function (err) {
-      console.log(err)
-    });
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        console.log(position);
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
   }, []);
 
   const scrollToContactForm = () => {

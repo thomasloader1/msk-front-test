@@ -1,17 +1,19 @@
-import axios from 'axios';
-import { AxiosResponse, AxiosError } from 'axios';
-import { ContactUs, SignUp, Newsletter } from 'data/types';
-import { Login } from 'data/types';
+import axios from "axios";
+import { AxiosResponse, AxiosError } from "axios";
+import { API_URL } from "data/api";
+import { ContactUs, SignUp, Newsletter } from "data/types";
+import { Login } from "data/types";
 
-const baseURLLocal = 'http://localhost:8000/api/crm'
-const baseURLPRD = 'https://msklatam.com/msk-laravel/public/api/crm'
+const baseURLLocal = "http://localhost:8000/api/crm";
+const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";
 
 const apiSignUpURL = `https://msklatam.com/msk-laravel/public/api/signup`;
 const apiSignInURL = `https://msklatam.com/msk-laravel/public/api/login`;
+const apiProfileUrl = `https://msklatam.com/msk-laravel/public/api/profile`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
-  token = localStorage.getItem('tokenLogin');
+  token = localStorage.getItem("tokenLogin");
 
   async get(endpoint: string) {
     const response = await axios.get(`${this.baseUrl}/${endpoint}`, {
@@ -38,7 +40,7 @@ class ApiService {
 
   async postLogin(jsonData: Login): Promise<AxiosResponse<any>> {
     try {
-      return  await axios.post(apiSignInURL, jsonData);
+      return await axios.post(apiSignInURL, jsonData);
     } catch (error: any) {
       return error.response;
     }
@@ -46,7 +48,9 @@ class ApiService {
 
   async getEmailByIdZohoCRM(module: string, email: string) {
     try {
-      const { data } = await axios.get(`${baseURLPRD}/GetByEmail/${module}/${email}`);
+      const { data } = await axios.get(
+        `${baseURLPRD}/GetByEmail/${module}/${email}`
+      );
       return data;
     } catch (e) {
       return e;
@@ -55,24 +59,102 @@ class ApiService {
 
   async postContactUs(jsonData: ContactUs) {
     try {
-      const { data } = await axios.post(`${baseURLPRD}/CreateLeadHomeContactUs`, jsonData);
+      const { data } = await axios.post(
+        `${baseURLPRD}/CreateLeadHomeContactUs`,
+        jsonData
+      );
       return data;
       // return jsonData;
     } catch (e) {
       return e;
     }
-  };
+  }
 
   async postNewsletter(jsonData: Newsletter) {
     try {
-      const { data } = await axios.post(`${baseURLPRD}/CreateLeadHomeNewsletter`, jsonData);
+      const { data } = await axios.post(
+        `${baseURLPRD}/CreateLeadHomeNewsletter`,
+        jsonData
+      );
       return data;
       // return jsonData;
     } catch (e) {
       return e;
     }
-  };
+  }
   // Aquí puedes agregar más métodos según tus necesidades
+
+  async getUserData() {
+    const email = localStorage.getItem("email");
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.get(`${apiProfileUrl}/${email}`, { headers });
+        return res.data.user;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getAllCourses() {
+    try {
+      const courses = await axios.get(
+        `${API_URL}/products?limit=-1&country=mx`
+      );
+      return courses.data.products;
+    } catch (error) {
+      return error;
+    }
+  }
+  async getBestSellers() {
+    try {
+      const bestSellers = await axios.get(
+        `${API_URL}/home/best-sellers?country=mx`
+      );
+      return bestSellers.data.products;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getProfessions() {
+    try {
+      const res = await axios.get(
+        "https://www.msklatam.com/msk-laravel/public/api/store/professions"
+      );
+      res.data.map((profession: any) => {
+        switch (profession.name) {
+          case "Personal médico":
+            profession.slug = "medicos";
+            break;
+          case "Personal de enfermería y auxiliares":
+            profession.slug = "enfermeros-auxiliares";
+            break;
+          case "Otra profesión":
+            profession.slug = "otra-profesion";
+            break;
+        }
+      });
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getSpecialties() {
+    try {
+      const res = await axios.get(
+        "https://msklatam.com/msk-laravel/public/api/specialities"
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new ApiService();

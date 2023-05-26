@@ -14,6 +14,7 @@ import {
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreContext";
 import { API_URL } from "data/api";
+import api from "Services/api";
 
 export interface PageStoreProps {
   className?: string;
@@ -28,53 +29,28 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const { storeFilters, clearFilters } = useStoreFilters();
 
   // FETCH DATA
+  const fetchProducts = async () => {
+    const productList = await api.getAllCourses();
+    setAuxProducts([...productList]);
+    setProducts(productList);
+    setLoading(false);
+  };
+  const fetchProfessions = async () => {
+    const professionList = await api.getProfessions();
+    setProfessions(professionList);
+  };
+  const fetchSpecialties = async () => {
+    const specialtyList = await api.getSpecialties();
+    setSpecialties(specialtyList);
+  };
+
   useEffect(() => {
     clearFilters();
     setLoading(true);
-    axios
-      .get(`${API_URL}/products?limit=-1&country=mx`)
-      .then((response) => {
-        setLoading(false);
-        setAuxProducts([...response.data.products]);
-        setProducts(response.data.products);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
 
-    axios
-      .get("https://www.msklatam.com/msk-laravel/public/api/store/professions")
-      .then((response) => {
-        response.data.map((profession: any) => {
-          switch (profession.name) {
-            case "Personal médico":
-              profession.slug = "medicos";
-              break;
-            case "Personal de enfermería y auxiliares":
-              profession.slug = "enfermeros-auxiliares";
-              break;
-            case "Otra profesión":
-              profession.slug = "otra-profesion";
-              break;
-          }
-        });
-        setProfessions(response.data);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
-
-    axios
-      .get("https://msklatam.com/msk-laravel/public/api/specialities")
-      .then((response) => {
-        setSpecialties(response.data);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-      });
+    fetchProducts();
+    fetchProfessions();
+    fetchSpecialties();
   }, []);
 
   // FILTERS
@@ -119,22 +95,25 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
-        const professionsMatch = selectedProfessions.some((profession) => // If a product matches at least one profession, show it
-          prodProfessions.some((prodProfession) => {
-            return prodProfession
-              .toLowerCase()
-              .includes(profession.toLowerCase());
-          })
+        const professionsMatch = selectedProfessions.some(
+          (
+            profession // If a product matches at least one profession, show it
+          ) =>
+            prodProfessions.some((prodProfession) => {
+              return prodProfession
+                .toLowerCase()
+                .includes(profession.toLowerCase());
+            })
         );
 
-        const resourcesMatch = selectedResources.every((resource) => { //TODO: figure out why this isn't working
+        const resourcesMatch = selectedResources.every((resource) => {
+          //TODO: figure out why this isn't working
           if (resource === "Curso") {
             return product.duration !== null;
           } else if (resource === "Guías") {
             return product.duration === null;
           }
         });
-
 
         const durationsMatch = selectedDurations.every((duration) => {
           const currentDuration = parseInt(prodDuration);
@@ -245,7 +224,12 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}
             length={products.length}
-            filtersCount={storeFilters.specialties.length + storeFilters.professions.length + storeFilters.resources.length + storeFilters.duration.length}
+            filtersCount={
+              storeFilters.specialties.length +
+              storeFilters.professions.length +
+              storeFilters.resources.length +
+              storeFilters.duration.length
+            }
           />
           {isLoading ? (
             <div className="container grid grid-cols-3 gap-10">

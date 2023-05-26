@@ -1,12 +1,12 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, { FC, useContext, useReducer, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import { Login } from "../../data/types";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 
 export interface PageLoginProps {
@@ -51,7 +51,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     if (status == 200) {
       const loginData = { ...data, email: jsonData.email };
       dispatch({ type: "LOGIN", payload: loginData });
-      changeRoute("/gracias?origen=contact");
+      changeRoute("/mi-perfil");
     } else {
       console.log("error");
       setLoginError(data.message);

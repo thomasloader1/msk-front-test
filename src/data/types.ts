@@ -46,6 +46,7 @@ export interface Contact {
   sex: string;
   date_of_birth: string | null;
   country: string;
+  state?: string;
   postal_code: string;
   address: string | null;
   created_at: string;
@@ -64,10 +65,10 @@ export interface Contract {
   status_payment: string;
   country: string;
   currency: string;
-  products: Product[];
+  products: UserCourse[];
 }
 
-export interface Product {
+export interface UserCourse {
   contract_id: number;
   contract_entity_id: string;
   entity_id_crm: string;
@@ -75,6 +76,9 @@ export interface Product {
   product_code: number;
   price: string;
   discount: string;
+  status?: string;
+  status_payment?: string;
+  title?: string;
 }
 
 export interface User {
@@ -85,6 +89,7 @@ export interface User {
   created_at: string;
   updated_at: string;
   contact: Contact;
+  profession?: string;
 }
 
 export interface PostAuthor {
@@ -177,6 +182,7 @@ export type TwMainColor =
   | "red-strong"
   | "indigo"
   | "blue"
+  | "blue-light"
   | "purple"
   | "gray";
 

@@ -1,14 +1,15 @@
 import { Popover, Transition } from "@headlessui/react";
 import Avatar from "components/Avatar/Avatar";
-import { avatarImgs } from "contains/fakeData";
-import React, { Fragment } from "react";
+import { AuthContext } from "context/user/AuthContext";
+import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 
 const NavigationUser = () => {
+  const { state } = useContext(AuthContext);
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">
-        {({ open }) => (
+        {() => (
           <>
             <Popover.Button
               className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
@@ -34,15 +35,18 @@ const NavigationUser = () => {
                   <div className="relative grid grid-cols-1 gap-6 bg-white dark:bg-neutral-800 py-7 px-6">
                     <div className="flex items-center space-x-3">
                       <Avatar
-                        imgUrl={avatarImgs[1]}
+                        containerClassName="dark:ring-0 shadow-2xl"
+                        userName={state?.user?.name}
                         sizeClass="w-12 h-12"
                         radius="rounded-full"
                       />
 
                       <div className="flex-grow">
-                        <h4 className="font-semibold">Eden Tuan</h4>
+                        <h4 className="font-semibold">
+                          {state?.user?.name || "-"}
+                        </h4>
                         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                          UI Designer
+                          {state?.user?.profession || "-"}
                         </p>
                       </div>
                     </div>

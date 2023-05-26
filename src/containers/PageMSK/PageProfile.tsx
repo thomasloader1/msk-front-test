@@ -7,12 +7,10 @@ import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
-import axios from "axios";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
-import { USERS } from "data/users";
-import { API_URL } from "data/api";
 import { Helmet } from "react-helmet";
-import { FetchPostType, PostAuthorType, User } from "data/types";
+import { FetchPostType, User } from "data/types";
+import api from "Services/api";
 
 export interface PageAuthorProps {
   className?: string;
@@ -29,39 +27,25 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products?limit=-1&country=mx`);
-    setPosts(res.data.products);
+    const res = await api.getAllCourses();
+    setPosts(res);
   };
   const fetchBestSeller = async () => {
-    const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
-    setBestSeller(res.data.products);
+    const res = await api.getBestSellers();
+    setBestSeller(res);
   };
 
-  const fetchUser = async (email: string) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
-        const res = await axios.get(
-          `https://dev.msklatam.com/msk-laravel/public/api/profile/${email}`,
-          { headers }
-        );
-
-        setUser(res.data.user);
-      }
-    } catch (error) {
-      // Manejo de errores
+  const fetchUser = async () => {
+    const res = await api.getUserData();
+    if (!res.message) {
+      setUser(res);
+    } else {
+      console.log(res.response.status);
     }
   };
 
   useEffect(() => {
-    const email = localStorage.getItem("email");
-    if (email) {
-      fetchUser(email);
-    }
+    fetchUser();
     fetchBestSeller();
     fetchCourses();
   }, []);

@@ -1,11 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
 import Pagination from "components/Pagination/Pagination";
-import { USER_COURSES } from "data/MSK/courses";
+import Badge from "components/Badge/Badge";
+import { UserCourse } from "data/types";
+import ButtonPrimary from "components/Button/ButtonPrimary";
 
-const courses = USER_COURSES;
+interface AccountCoursesProps {
+  courses: UserCourse[];
+}
 
-const DashboardPosts = () => {
+const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
   return (
     <div className="flex flex-col space-y-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -23,37 +27,49 @@ const DashboardPosts = () => {
                   <th scope="col" className="px-6 py-3 font-medium">
                     Pago
                   </th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-neutral-900 divide-y divide-neutral-200 dark:divide-neutral-800">
                 {courses.map((item) => (
-                  <tr key={item.id}>
+                  <tr key={item.product_code}>
                     <td className="px-6 py-4">
                       <div className="flex items-center w-96 lg:w-auto max-w-md overflow-hidden">
-                        <NcImage
+                        {/* <NcImage
                           containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
                           src={item.featuredImage}
-                        />
+                        /> */}
                         <div className="ml-4 flex-grow">
                           <h2 className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
-                            {item.title}
+                            {item.title || "-"}
                           </h2>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.status ? (
-                        <span className="px-2 inline-flex text-xs leading-5 font-normal rounded bg-emerald-100 text-cyan-900 lg:text-sm">
-                          Activo
-                        </span>
-                      ) : (
-                        <span className="px-2 inline-flex text-sm text-red-500 dark:text-neutral-400 bg-red-100 rounded">
-                          Inactivo
-                        </span>
-                      )}
+                      {
+                        <Badge
+                          name={item.status_payment}
+                          color={
+                            item.status_payment == "Activo"
+                              ? "teal-active"
+                              : "red"
+                          }
+                          textSize="text-sm"
+                        />
+                      }
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
-                      <span> {item.payment}</span>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs text-neutral-500 dark:text-neutral-400">
+                      <span className="text-sm"> {item.status}</span>
+                    </td>
+                    <td className="">
+                      <ButtonPrimary sizeClass="px-4 py-1 sm:px-5">
+                        <span className="text-sm">
+                          {item.status_payment != "Activo"
+                            ? "Activar"
+                            : "Ir al curso"}
+                        </span>
+                      </ButtonPrimary>
                     </td>
                   </tr>
                 ))}

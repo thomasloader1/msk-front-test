@@ -1,5 +1,11 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, { ComponentType, FC } from "react";
+import React, {
+  ComponentType,
+  FC,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 import { NavLink } from "react-router-dom";
 import AccountPayment from "./account/AccountPayment";
@@ -7,6 +13,11 @@ import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
 import AccountHome from "./account/AccountHome";
 import { Helmet } from "react-helmet";
+import { Contract, Profession, Specialty, User, UserCourse } from "data/types";
+import api from "Services/api";
+import { AuthContext } from "context/user/AuthContext";
+import { useHistory } from "react-router-dom";
+import LoadingText from "components/Loader/Text";
 
 export interface PageDashboardProps {
   className?: string;
@@ -28,42 +39,82 @@ interface DashboardPage {
   pageName: string;
 }
 
-const subPages: DashboardPage[] = [
-  {
-    sPath: "/inicio",
-    exact: true,
-    component: AccountHome,
-    icon: "home",
-    pageName: "Inicio",
-  },
-  {
-    sPath: "/cursos",
-    component: AccountCourses,
-    icon: "file",
-    pageName: "Mis cursos",
-  },
-  {
-    sPath: "/perfil",
-    component: AccountPersonalData,
-    icon: "personal-data",
-    pageName: "Datos personales",
-  },
- /* {
-    sPath: "/metodo-pego",
-    component: AccountPayment,
-    icon: "payment",
-    pageName: "Método de pago",
-  },*/
-  {
-    sPath: "/cerrar-sesion",
-    component: AccountPayment,
-    icon: "session",
-    pageName: "Cerrar sesión",
-  },
-];
-
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
+  const [user, setUser] = useState<User>({} as User);
+  const [courses, setCourses] = useState<UserCourse[]>([] as UserCourse[]);
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [isLoading, setLoading] = useState(false);
+  const { dispatch } = useContext(AuthContext);
+  const history = useHistory();
+  const subPages: DashboardPage[] = [
+    {
+      sPath: "/inicio",
+      exact: true,
+      component: () => <AccountHome name={user?.contact?.name} />,
+      icon: "home",
+      pageName: "Inicio",
+    },
+    {
+      sPath: "/cursos",
+      component: () => <AccountCourses courses={courses} />,
+      icon: "file",
+      pageName: "Mis cursos",
+    },
+    {
+      sPath: "/perfil",
+      component: () => (
+        <AccountPersonalData
+          user={user}
+          specialties={specialties}
+          professions={professions}
+        />
+      ),
+      icon: "personal-data",
+      pageName: "Datos personales",
+    },
+  ];
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/");
+  };
+
+  const fetchProfessions = async () => {
+    const professionList = await api.getProfessions();
+    setProfessions(professionList);
+  };
+  const fetchSpecialties = async () => {
+    const specialtyList = await api.getSpecialties();
+    setSpecialties(specialtyList);
+  };
+
+  const fetchUser = async () => {
+    const res = await api.getUserData();
+    if (!res.message) {
+      setUser(res);
+      let coursesList = [] as UserCourse[];
+      res.contact.contracts.map((contract: Contract) => {
+        contract.products.map((product: UserCourse) => {
+          product.status = contract.status;
+          product.status_payment = contract.status_payment;
+          coursesList.push(product);
+        });
+      });
+      setCourses(coursesList);
+      setLoading(false);
+    } else {
+      console.log(res.response.status);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchUser();
+    fetchProfessions();
+    fetchSpecialties();
+  }, []);
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">
@@ -97,23 +148,39 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                   </li>
                 );
               })}
+              <li className="cursor-pointer" onClick={handleLogout}>
+                <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
+                  <img
+                    src={`/src/images/icons/session.svg`}
+                    width="16"
+                    className="mr-2"
+                  />
+                  Cerrar Sesión
+                </span>
+              </li>
             </ul>
           </div>
           <div className="border border-neutral-100 dark:border-neutral-800 md:hidden"></div>
           <div className="flex-grow">
-            <Switch>
-              {subPages.map(({ component, sPath, exact }, index) => {
-                return (
-                  <Route
-                    key={index}
-                    exact={exact}
-                    component={component}
-                    path={!!sPath ? `${path}${sPath}` : path}
-                  />
-                );
-              })}
-              <Redirect to={path + "/inicio"} />
-            </Switch>
+            {isLoading ? (
+              <div className="border-2 border-grey-300 p-6 rounded-md">
+                <LoadingText />
+              </div>
+            ) : (
+              <Switch>
+                {subPages.map(({ component, sPath, exact }, index) => {
+                  return (
+                    <Route
+                      key={index}
+                      exact={exact}
+                      component={component}
+                      path={!!sPath ? `${path}${sPath}` : path}
+                    />
+                  );
+                })}
+                <Redirect to={path + "/inicio"} />
+              </Switch>
+            )}
           </div>
         </div>
       </LayoutPage>

@@ -11,10 +11,11 @@ export const authReducer = (
     case LOGIN:
       localStorage.setItem("token", action.payload.access_token);
       localStorage.setItem("email", action.payload.email);
+      const user = localStorage.getItem("user");
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
+        user: user ? JSON.parse(user) : null,
         email: action.payload.email,
         token: action.payload.access_token,
       };

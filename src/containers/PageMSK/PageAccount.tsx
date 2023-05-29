@@ -18,6 +18,8 @@ import api from "Services/api";
 import { AuthContext } from "context/user/AuthContext";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
+import axios from "axios";
+import {ALL_PRODUCTS_MX} from "../../data/api";
 
 export interface PageDashboardProps {
   className?: string;
@@ -91,6 +93,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   };
 
   const fetchUser = async () => {
+    const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`); //Todo: this should be in storage so we don't query it everytime
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
@@ -99,6 +102,16 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
         contract.products.map((product: UserCourse) => {
           product.status = contract.status;
           product.status_payment = contract.status_payment;
+          product.title = product.product_code;
+          let globalProduct = allCourses.data.products.find((productAux: { product_code: string; }) => productAux.product_code == product.product_code);
+          if (globalProduct) {
+            product.title = globalProduct.title;
+            if (globalProduct.image){
+              const imageURL = globalProduct.image.replace("mx.", "");
+              product.featured_image = imageURL;
+            }
+          }
+          console.log(allCourses.data.products);
           coursesList.push(product);
         });
       });

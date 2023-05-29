@@ -84,7 +84,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       name: "Mis Cursos",
       description: "Controla todo lo relacionado\n" + "con tus capacitaciones",
       image: "",
-      href: "",
+      href: "/mi-cuenta/cursos",
     },
     {
       name: "Centro de ayuda",
@@ -97,7 +97,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       name: "Configurar mi cuenta",
       description: "Controlar todo lo referido\n" + "a tu perfil personal",
       image: "",
-      href: "",
+      href: "/mi-cuenta/perfil",
     },
   ];
 

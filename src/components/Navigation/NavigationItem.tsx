@@ -171,7 +171,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
             >
               <Popover.Panel
                 static
-                className="sub-menu absolute transform z-10 min-w-[265px] pt-3 left-0"
+                className="sub-menu absolute transform z-10 min-w-[350px] pt-3 left-0"
               >
                 <ul className="rounded-xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 text-sm relative bg-white dark:bg-neutral-800 py-4 grid space-y-1">
                   {menuDropdown.children?.map((i) => {

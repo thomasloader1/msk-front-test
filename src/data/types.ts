@@ -73,12 +73,14 @@ export interface UserCourse {
   contract_entity_id: string;
   entity_id_crm: string;
   quantity: number;
-  product_code: number;
+  product_code: string;
   price: string;
   discount: string;
   status?: string;
   status_payment?: string;
   title?: string;
+
+  featured_image?: string;
 }
 
 export interface User {

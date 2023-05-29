@@ -35,10 +35,10 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
                   <tr key={item.product_code}>
                     <td className="px-6 py-4">
                       <div className="flex items-center w-96 lg:w-auto max-w-md overflow-hidden">
-                        {/* <NcImage
+                        {<NcImage
                           containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
-                          src={item.featuredImage}
-                        /> */}
+                          src={item.featured_image}
+                        />}
                         <div className="ml-4 flex-grow">
                           <h2 className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
                             {item.title || "-"}
@@ -79,7 +79,7 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
         </div>
       </div>
 
-      <Pagination />
+      {/*<Pagination />*/}
     </div>
   );
 };

@@ -48,7 +48,7 @@ const FooterEduman = () => {
           <div className="copyright-area">
             <div className="footer-column ">
               <div className="copyright-text">
-                <p>Nuestro Newsletter</p>
+                <p>Nuestro newsletter</p>
               </div>
             </div>
             <div className="divisor" />

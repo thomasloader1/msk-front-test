@@ -44,13 +44,13 @@ const DashboardEditProfile: FC<Props> = ({
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
-    setLocalUser((prevUser) => ({
+    /*setLocalUser((prevUser) => ({
       ...prevUser,
       contact: {
         ...prevUser.contact,
         [fieldName]: value,
       },
-    }));
+    }));*/
   };
 
   const submitForm = () => {

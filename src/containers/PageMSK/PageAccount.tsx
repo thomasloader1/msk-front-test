@@ -52,7 +52,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     {
       sPath: "/inicio",
       exact: true,
-      component: () => <AccountHome name={user?.contact?.name} />,
+      component: () => <AccountHome name={user?.contact?.name!} />,
       icon: "home",
       pageName: "Inicio",
     },

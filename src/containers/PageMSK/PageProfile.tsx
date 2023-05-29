@@ -180,7 +180,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           <BackgroundSection />
           <SectionSliderPosts
             postCardName="card9"
-            heading="Nuestros cursos mas elegidos"
+            heading="Nuestros cursos más elegidos"
             subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
             sliderStype="style2"
             posts={bestSeller}

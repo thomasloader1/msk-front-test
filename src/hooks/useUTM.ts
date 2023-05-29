@@ -41,7 +41,7 @@ const useUTM = (): void => {
             // Actualiza los campos ocultos del formulario
             Object.keys(utmParams).forEach((param) => {
                 const input = document.getElementById(`hidden-${param}`) as HTMLInputElement;
-                input.value = Array.isArray(utmParams[param]) ? utmParams[param][0] || '' : utmParams[param] || '';
+                input.value = Array.isArray(utmParams[param]) ? utmParams[param]![0] || '' : utmParams[param] || '';
             });
 
             // Cambia la URL sin recargar la página

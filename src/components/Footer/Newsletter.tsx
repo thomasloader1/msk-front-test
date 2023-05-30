@@ -63,7 +63,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 grid-row-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
         <div className="">
           <div className="contact-from-input">
             <input
@@ -97,7 +97,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 grid-row-6 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4 mt-4">
         <div className="contact-select">
           <select
             className=""
@@ -135,7 +135,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
       <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">
         Selecciona tus temas de interés
       </h3>
-      <div className="grid grid-cols-3 grid-row-6 gap-2 mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
         {specialties.map((specialty: Specialty) => (
           <Checkbox
             key={specialty.id}
@@ -146,7 +146,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
           />
         ))}
       </div>
-      <div className="flex justify-center items-center gap-8">
+      <div className="flex justify-center flex-wrap items-center gap-8">
         <div className="flex gap-1 mt-3">
           <Checkbox
             name="Terms_And_Conditions"

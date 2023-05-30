@@ -45,11 +45,14 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
   };
 
   return (
-    <div
-      className={`course-video-widget ${isFixed ? "lg:fixed lg:mr-16" : ""}`}
-      style={bottomDistance != 0 ? { bottom: bottomDistance } : undefined}
-    >
-      <div className="course-widget-wrapper mb-30">
+    <div className={`course-video-widget`}>
+      <div
+        className={`${
+          isFixed && bottomDistance == 0
+            ? "course-widget-wrapper-fixed"
+            : "course-widget-wrapper "
+        } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
+      >
         {isFixed ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
             <img src={ficha.image.replace("mx.", "")} alt="img not found" />

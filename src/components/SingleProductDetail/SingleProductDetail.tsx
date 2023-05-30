@@ -158,7 +158,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className="order-first lg:order-last">
+        <div className="order-first lg:order-last relative">
           <ProductDetailSidebar
             ficha={product.ficha}
             details={product.details}

@@ -11,7 +11,6 @@ import ContactFormSection from "components/ContactForm/ContactForm";
 import axios from "axios";
 import { API_URL } from "data/api";
 
-
 interface Props {
   product: FetchSingleProduct;
 }
@@ -28,7 +27,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   useEffect(() => {
     const htmlElement = document.createElement("div");
     htmlElement.innerHTML = product.ficha.description;
-    fetchBestSeller()
+    fetchBestSeller();
     if (textRef.current) {
       textRef.current.innerHTML = "";
       textRef.current.appendChild(htmlElement);
@@ -42,13 +41,18 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             <div className="course-heading mb-10">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
-            {product.authors.length || product.temario || (product.details && product.details["duration"]) ?
-              (<div className="course-detelis-meta">
+            {product.authors.length ||
+            product.temario ||
+            (product.details && product.details["duration"]) ? (
+              <div className="course-detelis-meta">
                 {product.authors.length ? (
                   <>
                     <div className="course-meta-wrapper">
                       <div className="course-meta-img">
-                        <img src={product.authors[0].image.replace('mx.', '')} alt="course-meta" />
+                        <img
+                          src={product.authors[0].image.replace("mx.", "")}
+                          alt="course-meta"
+                        />
                       </div>
 
                       <div>
@@ -60,14 +64,15 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   </>
                 ) : null}
                 {product.temario ? (
-                    <>
-                      <div>
-                        <p>Contenido</p>
-                        <span className="font-bold">{product.temario["data"]?.row_count} módulos</span>
-                      </div>
-                      <div className="border-line-meta"></div>
-                    </>
-
+                  <>
+                    <div>
+                      <p>Contenido</p>
+                      <span className="font-bold">
+                        {product.temario["data"]?.row_count} módulos
+                      </span>
+                    </div>
+                    <div className="border-line-meta"></div>
+                  </>
                 ) : null}
 
                 {product.details && product.details["duration"] ? (
@@ -78,9 +83,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     </span>
                   </div>
                 ) : null}
-              </div>)
-              :
-              (<></>)}
+              </div>
+            ) : (
+              <></>
+            )}
 
             {product.ficha.description ? (
               <div className="course-description pt-45 pb-30">
@@ -88,7 +94,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   <h4 className="font-semibold text-xl">Qué aprenderás</h4>
                 </div>
                 <div ref={textRef} />
-
               </div>
             ) : null}
 
@@ -121,12 +126,22 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             )}
 
             {product.goals ? (
-              <><h4 className="font-semibold text-xl">Objetivos</h4><p>{<div dangerouslySetInnerHTML={{ __html: product.goals }} />}</p></>
+              <>
+                <h4 className="font-semibold text-xl">Objetivos</h4>
+                <p>
+                  {<div dangerouslySetInnerHTML={{ __html: product.goals }} />}
+                </p>
+              </>
             ) : (
               <p></p>
             )}
-            {product.authors.length ? (<h4 className="mt-6 font-bold pt-6 text-xl">Quiénes lo desarrollan</h4>) :
-              (<p></p>)}
+            {product.authors.length ? (
+              <h4 className="mt-6 font-bold pt-6 text-xl">
+                Quiénes lo desarrollan
+              </h4>
+            ) : (
+              <p></p>
+            )}
             <div className="grid grid-cols-2">
               {product.authors.length ? (
                 product.authors.map((instructor, index) => {

@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import React, { FC, useState } from "react";
-import { Details, FetchCourseType, Ficha } from "data/types";
+import { FC, useEffect, useState } from "react";
+import { Details, Ficha } from "data/types";
 
 interface Props {
   ficha: Ficha;
@@ -8,57 +7,61 @@ interface Props {
 }
 
 const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openVideoModal = () => setIsOpen(!isOpen);
+  const [isFixed, setIsFixed] = useState(false);
+  const [bottomDistance, setBottomDistance] = useState(0);
+  let scrollPosition = 0;
 
-  const courseData = [
-    {
-      title: "Modalidad",
-      property: "modality",
-      icon: "/src/images/icons/pc.svg",
-    },
-    {
-      title: "Curso disponible",
-      property: "available",
-      icon: "/src/images/icons/clock.svg",
-    },
-    {
-      title: "Asesoramiento académico",
-      property: "counseling",
-      icon: "/src/images/icons/bubble.svg",
-    },
-    {
-      title: "Certificación",
-      property: "diploma",
-      icon: "/src/images/icons/prize.svg",
-    },
-    {
-      title: "Idioma",
-      property: "language_name",
-      icon: "/src/images/icons/lang.svg",
-    },
-  ];
+  const calculateDistanceToBottom = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    return documentHeight - (scrollPosition + windowHeight);
+  };
 
-  let translations: {[key: string]: string} = {
-    duration: 'Duración',
-    modality: 'Modalidad',
-    flexibility: 'Flexibilidad',
-    content: 'Contenido'
+  useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 450;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      setIsFixed(scrollTop > threshold);
+
+      const distanceToBottom = calculateDistanceToBottom();
+      const auxDistance = scrollPosition - distanceToBottom - 100;
+      setBottomDistance(distanceToBottom < 1065 ? auxDistance / 2 : 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  let translations: { [key: string]: string } = {
+    duration: "Duración",
+    modality: "Modalidad",
+    flexibility: "Flexibilidad",
+    content: "Contenido",
   };
 
   return (
-    <div className="course-video-widget">
+    <div
+      className={`course-video-widget ${isFixed ? "lg:fixed lg:mr-16" : ""}`}
+      style={bottomDistance != 0 ? { bottom: bottomDistance } : undefined}
+    >
       <div className="course-widget-wrapper mb-30">
-        <div className="course-video-thumb w-img hidden lg:flex">
-          <img src={ficha.image.replace('mx.', '')} alt="img not found" />
-        </div>
+        {isFixed ? null : (
+          <div className="course-video-thumb w-img hidden lg:flex">
+            <img src={ficha.image.replace("mx.", "")} alt="img not found" />
+          </div>
+        )}
+
         <div className="course-video-price">
           <span>💳 Pagos sin intereses</span>
         </div>
         <div className="course-video-body">
           <ul>
             {Object.keys(details).map((key, index) => {
-
               return (
                 <li key={`data_${index}`}>
                   <div className="course-vide-icon">
@@ -67,7 +70,8 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
                       width="15"
                     />
                     <span>
-                      {translations[key] ? (translations[key] + ':') : ''} {details[key as keyof typeof details].value}{" "}
+                      {translations[key] ? translations[key] + ":" : ""}{" "}
+                      {details[key as keyof typeof details].value}{" "}
                       {key == "duration" ? "horas" : ""}
                     </span>
                   </div>
@@ -78,7 +82,10 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
           </ul>
         </div>
         <div className="flex gap-2">
-          <button onClick={scrollToContactForm} className="video-cart-btn w-full">
+          <button
+            onClick={scrollToContactForm}
+            className="video-cart-btn w-full"
+          >
             Contactáctanos
           </button>
         </div>

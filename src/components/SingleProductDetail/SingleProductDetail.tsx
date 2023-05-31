@@ -10,6 +10,8 @@ import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
 import axios from "axios";
 import { API_URL } from "data/api";
+import StorePagination from "components/Store/StorePagination";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 
 interface Props {
   product: FetchSingleProduct;
@@ -33,12 +35,24 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       textRef.current.appendChild(htmlElement);
     }
   }, [location]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = product.authors.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(product.authors.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
   return (
-    <section className="course-details-area my-5 pb-90">
+    <section className="course-details-area my-1 pb-90">
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
         <div className="">
-          <div className="course-details-wrapper mb-30">
-            <div className="course-heading mb-10">
+          <div className="course-details-wrapper">
+            <CategoryBadgeList categories={product.ficha.categorias} />
+            <div className="course-heading mb-10 my-5">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
             {product.authors.length ||
@@ -87,7 +101,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : (
               <></>
             )}
-
             {product.ficha.description ? (
               <div className="course-description pt-45 pb-30">
                 <div className="course-Description">
@@ -96,7 +109,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 <div ref={textRef} />
               </div>
             ) : null}
-
             {product.avales ? (
               <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
                 <SectionSliderPosts
@@ -107,7 +119,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 />
               </div>
             ) : null}
-
             {product.requirements ? (
               <CourseRequirements requirements={product.requirements} />
             ) : (
@@ -118,13 +129,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : (
               <></>
             )}
-
             {product.evaluacion ? (
               <ProductEvaluation evaluations={product.evaluacion} />
             ) : (
               <></>
             )}
-
             {product.goals ? (
               <>
                 <h4 className="font-semibold text-xl">Objetivos</h4>
@@ -143,8 +152,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <p></p>
             )}
             <div className="grid grid-cols-2">
-              {product.authors.length ? (
-                product.authors.map((instructor, index) => {
+              {currentItems.length ? (
+                currentItems.map((instructor, index) => {
                   return (
                     <ProductDetailsInstructor
                       instructor={instructor}
@@ -153,8 +162,15 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   );
                 })
               ) : (
-                <p></p>
+                <p>No se encontraron instructores</p>
               )}
+            </div>
+            <div className="flex justify-center">
+              <StorePagination
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                currentPage={currentPage}
+              />
             </div>
           </div>
         </div>

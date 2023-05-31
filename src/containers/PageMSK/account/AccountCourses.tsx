@@ -35,10 +35,12 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
                   <tr key={item.product_code}>
                     <td className="px-6 py-4">
                       <div className="flex items-center w-96 lg:w-auto max-w-md overflow-hidden">
-                        {<NcImage
-                          containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
-                          src={item.featured_image}
-                        />}
+                        {
+                          <NcImage
+                            containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
+                            src={item.featured_image}
+                          />
+                        }
                         <div className="ml-4 flex-grow">
                           <h2 className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
                             {item.title || "-"}
@@ -46,7 +48,7 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 status-badge">
                       {
                         <Badge
                           name={item.status_payment}
@@ -59,11 +61,11 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
                         />
                       }
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-xs text-neutral-500 dark:text-neutral-400">
+                    <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
                       <span className="text-sm"> {item.status}</span>
                     </td>
-                    <td className="">
-                      <ButtonPrimary sizeClass="px-4 py-1 sm:px-5">
+                    <td className="px-4">
+                      <ButtonPrimary sizeClass="py-1 sm:px-5">
                         <span className="text-sm">
                           {item.status_payment != "Activo"
                             ? "Activar"

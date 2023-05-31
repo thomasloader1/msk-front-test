@@ -9,7 +9,7 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-import { useStoreFilters } from "context/storeFilters/StoreContext";
+import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 
 interface Props {
   products: FetchCourseType[];

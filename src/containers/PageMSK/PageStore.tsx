@@ -12,9 +12,9 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-import { useStoreFilters } from "context/storeFilters/StoreContext";
 import { API_URL } from "data/api";
 import api from "Services/api";
+import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 
 export interface PageStoreProps {
   className?: string;

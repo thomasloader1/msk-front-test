@@ -1,11 +1,11 @@
-import { FC, Fragment, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
 import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
-import { FetchSingleProduct, Requirement } from "data/types";
+import { FetchSingleProduct } from "data/types";
 import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
 import axios from "axios";
@@ -49,8 +49,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");
 
-    const arrayDeObjetos = paragraphs.map((paragraph) => {
-      // Remover las etiquetas HTML del párrafo
+    const listOfGoals = paragraphs.map((paragraph) => {
       const description = paragraph
         .replace(/<\/?p>/g, "")
         .replace(/&#8211;/g, "");
@@ -58,8 +57,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       return { description };
     });
 
-    console.log("EL ARRAY", arrayDeObjetos);
-    return arrayDeObjetos;
+    return listOfGoals;
   };
 
   const isEbook = Object.values(product.details).some((detail) =>

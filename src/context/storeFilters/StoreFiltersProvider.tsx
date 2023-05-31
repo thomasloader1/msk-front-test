@@ -1,4 +1,4 @@
-import { createContext, useReducer, useContext, FC, ReactNode } from "react";
+import { useReducer, useContext, FC, ReactNode } from "react";
 import reducer, { Filter, State } from "./storeFiltersReducer";
 import {
   DurationFilter,
@@ -6,19 +6,7 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-
-type ContextType = {
-  storeFilters: Filter;
-  addFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-  removeFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-  clearFilters: () => void;
-};
+import { StoreFiltersContext } from "./StoreContext";
 
 const initialState: State = {
   storeFilters: {
@@ -29,9 +17,7 @@ const initialState: State = {
   },
 };
 
-const StoreFiltersContext = createContext<ContextType | undefined>(undefined);
-
-export const useStoreFilters = (): ContextType => {
+export const useStoreFilters = () => {
   const context = useContext(StoreFiltersContext);
   if (!context) {
     throw new Error(

@@ -59,7 +59,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   }, [storeFilters]);
 
   const applyFilters = () => {
-    //console.log('applying filters');
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -95,19 +94,16 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
-        const professionsMatch = selectedProfessions.some(
-          (
-            profession // If a product matches at least one profession, show it
-          ) =>
-            prodProfessions.some((prodProfession) => {
-              return prodProfession
-                .toLowerCase()
-                .includes(profession.toLowerCase());
-            })
-        );
+
+        const professionsMatch =
+          selectedProfessions.length === 0 ||
+          selectedProfessions.some((profession) =>
+            prodProfessions.some((prodProfession) =>
+              prodProfession.toLowerCase().includes(profession.toLowerCase())
+            )
+          );
 
         const resourcesMatch = selectedResources.every((resource) => {
-          //TODO: figure out why this isn't working
           if (resource === "Curso") {
             return product.duration !== null;
           } else if (resource === "Guías") {
@@ -134,6 +130,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
           durationsMatch
         );
       });
+
       setProducts(filteredProducts);
     }
   };

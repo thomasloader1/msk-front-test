@@ -15,25 +15,44 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
   requirements,
   title,
 }) => {
+  const parse = (htmlString: string) => {
+    const cleanedString = htmlString.replace(/<\/?ul>|<\/?li>/g, "");
+
+    const listItems = cleanedString
+      .split("\n")
+      .filter((item) => item.trim() !== "");
+
+    return listItems;
+  };
+
   return (
     <div className="requirements">
       <div>
         <h3 className="text-xl">{title}</h3>
-        <ul>
-          {requirements.map((requirement, index) => {
-            return (
-              <li className="flex gap-1 items-start" key={`req_${index}`}>
-                <img
-                  src="/src/images/vectors/isotipo.svg"
-                  width="20"
-                  className="mt-2"
-                  alt=""
-                />{" "}
-                <span>{requirement.description}</span>
-              </li>
-            );
-          })}
-        </ul>
+        {requirements.map((requirement, index) => {
+          return (
+            <ul key={`req_${index}`}>
+              {parse(requirement.description).map((item, i_index) => (
+                <li
+                  className="flex gap-1 items-start"
+                  key={`req_item_${i_index}`}
+                >
+                  <img
+                    src="/src/images/vectors/isotipo.svg"
+                    width="20"
+                    className="mt-2"
+                    alt=""
+                  />{" "}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: item,
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          );
+        })}
       </div>
       <img src={imgAds} alt="" className="absolute-img" />
     </div>

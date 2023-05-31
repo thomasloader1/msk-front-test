@@ -19,7 +19,7 @@ import { AuthContext } from "context/user/AuthContext";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import axios from "axios";
-import {ALL_PRODUCTS_MX} from "../../data/api";
+import { ALL_PRODUCTS_MX } from "../../data/api";
 
 export interface PageDashboardProps {
   className?: string;
@@ -103,10 +103,13 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
           product.status = contract.status;
           product.status_payment = contract.status_payment;
           product.title = product.product_code;
-          let globalProduct = allCourses.data.products.find((productAux: { product_code: string; }) => productAux.product_code == product.product_code);
+          let globalProduct = allCourses.data.products.find(
+            (productAux: { product_code: string }) =>
+              productAux.product_code == product.product_code
+          );
           if (globalProduct) {
             product.title = globalProduct.title;
-            if (globalProduct.image){
+            if (globalProduct.image) {
               const imageURL = globalProduct.image.replace("mx.", "");
               product.featured_image = imageURL;
             }
@@ -141,7 +144,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
         <div className="flex flex-col space-y-8 xl:space-y-0 xl:flex-row">
           {/* SIDEBAR */}
 
-          <div className="flex-shrink-0 max-w-xl xl:w-80 xl:pr-8">
+          <div className="flex-shrink-0 w-100 xl:w-80 xl:pr-8">
             <ul className="text-base space-y-1 text-neutral-6000 dark:text-neutral-400">
               {subPages.map(({ sPath, pageName, icon }, index) => {
                 return (

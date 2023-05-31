@@ -4,9 +4,10 @@ import { Details, Ficha } from "data/types";
 interface Props {
   ficha: Ficha;
   details: Details;
+  isEbook?: boolean;
 }
 
-const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
+const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
   let scrollPosition = 0;
@@ -27,7 +28,9 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
 
       const distanceToBottom = calculateDistanceToBottom();
       const auxDistance = scrollPosition - distanceToBottom - 100;
-      setBottomDistance(distanceToBottom < 1065 ? auxDistance / 2 : 0);
+      setBottomDistance(
+        distanceToBottom < (isEbook ? 1500 : 1065) ? auxDistance / 2 : 0
+      );
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -59,9 +62,12 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details }) => {
           </div>
         )}
 
-        <div className="course-video-price">
-          <span>💳 Pagos sin intereses</span>
-        </div>
+        {isEbook ? null : (
+          <div className="course-video-price">
+            <span>💳 Pagos sin intereses</span>
+          </div>
+        )}
+
         <div className="course-video-body">
           <ul>
             {Object.keys(details).map((key, index) => {

@@ -16,6 +16,8 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   const [specialties, setSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
+  const [showInputProfession, setShowInputProfession] = useState(false);
+  const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -26,12 +28,20 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
     setSpecialties(specialtyList);
   };
 
-  const handleOptionSpecialtyChange = (e: string) => {
-    console.log("handleOptionSpecialtyChange", e);
+  const handleOptionSpecialtyChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedOptionSpecialty(value);
+    setShowInputSpecialties(value === "Otra Especialidad");
   };
 
-  const handleOptionProfessionChange = (e: string) => {
-    console.log("handleOptionProfessionChange", e);
+  const handleOptionProfessionChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedOptionProfession(value);
+    setShowInputProfession(value === "Otra profesión");
   };
 
   useEffect(() => {
@@ -104,7 +114,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
             id="Profesion"
             name="Profesion"
             value={selectedOptionProfession}
-            onChange={(e) => handleOptionProfessionChange(e.target.value)}
+            onChange={(e) => handleOptionProfessionChange(e)}
           >
             <option defaultValue="">Seleccionar profesión</option>
             {professions
@@ -115,13 +125,23 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
                 ))
               : ""}
           </select>
+          {showInputProfession && (
+            <div className="contact-from-input my-4">
+              <input
+                type="text"
+                name="Otra_profesion"
+                placeholder="Ingresar profesion"
+              />
+            </div>
+          )}
         </div>
+
         <div className="contact-select">
           <select
             id="Especialidad"
             name="Especialidad"
             value={selectedOptionSpecialty}
-            onChange={(e) => handleOptionSpecialtyChange(e.target.value)}
+            onChange={(e) => handleOptionSpecialtyChange(e)}
           >
             <option defaultValue="">Seleccionar especialidad</option>
             {specialties.map((s: Specialty) => (
@@ -130,6 +150,15 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
               </option>
             ))}
           </select>
+          {showInputSpecialties && (
+            <div className="contact-from-input my-4">
+              <input
+                type="text"
+                name="Otra_especialidad"
+                placeholder="Ingresar especialidad"
+              />
+            </div>
+          )}
         </div>
       </div>
       <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">

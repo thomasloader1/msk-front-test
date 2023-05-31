@@ -1,11 +1,11 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, Fragment, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
 import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
-import { FetchSingleProduct } from "data/types";
+import { FetchSingleProduct, Requirement } from "data/types";
 import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
 import axios from "axios";
@@ -18,7 +18,6 @@ interface Props {
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
-  console.log(product);
   const textRef = useRef<HTMLDivElement>(null);
   const [bestSeller, setBestSeller] = useState([]);
   const fetchBestSeller = async () => {
@@ -46,6 +45,27 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const productsGoals = (htmlString: string) => {
+    const paragraphs = htmlString.split("</p>\n<p>");
+
+    const arrayDeObjetos = paragraphs.map((paragraph) => {
+      // Remover las etiquetas HTML del párrafo
+      const description = paragraph
+        .replace(/<\/?p>/g, "")
+        .replace(/&#8211;/g, "");
+
+      return { description };
+    });
+
+    console.log("EL ARRAY", arrayDeObjetos);
+    return arrayDeObjetos;
+  };
+
+  const isEbook = Object.values(product.details).some((detail) =>
+    detail.value.includes("Ebook")
+  );
+
   return (
     <section className="course-details-area my-1 pb-90">
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
@@ -103,9 +123,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             )}
             {product.ficha.description ? (
               <div className="course-description pt-45 pb-30">
-                <div className="course-Description">
-                  <h4 className="font-semibold text-xl">Qué aprenderás</h4>
-                </div>
+                {!isEbook && (
+                  <div className="course-Description">
+                    <h4 className="font-semibold text-xl">Qué aprenderás</h4>
+                  </div>
+                )}
                 <div ref={textRef} />
               </div>
             ) : null}
@@ -120,7 +142,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               </div>
             ) : null}
             {product.requirements ? (
-              <CourseRequirements requirements={product.requirements} />
+              <CourseRequirements
+                title="Qué necesitas"
+                requirements={product.requirements}
+              />
             ) : (
               <></>
             )}
@@ -134,15 +159,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : (
               <></>
             )}
-            {product.goals ? (
+            {product.goals && (
               <>
-                <h4 className="font-semibold text-xl">Objetivos</h4>
-                <p>
-                  {<div dangerouslySetInnerHTML={{ __html: product.goals }} />}
-                </p>
+                <CourseRequirements
+                  title="Objetivos"
+                  requirements={productsGoals(product.goals)}
+                />
               </>
-            ) : (
-              <p></p>
             )}
             {product.authors.length ? (
               <h4 className="mt-6 font-bold pt-6 text-xl">
@@ -162,22 +185,25 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   );
                 })
               ) : (
-                <p>No se encontraron instructores</p>
+                <p></p>
               )}
             </div>
-            <div className="flex justify-center">
-              <StorePagination
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                currentPage={currentPage}
-              />
-            </div>
+            {totalPages > 1 && (
+              <div className="flex justify-center">
+                <StorePagination
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  currentPage={currentPage}
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="order-first lg:order-last relative">
           <ProductDetailSidebar
             ficha={product.ficha}
             details={product.details}
+            isEbook={isEbook}
           />
         </div>
       </div>

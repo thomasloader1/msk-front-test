@@ -4,13 +4,64 @@ import Pagination from "components/Pagination/Pagination";
 import Badge from "components/Badge/Badge";
 import { UserCourse } from "data/types";
 import ButtonPrimary from "components/Button/ButtonPrimary";
+import { useState } from "react";
+import { useEffect } from "react";
 
 interface AccountCoursesProps {
   courses: UserCourse[];
 }
 
 const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
-  return (
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      setIsMobile(screenWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  return isMobile ? (
+    <ul>
+      {courses.map((item) => (
+        <li key={item.product_code} className="my-account-courses-mobile">
+          <div className="direct-info">
+            {
+              <NcImage
+                containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
+                src={item.featured_image}
+              />
+            }
+            <h2 className="text-sm font-semibold  dark:text-neutral-300">
+              {item.title || "-"}
+            </h2>
+          </div>
+          {
+            <Badge
+              name={item.status_payment}
+              color={item.status_payment == "Activo" ? "teal-active" : "red"}
+              textSize="text-sm"
+            />
+          }
+          <span className="text-sm"> {item.status}</span>
+          <div className="w-full">
+            <ButtonPrimary sizeClass="py-1 sm:px-5">
+              <span className="text-sm">
+                {item.status_payment != "Activo" ? "Activar" : "Ir al curso"}
+              </span>
+            </ButtonPrimary>
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
     <div className="flex flex-col space-y-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full px-1 sm:px-6 lg:px-8">

@@ -74,7 +74,7 @@ const ContactFormSection = ({ productName = "" }) => {
   ) => {
     const { value } = event.target;
     setSelectedOptionProfession(value);
-    setShowInputProfession(value === "Otra Profesión");
+    setShowInputProfession(value === "Otra profesión");
   };
 
   useEffect(() => {

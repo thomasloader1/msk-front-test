@@ -6,22 +6,29 @@ export interface CourseRequirementsProps {
   className?: string;
   imgAds?: string;
   requirements: Requirement[];
+  title?: string;
 }
 
 const CourseRequirements: FC<CourseRequirementsProps> = ({
   className = "",
   imgAds = imgAdsDef,
   requirements,
+  title,
 }) => {
   return (
     <div className="requirements">
       <div>
-        <h3 className="text-xl">Qué necesitas</h3>
+        <h3 className="text-xl">{title}</h3>
         <ul>
           {requirements.map((requirement, index) => {
             return (
-              <li className="flex gap-1" key={`req_${index}`}>
-                <img src="/src/images/vectors/isotipo.svg" width="20" alt="" />{" "}
+              <li className="flex gap-1 items-start" key={`req_${index}`}>
+                <img
+                  src="/src/images/vectors/isotipo.svg"
+                  width="20"
+                  className="mt-2"
+                  alt=""
+                />{" "}
                 <span>{requirement.description}</span>
               </li>
             );

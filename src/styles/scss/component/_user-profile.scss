@@ -372,3 +372,29 @@
     text-align: center;
   }
 }
+
+.my-account-courses-mobile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid #e4e4e4;
+  padding: 16px;
+  margin-bottom: -1px;
+
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+  .direct-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    h2 {
+      width: 100%;
+    }
+  }
+}

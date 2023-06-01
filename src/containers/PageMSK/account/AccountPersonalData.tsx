@@ -1,14 +1,10 @@
 import Button from "components/Button/Button";
 import Input from "components/Input/Input";
 import Label from "components/Label/Label";
-import React, { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import "react-phone-number-input/style.css";
-import PhoneInput, {
-  Country,
-  getCountryCallingCode,
-  parsePhoneNumber,
-} from "react-phone-number-input";
-import { Profession, Specialty, User } from "../../../data/types";
+import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
+import { Contact, Profession, Specialty, User } from "../../../data/types";
 
 interface Props {
   user: User;
@@ -24,14 +20,15 @@ const DashboardEditProfile: FC<Props> = ({
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
 
-  const [localUser, setLocalUser] = useState<User>(user as User);
+  const [localUser, setLocalUser] = useState<Contact>(user.contact as Contact);
 
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
     useState<string>("");
-  const [acceptConditions, setAcceptConditions] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(
+    user?.contact?.phone || ""
+  );
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -43,19 +40,48 @@ const DashboardEditProfile: FC<Props> = ({
     }
   };
 
+  const handleOptionProfessionChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedOptionProfession(value);
+    setShowInputProfession(value === "Otra profesión");
+  };
+
+  const handleOptionSpecialtyChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedOptionSpecialty(value);
+    setShowInputSpecialties(value === "Otra Especialidad");
+  };
+
   const handleInputChange = (fieldName: string, value: string) => {
-    /*setLocalUser((prevUser) => ({
+    setLocalUser((prevUser: Contact) => ({
       ...prevUser,
-      contact: {
-        ...prevUser.contact,
-        [fieldName]: value,
-      },
-    }));*/
+      [fieldName]: value,
+    }));
   };
 
   const submitForm = () => {
     event?.preventDefault();
-    console.log("submitForm", localUser);
+    const profession =
+      selectedOptionProfession === "Otra profesión"
+        ? localUser.profession
+        : selectedOptionProfession;
+
+    const speciality =
+      selectedOptionSpecialty === "Otra Especialidad"
+        ? localUser.speciality
+        : selectedOptionSpecialty;
+
+    const jsonData: Contact = {
+      ...localUser,
+      profession,
+      speciality,
+      phone: phoneNumber,
+    };
+    console.log("submitForm", jsonData);
   };
 
   const countries = [
@@ -84,7 +110,7 @@ const DashboardEditProfile: FC<Props> = ({
             className="mt-1"
             id="name"
             name="name"
-            value={localUser?.contact?.name}
+            value={localUser?.name}
             onChange={(event) => handleInputChange("name", event.target.value)}
           />
         </label>
@@ -94,9 +120,9 @@ const DashboardEditProfile: FC<Props> = ({
             placeholder="Ingresar apellido"
             type="text"
             className="mt-1"
-            id="last_name"
-            name="last_name"
-            value={localUser?.contact?.last_name}
+            id="Last_Name"
+            name="Last_Name"
+            value={localUser?.last_name}
             onChange={(event) =>
               handleInputChange("last_name", event.target.value)
             }
@@ -110,7 +136,7 @@ const DashboardEditProfile: FC<Props> = ({
             className="mt-1"
             id="email"
             name="email"
-            value={localUser?.contact?.email}
+            value={localUser?.email}
             onChange={(event) => handleInputChange("email", event.target.value)}
           />
         </label>
@@ -122,7 +148,7 @@ const DashboardEditProfile: FC<Props> = ({
             placeholder="Ingresar número telefónico"
             defaultCountry="MX"
             className="phone-profile-input mt-1"
-            value={localUser?.contact?.phone}
+            value={phoneNumber}
             onChange={handlePhoneChange}
           />
         </label>
@@ -134,10 +160,8 @@ const DashboardEditProfile: FC<Props> = ({
               className=""
               id="profession"
               name="profession"
-              value={localUser?.contact?.profession || ""}
-              onChange={(event) =>
-                handleInputChange("profession", event.target.value)
-              }
+              value={selectedOptionProfession}
+              onChange={handleOptionProfessionChange}
             >
               <option defaultValue="">Seleccionar profesión</option>
               {professions
@@ -150,13 +174,19 @@ const DashboardEditProfile: FC<Props> = ({
             </select>
           </div>
           {showInputProfession && (
-            <div className="contact-from-input my-4">
-              <input
+            <label className="block">
+              <Input
                 type="text"
+                className="mt-4"
+                id="Last_Name"
                 name="Otra_profesion"
                 placeholder="Ingresar profesion"
+                value={localUser?.profession || ""}
+                onChange={(event) =>
+                  handleInputChange("profession", event.target.value)
+                }
               />
-            </div>
+            </label>
           )}
         </label>
         <label>
@@ -166,10 +196,8 @@ const DashboardEditProfile: FC<Props> = ({
               className=""
               id="speciality"
               name="speciality"
-              value={localUser?.contact?.speciality || ""}
-              onChange={(event) =>
-                handleInputChange("speciality", event.target.value)
-              }
+              value={selectedOptionSpecialty}
+              onChange={handleOptionSpecialtyChange}
             >
               <option defaultValue="">Seleccionar especialidad</option>
               {specialties.map((s) => (
@@ -180,13 +208,19 @@ const DashboardEditProfile: FC<Props> = ({
             </select>
           </div>
           {showInputSpecialties && (
-            <div className="contact-from-input my-4">
-              <input
+            <label className="block">
+              <Input
                 type="text"
+                className="mt-4"
+                id="Last_Name"
                 name="Otra_especialidad"
                 placeholder="Ingresar especialidad"
+                value={localUser?.speciality || ""}
+                onChange={(event) =>
+                  handleInputChange("speciality", event.target.value)
+                }
               />
-            </div>
+            </label>
           )}
         </label>
         <label className="block">
@@ -195,6 +229,9 @@ const DashboardEditProfile: FC<Props> = ({
             placeholder="Ingresar contraseña"
             type="password"
             className="mt-1 mb-2"
+            onChange={(event) =>
+              handleInputChange("password", event.target.value)
+            }
           />
           <span className="dark:text-primary-500 text-sm forgot-password">
             ¿Olvidaste tu contraseña?{" "}
@@ -212,6 +249,9 @@ const DashboardEditProfile: FC<Props> = ({
             placeholder="Repetir contraseña"
             type="password"
             className="mt-1"
+            onChange={(event) =>
+              handleInputChange("confirm_password", event.target.value)
+            }
           />
         </label>
 
@@ -223,7 +263,7 @@ const DashboardEditProfile: FC<Props> = ({
             className="mt-1"
             id="address"
             name="address"
-            value={localUser?.contact?.address || ""}
+            value={localUser?.address || ""}
             onChange={(event) =>
               handleInputChange("address", event.target.value)
             }
@@ -236,7 +276,7 @@ const DashboardEditProfile: FC<Props> = ({
               className=""
               id="country"
               name="country"
-              value={localUser?.contact?.country}
+              value={localUser?.country}
               onChange={(event) =>
                 handleInputChange("country", event.target.value)
               }
@@ -252,24 +292,13 @@ const DashboardEditProfile: FC<Props> = ({
         </label>
         <label>
           <Label>Provincia</Label>
-          <div className="profile-contact-select mt-1">
-            <select
-              className=""
-              id="state"
-              name="state"
-              value={localUser?.contact?.state}
-              onChange={(event) =>
-                handleInputChange("state", event.target.value)
-              }
-            >
-              <option defaultValue="">Seleccionar provincia</option>
-              {specialties.map((s) => (
-                <option key={s.id} defaultValue={s.name}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Input
+            placeholder="Ingresar Provincia"
+            type="text"
+            className="mt-1"
+            value={localUser?.state}
+            onChange={(event) => handleInputChange("state", event.target.value)}
+          />
         </label>
         <label className="block">
           <Label>Código postal</Label>
@@ -277,7 +306,7 @@ const DashboardEditProfile: FC<Props> = ({
             placeholder="Ingresar código postal"
             type="text"
             className="mt-1"
-            value={localUser?.contact?.postal_code}
+            value={localUser?.postal_code}
             onChange={(event) =>
               handleInputChange("postal_code", event.target.value)
             }
@@ -291,7 +320,7 @@ const DashboardEditProfile: FC<Props> = ({
             className="mt-1"
             id="rfc"
             name="rfc"
-            value={localUser?.contact?.rfc}
+            value={localUser?.rfc}
             onChange={(event) => handleInputChange("rfc", event.target.value)}
           />
         </label>
@@ -303,7 +332,7 @@ const DashboardEditProfile: FC<Props> = ({
             className="mt-1"
             id="fiscal_regime"
             name="fiscal_regime"
-            value={localUser?.contact?.fiscal_regime}
+            value={localUser?.fiscal_regime}
             onChange={(event) =>
               handleInputChange("fiscal_regime", event.target.value)
             }

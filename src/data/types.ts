@@ -32,7 +32,7 @@ export interface PostAuthorType {
 }
 export interface Contact {
   id: number;
-  entity_id_crm: string;
+  entity_id_crm?: string;
   name: string;
   last_name: string;
   profession: string;
@@ -86,7 +86,6 @@ export interface UserCourse {
 export interface User {
   id: number;
   name: string;
-
   firstName: string;
   lastName: string;
   displayName: string;

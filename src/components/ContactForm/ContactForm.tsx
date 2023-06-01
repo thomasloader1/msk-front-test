@@ -62,7 +62,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   };
 
   const handleOptionSpecialtyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
@@ -70,7 +70,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   };
 
   const handleOptionProfessionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     setSelectedOptionProfession(value);
@@ -120,7 +120,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     };
 
     const selectedOption = (event.target as HTMLFormElement).querySelector(
-      'input[name="Preferencia_de_contactaci_n"]:checked',
+      'input[name="Preferencia_de_contactaci_n"]:checked'
     ) as HTMLInputElement;
 
     if (selectedOption) {
@@ -128,7 +128,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       // console.log({label});
       jsonData.Preferencia_de_contactaci_n = label.replace(
         /^Contact_Method_/,
-        "",
+        ""
       );
     }
 

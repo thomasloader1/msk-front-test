@@ -105,9 +105,9 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
         const resourcesMatch = selectedResources.every((resource) => {
           if (resource === "Curso") {
-            return product.duration !== null;
-          } else if (resource === "Guías") {
-            return product.duration === null;
+            return product.father_post_type === "course";
+          } else if (resource === "Guías profesionales") {
+            return product.father_post_type === "downloadable";
           }
         });
 

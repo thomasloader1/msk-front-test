@@ -4,7 +4,7 @@ import Logo from "components/Logo/Logo";
 import SocialsList1 from "components/SocialsList1/SocialsList1";
 import { CATEGORIES } from "data/MSK/specialties";
 import { CustomLink, Newsletter, Profession, Specialty } from "data/types";
-import React, { FC, useEffect, useState } from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
@@ -25,6 +25,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   };
   const fetchSpecialties = async () => {
     const specialtyList = await api.getSpecialties();
+    console.log(specialtyList);
     setSpecialties(specialtyList);
   };
 
@@ -70,9 +71,18 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
     const { response } = await api.postNewsletter(jsonData);
     changeRoute("/gracias?origen=newsletter");
   };
+  const formRef = useRef<HTMLFormElement>(null!);
+
+  const logFormData = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const formData = new FormData(formRef.current);
+    console.log(Object.fromEntries(formData));
+  };
+
+
 
   return (
-    <div>
+    <form className="asdsad" ref={formRef}>
       <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
         <div className="">
           <div className="contact-from-input">
@@ -168,7 +178,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
         {specialties.map((specialty: Specialty) => (
           <Checkbox
             key={specialty.id}
-            name="Terms_And_Conditions"
+            name={specialty.name}
             value={false}
             useStateCallback={() => {}}
             label={specialty.name}
@@ -178,7 +188,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
       <div className="flex justify-center flex-wrap items-center gap-8">
         <div className="flex gap-1 mt-3">
           <Checkbox
-            name="Terms_And_Conditions"
+            name="Terms_And_Conditions2"
             value={acceptConditions}
             useStateCallback={setAcceptConditions}
             label="Acepto las"
@@ -189,8 +199,11 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
         </div>
         <div className="mt-2">
           <button
+              type="submit"
+              id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
+              onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme
@@ -202,7 +215,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

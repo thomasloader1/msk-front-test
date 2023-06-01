@@ -278,6 +278,7 @@ export interface Evaluation {
 }
 
 export interface ProductAuthor {
+  post_title: any;
   id: number;
   name: string;
   description: string;
@@ -322,6 +323,7 @@ export interface FetchCourseType {
   is_free: boolean;
   total_price: string;
   price_installments: string;
+  lista_de_cedentes: any[];
 }
 
 export interface Category {

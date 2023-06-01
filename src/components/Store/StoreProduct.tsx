@@ -80,7 +80,7 @@ const StoreProduct: FC<Props> = ({
               <h3 className="font-bold text-sm">{product.title}</h3>
             </Link>
           </div>
-          {/* <p className="text-sm">{product.desc}</p> */}
+          {product.lista_de_cedentes ? (<p className="text-sm">{product.lista_de_cedentes[0].post_title}</p>) : null}
         </div>
       </div>
       <div className="course-2-footer">

@@ -26,6 +26,9 @@
     }
   }
 }
+#submit-newsletter:not(:disabled) {
+  background-color: #9200ad;
+}
 .contact-from-input input {
   height: 60px;
   width: 100%;

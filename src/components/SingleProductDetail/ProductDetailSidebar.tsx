@@ -66,12 +66,12 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
     <div className={`course-video-widget`}>
       <div
         className={`${
-          isFixed && bottomDistance == 0
+          isFixed && bottomDistance == 0 && !isEbook
             ? "course-widget-wrapper-fixed"
             : "course-widget-wrapper"
-        }${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
+        }${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
-        {isFixed ? null : (
+        {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
             <img src={ficha.image.replace("mx.", "")} alt="img not found" />
           </div>

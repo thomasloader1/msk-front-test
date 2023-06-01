@@ -83,24 +83,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             <div className="course-heading mb-10 my-5">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
-            {isEbook && product.lista_de_cedentes?.length ? (
-              <div className="course-meta-wrapper">
-                <div className="course-meta-img">
-                  <img
-                    alt="course-meta"
-                    src={product.lista_de_cedentes[0].image.replace("mx.", "")}
-                  />
-                </div>
-
-                <div>
-                  <span>Creado por</span>
-                  <h6 className="font-bold">
-                    {product.lista_de_cedentes[0].name}
-                  </h6>
-                </div>
-              </div>
-            ) : (
-              <>
+              <div>
                 {product.authors.length ||
                 product.temario ||
                 (product.details && product.details["duration"]) ? (
@@ -118,7 +101,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                           <div>
                             <span>Creado por</span>
                             <h6 className="font-bold">
-                              {product.authors[0].name}
+                              {product.lista_de_cedentes ? product.lista_de_cedentes[0].post_title : ""}
                             </h6>
                           </div>
                         </div>
@@ -149,11 +132,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 ) : (
                   <></>
                 )}
-              </>
-            )}
+              </div>
 
             {product.ficha.description ? (
-              <div className="course-description pt-45 pb-30">
+              <div className={isEbook ? "course-description pb-30" : "course-description pt-45 pb-30"}>
                 {!isEbook && (
                   <div className="course-Description">
                     <h4 className="font-semibold text-xl">Qué aprenderás</h4>

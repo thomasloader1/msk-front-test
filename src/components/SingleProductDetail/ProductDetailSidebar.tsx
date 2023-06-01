@@ -47,14 +47,29 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
     content: "Contenido",
   };
 
+  const ebookData = [
+    { description: "Guía profesional gratuita", icon: "elearning", size: "20" },
+    {
+      description: "Contenido de nivel formativo",
+      icon: "diploma",
+      size: "19",
+    },
+    {
+      description: "Disponible para PC, tablet y smartphone",
+      icon: "devices",
+      size: "17",
+    },
+    { description: "Acceso a newsletters", icon: "newsletter", size: "16" },
+  ];
+
   return (
     <div className={`course-video-widget`}>
       <div
         className={`${
           isFixed && bottomDistance == 0
             ? "course-widget-wrapper-fixed"
-            : "course-widget-wrapper "
-        } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
+            : "course-widget-wrapper"
+        }${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
       >
         {isFixed ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
@@ -70,24 +85,45 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
 
         <div className="course-video-body">
           <ul>
-            {Object.keys(details).map((key, index) => {
-              return (
-                <li key={`data_${index}`}>
-                  <div className="course-vide-icon">
-                    <img
-                      src={details[key as keyof typeof details].icon}
-                      width="15"
-                    />
-                    <span>
-                      {translations[key] ? translations[key] + ":" : ""}{" "}
-                      {details[key as keyof typeof details].value}{" "}
-                      {key == "duration" ? "horas" : ""}
-                    </span>
-                  </div>
-                  <div className="video-corse-info"></div>
-                </li>
-              );
-            })}
+            {isEbook ? (
+              <>
+                {ebookData.map((item, index) => {
+                  return (
+                    <li key={`data_${index}`}>
+                      <div className="course-vide-icon">
+                        <img
+                          src={`/src/images/icons/${item.icon}.svg`}
+                          width={item.size}
+                        />
+                        <span>{item.description}</span>
+                      </div>
+                      <div className="video-corse-info"></div>
+                    </li>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {Object.keys(details).map((key, index) => {
+                  return (
+                    <li key={`data_${index}`}>
+                      <div className="course-vide-icon">
+                        <img
+                          src={details[key as keyof typeof details].icon}
+                          width="15"
+                        />
+                        <span>
+                          {translations[key] ? translations[key] + ":" : ""}{" "}
+                          {details[key as keyof typeof details].value}{" "}
+                          {key == "duration" ? "horas" : ""}
+                        </span>
+                      </div>
+                      <div className="video-corse-info"></div>
+                    </li>
+                  );
+                })}
+              </>
+            )}
           </ul>
         </div>
         <div className="flex gap-2">
@@ -95,7 +131,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
             onClick={scrollToContactForm}
             className="video-cart-btn w-full"
           >
-            Contactáctanos
+            {isEbook ? "Descargar gratis" : "Contactáctanos"}
           </button>
         </div>
       </div>

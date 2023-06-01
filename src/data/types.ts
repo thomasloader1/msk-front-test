@@ -297,6 +297,7 @@ export interface FetchSingleProduct {
   evaluacion: Evaluation;
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
+  lista_de_cedentes?: ProductAuthor[];
 }
 export interface FetchCourseType {
   id: number;

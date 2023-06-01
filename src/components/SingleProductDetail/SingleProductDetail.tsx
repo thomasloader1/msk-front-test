@@ -12,6 +12,7 @@ import axios from "axios";
 import { API_URL } from "data/api";
 import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import Badge from "components/Badge/Badge";
 
 interface Props {
   product: FetchSingleProduct;
@@ -66,59 +67,91 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
   return (
     <section className="course-details-area my-1 pb-90">
-      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%]">
+      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16">
         <div className="">
           <div className="course-details-wrapper">
-            <CategoryBadgeList categories={product.ficha.categorias} />
+            <div className="flex gap-2">
+              {isEbook ? (
+                <Badge
+                  color="emerald-post"
+                  name="Guía profesional"
+                  textSize="text-xs"
+                />
+              ) : null}
+              <CategoryBadgeList categories={product.ficha.categorias} />
+            </div>
             <div className="course-heading mb-10 my-5">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
-            {product.authors.length ||
-            product.temario ||
-            (product.details && product.details["duration"]) ? (
-              <div className="course-detelis-meta">
-                {product.authors.length ? (
-                  <>
-                    <div className="course-meta-wrapper">
-                      <div className="course-meta-img">
-                        <img
-                          src={product.authors[0].image.replace("mx.", "")}
-                          alt="course-meta"
-                        />
-                      </div>
+            {isEbook && product.lista_de_cedentes?.length ? (
+              <div className="course-meta-wrapper">
+                <div className="course-meta-img">
+                  <img
+                    alt="course-meta"
+                    src={product.lista_de_cedentes[0].image.replace("mx.", "")}
+                  />
+                </div>
 
-                      <div>
-                        <span>Creado por</span>
-                        <h6 className="font-bold">{product.authors[0].name}</h6>
-                      </div>
-                    </div>
-                    <div className="border-line-meta"></div>
-                  </>
-                ) : null}
-                {product.temario ? (
-                  <>
-                    <div>
-                      <p>Contenido</p>
-                      <span className="font-bold">
-                        {product.temario["data"]?.row_count} módulos
-                      </span>
-                    </div>
-                    <div className="border-line-meta"></div>
-                  </>
-                ) : null}
-
-                {product.details && product.details["duration"] ? (
-                  <div className="">
-                    <p>Duración</p>
-                    <span className="font-bold">
-                      {product.details["duration"].value} horas estimadas
-                    </span>
-                  </div>
-                ) : null}
+                <div>
+                  <span>Creado por</span>
+                  <h6 className="font-bold">
+                    {product.lista_de_cedentes[0].name}
+                  </h6>
+                </div>
               </div>
             ) : (
-              <></>
+              <>
+                {product.authors.length ||
+                product.temario ||
+                (product.details && product.details["duration"]) ? (
+                  <div className="course-detelis-meta">
+                    {product.authors.length ? (
+                      <>
+                        <div className="course-meta-wrapper">
+                          <div className="course-meta-img">
+                            <img
+                              src={product.authors[0].image.replace("mx.", "")}
+                              alt="course-meta"
+                            />
+                          </div>
+
+                          <div>
+                            <span>Creado por</span>
+                            <h6 className="font-bold">
+                              {product.authors[0].name}
+                            </h6>
+                          </div>
+                        </div>
+                        <div className="border-line-meta"></div>
+                      </>
+                    ) : null}
+                    {product.temario ? (
+                      <>
+                        <div>
+                          <p>Contenido</p>
+                          <span className="font-bold">
+                            {product.temario["data"]?.row_count} módulos
+                          </span>
+                        </div>
+                        <div className="border-line-meta"></div>
+                      </>
+                    ) : null}
+
+                    {product.details && product.details["duration"] ? (
+                      <div className="">
+                        <p>Duración</p>
+                        <span className="font-bold">
+                          {product.details["duration"].value} horas estimadas
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
             )}
+
             {product.ficha.description ? (
               <div className="course-description pt-45 pb-30">
                 {!isEbook && (
@@ -205,8 +238,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       </div>
-      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4">
-        <ContactFormSection productName={product.ficha.title} />
+      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 ">
+        <ContactFormSection
+          productName={product.ficha.title}
+          isEbook={isEbook}
+        />
       </div>
       {product.related_products.length ? (
         <div className="container relative py-16 mt-16 ">

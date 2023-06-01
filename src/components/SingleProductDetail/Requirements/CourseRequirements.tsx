@@ -39,7 +39,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
                 >
                   <img
                     src="/src/images/vectors/isotipo.svg"
-                    width="20"
+                    width="14"
                     className="mt-2"
                     alt=""
                   />{" "}

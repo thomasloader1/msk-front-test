@@ -10,7 +10,7 @@
 
 .PhoneInputCountry {
   background-color: transparent !important;
-
+  padding-left: 16px;
   &--focus {
     color: #9200ad !important;
   }
@@ -29,7 +29,6 @@
 .phone-profile-input {
   border: 1px solid #e2e8f0;
   border-radius: 4px;
-  padding-left: 16px;
   input {
     border-radius: 4px;
     border: 1px solid transparent;
@@ -42,8 +41,29 @@
   color: #6b7280;
   select {
     font-size: 14px;
+    option {
+      color: black;
+      font-size: 16px;
+    }
     border-radius: 4px;
     border: 1px solid transparent;
     width: 100%;
+  }
+}
+
+.phone-contact-input-select {
+  padding-left: 0;
+  margin-left: 0;
+  .phone-contact-input input {
+    padding-left: 8px;
+  }
+}
+
+.contact-select {
+  select {
+    option {
+      color: black;
+      font-size: 16px;
+    }
   }
 }

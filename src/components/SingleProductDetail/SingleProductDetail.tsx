@@ -83,59 +83,73 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             <div className="course-heading mb-10 my-5">
               <h2 className="font-semibold">{product.ficha.title}</h2>
             </div>
-              <div>
-                {product.authors.length ||
-                product.temario ||
-                (product.details && product.details["duration"]) ? (
-                  <div className="course-detelis-meta">
-                    {product.authors.length ? (
-                      <>
-                        <div className="course-meta-wrapper">
-                          <div className="course-meta-img">
-                            <img
-                              src={product.authors[0].image.replace("mx.", "")}
-                              alt="course-meta"
-                            />
-                          </div>
-
-                          <div>
-                            <span>Creado por</span>
-                            <h6 className="font-bold">
-                              {product.lista_de_cedentes ? product.lista_de_cedentes[0].post_title : ""}
-                            </h6>
-                          </div>
+            <div>
+              {product.authors.length ||
+              product.temario ||
+              (product.details && product.details["duration"]) ? (
+                <div className="course-detelis-meta">
+                  {product.authors.length ? (
+                    <>
+                      <div className="course-meta-wrapper">
+                        <div className="course-meta-img">
+                          <img
+                            src={product.authors[0].image.replace("mx.", "")}
+                            alt="course-meta"
+                          />
                         </div>
-                        <div className="border-line-meta"></div>
-                      </>
-                    ) : null}
-                    {product.temario ? (
-                      <>
+
                         <div>
-                          <p>Contenido</p>
-                          <span className="font-bold">
-                            {product.temario["data"]?.row_count} módulos
-                          </span>
+                          <span>Creado por</span>
+                          <h6 className="font-bold">
+                            {isEbook ? (
+                              <>
+                                {product.lista_de_cedentes
+                                  ? product.lista_de_cedentes[0].post_title
+                                  : ""}
+                              </>
+                            ) : (
+                              <>{product.authors[0].name}</>
+                            )}
+                          </h6>
                         </div>
-                        <div className="border-line-meta"></div>
-                      </>
-                    ) : null}
-
-                    {product.details && product.details["duration"] ? (
-                      <div className="">
-                        <p>Duración</p>
+                      </div>
+                      <div className="border-line-meta"></div>
+                    </>
+                  ) : null}
+                  {product.temario ? (
+                    <>
+                      <div>
+                        <p>Contenido</p>
                         <span className="font-bold">
-                          {product.details["duration"].value} horas estimadas
+                          {product.temario["data"]?.row_count} módulos
                         </span>
                       </div>
-                    ) : null}
-                  </div>
-                ) : (
-                  <></>
-                )}
-              </div>
+                      <div className="border-line-meta"></div>
+                    </>
+                  ) : null}
+
+                  {product.details && product.details["duration"] ? (
+                    <div className="">
+                      <p>Duración</p>
+                      <span className="font-bold">
+                        {product.details["duration"].value} horas estimadas
+                      </span>
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
 
             {product.ficha.description ? (
-              <div className={isEbook ? "course-description pb-30" : "course-description pt-45 pb-30"}>
+              <div
+                className={
+                  isEbook
+                    ? "course-description pb-30"
+                    : "course-description pt-45 pb-30"
+                }
+              >
                 {!isEbook && (
                   <div className="course-Description">
                     <h4 className="font-semibold text-xl">Qué aprenderás</h4>

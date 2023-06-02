@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { FetchCourseType } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import Badge from "components/Badge/Badge";
 
 interface Props {
   product: FetchCourseType;
@@ -14,7 +15,6 @@ const StoreProduct: FC<Props> = ({
   className,
   hoverEffect = false,
 }): any => {
-
   const imageURL = product.image.replace("mx.", "");
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -53,7 +53,10 @@ const StoreProduct: FC<Props> = ({
                 </ul>
               </div> */}
               <div className="course-action">
-                <Link to={`/curso/${product.slug}`} className="view-details-btn">
+                <Link
+                  to={`/curso/${product.slug}`}
+                  className="view-details-btn"
+                >
                   Ver más
                 </Link>
                 <button className="wishlist-btn">
@@ -69,8 +72,16 @@ const StoreProduct: FC<Props> = ({
       ) : null}
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
-          <CategoryBadgeList categories={product.categories} color="yellow" />
-
+          <div className="flex gap-2">
+            {product.duration ? null : (
+              <Badge
+                color="emerald-post"
+                name="Guía profesional"
+                textSize="text-xs"
+              />
+            )}
+            <CategoryBadgeList categories={product.categories} color="yellow" />
+          </div>
           {/* <div className="portfolio-price">
             <span>${product.discount_price}</span>
             <del>${product.price}</del>
@@ -80,7 +91,9 @@ const StoreProduct: FC<Props> = ({
               <h3 className="font-bold text-sm">{product.title}</h3>
             </Link>
           </div>
-          {product.lista_de_cedentes ? (<p className="text-sm">{product.lista_de_cedentes[0].post_title}</p>) : null}
+          {product.lista_de_cedentes ? (
+            <p className="text-sm">{product.lista_de_cedentes[0].post_title}</p>
+          ) : null}
         </div>
       </div>
       <div className="course-2-footer">

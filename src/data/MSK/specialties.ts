@@ -13,8 +13,8 @@ const SPECIALTIES: Specialty[] = [
   },
   {
     id: 3,
-    name: "Medicina General",
-    href: "/tienda?especialidad=Medicina General",
+    name: "Medicina general",
+    href: "/tienda?especialidad=Medicina general",
   },
   {
     id: 4,

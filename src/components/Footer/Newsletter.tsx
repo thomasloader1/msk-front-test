@@ -4,7 +4,7 @@ import Logo from "components/Logo/Logo";
 import SocialsList1 from "components/SocialsList1/SocialsList1";
 import { CATEGORIES } from "data/MSK/specialties";
 import { CustomLink, Newsletter, Profession, Specialty } from "data/types";
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
@@ -78,8 +78,6 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
     const formData = new FormData(formRef.current);
     console.log(Object.fromEntries(formData));
   };
-
-
 
   return (
     <form className="asdsad" ref={formRef}>
@@ -199,11 +197,11 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
         </div>
         <div className="mt-2">
           <button
-              type="submit"
-              id="submit-newsletter"
+            type="submit"
+            id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-              onClick={logFormData} // Add onClick event handler
+            onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme

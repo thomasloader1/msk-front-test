@@ -24,7 +24,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
     case "Enfermería":
       thumbnail = thumbnail + "nursing.png";
       break;
-    case "Medicina General":
+    case "Medicina general":
       thumbnail = thumbnail + "medical.png";
       break;
     case "Infectología":
@@ -35,7 +35,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
       break;
     case "Centro de ayuda":
       thumbnail = thumbnail + "comment.png";
-      break
+      break;
     case "Configurar mi cuenta":
       thumbnail = thumbnail + "gauge.png";
       break;

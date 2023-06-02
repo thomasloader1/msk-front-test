@@ -242,7 +242,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -294,7 +294,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -346,7 +346,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -398,7 +398,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -450,7 +450,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -502,7 +502,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,
@@ -554,7 +554,7 @@ const TOP_COURSES = [
     categories: [
       {
         id: 3,
-        name: "Medicina General",
+        name: "Medicina general",
         href: "/archive/the-demo-archive-slug",
         thumbnail: "/src/images/courses/medical.png",
         count: 15,

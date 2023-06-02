@@ -69,7 +69,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
           isFixed && bottomDistance == 0 && !isEbook
             ? "course-widget-wrapper-fixed"
             : "course-widget-wrapper"
-        }${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
+        } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">

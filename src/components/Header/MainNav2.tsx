@@ -1,4 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
+import api from "Services/api";
 import Avatar from "components/Avatar/Avatar";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import ButtonSecondary from "components/Button/ButtonSecondary";
@@ -15,8 +16,10 @@ import {
   NAVIGATION_MSK,
   NAVIGATION_USER,
 } from "data/navigation";
-import React, { FC, Fragment, useContext } from "react";
+import { FetchCourseType } from "data/types";
+import React, { FC, Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import SearchProducts from "./SearchProducts";
 const solutions = [
   {
     name: "Eden Tuan",
@@ -42,6 +45,7 @@ export interface MainNav2Props {}
 const MainNav2: FC<MainNav2Props> = () => {
   const { state } = useContext(AuthContext);
   const { dispatch } = useContext(AuthContext);
+
   const history = useHistory();
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -53,13 +57,8 @@ const MainNav2: FC<MainNav2Props> = () => {
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
           <Logo />
           <div className="hidden sm:block flex-grow max-w-xs">
+            <SearchProducts />
             {/* <form action="" method="POST" className="relative">
-              <Input
-                type="search"
-                placeholder="Buscar"
-                className="pr-10 w-full"
-                sizeClass="h-[42px] pl-4 py-3"
-              />
               <span className="absolute top-1/2 -translate-y-1/2 right-3 text-neutral-500 dark:text-neutral-400">
                 <svg
                   className="h-5 w-5"

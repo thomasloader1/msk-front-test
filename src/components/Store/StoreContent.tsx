@@ -19,7 +19,8 @@ interface Props {
 
 const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { storeFilters, addFilter, removeFilter } = useStoreFilters();
+  const { storeFilters, addFilter, removeFilter, clearFilters } =
+    useStoreFilters();
 
   const itemsPerPage = 18;
 
@@ -79,6 +80,54 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
       removeFilter("duration", duration);
     } else addFilter("duration", duration);
   };
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const searchQuery = currentUrl.split("?");
+    if (searchQuery[1]) {
+      const filterQueries = searchQuery[1].split("=")[1].split(",");
+      const filterType = searchQuery[1].split("=")[0];
+      clearFilters();
+      switch (filterType) {
+        case "profesion":
+          if (filterQueries.includes("medicos"))
+            addFilter("professions", {
+              id: 1,
+              name: "Personal médico",
+              slug: "medicos",
+            });
+          if (
+            filterQueries.includes("enfermeros-auxiliares") &&
+            filterQueries.includes("otra-profesion")
+          ) {
+            addFilter("professions", {
+              id: 2,
+              name: "Personal de enfermería y auxiliares",
+              slug: "enfermeros-auxiliares",
+            });
+            addFilter("professions", {
+              id: 3,
+              name: "Otra profesión",
+              slug: "otra-profesion",
+            });
+          }
+          break;
+        case "recurso":
+          if (filterQueries.includes("1")) {
+            addFilter("resources", {
+              name: "Curso",
+              id: 1,
+            });
+          }
+          if (filterQueries.includes("2")) {
+            addFilter("resources", {
+              name: "Guías profesionales",
+              id: 2,
+            });
+          }
+      }
+    }
+  }, [location.search]);
 
   return (
     <section className="container course-content-area pb-90">

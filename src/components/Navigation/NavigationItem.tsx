@@ -179,7 +179,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                       return renderDropdownMenuNavlinkHasChild(i);
                     } else {
                       return (
-                        <li key={i.id} className="px-2">
+                        <li key={i.id} className={`px-2`}>
                           {renderDropdownMenuNavlink(i)}
                         </li>
                       );
@@ -245,6 +245,11 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   };
 
   const renderDropdownMenuNavlink = (item: NavItemType) => {
+    const isActive =
+      item.href === location.pathname && item.search === location.search;
+    const activeClass = isActive
+      ? "font-semibold text-neutral-700 dark:!text-neutral-200"
+      : "";
     return item.targetBlank ? (
       <a
         target="_blank"
@@ -275,9 +280,8 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
           pathname: item.href || undefined,
           search: item.search,
         }}
-        activeClassName="font-semibold text-neutral-700 dark:!text-neutral-200"
       >
-        <span className="flex-shrink-0">{item.name}</span>
+        <span className={`flex-shrink-0 ${activeClass}`}>{item.name}</span>
         {item.type && (
           <ChevronDownIcon
             className="ml-2 h-4 w-4 text-neutral-500"

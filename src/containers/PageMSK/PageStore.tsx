@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import StoreLayout from "./store/StoreLayout";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
-import axios from "axios";
 import LoadingImage from "components/Loader/Image";
 import { Helmet } from "react-helmet";
 import {

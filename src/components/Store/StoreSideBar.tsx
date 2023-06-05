@@ -85,12 +85,11 @@ const StoreSideBar: FC<Props> = ({
         filterQuery = searchQuery[1].split("=")[1];
       }
 
-      const filterQueries = filterQuery.split(","); // split the filterQuery at each comma
+      const filterQueries = filterQuery.split(",");
       const matchingProfessions: Profession[] = [];
       const matchingSpecialties: Specialty[] = [];
       const matchingResources: ResourceFilter[] = [];
 
-      // loop through each filter query to find matching professions and specialties
       filterQueries.forEach((query) => {
         const professionExists = professions.filter(
           (item) => item.slug === query.trim()
@@ -114,7 +113,6 @@ const StoreSideBar: FC<Props> = ({
         }
       });
 
-      // set the initial load only if there are matching professions or specialties
       if (
         (matchingProfessions.length ||
           matchingSpecialties.length ||

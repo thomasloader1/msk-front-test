@@ -72,7 +72,7 @@ const SearchProducts = () => {
                     alt={product.title}
                   />
                 </div>
-                {product.title}
+                <p>{product.title}</p>
               </Link>
             ))
             .filter((product, index) => index < 5)}

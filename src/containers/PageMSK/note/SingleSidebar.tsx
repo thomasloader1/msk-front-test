@@ -17,6 +17,7 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
+  excerpt?: string
 }
 
 const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({

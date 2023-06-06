@@ -98,7 +98,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({
 
         return () => {
             dispatch(changeCurrentPage({ type: "/", data: {} }));
-            setNote(null)
+            setNote(undefined)
         };
     }, []);
     return (

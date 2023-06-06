@@ -441,7 +441,7 @@ export type Newsletter = {
   Profesion: string;
   Especialidad: string;
   Otra_especialidad?: string;
-  Otra_profesion: string;
+  Otra_profesion?: string;
   Temas_de_interes?: string[];
 };
 

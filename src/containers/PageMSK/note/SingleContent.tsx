@@ -48,7 +48,10 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
                 id="single-entry-content"
                 className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
             >
-                <div className="font-lora text-xl" dangerouslySetInnerHTML={{ __html: contenido }} />
+                {contenido && (
+                    <div className="font-lora text-xl" dangerouslySetInnerHTML={{ __html: contenido }} />
+                )}
+
                 <p className="font-lora text-slate-500 text-xl">
                     ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
                     reconocimiento en tu profesión?

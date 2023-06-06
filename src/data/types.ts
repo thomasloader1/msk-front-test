@@ -436,6 +436,13 @@ export type ContactUs = {
 
 export type Newsletter = {
   Email: string;
+  First_Name: string;
+  Last_Name: string;
+  Profesion: string;
+  Especialidad: string;
+  Otra_especialidad?: string;
+  Otra_profesion: string;
+  Temas_de_interes?: string[];
 };
 
 export interface AuthState {

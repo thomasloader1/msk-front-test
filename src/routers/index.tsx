@@ -16,6 +16,7 @@ import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
 import PageMission from "containers/PageMSK/PageMission";
 import PageBlog from "containers/PageMSK/PageBlog";
 import PageThankYou from "containers/PageMSK/PageThankYou";
+import PageNota from "containers/PageMSK/PageNota";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
@@ -25,7 +26,7 @@ export const pages: Page[] = [
   { path: "/curso/:slug", component: PageSingleProduct },
   { path: "/page404", component: Page404 },
   { path: "/blog", exact: true, component: PageBlog },
-  //    { path: "/blog/:slug", component: PageSingleHasSidebar },
+  { path: "/blog/:slug", component: PageNota },
   { path: "/iniciar-sesion", component: PageLogin },
   { path: "/crear-cuenta", component: PageSignUp },
   { path: "/recuperar", component: PageForgotPass },

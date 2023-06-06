@@ -4,6 +4,8 @@ import { API_URL } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
+const { PROD } = import.meta.env
+
 const baseURLLocal = "http://localhost:8000/api/crm";
 const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";
 
@@ -124,6 +126,18 @@ class ApiService {
   async getProfessions() {
     try {
       const res = await axios.get(
+        "https://www.msklatam.com/msk-laravel/public/api/professions"
+      );
+
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getStoreProfessions() {
+    try {
+      const res = await axios.get(
         "https://www.msklatam.com/msk-laravel/public/api/store/professions"
       );
       res.data.map((profession: any) => {
@@ -149,6 +163,17 @@ class ApiService {
     try {
       const res = await axios.get(
         "https://msklatam.com/msk-laravel/public/api/specialities"
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getNewsletterSpecialties() {
+    try {
+      const res = await axios.get(
+        "https://msklatam.com/msk-laravel/public/api/newsletter/specialties"
       );
       return res.data;
     } catch (error) {

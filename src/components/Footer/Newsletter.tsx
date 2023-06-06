@@ -4,6 +4,7 @@ import Logo from "components/Logo/Logo";
 import SocialsList1 from "components/SocialsList1/SocialsList1";
 import { CATEGORIES } from "data/MSK/specialties";
 import { CustomLink, Newsletter, Profession, Specialty } from "data/types";
+import { JsonData, filterSpecialities, mappingSelectedSpecialities } from "logic/NewsletterForm";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -14,8 +15,10 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   const [localEmail, setEmail] = useState(email);
   const [professions, setProfessions] = useState([]);
   const [specialties, setSpecialties] = useState([]);
+  const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
+  const [selectedOptionNewsletterSpecialties, setSelectedOptionNewsletterSpecialties] = useState([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
@@ -27,6 +30,11 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
     const specialtyList = await api.getSpecialties();
     console.log(specialtyList);
     setSpecialties(specialtyList);
+  };
+  const fetchNewsletterSpecialties = async () => {
+    const newsletterSpecialtyList = await api.getNewsletterSpecialties();
+    console.log(newsletterSpecialtyList);
+    setNewsletterSpecialties(newsletterSpecialtyList);
   };
 
   const handleOptionSpecialtyChange = (
@@ -48,30 +56,28 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   useEffect(() => {
     fetchProfessions();
     fetchSpecialties();
+    fetchNewsletterSpecialties();
   }, []);
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
   };
+  const formRef = useRef<HTMLFormElement>(null!);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    console.log({ formData, target: event.target });
-    const jsonData: Newsletter = {
-      Email: "",
-    };
-    formData.forEach((value, key, parent) => {
-      if (key === "Email") {
-        jsonData.Email = value as string;
-      }
-    });
-    console.log({ jsonData });
-    const { response } = await api.postNewsletter(jsonData);
-    changeRoute("/gracias?origen=newsletter");
+
+    const formData = new FormData(formRef.current);
+    const jsonData = Object.fromEntries(formData);
+    const Temas_de_interes = filterSpecialities(jsonData as JsonData)
+    const body = mappingSelectedSpecialities(jsonData as JsonData, Temas_de_interes)
+
+    console.log({ body });
+    const { response } = await api.postNewsletter(body as Newsletter);
+
+    // changeRoute("/gracias?origen=newsletter");
   };
-  const formRef = useRef<HTMLFormElement>(null!);
 
   const logFormData = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -80,7 +86,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   };
 
   return (
-    <form className="asdsad" ref={formRef}>
+    <form className="asdsad" ref={formRef} onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
         <div className="">
           <div className="contact-from-input">
@@ -127,10 +133,10 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
             <option defaultValue="">Seleccionar profesión</option>
             {professions
               ? professions.map((p: Profession) => (
-                  <option key={p.id} value={p.name}>
-                    {p.name}
-                  </option>
-                ))
+                <option key={p.id} value={p.name}>
+                  {p.name}
+                </option>
+              ))
               : ""}
           </select>
           {showInputProfession && (
@@ -173,13 +179,13 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
         Selecciona tus temas de interés
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
-        {specialties.map((specialty: Specialty) => (
+        {newsletterSpecialties.map((specialty: Specialty) => (
           <Checkbox
             key={specialty.id}
             name={specialty.name}
             value={false}
-            useStateCallback={() => {}}
             label={specialty.name}
+            required={false}
           />
         ))}
       </div>
@@ -201,7 +207,7 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
             id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-            onClick={logFormData} // Add onClick event handler
+          //onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme

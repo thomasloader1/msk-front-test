@@ -5,6 +5,8 @@ export interface LocationStates {
   "/home"?: {};
   "/blog"?: {};
   "/blog/:slug"?: {};
+  "/nota"?: {};
+  "/nota/:slug"?: {};
   "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};

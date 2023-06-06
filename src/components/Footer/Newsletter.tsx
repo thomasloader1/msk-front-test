@@ -18,7 +18,6 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
-  const [selectedOptionNewsletterSpecialties, setSelectedOptionNewsletterSpecialties] = useState([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);

@@ -37,16 +37,16 @@ const useUTM = (): void => {
             history.push(newURL.pathname + newURL.search);
         };
 
-        const setUTMs = (utmParams: UTMParams): void => {
-            // Actualiza los campos ocultos del formulario
-            Object.keys(utmParams).forEach((param) => {
-                const input = document.getElementById(`hidden-${param}`) as HTMLInputElement;
-                input.value = Array.isArray(utmParams[param]) ? utmParams[param][0] || '' : utmParams[param] || '';
-            });
-
-            // Cambia la URL sin recargar la página
-            updateURL(utmParams);
-        };
+        /*  const setUTMs = (utmParams: UTMParams): void => {
+             // Actualiza los campos ocultos del formulario
+             Object.keys(utmParams).forEach((param) => {
+                 const input = document.getElementById(`hidden-${param}`) as HTMLInputElement;
+                 input.value = Array.isArray(utmParams[param]) ? utmParams[param][0] || '' : utmParams[param] || '';
+             });
+ 
+             // Cambia la URL sin recargar la página
+             updateURL(utmParams);
+         }; */
 
         const cleanup = (): void => {
             // Aquí puedes realizar cualquier limpieza necesaria al desmontar el componente

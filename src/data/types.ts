@@ -92,6 +92,21 @@ export interface User {
   profession?: string;
 }
 
+export interface CustomUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  gender: string;
+  avatar: string;
+  bgImage: string;
+  count: number;
+  href: string;
+  desc: string;
+  jobName: string;
+  email: string;
+}
+
 export interface PostAuthor {
   id: number;
   name: string;

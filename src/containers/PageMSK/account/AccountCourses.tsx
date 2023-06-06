@@ -10,6 +10,7 @@ interface AccountCoursesProps {
 }
 
 const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
+  console.log({ courses })
   return (
     <div className="flex flex-col space-y-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,10 +36,10 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
                   <tr key={item.product_code}>
                     <td className="px-6 py-4">
                       <div className="flex items-center w-96 lg:w-auto max-w-md overflow-hidden">
-                        {/* <NcImage
+                        <NcImage
                           containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
                           src={item.featuredImage}
-                        /> */}
+                        />
                         <div className="ml-4 flex-grow">
                           <h2 className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
                             {item.title || "-"}

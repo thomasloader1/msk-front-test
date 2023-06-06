@@ -1,6 +1,6 @@
-import { User } from "./types";
+import { CustomUser, User } from "./types";
 
-const USERS: User[] = [
+const USERS: CustomUser[] = [
   {
     id: 1,
     firstName: "Alric",

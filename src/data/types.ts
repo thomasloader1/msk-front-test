@@ -32,7 +32,7 @@ export interface PostAuthorType {
 }
 export interface Contact {
   id: number;
-  entity_id_crm: string;
+  entity_id_crm?: string;
   name: string;
   last_name: string;
   profession: string;
@@ -73,22 +73,32 @@ export interface UserCourse {
   contract_entity_id: string;
   entity_id_crm: string;
   quantity: number;
-  product_code: number;
+  product_code: string;
   price: string;
   discount: string;
   status?: string;
   status_payment?: string;
   title?: string;
+
+  featured_image?: string;
 }
 
 export interface User {
   id: number;
   name: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  gender: string;
+  avatar: string;
+  bgImage: string;
+  desc: string;
+  jobName: string;
   email: string;
   email_verified_at: string | null;
   created_at: string;
   updated_at: string;
-  contact: Contact;
+  contact?: Contact;
   profession?: string;
 }
 
@@ -283,6 +293,7 @@ export interface Evaluation {
 }
 
 export interface ProductAuthor {
+  post_title: any;
   id: number;
   name: string;
   description: string;
@@ -301,6 +312,7 @@ export interface FetchSingleProduct {
   evaluacion: Evaluation;
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
+  lista_de_cedentes?: ProductAuthor[];
 }
 export interface FetchCourseType {
   id: number;
@@ -326,6 +338,7 @@ export interface FetchCourseType {
   is_free: boolean;
   total_price: string;
   price_installments: string;
+  lista_de_cedentes: any[];
 }
 
 export interface Category {

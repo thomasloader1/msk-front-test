@@ -2,10 +2,17 @@ import { Popover, Transition } from "@headlessui/react";
 import Avatar from "components/Avatar/Avatar";
 import { AuthContext } from "context/user/AuthContext";
 import { Fragment, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const NavigationUser = () => {
   const { state } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
+  const history = useHistory();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/");
+  };
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">
@@ -92,9 +99,9 @@ const NavigationUser = () => {
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
 
                     {/* ------------------ 2 --------------------- */}
-                    <Link
-                      to={"/"}
+                    <button
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      onClick={handleLogout}
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                         <img
@@ -104,11 +111,9 @@ const NavigationUser = () => {
                         />
                       </div>
                       <div className="ml-4">
-                        <p className="text-sm font-medium ">
-                          {"Cerrar Sesión"}
-                        </p>
+                        <p className="text-sm font-medium">Cerrar Sesión</p>
                       </div>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </Popover.Panel>

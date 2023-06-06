@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import StoreLayout from "./store/StoreLayout";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
-import axios from "axios";
 import LoadingImage from "components/Loader/Image";
 import { Helmet } from "react-helmet";
 import {
@@ -12,9 +11,9 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-import { useStoreFilters } from "context/storeFilters/StoreContext";
 import { API_URL } from "data/api";
 import api from "Services/api";
+import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 
 export interface PageStoreProps {
   className?: string;
@@ -59,7 +58,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   }, [storeFilters]);
 
   const applyFilters = () => {
-    //console.log('applying filters');
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -95,23 +93,20 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         const specialtiesMatch = selectedSpecialties.every((specialty) =>
           prodSpecialties.includes(specialty)
         );
-        const professionsMatch = selectedProfessions.some(
-          (
-            profession // If a product matches at least one profession, show it
-          ) =>
-            prodProfessions.some((prodProfession) => {
-              return prodProfession
-                .toLowerCase()
-                .includes(profession.toLowerCase());
-            })
-        );
+
+        const professionsMatch =
+          selectedProfessions.length === 0 ||
+          selectedProfessions.some((profession) =>
+            prodProfessions.some((prodProfession) =>
+              prodProfession.toLowerCase().includes(profession.toLowerCase())
+            )
+          );
 
         const resourcesMatch = selectedResources.every((resource) => {
-          //TODO: figure out why this isn't working
           if (resource === "Curso") {
-            return product.duration !== null;
-          } else if (resource === "Guías") {
-            return product.duration === null;
+            return product.father_post_type === "course";
+          } else if (resource === "Guías profesionales") {
+            return product.father_post_type === "downloadable";
           }
         });
 
@@ -134,6 +129,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
           durationsMatch
         );
       });
+
       setProducts(filteredProducts);
     }
   };

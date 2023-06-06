@@ -28,7 +28,7 @@ const PageSingleHasSidebar: FC<PageSingleHasSidebarProps> = ({
   const slug = window.location.href.split("/").pop();
   const [post, setPost] = useState<FetchPostType>({
     id: 0,
-    slug: 'string',
+    slug: "string",
     date: "string",
     link: "string",
     title: "string",

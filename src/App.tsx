@@ -1,4 +1,4 @@
-import { StoreFiltersProvider } from "context/storeFilters/StoreContext";
+import { StoreFiltersProvider } from "context/storeFilters/StoreFiltersProvider";
 import AuthProvider from "context/user/AuthProvider";
 import React, { useEffect } from "react";
 import MyRouter from "routers";

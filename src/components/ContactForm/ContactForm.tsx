@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 // import 'react-intl-tel-input/dist/main.css';
 // import IntlTelInput from 'react-intl-tel-input';
 
-const ContactFormSection = ({ productName = "" }) => {
+const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
@@ -74,7 +74,7 @@ const ContactFormSection = ({ productName = "" }) => {
   ) => {
     const { value } = event.target;
     setSelectedOptionProfession(value);
-    setShowInputProfession(value === "Otra Profesión");
+    setShowInputProfession(value === "Otra profesión");
   };
 
   useEffect(() => {
@@ -211,7 +211,11 @@ const ContactFormSection = ({ productName = "" }) => {
               <input type="hidden" name="utm_content" disabled />
 
               <div className={`section-title mb-30`}>
-                <h2>Contáctanos</h2>
+                <h2>
+                  {isEbook
+                    ? "Completa el formulario para descargar automáticamente el material"
+                    : "Contáctanos"}
+                </h2>
                 <div className="flex gap-6 preferences">
                   <p className="talk-through">Quiero hablar por</p>
                   <div className="mt-1 flex gap-4">
@@ -266,12 +270,13 @@ const ContactFormSection = ({ productName = "" }) => {
                 </div>
 
                 <div className="col-xl-6">
-                  <div className="contact-from-input intl-input">
+                  <div className="contact-from-input intl-input phone-contact-input-select">
                     <PhoneInput
                       name="Phone"
                       id="Phone"
                       placeholder="Ingresar número telefónico"
                       defaultCountry="MX"
+                      className="phone-contact-input"
                       value={phoneNumber}
                       onChange={handlePhoneChange}
                     />

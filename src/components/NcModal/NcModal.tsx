@@ -10,6 +10,7 @@ export interface NcModalProps {
   contentPaddingClass?: string;
   triggerText?: ReactNode;
   modalTitle?: ReactNode;
+  modalSubtitle?: ReactNode;
   isOpenProp?: boolean;
   onCloseModal?: () => void;
 }
@@ -21,6 +22,7 @@ const NcModal: FC<NcModalProps> = ({
   contentPaddingClass = "py-4 px-6 md:py-5",
   triggerText = "Open Modal",
   modalTitle = "Modal title",
+  modalSubtitle = "",
   isOpenProp,
   onCloseModal,
 }) => {
@@ -89,21 +91,31 @@ const NcModal: FC<NcModalProps> = ({
               <div
                 className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-white border border-black border-opacity-5 shadow-xl rounded-2xl sm:my-8 dark:bg-neutral-800 dark:border-neutral-700 text-neutral-900 dark:text-neutral-300 ${contentExtraClass}`}
               >
-                <div className="py-4 px-6 text-center relative border-b border-neutral-100 dark:border-neutral-700 md:py-5">
+                <div className="py-4 px-6 relative border-b border-neutral-100 dark:border-neutral-700 md:py-6">
+                  {modalTitle && (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway pl-4"
+                      >
+                        {modalTitle}
+                      </Dialog.Title>
+                      <Dialog.Description
+                        as="p"
+                        className="block text-paragraph-small text-slate-500 pl-4"
+                      >
+                        {modalSubtitle}
+                      </Dialog.Description>
+                    </>
+                  )}
                   <ButtonClose
                     onClick={closeModal}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 sm:left-4"
+                    className="absolute right-8 top-1/2 transform -translate-y-1/2 sm:right-8"
                   />
-                  {modalTitle && (
-                    <Dialog.Title
-                      as="h3"
-                      className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200"
-                    >
-                      {modalTitle}
-                    </Dialog.Title>
-                  )}
                 </div>
-                <div className={contentPaddingClass}>{renderContent()}</div>
+                <div className={`${contentPaddingClass} mx-2`}>
+                  {renderContent()}
+                </div>
               </div>
             </Transition.Child>
           </div>

@@ -84,7 +84,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       name: "Mis Cursos",
       description: "Controla todo lo relacionado\n" + "con tus capacitaciones",
       image: "",
-      href: "",
+      href: "/mi-cuenta/cursos",
     },
     {
       name: "Centro de ayuda",
@@ -97,7 +97,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       name: "Configurar mi cuenta",
       description: "Controlar todo lo referido\n" + "a tu perfil personal",
       image: "",
-      href: "",
+      href: "/mi-cuenta/perfil",
     },
   ];
 
@@ -180,7 +180,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           <BackgroundSection />
           <SectionSliderPosts
             postCardName="card9"
-            heading="Nuestros cursos mas elegidos"
+            heading="Nuestros cursos más elegidos"
             subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
             sliderStype="style2"
             posts={bestSeller}

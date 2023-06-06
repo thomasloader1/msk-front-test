@@ -5,7 +5,7 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-import { useStoreFilters } from "context/storeFilters/StoreContext";
+import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 
 const initialState = {
   isActive: false,
@@ -85,27 +85,26 @@ const StoreSideBar: FC<Props> = ({
         filterQuery = searchQuery[1].split("=")[1];
       }
 
-      const filterQueries = filterQuery.split(","); // split the filterQuery at each comma
+      const filterQueries = filterQuery.split(",");
       const matchingProfessions: Profession[] = [];
       const matchingSpecialties: Specialty[] = [];
       const matchingResources: ResourceFilter[] = [];
 
-      // loop through each filter query to find matching professions and specialties
       filterQueries.forEach((query) => {
         const professionExists = professions.filter(
-            (item) => item.slug === query.trim()
+          (item) => item.slug === query.trim()
         );
         if (professionExists.length) {
           matchingProfessions.push(professionExists[0]);
         } else {
           const specialtiesExists = specialties.filter(
-              (item) => item.name === decodeURIComponent(query.trim())
+            (item) => item.name === decodeURIComponent(query.trim())
           );
           if (specialtiesExists.length) {
             matchingSpecialties.push(specialtiesExists[0]);
-          }else{
+          } else {
             const resourceExists = resources.filter(
-                (item) => item.id.toString() === decodeURIComponent(query.trim())
+              (item) => item.id.toString() === decodeURIComponent(query.trim())
             );
             if (resourceExists.length) {
               matchingResources.push(resourceExists[0]);
@@ -114,8 +113,12 @@ const StoreSideBar: FC<Props> = ({
         }
       });
 
-      // set the initial load only if there are matching professions or specialties
-      if ((matchingProfessions.length || matchingSpecialties.length || matchingResources) && initialLoad) {
+      if (
+        (matchingProfessions.length ||
+          matchingSpecialties.length ||
+          matchingResources) &&
+        initialLoad
+      ) {
         matchingProfessions.forEach((profession) => {
           onChangeProfession({
             id: profession.id,
@@ -130,10 +133,10 @@ const StoreSideBar: FC<Props> = ({
           });
         });
         matchingResources.forEach((resource) => {
-            onChangeResource({
-                id: resource.id,
-                name: resource.name,
-            });
+          onChangeResource({
+            id: resource.id,
+            name: resource.name,
+          });
         });
         setInitialLoad(false);
       }
@@ -156,9 +159,9 @@ const StoreSideBar: FC<Props> = ({
         ).length;
       case "resources":
         return !!storeFilters[type as keyof typeof storeFilters].filter(
-            (resource: any) => {
-              return resource.id == value.id;
-            }
+          (resource: any) => {
+            return resource.id == value.id;
+          }
         ).length;
     }
   };

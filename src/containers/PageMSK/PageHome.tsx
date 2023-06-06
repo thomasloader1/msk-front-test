@@ -15,7 +15,6 @@ import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
 import { ALL_PRODUCTS_MX, BEST_SELLERS_MX } from "data/api";
 
-
 const PageHome: React.FC = () => {
   const [courses, setCourses] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
@@ -71,15 +70,15 @@ const PageHome: React.FC = () => {
             btnText="Comienza tu experiencia"
             btnOnClick={scrollToContactForm}
             heading={
-              <span>
+              <>
                 Una propuesta moderna
                 <br />
                 para
-                <span className="font-lora"> expandir </span>
+                <span className="font-lora-italic"> expandir </span>
                 tus
                 <br />
                 metas profesionales
-              </span>
+              </>
             }
           />
           <SectionGridCategoryBox
@@ -104,7 +103,7 @@ const PageHome: React.FC = () => {
             <BackgroundSection />
             <SectionSliderPosts
               postCardName="card9"
-              heading="Nuestros cursos mas elegidos"
+              heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
               posts={bestSeller}

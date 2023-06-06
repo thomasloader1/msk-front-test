@@ -27,8 +27,9 @@ jobs:
       - name: FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@3.1.1
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist  # Directorio donde se encuentra el código compilado
-          remote-dir: ${{ secrets.FTP_DIR_DEV}}  # Directorio remoto donde se subirá el código
+          ftp-server: ${{ secrets.FTP_SERVER }}
+          ftp-username: ${{ secrets.FTP_USERNAME }}
+          ftp-password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist
+          remote-dir: ${{ secrets.FTP_DIR_DEV }}
+      

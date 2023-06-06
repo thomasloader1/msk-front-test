@@ -102,11 +102,7 @@ const StoreProduct: FC<Props> = ({
             <i className="flaticon-clock"></i>
             <span>{product.duration} horas</span>
           </div>
-        ) : (
-          <span className="bg-blue-200 px-3 py-0.5 text-blue-700 rounded text-semibold">
-            Guía
-          </span>
-        )}
+        ) : (<div></div>)}
 
         <Link
           to={`/curso/${product.slug}`}

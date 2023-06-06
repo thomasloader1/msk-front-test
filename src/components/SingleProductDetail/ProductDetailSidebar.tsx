@@ -67,7 +67,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
       <div
         className={`${
           isFixed && bottomDistance == 0 && !isEbook
-            ? "course-widget-wrapper-fixed"
+            ? "course-widget-wrapper fixed"
             : "course-widget-wrapper"
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >

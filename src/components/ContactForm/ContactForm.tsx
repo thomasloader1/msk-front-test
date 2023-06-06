@@ -81,7 +81,6 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     axios
       .get(`${API_BACKEND_URL}/professions`)
       .then((response) => {
-        console.log(response.data);
         setProfessions(response.data);
       })
       .catch((error) => {

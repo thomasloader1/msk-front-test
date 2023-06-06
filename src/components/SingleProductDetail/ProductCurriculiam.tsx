@@ -24,7 +24,6 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
   }, [auxTopics]);
 
   const parseToHTML = (htmlString: string): JSX.Element => {
-    console.log(htmlString);
     const textNodes = htmlString.split("\n").map((line, i) => (
         <React.Fragment key={i}>
           {line}

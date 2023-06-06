@@ -4,9 +4,10 @@ import React, { FC, useEffect, useRef, useState } from "react";
 
 interface Props {
   topics: Topic;
+  hours: any;
 }
 
-const ProductCurriculiam: FC<Props> = ({ topics }) => {
+const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [accordionContent, setAccordionContent] = useState<any[]>([]);
   const [auxTopics, setAuxTopics] = useState<Topic>(topics);
@@ -17,17 +18,18 @@ const ProductCurriculiam: FC<Props> = ({ topics }) => {
   useEffect(() => {
     const formattedTopics: any[] = [];
     Object.keys(topics).map((key, index) => {
-      if (key != "data") formattedTopics.push(topics[index]);
+      if (key !== "data") formattedTopics.push(topics[index]);
     });
     setAccordionContent(formattedTopics);
   }, [auxTopics]);
 
   const parseToHTML = (htmlString: string): JSX.Element => {
+    console.log(htmlString);
     const textNodes = htmlString.split("\n").map((line, i) => (
-      <React.Fragment key={i}>
-        {line}
-        <br />
-      </React.Fragment>
+        <React.Fragment key={i}>
+          {line}
+          <br />
+        </React.Fragment>
     ));
     return <>{textNodes}</>;
   };
@@ -38,7 +40,7 @@ const ProductCurriculiam: FC<Props> = ({ topics }) => {
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
         <h4 className="font-semibold text-xl">Qué temas verás</h4>
-        <p className="modules-description">10 módulos • 250 horas estimadas</p>
+        <p className="modules-description">{accordionContent.length} módulos • {hours.value} horas estimadas</p>
       </div>
       {accordionContent.length ? (
         <div className="modules pb-6">

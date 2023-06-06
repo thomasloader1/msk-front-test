@@ -65,6 +65,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     detail.value.includes("Ebook")
   );
 
+  // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16">
@@ -177,7 +178,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <></>
             )}
             {product.temario ? (
-              <ProductCurriculiam topics={product.temario} />
+              <ProductCurriculiam topics={product.temario} hours={product.details["duration"]}/>
             ) : (
               <></>
             )}

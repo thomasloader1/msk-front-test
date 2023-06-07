@@ -74,8 +74,9 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
 
     console.log({ body });
     const { response } = await api.postNewsletter(body as Newsletter);
+    console.log({response})
 
-    // changeRoute("/gracias?origen=newsletter");
+    changeRoute("/gracias?origen=newsletter");
   };
 
   const logFormData = (event: React.MouseEvent<HTMLButtonElement>) => {

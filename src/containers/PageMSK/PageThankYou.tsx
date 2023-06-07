@@ -10,9 +10,7 @@ export interface PageLoginProps {
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     const history = useHistory();
-    const changeRoute = (newRoute: string): void => {
-        history.push(newRoute);
-    };
+    const changeRoute = (newRoute: string): void => { history.push(newRoute);};
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const origin = queryParams.get('origen');

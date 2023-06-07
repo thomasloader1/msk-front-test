@@ -13,7 +13,6 @@ export interface Card20Props {
 
 const Card20: FC<Card20Props> = ({ className = "h-full", post }) => {
   let { title, description, image } = post;
-  console.log({post})
   if (image) {
     image = image.replace('mx.', '');
   }

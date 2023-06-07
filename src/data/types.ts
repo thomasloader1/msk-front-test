@@ -30,19 +30,91 @@ export interface PostAuthorType {
   jobName: string;
   href: string;
 }
+export interface Contact {
+  id: number;
+  entity_id_crm?: string;
+  name: string;
+  last_name: string;
+  profession: string;
+  speciality: string | null;
+  user_id: number;
+  rfc: string;
+  dni: string | null;
+  fiscal_regime: string;
+  phone: string;
+  email: string;
+  sex: string;
+  date_of_birth: string | null;
+  country: string;
+  state?: string;
+  postal_code: string;
+  address: string | null;
+  created_at: string;
+  updated_at: string;
+  validate: string;
+  contracts: Contract[];
+}
+
+export interface Contract {
+  id: number;
+  contact_id: number;
+  installments: number | null;
+  entity_id_crm: string;
+  so_crm: string;
+  status: string;
+  status_payment: string;
+  country: string;
+  currency: string;
+  products: UserCourse[];
+}
+
+export interface UserCourse {
+  contract_id: number;
+  contract_entity_id: string;
+  entity_id_crm: string;
+  quantity: number;
+  product_code: string;
+  price: string;
+  discount: string;
+  status?: string;
+  status_payment?: string;
+  title?: string;
+
+  featured_image?: string;
+}
+
 export interface User {
-  id: string | number;
+  id: number;
+  name: string;
   firstName: string;
   lastName: string;
   displayName: string;
-  avatar: string;
-  bgImage?: string;
-  email?: string;
-  count: number;
   gender: string;
+  avatar: string;
+  bgImage: string;
   desc: string;
   jobName: string;
+  email: string;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  contact?: Contact;
+  profession?: string;
+}
+
+export interface CustomUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  gender: string;
+  avatar: string;
+  bgImage: string;
+  count: number;
   href: string;
+  desc: string;
+  jobName: string;
+  email: string;
 }
 
 export interface PostAuthor {
@@ -62,6 +134,7 @@ export interface PostCategory {
 
 export interface FetchPostType {
   id: number;
+  slug: string;
   date: string;
   link: string;
   title: string;
@@ -134,6 +207,7 @@ export type TwMainColor =
   | "red-strong"
   | "indigo"
   | "blue"
+  | "blue-light"
   | "purple"
   | "gray";
 
@@ -219,6 +293,7 @@ export interface Evaluation {
 }
 
 export interface ProductAuthor {
+  post_title: any;
   id: number;
   name: string;
   description: string;
@@ -237,6 +312,7 @@ export interface FetchSingleProduct {
   evaluacion: Evaluation;
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
+  lista_de_cedentes?: ProductAuthor[];
 }
 export interface FetchCourseType {
   id: number;
@@ -262,6 +338,7 @@ export interface FetchCourseType {
   is_free: boolean;
   total_price: string;
   price_installments: string;
+  lista_de_cedentes: any[];
 }
 
 export interface Category {
@@ -359,4 +436,23 @@ export type ContactUs = {
 
 export type Newsletter = {
   Email: string;
+  First_Name: string;
+  Last_Name: string;
+  Profesion: string;
+  Especialidad: string;
+  Otra_especialidad?: string;
+  Otra_profesion?: string;
+  Temas_de_interes?: string[];
 };
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: User | null;
+  email: string | null;
+  token: string | null;
+}
+
+export interface AuthAction {
+  type: string;
+  payload?: any;
+}

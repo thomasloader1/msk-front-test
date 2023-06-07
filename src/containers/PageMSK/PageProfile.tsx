@@ -1,58 +1,110 @@
-import React, { FC, useEffect, useState } from "react";
-import { DEMO_POSTS } from "data/posts";
-import { FetchPostType, PostAuthorType, PostDataType } from "data/types";
+import { FC, useEffect, useState } from "react";
 import Nav from "components/Nav/Nav";
 import NavItem from "components/NavItem/NavItem";
 import Avatar from "components/Avatar/Avatar";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
-import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import { USERS } from "data/users";
 import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
-import { HOME_COURSES } from "data/MSK/courses";
-import axios from "axios";
-import { API_URL } from "data/api";
+import CardCategory6 from "components/CardCategory6/CardCategory6";
+import { Helmet } from "react-helmet";
+import { FetchPostType, User } from "data/types";
+import api from "Services/api";
 
 export interface PageAuthorProps {
   className?: string;
 }
-const USER: PostAuthorType = USERS[0];
+
 const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Todo", "Mis cursos", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const [posts, setPosts] = useState<FetchPostType[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
-  const fetchPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const formattedPosts = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
-    setPosts(formattedPosts);
+  const [user, setUser] = useState<User>({} as User);
+  const [bestSeller, setBestSeller] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const fetchCourses = async () => {
+    const res = await api.getAllCourses();
+    setPosts(res);
+  };
+  const fetchBestSeller = async () => {
+    const res = await api.getBestSellers();
+    setBestSeller(res);
+  };
+
+  const fetchUser = async () => {
+    const res = await api.getUserData();
+    if (!res.message) {
+      setUser(res);
+    } else {
+      console.log(res.response.status);
+    }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchUser();
+    fetchBestSeller();
+    fetchCourses();
   }, []);
 
   const handleClickTab = (item: string) => {
+    if (item === "Todo") {
+      setPosts(posts.filter((_, i: number) => i < 5 && i >= 1));
+    } else {
+      const filteredPosts = posts
+        .filter((post) =>
+          post.categories?.some((category: any) => category.name === item)
+        )
+        .filter((_, i: number) => i < 5 && i >= 1);
+      setPosts(filteredPosts);
+    }
     if (item === tabActive) {
       return;
     }
     setTabActive(item);
   };
 
-  const onPageChange = (page: number) => {
-    console.log("Change", page);
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Función para cambiar la página
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
+
+  let CardComponentName = CardCategory6;
+  const categories = [
+    {
+      name: "Mis Cursos",
+      description: "Controla todo lo relacionado\n" + "con tus capacitaciones",
+      image: "",
+      href: "/mi-cuenta/cursos",
+    },
+    {
+      name: "Centro de ayuda",
+      description:
+        "Escribe tu consulta o descubre las categorías de información útil",
+      image: "",
+      href: "",
+    },
+    {
+      name: "Configurar mi cuenta",
+      description: "Controlar todo lo referido\n" + "a tu perfil personal",
+      image: "",
+      href: "/mi-cuenta/perfil",
+    },
+  ];
 
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
       <Helmet>
-        <title>My Profile</title>
+        <title>Mi Perfil</title>
       </Helmet>
 
       {/* HEADER */}
@@ -60,16 +112,16 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">
           <Avatar
             containerClassName="dark:ring-0 shadow-2xl"
-            imgUrl={USER.avatar}
-            sizeClass="w-20 h-20 text-xl lg:text-2xl lg:w-36 lg:h-36"
-            radius="rounded-xl"
+            userName={user.name}
+            sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
+            radius="rounded-full"
           />
-          <div className="mt-8 sm:mt-6 sm:ml-8 space-y-4 max-w-lg text-center">
+          <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
             <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-semibold">
-              {USER.displayName}
+              {user.name}
             </h2>
             <span className="block text-sm text-neutral-6000 dark:text-neutral-300 md:text-base">
-              {USER.desc}
+              {user.contact?.profession}
             </span>
           </div>
         </div>
@@ -99,7 +151,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
           {/* LOOP ITEMS */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10">
-            {posts.map((post) => (
+            {currentItems.map((post) => (
               <Card2 key={post.id} post={post} hideDesc hideAuthor />
             ))}
           </div>
@@ -107,20 +159,31 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           {/* PAGINATION */}
           <div className="flex justify-center">
             <StorePagination
-              totalPages={4}
-              currentPage={1}
-              onPageChange={onPageChange}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
             />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
+            {categories.map((item, i) => (
+              <CardComponentName
+                index={i < 1 ? `#${i + 1}` : undefined}
+                key={item.name}
+                taxonomy={item}
+                className="rounded-lg"
+              />
+            ))}
           </div>
         </main>
         <div className="relative py-16 my-32">
           <BackgroundSection />
           <SectionSliderPosts
             postCardName="card9"
-            heading="Nuestros cursos mas elegidos"
+            heading="Nuestros cursos más elegidos"
             subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
             sliderStype="style2"
-            posts={HOME_COURSES}
+            posts={bestSeller}
             uniqueSliderClass="pageHome-section6"
           />
         </div>

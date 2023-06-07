@@ -1,41 +1,12 @@
+import { useReducer, useContext, FC, ReactNode } from "react";
+import reducer, { Filter, State } from "./storeFiltersReducer";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "data/types";
-import React, { createContext, useReducer } from "react";
-
-interface Filter {
-  specialties: Specialty[];
-  professions: Profession[];
-  duration: DurationFilter[];
-  resources: ResourceFilter[];
-}
-
-interface State {
-  storeFilters: Filter;
-}
-
-interface Action {
-  type: "ADD_FILTER" | "REMOVE_FILTER";
-  payload: {
-    filterType: keyof Filter;
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
-  };
-}
-
-type StoreFiltersContextType = {
-  state: State;
-  addFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-  removeFilter: (
-    filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
-  ) => void;
-};
+import { StoreFiltersContext } from "./StoreContext";
 
 const initialState: State = {
   storeFilters: {
@@ -46,73 +17,50 @@ const initialState: State = {
   },
 };
 
-export const StoreFiltersContext = createContext<StoreFiltersContextType>({
-  state: initialState,
-  addFilter: () => {},
-  removeFilter: () => {},
-});
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "ADD_FILTER":
-      return {
-        ...state,
-        storeFilters: {
-          ...state.storeFilters,
-          [action.payload.filterType]: [
-            ...state.storeFilters[action.payload.filterType],
-            action.payload.filterValue,
-          ],
-        },
-      };
-    case "REMOVE_FILTER":
-      return {
-        ...state,
-        storeFilters: {
-          ...state.storeFilters,
-          [action.payload.filterType]: state.storeFilters[
-            action.payload.filterType
-          ].filter(
-            (filterValue: any) => filterValue !== action.payload.filterValue
-          ),
-        },
-      };
-    default:
-      return state;
+export const useStoreFilters = () => {
+  const context = useContext(StoreFiltersContext);
+  if (!context) {
+    throw new Error(
+      "useStoreFilters must be used within a StoreFiltersProvider"
+    );
   }
+  return context;
+};
+
+interface Props {
+  children: ReactNode;
 }
 
-export const StoreFiltersProvider: React.FC<any> = ({ children }) => {
+export const StoreFiltersProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addFilter = (
     filterType: keyof Filter,
     filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => {
-    dispatch({
-      type: "ADD_FILTER",
-      payload: {
-        filterType,
-        filterValue,
-      },
-    });
+    dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
   };
 
   const removeFilter = (
     filterType: keyof Filter,
     filterValue: Specialty | Profession | DurationFilter | ResourceFilter
   ) => {
-    dispatch({
-      type: "REMOVE_FILTER",
-      payload: {
-        filterType,
-        filterValue,
-      },
-    });
+    dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
+  };
+
+  const clearFilters = () => {
+    dispatch({ type: "CLEAR_FILTERS" });
   };
 
   return (
-    <StoreFiltersContext.Provider value={{ state, addFilter, removeFilter }}>
+    <StoreFiltersContext.Provider
+      value={{
+        storeFilters: state.storeFilters,
+        addFilter,
+        removeFilter,
+        clearFilters,
+      }}
+    >
       {children}
     </StoreFiltersContext.Provider>
   );

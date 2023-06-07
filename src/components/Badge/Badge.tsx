@@ -7,10 +7,12 @@ export interface BadgeProps {
   name: ReactNode;
   color?: TwMainColor | string;
   href?: string;
+  textSize?: string;
 }
 
 const Badge: FC<BadgeProps> = ({
-  className = "relative",
+  textSize = "text-xs",
+  className = `relative ${textSize}`,
   name,
   color = "blue",
   href,
@@ -79,6 +81,10 @@ const Badge: FC<BadgeProps> = ({
         return `text-neutral-900 bg-emerald-post ${
           hasHover ? "hover:bg-blue-800" : ""
         }`;
+      case "teal-active":
+        return `text-slate-500 bg-teal-active ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "brown-post":
         return `text-neutral-900 bg-brown-post ${
           hasHover ? "hover:bg-blue-800" : ""
@@ -91,8 +97,7 @@ const Badge: FC<BadgeProps> = ({
   };
 
   const CLASSES =
-    "nc-Badge  inline-flex px-2.5 py-1 rounded font-medium text-xs " +
-    className;
+    "nc-Badge  inline-flex px-2.5 py-1 rounded font-medium" + className;
   return !!href ? (
     <Link
       to={href || ""}

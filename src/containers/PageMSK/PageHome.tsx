@@ -13,38 +13,31 @@ import ContactForm from "components/ContactForm/ContactForm";
 import { TABS_BLOG, TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
-import { API_URL } from "data/api";
-import Heading from "../../components/Heading/Heading";
+import { ALL_PRODUCTS_MX, BEST_SELLERS_MX } from "data/api";
 
 const PageHome: React.FC = () => {
-  const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
-  const fetchPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const formattedPosts = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
-    setPosts(formattedPosts);
-  };
+
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products?limit=-1&country=mx`);
+    const res = await axios.get(`${ALL_PRODUCTS_MX}`);
     setCourses(res.data.products);
   };
   const fetchBestSeller = async () => {
-    const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
+    const res = await axios.get(`${BEST_SELLERS_MX}`);
     setBestSeller(res.data.products);
   };
   useEffect(() => {
-    //fetchPosts();
     fetchCourses();
     fetchBestSeller();
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log(position)
-    }, function (err) {
-      console.log(err)
-    });
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        console.log(position);
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
   }, []);
 
   const scrollToContactForm = () => {
@@ -77,15 +70,15 @@ const PageHome: React.FC = () => {
             btnText="Comienza tu experiencia"
             btnOnClick={scrollToContactForm}
             heading={
-              <span>
+              <>
                 Una propuesta moderna
                 <br />
                 para
-                <span className="font-lora"> expandir </span>
+                <span className="font-lora-italic"> expandir </span>
                 tus
                 <br />
                 metas profesionales
-              </span>
+              </>
             }
           />
           <SectionGridCategoryBox
@@ -110,7 +103,7 @@ const PageHome: React.FC = () => {
             <BackgroundSection />
             <SectionSliderPosts
               postCardName="card9"
-              heading="Nuestros cursos mas elegidos"
+              heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
               posts={bestSeller}

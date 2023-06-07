@@ -41,7 +41,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             Volver a {` `}
-            <NcLink to="/login" className="underline">
+            <NcLink to="/iniciar-sesion" className="underline">
               Iniciar sesión
             </NcLink>
           </span>

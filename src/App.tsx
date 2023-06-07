@@ -1,4 +1,5 @@
-import { StoreFiltersProvider } from "context/storeFilters/StoreContext";
+import { StoreFiltersProvider } from "context/storeFilters/StoreFiltersProvider";
+import AuthProvider from "context/user/AuthProvider";
 import React, { useEffect } from "react";
 import MyRouter from "routers";
 
@@ -17,9 +18,11 @@ function App() {
 
   return (
     <div className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
-      <StoreFiltersProvider>
-        <MyRouter />
-      </StoreFiltersProvider>
+      <AuthProvider>
+        <StoreFiltersProvider>
+          <MyRouter />
+        </StoreFiltersProvider>
+      </AuthProvider>
     </div>
   );
 }

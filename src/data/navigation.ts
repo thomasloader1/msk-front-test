@@ -150,13 +150,13 @@ const otherPageChildMenus: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/signup",
+    href: "/crear-cuenta",
     name: "Signup",
   },
   {
     id: ncNanoId(),
-    href: "/forgot-pass",
-    name: "Forgot Password",
+    href: "/recuperar",
+    name: "Recuperar Contraseña",
   },
   {
     id: ncNanoId(),
@@ -435,7 +435,7 @@ const aboutMenu: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/tienda",
-    name: "Enfermería y otras profesiones",
+    name: "Cursos para enfermería y otras profesiones",
     search: "?profesion=otra-profesion,enfermeros-auxiliares",
   },
   // {
@@ -472,6 +472,21 @@ const resourcesMenu: NavItemType[] = [
   },
 ];
 
+const accountMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta/inicio",
+    name: "Mi Cuenta",
+    search: "",
+  },
+  {
+    id: ncNanoId(),
+    href: "/mi-perfil",
+    name: "Mi Perfil",
+    search: "",
+  },
+];
+
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
@@ -497,4 +512,14 @@ export const NAVIGATION_MSK: NavItemType[] = [
   //   href: "/shop",
   //   name: "Carrito",
   // },
+];
+
+export const NAVIGATION_USER: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta",
+    name: "Mi Cuenta",
+    type: "dropdown",
+    children: accountMenu,
+  },
 ];

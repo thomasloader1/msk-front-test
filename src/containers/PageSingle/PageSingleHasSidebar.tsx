@@ -28,6 +28,7 @@ const PageSingleHasSidebar: FC<PageSingleHasSidebarProps> = ({
   const slug = window.location.href.split("/").pop();
   const [post, setPost] = useState<FetchPostType>({
     id: 0,
+    slug: "string",
     date: "string",
     link: "string",
     title: "string",
@@ -57,7 +58,7 @@ const PageSingleHasSidebar: FC<PageSingleHasSidebarProps> = ({
     }
   }, []);
 
-  useEffect(() => {});
+  useEffect(() => { });
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   useEffect(() => {

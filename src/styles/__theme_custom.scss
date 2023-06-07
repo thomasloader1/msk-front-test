@@ -1,3 +1,5 @@
+@import "./scss/abstract/colors";
+
 .root {
   overflow: hidden;
 }
@@ -44,7 +46,7 @@
 //
 .nc-box-has-hover {
   border: 0.05rem solid;
-  @apply bg-white  border border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent transition-shadow ;
+  @apply bg-white  border border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent transition-shadow;
 }
 
 .nc-dark-box-bg-has-hover {
@@ -221,11 +223,15 @@
 }
 
 .text-primary {
-  color: #9200AD;
+  color: #9200ad;
 }
 
 .invert-image {
   img {
     filter: invert(100%);
   }
+}
+
+.text-description {
+  color: $description-text;
 }

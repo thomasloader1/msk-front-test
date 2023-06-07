@@ -1,10 +1,12 @@
-import React from "react";
-import {Link, useHistory} from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
-import { Newsletter } from "../../data/types";
-import api from "../../Services/api";
+import NcModal from "components/NcModal/NcModal";
+import FooterNewsletter from "./Newsletter";
 
 const FooterEduman = () => {
+  const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -15,32 +17,11 @@ const FooterEduman = () => {
     }
   };
 
-  const history = useHistory();
-  const changeRoute = (newRoute: string): void => {
-    history.push(newRoute);
+  const openModal = (e: any) => {
+    e.preventDefault();
+    setShow(true);
   };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    console.log({ formData, target: event.target });
 
-    const jsonData: Newsletter = {
-      Email: "",
-    };
-
-    formData.forEach((value, key, parent) => {
-      if (key === "Email") {
-        jsonData.Email = value as string;
-      }
-    });
-    console.log({ jsonData });
-
-    const { response } = await api.postNewsletter(jsonData);
-
-    console.log(response);
-    changeRoute("/gracias?origen=newsletter")
-
-  };
   return (
     <footer>
       <div className="footer-area">
@@ -48,7 +29,7 @@ const FooterEduman = () => {
           <div className="copyright-area">
             <div className="footer-column ">
               <div className="copyright-text">
-                <p>Nuestro Newsletter</p>
+                <p>Nuestro newsletter</p>
               </div>
             </div>
             <div className="divisor" />
@@ -61,7 +42,7 @@ const FooterEduman = () => {
             <div className="footer-column">
               <div className="copyright-subcribe ">
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={openModal}
                   method="post"
                   className="widget__subscribe"
                 >
@@ -70,6 +51,7 @@ const FooterEduman = () => {
                       type="email"
                       name="Email"
                       placeholder="Ingresar e-mail"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <button type="submit">
@@ -144,7 +126,7 @@ const FooterEduman = () => {
                       <Link to="/partners">Conviértete en Partner</Link>
                     </li>
                     <li>
-                      <Link to="/faq">Preguntas frecuentes</Link>
+                      <Link to="/faq">Centro de ayuda</Link>
                     </li>
                     <li>
                       <Link to="/convenios">Convenios</Link>
@@ -188,6 +170,19 @@ const FooterEduman = () => {
           </div>
         </div>
       </div>
+      <NcModal
+        isOpenProp={show}
+        onCloseModal={() => {
+          setShow(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() => <FooterNewsletter email={email} />}
+        modalTitle="Nuestro Newsletter"
+        modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
+      />
     </footer>
   );
 };

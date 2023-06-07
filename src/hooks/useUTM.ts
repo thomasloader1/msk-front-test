@@ -12,16 +12,18 @@ const useUTM = (): void => {
     useEffect(() => {
         const captureUTMs = (): void => {
             const { search } = history.location;
-            const { utm_source, utm_medium, utm_campaign } = queryString.parse(search);
+            const { utm_source, utm_medium, utm_campaign, utm_content } = queryString.parse(search);
 
             // Actualiza los campos ocultos del formulario con los valores de UTM
             const utmSourceInput = document.getElementById('hidden-utm-source') as HTMLInputElement;
             const utmMediumInput = document.getElementById('hidden-utm-medium') as HTMLInputElement;
             const utmCampaignInput = document.getElementById('hidden-utm-campaign') as HTMLInputElement;
+            const utmContentInput = document.getElementById('hidden-utm-content') as HTMLInputElement;
 
             utmSourceInput.value = Array.isArray(utm_source) ? utm_source[0] || '' : utm_source || '';
             utmMediumInput.value = Array.isArray(utm_medium) ? utm_medium[0] || '' : utm_medium || '';
             utmCampaignInput.value = Array.isArray(utm_campaign) ? utm_campaign[0] || '' : utm_campaign || '';
+            utmContentInput.value = Array.isArray(utm_content) ? utm_content[0] || '' : utm_content || '';
         };
 
         captureUTMs();

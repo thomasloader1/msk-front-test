@@ -75,11 +75,11 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     const jsonData = Object.fromEntries(formData);
     const Temas_de_interes = filterSpecialities(jsonData as JsonData)
     const body = mappingSelectedSpecialities(jsonData as JsonData, Temas_de_interes)
-   // const { response } = await api.postNewsletter(body as Newsletter);
+    const { response } = await api.postNewsletter(body as Newsletter);
     console.log({body})
 
     setShow(false)
-    //changeRoute("/gracias?origen=newsletter");
+    changeRoute("/gracias?origen=newsletter");
   };
 
 

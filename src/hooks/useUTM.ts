@@ -1,61 +1,48 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 
 type UTMParams = {
-    [key: string]: string | undefined | null;
+  [key: string]: string;
 };
 
-const useUTM = (): void => {
-    const history = useHistory();
+const useUTM = (): UTMParams => {
+  const history = useHistory();
+  const [utmParams, setUtmParams] = useState<UTMParams>({})
+  
+  useEffect(() => {
+    const captureUTMs = () => {
+      const { search } = history.location;
+      const { utm_source, utm_medium, utm_campaign, utm_content } = queryString.parse(search);
 
-    useEffect(() => {
-        const captureUTMs = (): void => {
-            const { search } = history.location;
-            const { utm_source, utm_medium, utm_campaign, utm_content } = queryString.parse(search);
+      const utmParams: UTMParams = {
+        utm_source: Array.isArray(utm_source)
+          ? utm_source[0] || ''
+          : utm_source || '',
+        utm_medium: Array.isArray(utm_medium)
+          ? utm_medium[0] || ''
+          : utm_medium || '',
+        utm_campaign: Array.isArray(utm_campaign)
+          ? utm_campaign[0] || ''
+          : utm_campaign || '',
+        utm_content: Array.isArray(utm_content)
+          ? utm_content[0] || ''
+          : utm_content || '',
+      };
 
-            // Actualiza los campos ocultos del formulario con los valores de UTM
-            const utmSourceInput = document.getElementById('hidden-utm-source') as HTMLInputElement;
-            const utmMediumInput = document.getElementById('hidden-utm-medium') as HTMLInputElement;
-            const utmCampaignInput = document.getElementById('hidden-utm-campaign') as HTMLInputElement;
-            const utmContentInput = document.getElementById('hidden-utm-content') as HTMLInputElement;
+      setUtmParams(utmParams)
+    };
 
-            utmSourceInput.value = Array.isArray(utm_source) ? utm_source[0] || '' : utm_source || '';
-            utmMediumInput.value = Array.isArray(utm_medium) ? utm_medium[0] || '' : utm_medium || '';
-            utmCampaignInput.value = Array.isArray(utm_campaign) ? utm_campaign[0] || '' : utm_campaign || '';
-            utmContentInput.value = Array.isArray(utm_content) ? utm_content[0] || '' : utm_content || '';
-        };
+    captureUTMs();
 
-        captureUTMs();
+    const cleanup = (): void => {
+      // Aquí puedes realizar cualquier limpieza necesaria al desmontar el componente
+    };
 
-        // Cambia la URL sin recargar la página
-        const updateURL = (utmParams: UTMParams): void => {
-            const newURL = new URL(window.location.href);
+    return cleanup;
+  }, [history]);
 
-            Object.keys(utmParams).forEach((param) => {
-                newURL.searchParams.set(param, utmParams[param] || '');
-            });
-
-            history.push(newURL.pathname + newURL.search);
-        };
-
-        const setUTMs = (utmParams: UTMParams): void => {
-            // Actualiza los campos ocultos del formulario
-            Object.keys(utmParams).forEach((param) => {
-                const input = document.getElementById(`hidden-${param}`) as HTMLInputElement;
-                input.value = Array.isArray(utmParams[param]) ? utmParams[param]![0] || '' : utmParams[param] || '';
-            });
-
-            // Cambia la URL sin recargar la página
-            updateURL(utmParams);
-        };
-
-        const cleanup = (): void => {
-            // Aquí puedes realizar cualquier limpieza necesaria al desmontar el componente
-        };
-
-        return cleanup;
-    }, [history]);
+  return utmParams;
 };
 
 export default useUTM;

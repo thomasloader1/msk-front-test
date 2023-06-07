@@ -1,17 +1,18 @@
 import api from "Services/api";
 import Checkbox from "components/Checkbox/Checkbox";
 import Logo from "components/Logo/Logo";
-import SocialsList1 from "components/SocialsList1/SocialsList1";
-import { CATEGORIES } from "data/MSK/specialties";
-import { CustomLink, Newsletter, Profession, Specialty } from "data/types";
+import { Newsletter, Profession, Specialty } from "data/types";
+import useUTM from "hooks/useUTM";
 import { JsonData, filterSpecialities, mappingSelectedSpecialities } from "logic/NewsletterForm";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
   email: string;
-}
-const FooterNewsletter: FC<Props> = ({ email }) => {
+  setShow: (state:boolean) => void    
+  }
+
+const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [localEmail, setEmail] = useState(email);
   const [professions, setProfessions] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -21,18 +22,19 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
+  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
+  
+
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
     setProfessions(professionList);
   };
   const fetchSpecialties = async () => {
     const specialtyList = await api.getSpecialties();
-    console.log(specialtyList);
     setSpecialties(specialtyList);
   };
   const fetchNewsletterSpecialties = async () => {
     const newsletterSpecialtyList = await api.getNewsletterSpecialties();
-    console.log(newsletterSpecialtyList);
     setNewsletterSpecialties(newsletterSpecialtyList);
   };
 
@@ -59,9 +61,11 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
   }, []);
 
   const history = useHistory();
+
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
   };
+
   const formRef = useRef<HTMLFormElement>(null!);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,19 +75,13 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
     const jsonData = Object.fromEntries(formData);
     const Temas_de_interes = filterSpecialities(jsonData as JsonData)
     const body = mappingSelectedSpecialities(jsonData as JsonData, Temas_de_interes)
+   // const { response } = await api.postNewsletter(body as Newsletter);
+    console.log({body})
 
-    console.log({ body });
-    const { response } = await api.postNewsletter(body as Newsletter);
-    console.log({response})
-
-    changeRoute("/gracias?origen=newsletter");
+    setShow(false)
+    //changeRoute("/gracias?origen=newsletter");
   };
 
-  const logFormData = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    const formData = new FormData(formRef.current);
-    console.log(Object.fromEntries(formData));
-  };
 
   return (
     <form className="asdsad" ref={formRef} onSubmit={handleSubmit}>
@@ -219,6 +217,11 @@ const FooterNewsletter: FC<Props> = ({ email }) => {
           </button>
         </div>
       </div>
+
+      <input type="hidden" name="utm_source" value={utm_source} />
+      <input type="hidden" name="utm_medium" value={utm_medium} />
+      <input type="hidden" name="utm_campaign" value={utm_campaign} />
+      <input type="hidden" name="utm_content" value={utm_content} />
     </form>
   );
 };

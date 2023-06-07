@@ -51,6 +51,7 @@ const FooterEduman = () => {
                       type="email"
                       name="Email"
                       placeholder="Ingresar e-mail"
+                      required
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
@@ -179,7 +180,7 @@ const FooterEduman = () => {
           return null;
         }}
         contentExtraClass="max-w-screen-lg"
-        renderContent={() => <FooterNewsletter email={email} />}
+        renderContent={() => <FooterNewsletter email={email} setShow={setShow} />}
         modalTitle="Nuestro Newsletter"
         modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
       />

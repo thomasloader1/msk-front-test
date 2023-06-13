@@ -145,6 +145,14 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               )}
             </div>
 
+            <div className="order-last relative block lg:hidden">
+              <ProductDetailSidebar
+                ficha={product.ficha}
+                details={product.details}
+                isEbook={isEbook}
+              />
+            </div>
+
             {product.ficha.description ? (
               <div
                 className={
@@ -207,7 +215,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : (
               <p></p>
             )}
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2">
               {currentItems.length ? (
                 currentItems.map((instructor, index) => {
                   return (
@@ -232,7 +240,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             )}
           </div>
         </div>
-        <div className="order-first lg:order-last relative">
+        <div className="order-last relative hidden lg:block">
           <ProductDetailSidebar
             ficha={product.ficha}
             details={product.details}

@@ -215,9 +215,11 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     ? "Completa el formulario para descargar automáticamente el material"
                     : "Contáctanos"}
                 </h2>
-                <div className="flex gap-6 preferences">
-                  <p className="talk-through">Quiero hablar por</p>
-                  <div className="mt-1 flex gap-4">
+                <div className="flex flex-wrap gap-6 preferences">
+                  <p className="talk-through w-full md:w-auto">
+                    Quiero hablar por
+                  </p>
+                  <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Radio
                       name="Preferencia_de_contactaci_n"
                       label="Teléfono"
@@ -236,7 +238,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 grid-row-6 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="col-xl-6">
                   <div className="contact-from-input">
                     <input
@@ -361,10 +363,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 </a>
               </div>
               <div className="col-xl-2 mt-2">
-                <div className="cont-btn">
+                <div className="cont-btn ">
                   <button
                     type="submit"
-                    className="cont-btn"
+                    className="cont-btn "
                     disabled={!acceptConditions}
                   >
                     Enviar

@@ -8,6 +8,7 @@ export interface BadgeProps {
   color?: TwMainColor | string;
   href?: string;
   textSize?: string;
+  icon?: string;
 }
 
 const Badge: FC<BadgeProps> = ({
@@ -16,6 +17,7 @@ const Badge: FC<BadgeProps> = ({
   name,
   color = "blue",
   href,
+  icon,
 }) => {
   const getColorClass = (hasHover = true) => {
     switch (color) {
@@ -105,6 +107,11 @@ const Badge: FC<BadgeProps> = ({
     >
       {name}
     </Link>
+  ) : icon ? (
+    <div className={`${CLASSES} ${getColorClass(false)} `}>
+      <img src={`/src/images/icons/${icon}.svg`} width="15" className="mr-1" />
+      <span>{name}</span>
+    </div>
   ) : (
     <span className={`${CLASSES} ${getColorClass(false)} `}>{name}</span>
   );

@@ -3,14 +3,18 @@ import Checkbox from "components/Checkbox/Checkbox";
 import Logo from "components/Logo/Logo";
 import { Newsletter, Profession, Specialty } from "data/types";
 import useUTM from "hooks/useUTM";
-import { JsonData, filterSpecialities, mappingSelectedSpecialities } from "logic/NewsletterForm";
+import {
+  JsonData,
+  filterSpecialities,
+  mappingSelectedSpecialities,
+} from "logic/NewsletterForm";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
   email: string;
-  setShow: (state:boolean) => void    
-  }
+  setShow: (state: boolean) => void;
+}
 
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [localEmail, setEmail] = useState(email);
@@ -23,7 +27,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
-  
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -73,15 +76,17 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
 
     const formData = new FormData(formRef.current);
     const jsonData = Object.fromEntries(formData);
-    const Temas_de_interes = filterSpecialities(jsonData as JsonData)
-    const body = mappingSelectedSpecialities(jsonData as JsonData, Temas_de_interes)
+    const Temas_de_interes = filterSpecialities(jsonData as JsonData);
+    const body = mappingSelectedSpecialities(
+      jsonData as JsonData,
+      Temas_de_interes
+    );
     const { response } = await api.postNewsletter(body as Newsletter);
-    console.log({body})
+    console.log({ body });
 
-    setShow(false)
+    setShow(false);
     changeRoute("/gracias?origen=newsletter");
   };
-
 
   return (
     <form className="asdsad" ref={formRef} onSubmit={handleSubmit}>
@@ -129,12 +134,12 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             onChange={(e) => handleOptionProfessionChange(e)}
           >
             <option defaultValue="">Seleccionar profesión</option>
-            {professions
+            {professions && professions.length
               ? professions.map((p: Profession) => (
-                <option key={p.id} value={p.name}>
-                  {p.name}
-                </option>
-              ))
+                  <option key={p.id} value={p.name}>
+                    {p.name}
+                  </option>
+                ))
               : ""}
           </select>
           {showInputProfession && (
@@ -156,11 +161,13 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             onChange={(e) => handleOptionSpecialtyChange(e)}
           >
             <option defaultValue="">Seleccionar especialidad</option>
-            {specialties.map((s: Specialty) => (
-              <option key={s.id} defaultValue={s.name}>
-                {s.name}
-              </option>
-            ))}
+            {specialties && specialties.length
+              ? specialties.map((s: Specialty) => (
+                  <option key={s.id} defaultValue={s.name}>
+                    {s.name}
+                  </option>
+                ))
+              : null}
           </select>
           {showInputSpecialties && (
             <div className="contact-from-input my-4">
@@ -177,15 +184,17 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         Selecciona tus temas de interés
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
-        {newsletterSpecialties.map((specialty: Specialty) => (
-          <Checkbox
-            key={specialty.id}
-            name={specialty.name}
-            value={false}
-            label={specialty.name}
-            required={false}
-          />
-        ))}
+        {newsletterSpecialties && newsletterSpecialties.length
+          ? newsletterSpecialties.map((specialty: Specialty) => (
+              <Checkbox
+                key={specialty.id}
+                name={specialty.name}
+                value={false}
+                label={specialty.name}
+                required={false}
+              />
+            ))
+          : null}
       </div>
       <div className="flex justify-center flex-wrap items-center gap-8">
         <div className="flex gap-1 mt-3">
@@ -205,7 +214,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-          //onClick={logFormData} // Add onClick event handler
+            //onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme

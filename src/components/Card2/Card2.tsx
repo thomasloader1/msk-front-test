@@ -6,6 +6,7 @@ import {
   FetchCourseType,
   FetchPostType,
   PostDataType,
+  UserCourse,
 } from "data/types";
 import { Link } from "react-router-dom";
 import SocialsShare from "components/SocialsShare/SocialsShare";
@@ -17,7 +18,7 @@ import PostCardLikeAction from "components/PostCardLikeAction/PostCardLikeAction
 
 export interface Card2Props {
   className?: string;
-  post: FetchPostType | FetchCourseType;
+  post: FetchPostType | FetchCourseType | UserCourse;
   size?: "normal" | "large";
   hideDesc?: boolean;
   hideAuthor?: boolean;

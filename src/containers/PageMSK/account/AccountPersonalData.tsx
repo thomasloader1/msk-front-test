@@ -223,37 +223,15 @@ const DashboardEditProfile: FC<Props> = ({
             </label>
           )}
         </label>
-        <label className="block">
-          <Label>Contraseña</Label>
-          <Input
-            placeholder="Ingresar contraseña"
-            type="password"
-            className="mt-1 mb-2"
-            onChange={(event) =>
-              handleInputChange("password", event.target.value)
-            }
-          />
-          <span className="dark:text-primary-500 text-sm forgot-password">
-            ¿Olvidaste tu contraseña?{" "}
-            <a
-              className="nc-NcLink text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000 text-xs"
-              href="/recuperar"
-            >
-              Restablecer
-            </a>
-          </span>
-        </label>
-        <label className="block">
-          <Label>Confirmar contraseña</Label>
-          <Input
-            placeholder="Repetir contraseña"
-            type="password"
-            className="mt-1"
-            onChange={(event) =>
-              handleInputChange("confirm_password", event.target.value)
-            }
-          />
-        </label>
+        <span className="dark:text-primary-500 forgot-password col-span-2">
+          ¿Necesitas cambiar tu contraseña?{" "}
+          <a
+            className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
+            href="/recuperar"
+          >
+            Hazlo aquí
+          </a>
+        </span>
 
         <label className="block">
           <Label>Dirección</Label>

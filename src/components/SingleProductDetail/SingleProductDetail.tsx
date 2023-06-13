@@ -100,8 +100,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         </div>
 
                         <div>
-                          <span>Creado por</span>
-                          <h6 className="font-bold">
+                          <span className="raleway">Creado por</span>
+                          <div className="flex flex-col">
                             {isEbook ? (
                               <>
                                 {product.lista_de_cedentes
@@ -109,9 +109,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                                   : ""}
                               </>
                             ) : (
-                              <>{product.authors[0].name}</>
+                              <h6 className="raleway-bold">
+                                {product.authors[0].name}
+                              </h6>
                             )}
-                          </h6>
+                          </div>
                         </div>
                       </div>
                       <div className="border-line-meta"></div>
@@ -119,20 +121,20 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   ) : null}
                   {product.temario ? (
                     <>
-                      <div>
-                        <p>Contenido</p>
-                        <span className="font-bold">
+                      <div className="flex flex-col">
+                        <span className="raleway">Contenido</span>
+                        <h6 className="raleway-bold">
                           {product.temario["data"]?.row_count} módulos
-                        </span>
+                        </h6>
                       </div>
                       <div className="border-line-meta"></div>
                     </>
                   ) : null}
 
                   {product.details && product.details["duration"] ? (
-                    <div className="">
-                      <p>Duración</p>
-                      <span className="font-bold">
+                    <div className="flex flex-col">
+                      <span className="raleway">Duración</span>
+                      <span className="raleway-bold">
                         {product.details["duration"].value} horas estimadas
                       </span>
                     </div>
@@ -178,7 +180,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <></>
             )}
             {product.temario ? (
-              <ProductCurriculiam topics={product.temario} hours={product.details["duration"]}/>
+              <ProductCurriculiam
+                topics={product.temario}
+                hours={product.details["duration"]}
+              />
             ) : (
               <></>
             )}
@@ -245,7 +250,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <div className="container relative py-16 mt-16 ">
           <BackgroundSection />
           <SectionSliderPosts
-            postCardName="card20"
+            postCardName="card9"
             heading="Descubre otras capacitaciones destacadas"
             subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
             sliderStype="style2"

@@ -19,7 +19,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
         <title>MSK | Olvidaste la contraseña</title>
       </Helmet>
       <LayoutPage
-        heading="¿Olvidaste tu contraseña?"
+        heading="Cambiar contraseña"
         subHeading="Te enviaremos un correo para que puedas crear una nueva"
       >
         <div className="max-w-md mx-auto space-y-6">

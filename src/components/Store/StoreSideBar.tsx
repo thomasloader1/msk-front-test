@@ -91,23 +91,26 @@ const StoreSideBar: FC<Props> = ({
       const matchingResources: ResourceFilter[] = [];
 
       filterQueries.forEach((query) => {
-        const professionExists = professions.filter(
-          (item) => item.slug === query.trim()
-        );
-        if (professionExists.length) {
-          matchingProfessions.push(professionExists[0]);
-        } else {
-          const specialtiesExists = specialties.filter(
-            (item) => item.name === decodeURIComponent(query.trim())
+        if (professions.length && specialties.length && resources.length) {
+          const professionExists = professions.filter(
+            (item) => item.slug === query.trim()
           );
-          if (specialtiesExists.length) {
-            matchingSpecialties.push(specialtiesExists[0]);
+          if (professionExists.length) {
+            matchingProfessions.push(professionExists[0]);
           } else {
-            const resourceExists = resources.filter(
-              (item) => item.id.toString() === decodeURIComponent(query.trim())
+            const specialtiesExists = specialties.filter(
+              (item) => item.name === decodeURIComponent(query.trim())
             );
-            if (resourceExists.length) {
-              matchingResources.push(resourceExists[0]);
+            if (specialtiesExists.length) {
+              matchingSpecialties.push(specialtiesExists[0]);
+            } else {
+              const resourceExists = resources.filter(
+                (item) =>
+                  item.id.toString() === decodeURIComponent(query.trim())
+              );
+              if (resourceExists.length) {
+                matchingResources.push(resourceExists[0]);
+              }
             }
           }
         }
@@ -177,29 +180,31 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("categories")}>
             Especialidades
           </h3>
-          <ul>
-            {specialties.map((specialty, index) => {
-              return (
-                <li key={`spe_${index}`}>
-                  <div className="course-sidebar-list">
-                    <input
-                      className="edu-check-box"
-                      type="checkbox"
-                      id={`specialty_${specialty.id}`}
-                      onChange={(event) => onChangeSpecialty(specialty)}
-                      checked={isChecked("specialties", specialty)}
-                    />
-                    <label
-                      className="edu-check-label"
-                      htmlFor={`specialty_${specialty.id}`}
-                    >
-                      {specialty.name}
-                    </label>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          {specialties.length && (
+            <ul>
+              {specialties.map((specialty, index) => {
+                return (
+                  <li key={`spe_${index}`}>
+                    <div className="course-sidebar-list">
+                      <input
+                        className="edu-check-box"
+                        type="checkbox"
+                        id={`specialty_${specialty.id}`}
+                        onChange={(event) => onChangeSpecialty(specialty)}
+                        checked={isChecked("specialties", specialty)}
+                      />
+                      <label
+                        className="edu-check-label"
+                        htmlFor={`specialty_${specialty.id}`}
+                      >
+                        {specialty.name}
+                      </label>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
       <div className="course-sidebar-widget mb-2">
@@ -245,29 +250,31 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("price")}>
             Profesión
           </h3>
-          <ul>
-            {professions.map((profession, index: number) => {
-              return (
-                <li key={index}>
-                  <div className="course-sidebar-list">
-                    <input
-                      className="edu-check-box"
-                      type="checkbox"
-                      id={`profession_${profession.id}`}
-                      onChange={(event) => onChangeProfession(profession)}
-                      checked={isChecked("professions", profession)}
-                    />
-                    <label
-                      className="edu-check-label"
-                      htmlFor={`profession_${profession.id}`}
-                    >
-                      {profession.name}
-                    </label>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          {professions.length && (
+            <ul>
+              {professions.map((profession, index: number) => {
+                return (
+                  <li key={index}>
+                    <div className="course-sidebar-list">
+                      <input
+                        className="edu-check-box"
+                        type="checkbox"
+                        id={`profession_${profession.id}`}
+                        onChange={(event) => onChangeProfession(profession)}
+                        checked={isChecked("professions", profession)}
+                      />
+                      <label
+                        className="edu-check-label"
+                        htmlFor={`profession_${profession.id}`}
+                      >
+                        {profession.name}
+                      </label>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
 

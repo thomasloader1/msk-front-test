@@ -180,7 +180,9 @@ const FooterEduman = () => {
           return null;
         }}
         contentExtraClass="max-w-screen-lg"
-        renderContent={() => <FooterNewsletter email={email} setShow={setShow} />}
+        renderContent={() => (
+          <FooterNewsletter email={email} setShow={setShow} />
+        )}
         modalTitle="Nuestro Newsletter"
         modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
       />

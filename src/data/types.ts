@@ -79,8 +79,11 @@ export interface UserCourse {
   status?: string;
   status_payment?: string;
   title?: string;
-
   featured_image?: string;
+  slug?: string;
+  id?: string | number;
+  categories?: any;
+  image?: string;
 }
 
 export interface User {

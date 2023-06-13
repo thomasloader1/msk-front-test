@@ -9,8 +9,13 @@ import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
-import { FetchPostType, User } from "data/types";
+import { FetchPostType, User, UserCourse } from "data/types";
 import api from "Services/api";
+import ButtonPrimary from "components/Button/ButtonPrimary";
+import { useHistory } from "react-router-dom";
+import { getUserProducts } from "Services/user";
+import axios from "axios";
+import { ALL_PRODUCTS_MX } from "data/api";
 
 export interface PageAuthorProps {
   className?: string;
@@ -20,15 +25,21 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Todo", "Mis cursos", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<FetchPostType[]>([]);
+  const [posts, setPosts] = useState<FetchPostType[] | UserCourse[]>([]);
+  const [auxPosts, setAuxPosts] = useState<FetchPostType[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
+  const [userCourses, setUserCourses] = useState<UserCourse[]>(
+    [] as UserCourse[]
+  );
   const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const history = useHistory();
 
   const fetchCourses = async () => {
-    const res = await api.getAllCourses();
-    setPosts(res);
+    const res = await axios.get(`${ALL_PRODUCTS_MX}`);
+    setPosts(res.data.products);
+    setAuxPosts(res.data.products);
   };
   const fetchBestSeller = async () => {
     const res = await api.getBestSellers();
@@ -36,9 +47,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   const fetchUser = async () => {
+    const productList = await axios.get(`${ALL_PRODUCTS_MX}`);
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
+      let coursesList = getUserProducts(res, productList.data.products);
+      setUserCourses(coursesList);
     } else {
       console.log(res.response.status);
     }
@@ -52,13 +66,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
   const handleClickTab = (item: string) => {
     if (item === "Todo") {
-      setPosts(posts.filter((_, i: number) => i < 5 && i >= 1));
+      setPosts(auxPosts);
+    } else if (item == "Mis cursos") {
+      setPosts(userCourses);
     } else {
-      const filteredPosts = posts
-        .filter((post) =>
-          post.categories?.some((category: any) => category.name === item)
-        )
-        .filter((_, i: number) => i < 5 && i >= 1);
+      const filteredPosts = auxPosts.filter((post) =>
+        post.categories?.some((category: any) => category.name === item)
+      );
       setPosts(filteredPosts);
     }
     if (item === tabActive) {
@@ -100,6 +114,10 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       href: "/mi-cuenta/perfil",
     },
   ];
+
+  const goToStore = () => {
+    tabActive == "Favoritos" ? history.push("/") : history.push("/tienda");
+  };
 
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
@@ -149,21 +167,38 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             </div>
           </div>
 
-          {/* LOOP ITEMS */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10">
-            {currentItems.map((post) => (
-              <Card2 key={post.id} post={post} hideDesc hideAuthor />
-            ))}
-          </div>
+          {currentItems.length ? (
+            <>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10">
+                {currentItems.map((post) => (
+                  <Card2 key={post.id} post={post} hideDesc hideAuthor />
+                ))}
+              </div>
 
-          {/* PAGINATION */}
-          <div className="flex justify-center">
-            <StorePagination
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              currentPage={currentPage}
-            />
-          </div>
+              <div className="flex justify-center">
+                <StorePagination
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  currentPage={currentPage}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col justify-center items-center gap-6 my-24 lg:mt-10">
+              <p className="raleway text-3xl w-full md:w-1/2 text-center">
+                Aún puedes descubrir mucho más en Medical & Scientific Knowledge
+              </p>
+              <ButtonPrimary
+                onClick={goToStore}
+                sizeClass="py-3 "
+                className="font-semibold px-6"
+              >
+                {tabActive == "Favoritos"
+                  ? "Comienza tu experiencia"
+                  : "Comienza un curso"}
+              </ButtonPrimary>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories.map((item, i) => (

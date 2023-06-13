@@ -20,6 +20,7 @@ import { FetchCourseType } from "data/types";
 import React, { FC, Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import SearchProducts from "./SearchProducts";
+import ModalSignOut from "components/Modal/SignOut";
 const solutions = [
   {
     name: "Eden Tuan",
@@ -45,11 +46,10 @@ export interface MainNav2Props {}
 const MainNav2: FC<MainNav2Props> = () => {
   const { state } = useContext(AuthContext);
   const { dispatch } = useContext(AuthContext);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
+  const handleModalLogout = () => {
+    setIsModalOpen(!isModalOpen);
   };
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
@@ -92,7 +92,7 @@ const MainNav2: FC<MainNav2Props> = () => {
             {state.isAuthenticated ? (
               <>
                 <ButtonSecondary
-                  onClick={() => handleLogout()}
+                  onClick={() => handleModalLogout()}
                   sizeClass="px-4 py-2 sm:px-5"
                   className="border-solid border-1 border-neutral-200"
                   bordered
@@ -134,6 +134,7 @@ const MainNav2: FC<MainNav2Props> = () => {
           </div>
         </div>
       </div>
+      <ModalSignOut open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

@@ -20,6 +20,8 @@ import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "../../data/api";
+import ModalSignOut from "components/Modal/SignOut";
+import { getUserProducts } from "Services/user";
 
 export interface PageDashboardProps {
   className?: string;
@@ -48,8 +50,10 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [isLoading, setLoading] = useState(false);
-  const { dispatch } = useContext(AuthContext);
-  const history = useHistory();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalLogout = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   const subPages: DashboardPage[] = [
     {
       sPath: "/inicio",
@@ -78,11 +82,6 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
   ];
 
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-    history.push("/");
-  };
-
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
     setProfessions(professionList);
@@ -93,31 +92,11 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   };
 
   const fetchUser = async () => {
-    const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`); //Todo: this should be in storage so we don't query it everytime
+    const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
-      let coursesList = [] as UserCourse[];
-      res.contact.contracts.map((contract: Contract) => {
-        contract.products.map((product: UserCourse) => {
-          product.status = contract.status;
-          product.status_payment = contract.status_payment;
-          product.title = product.product_code;
-          let globalProduct = allCourses.data.products.find(
-            (productAux: { product_code: string }) =>
-              productAux.product_code == product.product_code
-          );
-          if (globalProduct) {
-            product.title = globalProduct.title;
-            if (globalProduct.image) {
-              const imageURL = globalProduct.image.replace("mx.", "");
-              product.featured_image = imageURL;
-            }
-          }
-          console.log(allCourses.data.products);
-          coursesList.push(product);
-        });
-      });
+      let coursesList = getUserProducts(res, allCourses.data.products);
       setCourses(coursesList);
       setLoading(false);
     } else {
@@ -164,7 +143,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                   </li>
                 );
               })}
-              <li className="cursor-pointer" onClick={handleLogout}>
+              <li className="cursor-pointer" onClick={handleModalLogout}>
                 <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                   <img
                     src={`/src/images/icons/session.svg`}
@@ -200,6 +179,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
           </div>
         </div>
       </LayoutPage>
+      <ModalSignOut open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

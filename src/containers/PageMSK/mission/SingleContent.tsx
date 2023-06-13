@@ -6,6 +6,7 @@ import { HOME_COURSES } from "data/MSK/courses";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import axios from "axios";
 import { API_URL } from "data/api";
+import api from "Services/api";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -13,14 +14,13 @@ export interface SingleContentProps {
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
   const [courses, setCourses] = useState([]);
-  const { tags, author, commentCount, comments } = data;
   const commentRef = useRef<HTMLDivElement>(null);
   //
   const location = useLocation();
 
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products?country=mx`);
-    setCourses(res.data.products);
+    const res = await api.getBestSellers();
+    setCourses(res);
   };
   useEffect(() => {
     fetchCourses();
@@ -66,7 +66,11 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         </p>
         <img src="/src/images/misc/woman_pc.png" alt="" />
         <p className="font-lora text- text-xl">
-          Quienes hacemos Medical & Scientific Knowledge <strong>queremos acompañar y ayudar a cada persona en un camino de retos y crecimiento laboral.</strong>
+          Quienes hacemos Medical & Scientific Knowledge{" "}
+          <strong>
+            queremos acompañar y ayudar a cada persona en un camino de retos y
+            crecimiento laboral.
+          </strong>
           Todos los cursos que ofrecemos están desarrollados por sellos,
           instituciones y autores de prestigio. La capacitación se realiza en un
           campus virtual práctico y cada profesional tendrá el apoyo y la

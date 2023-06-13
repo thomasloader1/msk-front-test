@@ -21,12 +21,7 @@ const Card9: FC<Card9Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, slug, image } = post;
-  const imageURL = image ? image.replace("mx.", "") : '';
-
-  // const author = {
-  //   href: "",
-  //   displayName: "",
-  // };
+  const imageURL = image ? image.replace("mx.", "") : "";
 
   const renderMeta = () => {
     return (
@@ -38,15 +33,15 @@ const Card9: FC<Card9Props> = ({
             </span>
           </h2>
 
-          {/* <>
-              {showDescription ? (
-                <div className="hidden sm:block mt-2">
-                  <span className="text-neutral-300 text-sm line-clamp-1">
-                    {author}
-                  </span>
-                </div>
-              ) : null}
-            </> */}
+          <>
+            {showDescription && post.lista_de_cedentes ? (
+              <div className="hidden sm:block mt-2">
+                <span className="text-neutral-300 text-sm line-clamp-1">
+                  {post.lista_de_cedentes[0].post_title}
+                </span>
+              </div>
+            ) : null}
+          </>
         </div>
       </div>
     );

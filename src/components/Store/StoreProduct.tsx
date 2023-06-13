@@ -74,11 +74,14 @@ const StoreProduct: FC<Props> = ({
         <div className="portfolio-course-wrapper">
           <div className="flex gap-2">
             {product.duration ? null : (
-              <Badge
-                color="emerald-post"
-                name="Guía profesional"
-                textSize="text-xs"
-              />
+              <>
+                <Badge
+                  icon="elearning"
+                  color="emerald-post"
+                  name="Guía profesional"
+                  textSize="text-xs"
+                />
+              </>
             )}
             <CategoryBadgeList categories={product.categories} color="yellow" />
           </div>
@@ -102,7 +105,9 @@ const StoreProduct: FC<Props> = ({
             <i className="flaticon-clock"></i>
             <span>{product.duration} horas</span>
           </div>
-        ) : (<div></div>)}
+        ) : (
+          <div></div>
+        )}
 
         <Link
           to={`/curso/${product.slug}`}

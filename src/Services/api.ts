@@ -4,8 +4,8 @@ import { API_URL } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
-const { PROD, VITE_PUBLIC_URL } = import.meta.env
-const baseUrl = PROD ? VITE_PUBLIC_URL : "http://localhost:8000"
+const { PROD, VITE_PUBLIC_URL } = import.meta.env;
+const baseUrl = PROD ? VITE_PUBLIC_URL : "https://msklatam.com";
 
 const baseURLLocal = "http://localhost:8000/api/crm";
 const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";
@@ -127,7 +127,7 @@ class ApiService {
   async getProfessions() {
     try {
       const res = await axios.get(
-      `${baseUrl}/msk-laravel/public/api/professions`
+        `${baseUrl}/msk-laravel/public/api/professions`
       );
 
       return res.data;
@@ -139,7 +139,7 @@ class ApiService {
   async getStoreProfessions() {
     try {
       const res = await axios.get(
-      `${baseUrl}/msk-laravel/public/api/store/professions`
+        `${baseUrl}/msk-laravel/public/api/store/professions`
       );
       res.data.map((profession: any) => {
         switch (profession.name) {
@@ -163,8 +163,7 @@ class ApiService {
   async getSpecialties() {
     try {
       const res = await axios.get(
-      `${baseUrl}/msk-laravel/public/api/specialities`
-
+        `${baseUrl}/msk-laravel/public/api/specialities`
       );
       return res.data;
     } catch (error) {
@@ -175,7 +174,7 @@ class ApiService {
   async getNewsletterSpecialties() {
     try {
       const res = await axios.get(
-      `${baseUrl}/msk-laravel/public/api/newsletter/specialities`
+        `${baseUrl}/msk-laravel/public/api/newsletter/specialities`
       );
       return res.data;
     } catch (error) {

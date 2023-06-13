@@ -62,9 +62,13 @@ const Card8: FC<Card8Props> = ({
             {title}
           </Link>
         </h2>
-        <div className="hidden sm:block mt-2">
-          {/* <span className="text-neutral-300 text-sm line-clamp-1">{ author }</span> */}
-        </div>
+        {post.lista_de_cedentes ? (
+          <div className="hidden sm:block mt-2">
+            <span className="text-neutral-300 text-sm line-clamp-1">
+              {post.lista_de_cedentes[0].post_title}
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   );

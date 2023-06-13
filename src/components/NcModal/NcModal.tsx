@@ -19,9 +19,9 @@ const NcModal: FC<NcModalProps> = ({
   renderTrigger,
   renderContent,
   contentExtraClass = "max-w-screen-xl",
-  contentPaddingClass = "py-4 px-6 md:py-5",
+  contentPaddingClass = "py-4 px-4 md:py-5",
   triggerText = "Open Modal",
-  modalTitle = "Modal title",
+  modalTitle = "",
   modalSubtitle = "",
   isOpenProp,
   onCloseModal,
@@ -91,9 +91,9 @@ const NcModal: FC<NcModalProps> = ({
               <div
                 className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-white border border-black border-opacity-5 shadow-xl rounded-2xl sm:my-8 dark:bg-neutral-800 dark:border-neutral-700 text-neutral-900 dark:text-neutral-300 ${contentExtraClass}`}
               >
-                <div className="py-4 px-6 relative border-b border-neutral-100 dark:border-neutral-700 md:py-6">
-                  {modalTitle && (
-                    <>
+                {modalTitle && (
+                  <>
+                    <div className="py-4 px-6 relative border-b border-neutral-100 dark:border-neutral-700 md:py-6">
                       <Dialog.Title
                         as="h3"
                         className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway pl-4"
@@ -106,13 +106,13 @@ const NcModal: FC<NcModalProps> = ({
                       >
                         {modalSubtitle}
                       </Dialog.Description>
-                    </>
-                  )}
-                  <ButtonClose
-                    onClick={closeModal}
-                    className="absolute right-8 top-1/2 transform -translate-y-1/2 sm:right-8"
-                  />
-                </div>
+                      <ButtonClose
+                        onClick={closeModal}
+                        className="absolute right-8 top-1/2 transform -translate-y-1/2 sm:right-8"
+                      />
+                    </div>
+                  </>
+                )}
                 <div className={`${contentPaddingClass} mx-2`}>
                   {renderContent()}
                 </div>

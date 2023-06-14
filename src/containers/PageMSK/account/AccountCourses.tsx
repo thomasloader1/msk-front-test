@@ -61,7 +61,7 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
               }
               <span className="text-sm"> {item.status}</span>
               <div className="w-full">
-                <ButtonPrimary sizeClass="py-1 sm:px-5">
+                <ButtonPrimary sizeClass="py-1 px-3 sm:px-5">
                   <span className="text-sm">
                     {item.status_payment != "Activo"
                       ? "Activar"

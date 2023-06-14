@@ -5,7 +5,7 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
 const { PROD, VITE_PUBLIC_URL } = import.meta.env;
-const baseUrl = PROD ? VITE_PUBLIC_URL : "https://msklatam.com";
+const baseUrl = PROD ? VITE_PUBLIC_URL : "http://localhost:8000";
 
 const baseURLLocal = "http://localhost:8000/api/crm";
 const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";

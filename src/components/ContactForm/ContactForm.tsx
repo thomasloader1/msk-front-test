@@ -351,7 +351,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                   ></textarea>
                 </div>
               </div>
-              <div className="flex gap-1 mt-2 mb-4">
+              <div className="flex flex-wrap gap-1 mt-2 mb-4">
                 <Checkbox
                   name="Terms_And_Conditions"
                   value={acceptConditions}

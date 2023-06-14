@@ -26,20 +26,20 @@ const FooterEduman = () => {
     <footer>
       <div className="footer-area">
         <div className={bts.container}>
-          <div className="copyright-area">
-            <div className="footer-column ">
+          <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1">
+            <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
               <div className="copyright-text">
                 <p>Nuestro newsletter</p>
               </div>
             </div>
-            <div className="divisor" />
-            <div className="footer-column">
-              <p className="discounts">
+            <div className="footer-column col-span-6 mx-auto lg:col-span-2">
+              <div className="divisor" />
+              <p className="discounts md:mx-auto text-center md:text-left">
                 Descuentos exclusivos y becas completas solo con tu suscripción
               </p>
+              <div className="divisor" />
             </div>
-            <div className="divisor" />
-            <div className="footer-column">
+            <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-3">
               <div className="copyright-subcribe ">
                 <form
                   onSubmit={openModal}
@@ -66,7 +66,7 @@ const FooterEduman = () => {
           <div className="footer-main">
             <div className={bts.row}>
               <div
-                className={`${bts["col-xl-5"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]}`}
+                className={`${bts["col-xl-5"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-1`}
               >
                 <div className="footer-widget f-w1 mb-20">
                   <div className="footer-img">
@@ -116,7 +116,7 @@ const FooterEduman = () => {
                 </div>
               </div>
               <div
-                className={`${bts["col-xl-3"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]}`}
+                className={`${bts["col-xl-3"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-2`}
               >
                 <div className="footer-widget f-w3 mt-24">
                   <ul>
@@ -136,7 +136,7 @@ const FooterEduman = () => {
                 </div>
               </div>
               <div
-                className={`${bts["col-xl-4"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]}`}
+                className={`${bts["col-xl-4"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-3`}
               >
                 <div className="footer-widget f-w4 mt-24">
                   <ul>

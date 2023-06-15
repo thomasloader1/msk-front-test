@@ -19,6 +19,7 @@ interface Props {
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
+  console.log(product);
   const textRef = useRef<HTMLDivElement>(null);
   const [bestSeller, setBestSeller] = useState([]);
   const fetchBestSeller = async () => {
@@ -203,7 +204,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             {product.goals && (
               <>
                 <CourseRequirements
-                  title="Objetivos"
+                  title={isEbook ? "Qué aprenderás" : "Objetivos"}
                   requirements={productsGoals(product.goals)}
                 />
               </>
@@ -259,7 +260,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           <BackgroundSection />
           <SectionSliderPosts
             postCardName="card9"
-            heading="Descubre otras capacitaciones destacadas"
+            heading="¿Buscas capacitarte a distancia?"
             subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
             sliderStype="style2"
             posts={bestSeller}

@@ -183,7 +183,8 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     console.log(response);
     setFormSent(true);
     resetForm();
-    changeRoute("/gracias?origen=contact");
+    let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
+    changeRoute(routeChange);
   };
   return (
     <>
@@ -212,7 +213,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
               <div className={`section-title mb-30`}>
                 <h2>
                   {isEbook
-                    ? "Completa el formulario para descargar automáticamente el material"
+                    ? "Completa tus datos y obtén la guía ahora"
                     : "Contáctanos"}
                 </h2>
                 <div className="flex flex-wrap gap-6 preferences">
@@ -232,7 +233,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     />
                     <Radio
                       name="Preferencia_de_contactaci_n"
-                      label="Whatsapp"
+                      label="WhatsApp"
                       id="Contact_Method_Whatsapp"
                     />
                   </div>
@@ -342,15 +343,20 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                   )}
                 </div>
               </div>
-              <div className="col-xl-12 mt-4">
-                <div className="contact-from-input">
+              {isEbook ? (
+                  <>
+                  </>
+              ) : (
+                  <div className="col-xl-12 mt-4">
+                    <div className="contact-from-input">
                   <textarea
-                    placeholder="Mensaje"
-                    id="Message"
-                    name="Description"
+                      placeholder="Mensaje"
+                      id="Message"
+                      name="Description"
                   ></textarea>
-                </div>
-              </div>
+                    </div>
+                  </div>
+              )}
               <div className="flex flex-wrap gap-1 mt-2 mb-4">
                 <Checkbox
                   name="Terms_And_Conditions"
@@ -369,7 +375,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     className="cont-btn "
                     disabled={!acceptConditions}
                   >
-                    Enviar
+                    {isEbook ? 'Descargar' : 'Enviar'}
                   </button>
                 </div>
               </div>

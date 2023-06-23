@@ -4,11 +4,8 @@ import { API_URL } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
-const { PROD, VITE_PUBLIC_URL } = import.meta.env;
-const baseUrl = PROD ? VITE_PUBLIC_URL : "http://localhost:8000";
-
-const baseURLLocal = "http://localhost:8000/api/crm";
-const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";
+const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
+const baseUrl = PROD ? VITE_PUBLIC_URL : VITE_PUBLIC_URL_DEV;
 
 const apiSignUpURL = `${baseUrl}/msk-laravel/public/api/signup`;
 const apiSignInURL = `${baseUrl}/msk-laravel/public/api/login`;
@@ -52,7 +49,7 @@ class ApiService {
   async getEmailByIdZohoCRM(module: string, email: string) {
     try {
       const { data } = await axios.get(
-        `${baseURLPRD}/GetByEmail/${module}/${email}`
+        `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
       );
       return data;
     } catch (e) {
@@ -63,7 +60,7 @@ class ApiService {
   async postContactUs(jsonData: ContactUs) {
     try {
       const { data } = await axios.post(
-        `${baseURLPRD}/CreateLeadHomeContactUs`,
+        `${baseUrl}/api/crm/CreateLeadHomeContactUs`,
         jsonData
       );
       return data;
@@ -76,7 +73,7 @@ class ApiService {
   async postNewsletter(jsonData: Newsletter) {
     try {
       const { data } = await axios.post(
-        `${baseURLPRD}/CreateLeadHomeNewsletter`,
+        `${baseUrl}/api/crm/CreateLeadHomeNewsletter`,
         jsonData
       );
       return data;

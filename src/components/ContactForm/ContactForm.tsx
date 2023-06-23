@@ -4,8 +4,6 @@ import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import "react-phone-number-input/style.css";
 import PhoneInput, {
-  Country,
-  getCountryCallingCode,
   parsePhoneNumber,
 } from "react-phone-number-input";
 import { Profession, Specialty } from "data/types";
@@ -15,8 +13,7 @@ import Radio from "components/Radio/Radio";
 import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
-// import 'react-intl-tel-input/dist/main.css';
-// import IntlTelInput from 'react-intl-tel-input';
+import useUTM from "hooks/useUTM";
 
 const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -31,7 +28,8 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
-  let [formSent, setFormSent] = useState(false);
+  const [formSent, setFormSent] = useState(false);
+  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -186,6 +184,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
     changeRoute(routeChange);
   };
+
   return (
     <>
       <div className="col-span-2" id="contactanos">
@@ -205,10 +204,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 value={productName}
               />
 
-              <input type="hidden" name="utm_source" disabled />
-              <input type="hidden" name="utm_medium" disabled />
-              <input type="hidden" name="utm_campaign" disabled />
-              <input type="hidden" name="utm_content" disabled />
+              <input type="hidden" name="utm_source" value={utm_source} />
+              <input type="hidden" name="utm_medium" value={utm_medium} />
+              <input type="hidden" name="utm_campaign" value={utm_campaign} />
+              <input type="hidden" name="utm_content" value={utm_content} />
 
               <div className={`section-title mb-30`}>
                 <h2>
@@ -297,10 +296,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                       <option defaultValue="">Seleccionar profesión</option>
                       {professions
                         ? professions.map((p) => (
-                            <option key={p.id} value={p.name}>
-                              {p.name}
-                            </option>
-                          ))
+                          <option key={p.id} value={p.name}>
+                            {p.name}
+                          </option>
+                        ))
                         : ""}
                     </select>
                   </div>
@@ -344,18 +343,18 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 </div>
               </div>
               {isEbook ? (
-                  <>
-                  </>
+                <>
+                </>
               ) : (
-                  <div className="col-xl-12 mt-4">
-                    <div className="contact-from-input">
-                  <textarea
+                <div className="col-xl-12 mt-4">
+                  <div className="contact-from-input">
+                    <textarea
                       placeholder="Mensaje"
                       id="Message"
                       name="Description"
-                  ></textarea>
-                    </div>
+                    ></textarea>
                   </div>
+                </div>
               )}
               <div className="flex flex-wrap gap-1 mt-2 mb-4">
                 <Checkbox

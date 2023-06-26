@@ -185,8 +185,8 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     console.log(response);
     setFormSent(true);
     resetForm();
-    /*  let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
-     changeRoute(routeChange); */
+    let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
+    changeRoute(routeChange);
   };
 
   return (

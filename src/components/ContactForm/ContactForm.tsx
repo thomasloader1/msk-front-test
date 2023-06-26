@@ -98,7 +98,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log({ formData, target: event.target });
+    //console.log({ formData, target: event.target });
 
     const jsonData: ContactUs = {
       First_Name: "",
@@ -140,6 +140,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
         jsonData.Email = value as string;
       }
       if (key === "Phone") {
+        console.log({ selectedCountry })
         jsonData.Phone = phoneNumber;
         jsonData.Pais = selectedCountry;
       }

@@ -14,6 +14,7 @@ import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
 import { Helmet } from 'react-helmet'
+import useProductDetails from "hooks/useProductDetails";
 interface Props {
   product: FetchSingleProduct;
 }
@@ -64,9 +65,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     return listOfGoals;
   };
 
-  const isEbook = Object.values(product.details).some((detail) =>
-    detail.value.includes("Ebook")
-  );
+
+  const { isEbook, imagen, title } = useProductDetails(product);
 
   // @ts-ignore
   return (
@@ -82,13 +82,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <div className="">
           <div className="course-details-wrapper">
             <div className="flex gap-2">
-              {isEbook ? (
+              {isEbook && (
                 <Badge
                   color="emerald-post"
                   name="Guía profesional"
                   textSize="text-xs"
                 />
-              ) : null}
+              )}
               <CategoryBadgeList categories={product.ficha.categorias} />
             </div>
             <div className="course-heading mb-10 my-5">
@@ -103,26 +103,22 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     <>
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
+
                           <img
-                            src={product.authors[0].image.replace("mx.", "")}
-                            alt="course-meta"
+                            src={imagen}
+                            alt={title}
                           />
+
                         </div>
 
                         <div>
                           <span className="raleway">Creado por</span>
                           <div className="flex flex-col">
-                            {isEbook ? (
-                              <>
-                                {product.lista_de_cedentes
-                                  ? product.lista_de_cedentes[0].post_title
-                                  : ""}
-                              </>
-                            ) : (
-                              <h6 className="raleway-bold">
-                                {product.authors[0].name}
-                              </h6>
-                            )}
+
+                            <h6 className="raleway-bold">
+                              {title}
+                            </h6>
+
                           </div>
                         </div>
                       </div>

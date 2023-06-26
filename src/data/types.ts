@@ -304,6 +304,13 @@ export interface ProductAuthor {
   specialties: string[];
   centres: string[];
 }
+
+export interface Cedente {
+  ID: number;
+  post_title: string;
+  post_type: string;
+  imagen: string;
+}
 export interface FetchSingleProduct {
   ficha: Ficha;
   description: string;
@@ -315,7 +322,7 @@ export interface FetchSingleProduct {
   evaluacion: Evaluation;
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
-  lista_de_cedentes?: ProductAuthor[];
+  lista_de_cedentes?: Cedente[];
 }
 export interface FetchCourseType {
   id: number;

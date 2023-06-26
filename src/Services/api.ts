@@ -5,7 +5,7 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
-const baseUrl = PROD ? VITE_PUBLIC_URL : VITE_PUBLIC_URL_DEV;
+const baseUrl = PROD ? VITE_PUBLIC_URL : 'http://localhost:8000';
 
 const apiSignUpURL = `${baseUrl}/msk-laravel/public/api/signup`;
 const apiSignInURL = `${baseUrl}/msk-laravel/public/api/login`;
@@ -49,7 +49,7 @@ class ApiService {
   async getEmailByIdZohoCRM(module: string, email: string) {
     try {
       const { data } = await axios.get(
-        `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
+        `${baseUrl}/msk-laravel/public/api/crm/GetByEmail/${module}/${email}`
       );
       return data;
     } catch (e) {
@@ -60,7 +60,7 @@ class ApiService {
   async postContactUs(jsonData: ContactUs) {
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/crm/CreateLeadHomeContactUs`,
+        `${baseUrl}/msk-laravel/public/api/crm/CreateLeadHomeContactUs`,
         jsonData
       );
       return data;
@@ -73,7 +73,7 @@ class ApiService {
   async postNewsletter(jsonData: Newsletter) {
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/crm/CreateLeadHomeNewsletter`,
+        `${baseUrl}/msk-laravel/public/api/crm/CreateLeadHomeNewsletter`,
         jsonData
       );
       return data;

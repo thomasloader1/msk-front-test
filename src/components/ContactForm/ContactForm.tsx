@@ -4,7 +4,7 @@ import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import "react-phone-number-input/style.css";
 import PhoneInput, {
-  parsePhoneNumber,
+  parsePhoneNumber, getCountries
 } from "react-phone-number-input";
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
@@ -14,6 +14,7 @@ import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
 import useUTM from "hooks/useUTM";
+import { getName } from 'country-list';
 
 const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -37,12 +38,13 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   };
 
   const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value);
     console.log(value, typeof value);
     if (typeof value !== "undefined") {
       const parsedPhoneNumber = parsePhoneNumber(value);
       if (parsedPhoneNumber?.country) {
-        setSelectedCountry(parsedPhoneNumber.country);
+        const country = getName(parsedPhoneNumber.country) as string;
+        setSelectedCountry(country);
+        setPhoneNumber(value);
       }
     }
   };
@@ -56,6 +58,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       setAcceptConditions(false);
       setSelectedOptionProfession("");
       setSelectedOptionSpecialty("");
+      setSelectedCountry('')
     }
   };
 
@@ -182,8 +185,8 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     console.log(response);
     setFormSent(true);
     resetForm();
-    let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
-    changeRoute(routeChange);
+    /*  let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
+     changeRoute(routeChange); */
   };
 
   return (

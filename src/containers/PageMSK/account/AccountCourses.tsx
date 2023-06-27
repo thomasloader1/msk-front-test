@@ -1,20 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import NcImage from "components/NcImage/NcImage";
 import Pagination from "components/Pagination/Pagination";
 import Badge from "components/Badge/Badge";
-import { UserCourse } from "data/types";
+import { UserCourseProgress } from "data/types";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import api from "Services/api";
+import { AuthContext } from "context/user/AuthContext";
 
 interface AccountCoursesProps {
-  courses: UserCourse[];
+  courses: UserCourseProgress[];
+  email: string
 }
 
-const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
+const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
+  //console.log({ courses, email })
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
@@ -33,6 +37,13 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
   const goToStore = () => {
     history.push("/tienda");
   };
+
+  const goToLMS = async (cod_curso: string, email: string) => {
+    const { sso } = await api.getLinkLMS(cod_curso, email)
+    console.log({ sso })
+    window.open(sso, '_blank');
+  }
+
   return isMobile ? (
     <>
       {courses && courses.length ? (
@@ -61,9 +72,11 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses }) => {
               }
               <span className="text-sm"> {item.status}</span>
               <div className="w-full">
-                <ButtonPrimary sizeClass="py-1 px-3 sm:px-5">
+                <ButtonPrimary
+                  onClick={() => goToLMS(item.product_code_cedente, email)}
+                  sizeClass="py-1 px-3 sm:px-5">
                   <span className="text-sm">
-                    {item.status_payment != "Activo"
+                    {item.status != "Activo"
                       ? "Activar"
                       : "Ir al curso"}
                   </span>

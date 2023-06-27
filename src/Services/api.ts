@@ -5,7 +5,7 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
-const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : 'http://localhost:8000';
+const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : VITE_PUBLIC_URL_DEV //'http://localhost:8000';
 
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;
@@ -176,6 +176,15 @@ class ApiService {
       return res.data;
     } catch (error) {
       return error;
+    }
+  }
+
+  async getLinkLMS(cod_curso: string, email: string) {
+    try {
+      const { data } = await axios.post(`${baseUrl}/api/sso/link`, { cod_curso, email });
+      return data
+    } catch (error) {
+      return error
     }
   }
 }

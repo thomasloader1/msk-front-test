@@ -87,6 +87,8 @@ export interface CourseProgress {
   entity_id_crm: string;
 }
 export interface UserCourseProgress {
+  avance: string;
+  ov: string;
   product_code: number;
   product_code_cedente: string;
   status: string;

@@ -18,7 +18,7 @@ interface AccountCoursesProps {
 const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
-  //console.log({ courses, email })
+  console.log({ courses, email })
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
@@ -117,7 +117,7 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
                         Estado
                       </th>
                       <th scope="col" className="px-6 py-3 font-medium">
-                        Pago
+                        Avance
                       </th>
                       <th></th>
                     </tr>
@@ -143,9 +143,9 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
                         <td className="px-6 py-4 status-badge">
                           {
                             <Badge
-                              name={item.status_payment}
+                              name={item.status}
                               color={
-                                item.status_payment == "Activo"
+                                item.status == "Activo"
                                   ? "teal-active"
                                   : "red"
                               }
@@ -154,14 +154,14 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
                           }
                         </td>
                         <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
-                          <span className="text-sm"> {item.status}</span>
+                          <span className="text-sm"> {item.avance ? item.avance : 0} %</span>
                         </td>
                         <td className="px-4">
                           <ButtonPrimary
                             onClick={() => { goToLMS(item.product_code_cedente, email) }}
                             sizeClass="py-1 sm:px-5">
                             <span className="text-sm">
-                              {item.status_payment != "Activo"
+                              {item.status != "Activo"
                                 ? "Activar"
                                 : "Ir al curso"}
                             </span>

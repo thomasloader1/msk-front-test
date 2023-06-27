@@ -33,38 +33,34 @@ export const getUserProducts = (res: any, courses: any): UserCourse[] => {
 export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => {
   let coursesList = [] as UserCourseProgress[];
   res.contact.courses_progress.map((cp: CourseProgress) => {
-    let product = {
-      status: cp.Estado_cursada,
-      status_payment: "Nose que usar",
-      product_code: cp.Product_Code,
-      product_code_cedente: cp.C_digo_de_Curso_Cedente,
-      title: '',
-      slug: '',
-      id: '',
-      categories: '',
-      image: '',
-      featured_image: '',
-    }
 
     let globalProduct = courses.find(
       (productAux: { product_code: number }) => {
-        return productAux.product_code == product.product_code;
+        return productAux.product_code == cp.Product_Code;
       }
     );
 
     if (globalProduct) {
-      product.title = globalProduct.title;
+      const featured_image = globalProduct.image && globalProduct.image.replace("mx.", "");
+      const product = {
+        status: cp.Estado_cursada,
+        product_code: cp.Product_Code,
+        product_code_cedente: cp.C_digo_de_Curso_Cedente,
+        avance: cp.Avance,
+        ov: cp.Estado_de_OV,
+        ...globalProduct,
+        featured_image,
+      }
+
+      /* product.title = globalProduct.title;
       product.slug = globalProduct.slug;
       product.id = globalProduct.id;
       product.categories = globalProduct.categories;
-      product.image = globalProduct.image;
+      product.image = globalProduct.image; */
 
-      if (globalProduct.image) {
-        const imageURL = globalProduct.image.replace("mx.", "");
-        product.featured_image = imageURL;
-      }
+      coursesList.push({ ...product });
     }
-    coursesList.push({ ...product });
+
   });
   return coursesList;
 };

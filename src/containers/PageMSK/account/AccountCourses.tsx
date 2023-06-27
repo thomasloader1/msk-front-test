@@ -73,7 +73,7 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
               <span className="text-sm"> {item.status}</span>
               <div className="w-full">
                 <ButtonPrimary
-                  onClick={() => goToLMS(item.product_code_cedente, email)}
+                  onClick={() => { goToLMS(item.product_code_cedente, email) }}
                   sizeClass="py-1 px-3 sm:px-5">
                   <span className="text-sm">
                     {item.status != "Activo"

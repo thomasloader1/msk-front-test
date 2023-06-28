@@ -13,15 +13,14 @@ import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
 import AccountHome from "./account/AccountHome";
 import { Helmet } from "react-helmet";
-import { Contract, Profession, Specialty, User, UserCourse } from "data/types";
+import { Profession, Specialty, User, UserCourseProgress } from "data/types";
 import api from "Services/api";
-import { AuthContext } from "context/user/AuthContext";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "../../data/api";
 import ModalSignOut from "components/Modal/SignOut";
-import { getUserProducts } from "Services/user";
+import { getUserCourses } from "Services/user";
 
 export interface PageDashboardProps {
   className?: string;
@@ -46,7 +45,7 @@ interface DashboardPage {
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
   const [user, setUser] = useState<User>({} as User);
-  const [courses, setCourses] = useState<UserCourse[]>([] as UserCourse[]);
+  const [courses, setCourses] = useState<UserCourseProgress[]>([] as UserCourseProgress[]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -64,7 +63,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
     {
       sPath: "/cursos",
-      component: () => <AccountCourses courses={courses} />,
+      component: () => <AccountCourses courses={courses} email={user?.contact?.email!} />,
       icon: "file",
       pageName: "Mis cursos",
     },
@@ -96,7 +95,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
-      let coursesList = getUserProducts(res, allCourses.data.products);
+      let coursesList = getUserCourses(res, allCourses.data.products);
       setCourses(coursesList);
       setLoading(false);
     } else {

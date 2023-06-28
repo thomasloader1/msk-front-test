@@ -4,9 +4,7 @@ import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import "react-phone-number-input/style.css";
 import PhoneInput, {
-  Country,
-  getCountryCallingCode,
-  parsePhoneNumber,
+  parsePhoneNumber, getCountries
 } from "react-phone-number-input";
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
@@ -15,8 +13,8 @@ import Radio from "components/Radio/Radio";
 import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
-// import 'react-intl-tel-input/dist/main.css';
-// import IntlTelInput from 'react-intl-tel-input';
+import useUTM from "hooks/useUTM";
+import { getName } from 'country-list';
 
 const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -31,7 +29,8 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
-  let [formSent, setFormSent] = useState(false);
+  const [formSent, setFormSent] = useState(false);
+  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -39,12 +38,13 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   };
 
   const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value);
     console.log(value, typeof value);
     if (typeof value !== "undefined") {
       const parsedPhoneNumber = parsePhoneNumber(value);
       if (parsedPhoneNumber?.country) {
-        setSelectedCountry(parsedPhoneNumber.country);
+        const country = getName(parsedPhoneNumber.country) as string;
+        setSelectedCountry(country);
+        setPhoneNumber(value);
       }
     }
   };
@@ -58,6 +58,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       setAcceptConditions(false);
       setSelectedOptionProfession("");
       setSelectedOptionSpecialty("");
+      setSelectedCountry('')
     }
   };
 
@@ -100,7 +101,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log({ formData, target: event.target });
+    //console.log({ formData, target: event.target });
 
     const jsonData: ContactUs = {
       First_Name: "",
@@ -142,6 +143,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
         jsonData.Email = value as string;
       }
       if (key === "Phone") {
+        console.log({ selectedCountry })
         jsonData.Phone = phoneNumber;
         jsonData.Pais = selectedCountry;
       }
@@ -183,8 +185,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     console.log(response);
     setFormSent(true);
     resetForm();
-    changeRoute("/gracias?origen=contact");
+    let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
+    changeRoute(routeChange);
   };
+
   return (
     <>
       <div className="col-span-2" id="contactanos">
@@ -204,15 +208,15 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 value={productName}
               />
 
-              <input type="hidden" name="utm_source" disabled />
-              <input type="hidden" name="utm_medium" disabled />
-              <input type="hidden" name="utm_campaign" disabled />
-              <input type="hidden" name="utm_content" disabled />
+              <input type="hidden" name="utm_source" value={utm_source} />
+              <input type="hidden" name="utm_medium" value={utm_medium} />
+              <input type="hidden" name="utm_campaign" value={utm_campaign} />
+              <input type="hidden" name="utm_content" value={utm_content} />
 
               <div className={`section-title mb-30`}>
                 <h2>
                   {isEbook
-                    ? "Completa el formulario para descargar automáticamente el material"
+                    ? "Completa tus datos y obtén la guía ahora"
                     : "Contáctanos"}
                 </h2>
                 <div className="flex flex-wrap gap-6 preferences">
@@ -232,7 +236,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     />
                     <Radio
                       name="Preferencia_de_contactaci_n"
-                      label="Whatsapp"
+                      label="WhatsApp"
                       id="Contact_Method_Whatsapp"
                     />
                   </div>
@@ -296,10 +300,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                       <option defaultValue="">Seleccionar profesión</option>
                       {professions
                         ? professions.map((p) => (
-                            <option key={p.id} value={p.name}>
-                              {p.name}
-                            </option>
-                          ))
+                          <option key={p.id} value={p.name}>
+                            {p.name}
+                          </option>
+                        ))
                         : ""}
                     </select>
                   </div>
@@ -342,15 +346,20 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                   )}
                 </div>
               </div>
-              <div className="col-xl-12 mt-4">
-                <div className="contact-from-input">
-                  <textarea
-                    placeholder="Mensaje"
-                    id="Message"
-                    name="Description"
-                  ></textarea>
+              {isEbook ? (
+                <>
+                </>
+              ) : (
+                <div className="col-xl-12 mt-4">
+                  <div className="contact-from-input">
+                    <textarea
+                      placeholder="Mensaje"
+                      id="Message"
+                      name="Description"
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex flex-wrap gap-1 mt-2 mb-4">
                 <Checkbox
                   name="Terms_And_Conditions"
@@ -369,7 +378,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     className="cont-btn "
                     disabled={!acceptConditions}
                   >
-                    Enviar
+                    {isEbook ? 'Descargar' : 'Enviar'}
                   </button>
                 </div>
               </div>

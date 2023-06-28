@@ -4,15 +4,12 @@ import { API_URL } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
-const { PROD, VITE_PUBLIC_URL } = import.meta.env;
-const baseUrl = PROD ? VITE_PUBLIC_URL : "http://localhost:8000";
+const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
+const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : VITE_PUBLIC_URL_DEV //'http://localhost:8000';
 
-const baseURLLocal = "http://localhost:8000/api/crm";
-const baseURLPRD = "https://msklatam.com/msk-laravel/public/api/crm";
-
-const apiSignUpURL = `${baseUrl}/msk-laravel/public/api/signup`;
-const apiSignInURL = `${baseUrl}/msk-laravel/public/api/login`;
-const apiProfileUrl = `${baseUrl}/msk-laravel/public/api/profile`;
+const apiSignUpURL = `${baseUrl}/api/signup`;
+const apiSignInURL = `${baseUrl}/api/login`;
+const apiProfileUrl = `${baseUrl}/api/profile`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -52,7 +49,7 @@ class ApiService {
   async getEmailByIdZohoCRM(module: string, email: string) {
     try {
       const { data } = await axios.get(
-        `${baseURLPRD}/GetByEmail/${module}/${email}`
+        `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
       );
       return data;
     } catch (e) {
@@ -63,7 +60,7 @@ class ApiService {
   async postContactUs(jsonData: ContactUs) {
     try {
       const { data } = await axios.post(
-        `${baseURLPRD}/CreateLeadHomeContactUs`,
+        `${baseUrl}/api/crm/CreateLeadHomeContactUs`,
         jsonData
       );
       return data;
@@ -76,7 +73,7 @@ class ApiService {
   async postNewsletter(jsonData: Newsletter) {
     try {
       const { data } = await axios.post(
-        `${baseURLPRD}/CreateLeadHomeNewsletter`,
+        `${baseUrl}/api/crm/CreateLeadHomeNewsletter`,
         jsonData
       );
       return data;
@@ -127,7 +124,7 @@ class ApiService {
   async getProfessions() {
     try {
       const res = await axios.get(
-        `${baseUrl}/msk-laravel/public/api/professions`
+        `${baseUrl}/api/professions`
       );
 
       return res.data;
@@ -139,7 +136,7 @@ class ApiService {
   async getStoreProfessions() {
     try {
       const res = await axios.get(
-        `${baseUrl}/msk-laravel/public/api/store/professions`
+        `${baseUrl}/api/store/professions`
       );
       res.data.map((profession: any) => {
         switch (profession.name) {
@@ -163,7 +160,7 @@ class ApiService {
   async getSpecialties() {
     try {
       const res = await axios.get(
-        `${baseUrl}/msk-laravel/public/api/specialities`
+        `${baseUrl}/api/specialities`
       );
       return res.data;
     } catch (error) {
@@ -174,11 +171,20 @@ class ApiService {
   async getNewsletterSpecialties() {
     try {
       const res = await axios.get(
-        `${baseUrl}/msk-laravel/public/api/newsletter/specialities`
+        `${baseUrl}/api/newsletter/specialities`
       );
       return res.data;
     } catch (error) {
       return error;
+    }
+  }
+
+  async getLinkLMS(cod_curso: string, email: string) {
+    try {
+      const { data } = await axios.post(`${baseUrl}/api/sso/link`, { cod_curso, email });
+      return data
+    } catch (error) {
+      return error
     }
   }
 }

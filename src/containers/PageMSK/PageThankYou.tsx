@@ -17,13 +17,18 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
     let subHeading = '';
     let message = '';
+    let buttonLabel = 'Descubrir';
 
     if (origin === 'newsletter') {
         subHeading = "Gracias por suscribirte a nuestro newsletter";
         message = "Ahora es momento de avanzar en tu camino profesional.\n" +
             "Conoce nuestras capacitaciones 100% a distancia, desarrolladas por\n" +
             "autores de prestigio y respaldadas por grandes instituciones.";
-    } else {
+    } else if (origin === 'descarga-ebook'){
+        subHeading = "Descargaste la guía y ya puedes acceder a su contenido";
+        message = "Ahora es momento de avanzar un paso más en tu camino profesional.\n" +
+            "Conoce nuestras capacitaciones 100% a distancia, desarrolladas por autores de prestigio y respaldadas por grandes instituciones.";
+    }else {
         subHeading = "Gracias por interesarte en <b>Medical & Scientific Knowledge</b>";
         message = "Un agente académico te estará contactando a la brevedad. \n" +
             "Mientras, te invitamos a visitar nuestro blog con información, opiniones, \n" +
@@ -49,7 +54,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                             rounded="rounded-lg"
                             className="font-semibold discover"
                         >
-                            Descubrir
+                            {buttonLabel}
                         </ButtonPrimary>
                     </div>
                 </div>

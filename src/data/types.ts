@@ -68,6 +68,40 @@ export interface Contract {
   products: UserCourse[];
 }
 
+export interface CourseProgress {
+  Avance: string;
+  C_digo_de_Curso_Cedente: string;
+  Created_Time: "2023-05-24T11:10:41-03:00";
+  Enrollamiento: "2023-05-24T11:10:00-03:00";
+  Estado_cursada: string;
+  Estado_de_OV: string | null;
+  Fecha_de_compra: "2023-05-24T11:10:00-03:00";
+  Fecha_de_expiraci_n: "2026-03-01T12:37:57-03:00";
+  Fecha_de_ltima_sesi_n: string | null;
+  Fecha_finalizaci_n: string | null;
+  Nombre_de_curso: string;
+  Nota: number | null;
+  Plataforma_enrolamiento: string;
+  Product_Code: number;
+  contact_id: number;
+  entity_id_crm: string;
+}
+export interface UserCourseProgress {
+  avance: string;
+  ov: string;
+  product_code: number;
+  product_code_cedente: string;
+  status: string;
+  status_payment: string;
+  title: string;
+  featured_image?: string;
+  slug?: string;
+  id?: string | number;
+  categories?: any;
+  image?: string;
+}
+
+
 export interface UserCourse {
   contract_id: number;
   contract_entity_id: string;
@@ -304,6 +338,13 @@ export interface ProductAuthor {
   specialties: string[];
   centres: string[];
 }
+
+export interface Cedente {
+  ID: number;
+  post_title: string;
+  post_type: string;
+  imagen: string;
+}
 export interface FetchSingleProduct {
   ficha: Ficha;
   description: string;
@@ -315,7 +356,7 @@ export interface FetchSingleProduct {
   evaluacion: Evaluation;
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
-  lista_de_cedentes?: ProductAuthor[];
+  lista_de_cedentes?: Cedente[];
 }
 export interface FetchCourseType {
   id: number;

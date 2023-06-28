@@ -1,4 +1,4 @@
-import { Contract, UserCourse } from "data/types";
+import { Contract, CourseProgress, UserCourse, UserCourseProgress } from "data/types";
 
 export const getUserProducts = (res: any, courses: any): UserCourse[] => {
   let coursesList = [] as UserCourse[];
@@ -26,6 +26,41 @@ export const getUserProducts = (res: any, courses: any): UserCourse[] => {
       }
       coursesList.push({ ...product });
     });
+  });
+  return coursesList;
+};
+
+export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => {
+  let coursesList = [] as UserCourseProgress[];
+  res.contact.courses_progress.map((cp: CourseProgress) => {
+
+    let globalProduct = courses.find(
+      (productAux: { product_code: number }) => {
+        return productAux.product_code == cp.Product_Code;
+      }
+    );
+
+    if (globalProduct) {
+      const featured_image = globalProduct.image && globalProduct.image.replace("mx.", "");
+      const product = {
+        status: cp.Estado_cursada,
+        product_code: cp.Product_Code,
+        product_code_cedente: cp.C_digo_de_Curso_Cedente,
+        avance: cp.Avance,
+        ov: cp.Estado_de_OV,
+        ...globalProduct,
+        featured_image,
+      }
+
+      /* product.title = globalProduct.title;
+      product.slug = globalProduct.slug;
+      product.id = globalProduct.id;
+      product.categories = globalProduct.categories;
+      product.image = globalProduct.image; */
+
+      coursesList.push({ ...product });
+    }
+
   });
   return coursesList;
 };

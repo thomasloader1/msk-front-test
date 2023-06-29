@@ -35,7 +35,6 @@ const StorePagination: FC<Props> = ({
         ) : (
           ""
         )}
-
         {pages.map((page) => {
           return (
             <li
@@ -51,15 +50,16 @@ const StorePagination: FC<Props> = ({
             </li>
           );
         })}
-
-        <li
-          onClick={() => onPageChange(currentPage + 1)}
-          className="cursor-pointer"
-        >
-          <a>
-            <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-          </a>
-        </li>
+        {totalPages > 1 ? (
+          <li
+            onClick={() => onPageChange(currentPage + 1)}
+            className="cursor-pointer"
+          >
+            <a>
+              <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+            </a>
+          </li>
+        ) : null}
       </ul>
     </div>
   );

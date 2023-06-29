@@ -14,6 +14,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     user: null,
     email: null,
     token: null,
+    expires_at: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -32,10 +33,14 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
+    const expires_at = localStorage.getItem("expires_at");
+
     if (token && email) {
       fetchUser();
-      const data = { access_token: token, email };
+      const data = { access_token: token, email, expires_at };
       dispatch({ type: "LOGIN", payload: data });
+    } else if (expires_at && new Date(expires_at) < new Date()) {
+      dispatch({ type: "LOGOUT" });
     }
   }, []);
 

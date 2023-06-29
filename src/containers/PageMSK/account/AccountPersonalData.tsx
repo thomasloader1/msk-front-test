@@ -5,6 +5,7 @@ import { ChangeEvent, FC, useState } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
+import api from "Services/api";
 
 interface Props {
   user: User;
@@ -17,11 +18,15 @@ const DashboardEditProfile: FC<Props> = ({
   specialties,
   professions,
 }) => {
+  const [isFormComplete, setIsFormComplete] = useState(false);
+
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-
   const [localUser, setLocalUser] = useState<Contact>(user.contact as Contact);
-
+  const [updateStatusMessage, setUpdateStatusMessage] = useState({
+    message: "",
+    type: "",
+  });
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
@@ -46,6 +51,7 @@ const DashboardEditProfile: FC<Props> = ({
     const { value } = event.target;
     setSelectedOptionProfession(value);
     setShowInputProfession(value === "Otra profesión");
+    checkFormCompletion();
   };
 
   const handleOptionSpecialtyChange = (
@@ -54,6 +60,7 @@ const DashboardEditProfile: FC<Props> = ({
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
     setShowInputSpecialties(value === "Otra Especialidad");
+    checkFormCompletion();
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -61,9 +68,32 @@ const DashboardEditProfile: FC<Props> = ({
       ...prevUser,
       [fieldName]: value,
     }));
+
+    // Verificar si el campo de entrada está vacío
+    const isFieldEmpty = value.trim() === "";
+
+    // Comprobar si todos los campos requeridos están completos
+    const requiredFields = [
+      localUser.name,
+      localUser.last_name,
+      localUser.email,
+      phoneNumber,
+      selectedOptionProfession,
+      selectedOptionSpecialty,
+      localUser.address,
+      localUser.country,
+      localUser.state,
+      localUser.postal_code,
+      localUser.rfc,
+      localUser.fiscal_regime,
+    ];
+    const isComplete =
+      requiredFields.every((field) => field !== "") && !isFieldEmpty;
+
+    setIsFormComplete(isComplete);
   };
 
-  const submitForm = () => {
+  const submitForm = async (event: any) => {
     event?.preventDefault();
     const profession =
       selectedOptionProfession === "Otra profesión"
@@ -81,7 +111,28 @@ const DashboardEditProfile: FC<Props> = ({
       speciality,
       phone: phoneNumber,
     };
-    console.log("submitForm", jsonData);
+    try {
+      const res = await api.updateUserData(jsonData);
+      if (res.status === 200) {
+        console.log("Se actualizó el usuario correctamente", res.data);
+        setUpdateStatusMessage({
+          message: "Se actualizó correctamente.",
+          type: "success",
+        });
+      } else {
+        console.log("Hubo un error al actualizar el usuario", res);
+        setUpdateStatusMessage({
+          message: "Hubo un error al actualizar el usuario.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      console.log("Hubo un error al actualizar el usuario", error);
+      setUpdateStatusMessage({
+        message: "Hubo un error al actualizar el usuario.",
+        type: "error",
+      });
+    }
   };
 
   const countries = [
@@ -94,6 +145,27 @@ const DashboardEditProfile: FC<Props> = ({
       name: "Argentina",
     },
   ];
+
+  const checkFormCompletion = () => {
+    const requiredFields = [
+      localUser.name,
+      localUser.last_name,
+      localUser.email,
+      phoneNumber,
+      selectedOptionProfession,
+      selectedOptionSpecialty,
+      localUser.address,
+      localUser.country,
+      localUser.state,
+      localUser.postal_code,
+      localUser.rfc,
+      localUser.fiscal_regime,
+    ];
+
+    const isComplete = requiredFields.every((field) => field !== "");
+
+    setIsFormComplete(isComplete);
+  };
 
   return (
     <div className="rounded-xl md:border md:border-neutral-100 dark:border-neutral-800 md:p-6">
@@ -318,11 +390,27 @@ const DashboardEditProfile: FC<Props> = ({
         </label>
 
         <Button
-          className="md:col-span-2 bg-neutral-200 text-neutral-500"
+          className={
+            isFormComplete
+              ? "md:col-span-2 bg-primary-6000 text-neutral-100"
+              : "md:col-span-2 bg-neutral-200 text-neutral-500"
+          }
           type="submit"
+          disabled={!isFormComplete}
         >
           Guardar cambios
         </Button>
+        {updateStatusMessage.message && (
+          <p
+            className={
+              updateStatusMessage.type == "error"
+                ? "text-red-500 text-center md:col-span-2"
+                : "text-green-500 text-center md:col-span-2"
+            }
+          >
+            {updateStatusMessage.message}
+          </p>
+        )}
       </form>
     </div>
   );

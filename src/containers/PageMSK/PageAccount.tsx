@@ -45,7 +45,9 @@ interface DashboardPage {
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
   const [user, setUser] = useState<User>({} as User);
-  const [courses, setCourses] = useState<UserCourseProgress[]>([] as UserCourseProgress[]);
+  const [courses, setCourses] = useState<UserCourseProgress[]>(
+    [] as UserCourseProgress[]
+  );
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -63,7 +65,9 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
     {
       sPath: "/cursos",
-      component: () => <AccountCourses courses={courses} email={user?.contact?.email!} />,
+      component: () => (
+        <AccountCourses courses={courses} email={user?.contact?.email!} />
+      ),
       icon: "file",
       pageName: "Mis cursos",
     },

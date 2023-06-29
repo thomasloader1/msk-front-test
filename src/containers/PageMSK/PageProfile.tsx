@@ -6,11 +6,16 @@ import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
-import { FetchPostType, User, UserCourse } from "data/types";
+import {
+  FetchPostType,
+  User,
+  UserCourse,
+  UserCourseProgress,
+} from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
-import { getUserProducts } from "Services/user";
+import { getUserCourses, getUserProducts } from "Services/user";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
@@ -23,7 +28,9 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<FetchPostType[] | UserCourse[]>([]);
+  const [posts, setPosts] = useState<
+    FetchPostType[] | UserCourse[] | UserCourseProgress[]
+  >([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
 
@@ -41,7 +48,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
-      let coursesList = getUserProducts(res, productList.data.products);
+      let coursesList = getUserCourses(res, productList.data.products);
+
       setPosts(coursesList);
     } else {
       console.log(res.response.status);
@@ -124,9 +132,11 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           {currentItems.length ? (
             <>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
-                {currentItems.map((post) => (
-                  <Card2 key={post.id} post={post} hideDesc hideAuthor />
-                ))}
+                {currentItems
+                  ? currentItems.map((post) => (
+                      <Card2 key={post.id} post={post} hideDesc hideAuthor />
+                    ))
+                  : null}
               </div>
 
               {totalPages > 1 ? (
@@ -156,14 +166,16 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             </div>
           )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
-            {categories.map((item, i) => (
-              <CardComponentName
-                index={i < 1 ? `#${i + 1}` : undefined}
-                key={item.name}
-                taxonomy={item}
-                className="rounded-lg"
-              />
-            ))}
+            {categories
+              ? categories.map((item, i) => (
+                  <CardComponentName
+                    index={i < 1 ? `#${i + 1}` : undefined}
+                    key={item.name}
+                    taxonomy={item}
+                    className="rounded-lg"
+                  />
+                ))
+              : null}
           </div>
         </main>
         <div className="relative py-16 my-32">

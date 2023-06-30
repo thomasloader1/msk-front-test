@@ -85,7 +85,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       description:
         "Escribe tu consulta o descubre las categorías de información útil",
       image: "",
-      href: "",
+      href: "/faq",
     },
     {
       name: "Configurar mi cuenta",

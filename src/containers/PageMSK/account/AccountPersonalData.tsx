@@ -28,9 +28,9 @@ const DashboardEditProfile: FC<Props> = ({
     type: "",
   });
   const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>("");
+    useState<string>(user.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>("");
+    useState<string>(user.contact?.speciality || "");
   const [phoneNumber, setPhoneNumber] = useState<string>(
     user?.contact?.phone || ""
   );
@@ -143,6 +143,14 @@ const DashboardEditProfile: FC<Props> = ({
     {
       id: "ar",
       name: "Argentina",
+    },
+    {
+      id: "cl",
+      name: "Chile",
+    },
+    {
+      id: "ec",
+      name: "Ecuador",
     },
   ];
 

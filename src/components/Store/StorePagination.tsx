@@ -21,47 +21,51 @@ const StorePagination: FC<Props> = ({
     setPages(newPages);
   }, [totalPages]);
   return (
-    <div className="edu-pagination mt-30 mb-20">
-      <ul>
-        {currentPage > 1 ? (
-          <li
-            onClick={() => onPageChange(currentPage - 1)}
-            className="cursor-pointer"
-          >
-            <a>
-              <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-            </a>
-          </li>
-        ) : (
-          ""
-        )}
-        {pages.map((page) => {
-          return (
-            <li
-              className={
-                currentPage == page
-                  ? "text-red-500 font-bold pointer"
-                  : "text-black-600 cursor-pointer"
-              }
-              key={`page_${page}`}
-              onClick={() => onPageChange(page)}
-            >
-              <span>{page < 10 ? `0${page}` : page}</span>
-            </li>
-          );
-        })}
-        {totalPages > 1 ? (
-          <li
-            onClick={() => onPageChange(currentPage + 1)}
-            className="cursor-pointer"
-          >
-            <a>
-              <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-            </a>
-          </li>
-        ) : null}
-      </ul>
-    </div>
+    <>
+      {totalPages > 1 ? (
+        <div className="edu-pagination mt-30 mb-20">
+          <ul>
+            {currentPage > 1 ? (
+              <li
+                onClick={() => onPageChange(currentPage - 1)}
+                className="cursor-pointer"
+              >
+                <a>
+                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                </a>
+              </li>
+            ) : (
+              ""
+            )}
+            {pages.map((page) => {
+              return (
+                <li
+                  className={
+                    currentPage == page
+                      ? "text-red-500 font-bold pointer"
+                      : "text-black-600 cursor-pointer"
+                  }
+                  key={`page_${page}`}
+                  onClick={() => onPageChange(page)}
+                >
+                  <span>{page < 10 ? `0${page}` : page}</span>
+                </li>
+              );
+            })}
+            {totalPages > 1 && currentPage < totalPages ? (
+              <li
+                onClick={() => onPageChange(currentPage + 1)}
+                className="cursor-pointer"
+              >
+                <a>
+                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                </a>
+              </li>
+            ) : null}
+          </ul>
+        </div>
+      ) : null}
+    </>
   );
 };
 

@@ -29,9 +29,9 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [acceptConditions, setAcceptConditions] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const formRef = useRef<HTMLFormElement>(null);
   const [formSent, setFormSent] = useState(false);
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {

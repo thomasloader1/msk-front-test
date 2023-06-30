@@ -1,4 +1,4 @@
-import { Switch, Route, HashRouter, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Page } from "./types";
 import ScrollToTop from "./ScrollToTop";
 import Page404 from "containers/Page404/Page404";
@@ -17,34 +17,53 @@ import PageMission from "containers/PageMSK/PageMission";
 import PageBlog from "containers/PageMSK/PageBlog";
 import PageThankYou from "containers/PageMSK/PageThankYou";
 import PageNota from "containers/PageMSK/PageNota";
+import { CountryContext } from "context/country/CountryContext";
+import { useContext, useEffect, useState } from "react";
+import countryReducer from "context/country/CountryReducer";
+import { AuthContext } from "context/user/AuthContext";
 
 export const pages: Page[] = [
-  { path: "/", exact: true, component: PageHome },
-  { path: "/#", exact: true, component: PageHome },
-  { path: "/mision", component: PageMission },
-  { path: "/tienda", component: PageStore },
-  { path: "/curso/:slug", component: PageSingleProduct },
-  { path: "/page404", component: Page404 },
-  { path: "/blog", exact: true, component: PageBlog },
-  { path: "/blog/:slug", component: PageNota },
-  { path: "/iniciar-sesion", component: PageLogin },
-  { path: "/crear-cuenta", component: PageSignUp },
-  { path: "/recuperar", component: PageForgotPass },
-  { path: "/mi-cuenta", component: PageAccount },
-  { path: "/mi-perfil", component: PageProfile },
-  { path: "/gracias", component: PageThankYou },
-  { path: "/politicas-de-privacidad", component: PageMission },
+  { path: "/", exact: true, component: PageHome, auth: false },
+  { path: "/#", exact: true, component: PageHome, auth: false },
+  { path: "/mision", component: PageMission, auth: false },
+  { path: "/tienda", component: PageStore, auth: false },
+  { path: "/curso/:slug", component: PageSingleProduct, auth: false },
+  { path: "/page404", component: Page404, auth: false },
+  { path: "/blog", exact: true, component: PageBlog, auth: false },
+  { path: "/blog/:slug", component: PageNota, auth: false },
+  { path: "/iniciar-sesion", component: PageLogin, auth: false },
+  { path: "/crear-cuenta", component: PageSignUp, auth: false },
+  { path: "/recuperar", component: PageForgotPass, auth: false },
+  { path: "/mi-cuenta", component: PageAccount, auth: true },
+  { path: "/mi-perfil", component: PageProfile, auth: true },
+  { path: "/gracias", component: PageThankYou, auth: false },
+  { path: "/politicas-de-privacidad", component: PageMission, auth: false },
 ];
 
 const Routes = () => {
-  return (
-    <BrowserRouter basename={"/"}>
-      <MediaRunningContainer />
+  const countryContext = useContext(CountryContext);
+  const [country, setCountry] = useState(
+    localStorage.getItem("country") || "mx"
+  );
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated } = authContext.state;
+  const authenticatedRoutes = pages.filter((page) => {
+    if (page.auth && isAuthenticated) {
+      return true;
+    }
+    if (!page.auth) {
+      return true;
+    }
+    return false;
+  });
 
+  return (
+    <BrowserRouter basename={`/`}>
+      <MediaRunningContainer />
       <ScrollToTop />
       <HeaderContainer />
       <Switch>
-        {pages.map(({ component, path, exact }) => {
+        {authenticatedRoutes.map(({ component, path, exact }) => {
           return (
             <Route
               key={path}
@@ -56,7 +75,6 @@ const Routes = () => {
         })}
         <Route component={Page404} />
       </Switch>
-
       <FooterEduman />
       {/* <Footer /> */}
       {/* MEDIA */}

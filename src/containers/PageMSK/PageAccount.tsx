@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import AccountPayment from "./account/AccountPayment";
 import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
@@ -98,6 +98,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
     const res = await api.getUserData();
     if (!res.message) {
+      if (!res.contact.state) res.contact.state = "";
       setUser(res);
       let coursesList = getUserCourses(res, allCourses.data.products);
       setCourses(coursesList);
@@ -146,6 +147,18 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                   </li>
                 );
               })}
+              <li className="cursor-pointer">
+                <Link to="/faq">
+                  <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
+                    <img
+                      src={`/src/images/icons/faq.svg`}
+                      width="16"
+                      className="mr-2"
+                    />
+                    Centro de ayuda
+                  </span>
+                </Link>
+              </li>
               <li className="cursor-pointer" onClick={handleModalLogout}>
                 <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                   <img

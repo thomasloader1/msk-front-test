@@ -1,46 +1,43 @@
 import { FC, useEffect, useState } from "react";
-import Nav from "components/Nav/Nav";
-import NavItem from "components/NavItem/NavItem";
 import Avatar from "components/Avatar/Avatar";
-import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
-import { FetchPostType, User, UserCourse } from "data/types";
+import {
+  FetchPostType,
+  User,
+  UserCourse,
+  UserCourseProgress,
+} from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
-import { getUserProducts } from "Services/user";
+import { getUserCourses, getUserProducts } from "Services/user";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
+import Heading from "components/Heading/Heading";
 
 export interface PageAuthorProps {
   className?: string;
 }
 
 const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
-const TABS = ["Todo", "Mis cursos", "Favoritos"];
+const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<FetchPostType[] | UserCourse[]>([]);
-  const [auxPosts, setAuxPosts] = useState<FetchPostType[]>([]);
+  const [posts, setPosts] = useState<
+    FetchPostType[] | UserCourse[] | UserCourseProgress[]
+  >([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
-  const [userCourses, setUserCourses] = useState<UserCourse[]>(
-    [] as UserCourse[]
-  );
+
   const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const history = useHistory();
 
-  const fetchCourses = async () => {
-    const res = await axios.get(`${ALL_PRODUCTS_MX}`);
-    setPosts(res.data.products);
-    setAuxPosts(res.data.products);
-  };
   const fetchBestSeller = async () => {
     const res = await api.getBestSellers();
     setBestSeller(res);
@@ -51,8 +48,9 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     const res = await api.getUserData();
     if (!res.message) {
       setUser(res);
-      let coursesList = getUserProducts(res, productList.data.products);
-      setUserCourses(coursesList);
+      let coursesList = getUserCourses(res, productList.data.products);
+
+      setPosts(coursesList);
     } else {
       console.log(res.response.status);
     }
@@ -61,25 +59,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   useEffect(() => {
     fetchUser();
     fetchBestSeller();
-    fetchCourses();
   }, []);
-
-  const handleClickTab = (item: string) => {
-    if (item === "Todo") {
-      setPosts(auxPosts);
-    } else if (item == "Mis cursos") {
-      setPosts(userCourses);
-    } else {
-      const filteredPosts = auxPosts.filter((post) =>
-        post.categories?.some((category: any) => category.name === item)
-      );
-      setPosts(filteredPosts);
-    }
-    if (item === tabActive) {
-      return;
-    }
-    setTabActive(item);
-  };
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(posts.length / itemsPerPage);
@@ -105,7 +85,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       description:
         "Escribe tu consulta o descubre las categorías de información útil",
       image: "",
-      href: "",
+      href: "/faq",
     },
     {
       name: "Configurar mi cuenta",
@@ -148,40 +128,26 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
-          {/* TABS FILTER */}
-          <div className="flex flex-col sm:items-center sm:justify-between sm:flex-row">
-            <Nav className="sm:space-x-2">
-              {TABS.map((item, index) => (
-                <NavItem
-                  key={index}
-                  isActive={tabActive === item}
-                  onClick={() => handleClickTab(item)}
-                >
-                  {item}
-                </NavItem>
-              ))}
-            </Nav>
-            <div className="block my-4 border-b w-full border-neutral-100 sm:hidden"></div>
-            <div className="flex justify-end">
-              <ArchiveFilterListBox lists={FILTERS} />
-            </div>
-          </div>
-
+          <Heading desc="">Mis Cursos </Heading>
           {currentItems.length ? (
             <>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10">
-                {currentItems.map((post) => (
-                  <Card2 key={post.id} post={post} hideDesc hideAuthor />
-                ))}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
+                {currentItems
+                  ? currentItems.map((post) => (
+                      <Card2 key={post.id} post={post} hideDesc hideAuthor />
+                    ))
+                  : null}
               </div>
 
-              <div className="flex justify-center">
-                <StorePagination
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  currentPage={currentPage}
-                />
-              </div>
+              {totalPages > 1 ? (
+                <div className="flex justify-center">
+                  <StorePagination
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    currentPage={currentPage}
+                  />
+                </div>
+              ) : null}
             </>
           ) : (
             <div className="flex flex-col justify-center items-center gap-6 my-24 lg:mt-10">
@@ -199,16 +165,17 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
               </ButtonPrimary>
             </div>
           )}
-
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
-            {categories.map((item, i) => (
-              <CardComponentName
-                index={i < 1 ? `#${i + 1}` : undefined}
-                key={item.name}
-                taxonomy={item}
-                className="rounded-lg"
-              />
-            ))}
+            {categories
+              ? categories.map((item, i) => (
+                  <CardComponentName
+                    index={i < 1 ? `#${i + 1}` : undefined}
+                    key={item.name}
+                    taxonomy={item}
+                    className="rounded-lg"
+                  />
+                ))
+              : null}
           </div>
         </main>
         <div className="relative py-16 my-32">

@@ -187,6 +187,15 @@ class ApiService {
       return error
     }
   }
+
+  async updateUserData(jsonData: {}) {
+    try {
+      const response = await axios.post(`${baseUrl}/api/sso/link`, { jsonData });
+      return response;
+    } catch (error) {
+      console.log({ error })
+    }
+  }
 }
 
 export default new ApiService();

@@ -101,7 +101,6 @@ export interface UserCourseProgress {
   image?: string;
 }
 
-
 export interface UserCourse {
   contract_id: number;
   contract_entity_id: string;
@@ -495,6 +494,7 @@ export interface AuthState {
   user: User | null;
   email: string | null;
   token: string | null;
+  expires_at: number | null;
 }
 
 export interface AuthAction {

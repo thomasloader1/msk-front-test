@@ -4,7 +4,8 @@ import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import "react-phone-number-input/style.css";
 import PhoneInput, {
-  parsePhoneNumber, getCountries
+  parsePhoneNumber,
+  getCountries,
 } from "react-phone-number-input";
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
@@ -14,7 +15,7 @@ import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
 import useUTM from "hooks/useUTM";
-import { getName } from 'country-list';
+import { getName } from "country-list";
 
 const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -28,9 +29,9 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const [acceptConditions, setAcceptConditions] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const formRef = useRef<HTMLFormElement>(null);
   const [formSent, setFormSent] = useState(false);
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -58,7 +59,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       setAcceptConditions(false);
       setSelectedOptionProfession("");
       setSelectedOptionSpecialty("");
-      setSelectedCountry('')
+      setSelectedCountry("");
     }
   };
 
@@ -140,6 +141,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
         jsonData.Email = value as string;
       }
       if (key === "Phone") {
+        console.log({ selectedCountry });
         jsonData.Phone = phoneNumber;
         jsonData.Pais = selectedCountry;
       }
@@ -180,10 +182,12 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
     const { response } = await api.postContactUs(jsonData);
 
     console.log(response);
-    /*setFormSent(true);
-     resetForm();
-    let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
-    changeRoute(routeChange); */
+    setFormSent(true);
+    resetForm();
+    let routeChange = isEbook
+      ? "/gracias?origen=descarga-ebook"
+      : "/gracias?origen=contact";
+    changeRoute(routeChange);
   };
 
   return (
@@ -297,10 +301,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                       <option defaultValue="">Seleccionar profesión</option>
                       {professions
                         ? professions.map((p) => (
-                          <option key={p.id} value={p.name}>
-                            {p.name}
-                          </option>
-                        ))
+                            <option key={p.id} value={p.name}>
+                              {p.name}
+                            </option>
+                          ))
                         : ""}
                     </select>
                   </div>
@@ -344,8 +348,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 </div>
               </div>
               {isEbook ? (
-                <>
-                </>
+                <></>
               ) : (
                 <div className="col-xl-12 mt-4">
                   <div className="contact-from-input">
@@ -375,7 +378,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                     className="cont-btn "
                     disabled={!acceptConditions}
                   >
-                    {isEbook ? 'Descargar' : 'Enviar'}
+                    {isEbook ? "Descargar" : "Enviar"}
                   </button>
                 </div>
               </div>

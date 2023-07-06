@@ -11,50 +11,12 @@ import api from "../../Services/api";
 import Label from "components/Label/Label";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
+import { useHistory } from "react-router-dom";
 
 export interface PageSignUpProps {
   className?: string;
 }
 
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  const formData = new FormData(event.target as HTMLFormElement);
-  console.log({ formData, target: event.target });
-  const jsonData: SignUp = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    phone: "",
-  };
-
-  const allowedKeys: (keyof SignUp)[] = [
-    "first_name",
-    "last_name",
-    "email",
-    "password",
-    "phone",
-  ];
-
-  formData.forEach((value, key) => {
-    const formDataKey = key as keyof SignUp;
-    if (allowedKeys.includes(formDataKey)) {
-      jsonData[formDataKey] = value as string;
-    }
-  });
-  console.log(jsonData);
-
-  const { response } = await api.postSignUp(jsonData);
-  console.log(response);
-
-  if (response.data.status != 200) {
-    console.log("error");
-  } else {
-    console.log("login");
-  }
-
-  //changeRoute("/gracias?origen=contact")
-};
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -64,6 +26,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const history = useHistory();
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -103,6 +68,56 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     const { value } = event.target;
     setSelectedOptionProfession(value);
     setShowInputProfession(value === "Otra profesión");
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    console.log({ formData, target: event.target });
+    const jsonData: SignUp = {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      phone: "",
+    };
+
+    const allowedKeys: (keyof SignUp)[] = [
+      "first_name",
+      "last_name",
+      "email",
+      "password",
+      "phone",
+    ];
+
+    formData.forEach((value, key) => {
+      const formDataKey = key as keyof SignUp;
+      if (allowedKeys.includes(formDataKey)) {
+        jsonData[formDataKey] = value as string;
+      }
+    });
+    console.log(jsonData);
+
+    try {
+      const res = await api.postSignUp(jsonData);
+      if (res.status !== 200) {
+        setSuccess(false);
+        setError(
+          `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo.}`
+        );
+      } else {
+        setError("");
+        setSuccess(true);
+        setTimeout(() => {
+          history.push("/iniciar-sesion");
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+      setError(
+        "Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo."
+      );
+    }
   };
   return (
     <div className={`nc-PageSignUp ${className}`} data-nc-id="PageSignUp">
@@ -154,10 +169,21 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
             </label>
             <label className="block">
               <span className="text-neutral-800 dark:text-neutral-200">
+                Contraseña
+              </span>
+              <Input
+                name="password"
+                type="password"
+                placeholder="Ingresar contraseña"
+                className="mt-1"
+              />
+            </label>
+            <label className="block">
+              <span className="text-neutral-800 dark:text-neutral-200">
                 Teléfono
               </span>
               <PhoneInput
-                name="Phone"
+                name="phone"
                 id="Phone"
                 placeholder="Ingresar número telefónico"
                 defaultCountry="MX"
@@ -235,6 +261,19 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               <ButtonPrimary type="submit" className="w-full">
                 Crear
               </ButtonPrimary>
+              {error && (
+                <p className="text-red-500 text-center w-full">{error}</p>
+              )}
+
+              {success ? (
+                <p className="text-green-500 text-center w-full">
+                  Registrado correctamente!
+                </p>
+              ) : (
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {/* ... existing code ... */}
+                </div>
+              )}
             </div>
           </form>
         </div>

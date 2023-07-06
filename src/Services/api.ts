@@ -5,7 +5,7 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
-const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : VITE_PUBLIC_URL_DEV //'http://localhost:8000';
+const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : 'http://localhost:8000';
 
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;

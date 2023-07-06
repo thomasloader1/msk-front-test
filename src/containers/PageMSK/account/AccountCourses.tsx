@@ -40,7 +40,6 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
 
   const goToLMS = async (cod_curso: string, email: string) => {
     const { sso } = await api.getLinkLMS(cod_curso, email)
-    console.log({ sso })
     window.open(sso, '_blank');
   }
 
@@ -74,7 +73,8 @@ const DashboardPosts: FC<AccountCoursesProps> = ({ courses, email }) => {
               <div className="w-full">
                 <ButtonPrimary
                   onClick={() => { goToLMS(item.product_code_cedente, email) }}
-                  sizeClass="py-1 px-3 sm:px-5">
+                  sizeClass="py-1 px-3 sm:px-5"
+                  disabled={item.status != 'Activo'}>
                   <span className="text-sm">
                     {item.status != "Activo"
                       ? "Activar"

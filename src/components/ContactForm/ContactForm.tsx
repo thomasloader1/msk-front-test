@@ -101,7 +101,6 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    //console.log({ formData, target: event.target });
 
     const jsonData: ContactUs = {
       First_Name: "",
@@ -117,6 +116,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       utm_medium: "",
       utm_campaign: "",
       utm_content: "",
+      recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK
     };
 
     const selectedOption = (event.target as HTMLFormElement).querySelector(
@@ -125,14 +125,11 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
 
     if (selectedOption) {
       const label = selectedOption.id;
-      // console.log({label});
-      jsonData.Preferencia_de_contactaci_n = label.replace(
-        /^Contact_Method_/,
-        ""
-      );
+      jsonData.Preferencia_de_contactaci_n = label.replace(/^Contact_Method_/,"");
     }
 
-    formData.forEach((value, key, parent) => {
+    formData.forEach((value: FormDataEntryValue, key: string) => {
+
       if (key === "First_Name") {
         jsonData.First_Name = value as string;
       }
@@ -143,17 +140,16 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
         jsonData.Email = value as string;
       }
       if (key === "Phone") {
-        console.log({ selectedCountry })
         jsonData.Phone = phoneNumber;
         jsonData.Pais = selectedCountry;
       }
-      if (key === "Profesion") {
+      if (key === "Profesion" && !value.toString().includes("Seleccionar")) {
         jsonData.Profesion = value as string;
       }
       if (key === "Description") {
         jsonData.Description = value as string;
       }
-      if (key === "Especialidad") {
+      if (key === "Especialidad" && !value.toString().includes("Seleccionar")) {
         jsonData.Especialidad = value as string;
       }
       if (key === "Otra_especialidad") {
@@ -178,15 +174,16 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
         jsonData.utm_content = value as string;
       }
     });
+
     console.log({ jsonData });
 
     const { response } = await api.postContactUs(jsonData);
 
     console.log(response);
-    setFormSent(true);
-    resetForm();
+    /*setFormSent(true);
+     resetForm();
     let routeChange = isEbook ? "/gracias?origen=descarga-ebook" : "/gracias?origen=contact";
-    changeRoute(routeChange);
+    changeRoute(routeChange); */
   };
 
   return (

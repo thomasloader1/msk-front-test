@@ -94,6 +94,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     setSpecialties(specialtyList);
   };
 
+  const history = useHistory();
   const fetchUser = async () => {
     const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
     const res = await api.getUserData();
@@ -105,6 +106,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
       setLoading(false);
     } else {
       console.log(res.response.status);
+      history.push("/iniciar-sesion");
     }
   };
 

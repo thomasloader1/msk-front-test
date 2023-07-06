@@ -44,15 +44,20 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   const fetchUser = async () => {
-    const productList = await axios.get(`${ALL_PRODUCTS_MX}`);
-    const res = await api.getUserData();
-    if (!res.message) {
-      setUser(res);
-      let coursesList = getUserCourses(res, productList.data.products);
-
-      setPosts(coursesList);
-    } else {
-      console.log(res.response.status);
+    try {
+      const productList = await axios.get(`${ALL_PRODUCTS_MX}`);
+      const res = await api.getUserData();
+      if (!res.message) {
+        setUser(res);
+        let coursesList = getUserCourses(res, productList.data.products);
+        setPosts(coursesList);
+      } else {
+        console.log(res.response.status);
+        history.push("/iniciar-sesion");
+      }
+    } catch (error) {
+      console.log(error);
+      history.push("/iniciar-sesion");
     }
   };
 

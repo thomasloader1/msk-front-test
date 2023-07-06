@@ -5,7 +5,9 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
-const baseUrl = PROD ? `${VITE_PUBLIC_URL}/msk-laravel/public` : VITE_PUBLIC_URL_DEV //'http://localhost:8000';
+const baseUrl = PROD
+  ? `${VITE_PUBLIC_URL}/msk-laravel/public`
+  : VITE_PUBLIC_URL_DEV; //'http://localhost:8000';
 
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;
@@ -123,9 +125,7 @@ class ApiService {
 
   async getProfessions() {
     try {
-      const res = await axios.get(
-        `${baseUrl}/api/professions`
-      );
+      const res = await axios.get(`${baseUrl}/api/professions`);
 
       return res.data;
     } catch (error) {
@@ -135,9 +135,7 @@ class ApiService {
 
   async getStoreProfessions() {
     try {
-      const res = await axios.get(
-        `${baseUrl}/api/store/professions`
-      );
+      const res = await axios.get(`${baseUrl}/api/store/professions`);
       res.data.map((profession: any) => {
         switch (profession.name) {
           case "Personal médico":
@@ -159,9 +157,7 @@ class ApiService {
 
   async getSpecialties() {
     try {
-      const res = await axios.get(
-        `${baseUrl}/api/specialities`
-      );
+      const res = await axios.get(`${baseUrl}/api/specialities`);
       return res.data;
     } catch (error) {
       return error;
@@ -170,9 +166,7 @@ class ApiService {
 
   async getNewsletterSpecialties() {
     try {
-      const res = await axios.get(
-        `${baseUrl}/api/newsletter/specialities`
-      );
+      const res = await axios.get(`${baseUrl}/api/newsletter/specialities`);
       return res.data;
     } catch (error) {
       return error;
@@ -181,19 +175,31 @@ class ApiService {
 
   async getLinkLMS(cod_curso: string, email: string) {
     try {
-      const { data } = await axios.post(`${baseUrl}/api/sso/link`, { cod_curso, email });
-      return data
+      const { data } = await axios.post(`${baseUrl}/api/sso/link`, {
+        cod_curso,
+        email,
+      });
+      return data;
     } catch (error) {
-      return error
+      return error;
     }
   }
 
-  async updateUserData(jsonData: {}) {
+  async updateUserData(data: any): Promise<any> {
+    const userEmail = localStorage.getItem("email");
     try {
-      const response = await axios.post(`${baseUrl}/api/sso/link`, { jsonData });
-      return response;
+      const token = localStorage.getItem("token");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.put(`${apiProfileUrl}/${userEmail}`, data, {
+          headers,
+        });
+        return res;
+      }
     } catch (error) {
-      console.log({ error })
+      return error;
     }
   }
 }

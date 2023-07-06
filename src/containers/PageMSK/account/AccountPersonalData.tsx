@@ -113,8 +113,7 @@ const DashboardEditProfile: FC<Props> = ({
     };
     try {
       const res = await api.updateUserData(jsonData);
-      if (res?.status as number === 200) {
-        // console.log("Se actualizó el usuario correctamente", res?.data as {});
+      if ((res?.status as number) === 200) {
         setUpdateStatusMessage({
           message: "Se actualizó correctamente.",
           type: "success",
@@ -246,10 +245,10 @@ const DashboardEditProfile: FC<Props> = ({
               <option defaultValue="">Seleccionar profesión</option>
               {professions
                 ? professions.map((p) => (
-                  <option key={p.id} value={p.name}>
-                    {p.name}
-                  </option>
-                ))
+                    <option key={p.id} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))
                 : ""}
             </select>
           </div>

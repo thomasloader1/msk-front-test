@@ -76,6 +76,9 @@ module.exports = {
         "brown-post": "#E8874E",
         "teal-active": "#F3FEFC",
       },
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+      },
     },
   },
   variants: {

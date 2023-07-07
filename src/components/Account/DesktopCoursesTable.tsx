@@ -57,7 +57,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                             {item.title || "-"}
                                                         </h2>
                                                     </div>
-                                                    {item.status !== "Activo" && <span className="dark:text-primary-500 forgot-password col-span-2 text-sm ml-4">
+                                                    {item.status !== "Activo" && <p className="font-poppins dark:text-primary-500 forgot-password col-span-2 text-sm pl-4">
                                                         Si tienes dudas visita nuestro{" "}
                                                         <a
                                                             className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
@@ -66,7 +66,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                         >
                                                             Centro de Ayuda
                                                         </a>
-                                                    </span>}
+                                                    </p>}
                                                 </div>
                                             </div>
                                         </td>

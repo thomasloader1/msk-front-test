@@ -139,8 +139,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
                 {currentItems
                   ? currentItems.map((post) => (
-                      <Card2 key={post.id} post={post} hideDesc hideAuthor />
-                    ))
+                    <Card2 key={post.id} post={post} hideDesc hideAuthor redirectAccount={true} />
+                  ))
                   : null}
               </div>
 
@@ -173,13 +173,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories
               ? categories.map((item, i) => (
-                  <CardComponentName
-                    index={i < 1 ? `#${i + 1}` : undefined}
-                    key={item.name}
-                    taxonomy={item}
-                    className="rounded-lg"
-                  />
-                ))
+                <CardComponentName
+                  index={i < 1 ? `#${i + 1}` : undefined}
+                  key={item.name}
+                  taxonomy={item}
+                  className="rounded-lg"
+                />
+              ))
               : null}
           </div>
         </main>

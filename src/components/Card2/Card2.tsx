@@ -22,6 +22,7 @@ export interface Card2Props {
   post: FetchPostType | FetchCourseType | UserCourse | UserCourseProgress;
   size?: "normal" | "large";
   hideDesc?: boolean;
+  redirectAccount?: boolean;
   hideAuthor?: boolean;
   badgeColor?: string;
 }
@@ -31,12 +32,13 @@ const Card2: FC<Card2Props> = ({
   size = "normal",
   post,
   badgeColor,
+  redirectAccount,
   hideDesc,
   hideAuthor,
 }) => {
   const { title, image, slug, categories } = post;
   const imageURL = image?.replace("mx.", "");
-  const url = "";
+  const url = redirectAccount ? `/mi-cuenta/cursos` : `/curso/${slug}`;
 
   return (
     <div
@@ -59,7 +61,7 @@ const Card2: FC<Card2Props> = ({
       </span>
 
       {/* <SocialsShare className="absolute hidden md:grid gap-[5px] right-4 top-4 opacity-0 z-[-1] group-hover:z-10 group-hover:opacity-100 transition-all duration-300" /> */}
-      <Link to={`/curso/${slug}`} className="absolute inset-0" />
+      <Link to={url} className="absolute inset-0" />
       <div className="p-4 sm:p-5 flex flex-col">
         <div className="space-y-3">
           <CategoryBadgeList
@@ -68,9 +70,8 @@ const Card2: FC<Card2Props> = ({
             color={badgeColor}
           />
           <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-12 ${
-              size === "large" ? "text-lg sm:text-2xl" : "text-base"
-            }`}
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-12 ${size === "large" ? "text-lg sm:text-2xl" : "text-base"
+              }`}
           >
             <Link to={url} className="line-clamp-2" title={title}>
               {title}

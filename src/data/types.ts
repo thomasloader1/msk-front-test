@@ -99,6 +99,7 @@ export interface UserCourseProgress {
   id?: string | number;
   categories?: any;
   image?: string;
+  father_post_type: string;
 }
 
 export interface UserCourse {
@@ -117,6 +118,7 @@ export interface UserCourse {
   id?: string | number;
   categories?: any;
   image?: string;
+  father_post_type?: string;
 }
 
 export interface User {
@@ -181,6 +183,7 @@ export interface FetchPostType {
   tags: string[];
   author: PostAuthor;
   content: string;
+  father_post_type?: string;
 }
 
 export interface PostDataType {

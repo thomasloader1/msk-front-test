@@ -7,6 +7,7 @@ export interface CategoryBadgeListProps {
   itemClass?: string;
   categories: any[];
   color?: string;
+  isCourse?: boolean;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
@@ -14,12 +15,22 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   itemClass,
   categories,
   color = "yellow",
+  isCourse = false
 }) => {
+
   return (
+
     <div
       className={`nc-CategoryBadgeList ${className}`}
       data-nc-id="CategoryBadgeList"
     >
+      {isCourse && (
+        <Badge
+          className={itemClass}
+          name={"Curso"}
+          color={"blue"}
+        />
+      )}
       {categories.map((item, index) => (
         <Badge
           className={itemClass}
@@ -29,6 +40,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
         />
       ))}
     </div>
+
   );
 };
 

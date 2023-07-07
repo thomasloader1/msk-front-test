@@ -36,7 +36,8 @@ const Card2: FC<Card2Props> = ({
   hideDesc,
   hideAuthor,
 }) => {
-  const { title, image, slug, categories } = post;
+
+  const { title, image, slug, categories, father_post_type } = post;
   const imageURL = image?.replace("mx.", "");
   const url = redirectAccount ? `/mi-cuenta/cursos` : `/curso/${slug}`;
 
@@ -66,6 +67,7 @@ const Card2: FC<Card2Props> = ({
         <div className="space-y-3">
           <CategoryBadgeList
             itemClass="relative"
+            isCourse={father_post_type === "course"}
             categories={categories}
             color={badgeColor}
           />

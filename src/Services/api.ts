@@ -7,7 +7,7 @@ import { Login } from "data/types";
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
 const baseUrl = PROD
   ? `${VITE_PUBLIC_URL}/msk-laravel/public`
-  : "http://localhost:8000";
+  : VITE_PUBLIC_URL_DEV;
 
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;
@@ -98,7 +98,8 @@ class ApiService {
         return res.data.user;
       }
     } catch (error) {
-      return error;
+      localStorage.removeItem("token");
+      console.log({ error })
     }
   }
 

@@ -24,6 +24,7 @@
     "country-list": "^2.3.0",
     "dotenv-cra": "^3.0.2",
     "esbuild": "^0.17.18",
+    "formik": "^2.4.2",
     "i18n-iso-countries": "^7.6.0",
     "libphonenumber-js": "^1.10.36",
     "lodash": "^4.17.21",

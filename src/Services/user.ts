@@ -52,12 +52,6 @@ export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => 
         featured_image,
       }
 
-      /* product.title = globalProduct.title;
-      product.slug = globalProduct.slug;
-      product.id = globalProduct.id;
-      product.categories = globalProduct.categories;
-      product.image = globalProduct.image; */
-
       coursesList.push({ ...product });
     }
 

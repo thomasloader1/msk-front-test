@@ -21,6 +21,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { useContext, useEffect, useState } from "react";
 import countryReducer from "context/country/CountryReducer";
 import { AuthContext } from "context/user/AuthContext";
+import axios from "axios";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -41,10 +42,7 @@ export const pages: Page[] = [
 ];
 
 const Routes = () => {
-  const countryContext = useContext(CountryContext);
-  const [country, setCountry] = useState(
-    localStorage.getItem("country") || "mx"
-  );
+  const [country, setCountry] = useState(localStorage.getItem("country") || "");
   const authContext = useContext(AuthContext);
   const { isAuthenticated } = authContext.state;
   const authenticatedRoutes = pages.filter((page) => {
@@ -57,8 +55,26 @@ const Routes = () => {
     return false;
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        const { data } = await axios.get(
+          `http://ip-api.com/json/${res.data.ip}`
+        );
+        const currentCountry = data.countryCode.toLowerCase();
+        localStorage.setItem("country", currentCountry);
+        setCountry(currentCountry);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <BrowserRouter basename={`/`}>
+    <BrowserRouter basename={`/${country}`}>
       <MediaRunningContainer />
       <ScrollToTop />
       <HeaderContainer />

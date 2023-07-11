@@ -19,9 +19,7 @@ import PageThankYou from "containers/PageMSK/PageThankYou";
 import PageNota from "containers/PageMSK/PageNota";
 import { CountryContext } from "context/country/CountryContext";
 import { useContext, useEffect, useState } from "react";
-import countryReducer from "context/country/CountryReducer";
 import { AuthContext } from "context/user/AuthContext";
-import axios from "axios";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -42,7 +40,7 @@ export const pages: Page[] = [
 ];
 
 const Routes = () => {
-  const [country, setCountry] = useState(localStorage.getItem("country") || "");
+  const { state } = useContext(CountryContext);
   const authContext = useContext(AuthContext);
   const { isAuthenticated } = authContext.state;
   const authenticatedRoutes = pages.filter((page) => {
@@ -55,23 +53,11 @@ const Routes = () => {
     return false;
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("https://api.ipify.org/?format=json");
-        const { data } = await axios.get(
-          `http://ip-api.com/json/${res.data.ip}`
-        );
-        const currentCountry = data.countryCode.toLowerCase();
-        localStorage.setItem("country", currentCountry);
-        setCountry(currentCountry);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const [country, setCountry] = useState(state.country);
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    setCountry(state.country);
+  }, [state.country]);
 
   return (
     <BrowserRouter basename={`/${country}`}>
@@ -92,8 +78,6 @@ const Routes = () => {
         <Route component={Page404} />
       </Switch>
       <FooterEduman />
-      {/* <Footer /> */}
-      {/* MEDIA */}
     </BrowserRouter>
   );
 };

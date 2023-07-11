@@ -1,16 +1,17 @@
-import { CountryState, CountryAction } from "./CountryContext";
+import { CountryState, AuthAction } from "data/types";
 
-// Define el reductor del país
-function countryReducer(
+const SET_COUNTRY = "SET_COUNTRY";
+export const countryReducer = (
   state: CountryState,
-  action: CountryAction
-): CountryState {
+  action: AuthAction
+): CountryState => {
   switch (action.type) {
-    case "SET_COUNTRY":
-      return { ...state, country: action.payload };
+    case SET_COUNTRY:
+      return {
+        ...state,
+        country: action.payload.country,
+      };
     default:
       return state;
   }
-}
-
-export default countryReducer;
+};

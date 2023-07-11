@@ -53,8 +53,10 @@ const Routes = () => {
     return false;
   });
 
+  console.log(state.country);
   const [country, setCountry] = useState(state.country);
 
+  console.log(country);
   useEffect(() => {
     setCountry(state.country);
   }, [state.country]);

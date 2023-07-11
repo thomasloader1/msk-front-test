@@ -18,12 +18,15 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('fetching country from IP');
         const res = await axios.get("https://api.ipify.org/?format=json");
         const { data } = await axios.get(
           `http://ip-api.com/json/${res.data.ip}`
         );
         const currentCountry = data.countryCode.toLowerCase();
         localStorage.setItem("country", currentCountry);
+        //Todo: if I get a valid country visitor, if I'm not on that country already, redirect there if he's not on the right country
+        //if it's an invalid country, redirect to the default country
         dispatch({ type: "SET_COUNTRY", payload: { country: currentCountry } });
       } catch (error) {
         console.log(error);

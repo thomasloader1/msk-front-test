@@ -1,14 +1,7 @@
-import React, { FC, useContext } from "react";
-import NcImage from "components/NcImage/NcImage";
-import StorePagination from "components/Store/StorePagination";
-import Badge from "components/Badge/Badge";
+import React, { FC, useState, useEffect } from "react";
 import { UserCourseProgress } from "data/types";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import api from "Services/api";
-import { AuthContext } from "context/user/AuthContext";
+import { goToLMS } from "logic/account";
 import CoursesTable from "components/Account/CoursesTable";
 
 interface AccountCoursesProps {
@@ -39,12 +32,6 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
 
   const goToStore = () => {
     history.push("/tienda");
-  };
-
-  const goToLMS = async (cod_curso: string, email: string) => {
-    const { sso } = await api.getLinkLMS(cod_curso, email);
-    console.log({ sso });
-    window.open(sso, "_blank");
   };
 
   const itemsPerPage = 5;

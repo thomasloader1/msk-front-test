@@ -1,24 +1,22 @@
 import { FC, useEffect, useState } from "react";
 import Avatar from "components/Avatar/Avatar";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
 import {
-  FetchPostType,
   User,
-  UserCourse,
   UserCourseProgress,
 } from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
-import { getUserCourses, getUserProducts } from "Services/user";
+import { getUserCourses } from "Services/user";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
+import ProductAccount from "./profile/ProductAccount";
 
 export interface PageAuthorProps {
   className?: string;
@@ -28,9 +26,7 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<
-    FetchPostType[] | UserCourse[] | UserCourseProgress[]
-  >([]);
+  const [posts, setPosts] = useState<UserCourseProgress[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
 
@@ -139,7 +135,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
                 {currentItems
                   ? currentItems.map((post) => (
-                    <Card2 key={post.id} post={post} hideDesc hideAuthor redirectAccount={true} />
+                    <ProductAccount key={post.id} product={post} user={user} />
                   ))
                   : null}
               </div>

@@ -1,44 +1,42 @@
-import { FetchSingleProduct } from 'data/types';
-import { useState, useEffect } from 'react';
+import { FetchSingleProduct } from "data/types";
+import { useState, useEffect } from "react";
 
 const useProductDetails = (product: FetchSingleProduct) => {
-    const [isEbook, setIsEbook] = useState<boolean>(false);
-    const [imagen, setImagen] = useState<string>('');
-    const [title, setTitle] = useState<string>('');
+  const [isEbook, setIsEbook] = useState<boolean>(false);
+  const [imagen, setImagen] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
-    const isEbookProduct = Object.values(product.details).some((detail) =>
-        detail.value.includes("Ebook")
-    );
+  const isEbookProduct = Object.values(product.details).some((detail) =>
+    detail.value.includes("Ebook")
+  );
 
-    const { lista_de_cedentes, authors } = product
+  const { lista_de_cedentes, authors } = product;
 
-    useEffect(() => {
-        setIsEbook(isEbookProduct);
+  useEffect(() => {
+    setIsEbook(isEbookProduct);
 
-        if (isEbookProduct) {
-            const [firstAuthor] = authors
-            const imageOfAuthor = firstAuthor.image.replace("mx.", "")
+    if (isEbookProduct) {
+      const [firstAuthor] = authors;
+      const imageOfAuthor = firstAuthor?.image?.replace("mx.", "");
+      const authorName = firstAuthor?.name || "-";
+      setImagen(imageOfAuthor);
+      setTitle(authorName);
+    } else if (lista_de_cedentes) {
+      const [firstCedente] = lista_de_cedentes;
+      const imageOfCedente = firstCedente?.imagen?.replace("mx.", "") || "";
+      const cedenteName = firstCedente?.post_title || "-";
+      setImagen(imageOfCedente);
+      setTitle(cedenteName);
+    }
 
-            setImagen(imageOfAuthor);
-            setTitle(firstAuthor.name);
+    return () => {
+      setIsEbook(false);
+      setImagen("");
+      setTitle("");
+    };
+  }, [product]);
 
-        } else if (lista_de_cedentes) {
-            const [firstCedente] = lista_de_cedentes;
-            const imageOfCedente = firstCedente.imagen.replace("mx.", "")
-
-            setImagen(imageOfCedente);
-            setTitle(firstCedente.post_title);
-        }
-
-        return () => {
-            setIsEbook(false)
-            setImagen('')
-            setTitle('')
-        }
-
-    }, [product]);
-
-    return { isEbook, imagen, title };
+  return { isEbook, imagen, title };
 };
 
 export default useProductDetails;

@@ -18,20 +18,23 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('fetching country from IP');
+        console.log("fetching country from IP");
         const res = await axios.get("https://api.ipify.org/?format=json");
         const { data } = await axios.get(
           `http://ip-api.com/json/${res.data.ip}`
         );
         let currentCountry = data.countryCode.toLowerCase();
         localStorage.setItem("country", currentCountry);
-        let validCountries =  ["mx", "cl", "ar", "ec"];
+        let validCountries = ["mx", "cl", "ar", "ec"];
         if (!validCountries.includes(currentCountry)) {
-            currentCountry = "mx";
+          currentCountry = "";
         }
 
         if (state.country != currentCountry) {
-          //Redirect to the right country
+          const urlParams = window.location.href.split("/");
+          window.location.href = `/${currentCountry}/${
+            urlParams[urlParams.length - 1]
+          }`;
         }
 
         dispatch({ type: "SET_COUNTRY", payload: { country: currentCountry } });

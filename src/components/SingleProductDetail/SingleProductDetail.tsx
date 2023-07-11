@@ -13,7 +13,7 @@ import { API_URL } from "data/api";
 import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import { Helmet } from 'react-helmet'
+import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 interface Props {
   product: FetchSingleProduct;
@@ -23,7 +23,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   // console.log(product);
   const textRef = useRef<HTMLDivElement>(null);
   const [bestSeller, setBestSeller] = useState([]);
-  const [textDesctiption, setTextDesctiption] = useState<string>('');
+  const [textDesctiption, setTextDesctiption] = useState<string>("");
   const fetchBestSeller = async () => {
     const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
     setBestSeller(res.data.products);
@@ -36,7 +36,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     if (textRef.current) {
       textRef.current.innerHTML = "";
       textRef.current.appendChild(htmlElement);
-      setTextDesctiption(textRef?.current?.textContent as string)
+      setTextDesctiption(textRef?.current?.textContent as string);
     }
   }, [location]);
 
@@ -65,18 +65,16 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     return listOfGoals;
   };
 
-
   const { isEbook, imagen, title } = useProductDetails(product);
 
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
       <Helmet>
-        <title>{`${product?.ficha.title}`} | MSK Medical & Scientific Knowledge</title>
-        <meta
-          name="description"
-          content={`${textDesctiption}`}
-        />
+        <title>
+          {`${product?.ficha.title}`} | MSK Medical & Scientific Knowledge
+        </title>
+        <meta name="description" content={`${textDesctiption}`} />
       </Helmet>
       <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16">
         <div className="">
@@ -96,29 +94,20 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             </div>
             <div>
               {product.authors.length ||
-                product.temario ||
-                (product.details && product.details["duration"]) ? (
+              product.temario ||
+              (product.details && product.details["duration"]) ? (
                 <div className="course-detelis-meta">
                   {product.authors.length ? (
                     <>
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
-
-                          <img
-                            src={imagen}
-                            alt={title}
-                          />
-
+                          <img src={imagen} alt={title} />
                         </div>
 
                         <div>
                           <span className="raleway">Creado por</span>
                           <div className="flex flex-col">
-
-                            <h6 className="raleway-bold">
-                              {title}
-                            </h6>
-
+                            <h6 className="raleway-bold">{title}</h6>
                           </div>
                         </div>
                       </div>

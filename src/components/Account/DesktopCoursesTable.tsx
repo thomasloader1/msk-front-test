@@ -4,7 +4,7 @@ import NcImage from 'components/NcImage/NcImage';
 import StorePagination from 'components/Store/StorePagination';
 import { UserCourseProgress } from 'data/types';
 import React, { FC } from 'react'
-
+import CentroAyudaLink from 'components/CentroAyudaLink/CentroAyudaLink';
 export interface CoursesTableComponentProps {
     currentItems: UserCourseProgress[],
     config: {
@@ -57,16 +57,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                             {item.title || "-"}
                                                         </h2>
                                                     </div>
-                                                    {item.status !== "Activo" && <p className="font-poppins dark:text-primary-500 forgot-password col-span-2 text-sm pl-4">
-                                                        Si tienes dudas visita nuestro{" "}
-                                                        <a
-                                                            className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
-                                                            href="https://ayuda.msklatam.com/portal/es/kb/articles/categoria-demo"
-                                                            target='_blank'
-                                                        >
-                                                            Centro de Ayuda
-                                                        </a>
-                                                    </p>}
+                                                    {item.status !== "Activo" && <CentroAyudaLink addClassNames='mt-2 ml-3' />}
                                                 </div>
                                             </div>
                                         </td>

@@ -94,12 +94,13 @@ export interface UserCourseProgress {
   status: string;
   status_payment: string;
   title: string;
-  featured_image?: string;
   slug?: string;
   id?: string | number;
   categories?: any;
-  image?: string;
+  featured_image: string;
   father_post_type: string;
+  lista_de_cedentes?: Array<{ post_title: string }>;
+  duration?: string;
 }
 
 export interface UserCourse {

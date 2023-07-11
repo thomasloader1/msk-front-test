@@ -1,4 +1,3 @@
-import { Category, PostDataType } from "data/types";
 import React, { FC } from "react";
 import Badge from "components/Badge/Badge";
 
@@ -15,11 +14,11 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   itemClass,
   categories,
   color = "yellow",
-  isCourse = false
+  isCourse
 }) => {
 
+  console.log({ categories, isCourse })
   return (
-
     <div
       className={`nc-CategoryBadgeList ${className}`}
       data-nc-id="CategoryBadgeList"

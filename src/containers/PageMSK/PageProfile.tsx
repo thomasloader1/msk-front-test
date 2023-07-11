@@ -19,6 +19,8 @@ import { getUserCourses, getUserProducts } from "Services/user";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
+import StoreProduct from "components/Store/StoreProduct";
+import ProductAccount from "./profile/ProductAccount";
 
 export interface PageAuthorProps {
   className?: string;
@@ -28,9 +30,7 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<
-    FetchPostType[] | UserCourse[] | UserCourseProgress[]
-  >([]);
+  const [posts, setPosts] = useState<UserCourseProgress[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
 
@@ -139,7 +139,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
                 {currentItems
                   ? currentItems.map((post) => (
-                    <Card2 key={post.id} post={post} hideDesc hideAuthor redirectAccount={true} />
+                    <ProductAccount key={post.id} product={post} user={user} />
                   ))
                   : null}
               </div>

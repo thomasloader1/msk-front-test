@@ -23,10 +23,17 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         const { data } = await axios.get(
           `http://ip-api.com/json/${res.data.ip}`
         );
-        const currentCountry = data.countryCode.toLowerCase();
+        let currentCountry = data.countryCode.toLowerCase();
         localStorage.setItem("country", currentCountry);
-        //Todo: if I get a valid country visitor, if I'm not on that country already, redirect there if he's not on the right country
-        //if it's an invalid country, redirect to the default country
+        let validCountries =  ["mx", "cl", "ar", "ec"];
+        if (!validCountries.includes(currentCountry)) {
+            currentCountry = "mx";
+        }
+
+        if (state.country != currentCountry) {
+          //Redirect to the right country
+        }
+
         dispatch({ type: "SET_COUNTRY", payload: { country: currentCountry } });
       } catch (error) {
         console.log(error);

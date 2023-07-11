@@ -501,6 +501,10 @@ export interface AuthState {
   expires_at: number | null;
 }
 
+export interface CountryState {
+  country: string;
+}
+
 export interface AuthAction {
   type: string;
   payload?: any;

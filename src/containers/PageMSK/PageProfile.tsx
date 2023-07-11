@@ -1,25 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import Avatar from "components/Avatar/Avatar";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import Card2 from "components/Card2/Card2";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
 import {
-  FetchPostType,
   User,
-  UserCourse,
   UserCourseProgress,
 } from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
-import { getUserCourses, getUserProducts } from "Services/user";
+import { getUserCourses } from "Services/user";
 import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
-import StoreProduct from "components/Store/StoreProduct";
 import ProductAccount from "./profile/ProductAccount";
 
 export interface PageAuthorProps {

@@ -76,7 +76,8 @@ module.exports = {
         "brown-post": "#E8874E",
         "teal-active": "#F3FEFC",
         "grey-course": "#575757",
-        "violet-wash": "#6474A6"
+        "violet-wash": "#6474A6",
+        "grey-disabled": "#CCD1DC"
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],

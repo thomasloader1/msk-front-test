@@ -375,7 +375,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                 <div className="cont-btn ">
                   <button
                     type="submit"
-                    className="cont-btn "
+                    className="cont-btn disabled:bg-grey-disabled"
                     disabled={!acceptConditions}
                   >
                     {isEbook ? "Descargar" : "Enviar"}

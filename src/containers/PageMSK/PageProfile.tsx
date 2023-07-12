@@ -116,7 +116,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             radius="rounded-full"
           />
           <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
-            <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-semibold">
+            <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
               {user.name}
             </h2>
             <span className="block text-sm text-neutral-6000 dark:text-neutral-300 md:text-base">

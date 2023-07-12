@@ -43,7 +43,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
   return (
     <Link
       to={href}
-      className={`nc-CardCategory2 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
+      className={`nc-CardCategory2 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
       data-nc-id="CardCategory2"
     >
       {index && (
@@ -58,7 +58,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
         src={thumbnail}
       />
       <div className="mt-3 ">
-        <h2 className={`text-base sm:text-lg`}>
+        <h2 className={`text-base sm:text-lg font-medium`}>
           <span className="line-clamp-1">{name}</span>
         </h2>
         {/* <span

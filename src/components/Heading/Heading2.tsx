@@ -12,7 +12,7 @@ const Heading2: React.FC<Heading2Props> = ({
 }) => {
   return (
     <h2
-      className={`flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 ${className}`}
+      className={`flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-medium text-neutral-900 dark:text-neutral-100 ${className}`}
       {...args}
     >
       {!!emoji && (

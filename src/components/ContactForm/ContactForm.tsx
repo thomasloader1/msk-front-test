@@ -126,7 +126,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
 
     if (selectedOption) {
       const label = selectedOption.id;
-      jsonData.Preferencia_de_contactaci_n = label.replace(/^Contact_Method_/,"");
+      jsonData.Preferencia_de_contactaci_n = label.replace(/^Contact_Method_/, "");
     }
 
     formData.forEach((value: FormDataEntryValue, key: string) => {
@@ -215,7 +215,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
               <input type="hidden" name="utm_content" value={utm_content} />
 
               <div className={`section-title mb-30`}>
-                <h2>
+                <h2 className="font-medium">
                   {isEbook
                     ? "Completa tus datos y obtén la guía ahora"
                     : "Contáctanos"}
@@ -301,10 +301,10 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
                       <option defaultValue="">Seleccionar profesión</option>
                       {professions
                         ? professions.map((p) => (
-                            <option key={p.id} value={p.name}>
-                              {p.name}
-                            </option>
-                          ))
+                          <option key={p.id} value={p.name}>
+                            {p.name}
+                          </option>
+                        ))
                         : ""}
                     </select>
                   </div>

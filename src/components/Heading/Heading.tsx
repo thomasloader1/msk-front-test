@@ -25,7 +25,7 @@ const Heading: React.FC<HeadingProps> = ({
           isCenter ? "text-center w-full max-w-2xl mx-auto " : "w-full"
         }
       >
-        <h2 className={`text-3xl md:text-4xl`} {...args}>
+        <h2 className={`text-3xl md:text-4xl font-medium`} {...args}>
           {children}
         </h2>
         {desc && (
@@ -36,7 +36,7 @@ const Heading: React.FC<HeadingProps> = ({
       </div>
       {hasNextPrev && !isCenter && (
         <div className="mt-4 flex justify-end sm:ml-2 sm:mt-0 flex-shrink-0">
-          <NextPrev onClickNext={() => {}} onClickPrev={() => {}} />
+          <NextPrev onClickNext={() => { }} onClickPrev={() => { }} />
         </div>
       )}
     </div>

@@ -53,7 +53,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                 <div className="flex-wrap">
 
                                                     <div className="ml-4 flex-grow">
-                                                        <span className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
+                                                        <span className="inline-flex line-clamp-2 font-normal  dark:text-neutral-300">
                                                             {item.title || "-"}
                                                         </span>
                                                     </div>

@@ -20,7 +20,7 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({ currentItems, confi
                                 src={item.featured_image}
                             />
 
-                            <span className="text-sm font-semibold  dark:text-neutral-300">
+                            <span className="font-normal dark:text-neutral-300">
                                 {item.title || "-"}
                             </span>
                             <div className="status-badge">

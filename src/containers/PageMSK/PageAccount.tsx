@@ -135,7 +135,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 return (
                   <li key={index}>
                     <NavLink
-                      className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+                      className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
                       to={`${url}${sPath}`}
                       activeClassName="bg-red-400 dark:bg-neutral-800 text-neutral-100 dark:text-neutral-100 invert-image active-account-menu-item"
                     >
@@ -151,7 +151,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
               })}
               <li className="cursor-pointer">
                 <Link to="/faq">
-                  <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
+                  <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                     <img
                       src={`/src/images/icons/faq.svg`}
                       width="16"
@@ -162,7 +162,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 </Link>
               </li>
               <li className="cursor-pointer" onClick={handleModalLogout}>
-                <span className="flex px-6 py-2.5 font-medium rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
+                <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                   <img
                     src={`/src/images/icons/session.svg`}
                     width="16"

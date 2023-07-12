@@ -80,6 +80,7 @@ module.exports = {
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
+        'lora-italic': ['Lora-Italic', 'sans-serif']
       },
     },
   },

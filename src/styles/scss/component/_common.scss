@@ -59,8 +59,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
-  font-family: $nunito;
   font-size: 16px;
   font-weight: normal;
   color: $body-text;
@@ -76,25 +76,32 @@ a {
     width: 100%;
   }
 }
+
 .gallery-area {
   max-width: 1920px;
   margin: 0 auto;
 }
+
 .gallery-inner {
   display: flex;
   flex-wrap: wrap;
-  > div {
+
+  >div {
     width: 20%;
+
     @media #{$sm} {
       width: 33.33%;
     }
+
     @media #{$xs} {
       width: 50%;
     }
   }
 }
+
 .gallery-single {
   position: relative;
+
   &:hover {
     .gallery-link {
       opacity: 1;
@@ -102,6 +109,7 @@ a {
     }
   }
 }
+
 .gallery-link {
   &:before {
     position: absolute;
@@ -113,10 +121,12 @@ a {
     content: "";
     opacity: 0.6;
   }
+
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
 }
+
 .gallery-insta {
   position: absolute;
   top: 50%;
@@ -124,6 +134,7 @@ a {
   transform: translate(-50%, -50%);
   color: #fff;
   font-size: 26px;
+
   &:hover {
     color: #fff;
   }
@@ -134,6 +145,7 @@ a {
     max-width: 100%;
   }
 }
+
 .features-mt {
   margin-top: -85px;
 }
@@ -161,16 +173,19 @@ h5,
 h6 {
   @include transition(0.3s);
 }
+
 a:focus,
 .button:focus {
   text-decoration: none;
   outline: none;
 }
+
 a:focus,
 a:hover {
   color: inherit;
   text-decoration: none;
 }
+
 a,
 button {
   color: inherit;
@@ -178,19 +193,24 @@ button {
   border: none;
   background: transparent;
 }
+
 button:hover {
   cursor: pointer;
 }
+
 button:focus {
   outline: 0;
   border: 0;
 }
+
 .uppercase {
   text-transform: uppercase;
 }
+
 .capitalize {
   text-transform: capitalize;
 }
+
 h1,
 h2,
 h3,
@@ -208,30 +228,37 @@ h6 {
 h1 {
   font-size: 40px;
 }
+
 h2 {
   font-size: 36px;
 }
+
 h3 {
   font-size: 24px;
 }
+
 h4 {
   font-size: 20px;
 }
+
 h5 {
   font-size: 16px;
 }
+
 h6 {
   font-size: 14px;
 }
+
 ul {
   margin: 0px;
   padding: 0px;
 }
+
 li {
   list-style: none;
 }
+
 p {
-  font-family: $nunito;
   font-size: 16px;
   font-weight: normal;
   color: $body-text;
@@ -244,11 +271,13 @@ p {
   color: $white;
   text-shadow: none;
 }
+
 ::-moz-selection {
   background: $theme-color;
   color: $white;
   text-shadow: none;
 }
+
 ::selection {
   background: $theme-color;
   color: $white;
@@ -263,6 +292,7 @@ p {
   font-size: 14px;
   opacity: 1;
 }
+
 *::placeholder {
   color: $body-text;
   font-size: 14px;
@@ -275,6 +305,7 @@ p {
 .fix {
   overflow: hidden;
 }
+
 .clear {
   clear: both;
 }
@@ -282,6 +313,7 @@ p {
 .f-left {
   float: left;
 }
+
 .f-right {
   float: right;
 }
@@ -302,15 +334,18 @@ p {
 .p-relative {
   position: relative;
 }
+
 .p-absolute {
   position: absolute;
 }
+
 /*--
     - Background color
 -----------------------------------------*/
 .grey-bg {
   background: $theme-color-2;
 }
+
 .section-bg {
   background: $section-bg;
 }
@@ -322,6 +357,7 @@ p {
 .white-bg {
   background: $white;
 }
+
 .black-bg {
   background: $black;
 }
@@ -358,6 +394,7 @@ p {
 .theme-color {
   color: $theme-color !important;
 }
+
 .black-color {
   color: $black;
 }
@@ -382,6 +419,7 @@ p {
     cursor: pointer;
   }
 }
+
 .body-overlay.opened {
   opacity: 1;
   visibility: visible;
@@ -394,9 +432,11 @@ p {
     bottom: 15px;
   }
 }
+
 .long-padding {
   padding-bottom: 285px;
 }
+
 /* link btn */
 
 .link-btn {
@@ -406,6 +446,7 @@ p {
   color: $theme-color;
   text-transform: uppercase;
   padding-right: 15px;
+
   & i {
     position: absolute;
     top: 50%;
@@ -415,22 +456,27 @@ p {
     -moz-transition: all ease 0.2s;
     -ms-transition: all ease 0.2s;
     -o-transition: all ease 0.2s;
+
     &:first-child {
       left: -100%;
       visibility: hidden;
       opacity: 0;
     }
+
     &:last-child {
       right: 0;
     }
   }
+
   &:hover {
     color: $black;
+
     & i:first-child {
       left: 0;
       visibility: visible;
       opacity: 1;
     }
+
     & i:last-child {
       right: -100%;
       visibility: hidden;
@@ -447,7 +493,7 @@ p {
   padding-right: 22px;
   display: inline-block;
   text-transform: uppercase;
-  font-family: $nunito;
+
   & i {
     position: absolute;
     top: 45%;
@@ -458,23 +504,28 @@ p {
     -ms-transition: all ease 0.2s;
     -o-transition: all ease 0.2s;
     font-size: 12px;
+
     &:first-child {
       right: 10%;
       visibility: hidden;
       opacity: 0;
     }
+
     &:last-child {
       right: 0;
     }
   }
+
   &:hover {
     color: $theme-color;
+
     & i {
       &:first-child {
         right: 0;
         visibility: visible;
         opacity: 1;
       }
+
       &:last-child {
         right: -10%;
         visibility: hidden;
@@ -482,8 +533,10 @@ p {
       }
     }
   }
+
   &.pink {
     color: $theme-color;
+
     &:hover {
       color: $theme-color;
     }
@@ -502,10 +555,12 @@ p {
   @include border-radius(50%);
   color: $theme-color;
   animation: pulse 2s infinite;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
+
   & i {
     padding-left: 2px;
   }
@@ -515,22 +570,27 @@ p {
   0% {
     -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
   }
+
   70% {
     -webkit-box-shadow: 0 0 0 45px rgba(255, 255, 255, 0);
   }
+
   100% {
     -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
   }
 }
+
 @keyframes pulse {
   0% {
     -moz-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
   }
+
   70% {
     -moz-box-shadow: 0 0 0 45px rgba(255, 255, 255, 0);
     box-shadow: 0 0 0 45px rgba(255, 255, 255, 0);
   }
+
   100% {
     -moz-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
@@ -550,15 +610,18 @@ p {
   @include border-radius(4px);
   @include transition(0.3s);
   border: 1px solid transparent;
+
   &:hover {
     background-color: $theme-color-2;
     color: $heading-color;
   }
+
   &:focus {
     color: $white;
     border: 1px solid transparent;
   }
 }
+
 .edu-sec-btn {
   display: inline-block;
   height: 55px;
@@ -573,12 +636,14 @@ p {
   @include border-radius(4px);
   @include transition(0.3s);
   cursor: pointer;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
     border-color: $theme-color;
   }
 }
+
 .edu-border-btn {
   display: inline-block;
   height: 55px;
@@ -593,15 +658,18 @@ p {
   @include border-radius(4px);
   @include transition(0.3s);
   cursor: pointer;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
     border-color: $theme-color;
   }
+
   &:focus {
     border: 1px solid #dce8fe;
   }
 }
+
 .edu-thard-btn {
   height: 50px;
   line-height: 50px;
@@ -614,11 +682,13 @@ p {
   display: inline-block;
   @include transition(0.3s);
   cursor: pointer;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
 }
+
 .edu-four-btn {
   display: inline-block;
   height: 50px;
@@ -633,12 +703,14 @@ p {
   @include transition(0.3s);
   border: 1px solid transparent;
   cursor: pointer;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
     border-color: $theme-color;
   }
 }
+
 .edu-five-btn {
   display: inline-block;
   height: 50px;
@@ -651,12 +723,14 @@ p {
   padding: 0 40px;
   @include transition(0.3s);
   border: 1px solid transparent;
+
   &:hover {
     background-color: $theme-color-2;
     color: $heading-color;
     border: 1px solid $theme-color-2;
   }
 }
+
 .edu-six-btn {
   height: 50px;
   line-height: 50px;
@@ -669,12 +743,14 @@ p {
   padding: 0 40px;
   display: inline-block;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     color: $white;
     border: 1px solid $white;
   }
 }
+
 .edo-theme-btn {
   display: inline-block;
   height: 55px;
@@ -687,12 +763,14 @@ p {
   padding: 0 40px;
   border: 1px solid $theme-color;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     color: $white;
     border-color: transparent;
   }
 }
+
 .blog-btn {
   background: transparent;
   display: inline-block;
@@ -706,11 +784,13 @@ p {
   border: 1px solid #dce8fe;
   text-align: center;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
 }
+
 .edo-course-btn {
   display: inline-block;
   height: 40px;
@@ -722,14 +802,17 @@ p {
   background-color: $theme-color-2;
   padding: 0px 25px;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
+
   @media #{$xl} {
     padding: 0px 7px;
   }
 }
+
 .edo-course-sec-btn {
   display: inline-block;
   height: 40px;
@@ -741,11 +824,13 @@ p {
   background-color: $theme-color;
   padding: 0px 25px;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color-2;
     color: $heading-color;
   }
 }
+
 .course-btn {
   height: 40px;
   background: $theme-color;
@@ -755,6 +840,7 @@ p {
   border-radius: 3px;
   font-weight: 600;
   color: $white;
+
   &:hover {
     color: $heading-color;
     background-color: $theme-color-2;
@@ -772,18 +858,22 @@ p {
   font-weight: 600;
   color: $white;
   @include transition(0.3s);
+
   @media #{$xl,$lg,$md} {
     padding: 0 35px;
   }
+
   &:hover {
     background: $theme-color-2;
     color: $heading-color;
   }
+
   i {
     margin-right: 10px;
     @include transition(0.3s);
   }
 }
+
 .view-details-btn {
   height: 45px;
   padding: 0 45px;
@@ -795,14 +885,17 @@ p {
   font-weight: 600;
   color: $white;
   @include transition(0.3s);
+
   @media #{$xl,$lg,$md} {
     padding: 0 35px;
   }
+
   &:hover {
     background: $theme-color-2;
     color: $heading-color;
   }
 }
+
 .c-share-btn {
   width: 45px;
   height: 45px;
@@ -813,12 +906,14 @@ p {
   line-height: 50px;
   text-align: center;
   @include transition(0.3s);
+
   &:hover {
     background: $theme-color;
     border-color: $theme-color;
     color: $white;
   }
 }
+
 .wishlist-btn {
   width: 45px;
   height: 45px;
@@ -829,19 +924,23 @@ p {
   line-height: 50px;
   text-align: center;
   @include transition(0.3s);
+
   &:focus {
     border: 1px solid #dce8fe;
   }
+
   &:hover {
     border-color: $theme-color;
     color: $theme-color;
   }
+
   &.w-added {
     background: $theme-color;
     border-color: $theme-color;
     color: $white;
   }
 }
+
 .edu-follow-btn {
   height: 50px;
   padding: 0 40px 0 60px;
@@ -855,19 +954,24 @@ p {
   font-weight: 600;
   @include transition(0.3s);
   position: relative;
+
   i {
     margin-right: 10px;
   }
+
   &:focus {
     color: $white;
   }
+
   &:hover {
     color: $heading-color;
     background: $theme-color-2;
+
     &:before {
       color: $heading-color;
     }
   }
+
   &::before {
     position: absolute;
     content: "";
@@ -878,19 +982,23 @@ p {
     font-weight: 400;
     color: #ffffff;
   }
+
   &.followed::before {
     content: "";
   }
 }
+
 .course-details-action {
   display: flex;
   gap: 20px;
   width: 240px;
   justify-content: flex-end;
+
   @media #{$sm,$xs} {
     justify-content: flex-start;
   }
 }
+
 .share-btn {
   border: 1px solid $border;
   padding: 10px 15px;
@@ -898,14 +1006,17 @@ p {
   line-height: 50px;
   text-align: center;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     border-color: transparent;
+
     i {
       color: $white;
     }
   }
 }
+
 .membership-btn-active {
   height: 55px;
   background: $theme-color-2;
@@ -916,11 +1027,13 @@ p {
   color: #161b1c;
   padding: 0 30px;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
 }
+
 .membership-btn {
   height: 55px;
   background: $theme-color;
@@ -931,11 +1044,13 @@ p {
   color: $white;
   padding: 0 30px;
   @include transition(0.3s);
+
   &:hover {
     background-color: $theme-color-2;
     color: #161b1c;
   }
 }
+
 .get-btn {
   height: 45px;
   display: inline-block;
@@ -948,12 +1063,14 @@ p {
   border-radius: 3px;
   border: 1px solid $border;
   @include transition(0.3s);
+
   &:hover {
     background: $theme-color;
     color: $white;
     border-color: $theme-color;
   }
 }
+
 .video-cart-btn {
   height: 55px;
   padding: 0px 20px;
@@ -966,14 +1083,17 @@ p {
   font-weight: 600;
   color: $white;
   @include transition(0.3s);
+
   &:hover {
     background-color: $secondary;
     color: $white;
   }
+
   i {
     margin-right: 10px;
   }
 }
+
 .video-wishlist-btn {
   height: 55px;
   padding: 0px 20px;
@@ -986,17 +1106,21 @@ p {
   outline: 1px solid $theme-color;
   @include transition(0.3s);
   justify-content: center;
+
   &:hover {
     background-color: $theme-color;
     color: $white;
   }
+
   i {
     margin-right: 10px;
   }
 }
+
 .success-message {
   margin-top: 15px;
 }
+
 .cont-btn {
   height: 55px;
   background: $primary;
@@ -1009,21 +1133,26 @@ p {
   display: flex;
   justify-content: center;
   line-height: 55px;
+
   &:hover {
     color: $white;
     background: $secondary;
   }
+
   &:disabled {
     background: #e5e7eb;
     color: #7c838f;
+
     .subscribe-icon {
       filter: brightness(0.4) grayscale(100%);
     }
   }
+
   @media (max-width: 767px) {
     width: 100%;
   }
 }
+
 .event-btn {
   height: 55px;
   line-height: 53px;
@@ -1038,6 +1167,7 @@ p {
   @include transition(0.3s);
   justify-content: center;
   width: 100%;
+
   &:hover {
     color: $heading-color;
     background: $theme-color-2;
@@ -1048,15 +1178,18 @@ p {
   ul {
     display: none;
   }
+
   &::after {
     transform: rotate(0deg);
   }
 }
+
 .course-title-breadcrumb {
   .breadcrumb-item {
     margin-right: 10px;
   }
-  .breadcrumb-item + .breadcrumb-item {
+
+  .breadcrumb-item+.breadcrumb-item {
     padding-left: 0;
   }
 }

@@ -12,23 +12,28 @@
   display: flex;
   width: 100%;
 }
+
 .contact-form {
   width: 100%;
+
   .section-title {
     .preferences {
       align-items: end;
+
       p,
       label {
         color: $description-text;
         font-size: 1rem;
-        font-family: $nunito;
+
       }
     }
   }
 }
+
 #submit-newsletter:not(:disabled) {
   background-color: #9200ad;
 }
+
 .contact-from-input input {
   height: 60px;
   width: 100%;
@@ -37,10 +42,12 @@
   padding: 15px 20px;
   border-radius: 4px;
   outline: 0;
+
   &::placeholder {
     font-size: 16px;
   }
 }
+
 .contact-from-input textarea {
   height: 170px;
   width: 100%;
@@ -50,37 +57,45 @@
   border-radius: 4px;
   resize: none;
   outline: 0;
+
   &::placeholder {
     font-size: 16px;
   }
 }
+
 .support-item {
   &:last-child {
     margin-bottom: 0;
   }
+
   display: flex;
   align-items: flex-start;
   gap: 20px;
   margin-bottom: 30px;
+
   @media #{$xs} {
     gap: 12px;
   }
 }
+
 .support-contact {
   padding: 25px 30px 25px 30px;
   background: #f8f8f9;
   border-radius: 5px;
   border: 1px solid #f8f8f9;
   margin-top: 105px;
+
   @media #{$xs} {
     padding: 25px 20px 25px 20px;
   }
 }
+
 .support-tittle {
   h4 {
     margin-bottom: 30px;
   }
 }
+
 .support-info-phone {
   span {
     font-size: 18px;
@@ -88,14 +103,17 @@
     color: $heading-color;
     display: block;
   }
+
   p {
     margin-bottom: 3px;
+
     a {
       color: $heading-color;
       font-weight: 700;
     }
   }
 }
+
 .support-info-whatsapp {
   span {
     font-size: 18px;
@@ -104,12 +122,14 @@
     display: block;
   }
 }
+
 .support-info-whatsapp {
   a {
     margin-bottom: 2px;
     display: block;
   }
 }
+
 .support-info-email {
   span {
     font-size: 18px;
@@ -127,16 +147,19 @@
   border: none;
   padding: 15px 20px;
   line-height: 30px;
+
   span {
     font-size: 14px;
     color: $body-text;
   }
+
   &:after {
     width: 7px;
     height: 7px;
     right: 20px;
   }
 }
+
 .contact-select .nice-select .list {
   width: 100%;
   background-color: #f8f8f9;

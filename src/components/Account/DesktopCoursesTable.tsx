@@ -53,9 +53,9 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                 <div className="flex-wrap">
 
                                                     <div className="ml-4 flex-grow">
-                                                        <h2 className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
+                                                        <span className="inline-flex line-clamp-2 text-sm font-semibold  dark:text-neutral-300">
                                                             {item.title || "-"}
-                                                        </h2>
+                                                        </span>
                                                     </div>
                                                     {item.status !== "Activo" && <CentroAyudaLink addClassNames='mt-2 ml-3' />}
                                                 </div>

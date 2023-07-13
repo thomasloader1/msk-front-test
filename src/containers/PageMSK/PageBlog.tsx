@@ -19,6 +19,7 @@ const PageBlog: React.FC = () => {
       ...post,
       image: post.thumbnail,
     }));
+
     setPosts(formattedPosts);
   };
   const fetchCourses = async () => {
@@ -51,7 +52,7 @@ const PageBlog: React.FC = () => {
           />
           <HomeExtraInfo />
 
-          <Tendencies className="mt-24" />
+          {/* <Tendencies className="mt-24" /> */}
           <div className="relative py-16 my-32">
             <BackgroundSection />
             <SectionSliderPosts

@@ -102,6 +102,9 @@ export interface UserCourseProgress {
   father_post_type: string;
   lista_de_cedentes?: Array<{ post_title: string }>;
   duration?: string;
+  excerpt?: string;
+  date?: string;
+  author: any;
 }
 
 export interface UserCourse {
@@ -121,6 +124,9 @@ export interface UserCourse {
   categories?: any;
   image?: string;
   father_post_type?: string;
+  excerpt?: string;
+  date?: string;
+  author?: any;
 }
 
 export interface User {
@@ -183,19 +189,20 @@ export interface FetchPostType {
   image?: string;
   categories: PostCategory[];
   tags: string[];
-  author: PostAuthor;
+  author: any;
   content: string;
   father_post_type?: string;
 }
 
 export interface PostDataType {
   id: string | number;
-  author: PostAuthorType;
-  date: string;
+  author: any;
+  date?: string;
   href: string;
   categories: TaxonomyType[];
   title: string;
-  featuredImage: string;
+  featuredImage?: string;
+  featured_image?: string;
   desc?: string;
   like: {
     count: number;
@@ -212,6 +219,7 @@ export interface PostDataType {
   videoUrl?: string;
   audioUrl?: string;
   galleryImgs?: string[];
+  cursos_recomendados?: any;
 }
 
 export interface BlogDataType {
@@ -387,6 +395,9 @@ export interface FetchCourseType {
   total_price: string;
   price_installments: string;
   lista_de_cedentes: any[];
+  excerpt?: string;
+  date?: string;
+  author?: any;
 }
 
 export interface Category {

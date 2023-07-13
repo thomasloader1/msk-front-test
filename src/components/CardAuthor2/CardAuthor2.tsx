@@ -19,7 +19,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
   flex,
   hoverReadingTime = true,
 }) => {
-  const { displayName, href = "/", avatar } = author;
+  const { name, href = "/", avatar } = author;
   return (
     <Link
       to={href}
@@ -31,16 +31,16 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
         containerClassName="flex-shrink-0 mr-3"
         radius="rounded-full"
         imgUrl={avatar}
-        userName={displayName}
+        userName={name}
       />
-      <div className={flex ? "flex gap-4" : ""}>
+      <div className={flex ? "flex gap-2" : ""}>
         <h2
-          className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium`}
+          className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-bold`}
         >
-          {displayName}
+          {name}
         </h2>
         <span
-          className={`flex items-center  text-xs text-neutral-500 dark:text-neutral-400`}
+          className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400`}
         >
           <span>{date}</span>
           {readingTime && (

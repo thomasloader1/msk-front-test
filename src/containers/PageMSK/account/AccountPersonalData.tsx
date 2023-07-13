@@ -111,6 +111,7 @@ const DashboardEditProfile: FC<Props> = ({
       speciality,
       phone: phoneNumber,
     };
+
     try {
       const res = await api.updateUserData(jsonData);
       if ((res?.status as number) === 200) {
@@ -245,10 +246,10 @@ const DashboardEditProfile: FC<Props> = ({
               <option defaultValue="">Seleccionar profesión</option>
               {professions
                 ? professions.map((p) => (
-                    <option key={p.id} value={p.name}>
-                      {p.name}
-                    </option>
-                  ))
+                  <option key={p.id} value={p.name}>
+                    {p.name}
+                  </option>
+                ))
                 : ""}
             </select>
           </div>
@@ -398,9 +399,7 @@ const DashboardEditProfile: FC<Props> = ({
 
         <Button
           className={
-            isFormComplete
-              ? "md:col-span-2 bg-primary-6000 text-neutral-100"
-              : "md:col-span-2 bg-neutral-200 text-neutral-500"
+            "md:col-span-2 bg-primary-6000 text-white disabled:bg-grey-disabled disabled:cursor-not-allowed"
           }
           type="submit"
           disabled={!isFormComplete}

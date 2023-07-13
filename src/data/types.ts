@@ -53,6 +53,8 @@ export interface Contact {
   updated_at: string;
   validate: string;
   contracts: Contract[];
+  other_profession?: string;
+  other_speciality?: string;
 }
 
 export interface Contract {

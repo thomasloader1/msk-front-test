@@ -261,7 +261,7 @@ const DashboardEditProfile: FC<Props> = ({
                 id="Last_Name"
                 name="Otra_profesion"
                 placeholder="Ingresar profesion"
-                value={localUser?.profession || ""}
+                value={localUser?.other_profession || ""}
                 onChange={(event) =>
                   handleInputChange("profession", event.target.value)
                 }
@@ -295,7 +295,7 @@ const DashboardEditProfile: FC<Props> = ({
                 id="Last_Name"
                 name="Otra_especialidad"
                 placeholder="Ingresar especialidad"
-                value={localUser?.speciality || ""}
+                value={localUser?.other_speciality || ""}
                 onChange={(event) =>
                   handleInputChange("speciality", event.target.value)
                 }

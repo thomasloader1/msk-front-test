@@ -17,7 +17,6 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isCourse
 }) => {
 
-  console.log({ categories, isCourse })
   return (
     <div
       className={`nc-CategoryBadgeList ${className}`}

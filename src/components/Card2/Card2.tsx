@@ -25,6 +25,7 @@ export interface Card2Props {
   redirectAccount?: boolean;
   hideAuthor?: boolean;
   badgeColor?: string;
+  kind?: string;
 }
 
 const Card2: FC<Card2Props> = ({
@@ -33,14 +34,22 @@ const Card2: FC<Card2Props> = ({
   post,
   badgeColor,
   redirectAccount,
+  kind = "curso",
   hideDesc,
   hideAuthor,
 }) => {
-
-  const { title, image, slug, categories, father_post_type } = post;
+  const {
+    title,
+    image,
+    slug,
+    categories,
+    father_post_type,
+    excerpt,
+    date,
+    author,
+  } = post;
   const imageURL = image?.replace("mx.", "");
-  const url = redirectAccount ? `/mi-cuenta/cursos` : `/curso/${slug}`;
-
+  const url = redirectAccount ? `/mi-cuenta/cursos` : `/${kind}/${slug}`;
   return (
     <div
       className={`nc-Card2 group relative flex flex-col  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden ${className} rounded-lg`}
@@ -72,22 +81,25 @@ const Card2: FC<Card2Props> = ({
             color={badgeColor}
           />
           <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-12 ${size === "large" ? "text-lg sm:text-2xl" : "text-base"
-              }`}
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-10 ${
+              size === "large" ? "text-lg sm:text-2xl" : "text-base"
+            }`}
           >
-            <Link to={url} className="line-clamp-2" title={title}>
+            <Link
+              to={url}
+              className="line-clamp-2 truncate block"
+              title={title}
+            >
               {title}
             </Link>
           </h2>
-          {/* {hideDesc ? null : (
-            <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2">
-              {desc}
-            </span>
-          )} */}
+          <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2 truncate">
+            {excerpt}
+          </span>
         </div>
-        {/* {hideAuthor ? null : (
+        {hideAuthor ? null : (
           <CardAuthor2 className="relative my-4" date={date} author={author} />
-        )} */}
+        )}
         {/* <div className="flex items-center justify-between mt-auto">
           <PostCardLikeAction
             className="relative pl-3 py-1 pr-4 mt-3"

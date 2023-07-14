@@ -1,7 +1,7 @@
 import Button from "components/Button/Button";
 import Input from "components/Input/Input";
 import Label from "components/Label/Label";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
@@ -86,6 +86,8 @@ const DashboardEditProfile: FC<Props> = ({
       localUser.postal_code,
       localUser.rfc,
       localUser.fiscal_regime,
+      localUser?.other_profession,
+      localUser?.other_speciality,
     ];
     const isComplete =
       requiredFields.every((field) => field !== "") && !isFieldEmpty;
@@ -95,18 +97,21 @@ const DashboardEditProfile: FC<Props> = ({
 
   const submitForm = async (event: any) => {
     event?.preventDefault();
-    const profession =
-      selectedOptionProfession === "Otra profesión"
-        ? localUser.profession
-        : selectedOptionProfession;
+    const profession = selectedOptionProfession === "Otra profesión" ? "Otra profesión" : selectedOptionProfession;
 
     const speciality =
       selectedOptionSpecialty === "Otra Especialidad"
-        ? localUser.speciality
+        ? "Otra Especialidad"
         : selectedOptionSpecialty;
+
+    const otherInputs = {
+      other_profession: selectedOptionProfession !== "Otra profesión" ? '' : localUser.other_profession,
+      other_speciality: selectedOptionSpecialty !== "Otra Especialidad" ? '' : localUser.other_speciality,
+    }
 
     const jsonData: Contact = {
       ...localUser,
+      ...otherInputs,
       profession,
       speciality,
       phone: phoneNumber,
@@ -174,6 +179,25 @@ const DashboardEditProfile: FC<Props> = ({
 
     setIsFormComplete(isComplete);
   };
+
+
+  useEffect(() => {
+    const hasOtherProfession = selectedOptionProfession.includes("Otra ");
+    const hasOtherSpeciality = selectedOptionSpecialty.includes("Otra ");
+    setShowInputProfession(hasOtherProfession)
+    setShowInputSpecialties(hasOtherSpeciality)
+    console.log({ hasOtherProfession, hasOtherSpeciality })
+
+    return () => {
+      setLocalUser(prevState => ({
+        ...prevState,
+        other_profession: hasOtherProfession ? localUser.other_profession : "",
+        other_speciality: hasOtherSpeciality ? localUser.other_speciality : ""
+      }))
+
+    }
+
+  }, [selectedOptionProfession, selectedOptionSpecialty]);
 
   return (
     <div className="rounded-xl md:border md:border-neutral-100 dark:border-neutral-800 md:p-6">
@@ -253,7 +277,7 @@ const DashboardEditProfile: FC<Props> = ({
                 : ""}
             </select>
           </div>
-          {showInputProfession && (
+          {(showInputProfession) && (
             <label className="block">
               <Input
                 type="text"
@@ -261,9 +285,9 @@ const DashboardEditProfile: FC<Props> = ({
                 id="Last_Name"
                 name="Otra_profesion"
                 placeholder="Ingresar profesion"
-                value={localUser?.other_profession || ""}
+                value={localUser?.other_profession}
                 onChange={(event) =>
-                  handleInputChange("profession", event.target.value)
+                  handleInputChange("other_profession", event.target.value)
                 }
               />
             </label>
@@ -287,7 +311,7 @@ const DashboardEditProfile: FC<Props> = ({
               ))}
             </select>
           </div>
-          {showInputSpecialties && (
+          {(showInputSpecialties) && (
             <label className="block">
               <Input
                 type="text"
@@ -295,9 +319,9 @@ const DashboardEditProfile: FC<Props> = ({
                 id="Last_Name"
                 name="Otra_especialidad"
                 placeholder="Ingresar especialidad"
-                value={localUser?.other_speciality || ""}
+                value={localUser?.other_speciality}
                 onChange={(event) =>
-                  handleInputChange("speciality", event.target.value)
+                  handleInputChange("other_speciality", event.target.value)
                 }
               />
             </label>

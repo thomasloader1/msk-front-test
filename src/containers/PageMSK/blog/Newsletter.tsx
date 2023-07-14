@@ -1,15 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import doctors_1 from "images/vectors/doctors_1.png";
 import NcImage from "components/NcImage/NcImage";
 import Badge from "components/Badge/Badge";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
+import NcModal from "components/NcModal/NcModal";
+import FooterNewsletter from "components/Footer/Newsletter";
 
 export interface NewsletterProps {
   className?: string;
 }
 
 const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
+  const [email, setEmail] = useState("");
+  const [show, setShow] = useState(false);
+
+  const openModal = (e: any) => {
+    e.preventDefault();
+    setShow(true);
+  };
   return (
     <div
       className={`nc-Newsletter relative flex flex-col lg:flex-row items-center ${className}`}
@@ -23,37 +32,38 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
         </span>
         <ul className="space-y-5 mt-10">
           <li className="flex items-center space-x-4">
-            <Badge name="01" className="rounded-xl" />
+            <Badge color="indigo" name="01" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Guías profesionales
             </span>
           </li>
           <li className="flex items-center space-x-4">
-            <Badge name="02" className="rounded-xl" />
+            <Badge color="indigo" name="02" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Webinars
             </span>
           </li>
           <li className="flex items-center space-x-4">
-            <Badge name="03" className="rounded-xl" />
+            <Badge color="indigo" name="03" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Podcasts
             </span>
           </li>
         </ul>
-        <form className="mt-10 relative max-w-sm">
+        <form onSubmit={openModal} className="mt-10 relative max-w-sm">
           <Input
             required
             aria-required
-            placeholder="Enter your email"
-            type="email"
+            placeholder="Ingresar e-mail"
             className="rounded-lg w-full"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <ButtonPrimary
             type="submit"
-            className="absolute transform -translate-y-10 -translate-x-14 left-full h-9 w-12"
+            className="absolute transform -translate-y-10 -translate-x-14 left-full w-12"
           >
-            <i className="las la-arrow-right text-xl"></i>
+            <i className="las la-arrow-right text-sm"></i>
           </ButtonPrimary>
         </form>
       </div>
@@ -62,6 +72,21 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
           <NcImage src={doctors_1} />
         </div>
       </div>
+      <NcModal
+        isOpenProp={show}
+        onCloseModal={() => {
+          setShow(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() => (
+          <FooterNewsletter email={email} setShow={setShow} />
+        )}
+        modalTitle="Nuestro Newsletter"
+        modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
+      />
     </div>
   );
 };

@@ -14,20 +14,16 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   itemClass,
   categories,
   color = "yellow",
-  isCourse
+  isCourse,
 }) => {
-
+  // console.log({ categories, isCourse })
   return (
     <div
       className={`nc-CategoryBadgeList ${className}`}
       data-nc-id="CategoryBadgeList"
     >
       {isCourse && (
-        <Badge
-          className={itemClass}
-          name={"Curso"}
-          color={"blue"}
-        />
+        <Badge className={itemClass} name={"Curso"} color={"blue"} />
       )}
       {categories.map((item, index) => (
         <Badge
@@ -38,7 +34,6 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
         />
       ))}
     </div>
-
   );
 };
 

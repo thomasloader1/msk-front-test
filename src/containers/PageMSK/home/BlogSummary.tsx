@@ -82,6 +82,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
             size="large"
             post={auxPosts[0]}
             badgeColor={badgeColor(auxPosts[0])}
+            kind="blog"
           />
         )}
         <div>
@@ -93,6 +94,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
                   post={item}
                   badgeColor={badgeColor(item)}
                   className="rounded-3xl"
+                  kind="blog"
                   authorRow
                 />
               ))

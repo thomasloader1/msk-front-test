@@ -89,7 +89,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   };
 
   return (
-    <form className="asdsad" ref={formRef} onSubmit={handleSubmit}>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
         <div className="">
           <div className="contact-from-input">

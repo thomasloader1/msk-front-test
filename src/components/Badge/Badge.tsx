@@ -9,6 +9,7 @@ export interface BadgeProps {
   href?: string;
   textSize?: string;
   icon?: string;
+  rounded?: string;
 }
 
 const Badge: FC<BadgeProps> = ({
@@ -18,70 +19,91 @@ const Badge: FC<BadgeProps> = ({
   color = "blue",
   href,
   icon,
+  rounded = "rounded",
 }) => {
   const getColorClass = (hasHover = true) => {
     switch (color) {
       case "pink":
-        return `text-pink-800 bg-pink-100 ${hasHover ? "hover:bg-pink-800" : ""
-          }`;
+        return `text-pink-800 bg-pink-100 ${
+          hasHover ? "hover:bg-pink-800" : ""
+        }`;
       case "red":
         return `text-red-800 bg-red-100 ${hasHover ? "hover:bg-red-800" : ""}`;
       case "red-strong":
-        return `text-stone-700 bg-red-400 ${hasHover ? "hover:bg-red-800" : ""
-          }`;
+        return `text-stone-700 bg-red-400 ${
+          hasHover ? "hover:bg-red-800" : ""
+        }`;
       case "gray":
-        return `text-gray-800 bg-gray-100 ${hasHover ? "hover:bg-gray-800" : ""
-          }`;
+        return `text-gray-800 bg-gray-100 ${
+          hasHover ? "hover:bg-gray-800" : ""
+        }`;
       case "green":
-        return `text-green-800 bg-teal-300 ${hasHover ? "hover:bg-green-800" : ""
-          }`;
+        return `text-green-800 bg-teal-300 ${
+          hasHover ? "hover:bg-green-800" : ""
+        }`;
       case "purple":
-        return `text-purple-800 bg-purple-100 ${hasHover ? "hover:bg-purple-800" : ""
-          }`;
+        return `text-purple-800 bg-purple-100 ${
+          hasHover ? "hover:bg-purple-800" : ""
+        }`;
       case "indigo":
-        return `text-indigo-800 bg-indigo-100 ${hasHover ? "hover:bg-indigo-800" : ""
-          }`;
+        return `text-indigo-800 bg-indigo-100 ${
+          hasHover ? "hover:bg-indigo-800" : ""
+        }`;
       case "yellow":
-        return `text-yellow-800 bg-yellow-100 ${hasHover ? "hover:bg-yellow-800" : ""
-          }`;
+        return `text-yellow-800 bg-yellow-100 ${
+          hasHover ? "hover:bg-yellow-800" : ""
+        }`;
       case "yellow-strong":
-        return `text-yellow-800 bg-yellow-400 ${hasHover ? "hover:bg-yellow-800" : ""
-          }`;
+        return `text-yellow-800 bg-yellow-400 ${
+          hasHover ? "hover:bg-yellow-800" : ""
+        }`;
       case "blue":
-        return `text-blue-800 bg-blue-100 ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-blue-800 bg-blue-100 ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "blue-post":
-        return `text-neutral-900 bg-blue-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-blue-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "yellow-strong-post":
-        return `text-neutral-900 bg-yellow-strong-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-yellow-strong-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "yellow-post":
-        return `text-neutral-900 bg-yellow-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-yellow-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "orange-post":
-        return `text-neutral-900 bg-orange-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-orange-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "red-post":
-        return `text-neutral-900 bg-red-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-red-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "emerald-post":
-        return `text-neutral-900 bg-emerald-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-emerald-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "teal-active":
-        return `text-slate-500 bg-teal-active ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-slate-500 bg-teal-active ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "brown-post":
-        return `text-neutral-900 bg-brown-post ${hasHover ? "hover:bg-blue-800" : ""
-          }`;
+        return `text-neutral-900 bg-brown-post ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       default:
-        return `text-pink-800 bg-pink-100 ${hasHover ? "hover:bg-pink-800" : ""
-          }`;
+        return `text-pink-800 bg-pink-100 ${
+          hasHover ? "hover:bg-pink-800" : ""
+        }`;
     }
   };
 
   const CLASSES =
-    "nc-Badge  inline-flex px-2.5 py-1 rounded font-medium" + className;
+    "nc-Badge  inline-flex px-2.5 py-1 font-medium" +
+    ` ${className}` +
+    ` ${rounded}`;
   return !!href ? (
     <Link
       to={href || ""}
@@ -92,7 +114,7 @@ const Badge: FC<BadgeProps> = ({
   ) : icon ? (
     <div className={`${CLASSES} ${getColorClass(false)} `}>
       <img src={`/src/images/icons/${icon}.svg`} width="15" className="mr-1" />
-      <span className="font-normal">{name}</span>
+      <span className="font-normal">{name} </span>
     </div>
   ) : (
     <span className={`${CLASSES} ${getColorClass(false)} `}>{name}</span>

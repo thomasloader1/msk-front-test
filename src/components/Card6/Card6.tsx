@@ -19,36 +19,42 @@ export interface Card6Props {
   post: FetchPostType;
   authorRow?: boolean;
   badgeColor?: string;
+  kind?: string;
 }
 
 const Card6: FC<Card6Props> = ({
   className = "h-full",
   post,
   authorRow,
+  kind = "blog",
   badgeColor,
 }) => {
-  const { title, image, categories, link } = post;
+  const { title, slug, image, categories, link, author, date } = post;
 
   return (
     <div
       className={`nc-Card6 relative flex group flex-col-reverse sm:flex-row sm:items-center p-4  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
       data-nc-id="Card6"
     >
-      <Link to={link} className="absolute inset-0 z-0"></Link>
+      <Link to={`/${kind}/${slug}`} className="absolute inset-0 z-0"></Link>
       <div className="flex flex-col flex-grow">
         <div className="space-y-3 mb-4">
           <CategoryBadgeList categories={categories} color={badgeColor} />
           <h2 className={`block font-semibold text-base`}>
-            <Link to={link} className="line-clamp-2" title={title}>
+            <Link
+              to={`/${kind}/${slug}`}
+              className="line-clamp-2"
+              title={title}
+            >
               {title}
             </Link>
           </h2>
-          {/* <CardAuthor2
-            className="relative my-4"
+          <CardAuthor2
             date={date}
+            className="relative my-4"
             author={author}
             flex={authorRow}
-          /> */}
+          />
           {/* <PostCardMeta meta={{ ...post }} /> */}
         </div>
         {/* <div className="flex items-center flex-wrap justify-between mt-auto">

@@ -14,28 +14,15 @@ export interface SingleContentProps {
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
-  // const fetchCourses = async () => {
-  //   const res = await axios.get(`${API_URL}/products?country=mx`);
-  //   setCourses(res.data.products);
-  // };
-  const [courses, setCourses] = useState([]);
+  const [isFixed, setIsFixed] = useState(false);
+  const [bottomDistance, setBottomDistance] = useState(0);
+
   const [recommendedCourses, setRecommendedCourses] = useState([]);
-  const {
-    tags,
-    author,
-    commentCount,
-    comments,
-    excerpt,
-    contenido,
-    date,
-    cursos_recomendados,
-  } = data;
+  const { author, contenido, date } = data;
   const commentRef = useRef<HTMLDivElement>(null);
-  //
   const location = useLocation();
 
   useEffect(() => {
-    // fetchCourses();
     const courseList = data.cursos_recomendados.map((course: any) => {
       var urlParts = course.link.split("/");
       return { ...course, slug: urlParts[urlParts.length - 2] };
@@ -44,11 +31,9 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
   }, [data]);
 
   useEffect(() => {
-    //  SCROLL TO COMMENT AREA
     if (location.hash !== "#comment") {
       return;
     }
-    //
     if (location.hash === "#comment") {
       setTimeout(() => {
         if (commentRef.current) {
@@ -57,6 +42,34 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
       }, 500);
     }
   }, [location]);
+
+  let scrollPosition = 0;
+
+  const calculateDistanceToBottom = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    return documentHeight - (scrollPosition + windowHeight);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 900;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      setIsFixed(scrollTop > threshold);
+
+      const distanceToBottom = calculateDistanceToBottom();
+      const auxDistance = scrollPosition - distanceToBottom - 100;
+      setBottomDistance(distanceToBottom < 420 ? auxDistance / 2 : 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="nc-SingleContent space-y-10">
@@ -81,32 +94,66 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
             </p>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4">
-          <div className="side-content rounded-2xl ">
-            <div className="flex w-full">
-              <h5 className="side-content-header p-3 py-6">
-                🎯 Los más leídos
-              </h5>
-              <Link
-                to={`/tienda`}
-                className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
-              >
-                Ver todos
-              </Link>
+        <div className="col-span-12 lg:col-span-4 relative course-video-widget">
+          <div
+            className={`${
+              isFixed && bottomDistance == 0
+                ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
+                : "col-span-12 lg:col-span-4 post-side-data"
+            } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
+          >
+            <div className="side-content rounded-2xl ">
+              <div className="flex w-full">
+                <h5 className="side-content-header p-3 py-6">
+                  🎯 Los más leídos
+                </h5>
+                <Link
+                  to={`/tienda`}
+                  className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
+                >
+                  Ver todos
+                </Link>
+              </div>
+              {recommendedCourses.map((course: any, index: number) => (
+                <Link
+                  to={`/curso/${course.slug}`}
+                  key={`rc_${index}`}
+                  className="side-content-course"
+                >
+                  <NcImage
+                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
+                    src={course.image}
+                  />
+                  {course.title}
+                </Link>
+              ))}
             </div>
-            {recommendedCourses.map((course: any, index: number) => (
-              <Link
-                to={`/curso/${course.slug}`}
-                key={`rc_${index}`}
-                className="side-content-course"
-              >
-                <NcImage
-                  containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
-                  src={course.image}
-                />
-                {course.title}
-              </Link>
-            ))}
+            {/* <div className="side-content rounded-2xl ">
+              <div className="flex w-full">
+                <h5 className="side-content-header p-3 py-6">
+                  💼 Especialidades{" "}
+                </h5>
+                <Link
+                  to={`/tienda`}
+                  className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
+                >
+                  Ver todos
+                </Link>
+              </div>
+              {recommendedCourses.map((course: any, index: number) => (
+                <Link
+                  to={`/curso/${course.slug}`}
+                  key={`rc_${index}`}
+                  className="side-content-course"
+                >
+                  <NcImage
+                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
+                    src={course.image}
+                  />
+                  {course.title}
+                </Link>
+              ))}
+            </div> */}
           </div>
         </div>
       </div>

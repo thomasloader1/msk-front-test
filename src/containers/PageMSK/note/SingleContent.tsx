@@ -36,8 +36,11 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
 
   useEffect(() => {
     // fetchCourses();
-
-    setRecommendedCourses(data.cursos_recomendados);
+    const courseList = data.cursos_recomendados.map((course: any) => {
+      var urlParts = course.link.split("/");
+      return { ...course, slug: urlParts[urlParts.length - 2] };
+    });
+    setRecommendedCourses(courseList);
   }, [data]);
 
   useEffect(() => {
@@ -92,19 +95,17 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
               </Link>
             </div>
             {recommendedCourses.map((course: any, index: number) => (
-              <a
-                href={course.link}
+              <Link
+                to={`/curso/${course.slug}`}
                 key={`rc_${index}`}
-                target="_blank"
                 className="side-content-course"
               >
                 <NcImage
                   containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
                   src={course.image}
                 />
-
                 {course.title}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

@@ -13,6 +13,7 @@ import { API_URL } from "data/api";
 const PageBlog: React.FC = () => {
   const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchPosts = async () => {
     const res = await axios.get(`${API_URL}/posts`);
     const formattedPosts = res.data.posts.map((post: any) => ({
@@ -21,6 +22,7 @@ const PageBlog: React.FC = () => {
     }));
 
     setPosts(formattedPosts);
+    setLoading(false);
   };
   const fetchCourses = async () => {
     const res = await axios.get(`${API_URL}/products`);
@@ -42,11 +44,12 @@ const PageBlog: React.FC = () => {
         {/* ======= START CONTAINER ============= */}
         <div className="container relative">
           {/* === SECTION  === */}
-          <WelcomeBlog tabs={[]} heading="" posts={posts} />
+          <WelcomeBlog tabs={[]} heading="" posts={posts} loading={loading} />
           <BlogSummary
-            className="py-16 lg:py-28"
             posts={posts}
             tabs={TABS_BLOG}
+            loading={loading}
+            className="py-16 lg:py-28"
             heading=""
             desc=""
           />
@@ -56,11 +59,12 @@ const PageBlog: React.FC = () => {
           <div className="relative py-16 my-32">
             <BackgroundSection />
             <SectionSliderPosts
+              posts={courses}
+              loading={loading}
               postCardName="card9"
               heading="¿Buscas capacitarte a distancia?"
               subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
               sliderStype="style2"
-              posts={courses}
               uniqueSliderClass="pageHome-section6"
             />
           </div>

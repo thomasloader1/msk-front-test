@@ -5,18 +5,22 @@ import Card18 from "components/Card18/Card18";
 import { FetchPostType, PostDataType } from "data/types";
 import { CourseDataType } from "data/types";
 import Heading from "components/Heading/Heading";
+import Skeleton from "components/Skeleton/Skeleton";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 
 interface WelcomeBlogProps {
   tabs: string[];
   posts: FetchPostType[];
   heading?: string;
   className?: string;
+  loading?: boolean;
 }
 const WelcomeBlog: FC<WelcomeBlogProps> = ({
   posts,
   tabs,
   className = "",
   heading = " ",
+  loading = false,
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
 
@@ -44,7 +48,19 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
           onClickTab={handleClickTab}
         />
       )}
-      {!posts.length && <span>No hay posts disponibles</span>}
+      {loading && (
+        <>
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+            <ImageSkeleton className="col-span-1" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <ImageSkeleton className="col-span-1 h-100" height="150px" />
+              <ImageSkeleton className="col-span-1" height="150px" />
+              <ImageSkeleton className="col-span-2" height="150px" />
+            </div>
+          </div>
+        </>
+      )}
+      {!posts.length && !loading && <span>No hay posts disponibles</span>}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         {posts[0] && <Card19 className="" post={posts[0]} />}
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-5 gap-5">

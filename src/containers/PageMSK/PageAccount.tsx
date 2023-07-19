@@ -97,10 +97,12 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const history = useHistory();
   const fetchUser = async () => {
     const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
+    console.log({ allCourses })
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
+
       let coursesList = getUserCourses(res, allCourses.data.products);
       setCourses(coursesList);
       setLoading(false);
@@ -116,6 +118,8 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     fetchProfessions();
     fetchSpecialties();
   }, []);
+
+  console.log({ courses })
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">

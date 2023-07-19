@@ -32,6 +32,7 @@ export const getUserProducts = (res: any, courses: any): UserCourse[] => {
 
 export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => {
   let coursesList = [] as UserCourseProgress[];
+  console.log(res.contact.courses_progress);
   res.contact.courses_progress.map((cp: CourseProgress) => {
 
     let globalProduct = courses.find(

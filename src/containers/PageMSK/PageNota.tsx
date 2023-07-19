@@ -9,6 +9,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "data/api";
 import NcImage from "components/NcImage/NcImage";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import TextSkeleton from "components/Skeleton/TextSkeleton";
+import TitleSkeleton from "components/Skeleton/TitleSkeleton";
+import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -80,7 +84,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
   const { slug } = useParams<ParamsType>();
   const [note, setNote] = useState<SinglePageType>();
-
+  const [loading, setLoading] = useState<boolean>(true);
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   useEffect(() => {
     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
@@ -89,6 +93,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
       const { data } = await axios.get(`${API_URL}/posts/${slug}`);
       console.log({ data });
       setNote(data.posts[0]);
+      setLoading(false);
     }
 
     // console.log({ slug });
@@ -103,44 +108,66 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
   return (
     <>
-      {note && (
-        <div
-          className={`nc-PageSingleTemp3¸Sidebar ${className}`}
-          data-nc-id="PageSingleTemp3Sidebar"
-        >
+      {loading ? (
+        <>
           <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">
             {/* SINGLE HEADER */}
-            <div className="dark container relative z-10">
-              <div>
-                <SingleHeader
-                  hiddenDesc={false}
-                  metaActionStyle="style2"
-                  pageData={note}
-                />
-              </div>
+            <div className="container relative overflow-hidden ">
+              <TitleSkeleton />
             </div>
             {/* FEATURED IMAGE */}
-            {note.featured_image && note.featured_image.length ? (
-              <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container">
-                <NcImage
-                  containerClassName="absolute inset-0"
-                  src={note.featured_image[0]}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            ) : null}
+            <div className="container relative overflow-hidden mt-16">
+              <ImageSkeleton height="500px" />
+            </div>
           </header>
-
-          {/* SINGLE MAIN CONTENT */}
-          <div className="container flex flex-col colspan-12 w-full my-10 lg:flex-row note-container">
-            <div className="w-full">
-              <SingleContent data={note} />
+          <div className="container my-16">
+            <div className="grid grid-cols-12 gap-4 mx-auto">
+              <ItemSkeleton className="col-span-12 lg:col-span-9" />
+              <ItemSkeleton className="col-span-12 lg:col-span-3" />
+              <ItemSkeleton className="col-span-12 lg:col-span-9 mt-16" />
             </div>
           </div>
+        </>
+      ) : (
+        note && (
+          <div
+            className={`nc-PageSingleTemp3¸Sidebar ${className}`}
+            data-nc-id="PageSingleTemp3Sidebar"
+          >
+            <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">
+              {/* SINGLE HEADER */}
+              <div className="dark container relative z-10">
+                <div>
+                  <SingleHeader
+                    hiddenDesc={false}
+                    metaActionStyle="style2"
+                    pageData={note}
+                  />
+                </div>
+              </div>
+              {/* FEATURED IMAGE */}
+              {note.featured_image && note.featured_image.length ? (
+                <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container">
+                  <NcImage
+                    containerClassName="absolute inset-0"
+                    src={note.featured_image[0]}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              ) : null}
+            </header>
 
-          {/* RELATED POSTS */}
-          {/* <SingleRelatedPosts /> */}
-        </div>
+            {/* SINGLE MAIN CONTENT */}
+            <div className="container flex flex-col colspan-12 w-full my-10 lg:flex-row note-container">
+              <div className="w-full">
+                <SingleContent data={note} />
+              </div>
+            </div>
+
+            {/* RELATED POSTS */}
+            {/* <SingleRelatedPosts /> */}
+          </div>
+        )
       )}
     </>
   );

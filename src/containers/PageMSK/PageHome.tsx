@@ -18,14 +18,17 @@ import { ALL_PRODUCTS_MX, BEST_SELLERS_MX } from "data/api";
 const PageHome: React.FC = () => {
   const [courses, setCourses] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
-
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [loadingBestSellers, setLoadingBestSellers] = useState(true);
   const fetchCourses = async () => {
     const res = await axios.get(`${ALL_PRODUCTS_MX}`);
     setCourses(res.data.products);
+    setLoadingCourses(false);
   };
   const fetchBestSeller = async () => {
     const res = await axios.get(`${BEST_SELLERS_MX}`);
     setBestSeller(res.data.products);
+    setLoadingBestSellers(false);
   };
   useEffect(() => {
     fetchCourses();
@@ -83,18 +86,19 @@ const PageHome: React.FC = () => {
           />
           <SectionGridCategoryBox
             headingCenter={false}
+            categories={SPECIALTIES.filter((_, i) => i < 4)}
             categoryCardType="card2"
             className="pb-16 lg:pb-28"
-            categories={SPECIALTIES.filter((_, i) => i < 4)}
           />
           <BrandSlider />
           <CoursesForYou
-            className="py-16 lg:py-28"
-            heading="Oportunidades para ti"
-            desc="Cursos destacados para realizar a distancia"
             courses={courses}
             bestSeller={bestSeller}
             tabs={TABS_HOME}
+            loading={loadingCourses}
+            className="py-16 lg:py-28"
+            heading="Oportunidades para ti"
+            desc="Cursos destacados para realizar a distancia"
           />
           {/* === SECTION 3 === */}
           <HomeExtraInfo btnOnClick={scrollToContactForm} />
@@ -102,11 +106,12 @@ const PageHome: React.FC = () => {
           <div className="relative py-16 my-32">
             <BackgroundSection />
             <SectionSliderPosts
+              posts={bestSeller}
+              loading={loadingBestSellers}
               postCardName="card9"
               heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
-              posts={bestSeller}
               uniqueSliderClass="pageHome-section6"
             />
           </div>

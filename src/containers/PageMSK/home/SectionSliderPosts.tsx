@@ -21,6 +21,7 @@ import Card14 from "components/Card14/Card14";
 import Card18 from "components/Card18/Card18";
 import Card19 from "components/Card19/Card19";
 import Card20 from "components/Card20/Card20";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -48,6 +49,7 @@ export interface SectionSliderPostsProps {
   sliderStype?: "style1" | "style2";
   perView?: 2 | 3 | 4;
   uniqueSliderClass: string;
+  loading?: boolean;
 }
 
 const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
@@ -59,6 +61,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   sliderStype = "style1",
   perView = 4,
   uniqueSliderClass,
+  loading,
 }) => {
   const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
   // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
@@ -161,20 +164,31 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
       <div className={`${UNIQUE_CLASS}`}>
         {renderHeading()}
         <div className="glide__track" data-glide-el="track">
-          <ul className="glide__slides">
-            {posts
-              // .filter((_: any, i: number) => i < 6 && i >= 1)
-              .map((item: any, index: number) => (
-                <li
-                  key={index}
-                  className={`glide__slide h-auto  ${
-                    sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
-                  }`}
-                >
-                  <CardName post={item} showDescription />
-                </li>
-              ))}
-          </ul>
+          {loading ? (
+            <>
+              <div className="grid grid-cols-1 xl:grid-cols-4 gap-5 mb-16">
+                <ImageSkeleton height="200px" />
+                <ImageSkeleton height="200px" />
+                <ImageSkeleton height="200px" />
+                <ImageSkeleton height="200px" />
+              </div>
+            </>
+          ) : (
+            <ul className="glide__slides">
+              {posts
+                // .filter((_: any, i: number) => i < 6 && i >= 1)
+                .map((item: any, index: number) => (
+                  <li
+                    key={index}
+                    className={`glide__slide h-auto  ${
+                      sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
+                    }`}
+                  >
+                    <CardName post={item} showDescription />
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
         {sliderStype === "style2" && (
           <NextPrev

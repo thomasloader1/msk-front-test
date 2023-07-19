@@ -3,6 +3,7 @@ import Card2 from "components/Card2/Card2";
 import { FetchPostType } from "data/types";
 import Card6 from "components/Card6/Card6";
 import HeaderFilter from "./HeaderFilter";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 
 export interface BlogSummaryProps {
   tabs: string[];
@@ -10,6 +11,7 @@ export interface BlogSummaryProps {
   heading?: string;
   className?: string;
   desc?: string;
+  loading?: boolean;
 }
 
 const BlogSummary: FC<BlogSummaryProps> = ({
@@ -18,6 +20,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   heading = "Blog",
   className = "",
   desc = "",
+  loading = false,
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
 
@@ -75,7 +78,19 @@ const BlogSummary: FC<BlogSummaryProps> = ({
         onClickTab={handleClickTab}
         desc={desc}
       />
-      {!auxPosts.length && <span>No hay posts disponibles</span>}
+      {loading && (
+        <>
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+            <ImageSkeleton className="col-span-1" />
+            <div className="grid grid-cols-1 gap-5">
+              <ImageSkeleton className="col-span-2 h-100" height="100px" />
+              <ImageSkeleton className="col-span-2" height="100px" />
+              <ImageSkeleton className="col-span-2" height="100px" />
+            </div>
+          </div>
+        </>
+      )}
+      {!auxPosts.length && !loading && <span>No hay posts disponibles</span>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && (
           <Card2

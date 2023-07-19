@@ -21,8 +21,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
 }) => {
   const { name, href = "/", avatar } = author;
   return (
-    <Link
-      to={href}
+    <div
       className={`nc-CardAuthor2 relative inline-flex items-center ${className}`}
       data-nc-id="CardAuthor2"
     >
@@ -63,7 +62,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
           )}
         </span>
       </div>
-    </Link>
+    </div>
   );
 };
 

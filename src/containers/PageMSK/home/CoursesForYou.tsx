@@ -4,6 +4,7 @@ import HeaderFilter from "./HeaderFilter";
 import Card9 from "components/Card9/Card9";
 import { FetchCourseType } from "data/types";
 import { PostDataType } from "data/types";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 
 interface SectionMagazine1Props {
   tabs: string[];
@@ -20,6 +21,7 @@ interface Props {
   heading: string;
   desc: string;
   bestSeller: FetchCourseType[];
+  loading?: boolean;
 }
 
 const CoursesForYou: FC<Props> = ({
@@ -29,6 +31,7 @@ const CoursesForYou: FC<Props> = ({
   className = "",
   heading = "Latest Articles 🎈 ",
   desc = "",
+  loading = false,
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [localCourses, setLocalCourses] = useState<FetchCourseType[]>([]);
@@ -73,41 +76,60 @@ const CoursesForYou: FC<Props> = ({
         heading={heading}
         onClickTab={handleClickTab}
       />
-
-      {!localCourses ||
-        (!localCourses.length && <span>No encontramos publicaciones.!</span>)}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-        {localCourses[0] && (
-          <Card8 className="sm:col-span-2 rounded-3xl" post={localCourses[0]} />
-        )}
-        {localCourses
-          .filter((_: FetchCourseType, i: number) => i < 3 && i >= 1)
-          .map((item: FetchCourseType, index: number) => (
-            <Card9
-              key={index}
-              post={item}
-              badgeColor="yellow"
-              showDescription
-            />
-          ))}
-        {localCourses
-          .filter((_: FetchCourseType, i: number) => i < 5 && i >= 3)
-          .map((item: FetchCourseType, index: number) => (
-            <Card9
-              key={index}
-              post={item}
-              badgeColor="yellow"
-              showDescription
-            />
-          ))}
-        {localCourses[5] && (
-          <Card8
-            className="sm:col-span-2 rounded-3xl"
-            badgeColor="yellow"
-            post={localCourses[5]}
-          />
-        )}
-      </div>
+      {loading ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+            <ImageSkeleton className="col-span-2" height="200px" />
+            <ImageSkeleton className="col-span-1" height="200px" />
+            <ImageSkeleton className="col-span-1" height="200px" />
+            <ImageSkeleton className="col-span-1" height="200px" />
+            <ImageSkeleton className="col-span-1" height="200px" />
+            <ImageSkeleton className="col-span-2" height="200px" />
+          </div>
+        </>
+      ) : (
+        <>
+          {!localCourses ||
+            (!localCourses.length && (
+              <span>No encontramos publicaciones.!</span>
+            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            {localCourses[0] && (
+              <Card8
+                className="sm:col-span-2 rounded-3xl"
+                post={localCourses[0]}
+              />
+            )}
+            {localCourses
+              .filter((_: FetchCourseType, i: number) => i < 3 && i >= 1)
+              .map((item: FetchCourseType, index: number) => (
+                <Card9
+                  key={index}
+                  post={item}
+                  badgeColor="yellow"
+                  showDescription
+                />
+              ))}
+            {localCourses
+              .filter((_: FetchCourseType, i: number) => i < 5 && i >= 3)
+              .map((item: FetchCourseType, index: number) => (
+                <Card9
+                  key={index}
+                  post={item}
+                  badgeColor="yellow"
+                  showDescription
+                />
+              ))}
+            {localCourses[5] && (
+              <Card8
+                className="sm:col-span-2 rounded-3xl"
+                badgeColor="yellow"
+                post={localCourses[5]}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

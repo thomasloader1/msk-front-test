@@ -5,10 +5,7 @@ import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
 import { Helmet } from "react-helmet";
-import {
-  User,
-  UserCourseProgress,
-} from "data/types";
+import { User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
@@ -17,6 +14,10 @@ import axios from "axios";
 import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
 import ProductAccount from "./profile/ProductAccount";
+import ItemSkeleton from "components/Skeleton/ItemSkeleton";
+import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
+import TextSkeleton from "components/Skeleton/TextSkeleton";
 
 export interface PageAuthorProps {
   className?: string;
@@ -29,7 +30,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const [posts, setPosts] = useState<UserCourseProgress[]>([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
-
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
+  const [loadingBestSellers, setLoadingBestSellers] = useState<boolean>(true);
   const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const history = useHistory();
@@ -37,6 +39,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const fetchBestSeller = async () => {
     const res = await api.getBestSellers();
     setBestSeller(res);
+    setLoadingBestSellers(false);
   };
 
   const fetchUser = async () => {
@@ -47,6 +50,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         setUser(res);
         let coursesList = getUserCourses(res, productList.data.products);
         setPosts(coursesList);
+        setLoadingUser(false);
       } else {
         console.log(res.response.status);
         history.push("/iniciar-sesion");
@@ -109,20 +113,29 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       {/* HEADER */}
       <div className="">
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">
-          <Avatar
-            containerClassName="dark:ring-0 shadow-2xl"
-            userName={user.name}
-            sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
-            radius="rounded-full"
-          />
-          <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
-            <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
-              {user.name}
-            </h2>
-            <span className="block text-sm text-neutral-6000 dark:text-neutral-300 md:text-base">
-              {user.contact?.profession}
-            </span>
-          </div>
+          {loadingUser ? (
+            <>
+              <AvatarSkeleton className="rounded-full w-24 h-24" />
+              <TextSkeleton lines="2" />
+            </>
+          ) : (
+            <>
+              <Avatar
+                containerClassName="dark:ring-0 shadow-2xl"
+                userName={user.name}
+                sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
+                radius="rounded-full"
+              />
+              <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
+                <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
+                  {user.name}
+                </h2>
+                <span className="block text-sm text-neutral-6000 dark:text-neutral-300 md:text-base">
+                  {user.contact?.profession}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
       {/* ====================== END HEADER ====================== */}
@@ -130,52 +143,70 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
           <Heading desc="">Mis Cursos </Heading>
-          {currentItems.length ? (
-            <>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
-                {currentItems
-                  ? currentItems.map((post) => (
-                    <ProductAccount key={post.id} product={post} user={user} />
-                  ))
-                  : null}
-              </div>
 
-              {totalPages > 1 ? (
-                <div className="flex justify-center">
-                  <StorePagination
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    currentPage={currentPage}
-                  />
-                </div>
-              ) : null}
-            </>
-          ) : (
-            <div className="flex flex-col justify-center items-center gap-6 my-24 lg:mt-10">
-              <p className="raleway text-3xl w-full md:w-1/2 text-center">
-                Aún puedes descubrir mucho más en Medical & Scientific Knowledge
-              </p>
-              <ButtonPrimary
-                onClick={goToStore}
-                sizeClass="py-3 "
-                className="font-semibold px-6"
-              >
-                {tabActive == "Favoritos"
-                  ? "Comienza tu experiencia"
-                  : "Comienza un curso"}
-              </ButtonPrimary>
+          {loadingUser ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
+              <ItemSkeleton />
+              <ItemSkeleton />
+              <ItemSkeleton />
+              <ItemSkeleton />
             </div>
+          ) : (
+            <>
+              {currentItems.length ? (
+                <>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
+                    {currentItems
+                      ? currentItems.map((post) => (
+                          <ProductAccount
+                            key={post.id}
+                            product={post}
+                            user={user}
+                          />
+                        ))
+                      : null}
+                  </div>
+
+                  {totalPages > 1 ? (
+                    <div className="flex justify-center">
+                      <StorePagination
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                        currentPage={currentPage}
+                      />
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <div className="flex flex-col justify-center items-center gap-6 my-24 lg:mt-10">
+                  <p className="raleway text-3xl w-full md:w-1/2 text-center">
+                    Aún puedes descubrir mucho más en Medical & Scientific
+                    Knowledge
+                  </p>
+                  <ButtonPrimary
+                    onClick={goToStore}
+                    sizeClass="py-3 "
+                    className="font-semibold px-6"
+                  >
+                    {tabActive == "Favoritos"
+                      ? "Comienza tu experiencia"
+                      : "Comienza un curso"}
+                  </ButtonPrimary>
+                </div>
+              )}
+            </>
           )}
+
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories
               ? categories.map((item, i) => (
-                <CardComponentName
-                  index={i < 1 ? `#${i + 1}` : undefined}
-                  key={item.name}
-                  taxonomy={item}
-                  className="rounded-lg"
-                />
-              ))
+                  <CardComponentName
+                    index={i < 1 ? `#${i + 1}` : undefined}
+                    key={item.name}
+                    taxonomy={item}
+                    className="rounded-lg"
+                  />
+                ))
               : null}
           </div>
         </main>
@@ -187,6 +218,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
             sliderStype="style2"
             posts={bestSeller}
+            loading={loadingBestSellers}
             uniqueSliderClass="pageHome-section6"
           />
         </div>

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import NcImage from "components/NcImage/NcImage";
 import { FetchCourseType, PostDataType } from "data/types";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import SocialsShare from "components/SocialsShare/SocialsShare";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import { CourseDataType } from "data/types";
+import { CountryContext } from "context/country/CountryContext";
 
 export interface Card8Props {
   className?: string;
@@ -19,7 +20,8 @@ const Card8: FC<Card8Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, slug, image } = post;
-  const imageURL = image.replace("mx.", "");
+  const { state } = useContext(CountryContext);
+  const imageURL = image.replace(`${state.country || "mx"}.`, "");
   return (
     <div
       className={`nc-Card8 group relative [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden z-0 ${className}`}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
@@ -15,18 +15,23 @@ import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
 import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
+import { CountryContext } from "context/country/CountryContext";
 interface Props {
   product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
-  // console.log(product);
+  const { state } = useContext(CountryContext);
   const textRef = useRef<HTMLDivElement>(null);
   const [bestSeller, setBestSeller] = useState([]);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const fetchBestSeller = async () => {
-    const res = await axios.get(`${API_URL}/home/best-sellers?country=mx`);
+    const res = await axios.get(
+      `${API_URL}/home/best-sellers?country=${state.country || "mx"}`
+    );
     setBestSeller(res.data.products);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -101,13 +106,17 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     <>
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
-                          <img src={imagen} alt={title} />
+                          <img
+                            src={imagen || product.authors[0]?.image}
+                            alt={title}
+                          />
                         </div>
-
                         <div>
                           <span className="raleway">Creado por</span>
                           <div className="flex flex-col">
-                            <h6 className="raleway-bold">{title}</h6>
+                            <h6 className="raleway-bold">
+                              {title || product.authors[0]?.name}
+                            </h6>
                           </div>
                         </div>
                       </div>
@@ -171,6 +180,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   sliderStype="style2"
                   posts={product.avales}
                   uniqueSliderClass="pageHome-section6"
+                  loading={loading}
                 />
               </div>
             ) : null}

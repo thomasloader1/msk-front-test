@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FetchCourseType } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
+import { CountryContext } from "context/country/CountryContext";
 
 interface Props {
   product: FetchCourseType;
@@ -15,7 +16,9 @@ const StoreProduct: FC<Props> = ({
   className,
   hoverEffect = false,
 }): any => {
-  const imageURL = product.image.replace("mx.", "");
+  const { state } = useContext(CountryContext);
+
+  const imageURL = product.image.replace(`${state.country}.`, "");
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">

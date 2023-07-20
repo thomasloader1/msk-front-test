@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { Details, Ficha } from "data/types";
+import { CountryContext } from "context/country/CountryContext";
 
 interface Props {
   ficha: Ficha;
@@ -10,6 +11,7 @@ interface Props {
 const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
+  const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
   const calculateDistanceToBottom = () => {
@@ -73,7 +75,10 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
       >
         {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
-            <img src={ficha.image.replace("mx.", "")} alt="img not found" />
+            <img
+              src={ficha.image.replace(`${state.country}.`, "")}
+              alt="img not found"
+            />
           </div>
         )}
 

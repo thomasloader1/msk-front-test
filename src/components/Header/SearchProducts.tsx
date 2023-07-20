@@ -1,8 +1,9 @@
 import { Popover, Transition } from "@headlessui/react";
 import api from "Services/api";
 import Input from "components/Input/Input";
+import { CountryContext } from "context/country/CountryContext";
 import { FetchCourseType } from "data/types";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const SearchProducts = () => {
@@ -10,7 +11,7 @@ const SearchProducts = () => {
   const [products, setProducts] = useState<FetchCourseType[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
-
+  const { state } = useContext(CountryContext);
   const triggerSearch = (event: any) => {
     const value = event.target.value;
     setInputValue(value);
@@ -68,7 +69,7 @@ const SearchProducts = () => {
               >
                 <div className="img-container">
                   <img
-                    src={product.image.replace("mx.", "")}
+                    src={product.image.replace(`${state.country}.`, "")}
                     alt={product.title}
                   />
                 </div>

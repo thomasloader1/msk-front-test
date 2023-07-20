@@ -1,12 +1,13 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+import { CountryContext } from "context/country/CountryContext";
 interface Props {
   instructor: any;
 }
 
 const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
   const [displayBiography, setDisplayBiography] = useState(false);
-
+  const { state } = useContext(CountryContext);
   const triggerDisplayBiography = () => {
     setDisplayBiography(!displayBiography);
   };
@@ -16,7 +17,10 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
     <div className="course-instructors">
       <div className="instructors-heading">
         <div className="instructors-img">
-          <img src={instructor.image.replace("mx.", "")} alt="img not found" />
+          <img
+            src={instructor.image.replace(`${state.country || "mx"}.`, "")}
+            alt="img not found"
+          />
         </div>
         <div className="instructors-body">
           <h5 dangerouslySetInnerHTML={instructorName}></h5>

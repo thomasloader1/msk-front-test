@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import NcImage from "components/NcImage/NcImage";
 import { Aval, PostDataType } from "data/types";
 import { Link } from "react-router-dom";
 import SocialsShare from "components/SocialsShare/SocialsShare";
 import PostCardMeta from "components/PostCardMeta/PostCardMeta";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import { CountryContext } from "context/country/CountryContext";
 
 export interface Card20Props {
   className?: string;
@@ -13,8 +14,9 @@ export interface Card20Props {
 
 const Card20: FC<Card20Props> = ({ className = "h-full", post }) => {
   let { title, description, image } = post;
+  const { state } = useContext(CountryContext);
   if (image) {
-    image = image.replace('mx.', '');
+    image = image.replace(`${state.country || "mx"}.`, "");
   }
 
   return (

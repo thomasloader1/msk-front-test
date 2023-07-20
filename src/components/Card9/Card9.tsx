@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import NcImage from "components/NcImage/NcImage";
 import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import { CountryContext } from "context/country/CountryContext";
 
 export interface Card9Props {
   className?: string;
@@ -21,7 +22,8 @@ const Card9: FC<Card9Props> = ({
   badgeColor = "yellow",
 }) => {
   const { title, categories, id, slug, image } = post;
-  const imageURL = image ? image.replace("mx.", "") : "";
+  const { state } = useContext(CountryContext);
+  const imageURL = image ? image.replace(`${state.country || "mx"}.`, "") : "";
 
   const renderMeta = () => {
     return (

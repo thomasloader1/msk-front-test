@@ -1,6 +1,13 @@
-import { Contract, CourseProgress, UserCourse, UserCourseProgress } from "data/types";
+import { CountryContext } from "context/country/CountryContext";
+import {
+  Contract,
+  CourseProgress,
+  UserCourse,
+  UserCourseProgress,
+} from "data/types";
 
 export const getUserProducts = (res: any, courses: any): UserCourse[] => {
+  const COUNTRY = localStorage.getItem("country");
   let coursesList = [] as UserCourse[];
   res.contact.contracts.map((contract: Contract) => {
     contract.products.map((product: UserCourse) => {
@@ -20,7 +27,10 @@ export const getUserProducts = (res: any, courses: any): UserCourse[] => {
         product.image = globalProduct.image;
 
         if (globalProduct.image) {
-          const imageURL = globalProduct.image.replace("mx.", "");
+          const imageURL = globalProduct.image.replace(
+            `${COUNTRY || "mx"}.`,
+            ""
+          );
           product.featured_image = imageURL;
         }
       }
@@ -30,19 +40,21 @@ export const getUserProducts = (res: any, courses: any): UserCourse[] => {
   return coursesList;
 };
 
-export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => {
+export const getUserCourses = (
+  res: any,
+  courses: any
+): UserCourseProgress[] => {
+  const COUNTRY = localStorage.getItem("country");
   let coursesList = [] as UserCourseProgress[];
-  console.log(res.contact.courses_progress);
   res.contact.courses_progress.map((cp: CourseProgress) => {
-
-    let globalProduct = courses.find(
-      (productAux: { product_code: number }) => {
-        return productAux.product_code == cp.Product_Code;
-      }
-    );
+    let globalProduct = courses.find((productAux: { product_code: number }) => {
+      return productAux.product_code == cp.Product_Code;
+    });
 
     if (globalProduct) {
-      const featured_image = globalProduct.image && globalProduct.image.replace("mx.", "");
+      const featured_image =
+        globalProduct.image &&
+        globalProduct.image.replace(`${COUNTRY || "mx"}.`, "");
       const product = {
         status: cp.Estado_cursada,
         product_code: cp.Product_Code,
@@ -51,11 +63,10 @@ export const getUserCourses = (res: any, courses: any): UserCourseProgress[] => 
         ov: cp.Estado_de_OV,
         ...globalProduct,
         featured_image,
-      }
+      };
 
       coursesList.push({ ...product });
     }
-
   });
   return coursesList;
 };

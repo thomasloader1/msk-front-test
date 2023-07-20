@@ -3,6 +3,7 @@ import { CountryContext } from "./CountryContext";
 import { countryReducer } from "./CountryReducer";
 import { CountryState } from "data/types";
 import axios from "axios";
+import { IP_API } from "data/api";
 
 interface Props {
   children: React.ReactNode;
@@ -18,11 +19,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("fetching country from IP");
-        const res = await axios.get("https://api.ipify.org/?format=json");
-        const { data } = await axios.get(
-          `https://ip-api.com/json/${res.data.ip}`
-        );
+        const { data } = await axios.get(IP_API);
         let currentCountry = data.countryCode.toLowerCase();
         localStorage.setItem("country", currentCountry);
         let validCountries = ["mx", "cl", "ar", "ec"];
@@ -32,8 +29,9 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
 
         if (state.country != currentCountry) {
           const urlParams = window.location.href.split("/");
-          window.location.href = `/${currentCountry}/${urlParams[urlParams.length - 1]
-            }`;
+          window.location.href = `/${currentCountry}/${
+            urlParams[urlParams.length - 1]
+          }`;
         }
 
         dispatch({ type: "SET_COUNTRY", payload: { country: currentCountry } });

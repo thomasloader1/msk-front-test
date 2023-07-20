@@ -3,8 +3,8 @@ import { AxiosResponse } from "axios";
 import { API_URL } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
-
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV } = import.meta.env;
+const COUNTRY = localStorage.getItem("country") || "mx";
 const baseUrl = PROD
   ? `${VITE_PUBLIC_URL}/msk-laravel/public`
   : VITE_PUBLIC_URL_DEV;
@@ -99,14 +99,14 @@ class ApiService {
       }
     } catch (error) {
       localStorage.removeItem("token");
-      console.log({ error })
+      console.log({ error });
     }
   }
 
   async getAllCourses() {
     try {
       const courses = await axios.get(
-        `${API_URL}/products?limit=-1&country=mx`
+        `${API_URL}/products?limit=-1&country=${COUNTRY}`
       );
       return courses.data.products;
     } catch (error) {
@@ -116,7 +116,7 @@ class ApiService {
   async getBestSellers() {
     try {
       const bestSellers = await axios.get(
-        `${API_URL}/home/best-sellers?country=mx`
+        `${API_URL}/home/best-sellers?country=${COUNTRY}`
       );
       return bestSellers.data.products;
     } catch (error) {

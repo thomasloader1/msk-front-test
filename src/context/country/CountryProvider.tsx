@@ -19,7 +19,8 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(IP_API);
+        const ip = await axios.get("https://api.ipify.org/?format=json");
+        const { data } = await axios.post(`${IP_API}?ip=${ip.data.ip}`);
         let currentCountry = data.countryCode.toLowerCase();
         localStorage.setItem("country", currentCountry);
         let validCountries = ["mx", "cl", "ar", "ec"];

@@ -11,46 +11,27 @@ import Navigation from "components/Navigation/Navigation";
 import NavigationUser from "components/Navigation/NavigationUser";
 import DarkModeContainer from "containers/DarkModeContainer/DarkModeContainer";
 import { AuthContext } from "context/user/AuthContext";
-import {
-  NAVIGATION_SHORT_DEMO,
-  NAVIGATION_MSK,
-  NAVIGATION_USER,
-} from "data/navigation";
+import { NAVIGATION_MSK, NAVIGATION_BLOG_MSK } from "data/navigation";
 import { FetchCourseType } from "data/types";
 import React, { FC, Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import SearchProducts from "./SearchProducts";
 import ModalSignOut from "components/Modal/SignOut";
-const solutions = [
-  {
-    name: "Eden Tuan",
-    description: "Mentioned you in a comment",
-    time: "3 minutes ago",
-    href: "##",
-  },
-  {
-    name: "Leo Messi",
-    description: "Create your own targeted content",
-    time: "1 minute ago",
-    href: "##",
-  },
-  {
-    name: "Leo Kante",
-    description: "Keep track of your growth",
-    time: "3 minutes ago",
-    href: "##",
-  },
-];
+
 export interface MainNav2Props {}
 
 const MainNav2: FC<MainNav2Props> = () => {
   const { state } = useContext(AuthContext);
+  const [isOnBlog, setIsOnBlog] = useState(false);
   const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+  useEffect(() => {
+    setIsOnBlog(history.location.pathname.includes("blog"));
+  });
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
@@ -88,7 +69,15 @@ const MainNav2: FC<MainNav2Props> = () => {
         </div>
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
           <div className="hidden items-center xl:flex space-x-2">
-            <Navigation navigations={NAVIGATION_MSK} />
+            {isOnBlog ? (
+              <>
+                <Navigation navigations={NAVIGATION_BLOG_MSK} />
+              </>
+            ) : (
+              <>
+                <Navigation navigations={NAVIGATION_MSK} />
+              </>
+            )}
             {state.isAuthenticated ? (
               <>
                 <ButtonSecondary

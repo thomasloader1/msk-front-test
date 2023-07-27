@@ -134,10 +134,18 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     }
   };
 
+  const removeAccents = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  };
   const triggerSearch = (event: any) => {
     if (event) {
       const filteredProducts = auxProducts.filter((product) =>
-        product.title.toLowerCase().includes(event)
+        removeAccents(product.title.toLowerCase()).includes(
+          removeAccents(event.toLowerCase())
+        )
       );
       setProducts(filteredProducts);
     } else {

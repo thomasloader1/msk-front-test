@@ -10,6 +10,7 @@ import PageForgotPass from "containers/PageMSK/PageForgotPass";
 import HeaderContainer from "containers/HeaderContainer/HeaderContainer";
 import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
 import PageHome from "containers/PageMSK/PageHome";
+import PageContact from "containers/PageMSK/PageContact";
 import FooterEduman from "components/Footer/FooterMSK";
 import PageStore from "containers/PageMSK/PageStore";
 import PageSingleProduct from "containers/PageSingleProduct/PageSingleProduct";
@@ -26,6 +27,7 @@ export const pages: Page[] = [
   { path: "/#", exact: true, component: PageHome, auth: false },
   { path: "/mision", component: PageMission, auth: false },
   { path: "/tienda", component: PageStore, auth: false },
+  { path: "/contacto", component: PageContact, auth: false },
   { path: "/curso/:slug", component: PageSingleProduct, auth: false },
   { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
@@ -42,7 +44,10 @@ export const pages: Page[] = [
 const Routes = () => {
   const { state } = useContext(CountryContext);
   const authContext = useContext(AuthContext);
+  const [country, setCountry] = useState(state.country);
   const { isAuthenticated } = authContext.state;
+  const location = window.location;
+
   const authenticatedRoutes = pages.filter((page) => {
     if (page.auth && isAuthenticated) {
       return true;
@@ -53,11 +58,15 @@ const Routes = () => {
     return false;
   });
 
-  const [country, setCountry] = useState(state.country);
-
-  console.log(country);
   useEffect(() => {
     setCountry(state.country);
+    if (
+      (location.pathname.includes("mi-perfil") ||
+        location.pathname.includes("mi-cuenta")) &&
+      !isAuthenticated
+    ) {
+      window.location.href = `iniciar-sesion`;
+    }
   }, [state.country]);
 
   return (

@@ -17,7 +17,11 @@ import { useHistory } from "react-router-dom";
 import useUTM from "hooks/useUTM";
 import { getName } from "country-list";
 
-const ContactFormSection = ({ productName = "", isEbook = false }) => {
+const ContactFormSection = ({
+  hideHeader = false,
+  productName = "",
+  isEbook = false,
+}) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
@@ -39,7 +43,6 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
   };
 
   const handlePhoneChange = (value: string) => {
-    console.log(value, typeof value);
     if (typeof value !== "undefined") {
       const parsedPhoneNumber = parsePhoneNumber(value);
       if (parsedPhoneNumber?.country) {
@@ -117,7 +120,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
       utm_medium: "",
       utm_campaign: "",
       utm_content: "",
-      recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK
+      recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
     };
 
     const selectedOption = (event.target as HTMLFormElement).querySelector(
@@ -126,11 +129,13 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
 
     if (selectedOption) {
       const label = selectedOption.id;
-      jsonData.Preferencia_de_contactaci_n = label.replace(/^Contact_Method_/, "");
+      jsonData.Preferencia_de_contactaci_n = label.replace(
+        /^Contact_Method_/,
+        ""
+      );
     }
 
     formData.forEach((value: FormDataEntryValue, key: string) => {
-
       if (key === "First_Name") {
         jsonData.First_Name = value as string;
       }
@@ -192,7 +197,7 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
 
   return (
     <>
-      <div className="col-span-2" id="contactanos">
+      <div className="col-span-3" id="contactanos">
         <div className="contact-area-wrapper">
           <div className="contact-form">
             <form
@@ -214,186 +219,194 @@ const ContactFormSection = ({ productName = "", isEbook = false }) => {
               <input type="hidden" name="utm_campaign" value={utm_campaign} />
               <input type="hidden" name="utm_content" value={utm_content} />
 
-              <div className={`section-title mb-30`}>
-                <h2 className="font-medium">
-                  {isEbook
-                    ? "Completa tus datos y obtén la guía ahora"
-                    : "Contáctanos"}
-                </h2>
-                <div className="flex flex-wrap gap-6 preferences">
-                  <p className="talk-through w-full md:w-auto">
-                    Quiero hablar por
-                  </p>
-                  <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <Radio
-                      name="Preferencia_de_contactaci_n"
-                      label="Teléfono"
-                      id="Contact_Method_Teléfono"
-                    />
-                    <Radio
-                      name="Preferencia_de_contactaci_n"
-                      label="E-mail"
-                      id="Contact_Method_E-mail"
-                    />
-                    <Radio
-                      name="Preferencia_de_contactaci_n"
-                      label="WhatsApp"
-                      id="Contact_Method_Whatsapp"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="col-xl-6">
-                  <div className="contact-from-input">
-                    <input
-                      type="text"
-                      id="First_Name"
-                      name="First_Name"
-                      placeholder="Ingresar nombre"
-                    />
-                  </div>
-                </div>
-                <div className="col-xl-6">
-                  <div className="contact-from-input">
-                    <input
-                      type="text"
-                      id="Last_Name"
-                      name="Last_Name"
-                      placeholder="Ingresar apellido"
-                    />
-                  </div>
-                </div>
-                <div className="col-xl-6">
-                  <div className="contact-from-input ">
-                    <input
-                      type="text"
-                      id="Email"
-                      name="Email"
-                      placeholder="Ingresar e-mail"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-xl-6">
-                  <div className="contact-from-input intl-input phone-contact-input-select">
-                    <PhoneInput
-                      name="Phone"
-                      id="Phone"
-                      placeholder="Ingresar número telefónico"
-                      defaultCountry="MX"
-                      className="phone-contact-input"
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={`col-xl-6`}>
-                  <div className="contact-select">
-                    <select
-                      className=""
-                      id="Profesion"
-                      name="Profesion"
-                      value={selectedOptionProfession}
-                      onChange={handleOptionProfessionChange}
-                    >
-                      <option defaultValue="">Seleccionar profesión</option>
-                      {professions
-                        ? professions.map((p) => (
-                          <option key={p.id} value={p.name}>
-                            {p.name}
-                          </option>
-                        ))
-                        : ""}
-                    </select>
-                  </div>
-                  {showInputProfession && (
-                    <div className="contact-from-input my-4">
-                      <input
-                        type="text"
-                        name="Otra_profesion"
-                        placeholder="Ingresar profesion"
+              {hideHeader ? null : (
+                <div className={`section-title mb-30`}>
+                  <h2 className="font-medium">
+                    {isEbook
+                      ? "Completa tus datos y obtén la guía ahora"
+                      : "Contáctanos"}
+                  </h2>
+                  <div className="flex flex-wrap gap-6 preferences">
+                    <p className="talk-through w-full md:w-auto">
+                      Quiero hablar por
+                    </p>
+                    <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="Teléfono"
+                        id="Contact_Method_Teléfono"
+                      />
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="E-mail"
+                        id="Contact_Method_E-mail"
+                      />
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="WhatsApp"
+                        id="Contact_Method_Whatsapp"
                       />
                     </div>
-                  )}
-                </div>
-
-                <div className={`col-xl-6`}>
-                  <div className="contact-select">
-                    <select
-                      className=""
-                      id="Especialidad"
-                      name="Especialidad"
-                      value={selectedOptionSpecialty}
-                      onChange={handleOptionSpecialtyChange}
-                    >
-                      <option defaultValue="">Seleccionar especialidad</option>
-                      {specialties.map((s) => (
-                        <option key={s.id} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {showInputSpecialties && (
-                    <div className="contact-from-input my-4">
-                      <input
-                        type="text"
-                        name="Otra_especialidad"
-                        placeholder="Ingresar especialidad"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-              {isEbook ? (
-                <></>
-              ) : (
-                <div className="col-xl-12 mt-4">
-                  <div className="contact-from-input">
-                    <textarea
-                      placeholder="Mensaje"
-                      id="Message"
-                      name="Description"
-                    ></textarea>
                   </div>
                 </div>
               )}
-              <div className="flex flex-wrap gap-1 mt-2 mb-4">
-                <Checkbox
-                  name="Terms_And_Conditions"
-                  value={acceptConditions}
-                  useStateCallback={setAcceptConditions}
-                  label="Acepto las"
-                />
-                <a className="text-primary text-sm">
-                  condiciones de privacidad
-                </a>
-              </div>
-              <div className="col-xl-2 mt-2">
-                <div className="cont-btn ">
-                  <button
-                    type="submit"
-                    className="cont-btn disabled:bg-grey-disabled"
-                    disabled={!acceptConditions}
-                  >
-                    {isEbook ? "Descargar" : "Enviar"}
-                  </button>
+              <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">
+                  <div className="col-xl-6">
+                    <div className="contact-from-input">
+                      <input
+                        type="text"
+                        id="First_Name"
+                        name="First_Name"
+                        placeholder="Ingresar nombre"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-6">
+                    <div className="contact-from-input">
+                      <input
+                        type="text"
+                        id="Last_Name"
+                        name="Last_Name"
+                        placeholder="Ingresar apellido"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-xl-6">
+                    <div className="contact-from-input ">
+                      <input
+                        type="text"
+                        id="Email"
+                        name="Email"
+                        placeholder="Ingresar e-mail"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-xl-6">
+                    <div className="contact-from-input intl-input phone-contact-input-select">
+                      <PhoneInput
+                        name="Phone"
+                        id="Phone"
+                        placeholder="Ingresar número telefónico"
+                        defaultCountry="MX"
+                        className="phone-contact-input"
+                        value={phoneNumber}
+                        onChange={handlePhoneChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={`col-xl-6`}>
+                    <div className="contact-select">
+                      <select
+                        className=""
+                        id="Profesion"
+                        name="Profesion"
+                        value={selectedOptionProfession}
+                        onChange={handleOptionProfessionChange}
+                      >
+                        <option defaultValue="">Seleccionar profesión</option>
+                        {professions
+                          ? professions.map((p) => (
+                              <option key={p.id} value={p.name}>
+                                {p.name}
+                              </option>
+                            ))
+                          : ""}
+                      </select>
+                    </div>
+                    {showInputProfession && (
+                      <div className="contact-from-input my-4">
+                        <input
+                          type="text"
+                          name="Otra_profesion"
+                          placeholder="Ingresar profesion"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className={`col-xl-6`}>
+                    <div className="contact-select">
+                      <select
+                        className=""
+                        id="Especialidad"
+                        name="Especialidad"
+                        value={selectedOptionSpecialty}
+                        onChange={handleOptionSpecialtyChange}
+                      >
+                        <option defaultValue="">
+                          Seleccionar especialidad
+                        </option>
+                        {specialties.map((s) => (
+                          <option key={s.id} defaultValue={s.name}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {showInputSpecialties && (
+                      <div className="contact-from-input my-4">
+                        <input
+                          type="text"
+                          name="Otra_especialidad"
+                          placeholder="Ingresar especialidad"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    {isEbook ? (
+                      <></>
+                    ) : (
+                      <div className="col-xl-12 mt-4">
+                        <div className="contact-from-input">
+                          <textarea
+                            placeholder="Mensaje"
+                            id="Message"
+                            name="Description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-1 mt-2 mb-4">
+                      <Checkbox
+                        name="Terms_And_Conditions"
+                        value={acceptConditions}
+                        useStateCallback={setAcceptConditions}
+                        label="Acepto las"
+                      />
+                      <a className="text-primary text-sm">
+                        condiciones de privacidad
+                      </a>
+                    </div>
+                    <div className="col-xl-2 mt-2">
+                      <div className="cont-btn ">
+                        <button
+                          type="submit"
+                          className="cont-btn disabled:bg-grey-disabled"
+                          disabled={!acceptConditions}
+                        >
+                          {isEbook ? "Descargar" : "Enviar"}
+                        </button>
+                      </div>
+                    </div>
+                    <p
+                      className="success-message"
+                      style={{ visibility: formSent ? "visible" : "hidden" }}
+                    >
+                      Gracias! Tu mensaje fué enviado correctamente.
+                    </p>
+                  </div>
+                </div>
+                <div className="col-span-2 md:col-span-1">
+                  <ContactSidebar />
                 </div>
               </div>
-              <p
-                className="success-message"
-                style={{ visibility: formSent ? "visible" : "hidden" }}
-              >
-                Gracias! Tu mensaje fué enviado correctamente.
-              </p>
             </form>
           </div>
         </div>
-      </div>
-      <div className="">
-        <ContactSidebar />
       </div>
     </>
   );

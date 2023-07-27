@@ -491,7 +491,7 @@ export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/tienda",
-    name: "Qué ofrecemos",
+    name: "Categorías",
     type: "dropdown",
     children: aboutMenu,
   },
@@ -512,6 +512,68 @@ export const NAVIGATION_MSK: NavItemType[] = [
   //   href: "/shop",
   //   name: "Carrito",
   // },
+];
+
+const categoriesMenuBlog: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Actualidad",
+    search: "?category=Actualidad",
+  },
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Entrevistas",
+    search: "?category=Entrevistas",
+  },
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Opinión",
+    search: "?category=Opinión",
+  },
+];
+
+const resourcesMenuBlog: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Capacitaciones",
+  },
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Guías profesionales",
+    search: "?recurso=2",
+  },
+  {
+    id: ncNanoId(),
+    href: "/webinars",
+    name: "Webinars",
+  },
+  {
+    id: ncNanoId(),
+    href: "/podcasts",
+    name: "Podcasts",
+  },
+];
+
+export const NAVIGATION_BLOG_MSK: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Categorías",
+    type: "dropdown",
+    children: categoriesMenuBlog,
+  },
+  {
+    id: ncNanoId(),
+    href: "/recursos",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenuBlog,
+  },
 ];
 
 export const NAVIGATION_USER: NavItemType[] = [

@@ -4,6 +4,7 @@ import { FetchPostType } from "data/types";
 import Card6 from "components/Card6/Card6";
 import HeaderFilter from "./HeaderFilter";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import { useHistory } from "react-router-dom";
 
 export interface BlogSummaryProps {
   tabs: string[];
@@ -26,25 +27,27 @@ const BlogSummary: FC<BlogSummaryProps> = ({
 
   const [auxPosts, setPosts] = useState<FetchPostType[]>([]);
   const handleClickTab = (item: string) => {
-    if (item === "Todo") {
-      setPosts(posts.filter((_, i: number) => i < 5 && i >= 1));
-    } else {
-      const filteredPosts = posts
-        .filter((post) =>
-          post.categories?.some((category: any) => category.name === item)
-        )
-        .filter((_, i: number) => i < 5 && i >= 1);
-      setPosts(filteredPosts);
-    }
+    const filteredPosts = posts
+      .filter((post) =>
+        post.categories?.some((category: any) => category.name === item)
+      )
+      .filter((_, i: number) => i < 5 && i >= 1);
+    setPosts(filteredPosts);
     if (item === tabActive) {
       return;
     }
     setTabActive(item);
   };
 
+  const history = useHistory();
+
   useEffect(() => {
     setPosts(posts.filter((_, i: number) => i < 5 && i >= 1));
-  }, [posts]);
+    let categoryValue = decodeURIComponent(
+      history.location.search.replace(/^.*\?category=/, "")
+    );
+    handleClickTab(categoryValue || "Actualidad");
+  }, [posts, history.location.search]);
 
   const badgeColor = (item: FetchPostType) => {
     switch (item.categories[0].name) {

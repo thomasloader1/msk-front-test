@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { CountryContext } from "./CountryContext";
 import { countryReducer } from "./CountryReducer";
 import { CountryState } from "data/types";
@@ -15,15 +15,33 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(countryReducer, initialState);
-
+  const [bypassRedirect, setBypassRedirect] = useState(
+    localStorage.getItem("bypassRedirect")
+  );
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ip = await axios.get("https://api.ipify.org/?format=json");
-        const { data } = await axios.post(`${IP_API}?ip=${ip.data.ip}`);
-        let currentCountry = data.countryCode.toLowerCase();
-        localStorage.setItem("country", currentCountry);
+        let currentCountry = "";
         let validCountries = ["mx", "cl", "ar", "ec"];
+        if (bypassRedirect == "1") {
+          const currentUrl = window.location.pathname;
+          const validCountryUrl = validCountries.filter(
+            (country) =>
+              currentUrl.includes("/" + country + "/") ||
+              currentUrl.includes("/" + country)
+          );
+          if (validCountryUrl.length) {
+            currentCountry = validCountryUrl[0];
+          }
+        } else {
+          const ip = await axios.get("https://api.ipify.org/?format=json");
+          // const { data } = await axios.post(
+          //   `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
+          // );
+          const { data } = await axios.post(`${IP_API}?ip=${ip.data.ip}`);
+          currentCountry = data.countryCode.toLowerCase();
+        }
+        localStorage.setItem("country", currentCountry);
         if (!validCountries.includes(currentCountry)) {
           currentCountry = "";
         }

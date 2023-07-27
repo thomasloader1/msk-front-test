@@ -557,9 +557,25 @@ div.tagcloud a:hover {
 .side-content-course {
   display: flex;
   border-top: 1px solid #e2e2e2;
-  padding: 5px;
-  gap: 8px;
+  padding: 10px;
+  gap: 12px;
   align-items: center;
+  p {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    span {
+      margin: 0;
+      padding: 0;
+      line-height: normal;
+      color: #575757;
+      font-size: 15px;
+    }
+    .category {
+      color: #878686;
+      font-size: 12px;
+    }
+  }
 }
 
 .post-side-data {

@@ -4,12 +4,13 @@ import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import HomeExtraInfo from "containers/PageMSK/home/HomeExtraInfo";
 import BlogSummary from "./home/BlogSummary";
-import { TABS_BLOG } from "data/MSK/courses";
+import { TABS_BLOG } from "data/MSK/blog";
 import WelcomeBlog from "./blog/WelcomeBlog";
 import Tendencies from "./blog/Tendencies";
 import Newsletter from "./blog/Newsletter";
 import axios from "axios";
 import { API_URL } from "data/api";
+import { useHistory } from "react-router-dom";
 const PageBlog: React.FC = () => {
   const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -32,6 +33,7 @@ const PageBlog: React.FC = () => {
     fetchPosts();
     fetchCourses();
   }, []);
+
   return (
     <div className="nc-PageHome relative">
       <Helmet>

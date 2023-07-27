@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
 import NcModal from "components/NcModal/NcModal";
 import FooterNewsletter from "./Newsletter";
@@ -7,6 +7,7 @@ import FooterNewsletter from "./Newsletter";
 const FooterEduman = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
+  const [isOnBlog, setIsOnBlog] = useState(false);
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -22,54 +23,61 @@ const FooterEduman = () => {
     setShow(true);
   };
 
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsOnBlog(location.pathname == "/blog");
+  }, [location.pathname]);
+
   return (
     <footer>
       <div className="footer-area">
         <div className={bts.container}>
-          <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1">
-            <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
-              <div className="copyright-text">
-                <p>Nuestro newsletter</p>
+          {isOnBlog ? null : (
+            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1">
+              <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
+                <div className="copyright-text">
+                  <p>Nuestro newsletter</p>
+                </div>
+              </div>
+              <div className="footer-column col-span-6 mx-auto lg:col-span-2">
+                <div className="divisor" />
+                <p className="discounts md:mx-auto text-center md:text-left">
+                  Descuentos exclusivos y becas completas solo con tu
+                  suscripción
+                </p>
+                <div className="divisor" />
+              </div>
+              <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-3">
+                <div className="copyright-subcribe ">
+                  <form
+                    onSubmit={openModal}
+                    method="post"
+                    className="widget__subscribe"
+                  >
+                    <div className="field ">
+                      <input
+                        type="email"
+                        name="Email"
+                        placeholder="Ingresar e-mail"
+                        required
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <button type="submit">
+                      Suscribirme
+                      <img src="/src/images/icons/plane.svg" />
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
-            <div className="footer-column col-span-6 mx-auto lg:col-span-2">
-              <div className="divisor" />
-              <p className="discounts md:mx-auto text-center md:text-left">
-                Descuentos exclusivos y becas completas solo con tu suscripción
-              </p>
-              <div className="divisor" />
-            </div>
-            <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-3">
-              <div className="copyright-subcribe ">
-                <form
-                  onSubmit={openModal}
-                  method="post"
-                  className="widget__subscribe"
-                >
-                  <div className="field ">
-                    <input
-                      type="email"
-                      name="Email"
-                      placeholder="Ingresar e-mail"
-                      required
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <button type="submit">
-                    Suscribirme
-                    <img src="/src/images/icons/plane.svg" />
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
+          )}
           <div className="footer-main">
-            <div className={bts.row}>
-              <div
-                className={`${bts["col-xl-5"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-1`}
-              >
+            <div className="grid grid-cols-1 lg:grid-cols-3">
+              <div className={`col-span-1 footer-col-1`}>
                 <div className="footer-widget f-w1 mb-20">
-                  <div className="footer-img">
+                  <div className="footer-img grid-cols-1 align-center content-center">
                     <Link to="/">
                       <img
                         src="/src/images/msk-logo-light.svg"
@@ -83,7 +91,7 @@ const FooterEduman = () => {
                     </p>
                     <p>© 2023 • Medical&Scientific Knowledge S.L.</p>
                   </div>
-                  <div className="footer-icon">
+                  <div className="footer-icon ml-auto">
                     <a
                       href="https://www.facebook.com/"
                       target="_blank"
@@ -115,56 +123,49 @@ const FooterEduman = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className={`${bts["col-xl-3"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-2`}
-              >
-                <div className="footer-widget f-w3 mt-24">
-                  <ul>
-                    <li>
-                      <Link to="/mision">Nuestra misión</Link>
-                    </li>
-                    <li>
-                      <Link to="/partners">Conviértete en Partner</Link>
-                    </li>
-                    <li>
-                      <Link to="/faq">Centro de ayuda</Link>
-                    </li>
-                    <li>
-                      <Link to="/convenios">Convenios</Link>
-                    </li>
-                  </ul>
+              <div className={`grid grid-cols-2 col-span-2`}>
+                <div className={`col-span-1`}>
+                  <div className="footer-widget f-w3 mt-24">
+                    <ul className="text-sm md:text-base">
+                      <li>
+                        <Link to="/mision">Nuestra misión</Link>
+                      </li>
+                      <li>
+                        <Link to="/partners">Conviértete en Partner</Link>
+                      </li>
+                      <li>
+                        <Link to="/faq">Centro de ayuda</Link>
+                      </li>
+                      <li>
+                        <Link to="/convenios">Convenios</Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <div
-                className={`${bts["col-xl-4"]} ${bts["col-lg-3"]} ${bts["col-md-6"]} ${bts["col-sm-6"]} footer-col-3`}
-              >
-                <div className="footer-widget f-w4 mt-24">
-                  <ul>
-                    <li>
-                      <span
-                        onClick={scrollToContactForm}
-                        className="cursor-pointer"
-                      >
-                        Contacto
-                      </span>
-                    </li>
-                    <li>
-                      <Link to="/terminos-y-condiciones">
-                        Términos y condiciones
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/privacidad">Política de privacidad</Link>
-                    </li>
-                    <li>
-                      <Link to="/cookies">Política de cookies</Link>
-                    </li>
-                    <li>
-                      <Link to="/contratacion">
-                        Condiciones de contratación
-                      </Link>
-                    </li>
-                  </ul>
+                <div className={`col-span-1`}>
+                  <div className="footer-widget f-w4 mt-24">
+                    <ul className="text-sm md:text-base">
+                      <li>
+                        <Link to="/contacto">Contacto</Link>
+                      </li>
+                      <li>
+                        <Link to="/terminos-y-condiciones">
+                          Términos y condiciones
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/privacidad">Política de privacidad</Link>
+                      </li>
+                      <li>
+                        <Link to="/cookies">Política de cookies</Link>
+                      </li>
+                      <li>
+                        <Link to="/contratacion">
+                          Condiciones de contratación
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

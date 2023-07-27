@@ -23,7 +23,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const courseList = data.cursos_recomendados.map((course: any) => {
+    const courseList = data.the_most_read.map((course: any) => {
       var urlParts = course.link.split("/");
       return { ...course, slug: urlParts[urlParts.length - 2] };
     });
@@ -121,10 +121,13 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
                   className="side-content-course"
                 >
                   <NcImage
-                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
+                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-12 lg:w-12"
                     src={course.image}
                   />
-                  {course.title}
+                  <p>
+                    <span className="category">{course.category}</span>
+                    <span>{course.title}</span>
+                  </p>
                 </Link>
               ))}
             </div>

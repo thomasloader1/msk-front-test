@@ -222,6 +222,7 @@ export interface PostDataType {
   audioUrl?: string;
   galleryImgs?: string[];
   cursos_recomendados?: any;
+  the_most_read?: any;
 }
 
 export interface BlogDataType {

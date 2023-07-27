@@ -12,12 +12,22 @@ const SearchProducts = () => {
   const [inputValue, setInputValue] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
+
+  const removeAccents = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  };
+
   const triggerSearch = (event: any) => {
     const value = event.target.value;
     setInputValue(value);
     if (value) {
       const filteredProducts = auxProducts.filter((product) =>
-        product.title.toLowerCase().includes(value)
+        removeAccents(product.title.toLowerCase()).includes(
+          removeAccents(value.toLowerCase())
+        )
       );
       setProducts(filteredProducts);
     } else {

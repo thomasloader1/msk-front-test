@@ -91,7 +91,6 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
     async function getNote() {
       const { data } = await axios.get(`${API_URL}/posts/${slug}`);
-      console.log({ data });
       setNote(data.posts[0]);
       setLoading(false);
     }

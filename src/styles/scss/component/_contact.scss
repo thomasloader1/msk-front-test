@@ -24,7 +24,6 @@
       label {
         color: $description-text;
         font-size: 1rem;
-
       }
     }
   }
@@ -83,11 +82,13 @@
   background: #f8f8f9;
   border-radius: 5px;
   border: 1px solid #f8f8f9;
-  margin-top: 105px;
 
   @media #{$xs} {
     padding: 25px 20px 25px 20px;
   }
+}
+.contact-mt-sidebar {
+  margin-top: 105px;
 }
 
 .support-tittle {

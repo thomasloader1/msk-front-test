@@ -1,6 +1,5 @@
 // TABS LIST
 const TABS_HOME = ["Todo", "Novedades", "Recomendados", "Especialidades"];
-const TABS_BLOG = ["Todo", "Actualidad", "Entrevistas", "Opinión"];
 
 // COURSES LIST
 const HOME_COURSES = [
@@ -719,11 +718,4 @@ const USER_COURSES = [
   },
 ];
 
-export {
-  TABS_HOME,
-  TABS_BLOG,
-  HOME_COURSES,
-  TOP_COURSES,
-  DETAILS_COURSES,
-  USER_COURSES,
-};
+export { TABS_HOME, HOME_COURSES, TOP_COURSES, DETAILS_COURSES, USER_COURSES };

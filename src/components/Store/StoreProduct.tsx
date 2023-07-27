@@ -75,7 +75,7 @@ const StoreProduct: FC<Props> = ({
       ) : null}
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-1">
             {product.duration ? null : (
               <>
                 <Badge

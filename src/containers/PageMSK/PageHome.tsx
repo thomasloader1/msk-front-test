@@ -10,7 +10,7 @@ import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { TABS_BLOG, TABS_HOME } from "data/MSK/courses";
+import { TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
 import { ALL_PRODUCTS_MX, BEST_SELLERS_MX } from "data/api";

@@ -1,10 +1,12 @@
 import { Popover, Transition } from "@headlessui/react";
 import api from "Services/api";
+import axios from "axios";
 import Input from "components/Input/Input";
 import { CountryContext } from "context/country/CountryContext";
+import { API_URL } from "data/api";
 import { FetchCourseType } from "data/types";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -35,6 +37,16 @@ const SearchProducts = () => {
     }
   };
 
+  const fetchBlogPosts = async () => {
+    const res = await axios.get(`${API_URL}/posts`);
+    const postsList = res.data.posts.map((post: any) => ({
+      ...post,
+      image: post.thumbnail,
+    }));
+    setAuxProducts([...postsList]);
+    setProducts(postsList);
+  };
+
   const fetchProducts = async () => {
     const productList = await api.getAllCourses();
     setAuxProducts([...productList]);
@@ -51,9 +63,14 @@ const SearchProducts = () => {
     setInputValue("");
   };
 
+  const location = useLocation();
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    if (location.pathname.includes("/blog")) {
+      fetchBlogPosts();
+    } else {
+      fetchProducts();
+    }
+  }, [location.pathname]);
 
   return (
     <div className="search-products">

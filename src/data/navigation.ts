@@ -491,7 +491,7 @@ export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/tienda",
-    name: "Categorías",
+    name: "Qué ofrecemos",
     type: "dropdown",
     children: aboutMenu,
   },

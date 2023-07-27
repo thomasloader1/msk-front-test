@@ -8,12 +8,14 @@ import { API_URL } from "data/api";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
+import ProductDetailsInstructor from "components/SingleProductDetail/ProductDetailsInstructor";
 
 export interface SingleContentProps {
   data: SinglePageType;
+  sources?: string[];
 }
 
-const SingleContent: FC<SingleContentProps> = ({ data }) => {
+const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
 
@@ -92,6 +94,20 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
               reconocimiento en tu profesión?
             </p>
+
+            <div>
+              <h4 className="source-title">Fuente/s:</h4>
+              {sources && sources.length > 0
+                ? sources.map((source, index) => {
+                    return (
+                      <p key={`source_${index}`} className="source-content">
+                        {source}
+                      </p>
+                    );
+                  })
+                : null}
+            </div>
+            {/* <ProductDetailsInstructor instructor={data.author} /> */}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget">
@@ -160,7 +176,6 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           </div>
         </div>
       </div>
-
       {/* TAGS */}
       {/* <div className="relative py-16 my-32">
         <BackgroundSection />

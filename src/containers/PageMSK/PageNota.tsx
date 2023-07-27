@@ -74,6 +74,7 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
+  fuentes?: string[];
 }
 
 interface ParamsType {
@@ -84,16 +85,23 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
   const { slug } = useParams<ParamsType>();
   const [note, setNote] = useState<SinglePageType>();
+  const [fuentes, setFuentes] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   useEffect(() => {
     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
 
-    async function getNote() {
+    const getNote = async () => {
       const { data } = await axios.get(`${API_URL}/posts/${slug}`);
       setNote(data.posts[0]);
       setLoading(false);
-    }
+      const auxFuentes = data.posts[0].fuentes;
+      setFuentes(
+        auxFuentes.map((fuente: { fuente: string }) => {
+          return fuente.fuente;
+        })
+      );
+    };
 
     // console.log({ slug });
 
@@ -157,9 +165,9 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
             </header>
 
             {/* SINGLE MAIN CONTENT */}
-            <div className="container flex flex-col colspan-12 w-full my-10 lg:flex-row note-container">
+            <div className="container flex flex-col col-span-12 w-full my-10 lg:flex-row note-container">
               <div className="w-full">
-                <SingleContent data={note} />
+                <SingleContent data={note} sources={fuentes} />
               </div>
             </div>
 

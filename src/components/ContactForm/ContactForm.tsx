@@ -23,17 +23,24 @@ const ContactFormSection = ({
   isEbook = false,
 }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>("");
+  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
+  const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
     useState<string>("");
+  const [selectedCareer, setSelectedCareer] = useState("");
   const [acceptConditions, setAcceptConditions] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [formSent, setFormSent] = useState(false);
+  const [studentYear, setStudentYear] = useState("");
+  const [studentInputs, setStudentInputs] = useState(false);
+  const [formError, setFormError] = useState("");
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -74,12 +81,32 @@ const ContactFormSection = ({
     setShowInputSpecialties(value === "Otra Especialidad");
   };
 
+  const handleOptionCareerChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedCareer(value);
+  };
+
   const handleOptionProfessionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setSelectedOptionProfession(value);
-    setShowInputProfession(value === "Otra profesión");
+    if (value && value.length) {
+      const values = value.split("/");
+      const profession = values[0];
+      const id = values[1];
+      setSelectedOptionProfession(profession);
+      setSelectedProfessionId(id);
+      setShowInputProfession(profession === "Otra profesión");
+      setStudentInputs(profession === "Estudiante");
+      const groups =
+        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      setCurrentGroup(groups);
+    } else {
+      setSelectedOptionProfession("");
+      setSelectedProfessionId("");
+    }
   };
 
   useEffect(() => {
@@ -95,7 +122,8 @@ const ContactFormSection = ({
     axios
       .get(`${API_BACKEND_URL}/specialities`)
       .then((response) => {
-        setSpecialties(response.data);
+        setSpecialties(response.data.specialities);
+        setSpecialtiesGroup(response.data.specialities_group);
       })
       .catch((error) => {
         console.log(error);
@@ -105,7 +133,6 @@ const ContactFormSection = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-
     const jsonData: ContactUs = {
       First_Name: "",
       Last_Name: "",
@@ -120,6 +147,8 @@ const ContactFormSection = ({
       utm_medium: "",
       utm_campaign: "",
       utm_content: "",
+      Year: "",
+      Career: "",
       recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
     };
 
@@ -151,7 +180,14 @@ const ContactFormSection = ({
         jsonData.Pais = selectedCountry;
       }
       if (key === "Profesion" && !value.toString().includes("Seleccionar")) {
-        jsonData.Profesion = value as string;
+        const values = value.toString().split("/");
+        jsonData.Profesion = values[0];
+      }
+      if (key === "Year") {
+        jsonData.Year = value as string;
+      }
+      if (key === "Career") {
+        jsonData.Career = value as string;
       }
       if (key === "Description") {
         jsonData.Description = value as string;
@@ -187,13 +223,24 @@ const ContactFormSection = ({
     const { response } = await api.postContactUs(jsonData);
 
     console.log(response);
-    setFormSent(true);
-    resetForm();
-    let routeChange = isEbook
-      ? "/gracias?origen=descarga-ebook"
-      : "/gracias?origen=contact";
-    changeRoute(routeChange);
+    if (response.status === 200) {
+      setFormSent(true);
+      resetForm();
+      let routeChange = isEbook
+        ? "/gracias?origen=descarga-ebook"
+        : "/gracias?origen=contact";
+      changeRoute(routeChange);
+    } else {
+      setFormError("Hubo un error al enviar el formulario, revise los campos");
+    }
   };
+
+  const optionsArray = [1, 2, 3, 4, 5];
+  const selectOptions = optionsArray.map((y) => (
+    <option key={`st_year_${y}`} defaultValue={y}>
+      {y}
+    </option>
+  ));
 
   return (
     <>
@@ -303,13 +350,15 @@ const ContactFormSection = ({
                         className=""
                         id="Profesion"
                         name="Profesion"
-                        value={selectedOptionProfession}
+                        value={`${selectedOptionProfession}/${selectedProfessionId}`}
                         onChange={handleOptionProfessionChange}
                       >
-                        <option defaultValue="">Seleccionar profesión</option>
+                        <option defaultValue="" value="">
+                          Seleccionar profesión
+                        </option>
                         {professions
                           ? professions.map((p) => (
-                              <option key={p.id} value={p.name}>
+                              <option key={p.id} value={`${p.name}/${p.id}`}>
                                 {p.name}
                               </option>
                             ))
@@ -327,35 +376,82 @@ const ContactFormSection = ({
                     )}
                   </div>
 
-                  <div className={`col-xl-6`}>
-                    <div className="contact-select">
-                      <select
-                        className=""
-                        id="Especialidad"
-                        name="Especialidad"
-                        value={selectedOptionSpecialty}
-                        onChange={handleOptionSpecialtyChange}
-                      >
-                        <option defaultValue="">
-                          Seleccionar especialidad
-                        </option>
-                        {specialties.map((s) => (
-                          <option key={s.id} defaultValue={s.name}>
-                            {s.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {showInputSpecialties && (
-                      <div className="contact-from-input my-4">
-                        <input
-                          type="text"
-                          name="Otra_especialidad"
-                          placeholder="Ingresar especialidad"
-                        />
+                  {studentInputs ? (
+                    <div className={`col-xl-6`}>
+                      <div className="contact-select grid grid-cols-11 gap-2">
+                        <select
+                          className="col-span-5"
+                          id="Year"
+                          name="Year"
+                          defaultValue={studentYear}
+                        >
+                          <option defaultValue="">Seleccionar año</option>
+                          {selectOptions}
+                        </select>
+                        <select
+                          className="col-span-6"
+                          id="Career"
+                          name="Career"
+                          value={selectedCareer}
+                          onChange={handleOptionCareerChange}
+                        >
+                          <option defaultValue="">Seleccionar carrera</option>
+                          {currentGroup.map((s: any) => (
+                            <option
+                              key={`st_carrer_${s.id}`}
+                              defaultValue={s.name}
+                            >
+                              {s.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={`col-xl-6`}>
+                        <div className="contact-select">
+                          <select
+                            className=""
+                            id="Especialidad"
+                            name="Especialidad"
+                            value={selectedOptionSpecialty}
+                            onChange={handleOptionSpecialtyChange}
+                          >
+                            <option defaultValue="">
+                              Seleccionar especialidad
+                            </option>
+                            {selectedOptionProfession && currentGroup.length
+                              ? currentGroup.map((s: any) => (
+                                  <option
+                                    key={`sp_group_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))
+                              : specialties.map((s) => (
+                                  <option
+                                    key={`sp_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))}
+                          </select>
+                        </div>
+                        {showInputSpecialties && (
+                          <div className="contact-from-input my-4">
+                            <input
+                              type="text"
+                              name="Otra_especialidad"
+                              placeholder="Ingresar especialidad"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                   <div className="col-span-2">
                     {isEbook ? (
                       <></>
@@ -381,6 +477,7 @@ const ContactFormSection = ({
                         condiciones de privacidad
                       </a>
                     </div>
+
                     <div className="col-xl-2 mt-2">
                       <div className="cont-btn ">
                         <button
@@ -392,6 +489,12 @@ const ContactFormSection = ({
                         </button>
                       </div>
                     </div>
+                    <p
+                      className="text-red-500 font-bold"
+                      style={{ visibility: formError ? "visible" : "hidden" }}
+                    >
+                      {formError}
+                    </p>
                     <p
                       className="success-message"
                       style={{ visibility: formSent ? "visible" : "hidden" }}

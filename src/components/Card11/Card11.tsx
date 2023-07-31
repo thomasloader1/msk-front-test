@@ -6,6 +6,7 @@ import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
 import PostCardMeta from "components/PostCardMeta/PostCardMeta";
 import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
+import NcImage from "components/NcImage/NcImage";
 
 export interface Card11Props {
   className?: string;
@@ -20,7 +21,8 @@ const Card11: FC<Card11Props> = ({
   hiddenAuthor = false,
   ratio = "aspect-w-4 aspect-h-3",
 }) => {
-  const { title, href, categories, date } = post;
+  const { title, href, categories, date, image } = post;
+  const imageURL = image?.replace("mx.", "");
 
   const [isHover, setIsHover] = useState(false);
 
@@ -36,29 +38,35 @@ const Card11: FC<Card11Props> = ({
         className={`block flex-shrink-0 relative w-full rounded-t-xl overflow-hidden ${ratio}`}
       >
         <div>
-          <PostFeaturedMedia post={post} isHover={isHover} />
+          <NcImage
+            containerClassName="absolute inset-0"
+            src={imageURL}
+            alt={title}
+            height="100"
+          />
+          {/* <PostFeaturedMedia post={post} isHover={isHover} /> */}
         </div>
       </div>
-      <Link to={href} className="absolute inset-0"></Link>
+      {/* <Link to={href} className="absolute inset-0"></Link> */}
       <span className="absolute top-3 inset-x-3 z-10">
         <CategoryBadgeList categories={categories} />
       </span>
 
       <div className="p-4 flex flex-col flex-grow space-y-3">
-        {!hiddenAuthor ? (
+        {/* {!hiddenAuthor ? (
           <PostCardMeta meta={post} />
         ) : (
           <span className="text-xs text-neutral-500">{date}</span>
-        )}
+        )} */}
         <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100 ">
-          <Link to={href} className="line-clamp-2" title={title}>
+          <Link to={""} className="line-clamp-2" title={title}>
             {title}
           </Link>
         </h2>
-        <div className="flex items-end justify-between mt-auto">
+        {/* <div className="flex items-end justify-between mt-auto">
           <PostCardLikeAndComment className="relative" postData={post} />
           <PostCardSaveAction className="relative" postData={post} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

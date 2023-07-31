@@ -35,10 +35,10 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           }
         } else {
           const ip = await axios.get("https://api.ipify.org/?format=json");
-          // const { data } = await axios.post(
-          //   `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
-          // );
-          const { data } = await axios.post(`${IP_API}?ip=${ip.data.ip}`);
+          const { data } = await axios.post(
+            `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
+          );
+          // const { data } = await axios.post(`${IP_API}?ip=${ip.data.ip}`);
           currentCountry = data.countryCode.toLowerCase();
         }
         localStorage.setItem("country", currentCountry);

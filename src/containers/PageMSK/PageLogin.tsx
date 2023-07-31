@@ -47,7 +47,6 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
     const { data, status } = await api.postLogin(jsonData);
 
-    console.log("TEST", data);
     if (status == 200) {
       const loginData = { ...data, email: jsonData.email };
       dispatch({ type: "LOGIN", payload: loginData });

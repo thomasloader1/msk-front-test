@@ -159,7 +159,7 @@ class ApiService {
   async getSpecialties() {
     try {
       const res = await axios.get(`${baseUrl}/api/specialities`);
-      return res.data;
+      return res.data.specialities;
     } catch (error) {
       return error;
     }

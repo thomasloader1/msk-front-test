@@ -21,6 +21,7 @@ import PageNota from "containers/PageMSK/PageNota";
 import { CountryContext } from "context/country/CountryContext";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "context/user/AuthContext";
+import PageArchive from "containers/PageMSK/blog/Archive";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -32,6 +33,7 @@ export const pages: Page[] = [
   { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
   { path: "/blog/:slug", component: PageNota, auth: false },
+  { path: "/archivo", component: PageArchive, auth: false },
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
   { path: "/recuperar", component: PageForgotPass, auth: false },

@@ -99,7 +99,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
                   Actualidad
                 </h2>
                 <span className="block mt-4 text-neutral-300">
-                  115 Artículos
+                  {[posts.length]} Artículos
                 </span>
               </div>
             </div>

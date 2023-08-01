@@ -6,28 +6,22 @@ import HomeExtraInfo from "containers/PageMSK/home/HomeExtraInfo";
 import BlogSummary from "./home/BlogSummary";
 import { TABS_BLOG } from "data/MSK/blog";
 import WelcomeBlog from "./blog/WelcomeBlog";
-import Tendencies from "./blog/Tendencies";
 import Newsletter from "./blog/Newsletter";
 import axios from "axios";
 import { API_URL } from "data/api";
-import { useHistory } from "react-router-dom";
+import api from "Services/api";
 const PageBlog: React.FC = () => {
   const [posts, setPosts] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const formattedPosts = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
-
-    setPosts(formattedPosts);
+    const posts = await api.getPosts();
+    setPosts(posts);
     setLoading(false);
   };
   const fetchCourses = async () => {
-    const res = await axios.get(`${API_URL}/products`);
-    setCourses(res.data.products);
+    const res = await api.getAllCourses();
+    setCourses(res);
   };
   useEffect(() => {
     fetchPosts();
@@ -56,7 +50,6 @@ const PageBlog: React.FC = () => {
             desc=""
           />
           <HomeExtraInfo />
-
           {/* <Tendencies className="mt-24" /> */}
           <div className="relative py-16 my-32">
             <BackgroundSection />

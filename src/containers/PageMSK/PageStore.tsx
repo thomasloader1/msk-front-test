@@ -39,7 +39,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     setProfessions(professionList);
   };
   const fetchSpecialties = async () => {
-    const specialtyList = await api.getSpecialties();
+    const specialtyList = await api.getSpecialtiesStore();
     setSpecialties(specialtyList);
   };
 

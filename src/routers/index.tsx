@@ -65,7 +65,8 @@ const Routes = () => {
     if (
       (location.pathname.includes("mi-perfil") ||
         location.pathname.includes("mi-cuenta")) &&
-      !isAuthenticated
+      !isAuthenticated &&
+      !localStorage.getItem("token")
     ) {
       window.location.href = `iniciar-sesion`;
     }

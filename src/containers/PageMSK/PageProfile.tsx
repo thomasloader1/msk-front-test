@@ -44,11 +44,11 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
   const fetchUser = async () => {
     try {
-      const productList = await axios.get(`${ALL_PRODUCTS_MX}`);
+      const productList = await api.getAllProductsMX();
       const res = await api.getUserData();
       if (!res.message) {
         setUser(res);
-        let coursesList = getUserCourses(res, productList.data.products);
+        let coursesList = getUserCourses(res, productList);
         setPosts(coursesList);
         setLoadingUser(false);
       } else {

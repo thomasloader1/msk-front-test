@@ -13,7 +13,8 @@ import ContactForm from "components/ContactForm/ContactForm";
 import { TABS_HOME } from "data/MSK/courses";
 import { SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
-import { ALL_PRODUCTS_MX, BEST_SELLERS_MX } from "data/api";
+import { BEST_SELLERS_MX } from "data/api";
+import api from "Services/api";
 
 const PageHome: React.FC = () => {
   const [courses, setCourses] = useState([]);
@@ -21,13 +22,13 @@ const PageHome: React.FC = () => {
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
   const fetchCourses = async () => {
-    const res = await axios.get(`${ALL_PRODUCTS_MX}`);
-    setCourses(res.data.products);
+    const allCourses = await api.getAllProductsMX();
+    setCourses(allCourses);
     setLoadingCourses(false);
   };
   const fetchBestSeller = async () => {
-    const res = await axios.get(`${BEST_SELLERS_MX}`);
-    setBestSeller(res.data.products);
+    const fetchedBestSellers = await api.getBestSellersMX();
+    setBestSeller(fetchedBestSellers);
     setLoadingBestSellers(false);
   };
   useEffect(() => {

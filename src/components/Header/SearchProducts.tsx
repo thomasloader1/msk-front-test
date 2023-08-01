@@ -38,11 +38,7 @@ const SearchProducts = () => {
   };
 
   const fetchBlogPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const postsList = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
+    const postsList = await api.getPosts();
     setAuxProducts([...postsList]);
     setProducts(postsList);
   };

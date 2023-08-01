@@ -16,28 +16,19 @@ import Badge from "components/Badge/Badge";
 import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
+import api from "Services/api";
 interface Props {
   product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
-  const { state } = useContext(CountryContext);
   const textRef = useRef<HTMLDivElement>(null);
-  const [bestSeller, setBestSeller] = useState([]);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const fetchBestSeller = async () => {
-    const res = await axios.get(
-      `${API_URL}/home/best-sellers?country=${state.country || "mx"}`
-    );
-    setBestSeller(res.data.products);
-    setLoading(false);
-  };
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
     htmlElement.innerHTML = product.ficha.description;
-    fetchBestSeller();
     if (textRef.current) {
       textRef.current.innerHTML = "";
       textRef.current.appendChild(htmlElement);
@@ -267,7 +258,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             heading="¿Buscas capacitarte a distancia?"
             subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
             sliderStype="style2"
-            posts={bestSeller}
+            posts={product.related_products}
             uniqueSliderClass="pageHome-section6"
           />
         </div>

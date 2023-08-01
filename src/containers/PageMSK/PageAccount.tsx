@@ -1,14 +1,7 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, {
-  ComponentType,
-  FC,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ComponentType, FC, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 import { Link, NavLink } from "react-router-dom";
-import AccountPayment from "./account/AccountPayment";
 import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
 import AccountHome from "./account/AccountHome";
@@ -17,8 +10,6 @@ import { Profession, Specialty, User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
-import axios from "axios";
-import { ALL_PRODUCTS_MX } from "../../data/api";
 import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 
@@ -96,14 +87,12 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
 
   const history = useHistory();
   const fetchUser = async () => {
-    const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
-    console.log({ allCourses })
+    const allCourses = await api.getAllProductsMX();
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
-
-      let coursesList = getUserCourses(res, allCourses.data.products);
+      let coursesList = getUserCourses(res, allCourses);
       setCourses(coursesList);
       setLoading(false);
     } else {
@@ -119,7 +108,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     fetchSpecialties();
   }, []);
 
-  console.log({ courses })
+  console.log({ courses });
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">

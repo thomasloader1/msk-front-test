@@ -19,7 +19,6 @@ import api from "Services/api";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import axios from "axios";
-import { ALL_PRODUCTS_MX } from "../../data/api";
 import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 
@@ -97,14 +96,13 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
 
   const history = useHistory();
   const fetchUser = async () => {
-    const allCourses = await axios.get(`${ALL_PRODUCTS_MX}`);
-    console.log({ allCourses });
+    const allCourses = await api.getAllProductsMX();
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
 
-      let coursesList = getUserCourses(res, allCourses.data.products);
+      let coursesList = getUserCourses(res, allCourses);
       setCourses(coursesList);
       setLoading(false);
     } else {

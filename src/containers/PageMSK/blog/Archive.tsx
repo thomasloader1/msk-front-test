@@ -1,13 +1,8 @@
 import React, { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
 import NcImage from "components/NcImage/NcImage";
-import { SINGLE } from "data/single";
-import SingleContent from "./archive/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
 import { useAppDispatch } from "app/hooks";
-import { changeCurrentPage } from "app/pages/pages";
-import { TABS_BLOG } from "data/MSK/blog";
-import BlogSummary from "../home/BlogSummary";
 import axios from "axios";
 import { API_URL } from "data/api";
 import Card11 from "components/Card11/Card11";
@@ -16,6 +11,7 @@ import SectionSliderPosts from "../home/SectionSliderPosts";
 import { CountryContext } from "context/country/CountryContext";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
+import api from "Services/api";
 
 export interface PageArchiveProps {
   className?: string;
@@ -28,13 +24,11 @@ export interface SinglePageType extends PostDataType {
 }
 
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
-  const dispatch = useAppDispatch();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [bestSeller, setBestSeller] = useState([]);
   const { state } = useContext(CountryContext);
-  const [randomInt, setRandomInt] = useState(0);
   const itemsPerPage = 12;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -53,21 +47,14 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   };
 
   const fetchPosts = async () => {
-    const res = await axios.get(`${API_URL}/posts`);
-    const formattedPosts = res.data.posts.map((post: any) => ({
-      ...post,
-      image: post.thumbnail,
-    }));
-
-    setPosts(formattedPosts);
+    const fetchedPosts = await api.getPosts();
+    setPosts(fetchedPosts);
     setLoading(false);
   };
 
   const fetchBestSeller = async () => {
-    const res = await axios.get(
-      `${API_URL}/home/best-sellers?country=${state.country || "mx"}`
-    );
-    setBestSeller(res.data.products);
+    const fetchedBestSellers = await api.getBestSellers();
+    setBestSeller(fetchedBestSellers);
   };
 
   useEffect(() => {

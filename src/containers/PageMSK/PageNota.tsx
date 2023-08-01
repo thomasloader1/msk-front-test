@@ -13,6 +13,7 @@ import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
+import api from "Services/api";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -92,10 +93,10 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
 
     const getNote = async () => {
-      const { data } = await axios.get(`${API_URL}/posts/${slug}`);
-      setNote(data.posts[0]);
+      const post = await api.getSinglePost(slug);
+      setNote(post);
       setLoading(false);
-      const auxFuentes = data.posts[0].fuentes;
+      const auxFuentes = post.fuentes;
       setFuentes(
         auxFuentes.map((fuente: { fuente: string }) => {
           return fuente.fuente;

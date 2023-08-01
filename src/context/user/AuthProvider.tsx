@@ -15,6 +15,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     email: null,
     token: null,
     expires_at: null,
+    bypassRedirect: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -25,6 +26,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         "user",
         JSON.stringify({ name: res.name, profession: res.contact.profession })
       );
+      localStorage.setItem("bypassRedirect", res.test);
       return res.data;
     } else {
       console.log(res.response.status);
@@ -33,11 +35,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
+    const bypassRedirect = localStorage.getItem("bypassRedirect");
     let expires_at: string | Date | null = localStorage.getItem("expires_at");
 
     if (token && email) {
       fetchUser();
-      const data = { access_token: token, email, expires_at };
+      const data = { access_token: token, email, expires_at, bypassRedirect };
       dispatch({ type: "LOGIN", payload: data });
 
       if (expires_at) {

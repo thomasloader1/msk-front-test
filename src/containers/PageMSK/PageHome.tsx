@@ -33,14 +33,14 @@ const PageHome: React.FC = () => {
   useEffect(() => {
     fetchCourses();
     fetchBestSeller();
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        console.log(position);
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
+    // navigator.geolocation.getCurrentPosition(
+    //   function (position) {
+    //     console.log(position);
+    //   },
+    //   function (err) {
+    //     console.log(err);
+    //   }
+    // );
   }, []);
 
   const scrollToContactForm = () => {

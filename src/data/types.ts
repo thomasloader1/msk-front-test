@@ -516,6 +516,7 @@ export interface AuthState {
   email: string | null;
   token: string | null;
   expires_at: number | null;
+  bypassRedirect: boolean | number | null;
 }
 
 export interface CountryState {

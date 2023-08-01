@@ -11,6 +11,7 @@ export const AuthContext = createContext<{
     token: null,
     email: null,
     expires_at: null,
+    bypassRedirect: null,
   },
   dispatch: () => {},
 });

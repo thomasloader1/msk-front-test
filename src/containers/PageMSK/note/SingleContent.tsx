@@ -99,12 +99,12 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               <h4 className="source-title">Fuente/s:</h4>
               {sources && sources.length > 0
                 ? sources.map((source, index) => {
-                    return (
-                      <p key={`source_${index}`} className="source-content">
-                        {source}
-                      </p>
-                    );
-                  })
+                  return (
+                    <p key={`source_${index}`} className="source-content">
+                      {source}
+                    </p>
+                  );
+                })
                 : null}
             </div>
             {/* <ProductDetailsInstructor instructor={data.author} /> */}
@@ -112,11 +112,10 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget">
           <div
-            className={`${
-              isFixed && bottomDistance == 0
+            className={`${isFixed && bottomDistance == 0
                 ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
                 : "col-span-12 lg:col-span-4 post-side-data"
-            } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
+              } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">
@@ -132,7 +131,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               </div>
               {recommendedCourses.map((course: any, index: number) => (
                 <Link
-                  to={`/curso/${course.slug}`}
+                  to={`/blog/${course.slug}`}
                   key={`rc_${index}`}
                   className="side-content-course"
                 >

@@ -12,6 +12,7 @@ import { CountryContext } from "context/country/CountryContext";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
 import api from "Services/api";
+import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 
 export interface PageArchiveProps {
   className?: string;
@@ -23,8 +24,17 @@ export interface SinglePageType extends PostDataType {
   comments: CommentType[];
 }
 
+const CATEGORIES_FILTERS = [
+  { name: "Otras categorías" },
+  { name: "Actualidad" },
+  { name: "Entrevistas" },
+  { name: "Opinión" },
+];
+const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
+
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const [posts, setPosts] = useState([]);
+  const [auxPosts, setAuxPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [bestSeller, setBestSeller] = useState([]);
@@ -46,9 +56,52 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
     setCurrentPage(pageNumber);
   };
 
+  const handleCategoryChange = (e: { name: string }) => {
+    if (e.name == "Otras categorías") return setPosts(auxPosts);
+    let filteredPosts = auxPosts.filter((post: PostDataType) => {
+      return post.categories.some((category) => category.name.includes(e.name));
+    });
+    setPosts(filteredPosts);
+  };
+
+  const handleFilterChange = (e: { name: string }) => {
+    let filteredPosts: any = [...auxPosts];
+    if (e.name === "Más recientes") {
+      filteredPosts.sort((a: { date: string }, b: { date: string }) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+      setPosts(filteredPosts);
+    }
+    if (e.name === "Más leídos") {
+      const the_most_read = filteredPosts[0].the_most_read.map(
+        (post: { category: string }) => {
+          return {
+            ...post,
+            categories: [
+              { name: post.category, slug: post.category.toLowerCase() },
+            ],
+          };
+        }
+      );
+      setPosts(the_most_read);
+    }
+  };
+
   const fetchPosts = async () => {
     const fetchedPosts = await api.getPosts();
-    setPosts(fetchedPosts);
+    let categoryValue = decodeURIComponent(
+      window.location.search.replace(/^.*\?category=/, "")
+    );
+    let filteredPosts: any = fetchedPosts;
+    if (categoryValue) {
+      filteredPosts = fetchedPosts.filter((post: PostDataType) => {
+        return post.categories.some((category) =>
+          category.name.includes(categoryValue)
+        );
+      });
+    }
+    setPosts(filteredPosts);
+    setAuxPosts(fetchedPosts);
     setLoading(false);
   };
 
@@ -61,6 +114,20 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
     fetchPosts();
     fetchBestSeller();
   }, []);
+
+  useEffect(() => {
+    let categoryValue = decodeURIComponent(
+      window.location.search.replace(/^.*\?category=/, "")
+    );
+
+    const filteredPosts = auxPosts.filter((post: PostDataType) => {
+      return post.categories.some((category) =>
+        category.name.includes(categoryValue)
+      );
+    });
+
+    setPosts(filteredPosts);
+  }, [window.location.search]);
 
   let loaders = [];
   for (let i = 0; i < 6; i++) {
@@ -92,7 +159,19 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           </header>
         ) : null}
-        <div className="container my-16">
+        <div className="container my-10">
+          <div className="flex space-between mb-8">
+            <ArchiveFilterListBox
+              setFilter={handleCategoryChange}
+              lists={CATEGORIES_FILTERS}
+              className="mr-auto"
+            />
+            <ArchiveFilterListBox
+              setFilter={handleFilterChange}
+              lists={FILTERS}
+            />
+          </div>
+
           {loading ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {
@@ -109,10 +188,17 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
                         key={`post_${index}`}
                         post={post}
                         className="rounded-xl"
+                        kind="post"
                       />
                     ))}
                   </>
-                ) : null}
+                ) : (
+                  <>
+                    <h4 className="col-span-12 text-xl">
+                      No hay posts disponibles para el filtro aplicado
+                    </h4>
+                  </>
+                )}
               </div>
               <div className="flex justify-center">
                 <StorePagination

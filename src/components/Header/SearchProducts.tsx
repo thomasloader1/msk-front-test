@@ -14,7 +14,7 @@ const SearchProducts = () => {
   const [inputValue, setInputValue] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
-
+  const [isOnBlog, setIsOnBlog] = useState(false);
   const removeAccents = (str: string) => {
     return str
       .normalize("NFD")
@@ -41,12 +41,14 @@ const SearchProducts = () => {
     const postsList = await api.getPosts();
     setAuxProducts([...postsList]);
     setProducts(postsList);
+    setIsOnBlog(true);
   };
 
   const fetchProducts = async () => {
     const productList = await api.getAllCourses();
     setAuxProducts([...productList]);
     setProducts(productList);
+    setIsOnBlog(false);
   };
 
   const onBlur = () => {
@@ -85,7 +87,7 @@ const SearchProducts = () => {
           {products
             .map((product, index) => (
               <Link
-                to={`/curso/${product.slug}`}
+                to={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
                 className="product-item"
                 onClick={clearInputValue}

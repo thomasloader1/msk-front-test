@@ -13,6 +13,7 @@ export interface Card11Props {
   post: any;
   ratio?: string;
   hiddenAuthor?: boolean;
+  kind?: string;
 }
 
 const Card11: FC<Card11Props> = ({
@@ -20,10 +21,10 @@ const Card11: FC<Card11Props> = ({
   post,
   hiddenAuthor = false,
   ratio = "aspect-w-4 aspect-h-3",
+  kind,
 }) => {
-  const { title, href, categories, date, image } = post;
+  const { title, href, categories, date, image, slug, link } = post;
   const imageURL = image?.replace("mx.", "");
-
   const [isHover, setIsHover] = useState(false);
 
   return (
@@ -59,7 +60,7 @@ const Card11: FC<Card11Props> = ({
           <span className="text-xs text-neutral-500">{date}</span>
         )} */}
         <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100 ">
-          <Link to={""} className="line-clamp-2" title={title}>
+          <Link to={`/${kind}/${slug}`} className="line-clamp-2" title={title}>
             {title}
           </Link>
         </h2>

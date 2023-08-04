@@ -219,6 +219,7 @@ export interface PostDataType {
   readingTime: number;
   postType: "standard" | "video" | "gallery" | "audio";
   videoUrl?: string;
+  image?: string;
   audioUrl?: string;
   galleryImgs?: string[];
   cursos_recomendados?: any;

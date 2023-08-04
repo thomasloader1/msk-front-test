@@ -139,7 +139,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 <></>
               )}
             </div>
-
             <div className="order-last relative block lg:hidden">
               <ProductDetailSidebar
                 ficha={product.ficha}
@@ -147,7 +146,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 isEbook={isEbook}
               />
             </div>
-
             {product.ficha.description ? (
               <div
                 className={
@@ -171,7 +169,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   sliderStype="style2"
                   posts={product.avales}
                   uniqueSliderClass="pageHome-section6"
-                  loading={loading}
                 />
               </div>
             ) : null}

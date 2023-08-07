@@ -80,6 +80,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       email: "",
       password: "",
       phone: "",
+      country: selectedCountry,
     };
 
     const allowedKeys: (keyof SignUp)[] = [
@@ -88,6 +89,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       "email",
       "password",
       "phone",
+      "country"
     ];
 
     formData.forEach((value, key) => {
@@ -206,10 +208,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                   <option defaultValue="">Seleccionar profesión</option>
                   {professions
                     ? professions.map((p) => (
-                        <option key={p.id} value={p.name}>
-                          {p.name}
-                        </option>
-                      ))
+                      <option key={p.id} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))
                     : ""}
                 </select>
               </div>

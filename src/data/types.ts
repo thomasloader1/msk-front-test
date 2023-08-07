@@ -472,6 +472,7 @@ export type SignUp = {
   last_name: string;
   phone: string;
   password: string;
+  country: string;
 };
 export type Login = {
   email: string;

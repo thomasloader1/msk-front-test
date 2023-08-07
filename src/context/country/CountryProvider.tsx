@@ -21,9 +21,11 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Country Provider');
         let currentCountry = "";
         let validCountries = ["mx", "cl", "ar", "ec"];
         if (bypassRedirect == "1") {
+          console.log('bypassRedirect');
           const currentUrl = window.location.pathname;
           const validCountryUrl = validCountries.filter(
             (country) =>
@@ -34,9 +36,11 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             currentCountry = validCountryUrl[0];
           }
         } else {
+          console.log('Fetch Country from IP');
           currentCountry = await api.getCountryCode();
+          console.log('CurrentCountry: ' + currentCountry);
         }
-        console.log("currentCountry: " + currentCountry);
+        console.log("currentCountry2: " + currentCountry);
         localStorage.setItem("country", currentCountry);
         if (!validCountries.includes(currentCountry)) {
           currentCountry = "";
@@ -50,7 +54,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           }`;
         } else {
           //Todo: this is a patch for when the state and currentCountry match, but we are not showing the country website
-          console.log(urlParams[3]); //country from URL
+          console.log("urlParams[3]: " + urlParams[3]); //country from URL
           if (urlParams[3] != currentCountry) {
             window.location.href = `/${currentCountry}/${
               urlParams[urlParams.length - 1]

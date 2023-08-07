@@ -60,7 +60,9 @@ const SearchProducts = () => {
   const clearInputValue = () => {
     setInputValue("");
     //refresh browser
-    window.location.reload(); //todo: this is a patch, we need to debug router nesting for rerendering of the view
+    if (window.location.href.includes("/curso/")) {
+      window.location.reload(); //todo: this is a patch, we need to debug router nesting for rerendering of the view
+    }
   };
 
   const location = useLocation();

@@ -90,9 +90,12 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         );
         const prodDuration = product.duration;
 
-        const specialtiesMatch = selectedSpecialties.some((specialty) =>
-          prodSpecialties.includes(specialty)
-        );
+        let specialtiesMatch = true;
+        if (selectedSpecialties.length) {
+          specialtiesMatch = selectedSpecialties.some((specialty) =>
+              prodSpecialties.includes(specialty)
+          );
+        }
 
         const professionsMatch =
           selectedProfessions.length === 0 ||

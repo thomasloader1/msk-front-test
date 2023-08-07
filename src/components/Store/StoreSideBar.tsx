@@ -122,6 +122,7 @@ const StoreSideBar: FC<Props> = ({
           matchingResources) &&
         initialLoad
       ) {
+        console.log("matchingResources", matchingResources);
         matchingProfessions.forEach((profession) => {
           onChangeProfession({
             id: profession.id,
@@ -144,7 +145,7 @@ const StoreSideBar: FC<Props> = ({
         setInitialLoad(false);
       }
     }
-  }, [onChangeProfession, onChangeSpecialty]);
+  }, [onChangeProfession, onChangeSpecialty, onChangeResource]);
 
   const isChecked = (type: string, value: any) => {
     switch (type) {

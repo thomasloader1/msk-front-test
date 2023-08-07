@@ -90,7 +90,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         );
         const prodDuration = product.duration;
 
-        const specialtiesMatch = selectedSpecialties.every((specialty) =>
+        const specialtiesMatch = selectedSpecialties.some((specialty) =>
           prodSpecialties.includes(specialty)
         );
 

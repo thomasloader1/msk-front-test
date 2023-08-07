@@ -1,7 +1,7 @@
-import React, {useEffect, useReducer, useState} from "react";
-import {CountryContext} from "./CountryContext";
-import {countryReducer} from "./CountryReducer";
-import {CountryState} from "data/types";
+import React, { useEffect, useReducer, useState } from "react";
+import { CountryContext } from "./CountryContext";
+import { countryReducer } from "./CountryReducer";
+import { CountryState } from "data/types";
 import api from "Services/api";
 
 interface Props {
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const CountryProvider: React.FC<Props> = ({ children }) => {
-  console.log('COUNTRYPROVIDER');
   const initialState: CountryState = {
     country: localStorage.getItem("country") || "",
   };
@@ -18,13 +17,10 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   const [bypassRedirect, setBypassRedirect] = useState(
     localStorage.getItem("bypassRedirect")
   );
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-
-
-
         let currentCountry = "";
         let validCountries = ["mx", "cl", "ar", "ec"];
         if (bypassRedirect == "1") {
@@ -52,10 +48,10 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           window.location.href = `/${currentCountry}/${
             urlParams[urlParams.length - 1]
           }`;
-        }else{
+        } else {
           //Todo: this is a patch for when the state and currentCountry match, but we are not showing the country website
           console.log(urlParams[3]); //country from URL
-          if ( urlParams[3] != currentCountry){
+          if (urlParams[3] != currentCountry) {
             window.location.href = `/${currentCountry}/${
               urlParams[urlParams.length - 1]
             }`;
@@ -63,8 +59,13 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         }
 
         //Redirect to HTTPS only on non dev environment
-        if (window.location.protocol === "http:" && window.location.hostname !== "localhost") {
-          window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        if (
+          window.location.protocol === "http:" &&
+          window.location.hostname !== "localhost"
+        ) {
+          window.location.href =
+            "https:" +
+            window.location.href.substring(window.location.protocol.length);
         }
 
         dispatch({ type: "SET_COUNTRY", payload: { country: currentCountry } });

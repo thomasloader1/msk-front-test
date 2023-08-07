@@ -13,6 +13,7 @@ const baseUrl = PROD
 const WP_URL = VITE_MSK_WP_API;
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;
+const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 
 class ApiService {
@@ -45,6 +46,14 @@ class ApiService {
   async postLogin(jsonData: Login): Promise<AxiosResponse<any>> {
     try {
       return await axios.post(apiSignInURL, jsonData);
+    } catch (error: any) {
+      return error.response;
+    }
+  }
+
+  async postRecover(jsonData: { email: string }): Promise<AxiosResponse<any>> {
+    try {
+      return await axios.post(apiRecoverURL, jsonData);
     } catch (error: any) {
       return error.response;
     }
@@ -275,12 +284,12 @@ class ApiService {
     const { data } = PROD
       ? await axios.post(`${IP_API}?ip=${ip.data.ip}`)
       : await axios.post(
-        `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
-      );
-    if (data.countryCode){
+          `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
+        );
+    if (data.countryCode) {
       return data.countryCode.toLowerCase();
     }
-    return '';
+    return "";
   }
 }
 

@@ -75,6 +75,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     const formData = new FormData(event.target as HTMLFormElement);
     console.log({ formData, target: event.target });
     const jsonData: SignUp = {
+      name: "",
       first_name: "",
       last_name: "",
       email: "",
@@ -83,6 +84,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     };
 
     const allowedKeys: (keyof SignUp)[] = [
+      "name",
       "first_name",
       "last_name",
       "email",
@@ -96,6 +98,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
         jsonData[formDataKey] = value as string;
       }
     });
+    jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
     console.log(jsonData);
 
     try {
@@ -103,7 +106,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       if (res.status !== 200) {
         setSuccess(false);
         setError(
-          `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo.}`
+          `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo.`
         );
       } else {
         setError("");

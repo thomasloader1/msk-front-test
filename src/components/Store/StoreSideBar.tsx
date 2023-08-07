@@ -189,13 +189,13 @@ const StoreSideBar: FC<Props> = ({
                       <input
                         className="edu-check-box"
                         type="checkbox"
-                        id={`specialty_${specialty.id}`}
+                        id={`specialty_${specialty.name}`}
                         onChange={(event) => onChangeSpecialty(specialty)}
                         checked={isChecked("specialties", specialty)}
                       />
                       <label
                         className="edu-check-label"
-                        htmlFor={`specialty_${specialty.id}`}
+                        htmlFor={`specialty_${specialty.name}`}
                       >
                         {specialty.name}
                       </label>

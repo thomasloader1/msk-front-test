@@ -4,12 +4,39 @@ import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
+import api from "Services/api";
 
 export interface PageForgotPassProps {
   className?: string;
 }
 
+interface Recover {
+  email: string;
+}
+
 const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    const jsonData: Recover = {
+      email: "",
+    };
+
+    formData.forEach((value, key, parent) => {
+      if (key === "email") {
+        jsonData.email = value as string;
+      }
+    });
+
+    const { data, status } = await api.postRecover(jsonData);
+
+    if (status == 200) {
+      console.log(data);
+    } else {
+      console.log("error");
+    }
+  };
   return (
     <div
       className={`nc-PageForgotPass ${className}`}
@@ -24,7 +51,12 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
       >
         <div className="max-w-md mx-auto space-y-6">
           {/* FORM */}
-          <form className="grid grid-cols-1 gap-6" action="#" method="post">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 gap-6"
+            action="#"
+            method="post"
+          >
             <label className="block">
               <span className="text-neutral-800 dark:text-neutral-200">
                 Email

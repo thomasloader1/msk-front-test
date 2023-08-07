@@ -606,3 +606,11 @@ div.tagcloud a:hover {
   font-style: normal;
   font-weight: 400;
 }
+
+.instructors-heading {
+  .instructors-img.note-author {
+    img {
+      margin: 0;
+    }
+  }
+}

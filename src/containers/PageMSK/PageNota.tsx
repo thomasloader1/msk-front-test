@@ -15,58 +15,6 @@ import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import api from "Services/api";
 
-const SINGLE: SinglePageType = {
-  id: "eae0212192f63287e0c212",
-  featured_image: "/src/images/misc/mission.png",
-  title: "Nuestra misión",
-  desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
-  date: "May 20, 2021",
-  href: "/single/this-is-single-slug",
-  commentCount: 14,
-  viewdCount: 2378,
-  readingTime: 6,
-  bookmark: { count: 3502, isBookmarked: false },
-  like: { count: 773, isLiked: true },
-  author: {
-    id: 10,
-    firstName: "Mimi",
-    lastName: "Fones",
-    displayName: "Fones Mimi",
-    email: "mfones9@canalblog.com",
-    avatar: "",
-    count: 38,
-    href: "/author/the-demo-author-slug",
-    desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
-    jobName: "Author Job",
-  },
-  categories: [
-    {
-      id: 1,
-      name: "Garden",
-      href: "/archive/the-demo-archive-slug",
-      thumbnail:
-        "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGdhcmRlbmluZ3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60",
-      count: 13,
-      color: "pink",
-      taxonomy: "category",
-    },
-    {
-      id: 2,
-      name: "Jewelry",
-      href: "/archive/the-demo-archive-slug",
-      thumbnail:
-        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjV8fGpld2Vscnl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=60",
-      count: 16,
-      color: "red",
-      taxonomy: "category",
-    },
-  ],
-  postType: "standard",
-  tags: [],
-  content: "",
-  comments: [],
-};
-
 export interface PageSingleTemp3SidebarProps {
   className?: string;
 }
@@ -85,34 +33,31 @@ interface ParamsType {
 const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
   const { slug } = useParams<ParamsType>();
-  const [note, setNote] = useState<SinglePageType>();
+  const [note, setNote] = useState<SinglePageType>({} as SinglePageType);
   const [fuentes, setFuentes] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   useEffect(() => {
-    dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
-
     const getNote = async () => {
-      const post = await api.getSinglePost(slug);
-      setNote(post);
-      setLoading(false);
-      const auxFuentes = post.fuentes;
-      setFuentes(
-        auxFuentes.map((fuente: { fuente: string }) => {
-          return fuente.fuente;
-        })
-      );
+      setLoading(true);
+      try {
+        const post = await api.getSinglePost(slug);
+        setNote(post);
+        const auxFuentes = post.fuentes || [];
+        setFuentes(
+          auxFuentes.map((fuente: { fuente: string }) => fuente.fuente)
+        );
+      } catch (error) {
+        console.error("Error fetching note:", error);
+        setNote({} as SinglePageType);
+        setFuentes([]);
+      } finally {
+        setLoading(false);
+      }
     };
-
-    // console.log({ slug });
 
     getNote();
-
-    return () => {
-      dispatch(changeCurrentPage({ type: "/", data: {} }));
-      setNote(undefined);
-    };
-  }, []);
+  }, [slug]);
 
   return (
     <>
@@ -155,7 +100,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
               </div>
               {/* FEATURED IMAGE */}
               {note.featured_image && note.featured_image.length ? (
-                <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container">
+                <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container max-h-[450px]">
                   <NcImage
                     containerClassName="absolute inset-0"
                     src={note.featured_image[0]}

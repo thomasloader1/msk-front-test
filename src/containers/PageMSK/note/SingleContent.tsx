@@ -8,7 +8,7 @@ import { API_URL } from "data/api";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
-import ProductDetailsInstructor from "components/SingleProductDetail/ProductDetailsInstructor";
+import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -107,7 +107,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                 })
                 : null}
             </div>
-            {/* <ProductDetailsInstructor instructor={data.author} /> */}
+            {data.author && <NoteAuthors instructor={data.author} />}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget">

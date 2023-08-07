@@ -85,7 +85,10 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
     const currentUrl = window.location.href;
     const searchQuery = currentUrl.split("?");
     if (searchQuery[1]) {
-      const filterQueries = searchQuery[1].split("=")[1].split(",");
+      const filterQueries = searchQuery[1]
+        .split("=")[1]
+        .split(",")
+        .map((item) => decodeURIComponent(item));
       const filterType = searchQuery[1].split("=")[0];
       clearFilters();
       switch (filterType) {
@@ -109,6 +112,31 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
               id: 3,
               name: "Otra profesión",
               slug: "otra-profesion",
+            });
+          }
+          break;
+        case "especialidad":
+          if (filterQueries.includes("Cardiología"))
+            addFilter("specialties", {
+              id: 1,
+              name: "Cardiología",
+            });
+          if (filterQueries.includes("Enfermería")) {
+            addFilter("specialties", {
+              id: 1,
+              name: "Enfermería",
+            });
+          }
+          if (filterQueries.includes("Medicina general")) {
+            addFilter("specialties", {
+              id: 1,
+              name: "Medicina general",
+            });
+          }
+          if (filterQueries.includes("Infectología")) {
+            addFilter("specialties", {
+              id: 1,
+              name: "Infectología",
             });
           }
           break;

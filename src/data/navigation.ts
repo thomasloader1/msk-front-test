@@ -576,6 +576,44 @@ export const NAVIGATION_BLOG_MSK: NavItemType[] = [
   },
 ];
 
+const categoriesMenuArchive: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Actualidad",
+    search: "?category=Actualidad",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Entrevistas",
+    search: "?category=Entrevistas",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Opinión",
+    search: "?category=Opinión",
+  },
+];
+
+export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Categorías",
+    type: "dropdown",
+    children: categoriesMenuArchive,
+  },
+  {
+    id: ncNanoId(),
+    href: "/recursos",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenuBlog,
+  },
+];
+
 export const NAVIGATION_USER: NavItemType[] = [
   {
     id: ncNanoId(),

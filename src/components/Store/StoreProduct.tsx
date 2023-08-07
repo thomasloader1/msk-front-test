@@ -18,7 +18,10 @@ const StoreProduct: FC<Props> = ({
 }): any => {
   const { state } = useContext(CountryContext);
 
-  const imageURL = product.image.replace(`${state.country}.`, "");
+  const imageURL = product.image
+    .replace(`${state.country}.`, "")
+    .replace("wpmsklatam", "wp.msklatam");
+
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">

@@ -6,7 +6,6 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
-
 interface Props {
   user: User;
   specialties: Specialty[];
@@ -19,7 +18,6 @@ const DashboardEditProfile: FC<Props> = ({
   professions,
 }) => {
   const [isFormComplete, setIsFormComplete] = useState(false);
-
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [localUser, setLocalUser] = useState<Contact>(user.contact as Contact);
@@ -27,6 +25,7 @@ const DashboardEditProfile: FC<Props> = ({
     message: "",
     type: "",
   });
+  const [currentStates, setCurrentStates] = useState<string[] | undefined>([]);
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>(user.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
@@ -69,6 +68,10 @@ const DashboardEditProfile: FC<Props> = ({
       [fieldName]: value,
     }));
 
+    if (fieldName == "country") {
+      getStates(value);
+    }
+
     // Verificar si el campo de entrada está vacío
     const isFieldEmpty = value.trim() === "";
 
@@ -97,7 +100,10 @@ const DashboardEditProfile: FC<Props> = ({
 
   const submitForm = async (event: any) => {
     event?.preventDefault();
-    const profession = selectedOptionProfession === "Otra profesión" ? "Otra profesión" : selectedOptionProfession;
+    const profession =
+      selectedOptionProfession === "Otra profesión"
+        ? "Otra profesión"
+        : selectedOptionProfession;
 
     const speciality =
       selectedOptionSpecialty === "Otra Especialidad"
@@ -105,9 +111,15 @@ const DashboardEditProfile: FC<Props> = ({
         : selectedOptionSpecialty;
 
     const otherInputs = {
-      other_profession: selectedOptionProfession !== "Otra profesión" ? '' : localUser.other_profession,
-      other_speciality: selectedOptionSpecialty !== "Otra Especialidad" ? '' : localUser.other_speciality,
-    }
+      other_profession:
+        selectedOptionProfession !== "Otra profesión"
+          ? ""
+          : localUser.other_profession,
+      other_speciality:
+        selectedOptionSpecialty !== "Otra Especialidad"
+          ? ""
+          : localUser.other_speciality,
+    };
 
     const jsonData: Contact = {
       ...localUser,
@@ -180,24 +192,31 @@ const DashboardEditProfile: FC<Props> = ({
     setIsFormComplete(isComplete);
   };
 
-
   useEffect(() => {
     const hasOtherProfession = selectedOptionProfession.includes("Otra ");
     const hasOtherSpeciality = selectedOptionSpecialty.includes("Otra ");
-    setShowInputProfession(hasOtherProfession)
-    setShowInputSpecialties(hasOtherSpeciality)
-    console.log({ hasOtherProfession, hasOtherSpeciality })
+    setShowInputProfession(hasOtherProfession);
+    setShowInputSpecialties(hasOtherSpeciality);
 
     return () => {
-      setLocalUser(prevState => ({
+      setLocalUser((prevState) => ({
         ...prevState,
         other_profession: hasOtherProfession ? localUser.other_profession : "",
-        other_speciality: hasOtherSpeciality ? localUser.other_speciality : ""
-      }))
-
-    }
-
+        other_speciality: hasOtherSpeciality ? localUser.other_speciality : "",
+      }));
+    };
   }, [selectedOptionProfession, selectedOptionSpecialty]);
+
+  const getStates = async (country: string) => {
+    const res = await api.getStatesFromCountry(country);
+    setCurrentStates(res);
+  };
+
+  useEffect(() => {
+    if (localUser && localUser.country) {
+      getStates(localUser.country);
+    }
+  }, [localUser]);
 
   return (
     <div className="rounded-xl md:border md:border-neutral-100 dark:border-neutral-800 md:p-6">
@@ -270,14 +289,14 @@ const DashboardEditProfile: FC<Props> = ({
               <option defaultValue="">Seleccionar profesión</option>
               {professions
                 ? professions.map((p) => (
-                  <option key={p.id} value={p.name}>
-                    {p.name}
-                  </option>
-                ))
+                    <option key={p.id} value={p.name}>
+                      {p.name}
+                    </option>
+                  ))
                 : ""}
             </select>
           </div>
-          {(showInputProfession) && (
+          {showInputProfession && (
             <label className="block">
               <Input
                 type="text"
@@ -311,7 +330,7 @@ const DashboardEditProfile: FC<Props> = ({
               ))}
             </select>
           </div>
-          {(showInputSpecialties) && (
+          {showInputSpecialties && (
             <label className="block">
               <Input
                 type="text"
@@ -374,13 +393,43 @@ const DashboardEditProfile: FC<Props> = ({
         </label>
         <label>
           <Label>Provincia</Label>
-          <Input
+          <div className="profile-contact-select mt-1">
+            {currentStates ? (
+              <select
+                className=""
+                id="state"
+                name="state"
+                value={localUser?.state}
+                onChange={(event) =>
+                  handleInputChange("state", event.target.value)
+                }
+              >
+                <option defaultValue="">Seleccionar provincia</option>
+                {currentStates.map((s) => (
+                  <option key={`state_${s}`} defaultValue={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <Input
+                placeholder="Ingresar Provincia"
+                type="text"
+                className="mt-1"
+                value={localUser?.state}
+                onChange={(event) =>
+                  handleInputChange("state", event.target.value)
+                }
+              />
+            )}
+          </div>
+          {/* <Input
             placeholder="Ingresar Provincia"
             type="text"
             className="mt-1"
             value={localUser?.state}
             onChange={(event) => handleInputChange("state", event.target.value)}
-          />
+          /> */}
         </label>
         <label className="block">
           <Label>Código postal</Label>

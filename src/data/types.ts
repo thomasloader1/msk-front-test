@@ -219,6 +219,7 @@ export interface PostDataType {
   readingTime: number;
   postType: "standard" | "video" | "gallery" | "audio";
   videoUrl?: string;
+  image?: string;
   audioUrl?: string;
   galleryImgs?: string[];
   cursos_recomendados?: any;
@@ -467,6 +468,7 @@ export interface CourseDataType {
 }
 
 export type SignUp = {
+  name: string;
   email: string;
   first_name: string;
   last_name: string;

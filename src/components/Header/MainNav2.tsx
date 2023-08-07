@@ -11,7 +11,11 @@ import Navigation from "components/Navigation/Navigation";
 import NavigationUser from "components/Navigation/NavigationUser";
 import DarkModeContainer from "containers/DarkModeContainer/DarkModeContainer";
 import { AuthContext } from "context/user/AuthContext";
-import { NAVIGATION_MSK, NAVIGATION_BLOG_MSK } from "data/navigation";
+import {
+  NAVIGATION_MSK,
+  NAVIGATION_BLOG_MSK,
+  NAVIGATION_ARCHIVE_MSK,
+} from "data/navigation";
 import { FetchCourseType } from "data/types";
 import React, { FC, Fragment, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -23,6 +27,7 @@ export interface MainNav2Props {}
 const MainNav2: FC<MainNav2Props> = () => {
   const { state } = useContext(AuthContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
+  const [isOnArchive, setIsOnArchive] = useState(false);
   const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
@@ -31,6 +36,7 @@ const MainNav2: FC<MainNav2Props> = () => {
   };
   useEffect(() => {
     setIsOnBlog(history.location.pathname.includes("blog"));
+    setIsOnArchive(history.location.pathname.includes("archivo"));
   });
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
@@ -39,41 +45,21 @@ const MainNav2: FC<MainNav2Props> = () => {
           <Logo />
           <div className="hidden sm:block flex-grow max-w-xs">
             <SearchProducts />
-            {/* <form action="" method="POST" className="relative">
-              <span className="absolute top-1/2 -translate-y-1/2 right-3 text-neutral-500 dark:text-neutral-400">
-                <svg
-                  className="h-5 w-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M22 22L20 20"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-              <input type="submit" hidden value="" />
-            </form> */}
           </div>
         </div>
         <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
           <div className="hidden items-center xl:flex space-x-2">
-            {isOnBlog ? (
+            {isOnBlog && (
               <>
                 <Navigation navigations={NAVIGATION_BLOG_MSK} />
               </>
-            ) : (
+            )}
+            {isOnArchive && (
+              <>
+                <Navigation navigations={NAVIGATION_ARCHIVE_MSK} />
+              </>
+            )}
+            {!isOnBlog && !isOnArchive && (
               <>
                 <Navigation navigations={NAVIGATION_MSK} />
               </>

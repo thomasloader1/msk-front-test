@@ -3,6 +3,8 @@ import { AxiosResponse } from "axios";
 import { ALL_PRODUCTS_MX, API_URL, BEST_SELLERS_MX, IP_API } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
+import countryStates from "data/jsons/__countryStates.json";
+
 const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV, VITE_MSK_WP_API } =
   import.meta.env;
 const COUNTRY = localStorage.getItem("country") || "mx";
@@ -290,6 +292,14 @@ class ApiService {
       return data.countryCode.toLowerCase();
     }
     return "";
+  }
+
+  async getStatesFromCountry(country: string) {
+    try {
+      return countryStates[country as keyof typeof countryStates];
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
   }
 }
 

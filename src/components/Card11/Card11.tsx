@@ -23,9 +23,17 @@ const Card11: FC<Card11Props> = ({
   ratio = "aspect-w-4 aspect-h-3",
   kind,
 }) => {
-  const { title, href, categories, date, image, slug, link } = post;
+  let { title, href, categories, date, image, slug, link } = post;
   const imageURL = image?.replace("mx.", "");
   const [isHover, setIsHover] = useState(false);
+
+  //Fix para encoding de HTML que viene de la API
+  function decodeEntities(encodedString: string) {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = encodedString;
+    return textarea.value;
+  }
+  title = decodeEntities(title);
 
   return (
     <div

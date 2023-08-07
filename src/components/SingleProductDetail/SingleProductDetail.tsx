@@ -49,7 +49,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");
-
     const listOfGoals = paragraphs.map((paragraph) => {
       const description = paragraph
         .replace(/<\/?p>/g, "")
@@ -60,8 +59,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
     return listOfGoals;
   };
-
-  const { isEbook, imagen, title } = useProductDetails(product);
+  const { state } = useContext(CountryContext);
+  let { isEbook, imagen, title } = useProductDetails(product);
+  if (imagen) {
+    imagen = imagen.replace(`${state.country || "mx"}.`, "");
+  }
 
   // @ts-ignore
   return (

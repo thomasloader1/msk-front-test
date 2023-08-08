@@ -47,19 +47,13 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         }
 
         console.log(state.country, currentCountry);
-        const urlParams = window.location.href.split("/");
-        if (state.country != currentCountry) {
-          window.location.href = `/${currentCountry}/${
-            urlParams[urlParams.length - 1]
-          }`;
-        } else {
-          //Todo: this is a patch for when the state and currentCountry match, but we are not showing the country website
-          console.log("urlParams[3]: " + urlParams[3]); //country from URL
-          if (urlParams[3] != currentCountry) {
-            window.location.href = `/${currentCountry}/${
-              urlParams[urlParams.length - 1]
-            }`;
+        if (state.country != currentCountry || getCountryFromURL() != currentCountry) {
+          let redirectUrl = '/' + currentCountry + window.location.pathname;
+          if (getCountryFromURL() != '') {
+            redirectUrl = window.location.href.replace( '/'+ getCountryFromURL() +'/', '/' +currentCountry +'/');
           }
+          window.location.href = redirectUrl;
+          console.log("redirectUrl: " + redirectUrl);
         }
 
         //Redirect to HTTPS only on non dev environment
@@ -77,6 +71,23 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         console.log(error);
       }
     };
+
+    function getCountryFromURL(){
+      const url = window.location.href;
+      switch (true) {
+        case url.includes('/cl/'):
+          return 'cl';
+        case url.includes('/ar/'):
+          return 'ar';
+        case url.includes('/ec/'):
+          return 'ec';
+        case url.includes('/mx/'):
+          return 'mx';
+          // Add more cases for other substrings
+        default:
+          return '';
+      }
+    }
 
     fetchData();
   }, []);

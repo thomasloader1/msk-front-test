@@ -145,7 +145,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
               <NcImage
                 className="object-cover w-full h-full rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
-                src={currentItems[0].image}
+                src="/images/banners/archive.jpg"
               />
 
               <div className="absolute inset-0 bg-black text-white bg-opacity-30 flex flex-col items-center justify-center">

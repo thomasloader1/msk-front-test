@@ -23,10 +23,15 @@ const useProductDetails = (product: FetchSingleProduct) => {
       setTitle(authorName);
     } else if (lista_de_cedentes) {
       const [firstCedente] = lista_de_cedentes;
-      const imageOfCedente = firstCedente?.imagen?.replace("mx.", "") || "";
-      const cedenteName = firstCedente?.post_title || "-";
-      setImagen(imageOfCedente);
-      setTitle(cedenteName);
+      if (firstCedente){
+        if (firstCedente.imagen){
+          const imageOfCedente = firstCedente.imagen.replace("mx.", "") || "";
+          setImagen(imageOfCedente);
+        }
+        const cedenteName = firstCedente?.post_title || "-";
+        setTitle(cedenteName);
+      }
+
     }
 
     return () => {

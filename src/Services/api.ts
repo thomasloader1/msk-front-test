@@ -1,16 +1,18 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { ALL_PRODUCTS_MX, API_URL, BEST_SELLERS_MX, IP_API } from "data/api";
+import {
+  ALL_PRODUCTS_MX,
+  API_URL,
+  BEST_SELLERS_MX,
+  IP_API,
+  baseUrl,
+} from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 
-const { PROD, VITE_PUBLIC_URL, VITE_PUBLIC_URL_DEV, VITE_MSK_WP_API } =
-  import.meta.env;
+const { PROD, VITE_MSK_WP_API } = import.meta.env;
 const COUNTRY = localStorage.getItem("country") || "mx";
-const baseUrl = PROD
-  ? `${VITE_PUBLIC_URL}/msk-laravel/public`
-  : VITE_PUBLIC_URL_DEV;
 
 const WP_URL = VITE_MSK_WP_API;
 const apiSignUpURL = `${baseUrl}/api/signup`;
@@ -196,6 +198,15 @@ class ApiService {
     }
   }
 
+  async getSpecialtiesAndGroups() {
+    try {
+      const res = await axios.get(`${baseUrl}/api/specialities`);
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getSpecialtiesStore() {
     try {
       const res = await axios.get(
@@ -288,7 +299,7 @@ class ApiService {
       : await axios.post(
           `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
         );
-    if (PROD){
+    if (PROD) {
       return data.data;
     }
     if (data.countryCode) {

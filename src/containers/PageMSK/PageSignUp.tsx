@@ -14,6 +14,25 @@ export interface PageSignUpProps {
   className?: string;
 }
 
+const countries = [
+  {
+    id: "mx",
+    name: "México",
+  },
+  {
+    id: "ar",
+    name: "Argentina",
+  },
+  {
+    id: "cl",
+    name: "Chile",
+  },
+  {
+    id: "ec",
+    name: "Ecuador",
+  },
+];
+
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -25,6 +44,15 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [acceptConditions, setAcceptConditions] = useState(false);
+
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
+  const [currentGroup, setCurrentGroup] = useState<any>([]);
+  const [studentInputs, setStudentInputs] = useState(false);
+  const [studentYear, setStudentYear] = useState("");
+  const [selectedCareer, setSelectedCareer] = useState("");
+  const [formError, setFormError] = useState("");
   const history = useHistory();
 
   const fetchProfessions = async () => {
@@ -32,8 +60,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     setProfessions(professionList);
   };
   const fetchSpecialties = async () => {
-    const specialtyList = await api.getSpecialties();
-    setSpecialties(specialtyList);
+    const response = await api.getSpecialtiesAndGroups();
+    setSpecialties(response.specialities);
+    setSpecialtiesGroup(response.specialities_group);
   };
 
   useEffect(() => {
@@ -59,25 +88,51 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     setShowInputSpecialties(value === "Otra Especialidad");
   };
 
+  const handleOptionCareerChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedCareer(value);
+  };
+
   const handleOptionProfessionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setSelectedOptionProfession(value);
-    setShowInputProfession(value === "Otra profesión");
+    if (value && value.length) {
+      const values = value.split("/");
+      const profession = values[0];
+      const id = values[1];
+      setSelectedOptionProfession(profession);
+      setSelectedProfessionId(id);
+      setShowInputProfession(profession === "Otra profesión");
+      setStudentInputs(profession === "Estudiante");
+      const groups =
+        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      setCurrentGroup([]);
+      setCurrentGroup(groups);
+    } else {
+      setSelectedOptionProfession("");
+      setSelectedProfessionId("");
+    }
   };
 
+  const fullCountry = (country: string): string => {
+    return (
+      countries.find((c) => c.id === country.toLowerCase())?.name || country
+    );
+  };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    // console.log({ formData, target: event.target });
+
     const jsonData: SignUp = {
       name: "",
       first_name: "",
       last_name: "",
       email: "",
       phone: "",
-      country: selectedCountry,
+      country: fullCountry(selectedCountry),
       profession: "",
       speciality: "",
       Otra_profesion: "",
@@ -104,14 +159,19 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }
     });
     jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
-    console.log({ jsonData });
+    // console.log({ jsonData });
 
     try {
       const res = await api.postSignUp(jsonData);
       if (res.status !== 200) {
         setSuccess(false);
+
+        const errorMessages = Object.values(res.response.data.errors)
+          .map((errorMessage) => `- ${errorMessage}`)
+          .join("<br />");
+
         setError(
-          `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo.`
+          `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
         );
       } else {
         setError("");
@@ -127,6 +187,14 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       );
     }
   };
+
+  const optionsArray = [1, 2, 3, 4, 5];
+  const selectOptions = optionsArray.map((y) => (
+    <option key={`st_year_${y}`} defaultValue={y}>
+      {y}
+    </option>
+  ));
+
   return (
     <div className={`nc-PageSignUp ${className}`} data-nc-id="PageSignUp">
       <Helmet>
@@ -190,76 +258,130 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               />
             </label>
 
-            <label>
+            <div className="">
               <span>Profesión</span>
               <div className="profile-contact-select mt-1">
                 <select
                   className=""
-                  id="profession"
-                  name="profession"
-                  value={selectedOptionProfession}
-                  onChange={(event) => handleOptionProfessionChange(event)}
+                  id="Profesion"
+                  name="Profesion"
+                  value={`${selectedOptionProfession}/${selectedProfessionId}`}
+                  onChange={handleOptionProfessionChange}
                 >
-                  <option defaultValue="">Seleccionar profesión</option>
+                  <option defaultValue="" value="">
+                    Seleccionar profesión
+                  </option>
                   {professions
-                    ? professions.map((p) => (
-                      <option key={p.id} value={p.name}>
-                        {p.name}
-                      </option>
-                    ))
+                    ? professions.map((p: Profession) => (
+                        <option key={p.id} value={`${p.name}/${p.id}`}>
+                          {p.name}
+                        </option>
+                      ))
                     : ""}
                 </select>
               </div>
               {showInputProfession && (
-                <div className="my-4">
+                <label className="block">
                   <Input
-                    type="text"
                     name="Otra_profesion"
-                    placeholder="Ingresar profesion"
-                  />
-                </div>
-              )}
-            </label>
-            <label>
-              <span>Especialidad</span>
-              <div className="profile-contact-select mt-1">
-                <select
-                  className=""
-                  id="speciality"
-                  name="speciality"
-                  value={selectedOptionSpecialty}
-                  onChange={(event) => handleOptionSpecialtyChange(event)}
-                >
-                  <option defaultValue="">Seleccionar especialidad</option>
-                  {specialties.map((s) => (
-                    <option key={s.id} defaultValue={s.name}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {showInputSpecialties && (
-                <div className="my-4">
-                  <Input
                     type="text"
-                    name="Otra_especialidad"
-                    placeholder="Ingresar especialidad"
+                    placeholder="Ingresar profesion"
+                    className="mt-2"
                   />
-                </div>
+                </label>
               )}
-            </label>
+              {studentInputs ? (
+                <div className={`mt-2 grid grid-cols-12 gap-2`}>
+                  <div className="profile-contact-select col-span-6">
+                    <select id="Year" name="Year" defaultValue={studentYear}>
+                      <option defaultValue="">Seleccionar año</option>
+                      {selectOptions}
+                    </select>
+                  </div>
+                  <div className="profile-contact-select col-span-6">
+                    <select
+                      id="Career"
+                      name="Career"
+                      value={selectedCareer}
+                      onChange={handleOptionCareerChange}
+                    >
+                      <option defaultValue="">Seleccionar carrera</option>
+                      {currentGroup.map((s: any) => (
+                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className={`col-xl-6 my-6`}>
+                    <span>Especialidad</span>
+                    <div className="profile-contact-select mt-1">
+                      <select
+                        className=""
+                        id="Especialidad"
+                        name="Especialidad"
+                        value={selectedOptionSpecialty}
+                        onChange={handleOptionSpecialtyChange}
+                      >
+                        <option defaultValue="">
+                          Seleccionar especialidad
+                        </option>
+                        {selectedOptionProfession && currentGroup.length
+                          ? currentGroup.map((s: any) => (
+                              <option
+                                key={`sp_group_${s.id}`}
+                                defaultValue={s.name}
+                              >
+                                {s.name}
+                              </option>
+                            ))
+                          : specialties.map((s: Specialty) => (
+                              <option key={`sp_${s.id}`} defaultValue={s.name}>
+                                {s.name}
+                              </option>
+                            ))}
+                      </select>
+                    </div>
+                    {showInputSpecialties && (
+                      <div className="contact-from-input my-4">
+                        <input
+                          type="text"
+                          name="Otra_especialidad"
+                          placeholder="Ingresar especialidad"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
             <div className="flex flex-wrap gap-4 mt-4">
               <div className="flex text-center gap-1 mx-auto">
-                <Checkbox name="telephone" label="Acepto las" />
+                <Checkbox
+                  name="telephone"
+                  label="Acepto las"
+                  value={acceptConditions}
+                  useStateCallback={setAcceptConditions}
+                />
                 <a className="text-primary text-sm underline">
                   condiciones de privacidad
                 </a>
               </div>
-              <ButtonPrimary type="submit" className="w-full">
+              <ButtonPrimary
+                type="submit"
+                className="w-full"
+                disabled={!acceptConditions}
+              >
                 Crear
               </ButtonPrimary>
               {error && (
-                <p className="text-red-500 text-center w-full">{error}</p>
+                <p
+                  className="text-red-500 text-center w-full"
+                  dangerouslySetInnerHTML={{ __html: error }}
+                ></p>
               )}
 
               {success ? (

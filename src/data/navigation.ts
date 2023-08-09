@@ -460,7 +460,7 @@ const resourcesMenu: NavItemType[] = [
     href: "/blog",
     name: "Blog",
   },
-  {
+  /* {
     id: ncNanoId(),
     href: "/webinars",
     name: "Webinars",
@@ -469,7 +469,7 @@ const resourcesMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/podcasts",
     name: "Podcasts",
-  },
+  }, */
 ];
 
 const accountMenu: NavItemType[] = [

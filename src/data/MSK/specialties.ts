@@ -37,6 +37,43 @@ const SPECIALTIES: Specialty[] = [
     href: "/tienda",
   },
 ];
+const HOME_SPECIALTIES: Specialty[] = [
+  {
+    id: 1,
+    name: "Cardiología",
+    href: "/tienda?especialidad=Cardiología",
+  },
+  {
+    id: 2,
+    name: "Urgencia",
+    href: "/tienda?especialidad=Urgencia",
+  },
+  {
+    id: 3,
+    name: "Medicina general",
+    href: "/tienda?especialidad=Medicina general",
+  },
+  {
+    id: 4,
+    name: "Infectología",
+    href: "/tienda?especialidad=Infectología",
+  },
+  {
+    id: 5,
+    name: "Anestesiología",
+    href: "/tienda",
+  },
+  {
+    id: 6,
+    name: "Nutrición",
+    href: "/tienda",
+  },
+  {
+    id: 7,
+    name: "Medicina Interna",
+    href: "/tienda",
+  },
+];
 
 const CATEGORIES: Specialty[] = [
   { name: "Anestesiología y dolor", id: 1 },
@@ -66,4 +103,4 @@ const CATEGORIES: Specialty[] = [
   { name: "Traumatología", id: 25 },
 ];
 
-export { SPECIALTIES, CATEGORIES };
+export { HOME_SPECIALTIES, SPECIALTIES, CATEGORIES };

@@ -12,31 +12,20 @@ const NoteAuthors: FC<Props> = ({ instructor }) => {
     setDisplayBiography(!displayBiography);
   };
   const instructorName = { __html: instructor.name };
-
   return (
     <div className="course-instructors">
       <div className="instructors-heading">
         <div className="instructors-img note-author">
-          {instructor.avatar ? (
-              <img
-                  src={instructor.avatar}
-                  alt="img"
-              />
-          ) : null}
+          {instructor.avatar ? <img src={instructor.avatar} alt="img" /> : null}
         </div>
         <div className="instructors-body">
           <h5 dangerouslySetInnerHTML={instructorName}></h5>
-          <p className="mt-2">{instructor.description}</p>
-          {instructor.specialties && (instructor.specialties.length || instructor.centres.length) ? (
-            <p
-              onClick={triggerDisplayBiography}
-              className="text-primary font-semibold mt-2 text-sm cursor-pointer"
-            >
-              Ver biografía
+          {instructor.specialties && instructor.specialties.length && (
+            <p className="instructors-note-specialty text-primary font-semibold mt-2 text-sm cursor-pointer">
+              Licenciado
             </p>
-          ) : (
-            <></>
           )}
+          <p className="instructors-description">{instructor.description}</p>
         </div>
       </div>
       {displayBiography &&

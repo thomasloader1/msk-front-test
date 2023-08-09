@@ -11,7 +11,7 @@ import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGri
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import { TABS_HOME } from "data/MSK/courses";
-import { SPECIALTIES } from "data/MSK/specialties";
+import { HOME_SPECIALTIES } from "data/MSK/specialties";
 import axios from "axios";
 import { BEST_SELLERS_MX } from "data/api";
 import api from "Services/api";
@@ -87,7 +87,7 @@ const PageHome: React.FC = () => {
           />
           <SectionGridCategoryBox
             headingCenter={false}
-            categories={SPECIALTIES.filter((_, i) => i < 4)}
+            categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}
             categoryCardType="card2"
             className="pb-16 lg:pb-28"
           />

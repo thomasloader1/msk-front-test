@@ -68,6 +68,7 @@ export interface SinglePageType extends PostDataType {
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;
+  authors?: any[];
 }
 
 const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({

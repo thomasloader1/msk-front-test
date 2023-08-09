@@ -21,6 +21,9 @@ const CardCategory6: FC<CardCategory6Props> = ({
     case "Cardiología":
       thumbnail = thumbnail + "cardiology.png";
       break;
+    case "Urgencia":
+      thumbnail = thumbnail + "urgencias.png";
+      break;
     case "Enfermería":
       thumbnail = thumbnail + "nursing.png";
       break;

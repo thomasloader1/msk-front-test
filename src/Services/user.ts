@@ -45,13 +45,18 @@ export const getUserCourses = (
   courses: any
 ): UserCourseProgress[] => {
   const COUNTRY = localStorage.getItem("country");
-  let coursesList = [] as UserCourseProgress[];
-  res.contact.courses_progress.map((cp: CourseProgress) => {
-    let globalProduct = courses.find((productAux: { product_code: number }) => {
-      return productAux.product_code == cp.Product_Code;
-    });
+  const coursesList: UserCourseProgress[] = [];
+  const seenProductIds: { [productId: number]: boolean } = {};
 
-    if (globalProduct) {
+  res.contact.courses_progress.forEach((cp: CourseProgress) => {
+    const globalProduct = courses.find(
+      (productAux: { product_code: number }) =>
+        productAux.product_code === cp.Product_Code
+    );
+
+    if (globalProduct && !seenProductIds[cp.Product_Code]) {
+      seenProductIds[cp.Product_Code] = true;
+
       const featured_image =
         globalProduct.image &&
         globalProduct.image.replace(`${COUNTRY || "mx"}.`, "");
@@ -68,5 +73,6 @@ export const getUserCourses = (
       coursesList.push({ ...product });
     }
   });
+
   return coursesList;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
@@ -16,12 +16,15 @@ import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
 import useUTM from "hooks/useUTM";
 import { getName } from "country-list";
+import { CountryContext } from "context/country/CountryContext";
+import { CountryCode } from "libphonenumber-js/types";
 
 const ContactFormSection = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
 }) => {
+  const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
@@ -336,7 +339,7 @@ const ContactFormSection = ({
                         name="Phone"
                         id="Phone"
                         placeholder="Ingresar número telefónico"
-                        defaultCountry="MX"
+                        defaultCountry={state.country.toUpperCase() as CountryCode}
                         className="phone-contact-input"
                         value={phoneNumber}
                         onChange={handlePhoneChange}
@@ -358,10 +361,10 @@ const ContactFormSection = ({
                         </option>
                         {professions
                           ? professions.map((p) => (
-                              <option key={p.id} value={`${p.name}/${p.id}`}>
-                                {p.name}
-                              </option>
-                            ))
+                            <option key={p.id} value={`${p.name}/${p.id}`}>
+                              {p.name}
+                            </option>
+                          ))
                           : ""}
                       </select>
                     </div>
@@ -423,21 +426,21 @@ const ContactFormSection = ({
                             </option>
                             {selectedOptionProfession && currentGroup.length
                               ? currentGroup.map((s: any) => (
-                                  <option
-                                    key={`sp_group_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))
+                                <option
+                                  key={`sp_group_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))
                               : specialties.map((s) => (
-                                  <option
-                                    key={`sp_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))}
+                                <option
+                                  key={`sp_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                         {showInputSpecialties && (

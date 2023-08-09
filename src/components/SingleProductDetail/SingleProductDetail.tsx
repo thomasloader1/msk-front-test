@@ -8,15 +8,12 @@ import CourseRequirements from "./Requirements/CourseRequirements";
 import { FetchSingleProduct } from "data/types";
 import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
-import axios from "axios";
-import { API_URL } from "data/api";
 import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
 import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
-import api from "Services/api";
 interface Props {
   product: FetchSingleProduct;
 }
@@ -24,7 +21,6 @@ interface Props {
 const SingleProductDetail: FC<Props> = ({ product }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
@@ -92,8 +88,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             </div>
             <div>
               {product.authors.length ||
-              product.temario ||
-              (product.details && product.details["duration"]) ? (
+                product.temario ||
+                (product.details && product.details["duration"]) ? (
                 <div className="course-detelis-meta">
                   {product.authors.length ? (
                     <>

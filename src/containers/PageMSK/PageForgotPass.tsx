@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
@@ -15,6 +15,7 @@ interface Recover {
 }
 
 const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
+  const [email, setEmail] = useState<string>('')
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -22,6 +23,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
     const jsonData: Recover = {
       email: "",
     };
+
 
     formData.forEach((value, key, parent) => {
       if (key === "email") {
@@ -65,6 +67,9 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
                 type="email"
                 placeholder="Ingresar e-mail"
                 className="mt-1"
+                name="email"
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <ButtonPrimary type="submit">Confirmar</ButtonPrimary>

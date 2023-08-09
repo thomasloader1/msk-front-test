@@ -460,7 +460,7 @@ const resourcesMenu: NavItemType[] = [
     href: "/blog",
     name: "Blog",
   },
-  {
+  /* {
     id: ncNanoId(),
     href: "/webinars",
     name: "Webinars",
@@ -469,7 +469,7 @@ const resourcesMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/podcasts",
     name: "Podcasts",
-  },
+  }, */
 ];
 
 const accountMenu: NavItemType[] = [
@@ -547,7 +547,7 @@ const resourcesMenuBlog: NavItemType[] = [
     name: "Guías profesionales",
     search: "?recurso=2",
   },
-  {
+  /* {
     id: ncNanoId(),
     href: "/webinars",
     name: "Webinars",
@@ -556,7 +556,7 @@ const resourcesMenuBlog: NavItemType[] = [
     id: ncNanoId(),
     href: "/podcasts",
     name: "Podcasts",
-  },
+  }, */
 ];
 
 export const NAVIGATION_BLOG_MSK: NavItemType[] = [

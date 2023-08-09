@@ -2,13 +2,10 @@ import React, { FC, useEffect, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
-import axios from "axios";
 import Checkbox from "components/Checkbox/Checkbox";
-import { Login, Profession, SignUp, Specialty } from "../../data/types";
+import { Profession, SignUp, Specialty } from "../../data/types";
 import api from "../../Services/api";
-import Label from "components/Label/Label";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { useHistory } from "react-router-dom";
@@ -73,13 +70,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log({ formData, target: event.target });
+    // console.log({ formData, target: event.target });
     const jsonData: SignUp = {
       name: "",
       first_name: "",
       last_name: "",
       email: "",
-      password: "",
       phone: "",
       country: selectedCountry,
       profession: "",
@@ -93,7 +89,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       "first_name",
       "last_name",
       "email",
-      "password",
       "phone",
       "country",
       "profession",
@@ -109,11 +104,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }
     });
     jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
-    console.log(jsonData);
+    console.log({ jsonData });
 
     try {
       const res = await api.postSignUp(jsonData);
-      console.log({ res })
       if (res.status !== 200) {
         setSuccess(false);
         setError(

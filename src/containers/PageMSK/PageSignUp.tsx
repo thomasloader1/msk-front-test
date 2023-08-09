@@ -82,6 +82,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       password: "",
       phone: "",
       country: selectedCountry,
+      profession: "",
+      speciality: "",
+      Otra_profesion: "",
+      Otra_especialidad: "",
     };
 
     const allowedKeys: (keyof SignUp)[] = [
@@ -91,7 +95,11 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       "email",
       "password",
       "phone",
-      "country"
+      "country",
+      "profession",
+      "speciality",
+      "Otra_profesion",
+      "Otra_especialidad",
     ];
 
     formData.forEach((value, key) => {
@@ -105,6 +113,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
 
     try {
       const res = await api.postSignUp(jsonData);
+      console.log({ res })
       if (res.status !== 200) {
         setSuccess(false);
         setError(
@@ -169,17 +178,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 name="email"
                 type="email"
                 placeholder="Ingresar e-mail"
-                className="mt-1"
-              />
-            </label>
-            <label className="block">
-              <span className="text-neutral-800 dark:text-neutral-200">
-                Contraseña
-              </span>
-              <Input
-                name="password"
-                type="password"
-                placeholder="Ingresar contraseña"
                 className="mt-1"
               />
             </label>

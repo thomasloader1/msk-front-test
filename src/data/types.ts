@@ -475,6 +475,10 @@ export type SignUp = {
   phone: string;
   password: string;
   country: string;
+  profession: string;
+  speciality: string;
+  Otra_profesion: string;
+  Otra_especialidad: string;
 };
 export type Login = {
   email: string;

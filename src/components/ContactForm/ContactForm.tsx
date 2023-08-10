@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
@@ -18,6 +24,7 @@ import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { useUTMContext } from "context/utm/UTMContext";
+import { UTMAction, utmReducer } from "context/utm/UTMReducer";
 
 const ContactFormSection = ({
   hideHeader = false,
@@ -46,6 +53,12 @@ const ContactFormSection = ({
   const [formError, setFormError] = useState("");
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
   const formRef = useRef<HTMLFormElement>(null);
+  const [utmState, dispatchUTM] = useReducer(utmReducer, {
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    utm_content,
+  });
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -133,9 +146,14 @@ const ContactFormSection = ({
       });
   }, []);
 
+  const clearUTMAction: UTMAction = {
+    type: "CLEAR_UTM",
+    payload: {},
+  };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
+
     const jsonData: ContactUs = {
       First_Name: "",
       Last_Name: "",
@@ -229,6 +247,8 @@ const ContactFormSection = ({
     if (response.status === 200) {
       setFormSent(true);
       resetForm();
+      dispatchUTM(clearUTMAction);
+
       let routeChange = isEbook
         ? "/gracias?origen=descarga-ebook"
         : "/gracias?origen=contact";

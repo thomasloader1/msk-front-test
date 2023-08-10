@@ -8,18 +8,28 @@ interface UTMProviderProps {
 }
 
 const UTMProvider: React.FC<UTMProviderProps> = ({ children, values }) => {
-  const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
-
   const sourceCookie = getCookie("utm_source");
   const mediumCookie = getCookie("utm_medium");
   const campaignCookie = getCookie("utm_campaign");
   const contentCookie = getCookie("utm_content");
 
+  if (!values.utm_source && sourceCookie) {
+    values.utm_source = sourceCookie;
+  }
+  if (!values.utm_medium && mediumCookie) {
+    values.utm_medium = mediumCookie;
+  }
+  if (!values.utm_campaign && campaignCookie) {
+    values.utm_campaign = campaignCookie;
+  }
+  if (!values.utm_content && contentCookie) {
+    values.utm_content = contentCookie;
+  }
   if (
     values.utm_source &&
     (!sourceCookie || values.utm_source != sourceCookie)
   ) {
-    setCookie("utm_source", values.utm_source, 7); // 7 días de duración
+    setCookie("utm_source", values.utm_source, 7);
   }
   if (
     values.utm_medium &&
@@ -38,15 +48,6 @@ const UTMProvider: React.FC<UTMProviderProps> = ({ children, values }) => {
     (!contentCookie || values.utm_content != contentCookie)
   ) {
     setCookie("utm_content", values.utm_content, 7);
-  }
-
-  if (sourceCookie && mediumCookie && campaignCookie && contentCookie) {
-    setTimeout(() => {
-      deleteCookie("utm_source");
-      deleteCookie("utm_medium");
-      deleteCookie("utm_campaign");
-      deleteCookie("utm_content");
-    }, oneWeekInMillis);
   }
   return <UTMContext.Provider value={values}>{children}</UTMContext.Provider>;
 };

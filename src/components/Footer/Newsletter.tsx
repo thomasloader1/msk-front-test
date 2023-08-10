@@ -9,9 +9,18 @@ import {
   filterSpecialities,
   mappingSelectedSpecialities,
 } from "logic/NewsletterForm";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, {
+  FC,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { useHistory } from "react-router-dom";
 import { useUTMContext } from "context/utm/UTMContext";
+import { deleteCookie } from "utils/cookies";
+import { UTMAction, utmReducer } from "context/utm/UTMReducer";
 
 interface Props {
   email: string;
@@ -36,6 +45,12 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [selectedCareer, setSelectedCareer] = useState("");
   const [formError, setFormError] = useState("");
   const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
+  const [utmState, dispatchUTM] = useReducer(utmReducer, {
+    utm_source,
+    utm_medium,
+    utm_campaign,
+    utm_content,
+  });
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -105,15 +120,21 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     history.push(newRoute);
   };
 
+  const clearUTMAction: UTMAction = {
+    type: "CLEAR_UTM",
+    payload: {},
+  };
   const formRef = useRef<HTMLFormElement>(null!);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const formData = new FormData(formRef.current);
     const jsonData = Object.fromEntries(formData);
     const Temas_de_interes = filterSpecialities(jsonData as JsonData);
     jsonData["Profesion"] = jsonData["Profesion"].toString().split("/")[0];
+    jsonData["utm_source"] = utm_source;
+    jsonData["utm_medium"] = utm_medium;
+    jsonData["utm_campaign"] = utm_campaign;
+    jsonData["utm_content"] = utm_content;
     const body = mappingSelectedSpecialities(
       jsonData as JsonData,
       Temas_de_interes
@@ -122,6 +143,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     if (response && response.status === 200) {
       console.log({ body });
       setShow(false);
+      dispatchUTM(clearUTMAction);
       changeRoute("/gracias?origen=newsletter");
     } else {
       setFormError("Hubo un error al enviar el formulario, revise los campos");

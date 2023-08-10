@@ -5,7 +5,6 @@ import MyRouter from "routers";
 import { CountryProvider } from "context/country/CountryProvider";
 import queryString from "query-string";
 import UTMProvider from "context/utm/UTMProvider";
-import { deleteCookie, getCookie, setCookie } from "utils/cookies";
 
 function App() {
   const queryParams = queryString.parse(window.location.search);
@@ -22,7 +21,6 @@ function App() {
     const fetchData = async () => {
       const request = await fetch(`${VITE_OM_WP_API}/categories`);
       const data = await request.json();
-      // console.log({ data });
     };
 
     fetchData();

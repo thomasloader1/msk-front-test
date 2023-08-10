@@ -14,6 +14,8 @@ import {
 import { API_URL } from "data/api";
 import api from "Services/api";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { useUTMContext } from "context/utm/UTMContext";
+import { getCookie } from "utils/cookies";
 
 export interface PageStoreProps {
   className?: string;
@@ -93,7 +95,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         let specialtiesMatch = true;
         if (selectedSpecialties.length) {
           specialtiesMatch = selectedSpecialties.some((specialty) =>
-              prodSpecialties.includes(specialty)
+            prodSpecialties.includes(specialty)
           );
         }
 

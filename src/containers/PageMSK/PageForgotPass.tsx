@@ -5,6 +5,7 @@ import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "Services/api";
+import { useHistory } from "react-router-dom";
 
 export interface PageForgotPassProps {
   className?: string;
@@ -15,7 +16,9 @@ interface Recover {
 }
 
 const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
-  const [email, setEmail] = useState<string>('')
+  const [email, setEmail] = useState<string>("");
+  const history = useHistory();
+  const [error, setError] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -24,7 +27,6 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
       email: "",
     };
 
-
     formData.forEach((value, key, parent) => {
       if (key === "email") {
         jsonData.email = value as string;
@@ -32,11 +34,14 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
     });
 
     const { data, status } = await api.postRecover(jsonData);
-
     if (status == 200) {
       console.log(data);
+      setTimeout(() => {
+        history.push("/correo-enviado");
+      }, 1500);
     } else {
-      console.log("error");
+      console.log("Error:", data.error);
+      setError(data.error);
     }
   };
   return (
@@ -82,6 +87,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
               Iniciar sesión
             </NcLink>
           </span>
+          <p className="text-red-500 text-center">{error}</p>
         </div>
       </LayoutPage>
     </div>

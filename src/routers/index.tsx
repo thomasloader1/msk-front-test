@@ -22,6 +22,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "context/user/AuthContext";
 import PageArchive from "containers/PageMSK/blog/Archive";
+import PageEmailSent from "containers/PageMSK/PageEmailSent";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -37,6 +38,7 @@ export const pages: Page[] = [
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
   { path: "/recuperar", component: PageForgotPass, auth: false },
+  { path: "/correo-enviado", component: PageEmailSent, auth: false },
   { path: "/mi-cuenta", component: PageAccount, auth: true },
   { path: "/mi-perfil", component: PageProfile, auth: true },
   { path: "/gracias", component: PageThankYou, auth: false },

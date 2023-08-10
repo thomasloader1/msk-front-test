@@ -45,6 +45,7 @@ export interface LocationStates {
   "/iniciar-sesion"?: {};
   "/crear-cuenta"?: {};
   "/recuperar"?: {};
+  "/correo-enviado"?: {};
   "/page404"?: {};
   "/dashboard"?: {};
   "/subscription"?: {};

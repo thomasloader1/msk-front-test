@@ -171,7 +171,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }
     });
     jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
-    // console.log({ jsonData });
+    console.log({ jsonData });
 
     try {
       const res = await api.postSignUp(jsonData);
@@ -285,10 +285,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                   </option>
                   {professions
                     ? professions.map((p: Profession) => (
-                        <option key={p.id} value={`${p.name}/${p.id}`}>
-                          {p.name}
-                        </option>
-                      ))
+                      <option key={p.id} value={`${p.name}/${p.id}`}>
+                        {p.name}
+                      </option>
+                    ))
                     : ""}
                 </select>
               </div>
@@ -343,18 +343,18 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                         </option>
                         {selectedOptionProfession && currentGroup.length
                           ? currentGroup.map((s: any) => (
-                              <option
-                                key={`sp_group_${s.id}`}
-                                defaultValue={s.name}
-                              >
-                                {s.name}
-                              </option>
-                            ))
+                            <option
+                              key={`sp_group_${s.id}`}
+                              defaultValue={s.name}
+                            >
+                              {s.name}
+                            </option>
+                          ))
                           : specialties.map((s: Specialty) => (
-                              <option key={`sp_${s.id}`} defaultValue={s.name}>
-                                {s.name}
-                              </option>
-                            ))}
+                            <option key={`sp_${s.id}`} defaultValue={s.name}>
+                              {s.name}
+                            </option>
+                          ))}
                       </select>
                     </div>
                     {showInputSpecialties && (

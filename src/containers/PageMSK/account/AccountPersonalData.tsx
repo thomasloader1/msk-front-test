@@ -1,12 +1,14 @@
 import Button from "components/Button/Button";
 import Input from "components/Input/Input";
 import Label from "components/Label/Label";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
 import NcLink from "components/NcLink/NcLink";
+import { CountryContext } from "context/country/CountryContext";
+import { CountryCode } from "libphonenumber-js/types";
 interface Props {
   user: User;
   specialties: Specialty[];
@@ -18,6 +20,7 @@ const DashboardEditProfile: FC<Props> = ({
   specialties,
   professions,
 }) => {
+  const { state } = useContext(CountryContext);
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
@@ -35,6 +38,11 @@ const DashboardEditProfile: FC<Props> = ({
     user?.contact?.phone || ""
   );
   const [selectedCountry, setSelectedCountry] = useState<string>("");
+
+
+  // console.log({ state, user, phoneNumber, localUser })
+
+
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
     if (typeof value !== "undefined") {
@@ -75,8 +83,22 @@ const DashboardEditProfile: FC<Props> = ({
 
     // Verificar si el campo de entrada está vacío
     const isFieldEmpty = value.trim() === "";
-
+    console.log({ localUser })
     // Comprobar si todos los campos requeridos están completos
+    let identification = null
+
+    switch (localUser.country) {
+      case 'Argentina':
+        identification = localUser.dni
+        break;
+      case 'Chile':
+        identification = localUser.rut
+        break;
+      default:
+        identification = localUser.rfc
+        break;
+    }
+
     const requiredFields = [
       localUser.name,
       localUser.last_name,
@@ -88,14 +110,14 @@ const DashboardEditProfile: FC<Props> = ({
       localUser.country,
       localUser.state,
       localUser.postal_code,
-      localUser.rfc,
+      identification,
       localUser.fiscal_regime,
       localUser?.other_profession,
       localUser?.other_speciality,
     ];
-    const isComplete =
-      requiredFields.every((field) => field !== "") && !isFieldEmpty;
 
+    const isComplete = requiredFields.every((field) => field !== "") && !isFieldEmpty;
+    console.log({ isComplete, requiredFields })
     setIsFormComplete(isComplete);
   };
 
@@ -213,6 +235,56 @@ const DashboardEditProfile: FC<Props> = ({
     setCurrentStates(res);
   };
 
+  const renderInputIdentification = (country: string) => {
+    switch (country) {
+      case 'mx':
+        return (
+          <>
+            <Label>RFC</Label>
+            <Input
+              placeholder="Ingresar RFC"
+              type="text"
+              className="mt-1"
+              id="rfc"
+              name="rfc"
+              value={localUser?.rfc}
+              onChange={(event) => handleInputChange("rfc", event.target.value)}
+            />
+          </>
+        )
+      case 'cl':
+        return (
+          <>
+            <Label>RUT</Label>
+            <Input
+              placeholder="Ingresar RUT"
+              type="text"
+              className="mt-1"
+              id="rut"
+              name="rut"
+              value={localUser?.rut}
+              onChange={(event) => handleInputChange("rut", event.target.value)}
+            />
+          </>
+        )
+      default:
+        return (
+          <>
+            <Label>DNI</Label>
+            <Input
+              placeholder="Ingresar DNI"
+              type="text"
+              className="mt-1"
+              id="dni"
+              name="dni"
+              value={localUser?.dni}
+              onChange={(event) => handleInputChange("dni", event.target.value)}
+            />
+          </>
+        )
+    }
+  }
+
   useEffect(() => {
     if (localUser && localUser.country) {
       getStates(localUser.country);
@@ -290,10 +362,10 @@ const DashboardEditProfile: FC<Props> = ({
               <option defaultValue="">Seleccionar profesión</option>
               {professions
                 ? professions.map((p) => (
-                    <option key={p.id} value={p.name}>
-                      {p.name}
-                    </option>
-                  ))
+                  <option key={p.id} value={p.name}>
+                    {p.name}
+                  </option>
+                ))
                 : ""}
             </select>
           </div>
@@ -385,7 +457,7 @@ const DashboardEditProfile: FC<Props> = ({
             >
               <option defaultValue="">Seleccionar país</option>
               {countries.map((s) => (
-                <option key={s.id} defaultValue={s.name}>
+                <option key={s.id} value={s.name}>
                   {s.name}
                 </option>
               ))}
@@ -445,16 +517,7 @@ const DashboardEditProfile: FC<Props> = ({
           />
         </label>
         <label className="block">
-          <Label>RFC</Label>
-          <Input
-            placeholder="Ingresar RFC"
-            type="text"
-            className="mt-1"
-            id="rfc"
-            name="rfc"
-            value={localUser?.rfc}
-            onChange={(event) => handleInputChange("rfc", event.target.value)}
-          />
+          {renderInputIdentification(state.country)}
         </label>
         <label className="block">
           <Label>Régimen fiscal</Label>

@@ -39,7 +39,8 @@ export interface Contact {
   speciality: string | null;
   user_id: number;
   rfc: string;
-  dni: string | null;
+  dni: string;
+  rut: string;
   fiscal_regime: string;
   phone: string;
   email: string;

@@ -108,7 +108,6 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     fetchSpecialties();
   }, []);
 
-  console.log({ courses });
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">

@@ -137,6 +137,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       speciality: "",
       Otra_profesion: "",
       Otra_especialidad: "",
+      Career: "",
+      Year: "",
     };
 
     const allowedKeys: (keyof SignUp)[] = [
@@ -150,11 +152,21 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       "speciality",
       "Otra_profesion",
       "Otra_especialidad",
+      "Career",
+      "Year",
     ];
 
     formData.forEach((value, key) => {
       const formDataKey = key as keyof SignUp;
       if (allowedKeys.includes(formDataKey)) {
+        if (formDataKey == "profession") {
+          const auxVal = value as string;
+          const values = auxVal.split("/");
+          value = values[0];
+          if (value == "Estudiante") {
+            jsonData["speciality"] = selectedCareer;
+          }
+        }
         jsonData[formDataKey] = value as string;
       }
     });
@@ -177,7 +189,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
         setError("");
         setSuccess(true);
         setTimeout(() => {
-          history.push("/iniciar-sesion");
+          history.push("/correo-enviado");
         }, 1500);
       }
     } catch (error) {
@@ -263,8 +275,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               <div className="profile-contact-select mt-1">
                 <select
                   className=""
-                  id="Profesion"
-                  name="Profesion"
+                  id="profession"
+                  name="profession"
                   value={`${selectedOptionProfession}/${selectedProfessionId}`}
                   onChange={handleOptionProfessionChange}
                 >
@@ -321,8 +333,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                     <div className="profile-contact-select mt-1">
                       <select
                         className=""
-                        id="Especialidad"
-                        name="Especialidad"
+                        id="speciality"
+                        name="speciality"
                         value={selectedOptionSpecialty}
                         onChange={handleOptionSpecialtyChange}
                       >

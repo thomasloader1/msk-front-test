@@ -478,6 +478,8 @@ export type SignUp = {
   speciality: string;
   Otra_profesion: string;
   Otra_especialidad: string;
+  Year: string;
+  Career: string;
 };
 export type Login = {
   email: string;

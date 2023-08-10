@@ -12,7 +12,7 @@ const CentroAyudaLink: FC<CentroAyudaLinkProps> = ({ addClassNames }) => {
             <span className='text-violet-wash'>Visita el Centro de ayuda.</span>
             <a
                 className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000 ml-2"
-                href="https://ayuda.msklatam.com/portal/es/kb/articles/categoria-demo"
+                href="https://ayuda.msklatam.com/"
                 target='_blank'
             >
                 Ingresa aquí

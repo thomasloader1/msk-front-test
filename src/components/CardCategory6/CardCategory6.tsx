@@ -44,22 +44,41 @@ const CardCategory6: FC<CardCategory6Props> = ({
       break;
   }
   return (
-    <Link
-      to={href}
-      className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
-      data-nc-id="CardCategory6"
-    >
-      <NcImage
-        containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
-        src={thumbnail}
-      />
-      <div className="mt-3 ">
-        <h2 className={`text-base sm:text-lg`}>
-          <span className="line-clamp-1 font-semibold ">{name}</span>
-        </h2>
-        <p>{description}</p>
-      </div>
-    </Link>
+    <>
+      {name.includes('Centro de ayuda') ? (
+        <a href={href} target="_blank" className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
+          data-nc-id="CardCategory6">
+          <NcImage
+            containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
+            src={thumbnail}
+          />
+          <div className="mt-3 ">
+            <h2 className={`text-base sm:text-lg`}>
+              <span className="line-clamp-1 font-semibold ">{name}</span>
+            </h2>
+            <p>{description}</p>
+          </div>
+        </a>
+      ) : (
+        <Link
+          to={href}
+          className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
+          data-nc-id="CardCategory6"
+        >
+          <NcImage
+            containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
+            src={thumbnail}
+          />
+          <div className="mt-3 ">
+            <h2 className={`text-base sm:text-lg`}>
+              <span className="line-clamp-1 font-semibold ">{name}</span>
+            </h2>
+            <p>{description}</p>
+          </div>
+        </Link>
+      )}
+    </>
+
   );
 };
 

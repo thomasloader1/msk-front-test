@@ -24,7 +24,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     if (!res.message) {
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: res.name, profession: res.contact.profession })
+        JSON.stringify({ name: res.name, speciality: res.contact.speciality })
       );
       localStorage.setItem("bypassRedirect", res.test);
       return res.data;

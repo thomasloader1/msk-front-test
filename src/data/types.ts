@@ -148,6 +148,7 @@ export interface User {
   updated_at: string;
   contact?: Contact;
   profession?: string;
+  speciality?: string;
 }
 
 export interface CustomUser {

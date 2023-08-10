@@ -14,6 +14,7 @@ const NavigationUser = () => {
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <>
       {state.isAuthenticated ? (
@@ -56,7 +57,7 @@ const NavigationUser = () => {
                               {state?.user?.name || "-"}
                             </h4>
                             <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                              {state?.user?.profession || "-"}
+                              {state?.user?.speciality || "-"}
                             </p>
                           </div>
                         </div>

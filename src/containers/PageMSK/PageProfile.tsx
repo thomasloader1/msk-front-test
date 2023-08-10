@@ -90,7 +90,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       description:
         "Escribe tu consulta o descubre las categorías de información útil",
       image: "",
-      href: "/faq",
+      href: "https://ayuda.msklatam.com/",
     },
     {
       name: "Configurar mi cuenta",
@@ -131,7 +131,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                   {user.name}
                 </h2>
                 <span className="block text-sm text-neutral-6000 dark:text-neutral-300 md:text-base">
-                  {user.contact?.profession}
+                  {user.contact?.speciality}
                 </span>
               </div>
             </>
@@ -158,12 +158,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
                     {currentItems
                       ? currentItems.map((post, index) => (
-                          <ProductAccount
-                            key={`${post.id}_${index}`}
-                            product={post}
-                            user={user}
-                          />
-                        ))
+                        <ProductAccount
+                          key={`${post.id}_${index}`}
+                          product={post}
+                          user={user}
+                        />
+                      ))
                       : null}
                   </div>
 
@@ -200,13 +200,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories
               ? categories.map((item, i) => (
-                  <CardComponentName
-                    index={i < 1 ? `#${i + 1}` : undefined}
-                    key={item.name}
-                    taxonomy={item}
-                    className="rounded-lg"
-                  />
-                ))
+                <CardComponentName
+                  index={i < 1 ? `#${i + 1}` : undefined}
+                  key={item.name}
+                  taxonomy={item}
+                  className="rounded-lg"
+                />
+              ))
               : null}
           </div>
         </main>

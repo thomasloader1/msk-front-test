@@ -143,7 +143,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 );
               })}
               <li className="cursor-pointer">
-                <Link to="/faq">
+                <a href="https://ayuda.msklatam.com/" target="_blank">
                   <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                     <img
                       src={`/src/images/icons/faq.svg`}
@@ -152,7 +152,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                     />
                     Centro de ayuda
                   </span>
-                </Link>
+                </a>
               </li>
               <li className="cursor-pointer" onClick={handleModalLogout}>
                 <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">

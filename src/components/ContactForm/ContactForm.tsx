@@ -14,10 +14,10 @@ import Radio from "components/Radio/Radio";
 import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
-import useUTM from "hooks/useUTM";
 import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
+import { useUTMContext } from "context/utm/UTMContext";
 
 const ContactFormSection = ({
   hideHeader = false,
@@ -44,7 +44,7 @@ const ContactFormSection = ({
   const [studentYear, setStudentYear] = useState("");
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
-  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
+  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
   const formRef = useRef<HTMLFormElement>(null);
 
   const history = useHistory();
@@ -339,7 +339,9 @@ const ContactFormSection = ({
                         name="Phone"
                         id="Phone"
                         placeholder="Ingresar número telefónico"
-                        defaultCountry={state.country.toUpperCase() as CountryCode}
+                        defaultCountry={
+                          state.country.toUpperCase() as CountryCode
+                        }
                         className="phone-contact-input"
                         value={phoneNumber}
                         onChange={handlePhoneChange}
@@ -361,10 +363,10 @@ const ContactFormSection = ({
                         </option>
                         {professions
                           ? professions.map((p) => (
-                            <option key={p.id} value={`${p.name}/${p.id}`}>
-                              {p.name}
-                            </option>
-                          ))
+                              <option key={p.id} value={`${p.name}/${p.id}`}>
+                                {p.name}
+                              </option>
+                            ))
                           : ""}
                       </select>
                     </div>
@@ -426,21 +428,21 @@ const ContactFormSection = ({
                             </option>
                             {selectedOptionProfession && currentGroup.length
                               ? currentGroup.map((s: any) => (
-                                <option
-                                  key={`sp_group_${s.id}`}
-                                  defaultValue={s.name}
-                                >
-                                  {s.name}
-                                </option>
-                              ))
+                                  <option
+                                    key={`sp_group_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))
                               : specialties.map((s) => (
-                                <option
-                                  key={`sp_${s.id}`}
-                                  defaultValue={s.name}
-                                >
-                                  {s.name}
-                                </option>
-                              ))}
+                                  <option
+                                    key={`sp_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))}
                           </select>
                         </div>
                         {showInputSpecialties && (

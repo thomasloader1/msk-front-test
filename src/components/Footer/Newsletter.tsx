@@ -3,8 +3,7 @@ import axios from "axios";
 import Checkbox from "components/Checkbox/Checkbox";
 import Logo from "components/Logo/Logo";
 import { API_BACKEND_URL } from "data/api";
-import { Newsletter, Profession, Specialty } from "data/types";
-import useUTM from "hooks/useUTM";
+import { Newsletter, Specialty } from "data/types";
 import {
   JsonData,
   filterSpecialities,
@@ -12,6 +11,7 @@ import {
 } from "logic/NewsletterForm";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useUTMContext } from "context/utm/UTMContext";
 
 interface Props {
   email: string;
@@ -28,8 +28,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
-  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTM();
-
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
@@ -37,6 +35,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [studentYear, setStudentYear] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [formError, setFormError] = useState("");
+  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -135,6 +134,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       {y}
     </option>
   ));
+
+  // console.log("UTM Context", utm_source, utm_medium, utm_campaign, utm_content);
 
   return (
     <form ref={formRef} onSubmit={handleSubmit}>

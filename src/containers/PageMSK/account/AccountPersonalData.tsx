@@ -6,6 +6,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
+import NcLink from "components/NcLink/NcLink";
 interface Props {
   user: User;
   specialties: Specialty[];
@@ -348,12 +349,12 @@ const DashboardEditProfile: FC<Props> = ({
         </label>
         <span className="dark:text-primary-500 forgot-password col-span-2">
           ¿Necesitas cambiar tu contraseña?{" "}
-          <a
+          <NcLink
+            to="/recuperar"
             className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
-            href="/recuperar"
           >
             Hazlo aquí
-          </a>
+          </NcLink>
         </span>
 
         <label className="block">

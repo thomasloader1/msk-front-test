@@ -99,6 +99,8 @@ const DashboardEditProfile: FC<Props> = ({
         break;
     }
 
+
+
     const requiredFields = [
       localUser.name,
       localUser.last_name,
@@ -112,8 +114,10 @@ const DashboardEditProfile: FC<Props> = ({
       localUser.postal_code,
       identification,
       localUser.fiscal_regime,
-      localUser?.other_profession,
-      localUser?.other_speciality,
+      localUser.state,
+      selectedOptionProfession.includes("Otra ") ? localUser?.other_profession : null,
+      selectedOptionSpecialty.includes("Otra ") ? localUser?.other_speciality : null
+
     ];
 
     const isComplete = requiredFields.every((field) => field !== "") && !isFieldEmpty;
@@ -235,9 +239,9 @@ const DashboardEditProfile: FC<Props> = ({
     setCurrentStates(res);
   };
 
-  const renderInputIdentification = (country: string) => {
-    switch (country) {
-      case 'mx':
+  const renderInputIdentification = () => {
+    switch (localUser.country) {
+      case 'México':
         return (
           <>
             <Label>RFC</Label>
@@ -252,7 +256,7 @@ const DashboardEditProfile: FC<Props> = ({
             />
           </>
         )
-      case 'cl':
+      case 'Chile':
         return (
           <>
             <Label>RUT</Label>
@@ -289,6 +293,7 @@ const DashboardEditProfile: FC<Props> = ({
     if (localUser && localUser.country) {
       getStates(localUser.country);
     }
+
   }, [localUser]);
 
   return (
@@ -451,6 +456,7 @@ const DashboardEditProfile: FC<Props> = ({
               id="country"
               name="country"
               value={localUser?.country}
+              disabled={true}
               onChange={(event) =>
                 handleInputChange("country", event.target.value)
               }
@@ -517,7 +523,7 @@ const DashboardEditProfile: FC<Props> = ({
           />
         </label>
         <label className="block">
-          {renderInputIdentification(state.country)}
+          {renderInputIdentification()}
         </label>
         <label className="block">
           <Label>Régimen fiscal</Label>

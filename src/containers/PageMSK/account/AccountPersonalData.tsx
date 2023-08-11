@@ -560,6 +560,7 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
               className=""
               id="country"
               name="country"
+              disabled={true}
               value={localUser?.country}
               onChange={(event) =>
                 handleInputChange("country", event.target.value)

@@ -123,7 +123,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">
       <Helmet>
-        <title>Mi cuenta</title>
+        <title>Contacto</title>
       </Helmet>
       <LayoutPage
         heading="Contacto"

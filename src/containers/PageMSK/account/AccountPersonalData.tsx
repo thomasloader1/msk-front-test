@@ -16,6 +16,8 @@ interface Props {
 const DashboardEditProfile: FC<Props> = ({ user }) => {
   const { state } = useContext(CountryContext);
   const [isFormComplete, setIsFormComplete] = useState(false);
+  const [saveDisabled, setSaveDisabled] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [localUser, setLocalUser] = useState<Contact>(user.contact as Contact);
@@ -196,6 +198,8 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
           message: "Se actualizó correctamente.",
           type: "success",
         });
+        setSaveDisabled(true);
+        setFormSubmitted(true);
       } else {
         console.log("Hubo un error al actualizar el usuario", res);
         setUpdateStatusMessage({
@@ -211,6 +215,12 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (formSubmitted) {
+      setSaveDisabled(false);
+    }
+  }, [localUser, selectedOptionProfession, selectedOptionSpecialty]);
 
   const countries = [
     {
@@ -278,8 +288,14 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
     );
     if (selectedProfession) {
       setSelectedProfessionId(selectedProfession.id.toString());
+      const event = {
+        target: {
+          value: `${selectedOptionProfession}/${selectedProfession.id}`,
+        },
+      };
+      if (event.target.value && selectedProfession.id)
+        handleOptionProfessionChange(event as any);
     }
-    setStudentInputs(selectedOptionProfession === "Estudiante");
   }, [selectedOptionProfession, professions]);
 
   const renderInputIdentification = () => {
@@ -465,11 +481,12 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
                     onChange={handleOptionCareerChange}
                   >
                     <option defaultValue="">Seleccionar carrera</option>
-                    {currentGroup.map((s: any) => (
-                      <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))}
+                    {currentGroup &&
+                      currentGroup.map((s: any) => (
+                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -630,7 +647,7 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
             "md:col-span-2 bg-primary-6000 text-white disabled:bg-grey-disabled disabled:cursor-not-allowed"
           }
           type="submit"
-          disabled={!isFormComplete}
+          disabled={!isFormComplete || saveDisabled}
         >
           Guardar cambios
         </Button>

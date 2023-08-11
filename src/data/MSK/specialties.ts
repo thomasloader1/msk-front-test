@@ -45,8 +45,8 @@ const HOME_SPECIALTIES: Specialty[] = [
   },
   {
     id: 2,
-    name: "Urgencia",
-    href: "/tienda?especialidad=Urgencia",
+    name: "Emergentología",
+    href: "/tienda?especialidad=Emergentología",
   },
   {
     id: 3,

@@ -101,7 +101,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                           />
                         </div>
                         <div>
-                          <span className="raleway">Creado por</span>
+                          <span className="raleway">Cedente</span>
                           <div className="flex flex-col">
                             <h6 className="raleway-bold">
                               {title || product.authors[0]?.name}

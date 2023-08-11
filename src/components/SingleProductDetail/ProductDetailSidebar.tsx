@@ -67,11 +67,10 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   return (
     <div className={`course-video-widget`}>
       <div
-        className={`${
-          isFixed && bottomDistance == 0 && !isEbook
+        className={`${isFixed && bottomDistance == 0 && !isEbook
             ? "course-widget-wrapper fixed"
             : "course-widget-wrapper"
-        } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
+          } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
@@ -136,7 +135,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
             onClick={scrollToContactForm}
             className="video-cart-btn w-full"
           >
-            {isEbook ? "Descargar gratis" : "Contactáctanos"}
+            {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
         </div>
       </div>

@@ -56,6 +56,8 @@ export interface Contact {
   contracts: Contract[];
   other_profession?: string;
   other_speciality?: string;
+  Career?: string;
+  Year?: string;
 }
 
 export interface Contract {

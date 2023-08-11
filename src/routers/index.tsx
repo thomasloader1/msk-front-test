@@ -38,6 +38,7 @@ export const pages: Page[] = [
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
   { path: "/recuperar", component: PageForgotPass, auth: false },
+  { path: "/change-pass/:token", component: PageForgotPass, auth: false },
   { path: "/correo-enviado", component: PageEmailSent, auth: false },
   { path: "/mi-cuenta", component: PageAccount, auth: true },
   { path: "/mi-perfil", component: PageProfile, auth: true },

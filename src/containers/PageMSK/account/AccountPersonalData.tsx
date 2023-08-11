@@ -11,15 +11,9 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 interface Props {
   user: User;
-  specialties: Specialty[];
-  professions: Profession[];
 }
 
-const DashboardEditProfile: FC<Props> = ({
-  user,
-  specialties,
-  professions,
-}) => {
+const DashboardEditProfile: FC<Props> = ({ user }) => {
   const { state } = useContext(CountryContext);
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [showInputProfession, setShowInputProfession] = useState(false);
@@ -37,11 +31,38 @@ const DashboardEditProfile: FC<Props> = ({
   const [phoneNumber, setPhoneNumber] = useState<string>(
     user?.contact?.phone || ""
   );
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
+  const [currentGroup, setCurrentGroup] = useState<any>([]);
+  const [studentInputs, setStudentInputs] = useState(false);
+  const [studentYear, setStudentYear] = useState();
+  const [selectedCareer, setSelectedCareer] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
 
+  const fetchProfessions = async () => {
+    const professionList = await api.getProfessions();
+    setProfessions(professionList);
+  };
+  const fetchSpecialties = async () => {
+    const response = await api.getSpecialtiesAndGroups();
+    setSpecialties(response.specialities);
+    setSpecialtiesGroup(response.specialities_group);
+  };
 
-  // console.log({ state, user, phoneNumber, localUser })
+  const handleOptionCareerChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setSelectedCareer(value);
+    checkFormCompletion();
+  };
 
+  useEffect(() => {
+    fetchProfessions();
+    fetchSpecialties();
+  }, []);
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -54,12 +75,25 @@ const DashboardEditProfile: FC<Props> = ({
   };
 
   const handleOptionProfessionChange = (
-    event: ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setSelectedOptionProfession(value);
-    setShowInputProfession(value === "Otra profesión");
-    checkFormCompletion();
+    if (value && value.length) {
+      const values = value.split("/");
+      const profession = values[0];
+      const id = values[1];
+      setSelectedOptionProfession(profession);
+      setSelectedProfessionId(id);
+      setShowInputProfession(profession === "Otra profesión");
+      setStudentInputs(profession === "Estudiante");
+      const groups =
+        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      setCurrentGroup([]);
+      setCurrentGroup(groups);
+    } else {
+      setSelectedOptionProfession("");
+      setSelectedProfessionId("");
+    }
   };
 
   const handleOptionSpecialtyChange = (
@@ -81,25 +115,20 @@ const DashboardEditProfile: FC<Props> = ({
       getStates(value);
     }
 
-    // Verificar si el campo de entrada está vacío
     const isFieldEmpty = value.trim() === "";
-    console.log({ localUser })
-    // Comprobar si todos los campos requeridos están completos
-    let identification = null
+    let identification = null;
 
     switch (localUser.country) {
-      case 'Argentina':
-        identification = localUser.dni
+      case "Argentina":
+        identification = localUser.dni;
         break;
-      case 'Chile':
-        identification = localUser.rut
+      case "Chile":
+        identification = localUser.rut;
         break;
       default:
-        identification = localUser.rfc
+        identification = localUser.rfc;
         break;
     }
-
-
 
     const requiredFields = [
       localUser.name,
@@ -115,13 +144,16 @@ const DashboardEditProfile: FC<Props> = ({
       identification,
       localUser.fiscal_regime,
       localUser.state,
-      selectedOptionProfession.includes("Otra ") ? localUser?.other_profession : null,
-      selectedOptionSpecialty.includes("Otra ") ? localUser?.other_speciality : null
-
+      selectedOptionProfession.includes("Otra ")
+        ? localUser?.other_profession
+        : null,
+      selectedOptionSpecialty.includes("Otra ")
+        ? localUser?.other_speciality
+        : null,
     ];
 
-    const isComplete = requiredFields.every((field) => field !== "") && !isFieldEmpty;
-    console.log({ isComplete, requiredFields })
+    const isComplete =
+      requiredFields.every((field) => field !== "") && !isFieldEmpty;
     setIsFormComplete(isComplete);
   };
 
@@ -154,8 +186,9 @@ const DashboardEditProfile: FC<Props> = ({
       profession,
       speciality,
       phone: phoneNumber,
+      Career: selectedCareer,
+      Year: studentYear,
     };
-
     try {
       const res = await api.updateUserData(jsonData);
       if ((res?.status as number) === 200) {
@@ -239,9 +272,20 @@ const DashboardEditProfile: FC<Props> = ({
     setCurrentStates(res);
   };
 
+  useEffect(() => {
+    const selectedProfession = professions.find(
+      (profession) => profession.name === selectedOptionProfession
+    );
+    if (selectedProfession) {
+      setSelectedProfessionId(selectedProfession.id.toString());
+    }
+    setStudentInputs(selectedOptionProfession === "Estudiante");
+  }, [selectedOptionProfession, professions]);
+
   const renderInputIdentification = () => {
+    if (!localUser) return <></>;
     switch (localUser.country) {
-      case 'México':
+      case "México":
         return (
           <>
             <Label>RFC</Label>
@@ -255,8 +299,8 @@ const DashboardEditProfile: FC<Props> = ({
               onChange={(event) => handleInputChange("rfc", event.target.value)}
             />
           </>
-        )
-      case 'Chile':
+        );
+      case "Chile":
         return (
           <>
             <Label>RUT</Label>
@@ -270,7 +314,7 @@ const DashboardEditProfile: FC<Props> = ({
               onChange={(event) => handleInputChange("rut", event.target.value)}
             />
           </>
-        )
+        );
       default:
         return (
           <>
@@ -285,16 +329,26 @@ const DashboardEditProfile: FC<Props> = ({
               onChange={(event) => handleInputChange("dni", event.target.value)}
             />
           </>
-        )
+        );
     }
-  }
+  };
+
+  const onChangeStudentYear = (e: any) => {
+    setStudentYear(e.target.value);
+  };
 
   useEffect(() => {
     if (localUser && localUser.country) {
       getStates(localUser.country);
     }
-
   }, [localUser]);
+
+  const optionsArray = [1, 2, 3, 4, 5];
+  const selectOptions = optionsArray.map((y) => (
+    <option key={`st_year_${y}`} defaultValue={y}>
+      {y}
+    </option>
+  ));
 
   return (
     <div className="rounded-xl md:border md:border-neutral-100 dark:border-neutral-800 md:p-6">
@@ -354,76 +408,110 @@ const DashboardEditProfile: FC<Props> = ({
           />
         </label>
 
-        <label>
-          <Label>Profesión</Label>
-          <div className="profile-contact-select mt-1">
-            <select
-              className=""
-              id="profession"
-              name="profession"
-              value={selectedOptionProfession}
-              onChange={handleOptionProfessionChange}
-            >
-              <option defaultValue="">Seleccionar profesión</option>
-              {professions
-                ? professions.map((p) => (
-                  <option key={p.id} value={p.name}>
-                    {p.name}
-                  </option>
-                ))
-                : ""}
-            </select>
+        <div className="grid grid-cols-2 col-span-2 gap-6">
+          <div className="col-span-1">
+            <span>Profesión</span>
+            <div className="profile-contact-select mt-1">
+              <select
+                className=""
+                id="profession"
+                name="profession"
+                value={`${selectedOptionProfession}/${selectedProfessionId}`}
+                onChange={handleOptionProfessionChange}
+              >
+                <option defaultValue="" value="">
+                  Seleccionar profesión
+                </option>
+                {professions
+                  ? professions.map((p: Profession) => (
+                      <option key={p.id} value={`${p.name}/${p.id}`}>
+                        {p.name}
+                      </option>
+                    ))
+                  : ""}
+              </select>
+            </div>
           </div>
           {showInputProfession && (
             <label className="block">
               <Input
-                type="text"
-                className="mt-4"
-                id="Last_Name"
                 name="Otra_profesion"
-                placeholder="Ingresar profesion"
-                value={localUser?.other_profession}
-                onChange={(event) =>
-                  handleInputChange("other_profession", event.target.value)
-                }
-              />
-            </label>
-          )}
-        </label>
-        <label>
-          <Label>Especialidad</Label>
-          <div className="profile-contact-select mt-1">
-            <select
-              className=""
-              id="speciality"
-              name="speciality"
-              value={selectedOptionSpecialty}
-              onChange={handleOptionSpecialtyChange}
-            >
-              <option defaultValue="">Seleccionar especialidad</option>
-              {specialties.map((s) => (
-                <option key={s.id} defaultValue={s.name}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          {showInputSpecialties && (
-            <label className="block">
-              <Input
+                id="Otra_profesion"
                 type="text"
-                className="mt-4"
-                id="Last_Name"
-                name="Otra_especialidad"
-                placeholder="Ingresar especialidad"
-                value={localUser?.other_speciality}
-                onChange={(event) =>
-                  handleInputChange("other_speciality", event.target.value)
-                }
+                placeholder="Ingresar profesion"
+                className="mt-7"
               />
             </label>
           )}
-        </label>
+          {studentInputs ? (
+            <div>
+              <div className={`grid grid-cols-12 gap-2 mt-7`}>
+                <div className="profile-contact-select col-span-6">
+                  <select
+                    id="Year"
+                    name="Year"
+                    defaultValue={studentYear}
+                    onChange={(e) => onChangeStudentYear(e)}
+                  >
+                    <option defaultValue="">Seleccionar año</option>
+                    {selectOptions}
+                  </select>
+                </div>
+                <div className="profile-contact-select col-span-6">
+                  <select
+                    id="Career"
+                    name="Career"
+                    value={selectedCareer}
+                    onChange={handleOptionCareerChange}
+                  >
+                    <option defaultValue="">Seleccionar carrera</option>
+                    {currentGroup.map((s: any) => (
+                      <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="col-span-1">
+              <span>Especialidad</span>
+              <div className="profile-contact-select mt-1">
+                <select
+                  className=""
+                  id="speciality"
+                  name="speciality"
+                  value={selectedOptionSpecialty}
+                  onChange={handleOptionSpecialtyChange}
+                >
+                  <option defaultValue="">Seleccionar especialidad</option>
+                  {selectedOptionProfession && currentGroup.length
+                    ? currentGroup.map((s: any) => (
+                        <option key={`sp_group_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))
+                    : specialties.map((s: Specialty) => (
+                        <option key={`sp_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                </select>
+              </div>
+              {showInputSpecialties && (
+                <div className="contact-from-input my-4">
+                  <input
+                    type="text"
+                    id="Otra_especialidad"
+                    name="Otra_especialidad"
+                    placeholder="Ingresar especialidad"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         <span className="dark:text-primary-500 forgot-password col-span-2">
           ¿Necesitas cambiar tu contraseña?{" "}
           <NcLink
@@ -456,7 +544,6 @@ const DashboardEditProfile: FC<Props> = ({
               id="country"
               name="country"
               value={localUser?.country}
-              disabled={true}
               onChange={(event) =>
                 handleInputChange("country", event.target.value)
               }
@@ -522,9 +609,7 @@ const DashboardEditProfile: FC<Props> = ({
             }
           />
         </label>
-        <label className="block">
-          {renderInputIdentification()}
-        </label>
+        <label className="block">{renderInputIdentification()}</label>
         <label className="block">
           <Label>Régimen fiscal</Label>
           <Input

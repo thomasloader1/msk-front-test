@@ -73,13 +73,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
     {
       sPath: "/perfil",
-      component: () => (
-        <AccountPersonalData
-          user={user}
-          specialties={specialties}
-          professions={professions}
-        />
-      ),
+      component: () => <AccountPersonalData user={user} />,
       icon: "personal-data",
       pageName: "Datos personales",
     },
@@ -117,8 +111,6 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     fetchProfessions();
     fetchSpecialties();
   }, []);
-
-
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">

@@ -64,26 +64,11 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
     {
       sPath: "/perfil",
-      component: () => (
-        <AccountPersonalData
-          user={user}
-          specialties={specialties}
-          professions={professions}
-        />
-      ),
+      component: () => <AccountPersonalData user={user} />,
       icon: "personal-data",
       pageName: "Datos personales",
     },
   ];
-
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const specialtyList = await api.getSpecialties();
-    setSpecialties(specialtyList);
-  };
 
   const history = useHistory();
   const fetchUser = async () => {
@@ -104,10 +89,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   useEffect(() => {
     setLoading(true);
     fetchUser();
-    fetchProfessions();
-    fetchSpecialties();
   }, []);
-
 
   return (
     <div className={`nc-PageDashboard ${className}`} data-nc-id="PageDashboard">

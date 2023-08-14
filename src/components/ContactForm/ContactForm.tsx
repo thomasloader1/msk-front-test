@@ -86,6 +86,10 @@ const ContactFormSection = ({
       setSelectedOptionProfession("");
       setSelectedOptionSpecialty("");
       setSelectedCountry("");
+      setStudentYear("");
+      setSelectedCareer("");
+      setFormSent(false);
+      setFormError("");
     }
   };
 
@@ -150,6 +154,7 @@ const ContactFormSection = ({
     type: "CLEAR_UTM",
     payload: {},
   };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
@@ -242,8 +247,6 @@ const ContactFormSection = ({
     console.log({ jsonData });
 
     const { response } = await api.postContactUs(jsonData);
-
-    console.log(response);
     if (response.status === 200) {
       setFormSent(true);
       resetForm();

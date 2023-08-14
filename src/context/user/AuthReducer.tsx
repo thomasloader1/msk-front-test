@@ -9,9 +9,11 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case LOGIN:
+      console.log({ action })
       localStorage.setItem("token", action.payload.access_token);
       localStorage.setItem("email", action.payload.email);
       localStorage.setItem("expires_at", action.payload.expires_at);
+      localStorage.setItem("user", JSON.stringify({ name: action.payload.user.name, speciality: action.payload.user.speciality }));
       const user = localStorage.getItem("user");
       return {
         ...state,
@@ -26,6 +28,7 @@ export const authReducer = (
     case LOGOUT:
       localStorage.removeItem("token");
       localStorage.removeItem("email");
+      localStorage.removeItem("user");
       return {
         ...state,
         isAuthenticated: false,

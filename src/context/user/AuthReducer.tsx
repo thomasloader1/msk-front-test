@@ -26,6 +26,7 @@ export const authReducer = (
     case LOGOUT:
       localStorage.removeItem("token");
       localStorage.removeItem("email");
+      localStorage.removeItem("user");
       return {
         ...state,
         isAuthenticated: false,

@@ -22,10 +22,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const fetchUser = async () => {
     const res = await api.getUserData();
     if (!res.message) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: res.name, speciality: res.contact.speciality })
-      );
+      localStorage.setItem("user", JSON.stringify({ name: res.name, speciality: res.contact.speciality }));
       localStorage.setItem("bypassRedirect", res.test);
       return res.data;
     } else {

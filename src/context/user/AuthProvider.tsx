@@ -24,7 +24,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     if (!res.message) {
       localStorage.setItem("user", JSON.stringify({ name: res.name, speciality: res.contact.speciality }));
       localStorage.setItem("bypassRedirect", res.test);
-      return res.data;
+      return { name: res.name, speciality: res.contact.speciality };
     } else {
       console.log(res.response.status);
     }
@@ -36,8 +36,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     let expires_at: string | Date | null = localStorage.getItem("expires_at");
 
     if (token && email) {
-      fetchUser();
-      const data = { access_token: token, email, expires_at, bypassRedirect };
+      const userData = fetchUser();
+      const data = { access_token: token, email, expires_at, bypassRedirect, user: userData };
       dispatch({ type: "LOGIN", payload: data });
 
       if (expires_at) {

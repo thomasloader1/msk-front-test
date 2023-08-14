@@ -25,7 +25,7 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
     message: "",
     type: "",
   });
-  const [currentStates, setCurrentStates] = useState<string[] | undefined>([]);
+  const [currentStates, setCurrentStates] = useState<string[]>([]);
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>(user.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
@@ -279,7 +279,7 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
 
   const getStates = async (country: string) => {
     const res = await api.getStatesFromCountry(country);
-    setCurrentStates(res);
+    setCurrentStates(res || []);
   };
 
   useEffect(() => {
@@ -440,10 +440,10 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
                 </option>
                 {professions
                   ? professions.map((p: Profession) => (
-                      <option key={p.id} value={`${p.name}/${p.id}`}>
-                        {p.name}
-                      </option>
-                    ))
+                    <option key={p.id} value={`${p.name}/${p.id}`}>
+                      {p.name}
+                    </option>
+                  ))
                   : ""}
               </select>
             </div>
@@ -503,17 +503,17 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
                   onChange={handleOptionSpecialtyChange}
                 >
                   <option defaultValue="">Seleccionar especialidad</option>
-                  {selectedOptionProfession && currentGroup.length
+                  {selectedOptionProfession && currentGroup?.length
                     ? currentGroup.map((s: any) => (
-                        <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))
+                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))
                     : specialties.map((s: Specialty) => (
-                        <option key={`sp_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
+                      <option key={`sp_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               {showInputSpecialties && (

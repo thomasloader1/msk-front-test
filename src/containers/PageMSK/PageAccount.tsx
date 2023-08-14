@@ -1,5 +1,5 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import { ComponentType, FC, useEffect, useState } from "react";
+import { ComponentType, FC, useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 import AccountPersonalData from "./account/AccountPersonalData";
@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
+import { AuthContext } from "context/user/AuthContext";
 
 export interface PageDashboardProps {
   className?: string;
@@ -36,6 +37,7 @@ interface DashboardPage {
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
   const [user, setUser] = useState<User>({} as User);
+  const { dispatch } = useContext(AuthContext);
   const [courses, setCourses] = useState<UserCourseProgress[]>(
     [] as UserCourseProgress[]
   );
@@ -77,6 +79,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
+      dispatch({ type: "FRESH", payload: { user: { name: res.name, speciality: res.contact.speciality } } })
       let coursesList = getUserCourses(res, allCourses);
       setCourses(coursesList);
       setLoading(false);

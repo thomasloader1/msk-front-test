@@ -116,6 +116,7 @@ class ApiService {
       }
     } catch (error) {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       console.log({ error });
     }
   }

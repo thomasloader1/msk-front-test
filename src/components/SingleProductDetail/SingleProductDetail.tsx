@@ -103,7 +103,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         <div>
                           <span className="raleway">Cedente</span>
                           <div className="flex flex-col">
-                            <h6 className="raleway-bold">
+                            <h6 className="raleway-bold" style={{ maxWidth: '280px' }}>
                               {title || product.authors[0]?.name}
                             </h6>
                           </div>
@@ -127,9 +127,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   {product.details && product.details["duration"] ? (
                     <div className="flex flex-col">
                       <span className="raleway">Duración</span>
-                      <span className="raleway-bold">
+                      <h6 className="raleway-bold">
                         {product.details["duration"].value} horas estimadas
-                      </span>
+                      </h6>
                     </div>
                   ) : null}
                 </div>

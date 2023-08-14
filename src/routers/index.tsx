@@ -23,6 +23,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "context/user/AuthContext";
 import PageArchive from "containers/PageMSK/blog/Archive";
 import PageEmailSent from "containers/PageMSK/PageEmailSent";
+import PageNewPassword from "containers/PageMSK/PageNewPassword";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -38,7 +39,7 @@ export const pages: Page[] = [
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
   { path: "/recuperar", component: PageForgotPass, auth: false },
-  { path: "/change-pass/:token", component: PageForgotPass, auth: false },
+  { path: "/change-pass/:token", component: PageNewPassword, auth: false },
   { path: "/correo-enviado", component: PageEmailSent, auth: false },
   { path: "/mi-cuenta", component: PageAccount, auth: true },
   { path: "/mi-perfil", component: PageProfile, auth: true },

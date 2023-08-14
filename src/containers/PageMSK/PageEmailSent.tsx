@@ -9,7 +9,7 @@ export interface PageEmailSentProps {
 const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
   let subHeading = "";
   let message =
-    "Revisa tu bandeja de entrada, spam o correos no deseados y sigue los pasos detallados.";
+    "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, span o correos no deseados.";
 
   return (
     <div className={`nc-PageEmailSent ${className}`} data-nc-id="PageEmailSent">
@@ -18,7 +18,7 @@ const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
       </Helmet>
       <LayoutPage subHeading="" heading=" ">
         <div className="thank-you-wrp py-16">
-          <h1 className="text-center thank-you-title">Correo enviado</h1>
+          <h1 className="text-center thank-you-title">¡Listo!</h1>
           <div className="max-w-2xl mx-auto space-y-6">
             <p className="text-center text-natural-600 md:px-20 px-8">
               {message}

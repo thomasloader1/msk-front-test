@@ -66,7 +66,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
     {
       sPath: "/perfil",
-      component: () => <AccountPersonalData user={user} />,
+      component: () => <AccountPersonalData user={user} setUser={setUser} />,
       icon: "personal-data",
       pageName: "Datos personales",
     },

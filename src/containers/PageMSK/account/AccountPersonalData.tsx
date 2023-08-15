@@ -1,37 +1,38 @@
 import Button from "components/Button/Button";
 import Input from "components/Input/Input";
 import Label from "components/Label/Label";
-import { ChangeEvent, FC, useContext, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, FC, SetStateAction, useContext, useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
 import NcLink from "components/NcLink/NcLink";
 import { CountryContext } from "context/country/CountryContext";
-import { CountryCode } from "libphonenumber-js/types";
 interface Props {
   user: User;
+  setUser: Dispatch<SetStateAction<User>>
 }
 
-const DashboardEditProfile: FC<Props> = ({ user }) => {
+const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { state } = useContext(CountryContext);
+  const [userData, setUserData] = useState(user)
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [saveDisabled, setSaveDisabled] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [localUser, setLocalUser] = useState<Contact>(user.contact as Contact);
+  const [localUser, setLocalUser] = useState<Contact>(userData.contact as Contact);
   const [updateStatusMessage, setUpdateStatusMessage] = useState({
     message: "",
     type: "",
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
   const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>(user.contact?.profession || "");
+    useState<string>(userData.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>(user.contact?.speciality || "");
+    useState<string>(userData.contact?.speciality || "");
   const [phoneNumber, setPhoneNumber] = useState<string>(
-    user?.contact?.phone || ""
+    userData?.contact?.phone || ""
   );
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
@@ -188,8 +189,8 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
       profession,
       speciality,
       phone: phoneNumber,
-      Career: selectedCareer,
-      Year: studentYear,
+      career: selectedCareer,
+      year: studentYear,
     };
     try {
       const res = await api.updateUserData(jsonData);
@@ -198,7 +199,11 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
           message: "Se actualizó correctamente.",
           type: "success",
         });
+
+        const userDataDB = await api.getUserData();
+
         setSaveDisabled(true);
+        setUser(userDataDB);
         setFormSubmitted(true);
       } else {
         console.log("Hubo un error al actualizar el usuario", res);
@@ -464,8 +469,8 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
               <div className={`grid grid-cols-12 gap-2 mt-7`}>
                 <div className="profile-contact-select col-span-6">
                   <select
-                    id="Year"
-                    name="Year"
+                    id="year"
+                    name="year"
                     defaultValue={studentYear}
                     onChange={(e) => onChangeStudentYear(e)}
                   >
@@ -475,8 +480,8 @@ const DashboardEditProfile: FC<Props> = ({ user }) => {
                 </div>
                 <div className="profile-contact-select col-span-6">
                   <select
-                    id="Career"
-                    name="Career"
+                    id="career"
+                    name="career"
                     value={selectedCareer}
                     onChange={handleOptionCareerChange}
                   >

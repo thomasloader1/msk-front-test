@@ -9,7 +9,7 @@ export interface PageEmailSentProps {
 const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
   let subHeading = "";
   let message =
-    "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, span o correos no deseados.";
+    "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, spam o correos no deseados.";
 
   return (
     <div className={`nc-PageEmailSent ${className}`} data-nc-id="PageEmailSent">

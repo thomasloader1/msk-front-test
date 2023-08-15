@@ -20,13 +20,21 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const [state, dispatch] = useReducer(authReducer, initialState);
   const fetchUser = async () => {
-    const res = await api.getUserData();
-    if (!res.message) {
-      localStorage.setItem("user", JSON.stringify({ name: res.name, speciality: res.contact.speciality }));
-      localStorage.setItem("bypassRedirect", res.test);
-      return { name: res.name, speciality: res.contact.speciality };
-    } else {
-      console.log(res.response.status);
+    try {
+
+      const res = await api.getUserData();
+      if (!res.message) {
+        localStorage.setItem("user", JSON.stringify({ name: res.name, speciality: res.contact.speciality }));
+        localStorage.setItem("bypassRedirect", res.test);
+        return { name: res.name, speciality: res.contact.speciality };
+      } else {
+        console.log(res.response.status);
+      }
+    } catch (e) {
+      console.error({ e })
+      localStorage.removeItem("email")
+      localStorage.removeItem("user")
+      dispatch({ type: "LOGOUT" });
     }
   };
   useEffect(() => {

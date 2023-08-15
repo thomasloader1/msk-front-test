@@ -473,7 +473,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                   <select
                     id="year"
                     name="year"
-                    defaultValue={studentYear}
+                    defaultValue={localUser?.year}
                     onChange={(e) => onChangeStudentYear(e)}
                   >
                     <option defaultValue="">Seleccionar año</option>
@@ -484,7 +484,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                   <select
                     id="career"
                     name="career"
-                    value={selectedCareer}
+                    value={localUser?.career}
                     onChange={handleOptionCareerChange}
                   >
                     <option defaultValue="">Seleccionar carrera</option>

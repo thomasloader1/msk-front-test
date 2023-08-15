@@ -48,7 +48,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     const { data, status } = await api.postLogin(jsonData);
 
     if (status == 200) {
-      const loginData = { ...data, email: jsonData.email };
+      const { name, speciality, ...restData } = data
+      const loginData = { ...restData, email: jsonData.email, user: { name, speciality } };
       dispatch({ type: "LOGIN", payload: loginData });
       changeRoute("/mi-perfil");
     } else {

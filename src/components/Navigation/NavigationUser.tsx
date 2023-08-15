@@ -15,6 +15,8 @@ const NavigationUser = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  console.log(state)
+
   return (
     <>
       {state.isAuthenticated ? (

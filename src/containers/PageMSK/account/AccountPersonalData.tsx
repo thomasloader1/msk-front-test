@@ -10,7 +10,7 @@ import NcLink from "components/NcLink/NcLink";
 import { CountryContext } from "context/country/CountryContext";
 interface Props {
   user: User;
-  setUser: Dispatch<SetStateAction<User>>
+  setUser?: Dispatch<SetStateAction<User>>
 }
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
@@ -203,7 +203,9 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
         const userDataDB = await api.getUserData();
 
         setSaveDisabled(true);
-        setUser(userDataDB);
+        if (typeof setUser === 'function') {
+          setUser(userDataDB);
+        }
         setFormSubmitted(true);
       } else {
         console.log("Hubo un error al actualizar el usuario", res);

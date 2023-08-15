@@ -24,4 +24,9 @@ export const setCookie = (name: string, value: string, days: number) => {
 export const deleteCookie = (name: string) => {
   console.log("deleteCookie", name);
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  let input = document.querySelector('input[type="hidden"][name="'+name+'"]');
+  if (input) {
+    // @ts-ignore
+    input.value = "";
+  }
 };

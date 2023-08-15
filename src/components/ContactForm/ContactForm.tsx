@@ -246,16 +246,21 @@ const ContactFormSection = ({
 
     console.log({ jsonData });
 
-    const { response } = await api.postContactUs(jsonData);
+    const  response  = await api.postContactUs(jsonData);
+    // @ts-ignore
     if (response.status === 200) {
+      dispatchUTM(clearUTMAction);
       setFormSent(true);
       resetForm();
-      dispatchUTM(clearUTMAction);
 
       let routeChange = isEbook
-        ? "/gracias?origen=descarga-ebook"
-        : "/gracias?origen=contact";
-      changeRoute(routeChange);
+          ? "/gracias?origen=descarga-ebook"
+          : "/gracias?origen=contact";
+
+      setTimeout(() => {
+        changeRoute(routeChange);
+      }, 100);
+
     } else {
       setFormError("Hubo un error al enviar el formulario, revise los campos");
     }

@@ -10,6 +10,8 @@ export const utmReducer = (
   state: UTMContextType,
   action: UTMAction
 ): UTMContextType => {
+  console.log('UTMReducer');
+    console.log(action);
   switch (action.type) {
     case "UPDATE_UTM":
       return {
@@ -17,6 +19,7 @@ export const utmReducer = (
         ...action.payload,
       };
     case "CLEAR_UTM":
+      console.log('deleting UTM cookies');
       deleteCookie("utm_source");
       deleteCookie("utm_medium");
       deleteCookie("utm_campaign");

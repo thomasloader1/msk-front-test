@@ -78,11 +78,10 @@ class ApiService {
 
   async postContactUs(jsonData: ContactUs) {
     try {
-      const { data } = await axios.post(
+      return await axios.post(
         `${baseUrl}/api/crm/CreateLeadHomeContactUs`,
         jsonData
       );
-      return data;
       // return jsonData;
     } catch (e) {
       return e;
@@ -91,12 +90,10 @@ class ApiService {
 
   async postNewsletter(jsonData: Newsletter) {
     try {
-      const { data } = await axios.post(
+      return  await axios.post(
         `${baseUrl}/api/crm/CreateLeadHomeNewsletter`,
         jsonData
       );
-      return data;
-      // return jsonData;
     } catch (e) {
       return e;
     }

@@ -139,14 +139,16 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       jsonData as JsonData,
       Temas_de_interes
     );
-    const { response } = await api.postNewsletter(body as Newsletter);
-
+    let response  = await api.postNewsletter(body as Newsletter);
+    // @ts-ignore
     if (response && response.status === 200) {
+      dispatchUTM(clearUTMAction);
       console.log({ body });
       setShow(false);
-      dispatchUTM(clearUTMAction);
       resetForm();
-      changeRoute("/gracias?origen=newsletter");
+      setTimeout(() => {
+        changeRoute("/gracias?origen=newsletter");
+      }, 100);
     } else {
       setFormError("Hubo un error al enviar el formulario, revise los campos");
     }

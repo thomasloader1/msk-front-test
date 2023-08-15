@@ -140,14 +140,29 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       Temas_de_interes
     );
     const { response } = await api.postNewsletter(body as Newsletter);
+
     if (response && response.status === 200) {
       console.log({ body });
       setShow(false);
       dispatchUTM(clearUTMAction);
+      resetForm();
       changeRoute("/gracias?origen=newsletter");
     } else {
       setFormError("Hubo un error al enviar el formulario, revise los campos");
     }
+  };
+
+  const resetForm = () => {
+    setEmail("");
+    setSelectedOptionSpecialty("");
+    setSelectedOptionProfession("");
+    setSelectedProfessionId("");
+    setStudentInputs(false);
+    setStudentYear("");
+    setSelectedCareer("");
+    setAcceptConditions(false);
+    setFormError("");
+    formRef.current.reset();
   };
 
   const optionsArray = [1, 2, 3, 4, 5];

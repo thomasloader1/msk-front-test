@@ -158,28 +158,30 @@ const ContactFormSection = ({
     payload: {},
   };
 
+  const initialJsonData = {
+    First_Name: "",
+    Last_Name: "",
+    Email: "",
+    Profesion: "",
+    Description: "",
+    Especialidad: "",
+    Phone: "",
+    Preferencia_de_contactaci_n: "",
+    Pais: "",
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_content: "",
+    Year: "",
+    Career: "",
+    recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
 
-    const jsonData: ContactUs = {
-      First_Name: "",
-      Last_Name: "",
-      Email: "",
-      Profesion: "",
-      Description: "",
-      Especialidad: "",
-      Phone: "",
-      Preferencia_de_contactaci_n: "",
-      Pais: "",
-      utm_source: "",
-      utm_medium: "",
-      utm_campaign: "",
-      utm_content: "",
-      Year: "",
-      Career: "",
-      recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
-    };
+    let jsonData: ContactUs = initialJsonData;
 
     const selectedOption = (event.target as HTMLFormElement).querySelector(
       'input[name="Preferencia_de_contactaci_n"]:checked'
@@ -250,21 +252,27 @@ const ContactFormSection = ({
 
     console.log({ jsonData });
 
-    const  response  = await api.postContactUs(jsonData);
+    const response = await api.postContactUs(jsonData);
     // @ts-ignore
     if (response.status === 200) {
+      let routeChange = isEbook
+        ? "/gracias?origen=descarga-ebook"
+        : "/gracias?origen=contact";
+
       dispatchUTM(clearUTMAction);
       setFormSent(true);
       resetForm();
-
-      let routeChange = isEbook
-          ? "/gracias?origen=descarga-ebook"
-          : "/gracias?origen=contact";
+      jsonData = {
+        ...initialJsonData,
+        utm_campaign: "",
+        utm_content: "",
+        utm_medium: "",
+        utm_source: "",
+      };
 
       setTimeout(() => {
         changeRoute(routeChange);
       }, 100);
-
     } else {
       setFormError("Hubo un error al enviar el formulario, revise los campos");
     }
@@ -334,7 +342,7 @@ const ContactFormSection = ({
               )}
               <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">
-                  <div className="col-xl-6">
+                  <div className="col-xl-6 col-span-2 md:col-span-1">
                     <div className="contact-from-input">
                       <input
                         type="text"
@@ -344,7 +352,7 @@ const ContactFormSection = ({
                       />
                     </div>
                   </div>
-                  <div className="col-xl-6">
+                  <div className="col-xl-6 col-span-2 md:col-span-1">
                     <div className="contact-from-input">
                       <input
                         type="text"
@@ -354,7 +362,7 @@ const ContactFormSection = ({
                       />
                     </div>
                   </div>
-                  <div className="col-xl-6">
+                  <div className="col-xl-6 col-span-2 md:col-span-1">
                     <div className="contact-from-input ">
                       <input
                         type="text"
@@ -365,7 +373,7 @@ const ContactFormSection = ({
                     </div>
                   </div>
 
-                  <div className="col-xl-6">
+                  <div className="col-xl-6 col-span-2 md:col-span-1">
                     <div className="contact-from-input intl-input phone-contact-input-select">
                       <PhoneInput
                         name="Phone"
@@ -381,7 +389,7 @@ const ContactFormSection = ({
                     </div>
                   </div>
 
-                  <div className={`col-xl-6`}>
+                  <div className="col-xl-6 col-span-2 md:col-span-1">
                     <div className="contact-select">
                       <select
                         className=""

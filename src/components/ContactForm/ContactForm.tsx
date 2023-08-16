@@ -25,12 +25,15 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { useUTMContext } from "context/utm/UTMContext";
 import { UTMAction, utmReducer } from "context/utm/UTMReducer";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactFormSection = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
 }) => {
+
+  const captcha = useRef(null);
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
@@ -242,6 +245,7 @@ const ContactFormSection = ({
       if (key === "utm_content") {
         jsonData.utm_content = value as string;
       }
+
     });
 
     console.log({ jsonData });
@@ -510,6 +514,12 @@ const ContactFormSection = ({
                         condiciones de privacidad
                       </a>
                     </div>
+
+                    <ReCAPTCHA
+                        ref={captcha}
+                        sitekey="6LcIf-ElAAAAAHpOpA-BSLOvvX9s_SbndGij8F5h"
+                        size="invisible"
+                    />
 
                     <div className="col-xl-2 mt-2">
                       <div className="cont-btn ">

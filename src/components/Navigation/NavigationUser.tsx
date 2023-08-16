@@ -15,7 +15,7 @@ const NavigationUser = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  console.log(state)
+  // console.log(state)
 
   return (
     <>

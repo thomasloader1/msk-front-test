@@ -10,7 +10,7 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case LOGIN:
-      console.log({ action })
+      //console.log({ action })
       localStorage.setItem("token", action.payload.access_token);
       localStorage.setItem("email", action.payload.email);
       localStorage.setItem("expires_at", action.payload.expires_at);

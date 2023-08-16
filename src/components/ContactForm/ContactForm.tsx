@@ -173,8 +173,8 @@ const ContactFormSection = ({
       utm_medium: "",
       utm_campaign: "",
       utm_content: "",
-      Year: "",
-      Career: "",
+      year: "",
+      career: "",
       recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
     };
 
@@ -209,11 +209,11 @@ const ContactFormSection = ({
         const values = value.toString().split("/");
         jsonData.Profesion = values[0];
       }
-      if (key === "Year") {
-        jsonData.Year = value as string;
+      if (key === "year") {
+        jsonData.year = value as string;
       }
-      if (key === "Career") {
-        jsonData.Career = value as string;
+      if (key === "career") {
+        jsonData.career = value as string;
       }
       if (key === "Description") {
         jsonData.Description = value as string;
@@ -246,7 +246,7 @@ const ContactFormSection = ({
 
     console.log({ jsonData });
 
-    const  response  = await api.postContactUs(jsonData);
+    const response = await api.postContactUs(jsonData);
     // @ts-ignore
     if (response.status === 200) {
       dispatchUTM(clearUTMAction);
@@ -254,8 +254,8 @@ const ContactFormSection = ({
       resetForm();
 
       let routeChange = isEbook
-          ? "/gracias?origen=descarga-ebook"
-          : "/gracias?origen=contact";
+        ? "/gracias?origen=descarga-ebook"
+        : "/gracias?origen=contact";
 
       setTimeout(() => {
         changeRoute(routeChange);
@@ -391,10 +391,10 @@ const ContactFormSection = ({
                         </option>
                         {professions
                           ? professions.map((p) => (
-                              <option key={p.id} value={`${p.name}/${p.id}`}>
-                                {p.name}
-                              </option>
-                            ))
+                            <option key={p.id} value={`${p.name}/${p.id}`}>
+                              {p.name}
+                            </option>
+                          ))
                           : ""}
                       </select>
                     </div>
@@ -456,21 +456,21 @@ const ContactFormSection = ({
                             </option>
                             {selectedOptionProfession && currentGroup.length
                               ? currentGroup.map((s: any) => (
-                                  <option
-                                    key={`sp_group_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))
+                                <option
+                                  key={`sp_group_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))
                               : specialties.map((s) => (
-                                  <option
-                                    key={`sp_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))}
+                                <option
+                                  key={`sp_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                         {showInputSpecialties && (

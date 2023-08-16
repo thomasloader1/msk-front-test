@@ -40,7 +40,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
-  const [studentYear, setStudentYear] = useState();
+  const [studentYear, setStudentYear] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
 
@@ -484,7 +484,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                   <select
                     id="career"
                     name="career"
-                    value={localUser?.career}
+                    defaultValue={localUser?.career}
                     onChange={handleOptionCareerChange}
                   >
                     <option defaultValue="">Seleccionar carrera</option>

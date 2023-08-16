@@ -128,7 +128,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(formRef.current);
-    const jsonData = Object.fromEntries(formData);
+    let jsonData = Object.fromEntries(formData);
     const Temas_de_interes = filterSpecialities(jsonData as JsonData);
     jsonData["Profesion"] = jsonData["Profesion"].toString().split("/")[0];
     jsonData["utm_source"] = utm_source;
@@ -139,13 +139,21 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       jsonData as JsonData,
       Temas_de_interes
     );
-    let response  = await api.postNewsletter(body as Newsletter);
+    let response = await api.postNewsletter(body as Newsletter);
     // @ts-ignore
     if (response && response.status === 200) {
-      dispatchUTM(clearUTMAction);
       console.log({ body });
+      dispatchUTM(clearUTMAction);
       setShow(false);
       resetForm();
+      jsonData = {
+        ...jsonData,
+        utm_source: "",
+        utm_medium: "",
+        utm_campaign: "",
+        utm_content: "",
+      };
+
       setTimeout(() => {
         changeRoute("/gracias?origen=newsletter");
       }, 100);

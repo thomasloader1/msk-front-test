@@ -25,7 +25,13 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { useUTMContext } from "context/utm/UTMContext";
 import { UTMAction, utmReducer } from "context/utm/UTMReducer";
-import ReCAPTCHA from "react-google-recaptcha";
+
+
+declare global {
+  interface Window {
+    grecaptcha: any; // Define el tipo adecuado para grecaptcha
+  }
+}
 
 const ContactFormSection = ({
   hideHeader = false,
@@ -33,7 +39,7 @@ const ContactFormSection = ({
   isEbook = false,
 }) => {
 
-  const captcha = useRef(null);
+  const [captchaValue, setCaptchaValue] = useState("");
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
@@ -174,11 +180,17 @@ const ContactFormSection = ({
     utm_content: "",
     year: "",
     career: "",
-    recaptcha_token: import.meta.env.VITE_RECAPTCHA_PK,
+    recaptcha_token: captchaValue,
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    console.log(import.meta.env.VITE_RECAPTCHA_PK)
+
+
+
+
     const formData = new FormData(event.target as HTMLFormElement);
 
     let jsonData: ContactUs = initialJsonData;
@@ -250,32 +262,47 @@ const ContactFormSection = ({
 
     });
 
-    console.log({ jsonData });
+    try {
+      const recaptchaResponse = await window.grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_PK, { action: 'submit' });
 
-    const response = await api.postContactUs(jsonData);
-    // @ts-ignore
-    if (response.status === 200) {
-      let routeChange = isEbook
-        ? "/gracias?origen=descarga-ebook"
-        : "/gracias?origen=contact";
+      // Ahora puedes enviar `recaptchaResponse` junto con los datos del formulario al servidor.
+      // console.log("Recaptcha response:", recaptchaResponse);
+      jsonData.recaptcha_token = recaptchaResponse
 
-      dispatchUTM(clearUTMAction);
-      setFormSent(true);
-      resetForm();
-      jsonData = {
-        ...initialJsonData,
-        utm_campaign: "",
-        utm_content: "",
-        utm_medium: "",
-        utm_source: "",
-      };
+      console.log({ jsonData });
 
-      setTimeout(() => {
-        changeRoute(routeChange);
-      }, 100);
-    } else {
-      setFormError("Hubo un error al enviar el formulario, revise los campos");
+      const response = await api.postContactUs(jsonData);
+      // @ts-ignore
+      if (response.status === 200) {
+        let routeChange = isEbook
+          ? "/gracias?origen=descarga-ebook"
+          : "/gracias?origen=contact";
+
+        dispatchUTM(clearUTMAction);
+        setFormSent(true);
+        resetForm();
+        jsonData = {
+          ...initialJsonData,
+          utm_campaign: "",
+          utm_content: "",
+          utm_medium: "",
+          utm_source: "",
+        };
+
+        setTimeout(() => {
+          changeRoute(routeChange);
+        }, 100);
+      } else {
+        setFormError("Hubo un error al enviar el formulario, revise los campos");
+      }
+
+
+    } catch (error) {
+      console.error("Error al ejecutar reCAPTCHA:", error);
     }
+
+
+
   };
 
   const optionsArray = [1, 2, 3, 4, 5];
@@ -284,6 +311,7 @@ const ContactFormSection = ({
       {y}
     </option>
   ));
+
 
   return (
     <>
@@ -426,8 +454,8 @@ const ContactFormSection = ({
                       <div className="contact-select grid grid-cols-11 gap-2">
                         <select
                           className="col-span-5"
-                          id="Year"
-                          name="Year"
+                          id="year"
+                          name="year"
                           defaultValue={studentYear}
                         >
                           <option defaultValue="">Seleccionar año</option>
@@ -435,8 +463,8 @@ const ContactFormSection = ({
                         </select>
                         <select
                           className="col-span-6"
-                          id="Career"
-                          name="Career"
+                          id="career"
+                          name="career"
                           value={selectedCareer}
                           onChange={handleOptionCareerChange}
                         >
@@ -522,12 +550,6 @@ const ContactFormSection = ({
                         condiciones de privacidad
                       </a>
                     </div>
-
-                    <ReCAPTCHA
-                      ref={captcha}
-                      sitekey="6LcIf-ElAAAAAHpOpA-BSLOvvX9s_SbndGij8F5h"
-                      size="invisible"
-                    />
 
                     <div className="col-xl-2 mt-2">
                       <div className="cont-btn ">

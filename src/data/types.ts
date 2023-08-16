@@ -508,7 +508,7 @@ export type ContactUs = {
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
-  recaptcha_token: string;
+  recaptcha_token: string | null | undefined;
 };
 
 export type Newsletter = {

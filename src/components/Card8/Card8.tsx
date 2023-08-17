@@ -54,7 +54,7 @@ const Card8: FC<Card8Props> = ({
         <Link to={`/curso/${slug}`} className="absolute inset-0" />
         <CategoryBadgeList color={badgeColor} categories={categories} />
         <h2
-          className={`mt-3 relative block font-semibold text-neutral-50 text-lg sm:text-2xl`}
+          className={`mt-3 relative block font-semibold text-neutral-50 text-lg sm:text-2xl `}
         >
           <Link
             to={`/curso/${slug}`}
@@ -65,7 +65,7 @@ const Card8: FC<Card8Props> = ({
           </Link>
         </h2>
         {post.lista_de_cedentes ? (
-          <div className="hidden sm:block mt-2">
+          <div className="sm:block mt-2">
             <span className="text-neutral-300 text-sm line-clamp-1">
               {post.lista_de_cedentes[0].post_title}
             </span>

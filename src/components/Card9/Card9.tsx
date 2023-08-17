@@ -29,7 +29,7 @@ const Card9: FC<Card9Props> = ({
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
-          <h2 className="block text-lg font-semibold text-white ">
+          <h2 className="block text-lg font-semibold text-white">
             <span className="text-xl" title={title}>
               {title}
             </span>
@@ -37,8 +37,8 @@ const Card9: FC<Card9Props> = ({
 
           <>
             {showDescription && post.lista_de_cedentes ? (
-              <div className="hidden sm:block mt-2">
-                <span className="text-neutral-300 text-sm line-clamp-1">
+              <div className="sm:block mt-2">
+                <span className="text-neutral-300 text-sm line-clamp-1 ">
                   {post.lista_de_cedentes[0].post_title}
                 </span>
               </div>

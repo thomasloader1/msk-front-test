@@ -112,17 +112,17 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
 
             {themes_to_se && (
               <>
-                <h2>Que temas veras</h2>
-                <ul>
+                <h2>Qué temas verás</h2>
+                <ul className="pr-5">
                   {themes_to_se.map((tts) => (<li key={tts.id}>
-                    <a href={`#${tts.id}`}>{tts.title}</a>
+                    <a className="text-primary" href={`#${tts.id}`}>{tts.title}</a>
                   </li>))}
                 </ul>
               </>
             )}
             {contenido && (
               <div
-                className="text-xl font-raleway font-normal"
+                className="text-xl font-lora font-normal lg:pr-20"
                 dangerouslySetInnerHTML={{ __html: contenido }}
               />
             )}
@@ -178,7 +178,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               <div className="flex w-full">
                 <h5 className="side-content-header p-3">🎯 Los más leídos</h5>
                 <Link
-                  to={`/tienda`}
+                  to={`/archivo`}
                   className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
                 >
                   Ver todos
@@ -205,15 +205,15 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               <div className="flex w-full">
                 <h5 className="side-content-header p-3">💼 Especialidades </h5>
                 <Link
-                  to={`/tienda`}
+                  to={`/archivo`}
                   className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
                 >
-                  Ver todos
+                  Ver todas
                 </Link>
               </div>
               {Object.keys(specialtiesGroups).map((specialty, index) => (
                 <Link
-                  to={`/tienda?especialidad=${specialty}`}
+                  to={`/archivo?especialidad=${specialty}`}
                   key={`rc_${index}`}
                   className="side-content-course"
                 >

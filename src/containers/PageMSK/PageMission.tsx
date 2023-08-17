@@ -62,12 +62,20 @@ export interface PageSingleTemp3SidebarProps {
   className?: string;
 }
 
+export interface ThemesToSeeType {
+  id: string;
+  title: string;
+  type: string;
+  content?: string;
+}
+
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;
+  themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 

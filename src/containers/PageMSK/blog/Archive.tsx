@@ -185,10 +185,10 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
                   <>
                     {currentItems.map((post, index) => (
                       <Card11
-                        key={`post_${index}`}
+                        key={`blog_${index}`}
                         post={post}
                         className="rounded-xl"
-                        kind="post"
+                        kind="blog"
                       />
                     ))}
                   </>

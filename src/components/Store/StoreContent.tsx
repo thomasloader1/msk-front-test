@@ -121,10 +121,10 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
               id: 1,
               name: "Cardiología",
             });
-          if (filterQueries.includes("Enfermería")) {
+          if (filterQueries.includes("Emergentología")) {
             addFilter("specialties", {
               id: 1,
-              name: "Enfermería",
+              name: "Emergentología",
             });
           }
           if (filterQueries.includes("Medicina general")) {

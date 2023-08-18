@@ -25,13 +25,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { useUTMContext } from "context/utm/UTMContext";
 import { UTMAction, utmReducer } from "context/utm/UTMReducer";
-
-
-declare global {
-  interface Window {
-    grecaptcha: any; // Define el tipo adecuado para grecaptcha
-  }
-}
+import { useRecaptcha } from "hooks/useRecaptcha";
 
 const ContactFormSection = ({
   hideHeader = false,
@@ -68,6 +62,9 @@ const ContactFormSection = ({
     utm_campaign,
     utm_content,
   });
+
+  const recaptchaResponse = useRecaptcha('submit');
+
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -261,14 +258,11 @@ const ContactFormSection = ({
       }
 
     });
+    // Ahora puedes enviar `recaptchaResponse` junto con los datos del formulario al servidor.
+    // console.log("Recaptcha response:", recaptchaResponse);
+    jsonData.recaptcha_token = recaptchaResponse
 
     try {
-      const recaptchaResponse = await window.grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_PK, { action: 'submit' });
-
-      // Ahora puedes enviar `recaptchaResponse` junto con los datos del formulario al servidor.
-      // console.log("Recaptcha response:", recaptchaResponse);
-      jsonData.recaptcha_token = recaptchaResponse
-
       console.log({ jsonData });
 
       const response = await api.postContactUs(jsonData);

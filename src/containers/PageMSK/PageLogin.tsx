@@ -8,6 +8,7 @@ import api from "../../Services/api";
 import { Login } from "../../data/types";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
+import { useRecaptcha } from "hooks/useRecaptcha";
 
 export interface PageLoginProps {
   className?: string;
@@ -18,6 +19,7 @@ export interface PageLoginProps {
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const [loginError, setLoginError] = useState<string>("");
   const { state, dispatch } = useContext(AuthContext);
+  const recaptchaResponse = useRecaptcha('submit');
 
   const history = useHistory();
 
@@ -33,6 +35,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     const jsonData: Login = {
       email: "",
       password: "",
+      recaptcha_token: recaptchaResponse
     };
 
     formData.forEach((value, key, parent) => {
@@ -43,6 +46,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
         jsonData.password = value as string;
       }
     });
+
     console.log(jsonData);
 
     const { data, status } = await api.postLogin(jsonData);

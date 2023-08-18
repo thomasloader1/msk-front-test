@@ -484,10 +484,12 @@ export type SignUp = {
   Otra_especialidad: string;
   Year: string;
   Career: string;
+  recaptcha_token: string | null;
 };
 export type Login = {
   email: string;
   password: string;
+  recaptcha_token: string | null;
 };
 export type ContactUs = {
   First_Name: string;

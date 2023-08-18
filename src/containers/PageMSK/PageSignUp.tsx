@@ -9,6 +9,7 @@ import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { useHistory } from "react-router-dom";
+import { useRecaptcha } from "hooks/useRecaptcha";
 
 export interface PageSignUpProps {
   className?: string;
@@ -64,6 +65,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     setSpecialties(response.specialities);
     setSpecialtiesGroup(response.specialities_group);
   };
+  const recaptchaResponse = useRecaptcha('submit');
+
 
   useEffect(() => {
     fetchProfessions();
@@ -139,6 +142,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       Otra_especialidad: "",
       Career: "",
       Year: "",
+      recaptcha_token: recaptchaResponse
     };
 
     const allowedKeys: (keyof SignUp)[] = [

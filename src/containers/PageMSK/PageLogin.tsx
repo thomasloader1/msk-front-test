@@ -19,7 +19,7 @@ export interface PageLoginProps {
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const [loginError, setLoginError] = useState<string>("");
   const { state, dispatch } = useContext(AuthContext);
-  const recaptchaResponse = useRecaptcha('submit');
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
   const history = useHistory();
 
@@ -47,14 +47,13 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       }
     });
 
-    console.log(jsonData);
-
     const { data, status } = await api.postLogin(jsonData);
 
     if (status == 200) {
       const { name, speciality, ...restData } = data
       const loginData = { ...restData, email: jsonData.email, user: { name, speciality } };
       dispatch({ type: "LOGIN", payload: loginData });
+      refreshRecaptcha();
       changeRoute("/mi-perfil");
     } else {
       console.log("error");

@@ -52,7 +52,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     utm_campaign,
     utm_content,
   });
-  const recaptchaResponse = useRecaptcha("submit");
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -150,6 +150,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       console.log({ body });
       dispatchUTM(clearUTMAction);
       setShow(false);
+      refreshRecaptcha();
       resetForm();
       jsonData = {
         ...jsonData,

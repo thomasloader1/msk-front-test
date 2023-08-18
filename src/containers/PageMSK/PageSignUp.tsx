@@ -65,7 +65,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     setSpecialties(response.specialities);
     setSpecialtiesGroup(response.specialities_group);
   };
-  const recaptchaResponse = useRecaptcha('submit');
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
 
   useEffect(() => {
@@ -175,7 +175,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }
     });
     jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
-    console.log({ jsonData });
 
     try {
       const res = await api.postSignUp(jsonData);
@@ -201,6 +200,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       setError(
         "Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo."
       );
+    } finally {
+      refreshRecaptcha();
     }
   };
 

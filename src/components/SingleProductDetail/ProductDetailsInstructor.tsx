@@ -20,15 +20,16 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
           <img
             src={instructor.image.replace(`${state.country || "mx"}.`, "")}
             alt="img not found"
+            className="animate-fade"
           />
         </div>
         <div className="instructors-body">
-          <h5 dangerouslySetInnerHTML={instructorName}></h5>
-          <p className="mt-2">{instructor.description}</p>
+          <h5 dangerouslySetInnerHTML={instructorName} className="animate-fade"></h5>
+          <p className="mt-2 animate-fade">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
               onClick={triggerDisplayBiography}
-              className="text-primary font-semibold mt-2 text-sm cursor-pointer"
+              className="text-primary font-semibold mt-2 text-sm cursor-pointer animate-fade"
             >
               Ver biografía
             </p>
@@ -38,7 +39,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
         </div>
       </div>
       {displayBiography &&
-      (instructor.specialties.length || instructor.centres.length) ? (
+        (instructor.specialties.length || instructor.centres.length) ? (
         <div className="intructors-content">
           {instructor.specialties.length ? (
             <div>

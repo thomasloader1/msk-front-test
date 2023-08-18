@@ -178,6 +178,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
 
     try {
       const res = await api.postSignUp(jsonData);
+      refreshRecaptcha();
+
       if (res.status !== 200) {
         setSuccess(false);
 
@@ -196,12 +198,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
         }, 1500);
       }
     } catch (error) {
+      refreshRecaptcha();
+
       console.log(error);
       setError(
         "Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo."
       );
-    } finally {
-      refreshRecaptcha();
     }
   };
 

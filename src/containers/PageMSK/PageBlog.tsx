@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
@@ -7,26 +7,17 @@ import BlogSummary from "./home/BlogSummary";
 import { TABS_BLOG } from "data/MSK/blog";
 import WelcomeBlog from "./blog/WelcomeBlog";
 import Newsletter from "./blog/Newsletter";
-import axios from "axios";
-import { API_URL } from "data/api";
-import api from "Services/api";
+import usePosts from "hooks/usePosts";
+import useCourses from "hooks/useCourses";
+import { FetchPostType } from "data/types";
+
 const PageBlog: React.FC = () => {
-  const [posts, setPosts] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const fetchPosts = async () => {
-    const posts = await api.getPosts();
-    setPosts(posts);
-    setLoading(false);
-  };
-  const fetchCourses = async () => {
-    const res = await api.getAllCourses();
-    setCourses(res);
-  };
-  useEffect(() => {
-    fetchPosts();
-    fetchCourses();
-  }, []);
+
+  const { posts, loading } = usePosts();
+  const { courses } = useCourses();
+
+  const welcomePosts = posts.filter((p: FetchPostType, i) => i < 5 && p.categories[0].name?.includes("Actualidad"))
+
 
   return (
     <div className="nc-PageHome relative">
@@ -40,7 +31,7 @@ const PageBlog: React.FC = () => {
         {/* ======= START CONTAINER ============= */}
         <div className="container relative">
           {/* === SECTION  === */}
-          <WelcomeBlog tabs={[]} heading="" posts={posts} loading={loading} />
+          <WelcomeBlog tabs={[]} heading="" posts={welcomePosts} loading={loading} />
           <BlogSummary
             posts={posts}
             tabs={TABS_BLOG}

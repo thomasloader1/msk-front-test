@@ -14,7 +14,7 @@ export const filterSpecialities = (jsonData: JsonData): string[] => {
     return Object.keys(aux);
 };
 
-export const mappingSelectedSpecialities = (jsonData: JsonData, Temas_de_interes: string[]): {} => {
+export const mappingSelectedSpecialities = (jsonData: JsonData, Temas_de_interes: string[], recaptcha_token: string | null): {} => {
     let personalInputs: { [key: string]: string } = {};
 
     for (let key in jsonData) {
@@ -25,6 +25,7 @@ export const mappingSelectedSpecialities = (jsonData: JsonData, Temas_de_interes
 
     return {
         ...personalInputs,
-        Temas_de_interes
+        Temas_de_interes,
+        recaptcha_token
     };
 };

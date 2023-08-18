@@ -2,31 +2,51 @@ import { useEffect, useState } from 'react';
 
 declare global {
     interface Window {
-        grecaptcha: any; //TODO Define el tipo adecuado para grecaptcha
+        grecaptcha: ReCaptchaInstance | undefined;
     }
+}
+
+interface ReCaptchaInstance {
+    execute: (sitekey: string, options: ReCaptchaOptions) => Promise<string>;
+    reset: () => void;
+}
+
+interface ReCaptchaOptions {
+    action: string;
 }
 
 export function useRecaptcha(action: string) {
     const [recaptchaResponse, setRecaptchaResponse] = useState<string | null>(null);
+    const [reset, setReset] = useState(false)
 
-    useEffect(() => {
-        const executeRecaptcha = async () => {
-            if (typeof window.grecaptcha === 'undefined') {
-                throw new Error('reCAPTCHA library not loaded.');
-            }
-
-            try {
+    const executeRecaptcha = async () => {
+        try {
+            if (window.grecaptcha) {
                 const response = await window.grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_PK, {
                     action: action,
                 });
                 setRecaptchaResponse(response);
-            } catch (error) {
-                console.error('Error executing reCAPTCHA:', error);
+            } else {
+                console.error('reCAPTCHA library not loaded.');
             }
-        };
+        } catch (error) {
+            console.error('Error executing reCAPTCHA:', error);
+        }
+    };
 
+    useEffect(() => {
         executeRecaptcha();
-    }, [action]);
+    }, [action, reset]);
 
-    return recaptchaResponse;
+    const refreshRecaptcha = () => {
+        if (window.grecaptcha) {
+            setReset(prevState => !prevState);
+        } else {
+            console.error('reCAPTCHA library not loaded.');
+        }
+    };
+
+
+
+    return { recaptchaResponse, refreshRecaptcha };
 }

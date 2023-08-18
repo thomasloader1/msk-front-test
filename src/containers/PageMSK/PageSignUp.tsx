@@ -65,7 +65,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     setSpecialties(response.specialities);
     setSpecialtiesGroup(response.specialities_group);
   };
-  const recaptchaResponse = useRecaptcha('submit');
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
 
   useEffect(() => {
@@ -175,10 +175,11 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }
     });
     jsonData.name = `${jsonData.first_name} ${jsonData.last_name}`;
-    console.log({ jsonData });
 
     try {
       const res = await api.postSignUp(jsonData);
+      refreshRecaptcha();
+
       if (res.status !== 200) {
         setSuccess(false);
 
@@ -197,6 +198,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
         }, 1500);
       }
     } catch (error) {
+      refreshRecaptcha();
+
       console.log(error);
       setError(
         "Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo."
@@ -212,7 +215,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   ));
 
   return (
-    <div className={`nc-PageSignUp ${className}`} data-nc-id="PageSignUp">
+    <div className={`nc-PageSignUp ${className} animate-fade-down`} data-nc-id="PageSignUp">
       <Helmet>
         <title>MSK | Crear cuenta</title>
       </Helmet>

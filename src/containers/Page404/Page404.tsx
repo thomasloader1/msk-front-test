@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import inProgressIcon from "../../images/construccion.svg";
 
 const Page404: React.FC = () => (
-  <div className="nc-Page404">
+  <div className="nc-Page404 animate-fade-down">
     <Helmet>
       <title>En construcción | MSK Medical & Scientific Knowledge</title>
     </Helmet>

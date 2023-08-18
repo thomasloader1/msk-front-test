@@ -12,7 +12,7 @@ const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
     "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, spam o correos no deseados.";
 
   return (
-    <div className={`nc-PageEmailSent ${className}`} data-nc-id="PageEmailSent">
+    <div className={`nc-PageEmailSent animate-fade-down ${className}`} data-nc-id="PageEmailSent">
       <Helmet>
         <title>MSK | Correo enviado</title>
       </Helmet>

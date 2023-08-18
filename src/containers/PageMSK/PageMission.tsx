@@ -95,7 +95,7 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
   return (
     <>
       <div
-        className={`nc-PageSingleTemp3Sidebar ${className}`}
+        className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">

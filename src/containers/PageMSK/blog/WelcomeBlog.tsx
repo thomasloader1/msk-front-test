@@ -33,7 +33,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
   };
 
   return (
-    <div className={`nc-WelcomeBlog ${className}`}>
+    <div className={`nc-WelcomeBlog ${className} animate-fade-down`}>
       <Heading
         desc="Encuentra aquí la información y los testimonios más importantes"
         className="w-full my-8"
@@ -50,7 +50,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
       )}
       {loading && (
         <>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 animate-fade-down">
             <ImageSkeleton className="col-span-1" />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <ImageSkeleton className="col-span-1 h-100" height="150px" />

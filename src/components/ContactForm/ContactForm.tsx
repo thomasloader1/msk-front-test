@@ -63,7 +63,7 @@ const ContactFormSection = ({
     utm_content,
   });
 
-  const recaptchaResponse = useRecaptcha('submit');
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
 
   const history = useHistory();
@@ -182,12 +182,6 @@ const ContactFormSection = ({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log(import.meta.env.VITE_RECAPTCHA_PK)
-
-
-
-
     const formData = new FormData(event.target as HTMLFormElement);
 
     let jsonData: ContactUs = initialJsonData;
@@ -293,9 +287,9 @@ const ContactFormSection = ({
 
     } catch (error) {
       console.error("Error al ejecutar reCAPTCHA:", error);
+    } finally {
+      refreshRecaptcha();
     }
-
-
 
   };
 

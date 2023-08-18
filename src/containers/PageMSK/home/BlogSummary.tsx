@@ -5,6 +5,7 @@ import Card6 from "components/Card6/Card6";
 import HeaderFilter from "./HeaderFilter";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import { useHistory } from "react-router-dom";
+import { removeAccents } from "lib/removeAccents";
 
 export interface BlogSummaryProps {
   tabs: string[];
@@ -27,15 +28,22 @@ const BlogSummary: FC<BlogSummaryProps> = ({
 
   const [auxPosts, setPosts] = useState<FetchPostType[]>([]);
   const handleClickTab = (item: string) => {
-    const filteredPosts = posts
-      .filter((post) =>
-        post.categories?.some((category: any) => category.name === item)
-      )
-      .filter((_, i: number) => i < 5 && i >= 1);
-    setPosts(filteredPosts);
+    const itemParsed = removeAccents(item);
+
+
+    const filteredPosts = posts.filter((post) =>
+      post.categories?.some((category: any) => category.name === itemParsed)
+    );
+
+    const finalPosts = itemParsed.includes('Actualidad') ? filteredPosts.slice(4, 9) : filteredPosts
+
+
+    setPosts(finalPosts);
+
     if (item === tabActive) {
       return;
     }
+
     setTabActive(item);
   };
 
@@ -73,7 +81,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   };
 
   return (
-    <div className={`nc-BlogSummary ${className}`}>
+    <div className={`nc-BlogSummary ${className} animate-fade-down`}>
       <HeaderFilter
         tabActive={tabActive}
         tabs={tabs}
@@ -84,7 +92,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
       />
       {loading && (
         <>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 animate-fade-down">
             <ImageSkeleton className="col-span-1" />
             <div className="grid grid-cols-1 gap-5">
               <ImageSkeleton className="col-span-2 h-100" height="100px" />
@@ -106,18 +114,16 @@ const BlogSummary: FC<BlogSummaryProps> = ({
         )}
         <div>
           <div className="grid gap-6 md:gap-8">
-            {auxPosts
-              .map((item, index) => (
-                <Card6
-                  key={index}
-                  post={item}
-                  badgeColor={badgeColor(item)}
-                  className="rounded-3xl"
-                  kind="blog"
-                  authorRow
-                />
-              ))
-              .filter((_, index) => index > 0)}
+            {auxPosts.filter((_, i) => i < 4 && i > 0).map((item, index) => (
+              <Card6
+                key={index}
+                post={item}
+                badgeColor={badgeColor(item)}
+                className="rounded-3xl"
+                kind="blog"
+                authorRow
+              />
+            ))}
           </div>
         </div>
       </div>

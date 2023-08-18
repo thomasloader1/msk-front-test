@@ -13,6 +13,7 @@ import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
 import api from "Services/api";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
+import { removeAccents } from "lib/removeAccents";
 
 export interface PageArchiveProps {
   className?: string;
@@ -33,6 +34,7 @@ const CATEGORIES_FILTERS = [
 const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
 
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
+  const [title, setTitle] = useState("Actualidad")
   const [posts, setPosts] = useState([]);
   const [auxPosts, setAuxPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,8 +61,9 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const handleCategoryChange = (e: { name: string }) => {
     if (e.name == "Otras categorías") return setPosts(auxPosts);
     let filteredPosts = auxPosts.filter((post: PostDataType) => {
-      return post.categories.some((category) => category.name.includes(e.name));
+      return post.categories.some((category) => category.name.includes(removeAccents(e.name)));
     });
+    setTitle(e.name)
     setPosts(filteredPosts);
   };
 
@@ -120,6 +123,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
       window.location.search.replace(/^.*\?category=/, "")
     );
 
+    setTitle(categoryValue && !categoryValue.includes("Otra") ? categoryValue : 'Actualidad')
     const filteredPosts = auxPosts.filter((post: PostDataType) => {
       return post.categories.some((category) =>
         category.name.includes(categoryValue)
@@ -137,7 +141,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   return (
     <>
       <div
-        className={`nc-PageArchive pt-8 lg:pt-8 ${className}`}
+        className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"
       >
         {currentItems.length ? (
@@ -150,7 +154,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
               <div className="absolute inset-0 bg-black text-white bg-opacity-30 flex flex-col items-center justify-center">
                 <h2 className="inline-block align-middle text-5xl font-semibold md:text-7xl ">
-                  Actualidad
+                  {title}
                 </h2>
                 <span className="block mt-4 text-neutral-300">
                   {[posts.length]} Artículos
@@ -159,7 +163,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           </header>
         ) : null}
-        <div className="container my-10">
+        <div className="container my-10 animate-fade-down">
           <div className="flex space-between mb-8">
             <ArchiveFilterListBox
               setFilter={handleCategoryChange}
@@ -180,7 +184,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
                 {posts.length ? (
                   <>
                     {currentItems.map((post, index) => (

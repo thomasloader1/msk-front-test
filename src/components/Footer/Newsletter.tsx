@@ -21,6 +21,7 @@ import { useHistory } from "react-router-dom";
 import { useUTMContext } from "context/utm/UTMContext";
 import { deleteCookie } from "utils/cookies";
 import { UTMAction, utmReducer } from "context/utm/UTMReducer";
+import { useRecaptcha } from "hooks/useRecaptcha";
 
 interface Props {
   email: string;
@@ -51,6 +52,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     utm_campaign,
     utm_content,
   });
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -135,16 +137,20 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     jsonData["utm_medium"] = utm_medium;
     jsonData["utm_campaign"] = utm_campaign;
     jsonData["utm_content"] = utm_content;
+
     const body = mappingSelectedSpecialities(
       jsonData as JsonData,
-      Temas_de_interes
+      Temas_de_interes,
+      recaptchaResponse
     );
+
     let response = await api.postNewsletter(body as Newsletter);
     // @ts-ignore
     if (response && response.status === 200) {
       console.log({ body });
       dispatchUTM(clearUTMAction);
       setShow(false);
+      refreshRecaptcha();
       resetForm();
       jsonData = {
         ...jsonData,
@@ -235,10 +241,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               </option>
               {professions
                 ? professions.map((p: { id: string; name: string }) => (
-                    <option key={p.id} value={`${p.name}/${p.id}`}>
-                      {p.name}
-                    </option>
-                  ))
+                  <option key={p.id} value={`${p.name}/${p.id}`}>
+                    {p.name}
+                  </option>
+                ))
                 : ""}
             </select>
           </div>
@@ -294,15 +300,15 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                   <option defaultValue="">Seleccionar especialidad</option>
                   {selectedOptionProfession && currentGroup.length
                     ? currentGroup.map((s: any) => (
-                        <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))
+                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))
                     : specialties.map((s: { id: string; name: string }) => (
-                        <option key={`sp_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
+                      <option key={`sp_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               {showInputSpecialties && (
@@ -324,14 +330,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
         {newsletterSpecialties && newsletterSpecialties.length
           ? newsletterSpecialties.map((specialty: Specialty) => (
-              <Checkbox
-                key={specialty.id}
-                name={specialty.name}
-                value={false}
-                label={specialty.name}
-                required={false}
-              />
-            ))
+            <Checkbox
+              key={specialty.id}
+              name={specialty.name}
+              value={false}
+              label={specialty.name}
+              required={false}
+            />
+          ))
           : null}
       </div>
       <div className="flex justify-center flex-wrap items-center gap-8">
@@ -352,7 +358,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-            //onClick={logFormData} // Add onClick event handler
+          //onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme

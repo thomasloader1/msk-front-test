@@ -291,6 +291,16 @@ class ApiService {
       console.log({ error });
     }
   }
+  
+  async getSingleCourse(slug: string, country: string) {
+    
+    try {
+      const { data } = await axios.get(`${API_URL}/product/${slug}?country=${country}`)
+      return data;
+    } catch (error) {
+      console.log({ error });
+    }
+  }
 
   async getCountryCode() {
     const ip = await axios.get("https://api.ipify.org/?format=json");

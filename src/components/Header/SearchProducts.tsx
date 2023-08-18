@@ -6,7 +6,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { API_URL } from "data/api";
 import { FetchCourseType } from "data/types";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -15,6 +15,7 @@ const SearchProducts = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
+  const history = useHistory(); // React Router's history object
   const removeAccents = (str: string) => {
     return str
       .normalize("NFD")
@@ -59,12 +60,7 @@ const SearchProducts = () => {
 
   const clearInputValue = () => {
     setInputValue("");
-    //refresh browser
-    if (window.location.href.includes("/curso/")) {
-      window.location.reload(); //todo: this is a patch, we need to debug router nesting for rerendering of the view
-    }
   };
-
   const location = useLocation();
   useEffect(() => {
     if (location.pathname.includes("/blog")) {
@@ -94,7 +90,7 @@ const SearchProducts = () => {
                 to={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
                 className="product-item"
-                onClick={clearInputValue}
+                onClick={() => clearInputValue()} // Clear input value and update URL
               >
                 <div className="img-container">
                   <img

@@ -7,8 +7,10 @@ import useSingleProduct from "hooks/useSingleProduct";
 const PageSingleProduct = () => {
   const { state } = useContext(CountryContext);
 
-  const slug = window.location.href.split("/").pop() || '';
-  const { product, loading } = useSingleProduct(slug, { country: state.country });
+  const slug = window.location.href.split("/").pop() || "";
+  const { product, loading } = useSingleProduct(slug, {
+    country: state.country,
+  });
 
   return (
     <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">

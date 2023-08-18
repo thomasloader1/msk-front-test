@@ -81,7 +81,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   };
 
   return (
-    <div className={`nc-BlogSummary ${className}`}>
+    <div className={`nc-BlogSummary ${className} animate-fade-down`}>
       <HeaderFilter
         tabActive={tabActive}
         tabs={tabs}
@@ -92,7 +92,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
       />
       {loading && (
         <>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 animate-fade-down">
             <ImageSkeleton className="col-span-1" />
             <div className="grid grid-cols-1 gap-5">
               <ImageSkeleton className="col-span-2 h-100" height="100px" />

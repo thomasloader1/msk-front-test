@@ -62,7 +62,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   };
 
   return (
-    <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
+    <div className={`nc-PageLogin ${className} animate-fade-down`} data-nc-id="PageLogin">
       <Helmet>
         <title>MSK | Iniciar sesión</title>
       </Helmet>

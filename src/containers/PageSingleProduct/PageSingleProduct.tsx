@@ -11,7 +11,7 @@ const PageSingleProduct = () => {
   const { product, loading } = useSingleProduct(slug, { country: state.country });
 
   return (
-    <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">
+    <div className={`nc-PageSubcription animate-fade-down`} data-nc-id="PageSubcription">
       <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
         {loading ? (
           <div className="container grid gap-16 py-16">

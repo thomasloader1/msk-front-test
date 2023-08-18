@@ -111,7 +111,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       </Helmet>
 
       {/* HEADER */}
-      <div className="">
+      <div className="animate-fade-down">
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">
           {loadingUser ? (
             <>

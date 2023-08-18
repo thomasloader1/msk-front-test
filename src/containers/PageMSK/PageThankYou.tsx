@@ -53,7 +53,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
   }
 
   return (
-    <div className={`nc-PageThankYou ${className}`} data-nc-id="PageThankYou">
+    <div className={`nc-PageThankYou animate-fade-down ${className}`} data-nc-id="PageThankYou">
       <Helmet>
         <title>MSK | Gracias</title>
       </Helmet>

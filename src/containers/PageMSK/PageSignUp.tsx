@@ -215,7 +215,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   ));
 
   return (
-    <div className={`nc-PageSignUp ${className}`} data-nc-id="PageSignUp">
+    <div className={`nc-PageSignUp ${className} animate-fade-down`} data-nc-id="PageSignUp">
       <Helmet>
         <title>MSK | Crear cuenta</title>
       </Helmet>

@@ -211,7 +211,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
   return (
-    <div className={`nc-PageStore ${className}`} data-nc-id="PageStore">
+    <div className={`nc-PageStore ${className} animate-fade-down`} data-nc-id="PageStore">
       {/* === SEO === */}
       <Helmet>
         <html lang="es" />

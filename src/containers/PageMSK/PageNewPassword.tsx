@@ -53,7 +53,7 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
 
     return (
         <div
-            className={`nc-PageForgotPass ${className}`}
+            className={`nc-PageForgotPass animate-fade-down ${className}`}
             data-nc-id="PageForgotPass"
         >
             <Helmet>

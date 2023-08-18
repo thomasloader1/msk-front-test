@@ -141,7 +141,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   return (
     <>
       <div
-        className={`nc-PageArchive pt-8 lg:pt-8 ${className}`}
+        className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"
       >
         {currentItems.length ? (
@@ -163,7 +163,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           </header>
         ) : null}
-        <div className="container my-10">
+        <div className="container my-10 animate-fade-down">
           <div className="flex space-between mb-8">
             <ArchiveFilterListBox
               setFilter={handleCategoryChange}
@@ -184,7 +184,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
                 {posts.length ? (
                   <>
                     {currentItems.map((post, index) => (

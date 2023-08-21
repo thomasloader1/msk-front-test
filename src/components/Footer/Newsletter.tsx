@@ -1,7 +1,6 @@
 import api from "Services/api";
 import axios from "axios";
 import Checkbox from "components/Checkbox/Checkbox";
-import Logo from "components/Logo/Logo";
 import { API_BACKEND_URL } from "data/api";
 import { Newsletter, Specialty } from "data/types";
 import {
@@ -9,19 +8,11 @@ import {
   filterSpecialities,
   mappingSelectedSpecialities,
 } from "logic/NewsletterForm";
-import React, {
-  FC,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useUTMContext } from "context/utm/UTMContext";
-import { deleteCookie } from "utils/cookies";
-import { UTMAction, utmReducer } from "context/utm/UTMReducer";
+import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { useRecaptcha } from "hooks/useRecaptcha";
+import { UTMAction } from "context/utm/UTMContext";
 
 interface Props {
   email: string;
@@ -45,13 +36,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [studentYear, setStudentYear] = useState("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [formError, setFormError] = useState("");
-  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
-  const [utmState, dispatchUTM] = useReducer(utmReducer, {
-    utm_source,
-    utm_medium,
-    utm_campaign,
-    utm_content,
-  });
+  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+
   const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
 
   const fetchProfessions = async () => {
@@ -124,8 +110,9 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
 
   const clearUTMAction: UTMAction = {
     type: "CLEAR_UTM",
-    payload: {},
+    payload: {} as any,
   };
+
   const formRef = useRef<HTMLFormElement>(null!);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -133,11 +120,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     let jsonData = Object.fromEntries(formData);
     const Temas_de_interes = filterSpecialities(jsonData as JsonData);
     jsonData["Profesion"] = jsonData["Profesion"].toString().split("/")[0];
-    jsonData["utm_source"] = utm_source;
-    jsonData["utm_medium"] = utm_medium;
-    jsonData["utm_campaign"] = utm_campaign;
-    jsonData["utm_content"] = utm_content;
-
+    jsonData = { ...jsonData, ...utmState };
     const body = mappingSelectedSpecialities(
       jsonData as JsonData,
       Temas_de_interes,
@@ -148,18 +131,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     // @ts-ignore
     if (response && response.status === 200) {
       console.log({ body });
-      dispatchUTM(clearUTMAction);
       setShow(false);
       refreshRecaptcha();
       resetForm();
-      jsonData = {
-        ...jsonData,
-        utm_source: "",
-        utm_medium: "",
-        utm_campaign: "",
-        utm_content: "",
-      };
-
+      dispatchUTM(clearUTMAction);
       setTimeout(() => {
         changeRoute("/gracias?origen=newsletter");
       }, 100);
@@ -241,10 +216,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               </option>
               {professions
                 ? professions.map((p: { id: string; name: string }) => (
-                  <option key={p.id} value={`${p.name}/${p.id}`}>
-                    {p.name}
-                  </option>
-                ))
+                    <option key={p.id} value={`${p.name}/${p.id}`}>
+                      {p.name}
+                    </option>
+                  ))
                 : ""}
             </select>
           </div>
@@ -300,15 +275,15 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                   <option defaultValue="">Seleccionar especialidad</option>
                   {selectedOptionProfession && currentGroup.length
                     ? currentGroup.map((s: any) => (
-                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))
+                        <option key={`sp_group_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))
                     : specialties.map((s: { id: string; name: string }) => (
-                      <option key={`sp_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))}
+                        <option key={`sp_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
                 </select>
               </div>
               {showInputSpecialties && (
@@ -330,14 +305,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
         {newsletterSpecialties && newsletterSpecialties.length
           ? newsletterSpecialties.map((specialty: Specialty) => (
-            <Checkbox
-              key={specialty.id}
-              name={specialty.name}
-              value={false}
-              label={specialty.name}
-              required={false}
-            />
-          ))
+              <Checkbox
+                key={specialty.id}
+                name={specialty.name}
+                value={false}
+                label={specialty.name}
+                required={false}
+              />
+            ))
           : null}
       </div>
       <div className="flex justify-center flex-wrap items-center gap-8">
@@ -358,7 +333,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-          //onClick={logFormData} // Add onClick event handler
+            //onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme
@@ -376,10 +351,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       >
         {formError}
       </p>
-      <input type="hidden" name="utm_source" value={utm_source} />
+      {/* <input type="hidden" name="utm_source" value={utm_source} />
       <input type="hidden" name="utm_medium" value={utm_medium} />
       <input type="hidden" name="utm_campaign" value={utm_campaign} />
-      <input type="hidden" name="utm_content" value={utm_content} />
+      <input type="hidden" name="utm_content" value={utm_content} /> */}
     </form>
   );
 };

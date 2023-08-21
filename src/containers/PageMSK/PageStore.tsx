@@ -11,11 +11,8 @@ import {
   ResourceFilter,
   Specialty,
 } from "data/types";
-import { API_URL } from "data/api";
 import api from "Services/api";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
-import { useUTMContext } from "context/utm/UTMContext";
-import { getCookie } from "utils/cookies";
 
 export interface PageStoreProps {
   className?: string;
@@ -29,6 +26,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [professions, setProfessions] = useState([]);
   const { storeFilters, clearFilters } = useStoreFilters();
 
+  //
   // FETCH DATA
   const fetchProducts = async () => {
     const productList = await api.getAllCourses();
@@ -211,7 +209,10 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
   return (
-    <div className={`nc-PageStore ${className} animate-fade-down`} data-nc-id="PageStore">
+    <div
+      className={`nc-PageStore ${className} animate-fade-down`}
+      data-nc-id="PageStore"
+    >
       {/* === SEO === */}
       <Helmet>
         <html lang="es" />

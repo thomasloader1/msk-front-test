@@ -8,17 +8,13 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 800;
-
-    & span,
-    & a {
-        font-family: 'Raleway', sans-serif !important;
-    }
-
-
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
 }
-
+h6 span,
+h6 a {
+  font-family: "Raleway", sans-serif !important;
+}
 p,
 span,
 button,
@@ -29,14 +25,14 @@ select,
 textarea,
 ul,
 div {
-    font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 @font-face {
-    font-family: Lora-Italic;
-    src: url(./fonts/Lora/Lora-Italic.ttf);
+  font-family: Lora-Italic;
+  src: url(./fonts/Lora/Lora-Italic.ttf);
 }
 
 .font-lora-italic {
-    font-family: 'Lora-Italic', sans-serif !important;
+  font-family: "Lora-Italic", sans-serif !important;
 }

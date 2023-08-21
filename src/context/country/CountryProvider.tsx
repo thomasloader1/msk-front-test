@@ -21,11 +21,11 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Country Provider');
+        console.log("Country Provider");
         let currentCountry = "";
         let validCountries = ["mx", "cl", "ar", "ec"];
         if (bypassRedirect == "1") {
-          console.log('bypassRedirect');
+          console.log("bypassRedirect");
           const currentUrl = window.location.pathname;
           const validCountryUrl = validCountries.filter(
             (country) =>
@@ -36,9 +36,9 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             currentCountry = validCountryUrl[0];
           }
         } else {
-          console.log('Fetch Country from IP');
+          console.log("Fetch Country from IP");
           currentCountry = await api.getCountryCode();
-          console.log('CurrentCountry: ' + currentCountry);
+          console.log("CurrentCountry: " + currentCountry);
         }
         console.log("currentCountry2: " + currentCountry);
         localStorage.setItem("country", currentCountry);
@@ -47,16 +47,21 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         }
 
         console.log(state.country, currentCountry);
-        if (state.country != currentCountry || getCountryFromURL() != currentCountry) {
-          let redirectUrl = '/' + currentCountry + window.location.pathname;
-          if (getCountryFromURL() != '') {
-            redirectUrl = window.location.href.replace( '/'+ getCountryFromURL() +'/', '/' +currentCountry +'/');
+        if (
+          state.country != currentCountry ||
+          getCountryFromURL() != currentCountry
+        ) {
+          let redirectUrl = "/" + currentCountry + window.location.pathname;
+          if (getCountryFromURL() != "") {
+            redirectUrl = window.location.href.replace(
+              "/" + getCountryFromURL() + "/",
+              "/" + currentCountry + "/"
+            );
           }
           window.location.href = redirectUrl;
           console.log("redirectUrl: " + redirectUrl);
         }
 
-        //Redirect to HTTPS only on non dev environment
         if (
           window.location.protocol === "http:" &&
           window.location.hostname !== "localhost"
@@ -72,22 +77,22 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
       }
     };
 
-    function getCountryFromURL(){
+    const getCountryFromURL = () => {
       const url = window.location.href;
       switch (true) {
-        case url.includes('/cl/'):
-          return 'cl';
-        case url.includes('/ar/'):
-          return 'ar';
-        case url.includes('/ec/'):
-          return 'ec';
-        case url.includes('/mx/'):
-          return 'mx';
-          // Add more cases for other substrings
+        case url.includes("/cl/"):
+          return "cl";
+        case url.includes("/ar/"):
+          return "ar";
+        case url.includes("/ec/"):
+          return "ec";
+        case url.includes("/mx/"):
+          return "mx";
+        // Add more cases for other substrings
         default:
-          return '';
+          return "";
       }
-    }
+    };
 
     fetchData();
   }, []);

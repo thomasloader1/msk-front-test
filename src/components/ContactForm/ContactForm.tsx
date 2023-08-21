@@ -9,10 +9,7 @@ import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import Checkbox from "components/Checkbox/Checkbox";
 import "react-phone-number-input/style.css";
-import PhoneInput, {
-  parsePhoneNumber,
-  getCountries,
-} from "react-phone-number-input";
+import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
 import axios from "axios";
@@ -23,16 +20,15 @@ import { useHistory } from "react-router-dom";
 import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
-import { useUTMContext } from "context/utm/UTMContext";
-import { UTMAction, utmReducer } from "context/utm/UTMReducer";
+import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { useRecaptcha } from "hooks/useRecaptcha";
+import { UTMAction } from "context/utm/UTMContext";
 
 const ContactFormSection = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
 }) => {
-
   const [captchaValue, setCaptchaValue] = useState("");
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -54,17 +50,9 @@ const ContactFormSection = ({
   const [studentYear, setStudentYear] = useState("");
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
-  const { utm_source, utm_medium, utm_campaign, utm_content } = useUTMContext();
+  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
   const formRef = useRef<HTMLFormElement>(null);
-  const [utmState, dispatchUTM] = useReducer(utmReducer, {
-    utm_source,
-    utm_medium,
-    utm_campaign,
-    utm_content,
-  });
-
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
-
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -158,7 +146,7 @@ const ContactFormSection = ({
 
   const clearUTMAction: UTMAction = {
     type: "CLEAR_UTM",
-    payload: {},
+    payload: {} as any,
   };
 
   const initialJsonData = {
@@ -239,23 +227,21 @@ const ContactFormSection = ({
         jsonData.Cursos_consultados = productName;
       }
       if (key === "utm_source") {
-        jsonData.utm_source = value as string;
+        jsonData.utm_source = utmState.utm_source;
       }
       if (key === "utm_medium") {
-        jsonData.utm_medium = value as string;
+        jsonData.utm_medium = utmState.utm_medium;
       }
       if (key === "utm_campaign") {
-        jsonData.utm_campaign = value as string;
+        jsonData.utm_campaign = utmState.utm_campaign;
       }
       if (key === "utm_content") {
-        jsonData.utm_content = value as string;
+        jsonData.utm_content = utmState.utm_content;
       }
-
     });
     // Ahora puedes enviar `recaptchaResponse` junto con los datos del formulario al servidor.
     // console.log("Recaptcha response:", recaptchaResponse);
-    jsonData.recaptcha_token = recaptchaResponse
-
+    jsonData.recaptcha_token = recaptchaResponse;
     try {
       console.log({ jsonData });
 
@@ -266,31 +252,26 @@ const ContactFormSection = ({
           ? "/gracias?origen=descarga-ebook"
           : "/gracias?origen=contact";
 
-        dispatchUTM(clearUTMAction);
         setFormSent(true);
         resetForm();
+        dispatchUTM(clearUTMAction);
         jsonData = {
           ...initialJsonData,
-          utm_campaign: "",
-          utm_content: "",
-          utm_medium: "",
-          utm_source: "",
         };
 
         setTimeout(() => {
           changeRoute(routeChange);
         }, 100);
       } else {
-        setFormError("Hubo un error al enviar el formulario, revise los campos");
+        setFormError(
+          "Hubo un error al enviar el formulario, revise los campos"
+        );
       }
-
-
     } catch (error) {
       console.error("Error al ejecutar reCAPTCHA:", error);
     } finally {
       refreshRecaptcha();
     }
-
   };
 
   const optionsArray = [1, 2, 3, 4, 5];
@@ -299,7 +280,6 @@ const ContactFormSection = ({
       {y}
     </option>
   ));
-
 
   return (
     <>
@@ -320,10 +300,10 @@ const ContactFormSection = ({
                 value={productName}
               />
 
-              <input type="hidden" name="utm_source" value={utm_source} />
+              {/* <input type="hidden" name="utm_source" value={utm_source} />
               <input type="hidden" name="utm_medium" value={utm_medium} />
               <input type="hidden" name="utm_campaign" value={utm_campaign} />
-              <input type="hidden" name="utm_content" value={utm_content} />
+              <input type="hidden" name="utm_content" value={utm_content} /> */}
 
               {hideHeader ? null : (
                 <div className={`section-title mb-30`}>
@@ -419,10 +399,10 @@ const ContactFormSection = ({
                         </option>
                         {professions
                           ? professions.map((p) => (
-                            <option key={p.id} value={`${p.name}/${p.id}`}>
-                              {p.name}
-                            </option>
-                          ))
+                              <option key={p.id} value={`${p.name}/${p.id}`}>
+                                {p.name}
+                              </option>
+                            ))
                           : ""}
                       </select>
                     </div>
@@ -484,21 +464,21 @@ const ContactFormSection = ({
                             </option>
                             {selectedOptionProfession && currentGroup.length
                               ? currentGroup.map((s: any) => (
-                                <option
-                                  key={`sp_group_${s.id}`}
-                                  defaultValue={s.name}
-                                >
-                                  {s.name}
-                                </option>
-                              ))
+                                  <option
+                                    key={`sp_group_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))
                               : specialties.map((s) => (
-                                <option
-                                  key={`sp_${s.id}`}
-                                  defaultValue={s.name}
-                                >
-                                  {s.name}
-                                </option>
-                              ))}
+                                  <option
+                                    key={`sp_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))}
                           </select>
                         </div>
                         {showInputSpecialties && (

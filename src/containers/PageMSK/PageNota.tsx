@@ -69,7 +69,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
     <>
       {loading ? (
         <>
-          <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog animate-fade-down">
+          <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">
             {/* SINGLE HEADER */}
             <div className="container relative overflow-hidden ">
               <TitleSkeleton />
@@ -90,10 +90,10 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
       ) : (
         note && (
           <div
-            className={`nc-PageSingleTemp3¸Sidebar ${className} animate-fade-down`}
+            className={`nc-PageSingleTemp3¸Sidebar ${className}`}
             data-nc-id="PageSingleTemp3Sidebar"
           >
-            <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">
+            <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog animate-fade-down">
               {/* SINGLE HEADER */}
               <div className="dark container relative z-10">
                 <div>

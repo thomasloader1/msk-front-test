@@ -63,10 +63,11 @@ export interface PageSingleTemp3SidebarProps {
 }
 
 export interface ThemesToSeeType {
-  id: string;
-  title: string;
-  type: string;
+  id?: string;
+  title?: string;
+  type?: string;
   content?: string;
+  introduction?: string;
 }
 
 export interface SinglePageType extends PostDataType {

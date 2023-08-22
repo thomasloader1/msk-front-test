@@ -1,16 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { SinglePageType } from "../PageMission";
+import { SinglePageType, ThemesToSeeType } from "../PageMission";
 import { useLocation } from "react-router";
-import SectionSliderPosts from "../home/SectionSliderPosts";
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import axios from "axios";
-import { API_URL } from "data/api";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
 import api from "Services/api";
-import { FetchPostType } from "data/types";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -18,7 +13,6 @@ export interface SingleContentProps {
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
-  console.log({ data })
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
 
@@ -99,6 +93,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     setSpecialtiesGroup(groupedSpecialties);
   }, [posts]);
 
+  //const [firstContent, secondContent, ...restContent] = themes_to_se?.filter((tts, i) => i >= 1);
+
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
@@ -118,14 +114,42 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     <a className="text-primary" href={`#${tts.id}`}>{tts.title}</a>
                   </li>))}
                 </ul>
+
+                {/*  <div
+                  className="text-xl font-lora font-normal lg:pr-20"
+                  dangerouslySetInnerHTML={{ __html: themes_to_se[0]?.introduction as string }}
+                /> */}
               </>
             )}
+
             {contenido && (
               <div
                 className="text-xl font-lora font-normal lg:pr-20"
                 dangerouslySetInnerHTML={{ __html: contenido }}
               />
             )}
+
+            {/* <div className="my-7 pl-10 pr-5">
+              {data.excerpt}
+            </div>
+
+            <div>
+              <h2 id={firstContent.id}>{firstContent.title}</h2>
+              <div
+                className="text-xl font-lora font-normal lg:pr-20"
+                dangerouslySetInnerHTML={{ __html: firstContent.content as string }}
+              />
+            </div>
+
+
+            <div>
+              <h2 id={secondContent.id}>{secondContent.title}</h2>
+              <div
+                className="text-xl font-lora font-normal lg:pr-20"
+                dangerouslySetInnerHTML={{ __html: secondContent.content as string }}
+              />
+            </div> */}
+
 
             <p className="font-lora text-slate-500 text-xl">
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor

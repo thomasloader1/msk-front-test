@@ -24,6 +24,12 @@ export interface SinglePageType extends PostDataType {
   content: string | ReactNode;
   comments: CommentType[];
   fuentes?: string[];
+  themes_to_se: Array<{
+    introduction?: string;
+    id?: string;
+    title?: string;
+    type?: string;
+  }>
 }
 
 interface ParamsType {

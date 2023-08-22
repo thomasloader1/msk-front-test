@@ -485,6 +485,10 @@ export type SignUp = {
   Year: string;
   Career: string;
   recaptcha_token: string | null;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
 };
 export type Login = {
   email: string;

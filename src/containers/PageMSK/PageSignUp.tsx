@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useReducer, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
@@ -10,6 +10,7 @@ import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { useHistory } from "react-router-dom";
 import { useRecaptcha } from "hooks/useRecaptcha";
+import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 
 export interface PageSignUpProps {
   className?: string;
@@ -55,6 +56,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [selectedCareer, setSelectedCareer] = useState("");
   const [formError, setFormError] = useState("");
   const history = useHistory();
+  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -142,7 +145,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       Otra_especialidad: "",
       Career: "",
       Year: "",
-      recaptcha_token: recaptchaResponse
+      recaptcha_token: recaptchaResponse,
+      utm_source: utmState.utm_source,
+      utm_medium: utmState.utm_medium,
+      utm_campaign: utmState.utm_campaign,
+      utm_content: utmState.utm_content
+
     };
 
     const allowedKeys: (keyof SignUp)[] = [

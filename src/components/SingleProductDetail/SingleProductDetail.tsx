@@ -70,9 +70,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         </title>
         <meta name="description" content={`${textDesctiption}`} />
       </Helmet>
-      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16 animate-fade-down">
+      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16">
         <div className="">
-          <div className="course-details-wrapper">
+          <div className="course-details-wrapper animate-fade-down">
             <div className="flex gap-2">
               {isEbook && (
                 <Badge
@@ -88,8 +88,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             </div>
             <div>
               {product.authors.length ||
-                product.temario ||
-                (product.details && product.details["duration"]) ? (
+              product.temario ||
+              (product.details && product.details["duration"]) ? (
                 <div className="course-detelis-meta">
                   {product.authors.length ? (
                     <>
@@ -103,7 +103,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         <div>
                           <span className="raleway">Cedente</span>
                           <div className="flex flex-col">
-                            <h6 className="raleway-bold" style={{ maxWidth: '280px' }}>
+                            <h6
+                              className="raleway-bold"
+                              style={{ maxWidth: "280px" }}
+                            >
                               {title || product.authors[0]?.name}
                             </h6>
                           </div>

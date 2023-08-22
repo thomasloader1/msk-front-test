@@ -18,7 +18,7 @@ export interface SingleContentProps {
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
-  console.log({ data })
+  console.log({ data });
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
 
@@ -103,20 +103,23 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
       <div className="grid grid-cols-12 gap-4">
-        <div className="content-container col-span-12 lg:col-span-8">
+        <div className="content-container col-span-12 lg:col-span-8 animate-fade-down">
           <CardAuthor2 className="relative my-4" date={date} author={author} />
           <div
             id="single-entry-content"
             className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
           >
-
             {themes_to_se && (
               <>
                 <h2>Qué temas verás</h2>
                 <ul className="pr-5">
-                  {themes_to_se.map((tts) => (<li key={tts.id}>
-                    <a className="text-primary" href={`#${tts.id}`}>{tts.title}</a>
-                  </li>))}
+                  {themes_to_se.map((tts) => (
+                    <li key={tts.id}>
+                      <a className="text-primary" href={`#${tts.id}`}>
+                        {tts.title}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </>
             )}
@@ -136,43 +139,44 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               <h4 className="source-title">Fuente/s:</h4>
               {sources && sources.length > 0
                 ? sources.map((source, index) => {
-                  return (
-                    <p key={`source_${index}`} className="source-content">
-                      {source}
-                    </p>
-                  );
-                })
+                    return (
+                      <p key={`source_${index}`} className="source-content">
+                        {source}
+                      </p>
+                    );
+                  })
                 : null}
             </div>
             <div className="flex flex-wrap gap-2">
               {data.tags.length > 0
                 ? data.tags.map((tag, index) => {
-                  return (
-                    <span key={`tag_${index}`} className="tag-content">
-                      #{tag.name}
-                    </span>
-                  );
-                })
+                    return (
+                      <span key={`tag_${index}`} className="tag-content">
+                        #{tag.name}
+                      </span>
+                    );
+                  })
                 : null}
             </div>
             {data.authors && data.authors.length > 0
               ? data.authors?.map((currentAuthor, index) => {
-                return (
-                  <NoteAuthors
-                    key={`note_author_${index}`}
-                    instructor={currentAuthor}
-                  />
-                );
-              })
+                  return (
+                    <NoteAuthors
+                      key={`note_author_${index}`}
+                      instructor={currentAuthor}
+                    />
+                  );
+                })
               : null}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget">
           <div
-            className={`${isFixed && bottomDistance == 0
-              ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
-              : "col-span-12 lg:col-span-4 post-side-data"
-              } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
+            className={`${
+              isFixed && bottomDistance == 0
+                ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
+                : "col-span-12 lg:col-span-4 post-side-data"
+            } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">

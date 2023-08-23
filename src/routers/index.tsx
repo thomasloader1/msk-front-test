@@ -24,6 +24,9 @@ import { AuthContext } from "context/user/AuthContext";
 import PageArchive from "containers/PageMSK/blog/Archive";
 import PageEmailSent from "containers/PageMSK/PageEmailSent";
 import PageNewPassword from "containers/PageMSK/PageNewPassword";
+import PagePoliticsPrivacy from "containers/PageMSK/PagePoliticsPrivacy";
+import PageTyC from "containers/PageMSK/PageTyC";
+import PageCookies from "containers/PageMSK/PageCookies";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -44,7 +47,9 @@ export const pages: Page[] = [
   { path: "/mi-cuenta", component: PageAccount, auth: true },
   { path: "/mi-perfil", component: PageProfile, auth: true },
   { path: "/gracias", component: PageThankYou, auth: false },
-  { path: "/politicas-de-privacidad", component: PageMission, auth: false },
+  { path: "/politicas-de-privacidad", component: PagePoliticsPrivacy, auth: false },
+  { path: "/terminos-y-condiciones", component: PageTyC, auth: false },
+  { path: "/politica-de-cookies", component: PageCookies, auth: false },
 ];
 
 const Routes = () => {

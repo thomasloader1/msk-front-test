@@ -1,15 +1,17 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import React, { FC, ReactNode, useContext, useEffect } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
-import SingleContent from "../PageMSK/mission/SingleContent";
+import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
 import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
-import SingleHeader from "../PageMSK/mission/SingleHeader";
+import { CountryContext } from "context/country/CountryContext";
+import SingleHeader from "./privacy/SingleHeader";
+import useCookiesTerms from "hooks/useCookiesTerms";
 
-const SINGLE: SinglePageType = {
+ const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/src/images/misc/mission.png",
-  title: "Nuestra misión",
+  title: "Politicas de Cookies",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -56,7 +58,7 @@ const SINGLE: SinglePageType = {
   tags: [],
   content: "",
   comments: [],
-};
+}; 
 
 export interface PageSingleTemp3SidebarProps {
   className?: string;
@@ -76,23 +78,26 @@ export interface SinglePageType extends PostDataType {
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;
-  terminos?: Array<{titulo: string; descripcion: string}>;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
+const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
   const dispatch = useAppDispatch();
+  const {state} = useContext(CountryContext);
+  const {data,loading,error} = useCookiesTerms(state.country)
+
+  console.log({data})
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
-  useEffect(() => {
+ /*  useEffect(() => {
     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
     return () => {
       dispatch(changeCurrentPage({ type: "/", data: {} }));
     };
-  }, []);
+  }, []); */
 
   return (
     <>
@@ -126,15 +131,13 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
         {/* SINGLE MAIN CONTENT */}
         <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
-            <SingleContent data={SINGLE} />
+            <SingleContent data={data as SinglePageType} />
           </div>
         </div>
 
-        {/* RELATED POSTS */}
-        {/* <SingleRelatedPosts /> */}
       </div>
     </>
   );
 };
 
-export default PageSingleTemp3Sidebar;
+export default PageCookies;

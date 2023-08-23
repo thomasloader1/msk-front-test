@@ -24,6 +24,8 @@ export interface LocationStates {
   "/mi-cuenta"?: {};
   "/gracias"?: {};
   "/politicas-de-privacidad"?: {};
+  "/terminos-y-condiciones"?: {};
+  "/politica-de-cookies"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //

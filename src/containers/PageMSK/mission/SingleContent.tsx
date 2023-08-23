@@ -2,10 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { SinglePageType } from "../PageMission";
 import { useLocation } from "react-router";
 import SectionSliderPosts from "../home/SectionSliderPosts";
-import { HOME_COURSES } from "data/MSK/courses";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import axios from "axios";
-import { API_URL } from "data/api";
 import api from "Services/api";
 
 export interface SingleContentProps {

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Helmet } from "react-helmet";
 import { SinglePageType } from "../PageMission";
 import SingleTitle from "../mission/SingleTitle";
 import SingleMetaAction2 from "../mission/SingleMetaAction2";
@@ -23,9 +22,6 @@ const SingleHeader: FC<SingleHeaderProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Politicas de Privacidad</title>
-      </Helmet>
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5">
           <SingleTitle mainClass={titleMainClass} title={title} />

@@ -154,10 +154,10 @@ const FooterEduman = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/privacidad">Política de privacidad</Link>
+                        <Link to="/politicas-de-privacidad">Política de privacidad</Link>
                       </li>
                       <li>
-                        <Link to="/cookies">Política de cookies</Link>
+                        <Link to="/politica-de-cookies">Política de cookies</Link>
                       </li>
                       <li>
                         <Link to="/contratacion">

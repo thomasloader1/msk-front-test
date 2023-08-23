@@ -1,4 +1,6 @@
 import React, { FC, ReactNode, useContext, useEffect } from "react";
+import { Helmet } from "react-helmet";
+
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
@@ -101,6 +103,9 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
+    <Helmet>
+        <title>Politicas de Cookies</title>
+      </Helmet>
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

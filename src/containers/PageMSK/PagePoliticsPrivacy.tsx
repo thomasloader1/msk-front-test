@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useContext, useEffect } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import Helmet from 'react-helmet'
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
@@ -9,10 +9,10 @@ import { CountryContext } from "context/country/CountryContext";
 import usePoliticsPrivacy from "hooks/usePoliticsPrivacy";
 import SingleHeader from "./privacy/SingleHeader";
 
- const SINGLE: SinglePageType = {
+const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/src/images/misc/mission.png",
-  title: "Politicas de Privacidad",
+  title: "Política de privacidad",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -59,7 +59,7 @@ import SingleHeader from "./privacy/SingleHeader";
   tags: [],
   content: "",
   comments: [],
-}; 
+};
 
 export interface PageSingleTemp3SidebarProps {
   className?: string;
@@ -87,21 +87,21 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
   const dispatch = useAppDispatch();
-  const {state} = useContext(CountryContext);
-  const {data,loading,error} = usePoliticsPrivacy(state.country)
+  const { state } = useContext(CountryContext);
+  const { data, loading, error } = usePoliticsPrivacy(state.country)
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
- /*  useEffect(() => {
-    dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
-    return () => {
-      dispatch(changeCurrentPage({ type: "/", data: {} }));
-    };
-  }, []); */
+  /*  useEffect(() => {
+     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
+     return () => {
+       dispatch(changeCurrentPage({ type: "/", data: {} }));
+     };
+   }, []); */
 
   return (
     <>
       <Helmet>
-        <title>Politicas de Privacidad</title>
+        <title>Política de privacidad</title>
       </Helmet>
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}

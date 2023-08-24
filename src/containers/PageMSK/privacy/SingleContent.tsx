@@ -12,7 +12,7 @@ export interface SingleContentProps {
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const{ courses, loading, error } = useBestSellers();
+  const { courses, loading, error } = useBestSellers();
 
   useEffect(() => {
     //  SCROLL TO COMMENT AREA
@@ -32,20 +32,20 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
   return (
     <div className="nc-SingleContent space-y-10">
       {/* ENTRY CONTENT */}
-      
-      { data?.content && (
-      <div
-        id="single-entry-content"
-        className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
-        dangerouslySetInnerHTML={{__html: data.content as string}}
-      />
+
+      {data?.content && (
+        <div
+          id="single-entry-content"
+          className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
+          dangerouslySetInnerHTML={{ __html: data.content as string }}
+        />
       )}
 
-      {data?.terminos && 
+      {data?.terminos &&
         data.terminos.map(t => (
           <div>
             <h2 className="font-raleway text-2xl mb-7">{t.titulo}</h2>
-            <div dangerouslySetInnerHTML={{__html: t.descripcion}} />
+            <div dangerouslySetInnerHTML={{ __html: t.descripcion }} />
           </div>
         ))}
 

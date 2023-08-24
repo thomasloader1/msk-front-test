@@ -23,9 +23,10 @@ export interface LocationStates {
   "/mi-perfil"?: {};
   "/mi-cuenta"?: {};
   "/gracias"?: {};
-  "/politicas-de-privacidad"?: {};
+  "/politica-de-privacidad"?: {};
   "/terminos-y-condiciones"?: {};
   "/politica-de-cookies"?: {};
+  "/condiciones-de-contratacion"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //

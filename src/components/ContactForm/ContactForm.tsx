@@ -226,22 +226,16 @@ const ContactFormSection = ({
       if (key === "Cursos_consultados" && productName !== "") {
         jsonData.Cursos_consultados = productName;
       }
-      if (key === "utm_source") {
-        jsonData.utm_source = utmState.utm_source;
-      }
-      if (key === "utm_medium") {
-        jsonData.utm_medium = utmState.utm_medium;
-      }
-      if (key === "utm_campaign") {
-        jsonData.utm_campaign = utmState.utm_campaign;
-      }
-      if (key === "utm_content") {
-        jsonData.utm_content = utmState.utm_content;
-      }
     });
     // Ahora puedes enviar `recaptchaResponse` junto con los datos del formulario al servidor.
     // console.log("Recaptcha response:", recaptchaResponse);
     jsonData.recaptcha_token = recaptchaResponse;
+
+    jsonData.utm_source = utmState.utm_source;
+    jsonData.utm_medium = utmState.utm_medium;
+    jsonData.utm_campaign = utmState.utm_campaign;
+    jsonData.utm_content = utmState.utm_content;
+
     try {
       console.log({ jsonData });
 

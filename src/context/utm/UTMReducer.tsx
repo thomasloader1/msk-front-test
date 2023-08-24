@@ -5,17 +5,19 @@ const queryParams = queryString.parse(window.location.search);
 
 export const utmInitialState = {
   utm_source:
-    getCookie("utm_source") || queryParams.utm_source?.toString() || "",
+    queryParams.utm_source?.toString() || getCookie("utm_source") || "",
   utm_medium:
-    getCookie("utm_medium") || queryParams.utm_medium?.toString() || "",
+    queryParams.utm_medium?.toString() || getCookie("utm_medium") || "",
   utm_campaign:
-    getCookie("utm_campaign") || queryParams.utm_campaign?.toString() || "",
+    queryParams.utm_campaign?.toString() || getCookie("utm_campaign") || "",
   utm_content:
-    getCookie("utm_content") || queryParams.utm_content?.toString() || "",
+    queryParams.utm_content?.toString() || getCookie("utm_content") || "",
 };
+
 const GET_UTM = "GET_UTM";
 const SET_UTM = "SET_UTM";
 const CLEAR_UTM = "CLEAR_UTM";
+
 export const utmReducer = (state: UTMState, action: UTMAction): UTMState => {
   switch (action.type) {
     case GET_UTM:

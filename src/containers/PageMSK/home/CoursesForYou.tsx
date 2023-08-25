@@ -56,7 +56,7 @@ const CoursesForYou: FC<Props> = ({
             )
         );
 
-        console.log(specialtyCourses);
+        //console.log(specialtyCourses);
         setLocalCourses(specialtyCourses);
         break;
     }

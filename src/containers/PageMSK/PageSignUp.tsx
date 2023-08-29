@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useReducer, useState } from "react";
+import React, { FC, useContext, useReducer, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
@@ -11,29 +11,15 @@ import { parsePhoneNumber } from "react-phone-number-input";
 import { useHistory } from "react-router-dom";
 import { useRecaptcha } from "hooks/useRecaptcha";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
+import useProfessions from "hooks/useProfessions";
+import useSpecialties from "hooks/useSpecialties";
+import { countries } from "data/countries";
+import { CountryContext } from "context/country/CountryContext";
+import { CountryCode } from "libphonenumber-js/types";
 
 export interface PageSignUpProps {
   className?: string;
 }
-
-const countries = [
-  {
-    id: "mx",
-    name: "México",
-  },
-  {
-    id: "ar",
-    name: "Argentina",
-  },
-  {
-    id: "cl",
-    name: "Chile",
-  },
-  {
-    id: "ec",
-    name: "Ecuador",
-  },
-];
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -42,13 +28,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [acceptConditions, setAcceptConditions] = useState(false);
-
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
@@ -58,23 +40,11 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const history = useHistory();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
 
-
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const response = await api.getSpecialtiesAndGroups();
-    setSpecialties(response.specialities);
-    setSpecialtiesGroup(response.specialities_group);
-  };
+  const { state } = useContext(CountryContext);
+  const { professions } = useProfessions();
+  const { specialties, specialtiesGroup } = useSpecialties();
   const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
-
-  useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
-  }, []);
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -278,7 +248,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 name="phone"
                 id="Phone"
                 placeholder="Ingresar número telefónico"
-                defaultCountry="MX"
+                defaultCountry={state.country.toUpperCase() as CountryCode || ''}
                 className="phone-profile-input mt-1"
                 value={""}
                 onChange={handlePhoneChange}
@@ -411,14 +381,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 ></p>
               )}
 
-              {success ? (
+              {success && (
                 <p className="text-green-500 text-center w-full">
                   Registrado correctamente!
                 </p>
-              ) : (
-                <div className="flex flex-wrap gap-4 mt-4">
-                  {/* ... existing code ... */}
-                </div>
               )}
             </div>
           </form>

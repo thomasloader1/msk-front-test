@@ -134,7 +134,7 @@ const FooterEduman = () => {
                         <Link to="/partners">Conviértete en Partner</Link>
                       </li>
                       <li>
-                        <Link to="/faq">Centro de ayuda</Link>
+                        <a href="https://ayuda.msklatam.com/" target="_blank" >Centro de ayuda</a>
                       </li>
                       <li>
                         <Link to="/convenios">Convenios</Link>

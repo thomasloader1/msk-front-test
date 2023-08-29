@@ -24,7 +24,7 @@
     "country-list": "^2.3.0",
     "dotenv-cra": "^3.0.2",
     "esbuild": "^0.17.18",
-    "formik": "^2.4.2",
+    "formik": "^2.4.3",
     "i18n-iso-countries": "^7.6.0",
     "libphonenumber-js": "^1.10.36",
     "lodash": "^4.17.21",
@@ -46,7 +46,8 @@
     "swiper": "^9.1.1",
     "tailwindcss-animated": "^1.0.1",
     "vite-tsconfig-paths": "^3.5.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -61,6 +62,7 @@
     "@types/react-phone-number-input": "^3.0.14",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-logger": "^3.0.9",
+    "@types/yup": "^0.32.0",
     "@vitejs/plugin-react": "^2.0.0",
     "autoprefixer": "^10.4.7",
     "cssjanus": "^2.1.0",

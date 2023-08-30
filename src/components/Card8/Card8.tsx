@@ -58,7 +58,7 @@ const Card8: FC<Card8Props> = ({
         >
           <Link
             to={`/curso/${slug}`}
-            className="line-clamp-3 text-2xl hover:text-white"
+            className="line-clamp-3 text-2xl hover:text-white  font-raleway"
             title={title}
           >
             {title}

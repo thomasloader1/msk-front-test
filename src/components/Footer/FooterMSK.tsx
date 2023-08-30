@@ -134,7 +134,7 @@ const FooterEduman = () => {
                         <Link to="/partners">Conviértete en Partner</Link>
                       </li>
                       <li>
-                        <Link to="/faq">Centro de ayuda</Link>
+                        <a href="https://ayuda.msklatam.com/" target="_blank" >Centro de ayuda</a>
                       </li>
                       <li>
                         <Link to="/convenios">Convenios</Link>
@@ -154,13 +154,13 @@ const FooterEduman = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/politicas-de-privacidad">Política de privacidad</Link>
+                        <Link to="/politica-de-privacidad">Política de privacidad</Link>
                       </li>
                       <li>
                         <Link to="/politica-de-cookies">Política de cookies</Link>
                       </li>
                       <li>
-                        <Link to="/contratacion">
+                        <Link to="/condiciones-de-contratacion">
                           Condiciones de contratación
                         </Link>
                       </li>

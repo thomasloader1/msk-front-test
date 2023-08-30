@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
 import api from "Services/api";
+import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -94,7 +95,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   }, [posts]);
 
   //const [firstContent, secondContent, ...restContent] = themes_to_se?.filter((tts, i) => i >= 1);
-
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
@@ -109,8 +109,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               <>
                 <h2>Qué temas verás</h2>
                 <ul className="pr-5">
-                  {themes_to_se.map((tts) => (
-                    <li key={tts.id}>
+                  {themes_to_se.map((tts, index) => (
+                    <li key={`${tts.id}_${index}`}>
                       <a className="text-primary" href={`#${tts.id}`}>
                         {tts.title}
                       </a>
@@ -118,88 +118,75 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   ))}
                 </ul>
 
-                {/*  <div
+                <div
                   className="text-xl font-lora font-normal lg:pr-20"
-                  dangerouslySetInnerHTML={{ __html: themes_to_se[0]?.introduction as string }}
-                /> */}
+                  dangerouslySetInnerHTML={{
+                    __html: themes_to_se[0]?.introduction as string,
+                  }}
+                />
+                <NoteExtraData excerpt={data.excerpt} />
               </>
             )}
-
-            {contenido && (
-              <div
-                className="text-xl font-lora font-normal lg:pr-20"
-                dangerouslySetInnerHTML={{ __html: contenido }}
-              />
-            )}
-
-            {/* <div className="my-7 pl-10 pr-5">
-              {data.excerpt}
-            </div>
-
-            <div>
-              <h2 id={firstContent.id}>{firstContent.title}</h2>
-              <div
-                className="text-xl font-lora font-normal lg:pr-20"
-                dangerouslySetInnerHTML={{ __html: firstContent.content as string }}
-              />
-            </div>
-
-
-            <div>
-              <h2 id={secondContent.id}>{secondContent.title}</h2>
-              <div
-                className="text-xl font-lora font-normal lg:pr-20"
-                dangerouslySetInnerHTML={{ __html: secondContent.content as string }}
-              />
-            </div> */}
-
-
+            <ul className="themes-to-see">
+              {themes_to_se?.map((tts, index) => (
+                <li key={`content_${tts.id}_${index}`}>
+                  <h3 id={tts.id}>{tts.title}</h3>
+                  {tts.content && (
+                    <div dangerouslySetInnerHTML={{ __html: tts.content }} />
+                  )}
+                  {index == 0 && (
+                    <NoteExtraData featured_text={data.featured_text_field} />
+                  )}
+                </li>
+              ))}
+            </ul>
+            <NoteExtraData suggest_content={data.suggest_content} />
             <p className="font-lora text-slate-500 text-xl">
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
               reconocimiento en tu profesión?
             </p>
-
             <div>
               <h4 className="source-title">Fuente/s:</h4>
               {sources && sources.length > 0
                 ? sources.map((source, index) => {
-                  return (
-                    <p key={`source_${index}`} className="source-content">
-                      {source}
-                    </p>
-                  );
-                })
+                    return (
+                      <p key={`source_${index}`} className="source-content">
+                        {source}
+                      </p>
+                    );
+                  })
                 : null}
             </div>
             <div className="flex flex-wrap gap-2">
               {data.tags.length > 0
                 ? data.tags.map((tag, index) => {
-                  return (
-                    <span key={`tag_${index}`} className="tag-content">
-                      #{tag.name}
-                    </span>
-                  );
-                })
+                    return (
+                      <span key={`tag_${index}`} className="tag-content">
+                        #{tag.name}
+                      </span>
+                    );
+                  })
                 : null}
             </div>
             {data.authors && data.authors.length > 0
               ? data.authors?.map((currentAuthor, index) => {
-                return (
-                  <NoteAuthors
-                    key={`note_author_${index}`}
-                    instructor={currentAuthor}
-                  />
-                );
-              })
+                  return (
+                    <NoteAuthors
+                      key={`note_author_${index}`}
+                      instructor={currentAuthor}
+                    />
+                  );
+                })
               : null}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget">
           <div
-            className={`${isFixed && bottomDistance == 0
+            className={`${
+              isFixed && bottomDistance == 0
                 ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
                 : "col-span-12 lg:col-span-4 post-side-data"
-              } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
+            } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">

@@ -9,7 +9,7 @@ import {
   mappingSelectedSpecialities,
 } from "logic/NewsletterForm";
 import React, { FC, useEffect, useReducer, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { useRecaptcha } from "hooks/useRecaptcha";
 import { UTMAction } from "context/utm/UTMContext";
@@ -216,10 +216,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               </option>
               {professions
                 ? professions.map((p: { id: string; name: string }) => (
-                    <option key={p.id} value={`${p.name}/${p.id}`}>
-                      {p.name}
-                    </option>
-                  ))
+                  <option key={p.id} value={`${p.name}/${p.id}`}>
+                    {p.name}
+                  </option>
+                ))
                 : ""}
             </select>
           </div>
@@ -275,15 +275,15 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                   <option defaultValue="">Seleccionar especialidad</option>
                   {selectedOptionProfession && currentGroup.length
                     ? currentGroup.map((s: any) => (
-                        <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))
+                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))
                     : specialties.map((s: { id: string; name: string }) => (
-                        <option key={`sp_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
+                      <option key={`sp_${s.id}`} defaultValue={s.name}>
+                        {s.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               {showInputSpecialties && (
@@ -305,14 +305,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
         {newsletterSpecialties && newsletterSpecialties.length
           ? newsletterSpecialties.map((specialty: Specialty) => (
-              <Checkbox
-                key={specialty.id}
-                name={specialty.name}
-                value={false}
-                label={specialty.name}
-                required={false}
-              />
-            ))
+            <Checkbox
+              key={specialty.id}
+              name={specialty.name}
+              value={false}
+              label={specialty.name}
+              required={false}
+            />
+          ))
           : null}
       </div>
       <div className="flex justify-center flex-wrap items-center gap-8">
@@ -323,9 +323,9 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             useStateCallback={setAcceptConditions}
             label="Acepto las"
           />
-          <a className="text-primary text-sm underline">
+          <Link to="/politica-de-privacidad" className="text-primary text-sm underline">
             condiciones de privacidad
-          </a>
+          </Link>
         </div>
         <div className="mt-2">
           <button
@@ -333,7 +333,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             id="submit-newsletter"
             className="cont-btn rounded flex center"
             disabled={!acceptConditions}
-            //onClick={logFormData} // Add onClick event handler
+          //onClick={logFormData} // Add onClick event handler
           >
             <div className="flex center gap-2 px-2 text-sm my-auto">
               Suscribirme

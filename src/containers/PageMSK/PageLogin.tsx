@@ -18,6 +18,7 @@ export interface PageLoginProps {
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const [loginError, setLoginError] = useState<string>("");
+  const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state, dispatch } = useContext(AuthContext);
   const { recaptchaResponse, refreshRecaptcha } = useRecaptcha('submit');
 
@@ -28,6 +29,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setOnRequest(true)
+    setLoginError("")
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     console.log({ formData, target: event.target });
@@ -47,18 +50,33 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       }
     });
 
-    const { data, status } = await api.postLogin(jsonData);
+    try {
+      const res = await api.postLogin(jsonData);
 
-    if (status == 200) {
-      const { name, speciality, ...restData } = data
-      const loginData = { ...restData, email: jsonData.email, user: { name, speciality } };
-      dispatch({ type: "LOGIN", payload: loginData });
-      refreshRecaptcha();
-      changeRoute("/mi-perfil");
-    } else {
-      console.log("error");
-      setLoginError(data.message);
+      if (typeof res === 'undefined') {
+        throw new Error('Server error, intente recargar la pagina');
+      }
+
+      const { data, status } = res
+
+      if (status == 200) {
+        const { name, speciality, ...restData } = data
+        const loginData = { ...restData, email: jsonData.email, user: { name, speciality } };
+        dispatch({ type: "LOGIN", payload: loginData });
+        refreshRecaptcha();
+        changeRoute("/mi-perfil");
+      } else {
+        throw new Error(data.message);
+      }
+
+    } catch (e: any) {
+      console.log({ e })
+      setLoginError(e.message);
+    } finally {
+      setOnRequest(false)
     }
+
+
   };
 
   return (
@@ -103,11 +121,11 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                 className="mt-1"
               />
             </label>
-            <ButtonPrimary type="submit">Acceder</ButtonPrimary>
+            <ButtonPrimary type="submit" disabled={onRequest} >Acceder</ButtonPrimary>
           </form>
 
           {/* ==== */}
-          <span className="red block text-center">{loginError}</span>
+          <span className="text-red-600 font-bold block text-center">{loginError}</span>
 
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}

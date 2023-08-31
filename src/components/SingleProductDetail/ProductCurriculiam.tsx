@@ -24,22 +24,27 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
   }, [auxTopics]);
 
   const parseToHTML = (htmlString: string): JSX.Element => {
-    const textNodes = htmlString.split("\n").map((line, i) => (
+    //console.log({ htmlString })
+    if (htmlString) {
+      const textNodes = htmlString.split("\n").map((line, i) => (
         <React.Fragment key={i}>
           {line}
           <br />
         </React.Fragment>
-    ));
-    return <>{textNodes}</>;
+      ));
+      return <>{textNodes}</>;
+    }
+
+    return <>{htmlString}</>
   };
 
-  useEffect(() => {});
+  console.log({ topics, accordionContent })
 
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
         <h4 className="font-semibold text-xl">Qué temas verás</h4>
-        <p className="modules-description">{accordionContent.length} módulos • {hours.value} horas estimadas</p>
+        <p className="modules-description">{accordionContent.length} módulos • {hours?.value} horas estimadas</p>
       </div>
       {accordionContent.length ? (
         <div className="modules pb-6">

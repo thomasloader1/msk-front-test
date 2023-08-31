@@ -1,4 +1,4 @@
-import { FC, useContext, useRef } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
@@ -25,16 +25,29 @@ const ProductAccount: FC<Props> = ({
   hoverEffect = false,
 }) => {
   const activeProductRef = useRef(product.status === "Activo");
+  const [onRequest, setOnRequest] = useState<boolean>(false)
   const { state } = useContext(CountryContext);
   const imageURL = product.featured_image.replace(
     `${"mx" || state.country}.`,
     ""
   );
-  const handleClick = () => {
+
+  const handleClick = async () => {
     if (activeProductRef) {
-      goToLMS(product.product_code_cedente, user.email);
+      setOnRequest(true)
+
+      try {
+
+        await goToLMS(product.product_code_cedente, user.email);
+
+      } catch (e: any) {
+        console.log(e)
+      } finally {
+        setOnRequest(false)
+      }
     }
   };
+
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
@@ -126,9 +139,9 @@ const ProductAccount: FC<Props> = ({
         <button
           className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
           onClick={handleClick}
-          disabled={product.status !== "Activo"}
+          disabled={product.status !== "Activo" || onRequest}
         >
-          Ir al curso
+          {onRequest ? 'Ingresando ...' : 'Ir al curso'}
         </button>
       </div>
     </div>

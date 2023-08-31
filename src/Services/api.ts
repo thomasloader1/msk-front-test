@@ -61,7 +61,7 @@ class ApiService {
     try {
       return await axios.post(apiRecoverURL, jsonData);
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 
@@ -90,7 +90,7 @@ class ApiService {
 
   async postNewsletter(jsonData: Newsletter) {
     try {
-      return  await axios.post(
+      return await axios.post(
         `${baseUrl}/api/crm/CreateLeadHomeNewsletter`,
         jsonData
       );
@@ -291,9 +291,9 @@ class ApiService {
       console.log({ error });
     }
   }
-  
+
   async getSingleCourse(slug: string, country: string) {
-    
+
     try {
       const { data } = await axios.get(`${API_URL}/product/${slug}?country=${country}`)
       return data;

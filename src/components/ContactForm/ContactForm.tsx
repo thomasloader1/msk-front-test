@@ -16,7 +16,7 @@ import axios from "axios";
 import Radio from "components/Radio/Radio";
 import { ContactUs } from "../../data/types";
 import api from "../../Services/api";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
@@ -393,10 +393,10 @@ const ContactFormSection = ({
                         </option>
                         {professions
                           ? professions.map((p) => (
-                              <option key={p.id} value={`${p.name}/${p.id}`}>
-                                {p.name}
-                              </option>
-                            ))
+                            <option key={p.id} value={`${p.name}/${p.id}`}>
+                              {p.name}
+                            </option>
+                          ))
                           : ""}
                       </select>
                     </div>
@@ -458,21 +458,21 @@ const ContactFormSection = ({
                             </option>
                             {selectedOptionProfession && currentGroup.length
                               ? currentGroup.map((s: any) => (
-                                  <option
-                                    key={`sp_group_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))
+                                <option
+                                  key={`sp_group_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))
                               : specialties.map((s) => (
-                                  <option
-                                    key={`sp_${s.id}`}
-                                    defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
-                                ))}
+                                <option
+                                  key={`sp_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
+                              ))}
                           </select>
                         </div>
                         {showInputSpecialties && (
@@ -508,9 +508,9 @@ const ContactFormSection = ({
                         useStateCallback={setAcceptConditions}
                         label="Acepto las"
                       />
-                      <a className="text-primary text-sm">
+                      <Link to="/politica-de-privacidad" className="text-primary text-sm">
                         condiciones de privacidad
-                      </a>
+                      </Link>
                     </div>
 
                     <div className="col-xl-2 mt-2">

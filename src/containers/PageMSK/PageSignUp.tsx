@@ -8,7 +8,7 @@ import { Profession, SignUp, Specialty } from "../../data/types";
 import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useRecaptcha } from "hooks/useRecaptcha";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import useProfessions from "hooks/useProfessions";
@@ -363,9 +363,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                   value={acceptConditions}
                   useStateCallback={setAcceptConditions}
                 />
-                <a className="text-primary text-sm underline">
+                <Link to="/politica-de-privacidad" className="text-primary text-sm underline">
                   condiciones de privacidad
-                </a>
+                </Link>
               </div>
               <ButtonPrimary
                 type="submit"

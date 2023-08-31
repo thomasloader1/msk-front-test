@@ -43,6 +43,7 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.59.3",
     "sass-loader": "^13.2.1",
+    "sweetalert2": "^11.7.27",
     "swiper": "^9.1.1",
     "tailwindcss-animated": "^1.0.1",
     "vite-tsconfig-paths": "^3.5.0",

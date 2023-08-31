@@ -47,7 +47,7 @@ const ContactSidebar = () => {
             </div>
             <div className="support-info-email">
               <span>E-mail</span>
-              <a href="#">hola@msklatam.com</a>
+              <a href="mailto:hola@msklatam.com">hola@msklatam.com</a>
             </div>
           </div>
         </div>

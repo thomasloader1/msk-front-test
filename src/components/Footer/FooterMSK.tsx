@@ -93,7 +93,7 @@ const FooterEduman = () => {
                   </div>
                   <div className="footer-icon ml-auto">
                     <a
-                      href="https://www.facebook.com/"
+                      href="https://www.facebook.com/msk.online.learning"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -107,14 +107,14 @@ const FooterEduman = () => {
                       <img src="/src/images/icons/ig.svg" />
                     </a>
                     <a
-                      href="https://www.youtube.com/"
+                      href="https://www.youtube.com/@msk.online.learning"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <img src="/src/images/icons/yt.svg" className="pt-0.5" />
                     </a>
                     <a
-                      href="https://www.linkedin.com/"
+                      href="https://www.linkedin.com/company/msk-online-learning/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

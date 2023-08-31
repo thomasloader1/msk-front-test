@@ -11,7 +11,7 @@ const BrandSlider: React.FC = () => {
     <div className="swiper-container">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        slidesPerView={4}
+        slidesPerView={3}
         loop={true}
         breakpoints={{
           320: {
@@ -24,7 +24,7 @@ const BrandSlider: React.FC = () => {
             slidesPerView: 3,
           },
           991: {
-            slidesPerView: 4,
+            slidesPerView: 3,
           },
         }}
         autoplay={{

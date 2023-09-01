@@ -35,11 +35,7 @@ const validationSchema = Yup.object().shape({
   Description: Yup.string().required("El mensaje es requerido"),
   Profesion: Yup.string().required("La profesión es requerida"),
   Especialidad: Yup.string().required("La especialidad es requerida"),
-  // Otra_profesion: Yup.string().when("Profesion", {
-  //   is: "Otra profesión",
-  //   then: Yup.string().required("La profesión es requerida"),
-  //   otherwise: Yup.string().notRequired(),
-  // }),
+  Otra_profesion: Yup.string(),
 
   // year: Yup.string().when("Profesion", {
   //   is: "Estudiante",
@@ -95,6 +91,8 @@ const ContactFormSection = ({
     Phone: "",
     Preferencia_de_contactaci_n: "",
     Pais: "",
+    Otra_profesion: "",
+    Otra_especialidad: "",
     utm_source: utmState.utm_source,
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
@@ -133,7 +131,7 @@ const ContactFormSection = ({
   ) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
-    formik.values.Especialidad = value;
+    formik.setFieldValue("Especialidad", value);
     setShowInputSpecialties(value === "Otra Especialidad");
   };
 
@@ -155,7 +153,7 @@ const ContactFormSection = ({
       const profession = values[0];
       const id = values[1];
       setSelectedOptionProfession(profession);
-      formik.values.Profesion = profession;
+      formik.setFieldValue("Profesion", profession);
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
@@ -399,7 +397,7 @@ const ContactFormSection = ({
                       </div>
 
                       {showInputProfession && (
-                        <div className="contact-from-input ">
+                        <div className="contact-from-input my-4">
                           <Field
                             type="text"
                             name="Otra_profesion"

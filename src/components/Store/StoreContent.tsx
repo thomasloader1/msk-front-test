@@ -154,8 +154,13 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
             });
           }
       }
+      setCurrentPage(1);
     }
   }, [location.search]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [storeFilters]);
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down">
@@ -173,14 +178,20 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
 
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentItems.map((product, index) => {
-              return (
-                <StoreProduct
-                  product={product}
-                  key={`${product.slug}_${index}`}
-                />
-              );
-            })}
+            {currentItems.length ? (
+              currentItems.map((product, index) => {
+                return (
+                  <StoreProduct
+                    product={product}
+                    key={`${product.slug}_${index}`}
+                  />
+                );
+              })
+            ) : (
+              <div className="text-center text-lg font-bold">
+                No se encontraron resultados
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1">

@@ -175,18 +175,16 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             </>
           ) : (
             <ul className="glide__slides">
-              {posts
-                // .filter((_: any, i: number) => i < 6 && i >= 1)
-                .map((item: any, index: number) => (
-                  <li
-                    key={index}
-                    className={`glide__slide h-auto  ${
-                      sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
-                    }`}
-                  >
-                    <CardName post={item} showDescription />
-                  </li>
-                ))}
+              {posts?.map((item: any, index: number) => (
+                <li
+                  key={index}
+                  className={`glide__slide h-auto  ${
+                    sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
+                  }`}
+                >
+                  <CardName post={item} showDescription />
+                </li>
+              ))}
             </ul>
           )}
         </div>

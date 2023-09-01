@@ -94,14 +94,14 @@ const CoursesForYou: FC<Props> = ({
               <span>No encontramos publicaciones.!</span>
             ))}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {localCourses[0] && (
+            {localCourses && localCourses[0] && (
               <Card8
                 className="sm:col-span-2 rounded-3xl"
                 post={localCourses[0]}
               />
             )}
             {localCourses
-              .filter((_: FetchCourseType, i: number) => i < 3 && i >= 1)
+              ?.filter((_: FetchCourseType, i: number) => i < 3 && i >= 1)
               .map((item: FetchCourseType, index: number) => (
                 <Card9
                   key={index}
@@ -111,7 +111,7 @@ const CoursesForYou: FC<Props> = ({
                 />
               ))}
             {localCourses
-              .filter((_: FetchCourseType, i: number) => i < 5 && i >= 3)
+              ?.filter((_: FetchCourseType, i: number) => i < 5 && i >= 3)
               .map((item: FetchCourseType, index: number) => (
                 <Card9
                   key={index}
@@ -120,7 +120,7 @@ const CoursesForYou: FC<Props> = ({
                   showDescription
                 />
               ))}
-            {localCourses[5] && (
+            {localCourses && localCourses[5] && (
               <Card8
                 className="sm:col-span-2 rounded-3xl"
                 badgeColor="yellow"

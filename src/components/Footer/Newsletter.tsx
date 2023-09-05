@@ -192,46 +192,51 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
           <div className="">
             <div className="contact-from-input">
+              <ErrorMessage
+                name="First_Name"
+                component="span"
+                className="error"
+              />
               <Field
                 type="text"
                 name="First_Name"
                 placeholder="Ingresar nombre"
               />
-              <ErrorMessage
-                name="First_Name"
-                component="div"
-                className="error"
-              />
             </div>
           </div>
           <div className="">
             <div className="contact-from-input">
+              <ErrorMessage
+                name="Last_Name"
+                component="span"
+                className="error"
+              />
               <Field
                 type="text"
                 name="Last_Name"
                 placeholder="Ingresar apellido"
               />
-              <ErrorMessage
-                name="Last_Name"
-                component="div"
-                className="error"
-              />
             </div>
           </div>
           <div className="">
             <div className="contact-from-input ">
+              <ErrorMessage name="Email" component="span" className="error" />
               <Field
                 type="email"
                 name="Email"
                 placeholder="Ingresar correo electrónico"
               />
-              <ErrorMessage name="Email" component="div" className="error" />
             </div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4 mt-4">
           <div className="contact-select">
             <div className="contact-select">
+              <ErrorMessage
+                name="Profesion"
+                component="span"
+                className="error"
+              />
               <Field
                 as="select"
                 name="Profesion"
@@ -249,23 +254,18 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                     ))
                   : ""}
               </Field>
-              <ErrorMessage
-                name="Profesion"
-                component="div"
-                className="error"
-              />
             </div>
             {showInputProfession && (
               <div className="contact-from-input my-4">
+                <ErrorMessage
+                  name="Otra_profesion"
+                  component="span"
+                  className="error"
+                />
                 <Field
                   type="text"
                   name="Otra_profesion"
                   placeholder="Ingresar profesion"
-                />
-                <ErrorMessage
-                  name="Otra_profesion"
-                  component="div"
-                  className="error"
                 />
               </div>
             )}
@@ -273,6 +273,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           {studentInputs ? (
             <div className="col-xl-12 flex gap-2">
               <div className="contact-select w-1/2">
+                <ErrorMessage name="year" component="span" className="error" />
                 <Field as="select" name="year">
                   <option defaultValue="">Año</option>
                   {optionsArray.map((y) => (
@@ -281,9 +282,13 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage name="year" component="div" className="error" />
               </div>
               <div className="contact-select w-full">
+                <ErrorMessage
+                  name="career"
+                  component="span"
+                  className="error"
+                />
                 <Field as="select" name="career">
                   <option defaultValue="">Seleccionar carrera</option>
                   {currentGroup.map((s: any) => (
@@ -292,13 +297,17 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage name="career" component="div" className="error" />
               </div>
             </div>
           ) : (
             <>
               <div className={`col-xl-6`}>
                 <div className="contact-select">
+                  <ErrorMessage
+                    name="Especialidad"
+                    component="span"
+                    className="error"
+                  />
                   <Field
                     as="select"
                     name="Especialidad"
@@ -321,23 +330,18 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                           </option>
                         ))}
                   </Field>
-                  <ErrorMessage
-                    name="Especialidad"
-                    component="div"
-                    className="error"
-                  />
                 </div>
                 {showInputSpecialties && (
                   <div className="contact-from-input my-4">
+                    <ErrorMessage
+                      name="Otra_especialidad"
+                      component="span"
+                      className="error"
+                    />
                     <Field
                       type="text"
                       name="Otra_especialidad"
                       placeholder="Ingresar especialidad"
-                    />
-                    <ErrorMessage
-                      name="Otra_especialidad"
-                      component="div"
-                      className="error"
                     />
                   </div>
                 )}
@@ -345,76 +349,81 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             </>
           )}
         </div>
-        <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">
-          Selecciona tus temas de interés
-        </h3>
-        <ErrorMessage
-          name="Temas_de_interes"
-          component="div"
-          className="error text-left"
-        />
-        <FieldArray name="Temas_de_interes">
-          {({ push, remove }) => (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
-              {newsletterSpecialties && newsletterSpecialties.length
-                ? newsletterSpecialties.map(
-                    (
-                      specialty: { name: string; id: number },
-                      index: number
-                    ) => (
-                      <div key={specialty.id} className="interest-topics">
-                        <label>
-                          <Field
-                            type="checkbox"
-                            name={`Temas_de_interes[${index}]`}
-                            value={specialty.name}
-                            checked={formik.values.Temas_de_interes.includes(
-                              specialty.name
-                            )}
-                            onChange={(e: any) => {
-                              const isChecked = e.target.checked;
-                              if (isChecked) {
-                                push(specialty.name);
-                              } else {
-                                const idx =
-                                  formik.values.Temas_de_interes.indexOf(
-                                    specialty.name
-                                  );
-                                if (idx !== -1) {
-                                  remove(idx);
+        <div className="contact-array-list">
+          <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">
+            Selecciona tus temas de interés
+          </h3>
+          <ErrorMessage
+            name="Temas_de_interes"
+            component="span"
+            className="error text-left"
+          />
+          <FieldArray name="Temas_de_interes">
+            {({ push, remove }) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
+                {newsletterSpecialties && newsletterSpecialties.length
+                  ? newsletterSpecialties.map(
+                      (
+                        specialty: { name: string; id: number },
+                        index: number
+                      ) => (
+                        <div key={specialty.id} className="interest-topics">
+                          <label>
+                            <Field
+                              type="checkbox"
+                              name={`Temas_de_interes[${index}]`}
+                              value={specialty.name}
+                              checked={formik.values.Temas_de_interes.includes(
+                                specialty.name
+                              )}
+                              onChange={(e: any) => {
+                                const isChecked = e.target.checked;
+                                if (isChecked) {
+                                  push(specialty.name);
+                                } else {
+                                  const idx =
+                                    formik.values.Temas_de_interes.indexOf(
+                                      specialty.name
+                                    );
+                                  if (idx !== -1) {
+                                    remove(idx);
+                                  }
                                 }
-                              }
-                            }}
-                          />
-                          <span>{specialty.name}</span>
-                        </label>
-                      </div>
+                              }}
+                            />
+                            <span>{specialty.name}</span>
+                          </label>
+                        </div>
+                      )
                     )
-                  )
-                : null}
-            </div>
-          )}
-        </FieldArray>
+                  : null}
+              </div>
+            )}
+          </FieldArray>
+        </div>
 
         <div className="flex justify-center flex-wrap items-center gap-8">
           <div className="contact-checkbox">
-            <Field
-              type="checkbox"
-              name="Terms_And_Conditions2"
-              checked={formik.values.Terms_And_Conditions2}
-              className="hidden-checkbox"
-            />
-            <label>
-              Acepto las{" "}
-              <a className="text-primary">condiciones de privacidad</a>
-            </label>
             <ErrorMessage
               name="Terms_And_Conditions2"
-              component="div"
+              component="span"
               className="error"
             />
+            <div className="flex gap-2 center">
+              <Field
+                type="checkbox"
+                name="Terms_And_Conditions2"
+                checked={formik.values.Terms_And_Conditions2}
+                className="hidden-checkbox mt-0.5"
+              />
+              <label>
+                Acepto las{" "}
+                <a className="text-primary">condiciones de privacidad</a>
+              </label>
+            </div>
           </div>
-          <div className="mt-2">
+
+          <div>
             <button
               type="submit"
               id="submit-newsletter"

@@ -140,7 +140,6 @@ const ContactFormSection = ({
   ) => {
     const { value } = event.target;
     formik.values.career = value;
-
     setSelectedCareer(value);
   };
 
@@ -300,43 +299,43 @@ const ContactFormSection = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">
                     <div className="col-xl-6 col-span-2 md:col-span-1">
                       <div className="contact-from-input">
+                        <ErrorMessage
+                          name="First_Name"
+                          component="span"
+                          className="error"
+                        />
                         <Field
                           type="text"
                           name="First_Name"
                           placeholder="Nombre"
                         />
-                        <ErrorMessage
-                          name="First_Name"
-                          component="div"
-                          className="error"
-                        />
                       </div>
                     </div>
                     <div className="col-xl-6 col-span-2 md:col-span-1">
                       <div className="contact-from-input">
+                        <ErrorMessage
+                          className="error"
+                          name="Last_Name"
+                          component="span"
+                        />
                         <Field
                           type="text"
                           name="Last_Name"
                           placeholder="Apellido"
                         />
-                        <ErrorMessage
-                          name="Last_Name"
-                          component="div"
-                          className="error"
-                        />
                       </div>
                     </div>
                     <div className="col-xl-6 col-span-2 md:col-span-1">
-                      <div className="contact-from-input ">
+                      <div className="contact-from-input">
+                        <ErrorMessage
+                          name="Email"
+                          component="span"
+                          className="error"
+                        />
                         <Field
                           type="email"
                           name="Email"
                           placeholder="Correo electrónico"
-                        />
-                        <ErrorMessage
-                          name="Email"
-                          component="div"
-                          className="error"
                         />
                       </div>
                     </div>
@@ -346,6 +345,11 @@ const ContactFormSection = ({
                         <Field name="Phone">
                           {({ field, form, meta }: any) => (
                             <div className="contact-from-input intl-input phone-contact-input-select">
+                              <ErrorMessage
+                                name="Phone"
+                                component="span"
+                                className="error"
+                              />
                               <PhoneInput
                                 name="Phone"
                                 id="Phone"
@@ -353,16 +357,10 @@ const ContactFormSection = ({
                                 defaultCountry={
                                   state.country.toUpperCase() as CountryCode
                                 }
-                                className="phone-contact-input"
                                 onChange={(value: any) => {
                                   form.setFieldValue("Phone", value);
                                   handlePhoneChange(value);
                                 }}
-                              />
-                              <ErrorMessage
-                                name="Phone"
-                                component="div"
-                                className="error"
                               />
                             </div>
                           )}
@@ -372,6 +370,11 @@ const ContactFormSection = ({
 
                     <div className="col-xl-6 col-span-2 md:col-span-1">
                       <div className="contact-select">
+                        <ErrorMessage
+                          name="Profesion"
+                          component="span"
+                          className="error"
+                        />
                         <Field
                           as="select"
                           name="Profesion"
@@ -389,24 +392,19 @@ const ContactFormSection = ({
                               ))
                             : ""}
                         </Field>
-                        <ErrorMessage
-                          name="Profesion"
-                          component="div"
-                          className="error"
-                        />
                       </div>
 
                       {showInputProfession && (
                         <div className="contact-from-input my-4">
+                          <ErrorMessage
+                            name="Otra_profesion"
+                            component="span"
+                            className="error"
+                          />
                           <Field
                             type="text"
                             name="Otra_profesion"
                             placeholder="Ingresar profesion"
-                          />
-                          <ErrorMessage
-                            name="Otra_profesion"
-                            component="div"
-                            className="error"
                           />
                         </div>
                       )}
@@ -415,6 +413,11 @@ const ContactFormSection = ({
                     {studentInputs ? (
                       <div className="col-xl-12 flex gap-2">
                         <div className="contact-select w-1/2">
+                          <ErrorMessage
+                            name="year"
+                            component="span"
+                            className="error"
+                          />
                           <Field as="select" name="year">
                             <option defaultValue="">Año</option>
                             {optionsArray.map((y) => (
@@ -423,13 +426,13 @@ const ContactFormSection = ({
                               </option>
                             ))}
                           </Field>
-                          <ErrorMessage
-                            name="year"
-                            component="div"
-                            className="error"
-                          />
                         </div>
                         <div className="contact-select w-full">
+                          <ErrorMessage
+                            name="career"
+                            component="span"
+                            className="error"
+                          />
                           <Field
                             as="select"
                             name="career"
@@ -446,17 +449,17 @@ const ContactFormSection = ({
                               </option>
                             ))}
                           </Field>
-                          <ErrorMessage
-                            name="career"
-                            component="div"
-                            className="error"
-                          />
                         </div>
                       </div>
                     ) : (
                       <>
                         <div className={`col-xl-6`}>
                           <div className="contact-select">
+                            <ErrorMessage
+                              name="Especialidad"
+                              component="span"
+                              className="error"
+                            />
                             <Field
                               as="select"
                               name="Especialidad"
@@ -484,11 +487,6 @@ const ContactFormSection = ({
                                     </option>
                                   ))}
                             </Field>
-                            <ErrorMessage
-                              name="Especialidad"
-                              component="div"
-                              className="error"
-                            />
                           </div>
                           {showInputSpecialties && (
                             <div className="contact-from-input my-4">
@@ -512,16 +510,16 @@ const ContactFormSection = ({
                         <div className="col-xl-12 mt-4">
                           <div className="contact-from-input">
                             <label htmlFor="Description">Mensaje</label>
+                            <ErrorMessage
+                              name="Description"
+                              component="span"
+                              className="error"
+                            />
                             <Field
                               as="textarea"
                               id="Description"
                               name="Description"
                               placeholder="Mensaje"
-                            />
-                            <ErrorMessage
-                              name="Description"
-                              component="div"
-                              className="error"
                             />
                           </div>
                         </div>
@@ -541,13 +539,13 @@ const ContactFormSection = ({
                               condiciones de privacidad
                             </a>
                           </label>
-                          <ErrorMessage
-                            name="Terms_And_Conditions"
-                            component="div"
-                            className="error"
-                          />
                         </div>
                       </div>
+                      <ErrorMessage
+                        name="Terms_And_Conditions"
+                        component="div"
+                        className="error"
+                      />
 
                       <div className="col-xl-2 mt-2">
                         <div className="cont-btn">

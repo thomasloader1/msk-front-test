@@ -36,13 +36,11 @@ const validationSchema = Yup.object().shape({
   Profesion: Yup.string().required("La profesión es requerida"),
   Especialidad: Yup.string().required("La especialidad es requerida"),
   Otra_profesion: Yup.string(),
-
   // year: Yup.string().when("Profesion", {
   //   is: "Estudiante",
   //   then: Yup.string().required("El año es requerido"),
   //   otherwise: Yup.string().notRequired(),
   // }),
-
   // Otra_especialidad: Yup.string().when("Especialidad", {
   //   is: "Otra Especialidad",
   //   then: Yup.string().required("La especialidad es requerida"),
@@ -527,25 +525,27 @@ const ContactFormSection = ({
 
                       <div className="flex flex-wrap gap-1 mt-2 mb-4">
                         <div className="contact-checkbox">
-                          <Field
-                            type="checkbox"
+                          <ErrorMessage
                             name="Terms_And_Conditions"
-                            checked={formik.values.Terms_And_Conditions}
-                            className="hidden-checkbox"
+                            component="div"
+                            className="error"
                           />
-                          <label>
-                            Acepto las{" "}
-                            <a className="text-primary">
-                              condiciones de privacidad
-                            </a>
-                          </label>
+                          <div className="flex gap-2 center">
+                            <Field
+                              type="checkbox"
+                              name="Terms_And_Conditions"
+                              checked={formik.values.Terms_And_Conditions}
+                              className="hidden-checkbox mt-1"
+                            />
+                            <label>
+                              Acepto las{" "}
+                              <a className="text-primary">
+                                condiciones de privacidad
+                              </a>
+                            </label>
+                          </div>
                         </div>
                       </div>
-                      <ErrorMessage
-                        name="Terms_And_Conditions"
-                        component="div"
-                        className="error"
-                      />
 
                       <div className="col-xl-2 mt-2">
                         <div className="cont-btn">

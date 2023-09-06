@@ -39,7 +39,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     first_name: "",
     last_name: "",
     email: "",
-    Phone: "",
+    phone: "",
     profession: "",
     speciality: "",
     Otra_profesion: "",
@@ -55,7 +55,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     email: Yup.string()
       .email("Correo electrónico inválido")
       .required("El correo electrónico es requerido"),
-    Phone: Yup.string().required("El teléfono es requerido"),
+    phone: Yup.string().required("El teléfono es requerido"),
     profession: Yup.string().required("La profesión es requerida"),
     speciality: Yup.string().required("La especialidad es requerida"),
     country: Yup.string(),
@@ -149,40 +149,34 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
+      const formData = {
+        ...values,
+        name: `${values.first_name} ${values.last_name}`,
+        recaptcha_token: recaptchaResponse,
+        country: fullCountry(selectedCountry),
+        utm_source: utmState.utm_source,
+        utm_medium: utmState.utm_medium,
+        utm_campaign: utmState.utm_campaign,
+        utm_content: utmState.utm_content,
+      };
+
       try {
-        const formData = {
-          ...values,
-          name: `${values.first_name} ${values.last_name}`,
-          recaptcha_token: recaptchaResponse,
-          country: fullCountry(selectedCountry),
-          utm_source: utmState.utm_source,
-          utm_medium: utmState.utm_medium,
-          utm_campaign: utmState.utm_campaign,
-          utm_content: utmState.utm_content,
-        };
-        const { data, status } = await api.postSignUp(formData);
-        // @ts-ignore
-        if (status == 200) {
-          const { name, speciality, ...restData } = data;
-          const loginData = {
-            ...restData,
-            email: formik.values.email,
-            user: { name, speciality },
-          };
-          refreshRecaptcha();
-          setError("");
-          setSuccess(true);
-          setTimeout(() => {
-            history.push("/correo-enviado");
-          }, 1500);
-        } else {
+        const res = await api.postSignUp(formData);
+        refreshRecaptcha();
+        if (res.status !== 200) {
           setSuccess(false);
-          const errorMessages = Object.values(data.errors)
+          const errorMessages = Object.values(res.response.data.errors)
             .map((errorMessage) => `- ${errorMessage}`)
             .join("<br />");
           setError(
             `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
           );
+        } else {
+          setError("");
+          setSuccess(true);
+          setTimeout(() => {
+            history.push("/correo-enviado");
+          }, 1500);
         }
       } catch (error) {
         console.error("Error al ejecutar reCAPTCHA:", error);
@@ -254,23 +248,23 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 <label className="text-neutral-800 dark:text-neutral-200 mb-1">
                   Teléfono
                 </label>
-                <Field name="Phone">
+                <Field name="phone">
                   {({ field, form, meta }: any) => (
                     <div className="form-phone-std">
                       <ErrorMessage
-                        name="Phone"
+                        name="phone"
                         component="span"
                         className="error"
                       />
                       <PhoneInput
-                        name="Phone"
-                        id="Phone"
+                        name="phone"
+                        id="phone"
                         placeholder="Ingresar número telefónico"
                         defaultCountry={
                           state.country.toUpperCase() as CountryCode
                         }
                         onChange={(value: any) => {
-                          form.setFieldValue("Phone", value);
+                          form.setFieldValue("phone", value);
                           handlePhoneChange(value);
                         }}
                         className="phone-wrapper"

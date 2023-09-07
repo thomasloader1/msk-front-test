@@ -8,11 +8,39 @@
 
 // contact-style
 .contact-area {
-  background: blue;
   display: flex;
   width: 100%;
 }
 
+.interest-topics {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  span {
+    margin-left: 8px;
+    color: rgb(75 85 99);
+  }
+  input {
+    border-radius: 2px;
+    &:checked {
+      background-color: #9200ad;
+    }
+  }
+}
+
+.contact-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+
+  input {
+    border-radius: 2px;
+    &:checked {
+      background-color: #9200ad;
+    }
+  }
+}
 .contact-form {
   width: 100%;
 
@@ -31,6 +59,182 @@
 
 #submit-newsletter:not(:disabled) {
   background-color: #9200ad;
+}
+
+.contact-select {
+  display: flex;
+  flex-direction: column;
+  select {
+    order: 0;
+  }
+  .error {
+    order: 1;
+    color: red;
+    text-align: left;
+    margin-top: 2px;
+    & + select {
+      border: 1px solid red;
+    }
+  }
+}
+
+.form-phone-std {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  .error {
+    order: 1;
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 2px;
+    & + .phone-wrapper {
+      border: 1px solid red;
+    }
+  }
+  .phone-wrapper {
+    border-radius: 4px;
+    font-size: 14px;
+    border: 1px solid rgb(229, 229, 229);
+    background-color: rgb(255, 255, 255);
+    input {
+      border: none;
+      padding: 10px;
+      border: 1px solid transparent;
+      border-radius: 0 4px 4px 0;
+      &:focus {
+        border: 1px solid rgba(146, 0, 173, 0.1);
+      }
+    }
+  }
+}
+.form-select-std {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  .error {
+    order: 1;
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 2px;
+    & + select {
+      border: 1px solid red;
+    }
+  }
+  select {
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    font-size: 14px;
+    border: 1px solid rgb(229, 229, 229);
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
+    &:focus {
+      border: 1px solid rgba(146, 0, 173, 0.1);
+    }
+  }
+}
+.form-input-std {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  input {
+    border-radius: 4px;
+    border: 1px solid rgb(229, 229, 229);
+    font-size: 14px;
+    padding: 10px 12px;
+    background-color: rgb(255, 255, 255);
+    &:focus {
+      border: 1px solid rgba(146, 0, 173, 0.1);
+    }
+  }
+  .error {
+    order: 1;
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 2px;
+    & + input {
+      border: 1px solid red;
+    }
+  }
+}
+.form-input-std {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  input {
+    border-radius: 4px;
+    border: 1px solid rgb(229, 229, 229);
+    font-size: 14px;
+    padding: 10px 12px;
+    background-color: rgb(255, 255, 255);
+    &:focus {
+      border: 1px solid rgba(146, 0, 173, 0.1);
+    }
+  }
+  .error {
+    order: 1;
+    color: red;
+    font-size: 14px;
+    text-align: left;
+    margin-top: 2px;
+    & + input {
+      border: 1px solid red;
+    }
+  }
+}
+
+.contact-checkbox,
+.contact-array-list {
+  display: flex;
+  flex-direction: column;
+  .error {
+    order: 1;
+    color: red;
+    text-align: left;
+    margin-top: 2px;
+    & + input {
+      border: 1px solid red;
+    }
+    & + textarea {
+      border: 1px solid red;
+    }
+    & + .PhoneInput {
+      border: 1px solid red;
+      border-radius: 4px;
+    }
+  }
+}
+.contact-from-input {
+  display: flex;
+  flex-direction: column;
+  input {
+    order: 0;
+  }
+  .error {
+    order: 1;
+    color: red;
+    text-align: left;
+    margin-top: 2px;
+    & + input {
+      border: 1px solid red;
+    }
+    & + textarea {
+      border: 1px solid red;
+    }
+    & + .PhoneInput {
+      border: 1px solid red;
+      border-radius: 4px;
+    }
+  }
+}
+
+.signup-checkbox {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-from-input input {

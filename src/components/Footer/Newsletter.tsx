@@ -1,26 +1,46 @@
 import api from "Services/api";
 import axios from "axios";
-import Checkbox from "components/Checkbox/Checkbox";
 import { API_BACKEND_URL } from "data/api";
-import { Newsletter, Specialty } from "data/types";
-import {
-  JsonData,
-  filterSpecialities,
-  mappingSelectedSpecialities,
-} from "logic/NewsletterForm";
+import { ContactUs, Newsletter, Specialty } from "data/types";
+
 import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { useRecaptcha } from "hooks/useRecaptcha";
 import { UTMAction } from "context/utm/UTMContext";
+import * as Yup from "yup";
+import {
+  ErrorMessage,
+  Field,
+  FieldArray,
+  Form,
+  FormikProvider,
+  useFormik,
+} from "formik";
 
 interface Props {
   email: string;
   setShow: (state: boolean) => void;
 }
 
+const validationSchema = Yup.object().shape({
+  First_Name: Yup.string().required("El nombre es requerido"),
+  Last_Name: Yup.string().required("El apellido es requerido"),
+  Email: Yup.string()
+    .email("Correo electrónico inválido")
+    .required("El correo electrónico es requerido"),
+  Profesion: Yup.string().required("La profesión es requerida"),
+  Especialidad: Yup.string().required("La especialidad es requerida"),
+  Temas_de_interes: Yup.array()
+    .of(Yup.string())
+    .min(1, "Se requiere al menos 1 tema de interés")
+    .required(),
+  Terms_And_Conditions2: Yup.boolean().oneOf(
+    [true],
+    "Debe aceptar los términos y condiciones"
+  ),
+});
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
-  const [localEmail, setEmail] = useState(email);
   const [professions, setProfessions] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
@@ -28,13 +48,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [acceptConditions, setAcceptConditions] = useState(false);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
-  const [studentYear, setStudentYear] = useState("");
-  const [selectedCareer, setSelectedCareer] = useState("");
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
 
@@ -65,6 +82,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   ) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
+    formik.setFieldValue("Especialidad", value);
     setShowInputSpecialties(value === "Otra Especialidad");
   };
 
@@ -80,6 +98,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
+      formik.setFieldValue("Profesion", profession);
+
       const groups =
         specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup(groups);
@@ -87,13 +107,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       setSelectedOptionProfession("");
       setSelectedProfessionId("");
     }
-  };
-
-  const handleOptionCareerChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { value } = event.target;
-    setSelectedCareer(value);
   };
 
   useEffect(() => {
@@ -114,248 +127,327 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   };
 
   const formRef = useRef<HTMLFormElement>(null!);
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(formRef.current);
-    let jsonData = Object.fromEntries(formData);
-    const Temas_de_interes = filterSpecialities(jsonData as JsonData);
-    jsonData["Profesion"] = jsonData["Profesion"].toString().split("/")[0];
-    jsonData = { ...jsonData, ...utmState };
-    const body = mappingSelectedSpecialities(
-      jsonData as JsonData,
-      Temas_de_interes,
-      recaptchaResponse
-    );
-
-    let response = await api.postNewsletter(body as Newsletter);
-    // @ts-ignore
-    if (response && response.status === 200) {
-      console.log({ body });
-      setShow(false);
-      refreshRecaptcha();
-      resetForm();
-      dispatchUTM(clearUTMAction);
-      setTimeout(() => {
-        changeRoute("/gracias?origen=newsletter");
-      }, 100);
-    } else {
-      setFormError("Hubo un error al enviar el formulario, revise los campos");
-    }
-  };
 
   const resetForm = () => {
-    setEmail("");
-    setSelectedOptionSpecialty("");
-    setSelectedOptionProfession("");
-    setSelectedProfessionId("");
-    setStudentInputs(false);
-    setStudentYear("");
-    setSelectedCareer("");
-    setAcceptConditions(false);
-    setFormError("");
     formRef.current.reset();
   };
 
   const optionsArray = [1, 2, 3, 4, 5];
-  const selectOptions = optionsArray.map((y) => (
-    <option key={`st_year_${y}`} defaultValue={y}>
-      {y}
-    </option>
-  ));
 
-  // console.log("UTM Context", utm_source, utm_medium, utm_campaign, utm_content);
-
+  const initialValues = {
+    First_Name: "",
+    Last_Name: "",
+    Email: email,
+    Profesion: "",
+    Especialidad: "",
+    Temas_de_interes: [] as any,
+    Terms_And_Conditions2: false,
+    Otra_profesion: "",
+    Otra_especialidad: "",
+    utm_source: utmState.utm_source,
+    utm_medium: utmState.utm_medium,
+    utm_campaign: utmState.utm_campaign,
+    utm_content: utmState.utm_content,
+  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const body = {
+        ...values,
+        recaptchaResponse,
+      };
+      try {
+        let response = await api.postNewsletter(body as Newsletter);
+        // @ts-ignore
+        if (response.status === 200) {
+          setShow(false);
+          refreshRecaptcha();
+          resetForm();
+          dispatchUTM(clearUTMAction);
+          setTimeout(() => {
+            changeRoute("/gracias?origen=newsletter");
+          }, 100);
+        } else {
+          setFormError(
+            "Hubo un error al enviar el formulario, revise los campos"
+          );
+        }
+      } catch (error) {
+        console.error("Error al ejecutar reCAPTCHA:", error);
+      } finally {
+        refreshRecaptcha();
+      }
+    },
+  });
   return (
-    <form ref={formRef} onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
-        <div className="">
-          <div className="contact-from-input">
-            <input
-              type="text"
-              id="First_Name"
-              name="First_Name"
-              placeholder="Ingresar nombre"
-            />
-          </div>
-        </div>
-        <div className="">
-          <div className="contact-from-input">
-            <input
-              type="text"
-              id="Last_Name"
-              name="Last_Name"
-              placeholder="Ingresar apellido"
-            />
-          </div>
-        </div>
-        <div className="">
-          <div className="contact-from-input ">
-            <input
-              type="text"
-              id="Email"
-              name="Email"
-              value={localEmail}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Ingresar e-mail"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4 mt-4">
-        <div className="contact-select">
-          <div className="contact-select">
-            <select
-              className=""
-              id="Profesion"
-              name="Profesion"
-              value={`${selectedOptionProfession}/${selectedProfessionId}`}
-              onChange={handleOptionProfessionChange}
-            >
-              <option defaultValue="" value="">
-                Seleccionar profesión
-              </option>
-              {professions
-                ? professions.map((p: { id: string; name: string }) => (
-                  <option key={p.id} value={`${p.name}/${p.id}`}>
-                    {p.name}
-                  </option>
-                ))
-                : ""}
-            </select>
-          </div>
-          {showInputProfession && (
-            <div className="contact-from-input my-4">
-              <input
+    <FormikProvider value={formik}>
+      <Form
+        onSubmit={formik.handleSubmit}
+        action="/leads"
+        className=""
+        autoComplete="off"
+        ref={formRef}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
+          <div className="">
+            <div className="contact-from-input">
+              <ErrorMessage
+                name="First_Name"
+                component="span"
+                className="error"
+              />
+              <Field
                 type="text"
-                name="Otra_profesion"
-                placeholder="Ingresar profesion"
+                name="First_Name"
+                placeholder="Ingresar nombre"
               />
             </div>
-          )}
-        </div>
-        {studentInputs ? (
-          <div className={`col-xl-6`}>
-            <div className="contact-select grid grid-cols-11 gap-2">
-              <select
-                className="col-span-5"
-                id="Year"
-                name="Year"
-                defaultValue={studentYear}
-              >
-                <option defaultValue="">Seleccionar año</option>
-                {selectOptions}
-              </select>
-              <select
-                className="col-span-6"
-                id="Career"
-                name="Career"
-                value={selectedCareer}
-                onChange={handleOptionCareerChange}
-              >
-                <option defaultValue="">Seleccionar carrera</option>
-                {currentGroup.map((s: any) => (
-                  <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
+          </div>
+          <div className="">
+            <div className="contact-from-input">
+              <ErrorMessage
+                name="Last_Name"
+                component="span"
+                className="error"
+              />
+              <Field
+                type="text"
+                name="Last_Name"
+                placeholder="Ingresar apellido"
+              />
             </div>
           </div>
-        ) : (
-          <>
-            <div className={`col-xl-6`}>
-              <div className="contact-select">
-                <select
-                  className=""
-                  id="Especialidad"
-                  name="Especialidad"
-                  value={selectedOptionSpecialty}
-                  onChange={handleOptionSpecialtyChange}
-                >
-                  <option defaultValue="">Seleccionar especialidad</option>
-                  {selectedOptionProfession && currentGroup.length
-                    ? currentGroup.map((s: any) => (
-                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                        {s.name}
+          <div className="">
+            <div className="contact-from-input ">
+              <ErrorMessage name="Email" component="span" className="error" />
+              <Field
+                type="email"
+                name="Email"
+                placeholder="Ingresar correo electrónico"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4 mt-4">
+          <div className="contact-select">
+            <div className="contact-select">
+              <ErrorMessage
+                name="Profesion"
+                component="span"
+                className="error"
+              />
+              <Field
+                as="select"
+                name="Profesion"
+                onChange={handleOptionProfessionChange}
+                value={`${selectedOptionProfession}/${selectedProfessionId}`}
+              >
+                <option defaultValue="" value="">
+                  Seleccionar profesión
+                </option>
+                {professions
+                  ? professions.map((p: { id: string; name: string }) => (
+                      <option key={p.id} value={`${p.name}/${p.id}`}>
+                        {p.name}
                       </option>
                     ))
-                    : specialties.map((s: { id: string; name: string }) => (
-                      <option key={`sp_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))}
-                </select>
+                  : ""}
+              </Field>
+            </div>
+            {showInputProfession && (
+              <div className="contact-from-input my-4">
+                <ErrorMessage
+                  name="Otra_profesion"
+                  component="span"
+                  className="error"
+                />
+                <Field
+                  type="text"
+                  name="Otra_profesion"
+                  placeholder="Ingresar profesion"
+                />
               </div>
-              {showInputSpecialties && (
-                <div className="contact-from-input my-4">
-                  <input
-                    type="text"
-                    name="Otra_especialidad"
-                    placeholder="Ingresar especialidad"
+            )}
+          </div>
+          {studentInputs ? (
+            <div className="col-xl-12 flex gap-2">
+              <div className="contact-select w-1/2">
+                <ErrorMessage name="year" component="span" className="error" />
+                <Field as="select" name="year">
+                  <option defaultValue="">Año</option>
+                  {optionsArray.map((y) => (
+                    <option key={`st_year_${y}`} defaultValue={y}>
+                      {y}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="contact-select w-full">
+                <ErrorMessage
+                  name="career"
+                  component="span"
+                  className="error"
+                />
+                <Field as="select" name="career">
+                  <option defaultValue="">Seleccionar carrera</option>
+                  {currentGroup.map((s: any) => (
+                    <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                      {s.name}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className={`col-xl-6`}>
+                <div className="contact-select">
+                  <ErrorMessage
+                    name="Especialidad"
+                    component="span"
+                    className="error"
                   />
+                  <Field
+                    as="select"
+                    name="Especialidad"
+                    onChange={handleOptionSpecialtyChange}
+                    value={selectedOptionSpecialty}
+                  >
+                    <option defaultValue="">Seleccionar especialidad</option>
+                    {selectedOptionProfession && currentGroup.length
+                      ? currentGroup.map((s: any) => (
+                          <option
+                            key={`sp_group_${s.id}`}
+                            defaultValue={s.name}
+                          >
+                            {s.name}
+                          </option>
+                        ))
+                      : specialties.map((s: { id: string; name: string }) => (
+                          <option key={`sp_${s.id}`} defaultValue={s.name}>
+                            {s.name}
+                          </option>
+                        ))}
+                  </Field>
                 </div>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-      <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">
-        Selecciona tus temas de interés
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
-        {newsletterSpecialties && newsletterSpecialties.length
-          ? newsletterSpecialties.map((specialty: Specialty) => (
-            <Checkbox
-              key={specialty.id}
-              name={specialty.name}
-              value={false}
-              label={specialty.name}
-              required={false}
-            />
-          ))
-          : null}
-      </div>
-      <div className="flex justify-center flex-wrap items-center gap-8">
-        <div className="flex gap-1 mt-3">
-          <Checkbox
-            name="Terms_And_Conditions2"
-            value={acceptConditions}
-            useStateCallback={setAcceptConditions}
-            label="Acepto las"
+                {showInputSpecialties && (
+                  <div className="contact-from-input my-4">
+                    <ErrorMessage
+                      name="Otra_especialidad"
+                      component="span"
+                      className="error"
+                    />
+                    <Field
+                      type="text"
+                      name="Otra_especialidad"
+                      placeholder="Ingresar especialidad"
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+        <div className="contact-array-list">
+          <h3 className="mt-6 text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway">
+            Selecciona tus temas de interés
+          </h3>
+          <ErrorMessage
+            name="Temas_de_interes"
+            component="span"
+            className="error text-left"
           />
-          <Link to="/politica-de-privacidad" className="text-primary text-sm underline">
-            condiciones de privacidad
-          </Link>
+          <FieldArray name="Temas_de_interes">
+            {({ push, remove }) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-row-6 gap-2 mt-2">
+                {newsletterSpecialties && newsletterSpecialties.length
+                  ? newsletterSpecialties.map(
+                      (
+                        specialty: { name: string; id: number },
+                        index: number
+                      ) => (
+                        <div key={specialty.id} className="interest-topics">
+                          <label>
+                            <Field
+                              type="checkbox"
+                              name={`Temas_de_interes[${index}]`}
+                              value={specialty.name}
+                              checked={formik.values.Temas_de_interes.includes(
+                                specialty.name
+                              )}
+                              onChange={(e: any) => {
+                                const isChecked = e.target.checked;
+                                if (isChecked) {
+                                  push(specialty.name);
+                                } else {
+                                  const idx =
+                                    formik.values.Temas_de_interes.indexOf(
+                                      specialty.name
+                                    );
+                                  if (idx !== -1) {
+                                    remove(idx);
+                                  }
+                                }
+                              }}
+                            />
+                            <span>{specialty.name}</span>
+                          </label>
+                        </div>
+                      )
+                    )
+                  : null}
+              </div>
+            )}
+          </FieldArray>
         </div>
-        <div className="mt-2">
-          <button
-            type="submit"
-            id="submit-newsletter"
-            className="cont-btn rounded flex center"
-            disabled={!acceptConditions}
-          //onClick={logFormData} // Add onClick event handler
-          >
-            <div className="flex center gap-2 px-2 text-sm my-auto">
-              Suscribirme
-              <img
-                src="/src/images/icons/plane.svg"
-                className="subscribe-icon"
+
+        <div className="flex justify-center flex-wrap items-center gap-8">
+          <div className="contact-checkbox">
+            <ErrorMessage
+              name="Terms_And_Conditions2"
+              component="span"
+              className="error"
+            />
+            <div className="flex gap-2 center">
+              <Field
+                type="checkbox"
+                name="Terms_And_Conditions2"
+                checked={formik.values.Terms_And_Conditions2}
+                className="hidden-checkbox mt-0.5"
               />
+              <label>
+                Acepto las{" "}
+                <a className="text-primary">condiciones de privacidad</a>
+              </label>
             </div>
-          </button>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              id="submit-newsletter"
+              className="cont-btn rounded flex center"
+              disabled={!formik.values.Terms_And_Conditions2}
+            >
+              <div className="flex center gap-2 px-2 text-sm my-auto">
+                Suscribirme
+                <img
+                  src="/src/images/icons/plane.svg"
+                  className="subscribe-icon"
+                />
+              </div>
+            </button>
+          </div>
         </div>
-      </div>
-      <p
-        className="text-red-500 font-bold text-center"
-        style={{ visibility: formError ? "visible" : "hidden" }}
-      >
-        {formError}
-      </p>
-      {/* <input type="hidden" name="utm_source" value={utm_source} />
-      <input type="hidden" name="utm_medium" value={utm_medium} />
-      <input type="hidden" name="utm_campaign" value={utm_campaign} />
-      <input type="hidden" name="utm_content" value={utm_content} /> */}
-    </form>
+        <p
+          className="text-red-500 font-bold text-center"
+          style={{ visibility: formError ? "visible" : "hidden" }}
+        >
+          {formError}
+        </p>
+      </Form>
+    </FormikProvider>
   );
 };
 

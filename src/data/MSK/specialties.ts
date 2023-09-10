@@ -41,22 +41,22 @@ const HOME_SPECIALTIES: Specialty[] = [
   {
     id: 1,
     name: "Cardiología",
-    href: "/tienda?especialidad=Cardiología",
+    href: "/tienda?especialidad=Cardiología&resources=Curso",
   },
   {
     id: 2,
     name: "Emergentología",
-    href: "/tienda?especialidad=Emergentología",
+    href: "/tienda?especialidad=Emergentología&resources=Curso",
   },
   {
     id: 3,
     name: "Medicina general",
-    href: "/tienda?especialidad=Medicina general",
+    href: "/tienda?especialidad=Medicina general&resources=Curso",
   },
   {
     id: 4,
     name: "Infectología",
-    href: "/tienda?especialidad=Infectología",
+    href: "/tienda?especialidad=Infectología&resources=Curso",
   },
   {
     id: 5,

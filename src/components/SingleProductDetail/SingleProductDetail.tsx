@@ -14,6 +14,7 @@ import Badge from "components/Badge/Badge";
 import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
+import useBestSellers from "hooks/useBestSellers";
 interface Props {
   product: FetchSingleProduct;
 }
@@ -21,6 +22,8 @@ interface Props {
 const SingleProductDetail: FC<Props> = ({ product }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
+
+  const {courses, loading: loadingBestSellers} = useBestSellers();
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
@@ -60,6 +63,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
+
+  console.log({imagen})
 
   // @ts-ignore
   return (
@@ -242,6 +247,18 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       </div>
+      <div className="container relative py-16 my-32">
+            <BackgroundSection />
+            <SectionSliderPosts
+              posts={courses}
+              loading={loadingBestSellers}
+              postCardName="card9"
+              heading="Nuestros cursos más elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+              sliderStype="style2"
+              uniqueSliderClass="pageHome-section6"
+            />
+          </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 ">
         <ContactFormSection
           productName={product.ficha.title}
@@ -261,6 +278,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       ) : null}
+
+
     </section>
   );
 };

@@ -7,6 +7,9 @@ import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
 import api from "Services/api";
 import NoteExtraData from "components/NoteExtraData/NoteExtraData";
+import BackgroundSection from "components/BackgroundSection/BackgroundSection";
+import SectionSliderPosts from "../home/SectionSliderPosts";
+import useBestSellers from "hooks/useBestSellers";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -16,6 +19,8 @@ export interface SingleContentProps {
 const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
+
+  const {courses, loading: loadingBestSellers} = useBestSellers()
 
   const [recommendedCourses, setRecommendedCourses] = useState([]);
   const { author, contenido, date, themes_to_se } = data;
@@ -259,6 +264,18 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
           uniqueSliderClass="pageHome-section6"
         />
       </div> */}
+      <div className="container relative py-16 my-32">
+            <BackgroundSection />
+            <SectionSliderPosts
+              posts={courses}
+              loading={loadingBestSellers}
+              postCardName="card9"
+              heading="Nuestros cursos más elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+              sliderStype="style2"
+              uniqueSliderClass="pageHome-section6"
+            />
+          </div>
     </div>
   );
 };

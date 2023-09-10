@@ -14,6 +14,8 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
+  const image = ficha.image
+
   const calculateDistanceToBottom = () => {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
@@ -75,7 +77,7 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
         {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
             <img
-              src={ficha.image.replace(`${state.country}.`, "")}
+              src={image}
               alt="img not found"
             />
           </div>

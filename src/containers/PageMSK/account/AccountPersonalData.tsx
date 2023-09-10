@@ -1,27 +1,48 @@
 import Button from "components/Button/Button";
 import Input from "components/Input/Input";
 import Label from "components/Label/Label";
-import { ChangeEvent, Dispatch, FC, SetStateAction, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Contact, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
 import NcLink from "components/NcLink/NcLink";
 import { CountryContext } from "context/country/CountryContext";
+import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
+import * as Yup from "yup";
+import { CountryCode } from "libphonenumber-js/types";
+
 interface Props {
   user: User;
-  setUser?: Dispatch<SetStateAction<User>>
+  setUser?: Dispatch<SetStateAction<User>>;
 }
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { state } = useContext(CountryContext);
-  const [userData, setUserData] = useState(user)
-  const [isFormComplete, setIsFormComplete] = useState(false);
-  const [saveDisabled, setSaveDisabled] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [userData, setUserData] = useState(user);
+  const [formSubmitted, setFormSubmitted] = useState(true);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [localUser, setLocalUser] = useState<Contact>(userData.contact as Contact);
+  const [localUser, setLocalUser] = useState<Contact>(
+    userData.contact as Contact
+  );
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
+  const [currentGroup, setCurrentGroup] = useState<any>([]);
+  const [studentInputs, setStudentInputs] = useState(false);
+  const [selectedCareer, setSelectedCareer] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [updateStatusMessage, setUpdateStatusMessage] = useState({
     message: "",
     type: "",
@@ -34,15 +55,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>(
     userData?.contact?.phone || ""
   );
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
-  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
-  const [currentGroup, setCurrentGroup] = useState<any>([]);
-  const [studentInputs, setStudentInputs] = useState(false);
-  const [studentYear, setStudentYear] = useState("");
-  const [selectedCareer, setSelectedCareer] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -59,7 +71,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   ) => {
     const { value } = event.target;
     setSelectedCareer(value);
-    checkFormCompletion();
   };
 
   useEffect(() => {
@@ -89,6 +100,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
+      formik.setFieldValue("profession", profession);
       const groups =
         specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup([]);
@@ -105,7 +117,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
     setShowInputSpecialties(value === "Otra Especialidad");
-    checkFormCompletion();
+    formik.setFieldValue("speciality", value);
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -116,9 +128,13 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
 
     if (fieldName == "country") {
       getStates(value);
+      formik.setFieldValue("country", value);
     }
 
-    const isFieldEmpty = value.trim() === "";
+    if (fieldName == "state") {
+      formik.setFieldValue("state", value);
+    }
+
     let identification = null;
 
     switch (localUser.country) {
@@ -132,102 +148,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
         identification = localUser.rfc;
         break;
     }
-
-    const requiredFields = [
-      localUser.name,
-      localUser.last_name,
-      localUser.email,
-      phoneNumber,
-      selectedOptionProfession,
-      selectedOptionSpecialty,
-      localUser.address,
-      localUser.country,
-      localUser.state,
-      localUser.postal_code,
-      identification,
-      localUser.fiscal_regime,
-      localUser.state,
-      selectedOptionProfession.includes("Otra ")
-        ? localUser?.other_profession
-        : null,
-      selectedOptionSpecialty.includes("Otra ")
-        ? localUser?.other_speciality
-        : null,
-    ];
-
-    const isComplete =
-      requiredFields.every((field) => field !== "") && !isFieldEmpty;
-    setIsFormComplete(isComplete);
   };
-
-  const submitForm = async (event: any) => {
-    event?.preventDefault();
-    const profession =
-      selectedOptionProfession === "Otra profesión"
-        ? "Otra profesión"
-        : selectedOptionProfession;
-
-    const speciality =
-      selectedOptionSpecialty === "Otra Especialidad"
-        ? "Otra Especialidad"
-        : selectedOptionSpecialty;
-
-    const otherInputs = {
-      other_profession:
-        selectedOptionProfession !== "Otra profesión"
-          ? ""
-          : localUser.other_profession,
-      other_speciality:
-        selectedOptionSpecialty !== "Otra Especialidad"
-          ? ""
-          : localUser.other_speciality,
-    };
-
-    const jsonData: Contact = {
-      ...localUser,
-      ...otherInputs,
-      profession,
-      speciality,
-      phone: phoneNumber,
-      career: selectedCareer,
-      year: studentYear,
-    };
-    try {
-      const res = await api.updateUserData(jsonData);
-      if ((res?.status as number) === 200) {
-        setUpdateStatusMessage({
-          message: "Se actualizó correctamente.",
-          type: "success",
-        });
-
-        const userDataDB = await api.getUserData();
-
-        setSaveDisabled(true);
-        if (typeof setUser === 'function') {
-          setUser(userDataDB);
-        }
-        setFormSubmitted(true);
-      } else {
-        console.log("Hubo un error al actualizar el usuario", res);
-        setUpdateStatusMessage({
-          message: "Hubo un error al actualizar el usuario.",
-          type: "error",
-        });
-      }
-    } catch (error) {
-      console.log("Hubo un error al actualizar el usuario", error);
-      setUpdateStatusMessage({
-        message: "Hubo un error al actualizar el usuario.",
-        type: "error",
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (formSubmitted) {
-      setSaveDisabled(false);
-    }
-  }, [localUser, selectedOptionProfession, selectedOptionSpecialty]);
 
   const countries = [
     {
@@ -247,27 +168,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       name: "Ecuador",
     },
   ];
-
-  const checkFormCompletion = () => {
-    const requiredFields = [
-      localUser.name,
-      localUser.last_name,
-      localUser.email,
-      phoneNumber,
-      selectedOptionProfession,
-      selectedOptionSpecialty,
-      localUser.address,
-      localUser.country,
-      localUser.state,
-      localUser.postal_code,
-      localUser.rfc,
-      localUser.fiscal_regime,
-    ];
-
-    const isComplete = requiredFields.every((field) => field !== "");
-
-    setIsFormComplete(isComplete);
-  };
 
   useEffect(() => {
     const hasOtherProfession = selectedOptionProfession.includes("Otra ");
@@ -310,55 +210,143 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     switch (localUser.country) {
       case "México":
         return (
-          <>
-            <Label>RFC</Label>
-            <Input
-              placeholder="Ingresar RFC"
-              type="text"
-              className="mt-1"
-              id="rfc"
-              name="rfc"
-              value={localUser?.rfc}
-              onChange={(event) => handleInputChange("rfc", event.target.value)}
-            />
-          </>
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              RFC
+            </label>
+            <ErrorMessage name="rfc" component="span" className="error" />
+            <Field type="text" name="rfc" placeholder="Ingresar RFC" />
+          </div>
         );
       case "Chile":
         return (
-          <>
-            <Label>RUT</Label>
-            <Input
-              placeholder="Ingresar RUT"
-              type="text"
-              className="mt-1"
-              id="rut"
-              name="rut"
-              value={localUser?.rut}
-              onChange={(event) => handleInputChange("rut", event.target.value)}
-            />
-          </>
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              RUT
+            </label>
+            <ErrorMessage name="rut" component="span" className="error" />
+            <Field type="text" name="rut" placeholder="Ingresar RUT" />
+          </div>
         );
       default:
         return (
-          <>
-            <Label>DNI</Label>
-            <Input
-              placeholder="Ingresar DNI"
-              type="text"
-              className="mt-1"
-              id="dni"
-              name="dni"
-              value={localUser?.dni}
-              onChange={(event) => handleInputChange("dni", event.target.value)}
-            />
-          </>
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              DNI
+            </label>
+            <ErrorMessage name="dni" component="span" className="error" />
+            <Field type="text" name="dni" placeholder="Ingresar DNI" />
+          </div>
         );
     }
   };
 
-  const onChangeStudentYear = (e: any) => {
-    setStudentYear(e.target.value);
+  const optionsArray = [1, 2, 3, 4, 5];
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const initialValues = {
+    name: localUser?.name,
+    last_name: localUser?.last_name,
+    email: localUser?.email,
+    phone: localUser?.phone,
+    profession: localUser?.profession,
+    speciality: localUser?.speciality,
+    other_profession: localUser?.other_profession || "",
+    other_speciality: localUser?.other_speciality || "",
+    career: localUser?.career,
+    year: localUser?.year,
+    address: localUser?.address,
+    country: localUser?.country,
+    postal_code: localUser?.postal_code,
+    state: localUser?.state,
+    rfc: localUser?.rfc || "",
+    dni: localUser?.dni || "",
+    rut: localUser?.rut || "",
+    fiscal_regime: localUser?.fiscal_regime,
   };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("El nombre es requerido"),
+    last_name: Yup.string().required("El apellido es requerido"),
+    email: Yup.string()
+      .email("Correo electrónico inválido")
+      .required("El correo electrónico es requerido"),
+    phone: Yup.string().required("El teléfono es requerido"),
+    profession: Yup.string().required("La profesión es requerida"),
+    speciality: Yup.string().required("La especialidad es requerida"),
+    country: Yup.string().required("El país es requerido"),
+    state: Yup.string().required("La provincia es requerida"),
+    postal_code: Yup.string().required("El código postal es requerido"),
+    address: Yup.string().required("La dirección es requerida"),
+    fiscal_regime: Yup.string().required("El régimen fiscal es requerido"),
+    // dni: Yup.string().when("country", {
+    //   is: (val: string) => val === "Argentina",
+    //   then: Yup.string().required("El DNI es requerido"),
+    // }),
+    // rfc: Yup.string().when("country", {
+    //   is: (val: string) => val === "México",
+    //   then: Yup.string().required("El RFC es requerido"),
+    // }),
+    // rut: Yup.string().when("country", {
+    //   is: (val: string) => val === "Chile",
+    //   then: Yup.string().required("El RUT es requerido"),
+    // }),
+    // other_profession: Yup.string().when("profession", {
+    //   is: (val: string) => val === "Otra profesión",
+    //   then: Yup.string().required("La profesión es requerida"),
+    // })
+    // other_speciality: Yup.string().when("speciality", {
+    //   is: (val: string) => val === "Otra especialidad",
+    //   then: Yup.string().required("La especialidad es requerida"),
+    // }),
+    // Career: Yup.string().when("profession", {
+    //   is: (val: string) => val === "Estudiante",
+    //   then: Yup.string().required("La carrera es requerida"),
+    // }),
+    // Year: Yup.string().when("profession", {
+    //   is: (val: string) => val === "Estudiante",
+    //   then: Yup.string().required("El año es requerido"),
+    // }),
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values: any) => {
+      const formData = {
+        ...localUser,
+        ...values,
+      };
+
+      try {
+        const res = await api.updateUserData(formData);
+        if ((res?.status as number) === 200) {
+          setUpdateStatusMessage({
+            message: "Se actualizó correctamente.",
+            type: "success",
+          });
+
+          const userDataDB = await api.getUserData();
+
+          if (typeof setUser === "function") {
+            setUser(userDataDB);
+          }
+          setFormSubmitted(true);
+        } else {
+          console.log("Hubo un error al actualizar el usuario", res);
+          setUpdateStatusMessage({
+            message: "Hubo un error al actualizar el usuario.",
+            type: "error",
+          });
+        }
+      } catch (error) {
+        console.log("Hubo un error al actualizar el usuario", error);
+        setUpdateStatusMessage({
+          message: "Hubo un error al actualizar el usuario.",
+          type: "error",
+        });
+      }
+    },
+  });
 
   useEffect(() => {
     if (localUser && localUser.country) {
@@ -366,210 +354,247 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     }
   }, [localUser]);
 
-  const optionsArray = [1, 2, 3, 4, 5];
-  const selectOptions = optionsArray.map((y) => (
-    <option key={`st_year_${y}`} defaultValue={y}>
-      {y}
-    </option>
-  ));
+  useEffect(() => {
+    if (formik.dirty) {
+      setFormSubmitted(false);
+    }
+  }, [formik.dirty]);
 
   return (
     <div className="rounded-xl md:border md:border-neutral-100 dark:border-neutral-800 md:p-6">
-      <form
-        className="grid md:grid-cols-2 gap-6 profile-contact-form"
-        method="post"
-        onSubmit={submitForm}
-      >
-        <label className="block">
-          <Label>Nombre</Label>
-          <Input
-            placeholder="Ingresar nombre"
-            type="text"
-            className="mt-1"
-            id="name"
-            name="name"
-            value={localUser?.name}
-            onChange={(event) => handleInputChange("name", event.target.value)}
-          />
-        </label>
-        <label className="block">
-          <Label>Apellido</Label>
-          <Input
-            placeholder="Ingresar apellido"
-            type="text"
-            className="mt-1"
-            id="Last_Name"
-            name="Last_Name"
-            value={localUser?.last_name}
-            onChange={(event) =>
-              handleInputChange("last_name", event.target.value)
-            }
-          />
-        </label>
-        <label className="block">
-          <Label>E-mail</Label>
-          <Input
-            type="email"
-            placeholder="Ingresar e-mail"
-            className="mt-1"
-            id="email"
-            name="email"
-            value={localUser?.email}
-            onChange={(event) => handleInputChange("email", event.target.value)}
-          />
-        </label>
-        <label className="block">
-          <Label>Teléfono</Label>
-          <PhoneInput
-            name="Phone"
-            id="Phone"
-            placeholder="Ingresar número telefónico"
-            defaultCountry="MX"
-            className="phone-profile-input mt-1"
-            value={phoneNumber}
-            onChange={handlePhoneChange}
-          />
-        </label>
-
-        <div className="grid grid-cols-2 col-span-2 gap-6">
-          <div className="col-span-1">
-            <span>Profesión</span>
-            <div className="profile-contact-select mt-1">
-              <select
-                className=""
-                id="profession"
-                name="profession"
-                value={`${selectedOptionProfession}/${selectedProfessionId}`}
-                onChange={handleOptionProfessionChange}
-              >
-                <option defaultValue="" value="">
-                  Seleccionar profesión
-                </option>
-                {professions
-                  ? professions.map((p: Profession) => (
-                    <option key={p.id} value={`${p.name}/${p.id}`}>
-                      {p.name}
-                    </option>
-                  ))
-                  : ""}
-              </select>
-            </div>
-          </div>
-          {showInputProfession && (
-            <label className="block">
-              <Input
-                name="Otra_profesion"
-                id="Otra_profesion"
-                type="text"
-                placeholder="Ingresar profesion"
-                className="mt-7"
-              />
+      <FormikProvider value={formik}>
+        <Form
+          onSubmit={formik.handleSubmit}
+          action="#"
+          className="md:grid md:grid-cols-2 gap-6"
+          autoComplete="off"
+          ref={formRef}
+        >
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Nombre
             </label>
-          )}
-          {studentInputs ? (
-            <div>
-              <div className={`grid grid-cols-12 gap-2 mt-7`}>
-                <div className="profile-contact-select col-span-6">
-                  <select
-                    id="year"
-                    name="year"
-                    defaultValue={localUser?.year}
-                    onChange={(e) => onChangeStudentYear(e)}
-                  >
-                    <option defaultValue="">Seleccionar año</option>
-                    {selectOptions}
-                  </select>
-                </div>
-                <div className="profile-contact-select col-span-6">
-                  <select
-                    id="career"
-                    name="career"
-                    defaultValue={localUser?.career}
-                    onChange={handleOptionCareerChange}
-                  >
-                    <option defaultValue="">Seleccionar carrera</option>
-                    {currentGroup &&
-                      currentGroup.map((s: any) => (
-                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
+            <ErrorMessage name="name" component="span" className="error" />
+            <Field type="text" name="name" placeholder="Ingresar nombre" />
+          </div>
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Apellido
+            </label>
+            <ErrorMessage name="last_name" component="span" className="error" />
+            <Field
+              type="text"
+              name="last_name"
+              placeholder="Ingresar apellido"
+            />
+          </div>
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              E-mail
+            </label>
+            <ErrorMessage name="email" component="span" className="error" />
+            <Field type="text" name="email" placeholder="Ingresar e-mail" />
+          </div>
+          <Field name="phone">
+            {({ field, form, meta }: any) => (
+              <div className="form-phone-std">
+                <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                  Teléfono
+                </label>
+                <ErrorMessage name="phone" component="span" className="error" />
+                <PhoneInput
+                  name="phone"
+                  id="phone"
+                  placeholder="Ingresar número telefónico"
+                  defaultCountry={state.country.toUpperCase() as CountryCode}
+                  value={formik.values.phone}
+                  onChange={(value: any) => {
+                    form.setFieldValue("phone", value);
+                    handlePhoneChange(value);
+                  }}
+                  className="phone-wrapper"
+                />
               </div>
-            </div>
-          ) : (
-            <div className="col-span-1">
-              <span>Especialidad</span>
-              <div className="profile-contact-select mt-1">
-                <select
-                  className=""
-                  id="speciality"
-                  name="speciality"
-                  value={selectedOptionSpecialty}
-                  onChange={handleOptionSpecialtyChange}
+            )}
+          </Field>
+
+          <div className="grid grid-cols-2 col-span-2 gap-6">
+            <div className="col-xl-6 col-span-2 md:col-span-1">
+              <div className="form-select-std">
+                <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                  Profesión
+                </label>
+                <ErrorMessage
+                  name="profession"
+                  component="span"
+                  className="error"
+                />
+                <Field
+                  as="select"
+                  name="profession"
+                  onChange={handleOptionProfessionChange}
+                  value={`${selectedOptionProfession}/${selectedProfessionId}`}
                 >
-                  <option defaultValue="">Seleccionar especialidad</option>
-                  {selectedOptionProfession && currentGroup?.length
-                    ? currentGroup.map((s: any) => (
-                      <option key={`sp_group_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))
-                    : specialties.map((s: Specialty) => (
-                      <option key={`sp_${s.id}`} defaultValue={s.name}>
-                        {s.name}
-                      </option>
-                    ))}
-                </select>
+                  <option defaultValue="" value="">
+                    Seleccionar profesión
+                  </option>
+                  {professions
+                    ? professions.map((p) => (
+                        <option key={p.id} value={`${p.name}/${p.id}`}>
+                          {p.name}
+                        </option>
+                      ))
+                    : ""}
+                </Field>
               </div>
-              {showInputSpecialties && (
-                <div className="contact-from-input my-4">
-                  <input
+
+              {showInputProfession && (
+                <div className="form-input-std my-4">
+                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                    Otra Profesión
+                  </label>
+                  <ErrorMessage
+                    name="other_profession"
+                    component="span"
+                    className="error"
+                  />
+                  <Field
                     type="text"
-                    id="Otra_especialidad"
-                    name="Otra_especialidad"
-                    placeholder="Ingresar especialidad"
+                    name="other_profession"
+                    placeholder="Ingresar profesion"
                   />
                 </div>
               )}
             </div>
-          )}
-        </div>
-        <span className="dark:text-primary-500 forgot-password col-span-2">
-          ¿Necesitas cambiar tu contraseña?{" "}
-          <NcLink
-            to="/recuperar"
-            className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
-          >
-            Hazlo aquí
-          </NcLink>
-        </span>
+            {studentInputs ? (
+              <div className="col-span-2 md:col-span-1">
+                <div className="col-xl-12 flex gap-2">
+                  <div className="form-select-std w-1/2">
+                    <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                      Año
+                    </label>
+                    <ErrorMessage
+                      name="Year"
+                      component="span"
+                      className="error"
+                    />
+                    <Field as="select" name="Year">
+                      <option defaultValue="">Año</option>
+                      {optionsArray.map((y) => (
+                        <option key={`st_Year_${y}`} defaultValue={y}>
+                          {y}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                  <div className="form-select-std w-full">
+                    <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                      Carrera
+                    </label>
+                    <ErrorMessage
+                      name="Career"
+                      component="span"
+                      className="error"
+                    />
+                    <Field
+                      as="select"
+                      name="Career"
+                      onChange={handleOptionCareerChange}
+                      value={selectedCareer}
+                    >
+                      <option defaultValue="">Seleccionar carrera</option>
+                      {currentGroup.map((s: any) => (
+                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="col-span-2 md:col-span-1">
+                <div className="form-select-std">
+                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                    Especialidad
+                  </label>
+                  <ErrorMessage
+                    name="speciality"
+                    component="span"
+                    className="error"
+                  />
+                  <Field
+                    as="select"
+                    name="speciality"
+                    onChange={handleOptionSpecialtyChange}
+                    value={selectedOptionSpecialty}
+                  >
+                    <option defaultValue="">Seleccionar especialidad</option>
+                    {selectedOptionProfession && currentGroup?.length
+                      ? currentGroup.map((s: any) => (
+                          <option
+                            key={`sp_group_${s.id}`}
+                            defaultValue={s.name}
+                          >
+                            {s.name}
+                          </option>
+                        ))
+                      : specialties.map((s) => (
+                          <option key={`sp_${s.id}`} defaultValue={s.name}>
+                            {s.name}
+                          </option>
+                        ))}
+                  </Field>
+                </div>
+                {showInputSpecialties && (
+                  <div className="form-input-std my-4">
+                    <Field
+                      type="text"
+                      name="other_speciality"
+                      placeholder="Ingresar especialidad"
+                    />
+                    <ErrorMessage
+                      name="other_speciality"
+                      component="div"
+                      className="error"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <span className="dark:text-primary-500 forgot-password col-span-2">
+            ¿Necesitas cambiar tu contraseña?{" "}
+            <NcLink
+              to="/recuperar"
+              className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
+            >
+              Hazlo aquí
+            </NcLink>
+          </span>
 
-        <label className="block">
-          <Label>Dirección</Label>
-          <Input
-            placeholder="Ingresar dirección"
-            type="text"
-            className="mt-1"
-            id="address"
-            name="address"
-            value={localUser?.address || ""}
-            onChange={(event) =>
-              handleInputChange("address", event.target.value)
-            }
-          />
-        </label>
-        <label>
-          <Label>País</Label>
-          <div className="profile-contact-select mt-1">
-            <select
-              className=""
-              id="country"
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Dirección
+            </label>
+            <ErrorMessage name="address" component="span" className="error" />
+            <Field
+              type="text"
+              name="address"
+              placeholder="Ingresar dirección"
+            />
+          </div>
+
+          <div className="form-select-std w-full">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              País
+            </label>
+            <ErrorMessage name="country" component="span" className="error" />
+            <Field
+              as="select"
               name="country"
-              disabled={true}
               value={localUser?.country}
-              onChange={(event) =>
+              onChange={(event: any) =>
                 handleInputChange("country", event.target.value)
               }
             >
@@ -579,19 +604,20 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                   {s.name}
                 </option>
               ))}
-            </select>
+            </Field>
           </div>
-        </label>
-        <label>
-          <Label>Provincia</Label>
-          <div className="profile-contact-select mt-1">
+
+          <div className="form-select-std w-full">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Provincia
+            </label>
+            <ErrorMessage name="state" component="span" className="error" />
             {currentStates ? (
-              <select
-                className=""
-                id="state"
+              <Field
+                as="select"
                 name="state"
                 value={localUser?.state}
-                onChange={(event) =>
+                onChange={(event: any) =>
                   handleInputChange("state", event.target.value)
                 }
               >
@@ -601,76 +627,72 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                     {s}
                   </option>
                 ))}
-              </select>
+              </Field>
             ) : (
-              <Input
-                placeholder="Ingresar Provincia"
+              <Field
                 type="text"
-                className="mt-1"
-                value={localUser?.state}
-                onChange={(event) =>
-                  handleInputChange("state", event.target.value)
-                }
+                name="state"
+                placeholder="Ingresar Provincia"
               />
             )}
           </div>
-          {/* <Input
-            placeholder="Ingresar Provincia"
-            type="text"
-            className="mt-1"
-            value={localUser?.state}
-            onChange={(event) => handleInputChange("state", event.target.value)}
-          /> */}
-        </label>
-        <label className="block">
-          <Label>Código postal</Label>
-          <Input
-            placeholder="Ingresar código postal"
-            type="text"
-            className="mt-1"
-            value={localUser?.postal_code}
-            onChange={(event) =>
-              handleInputChange("postal_code", event.target.value)
-            }
-          />
-        </label>
-        <label className="block">{renderInputIdentification()}</label>
-        <label className="block">
-          <Label>Régimen fiscal</Label>
-          <Input
-            placeholder="Ingresar régimen fiscal"
-            type="text"
-            className="mt-1"
-            id="fiscal_regime"
-            name="fiscal_regime"
-            value={localUser?.fiscal_regime}
-            onChange={(event) =>
-              handleInputChange("fiscal_regime", event.target.value)
-            }
-          />
-        </label>
 
-        <Button
-          className={
-            "md:col-span-2 bg-primary-6000 text-white disabled:bg-grey-disabled disabled:cursor-not-allowed"
-          }
-          type="submit"
-          disabled={!isFormComplete || saveDisabled}
-        >
-          Guardar cambios
-        </Button>
-        {updateStatusMessage.message && (
-          <p
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Código postal
+            </label>
+            <ErrorMessage
+              name="postal_code"
+              component="span"
+              className="error"
+            />
+            <Field
+              type="text"
+              name="postal_code"
+              placeholder="Ingresar código postal"
+            />
+          </div>
+
+          <label className="block">{renderInputIdentification()}</label>
+
+          <div className="form-input-std">
+            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+              Régimen fiscal
+            </label>
+            <ErrorMessage
+              name="fiscal_regime"
+              component="span"
+              className="error"
+            />
+            <Field
+              type="text"
+              name="fiscal_regime"
+              placeholder="Ingresar régimen fiscal"
+            />
+          </div>
+
+          <Button
             className={
-              updateStatusMessage.type == "error"
-                ? "text-red-500 text-center md:col-span-2"
-                : "text-green-500 text-center md:col-span-2"
+              "md:col-span-2 bg-primary-6000 text-white disabled:bg-grey-disabled disabled:cursor-not-allowed"
             }
+            type="submit"
+            disabled={formik.isSubmitting || formSubmitted}
           >
-            {updateStatusMessage.message}
-          </p>
-        )}
-      </form>
+            Guardar cambios
+          </Button>
+          {updateStatusMessage.message && (
+            <p
+              className={
+                updateStatusMessage.type == "error"
+                  ? "text-red-500 text-center md:col-span-2"
+                  : "text-green-500 text-center md:col-span-2"
+              }
+            >
+              {updateStatusMessage.message}
+            </p>
+          )}
+        </Form>
+      </FormikProvider>
     </div>
   );
 };

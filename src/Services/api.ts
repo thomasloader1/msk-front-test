@@ -11,6 +11,7 @@ import { ContactUs, SignUp, Newsletter } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
+import { ContactFormSchema } from "hooks/useYupValidation";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
 const COUNTRY = localStorage.getItem("country") || "mx";
@@ -76,7 +77,7 @@ class ApiService {
     }
   }
 
-  async postContactUs(jsonData: ContactUs) {
+  async postContactUs(jsonData: ContactUs | ContactFormSchema) {
     try {
       return await axios.post(
         `${baseUrl}/api/crm/CreateLeadHomeContactUs`,

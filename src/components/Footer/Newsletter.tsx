@@ -155,7 +155,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     onSubmit: async (values) => {
       const body = {
         ...values,
-        recaptchaResponse,
+        recaptcha_token: recaptchaResponse,
       };
       try {
         let response = await api.postNewsletter(body as Newsletter);

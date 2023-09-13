@@ -52,7 +52,7 @@ const ContactFormSection = ({
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
   const formRef = useRef<HTMLFormElement>(null);
-  
+
   const initialValues: ContactFormSchema = {
     First_Name: "",
     Last_Name: "",
@@ -76,7 +76,6 @@ const ContactFormSection = ({
   };
 
   const { contactFormValidation } = useYupValidation();
-
 
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
@@ -170,21 +169,24 @@ const ContactFormSection = ({
     initialValues,
     validationSchema: contactFormValidation,
     onSubmit: async (values) => {
-      console.log("Form values:", values);
+      const body = {
+        ...values,
+        recaptcha_token: recaptchaResponse,
+      };
       try {
-        const response = await api.postContactUs(values);
+        const response = await api.postContactUs(body);
         // @ts-ignore
         if (response.status === 200) {
           let routeChange = isEbook
             ? "/gracias?origen=descarga-ebook"
             : "/gracias?origen=contact";
-
           setFormSent(true);
           resetForm();
           dispatchUTM(clearUTMAction);
           setTimeout(() => {
             changeRoute(routeChange);
           }, 100);
+          refreshRecaptcha();
         } else {
           setFormError(
             "Hubo un error al enviar el formulario, revise los campos"

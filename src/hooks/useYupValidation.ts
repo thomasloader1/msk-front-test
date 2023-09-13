@@ -15,11 +15,11 @@ export interface ContactFormSchema {
   career?: string;
   Otra_especialidad?: string;
   Preferencia_de_contactaci_n?: string;
-  recaptcha_token?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
+  recaptcha_token?: string | null;
 }
 
 export const useYupValidation = () => {
@@ -34,35 +34,66 @@ export const useYupValidation = () => {
       Description: Yup.string(),
       Profesion: Yup.string().required("La profesión es requerida"),
       Especialidad: Yup.string().required("La especialidad es requerida"),
-      Otra_profesion: Yup.string().test('other-profession', 'La profesion es requerida', function (value) {
-        const profession = this.parent.Profesion;
-        if (profession === 'Otra Profesion' && !value) {  
-          return new Yup.ValidationError('La profesion es requerida', value, 'Otra_profesion');
+      Otra_profesion: Yup.string().test(
+        "other-profession",
+        "La profesion es requerida",
+        function (value) {
+          const profession = this.parent.Profesion;
+          if (profession === "Otra Profesion" && !value) {
+            return new Yup.ValidationError(
+              "La profesion es requerida",
+              value,
+              "Otra_profesion"
+            );
+          }
+          return true;
         }
-        return true;
-      }),
-      year: Yup.string().test('student-year', 'El año es requerido para estudiantes', function (value) {
-        const profession = this.parent.Profesion;
-        if (profession === 'Estudiante' && !value) {
-          return new Yup.ValidationError('El año es requerido', value, 'year');
+      ),
+      year: Yup.string().test(
+        "student-year",
+        "El año es requerido para estudiantes",
+        function (value) {
+          const profession = this.parent.Profesion;
+          if (profession === "Estudiante" && !value) {
+            return new Yup.ValidationError(
+              "El año es requerido",
+              value,
+              "year"
+            );
+          }
+          return true;
         }
-        return true;
-      }),
-      career: Yup.string().test('student-year', 'La carrera es requerido para estudiantes', function (value) {
-        const profession = this.parent.Profesion;
-        if (profession === 'Estudiante' && !value) {
-          return new Yup.ValidationError('La carrera es requerida', value, 'career');
+      ),
+      career: Yup.string().test(
+        "student-year",
+        "La carrera es requerido para estudiantes",
+        function (value) {
+          const profession = this.parent.Profesion;
+          if (profession === "Estudiante" && !value) {
+            return new Yup.ValidationError(
+              "La carrera es requerida",
+              value,
+              "career"
+            );
+          }
+          return true;
         }
-        return true;
-      }),
-      Otra_especialidad: Yup.string().test('other-speciality', 'El año es requerido para estudiantes', function (value) {
-        const specialty = this.parent.Especialidad;
-        if (specialty === 'Otra Especialidad' && !value) {
-            
-          return new Yup.ValidationError('La especialidad es requerida', value, 'Otra_especialidad');
+      ),
+      Otra_especialidad: Yup.string().test(
+        "other-speciality",
+        "El año es requerido para estudiantes",
+        function (value) {
+          const specialty = this.parent.Especialidad;
+          if (specialty === "Otra Especialidad" && !value) {
+            return new Yup.ValidationError(
+              "La especialidad es requerida",
+              value,
+              "Otra_especialidad"
+            );
+          }
+          return true;
         }
-        return true;
-      }),
+      ),
       Terms_And_Conditions: Yup.boolean()
         .oneOf([true], "Debes aceptar los términos y condiciones")
         .required("Debes aceptar los términos y condiciones"),

@@ -518,9 +518,9 @@ const ContactFormSection = ({
                             />
                             <label>
                               Acepto las{" "}
-                              <a className="text-primary">
+                              <Link to='/politica-de-privacidad' className="text-primary">
                                 condiciones de privacidad
-                              </a>
+                              </Link>
                             </label>
                           </div>
                         </div>

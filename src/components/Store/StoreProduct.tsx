@@ -17,8 +17,8 @@ const StoreProduct: FC<Props> = ({
   hoverEffect = false,
 }): any => {
   const { state } = useContext(CountryContext);
-
-  const imageURL = product.image
+  
+  const imageURL = product.thumbnail.high
     .replace(`${state.country}.`, "")
     .replace("wpmsklatam", "wp.msklatam");
 

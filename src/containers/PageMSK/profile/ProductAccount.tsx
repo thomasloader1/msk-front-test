@@ -27,7 +27,10 @@ const ProductAccount: FC<Props> = ({
   const activeProductRef = useRef(product.status === "Activo");
   const [onRequest, setOnRequest] = useState<boolean>(false)
   const { state } = useContext(CountryContext);
-  const imageURL = product.featured_image.replace(
+
+  console.log({product})
+
+  const imageURL = product.thumbnail.high.replace(
     `${"mx" || state.country}.`,
     ""
   );

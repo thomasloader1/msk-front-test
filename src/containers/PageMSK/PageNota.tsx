@@ -24,6 +24,7 @@ export interface SinglePageType extends PostDataType {
   content: string | ReactNode;
   comments: CommentType[];
   fuentes?: string[];
+  articles: { title: string | null; content: string; }[];
   themes_to_se: Array<{
     introduction?: string;
     id?: string;

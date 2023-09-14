@@ -15,6 +15,7 @@ export interface PageSingleProps {
 
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
+  articles: { title: string | null; content: string; }[];
   content: string | ReactNode;
   comments: CommentType[];
 }

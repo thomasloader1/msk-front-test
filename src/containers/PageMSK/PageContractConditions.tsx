@@ -1,13 +1,11 @@
-import React, { FC, ReactNode, useContext, useEffect } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import Helmet from 'react-helmet'
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
 import { useAppDispatch } from "app/hooks";
-import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
-import useTyC from "hooks/useTyC";
 import useContractConditions from "hooks/useContractConditions";
 
 const SINGLE: SinglePageType = {
@@ -34,6 +32,7 @@ const SINGLE: SinglePageType = {
         desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
         jobName: "Author Job",
     },
+    articles: [],
     categories: [
         {
             id: 1,
@@ -80,6 +79,7 @@ export interface SinglePageType extends PostDataType {
     comments: CommentType[];
     excerpt?: string;
     contenido?: string;
+    articles:  {title: string | null; content: string; }[];
     themes_to_se?: ThemesToSeeType[];
     authors?: any[];
 }

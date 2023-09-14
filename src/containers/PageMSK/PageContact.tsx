@@ -113,7 +113,10 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   }, []);
 
   return (
-    <div className={`nc-PageDashboard ${className} animate-fade-down`} data-nc-id="PageDashboard">
+    <div
+      className={`nc-PageDashboard ${className} animate-fade-down`}
+      data-nc-id="PageDashboard"
+    >
       <Helmet>
         <title>Contacto</title>
       </Helmet>

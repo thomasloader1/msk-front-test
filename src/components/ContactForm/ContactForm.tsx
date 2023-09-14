@@ -226,52 +226,51 @@ const ContactFormSection = ({
                   value={productName}
                 />
 
-                {hideHeader ? null : (
-                  <div className={`section-title mb-30`}>
+                <div className={`section-title mb-30`}>
+                  {hideHeader ? null : (
                     <h2 className="font-medium">
                       {isEbook
                         ? "Completa tus datos y obtén la guía ahora"
                         : "Contáctanos"}
                     </h2>
-                    <div className="flex flex-wrap gap-6 preferences">
-                      <p className="talk-through w-full md:w-auto">
-                        Quiero hablar por
-                      </p>
-                      <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="Teléfono"
-                          id="Contact_Method_Teléfono"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_Teléfono"
-                            )
-                          }
-                        />
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="E-mail"
-                          id="Contact_Method_E-mail"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_E-mail"
-                            )
-                          }
-                        />
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="WhatsApp"
-                          id="Contact_Method_Whatsapp"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_Whatsapp"
-                            )
-                          }
-                        />
-                      </div>
+                  )}
+
+                  <div className="flex flex-wrap gap-6 preferences">
+                    <p className="talk-through w-full md:w-auto">
+                      Quiero hablar por
+                    </p>
+                    <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="Teléfono"
+                        id="Contact_Method_Teléfono"
+                        onChange={() =>
+                          handleContactPreferenceChange(
+                            "Contact_Method_Teléfono"
+                          )
+                        }
+                      />
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="E-mail"
+                        id="Contact_Method_E-mail"
+                        onChange={() =>
+                          handleContactPreferenceChange("Contact_Method_E-mail")
+                        }
+                      />
+                      <Radio
+                        name="Preferencia_de_contactaci_n"
+                        label="WhatsApp"
+                        id="Contact_Method_Whatsapp"
+                        onChange={() =>
+                          handleContactPreferenceChange(
+                            "Contact_Method_Whatsapp"
+                          )
+                        }
+                      />
                     </div>
                   </div>
-                )}
+                </div>
                 <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">
                     <div className="col-xl-6 col-span-2 md:col-span-1">
@@ -518,7 +517,10 @@ const ContactFormSection = ({
                             />
                             <label>
                               Acepto las{" "}
-                              <Link to='/politica-de-privacidad' className="text-primary">
+                              <Link
+                                to="/politica-de-privacidad"
+                                className="text-primary"
+                              >
                                 condiciones de privacidad
                               </Link>
                             </label>

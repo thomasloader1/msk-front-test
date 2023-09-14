@@ -23,7 +23,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const {courses, loading: loadingBestSellers} = useBestSellers()
 
   const [recommendedCourses, setRecommendedCourses] = useState([]);
-  const { author, contenido, date, themes_to_se } = data;
+  const { author, contenido, date, themes_to_se, articles } = data;
+  const [noteIntroduction, ...noteArticles] = articles;
   const commentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const [posts, setPosts] = useState([]);
@@ -110,34 +111,34 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             id="single-entry-content"
             className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
           >
-            {themes_to_se && (
+            {Array.from(articles).length > 1 && (
               <>
                 <h2>Qué temas verás</h2>
                 <ul className="pr-5">
-                  {themes_to_se.map((tts, index) => (
-                    <li key={`${tts.id}_${index}`}>
-                      <a className="text-primary" href={`#${tts.id}`}>
-                        {tts.title}
+                  {articles.map((art, index) => (
+                    <li key={`${art.title}_${index}`}>
+                      <a className="text-primary" href={`#${art.title}`}>
+                        {art.title}
                       </a>
                     </li>
                   ))}
                 </ul>
 
-                <div
-                  className="text-xl font-lora font-normal lg:pr-20"
-                  dangerouslySetInnerHTML={{
-                    __html: themes_to_se[0]?.introduction as string,
-                  }}
-                />
-                <NoteExtraData excerpt={data.excerpt} />
               </>
             )}
+            <div
+              className="text-xl font-lora font-normal lg:pr-20"
+              dangerouslySetInnerHTML={{
+                __html: noteIntroduction.content as string,
+              }}
+            />
+            <NoteExtraData excerpt={data.excerpt} />
             <ul className="themes-to-see">
-              {themes_to_se?.map((tts, index) => (
-                <li key={`content_${tts.id}_${index}`}>
-                  <h3 id={tts.id}>{tts.title}</h3>
-                  {tts.content && (
-                    <div dangerouslySetInnerHTML={{ __html: tts.content }} />
+              {noteArticles?.map((art, index) => (
+                <li key={`content_${art.title}_${index}`}>
+                  <h3 id={art.title as string}>{art.title}</h3>
+                  {art.content && (
+                    <div dangerouslySetInnerHTML={{ __html: art.content }} />
                   )}
                   {index == 0 && (
                     <NoteExtraData featured_text={data.featured_text_field} />
@@ -145,11 +146,12 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                 </li>
               ))}
             </ul>
-            <NoteExtraData suggest_content={data.suggest_content} />
-            <p className="font-lora text-slate-500 text-xl">
+            {/* <p className="font-lora text-slate-500 text-xl">
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
               reconocimiento en tu profesión?
-            </p>
+            </p> */}
+            <NoteExtraData suggest_content={data.suggest_content} />
+
             <div>
               <h4 className="source-title">Fuente/s:</h4>
               {sources && sources.length > 0

@@ -1,10 +1,17 @@
 import { CustomLink } from "data/types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface NoteExtraDataProps {
   excerpt?: string;
   featured_text?: string;
-  suggest_content?: string;
+  suggest_content?: {
+    description: string;
+    link: {
+      title: string;
+      url: string;
+    }
+  };
 }
 
 const Excerpt: React.FC<NoteExtraDataProps> = ({
@@ -12,6 +19,9 @@ const Excerpt: React.FC<NoteExtraDataProps> = ({
   featured_text,
   suggest_content,
 }) => {
+
+  const showSuggestContent = suggest_content?.description && suggest_content.description != '';
+
   return (
     <>
       {excerpt && (
@@ -26,9 +36,10 @@ const Excerpt: React.FC<NoteExtraDataProps> = ({
           <div dangerouslySetInnerHTML={{ __html: featured_text }} />
         </div>
       )}
-      {suggest_content && (
-        <div>
-          <div dangerouslySetInnerHTML={{ __html: suggest_content }} />
+      {showSuggestContent && (
+        <div className="my-10">
+          <div dangerouslySetInnerHTML={{ __html: suggest_content?.description as string }} className="mb-7 font-lora text-slate-500 text-xl" />
+          <Link to={suggest_content?.link.url as string} className="nc-Button  transition-colors rounded text-sm sm:text-base px-4 py-2 sm:px-5  ttnc-ButtonPrimary bg-primary-6000 text-neutral-50 hover:bg-red-500 hover:text-neutral-50 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000 dark:focus:ring-offset-0 no-underline">{suggest_content?.link.title}</Link>
         </div>
       )}
     </>

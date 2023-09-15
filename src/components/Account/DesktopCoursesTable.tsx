@@ -9,7 +9,7 @@ export interface CoursesTableComponentProps {
     currentItems: UserCourseProgress[],
     config: {
         handlePageChange: (pageNumber: number) => void,
-        goToLMS: (cod_curso: string, email: string) => Promise<void>
+        goToLMS: (product_code: number,cod_curso: string, email: string) => Promise<void>
         email: string,
         itemsPerPage: number,
         totalPages: number,
@@ -79,7 +79,8 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                         <td className="px-4">
                                             <ButtonPrimary
                                                 onClick={() => {
-                                                    goToLMS(item.product_code_cedente, email);
+                                                    
+                                                    goToLMS(item.product_code,item.product_code_cedente, email);
                                                 }}
                                                 sizeClass="py-1 sm:px-5"
                                                 disabled={item.status !== 'Activo'}

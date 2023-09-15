@@ -41,7 +41,7 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({ currentItems, confi
                             <ButtonPrimary
                                 disabled={item.status !== 'Activo'}
                                 onClick={() => {
-                                    goToLMS(item.product_code_cedente, email);
+                                    goToLMS(item.product_code,item.product_code_cedente, email);
                                 }}
                                 sizeClass="py-1 px-3 sm:px-5"
                             >

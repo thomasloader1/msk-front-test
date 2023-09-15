@@ -241,9 +241,10 @@ class ApiService {
     }
   }
 
-  async getLinkLMS(cod_curso: string, email: string) {
+  async getLinkLMS(product_code: number,cod_curso: string, email: string) {
     try {
       const { data } = await axios.post(`${baseUrl}/api/sso/link`, {
+        product_code,
         cod_curso,
         email,
       });

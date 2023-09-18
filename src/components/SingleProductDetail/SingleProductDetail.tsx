@@ -23,7 +23,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
 
-  const {courses, loading: loadingBestSellers} = useBestSellers();
+  const { courses, loading: loadingBestSellers } = useBestSellers();
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
@@ -63,8 +63,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
-
-  console.log({imagen})
 
   // @ts-ignore
   return (
@@ -149,6 +147,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <ProductDetailSidebar
                 ficha={product.ficha}
                 details={product.details}
+                sideData={{
+                  modalidad: product.modalidad,
+                  curso_disponible: product.curso_disponible,
+                  asesoramiento_academico: product.asesoramiento_academico,
+                  certificacion: product.certificacion,
+                  idioma: product.idioma,
+                }}
                 isEbook={isEbook}
               />
             </div>
@@ -243,22 +248,29 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           <ProductDetailSidebar
             ficha={product.ficha}
             details={product.details}
+            sideData={{
+              modalidad: product.modalidad,
+              curso_disponible: product.curso_disponible,
+              asesoramiento_academico: product.asesoramiento_academico,
+              certificacion: product.certificacion,
+              idioma: product.idioma,
+            }}
             isEbook={isEbook}
           />
         </div>
       </div>
       <div className="container relative py-16 my-32">
-            <BackgroundSection />
-            <SectionSliderPosts
-              posts={courses}
-              loading={loadingBestSellers}
-              postCardName="card9"
-              heading="Nuestros cursos más elegidos"
-              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-              sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
-            />
-          </div>
+        <BackgroundSection />
+        <SectionSliderPosts
+          posts={courses}
+          loading={loadingBestSellers}
+          postCardName="card9"
+          heading="Nuestros cursos más elegidos"
+          subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+          sliderStype="style2"
+          uniqueSliderClass="pageHome-section6"
+        />
+      </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 ">
         <ContactFormSection
           productName={product.ficha.title}
@@ -278,8 +290,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       ) : null}
-
-
     </section>
   );
 };

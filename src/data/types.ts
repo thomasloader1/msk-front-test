@@ -380,6 +380,11 @@ export interface FetchSingleProduct {
   authors: ProductAuthor[];
   related_products: FetchCourseType[];
   lista_de_cedentes?: Cedente[];
+  modalidad: string;
+  curso_disponible: string;
+  asesoramiento_academico: string;
+  certificacion: string;
+  idioma: string[];
 }
 export interface FetchCourseType {
   id: number;

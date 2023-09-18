@@ -6,15 +6,27 @@ interface Props {
   ficha: Ficha;
   details: Details;
   isEbook?: boolean;
+  sideData: {
+    modalidad: string;
+    curso_disponible: string;
+    asesoramiento_academico: string;
+    certificacion: string;
+    idioma: string[];
+  };
 }
 
-const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
+const ProductDetailSidebar: FC<Props> = ({
+  ficha,
+  details,
+  isEbook,
+  sideData,
+}) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
   const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
-  const image = ficha.image
+  const image = ficha.image;
 
   const calculateDistanceToBottom = () => {
     const windowHeight = window.innerHeight;
@@ -45,10 +57,11 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   }, []);
 
   let translations: { [key: string]: string } = {
-    duration: "Duración",
-    modality: "Modalidad",
-    flexibility: "Flexibilidad",
-    content: "Contenido",
+    modalidad: "Modalidad",
+    curso_disponible: "Curso Disponible",
+    asesoramiento_academico: "Asesoramiento Académico",
+    certificacion: "Certificación",
+    idioma: "Idioma",
   };
 
   const ebookData = [
@@ -69,17 +82,15 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
   return (
     <div className={`course-video-widget`}>
       <div
-        className={`${isFixed && bottomDistance == 0 && !isEbook
+        className={`${
+          isFixed && bottomDistance == 0 && !isEbook
             ? "course-widget-wrapper fixed"
             : "course-widget-wrapper"
-          } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
+        } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
           <div className="course-video-thumb w-img hidden lg:flex">
-            <img
-              src={image}
-              alt="img not found"
-            />
+            <img src={image} alt="img not found" />
           </div>
         )}
 
@@ -110,21 +121,28 @@ const ProductDetailSidebar: FC<Props> = ({ ficha, details, isEbook }) => {
               </>
             ) : (
               <>
-                {Object.keys(details).map((key, index) => {
+                {Object.keys(sideData).map((key, index) => {
                   return (
                     <li key={`data_${index}`}>
-                      <div className="course-vide-icon">
-                        <img
-                          src={details[key as keyof typeof details].icon}
-                          width="15"
-                        />
-                        <span>
-                          {translations[key] ? translations[key] + ":" : ""}{" "}
-                          {details[key as keyof typeof details].value}{" "}
-                          {key == "duration" ? "horas" : ""}
-                        </span>
+                      <div className="course-vide-icon w-full">
+                        <img src={`/src/images/icons/${key}.svg`} width="15" />
+                        <p className="w-full flex justify-between">
+                          <span>
+                            {translations[key] ? translations[key] + ":" : ""}
+                          </span>
+                          {key == "idioma" ? (
+                            sideData[key].length && sideData[key][0] != null ? (
+                              <>{sideData[key].join(", ")}</>
+                            ) : (
+                              "Español"
+                            )
+                          ) : (
+                            <span className="ml-auto">
+                              {sideData[key as keyof typeof sideData]}
+                            </span>
+                          )}
+                        </p>
                       </div>
-                      <div className="video-corse-info"></div>
                     </li>
                   );
                 })}

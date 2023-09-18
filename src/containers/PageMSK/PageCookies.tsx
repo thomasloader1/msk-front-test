@@ -34,6 +34,7 @@ const SINGLE: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles: [],
   categories: [
     {
       id: 1,
@@ -77,6 +78,7 @@ export interface ThemesToSeeType {
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
+  articles:  {title: string | null; content: string; }[]
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;

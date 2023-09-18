@@ -30,6 +30,12 @@ const SINGLE: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles:[
+    {
+        "title": null,
+        "content": "<span style=\"font-weight: 400;\">MSK cuenta con una</span><b> tecnología sólida y un equipo experimentado</b><span style=\"font-weight: 400;\"> para garantizar la </span><b>visibilidad de cada proyecto</b><span style=\"font-weight: 400;\">. </span>\r<br>\r<br><span style=\"font-weight: 400;\">Nuestros partners tendrán sus cursos en nuestro catálogo online y contarán con </span><b>ventajas como soporte personalizado</b><span style=\"font-weight: 400;\"> y acceso a datos exclusivos de rendimiento. Asimismo, a través de una presencia multiplataforma, alcanzarán a nuestra </span><b>audiencia de más de 60.000 profesionales de la salud</b><span style=\"font-weight: 400;\"> en toda la región, pudiendo así incrementar el tráfico y convertir sus formaciones en tendencia.</span>\r<br>\r<br><span style=\"font-weight: 400;\">A continuación le brindamos información sobre algunos de nuestros </span><b>principales partners.</b>\r<br>\r<br><b>Tropos Formación</b>\r<br>\r<br><span style=\"font-weight: 400;\">Esta compañía, abocada a la formación contínua, está conformada por </span><b>profesionales de amplia trayectoria profesional en la docencia, la investigación y la actividad clínica</b><span style=\"font-weight: 400;\">, en cada una de sus especialidades. </span>\r<br>\r<br><span style=\"font-weight: 400;\">Por otra parte, desarrolla programas en los que se ofrecen </span><b>contenidos significativos, tests, simulacros y ejercicios prácticos.</b>\r<br>\r<br><span style=\"font-weight: 400;\">También, promueve una </span><b>metodología de aprendizaje</b><span style=\"font-weight: 400;\"> en donde</span><span style=\"font-weight: 400;\"> se reconoce que </span><b>cada estudiante tiene un proceso de asimilación y aprendizaje distinto</b><span style=\"font-weight: 400;\">. Por eso, gracias a la </span><b>flexibilidad de los programas,</b><span style=\"font-weight: 400;\"> pueden decidir cómo optimizar su proceso de aprendizaje, </span><b>adaptándolo a sus circunstancias personales</b><span style=\"font-weight: 400;\"> para cumplir satisfactoriamente con sus propios objetivos.</span>\r<br>\r<br><b>Adult Clinical Cardiology Self-Assessment Program (ACCSAP)</b>\r<br>\r<br><span style=\"font-weight: 400;\">Con el aval del Colegio Norteamericano de Cardiología (</span><a class=\"font-lora\" href=\"<span style=\"font-weight: 400;\">ACC</span>\"><span style=\"font-weight: 400;\">ACC</span></a><span style=\"font-weight: 400;\">), este programa permite </span><b>perfeccionar y adquirir nuevos conocimientos sobre patología cardiovascular</b><span style=\"font-weight: 400;\">. Se caracteriza por tener una modalidad de </span><b>cursada 100% </b><b><i>online</i></b><b>, estar disponible las 24 horas del día</b><span style=\"font-weight: 400;\"> y contar con la posibilidad de ser iniciado en cualquier momento del año.</span>\r<br>\r<br><span style=\"font-weight: 400;\">El contenido incluye </span><b>material de lectura descargable </b><span style=\"font-weight: 400;\">(250 horas estimadas). Y explora otros recursos, tales como </span><b>audios o videos educacionales</b><span style=\"font-weight: 400;\">. Allí participan reconocidos expertos mundiales en cardiología. Además, brinda actividades, tales como </span><b>cuestionarios, más de 500 casos clínicos y evaluaciones al final de cada módulo</b><span style=\"font-weight: 400;\">, que permiten fijar lo aprendido.</span>\r<br>\r<br><span style=\"font-weight: 400;\">En sus 10 módulos se abordan </span><b>patologías prevalentes</b><span style=\"font-weight: 400;\">, tales como la insuficiencia cardíaca, las </span><a class=\"font-lora\" href=\"<span style=\"font-weight: 400;\">arritmia</span>\"><span style=\"font-weight: 400;\">arritmia</span></a><span style=\"font-weight: 400;\">s o la </span><a class=\"font-lora\" href=\"<span style=\"font-weight: 400;\">enfermedad coronaria</span>\"><span style=\"font-weight: 400;\">enfermedad coronaria</span></a><span style=\"font-weight: 400;\">, entre muchas otras. Por otro lado, </span><b>repara en aspectos relacionados con la calidad de atención médica y la seguridad de los pacientes</b><span style=\"font-weight: 400;\"> que consultan por dolencias cardíacas.</span>\r<br>\r<br><b>COLMED 3</b>\r<br>\r<br><span style=\"font-weight: 400;\">El Colegio de Médicos de la Provincia de Buenos Aires (Distrito III) es una institución ampliamente reconocida a nivel nacional. Brinda </span><b>información actualizada y asesoramiento técnico y legal </b><span style=\"font-weight: 400;\">para las/os profesionales médicos. Además, ofrece cursos para diversas especialidades. </span>\r<br>\r<br><b>Océano Medicina</b>\r<br>\r<br><span style=\"font-weight: 400;\">Parte del Grupo Océano,</span><b> Océano Medicina cuenta con programas de formación para todas las especialidades médicas.</b><span style=\"font-weight: 400;\"> Sus principales beneficios radican en un </span><b>sistema evaluativo a distancia</b><span style=\"font-weight: 400;\"> y </span><b>contenidos en línea actualizados de forma permanente</b><span style=\"font-weight: 400;\">. Dichos contenidos son respaldados por prestigiosas instituciones académicas para la mejora de las competencias clínicas, la optimización de los procedimientos médicos, la posología de cada diagnóstico y la calidad en la atención de los pacientes.</span>"
+    }
+],
   categories: [
     {
       id: 1,
@@ -76,11 +82,21 @@ export interface SinglePageType extends PostDataType {
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;
+  articles: Array<{
+    title: string | null;
+    content: string;
+  }> | [];
   terminos?: Array<{ titulo: string; descripcion: string }>;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
   featured_text_field?: string;
-  suggest_content?: string;
+  suggest_content?: {
+    description: string;
+    link: {
+      title: string;
+      url: string;
+    }
+  };
 }
 
 const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({

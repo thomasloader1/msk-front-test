@@ -8,7 +8,7 @@ interface CoursesTableProps {
   courses: UserCourseProgress[];
   tableConfig: {
     goToStore: () => void;
-    goToLMS: (cod_curso: string, email: string) => Promise<void>;
+    goToLMS: (product_code: number,cod_curso: string, email: string) => Promise<void>;
     email: string;
   };
   isMobile: boolean;

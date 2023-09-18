@@ -419,7 +419,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               <label>
                 Acepto las{" "}
                 <Link to='/politica-de-privacidad' className="text-primary">
-                                condiciones de privacidad
+                politicas de privacidad
                               </Link>
               </label>
             </div>

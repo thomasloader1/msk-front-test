@@ -28,8 +28,6 @@ const ProductAccount: FC<Props> = ({
   const [onRequest, setOnRequest] = useState<boolean>(false)
   const { state } = useContext(CountryContext);
 
-  console.log({product})
-
   const imageURL = product.thumbnail.high.replace(
     `${"mx" || state.country}.`,
     ""
@@ -41,7 +39,7 @@ const ProductAccount: FC<Props> = ({
 
       try {
 
-        await goToLMS(product.product_code_cedente, user.email);
+        await goToLMS(product.product_code,product.product_code_cedente, user.email);
 
       } catch (e: any) {
         console.log(e)

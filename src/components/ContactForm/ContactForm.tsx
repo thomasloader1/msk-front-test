@@ -521,7 +521,7 @@ const ContactFormSection = ({
                                 to="/politica-de-privacidad"
                                 className="text-primary"
                               >
-                                condiciones de privacidad
+                                politicas de privacidad
                               </Link>
                             </label>
                           </div>

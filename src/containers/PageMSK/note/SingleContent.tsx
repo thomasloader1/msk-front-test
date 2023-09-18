@@ -10,6 +10,7 @@ import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import useBestSellers from "hooks/useBestSellers";
+import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -23,12 +24,13 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const {courses, loading: loadingBestSellers} = useBestSellers()
 
   const [recommendedCourses, setRecommendedCourses] = useState([]);
-  const { author, contenido, date, themes_to_se } = data;
+  const { author, contenido, date, themes_to_se, articles } = data;
+  const [noteIntroduction, ...noteArticles] = articles;
   const commentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [specialtiesGroups, setSpecialtiesGroup] = useState<any[]>([]);
+  const {fiveSpecialtiesGroups} = useSpecialitiesPosts();
   const fetchPosts = async () => {
     const posts = await api.getPosts();
     setPosts(posts);
@@ -85,21 +87,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  useEffect(() => {
-    let groupedSpecialties: any = [];
-    posts.forEach((post: { specialty: string }, index) => {
-      let specialty = post.specialty;
 
-      if (!groupedSpecialties[specialty]) {
-        groupedSpecialties[specialty] = [];
-      }
-      groupedSpecialties[specialty].push(post);
-    });
-
-    setSpecialtiesGroup(groupedSpecialties);
-  }, [posts]);
-
-  //const [firstContent, secondContent, ...restContent] = themes_to_se?.filter((tts, i) => i >= 1);
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
@@ -110,34 +98,34 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             id="single-entry-content"
             className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
           >
-            {themes_to_se && (
+            {Array.from(articles).length > 1 && (
               <>
                 <h2>Qué temas verás</h2>
                 <ul className="pr-5">
-                  {themes_to_se.map((tts, index) => (
-                    <li key={`${tts.id}_${index}`}>
-                      <a className="text-primary" href={`#${tts.id}`}>
-                        {tts.title}
+                  {articles.map((art, index) => (
+                    <li key={`${art.title}_${index}`}>
+                      <a className="text-primary" href={`#${art.title}`}>
+                        {art.title}
                       </a>
                     </li>
                   ))}
                 </ul>
 
-                <div
-                  className="text-xl font-lora font-normal lg:pr-20"
-                  dangerouslySetInnerHTML={{
-                    __html: themes_to_se[0]?.introduction as string,
-                  }}
-                />
-                <NoteExtraData excerpt={data.excerpt} />
               </>
             )}
+            <div
+              className="text-xl font-lora font-normal lg:pr-20"
+              dangerouslySetInnerHTML={{
+                __html: noteIntroduction?.content as string,
+              }}
+            />
+            <NoteExtraData excerpt={data.excerpt} />
             <ul className="themes-to-see">
-              {themes_to_se?.map((tts, index) => (
-                <li key={`content_${tts.id}_${index}`}>
-                  <h3 id={tts.id}>{tts.title}</h3>
-                  {tts.content && (
-                    <div dangerouslySetInnerHTML={{ __html: tts.content }} />
+              {noteArticles?.map((art, index) => (
+                <li key={`content_${art.title}_${index}`}>
+                  <h3 id={art.title as string}>{art.title}</h3>
+                  {art.content && (
+                    <div dangerouslySetInnerHTML={{ __html: art.content }} />
                   )}
                   {index == 0 && (
                     <NoteExtraData featured_text={data.featured_text_field} />
@@ -145,11 +133,12 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                 </li>
               ))}
             </ul>
-            <NoteExtraData suggest_content={data.suggest_content} />
-            <p className="font-lora text-slate-500 text-xl">
+            {/* <p className="font-lora text-slate-500 text-xl">
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
               reconocimiento en tu profesión?
-            </p>
+            </p> */}
+            <NoteExtraData suggest_content={data.suggest_content} />
+
             <div>
               <h4 className="source-title">Fuente/s:</h4>
               {sources && sources.length > 0
@@ -230,20 +219,21 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   Ver todas
                 </Link>
               </div>
-              {Object.keys(specialtiesGroups).map((specialty, index) => (
+              {fiveSpecialtiesGroups.map(({speciality_name, image, articles}, index) => 
+                 (
                 <Link
-                  to={`/archivo?especialidad=${specialty}`}
+                  to={`/archivo?especialidad=${speciality_name}`}
                   key={`rc_${index}`}
                   className="side-content-course"
                 >
                   <NcImage
                     containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
-                    src={Object.values(specialtiesGroups)[index][0].image}
+                    src={image}
                   />
                   <p>
-                    <span> {specialty == "null" ? "Otras" : specialty}</span>
+                    <span> {speciality_name ?? "Otras"}</span>
                     <span className="category">
-                      {Object.values(specialtiesGroups)[index].length} artículos
+                      {articles} artículos
                     </span>
                   </p>
                 </Link>

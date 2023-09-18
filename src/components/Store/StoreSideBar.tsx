@@ -7,6 +7,12 @@ import {
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 
+interface StoreFilterQuery {
+  professions: [{ name: string; id: number; slug: string }];
+  specialties: [{ name: string; id: number; image?: string }];
+  resources: [{ name: string; id: number }];
+}
+
 const initialState = {
   isActive: false,
   isActiveA: false,
@@ -73,45 +79,39 @@ const StoreSideBar: FC<Props> = ({
     { name: "De 100 a 300 horas", id: 2, value: "100_300" },
     { name: "Más de 300 horas", id: 3, value: "more_300" },
   ];
-
   useEffect(() => {
     const currentUrl = window.location.href;
-    const searchQuery = currentUrl.split("?");
-    if (searchQuery[1]) {
-      let filterTitle = "";
-      let filterQuery = "";
-      if (searchQuery[1].length) {
-        filterTitle = searchQuery[1].split("=")[0];
-        filterQuery = searchQuery[1].split("=")[1];
-      }
+    const searchQuery = currentUrl.split("?")[1];
 
-      const filterQueries = filterQuery.split(",");
-      const matchingProfessions: Profession[] = [];
-      const matchingSpecialties: Specialty[] = [];
-      const matchingResources: ResourceFilter[] = [];
+    if (searchQuery) {
+      const queryParams = searchQuery.split("&");
+      const matchingProfessions = [{}] as StoreFilterQuery["professions"];
+      const matchingSpecialties = [{}] as StoreFilterQuery["specialties"];
+      const matchingResources = [{}] as StoreFilterQuery["resources"];
 
-      filterQueries.forEach((query) => {
-        if (professions.length && specialties.length && resources.length) {
-          const professionExists = professions.filter(
-            (item) => item.slug === query.trim()
+      queryParams.forEach((param) => {
+        const [key, value] = param.split("=");
+        const decodedValue = decodeURIComponent(value);
+        if (key === "profesion") {
+          const professionExists = professions.find(
+            (item) => item.slug === decodedValue
           );
-          if (professionExists.length) {
-            matchingProfessions.push(professionExists[0]);
-          } else {
-            const specialtiesExists = specialties.filter(
-              (item) => item.name === decodeURIComponent(query.trim())
-            );
-            if (specialtiesExists.length) {
-              matchingSpecialties.push(specialtiesExists[0]);
-            } else {
-              const resourceExists = resources.filter(
-                (item) =>
-                  item.id.toString() === decodeURIComponent(query.trim())
-              );
-              if (resourceExists.length) {
-                matchingResources.push(resourceExists[0]);
-              }
-            }
+          if (professionExists) {
+            matchingProfessions.push(professionExists);
+          }
+        } else if (key === "especialidad") {
+          const specialtiesExists = specialties.find(
+            (item) => item.name === decodedValue
+          );
+          if (specialtiesExists) {
+            matchingSpecialties.push(specialtiesExists);
+          }
+        } else if (key === "recurso") {
+          const resourceExists = resources.find(
+            (item) => item.id.toString() === decodedValue
+          );
+          if (resourceExists) {
+            matchingResources.push(resourceExists);
           }
         }
       });
@@ -119,10 +119,9 @@ const StoreSideBar: FC<Props> = ({
       if (
         (matchingProfessions.length ||
           matchingSpecialties.length ||
-          matchingResources) &&
+          matchingResources.length) &&
         initialLoad
       ) {
-        console.log("matchingResources", matchingResources);
         matchingProfessions.forEach((profession) => {
           onChangeProfession({
             id: profession.id,
@@ -142,6 +141,7 @@ const StoreSideBar: FC<Props> = ({
             name: resource.name,
           });
         });
+
         setInitialLoad(false);
       }
     }

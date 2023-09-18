@@ -103,9 +103,9 @@ export interface UserCourseProgress {
   id?: string | number;
   categories?: any;
   featured_image: string;
-  thumbnail:{
-     high:string;
-    };
+  thumbnail: {
+    high: string;
+  };
   image?: string;
   father_post_type: string;
   lista_de_cedentes?: Array<{ post_title: string }>;
@@ -391,7 +391,7 @@ export interface FetchCourseType {
   title: string;
   image: string;
   thumbnail: {
-    high:string;
+    high: string;
   };
   categories: Category[];
   professions: Profession[];

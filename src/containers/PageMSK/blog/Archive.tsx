@@ -34,7 +34,7 @@ const CATEGORIES_FILTERS = [
 const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
 
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
-  const [title, setTitle] = useState("Actualidad")
+  const [title, setTitle] = useState("Actualidad");
   const [posts, setPosts] = useState([]);
   const [auxPosts, setAuxPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,9 +61,11 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const handleCategoryChange = (e: { name: string }) => {
     if (e.name == "Otras categorías") return setPosts(auxPosts);
     let filteredPosts = auxPosts.filter((post: PostDataType) => {
-      return post.categories.some((category) => category.name.includes(removeAccents(e.name)));
+      return post.categories.some((category) =>
+        category.name.includes(removeAccents(e.name))
+      );
     });
-    setTitle(e.name)
+    setTitle(e.name);
     setPosts(filteredPosts);
   };
 
@@ -123,7 +125,11 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
       window.location.search.replace(/^.*\?category=/, "")
     );
 
-    setTitle(categoryValue && !categoryValue.includes("Otra") ? categoryValue : 'Actualidad')
+    setTitle(
+      categoryValue && !categoryValue.includes("Otra")
+        ? categoryValue
+        : "Actualidad"
+    );
     const filteredPosts = auxPosts.filter((post: PostDataType) => {
       return post.categories.some((category) =>
         category.name.includes(categoryValue)
@@ -148,7 +154,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
           <header className="w-full px-2 xl:max-w-screen-2xl mx-auto">
             <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
               <NcImage
-                className="object-cover w-full h-full rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
+                className="rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
                 src="/images/banners/archive.jpg"
               />
 

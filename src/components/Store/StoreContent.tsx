@@ -182,7 +182,7 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
         </div>
 
         <div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {
                 return (
@@ -193,8 +193,13 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
                 );
               })
             ) : (
-              <div className="text-center text-lg font-bold">
-                No se encontraron resultados
+              <div className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
+                <img src="/src/images/icons/no_items.svg" className="mb-5" />
+                <p>
+                  No hay resultados para tu búsqueda.
+                  <br />
+                  Modifica los filtros y encuentra tu curso ideal.
+                </p>
               </div>
             )}
           </div>

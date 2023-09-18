@@ -10,6 +10,7 @@ import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import useBestSellers from "hooks/useBestSellers";
+import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -29,7 +30,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [specialtiesGroups, setSpecialtiesGroup] = useState<any[]>([]);
+  const {fiveSpecialtiesGroups} = useSpecialitiesPosts();
   const fetchPosts = async () => {
     const posts = await api.getPosts();
     setPosts(posts);
@@ -86,21 +87,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  useEffect(() => {
-    let groupedSpecialties: any = [];
-    posts.forEach((post: { specialty: string }, index) => {
-      let specialty = post.specialty;
 
-      if (!groupedSpecialties[specialty]) {
-        groupedSpecialties[specialty] = [];
-      }
-      groupedSpecialties[specialty].push(post);
-    });
-
-    setSpecialtiesGroup(groupedSpecialties);
-  }, [posts]);
-
-  //const [firstContent, secondContent, ...restContent] = themes_to_se?.filter((tts, i) => i >= 1);
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
@@ -129,7 +116,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             <div
               className="text-xl font-lora font-normal lg:pr-20"
               dangerouslySetInnerHTML={{
-                __html: noteIntroduction.content as string,
+                __html: noteIntroduction?.content as string,
               }}
             />
             <NoteExtraData excerpt={data.excerpt} />
@@ -232,20 +219,21 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   Ver todas
                 </Link>
               </div>
-              {Object.keys(specialtiesGroups).map((specialty, index) => (
+              {fiveSpecialtiesGroups.map(({speciality_name, image, articles}, index) => 
+                 (
                 <Link
-                  to={`/archivo?especialidad=${specialty}`}
+                  to={`/archivo?especialidad=${speciality_name}`}
                   key={`rc_${index}`}
                   className="side-content-course"
                 >
                   <NcImage
                     containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
-                    src={Object.values(specialtiesGroups)[index][0].image}
+                    src={image}
                   />
                   <p>
-                    <span> {specialty == "null" ? "Otras" : specialty}</span>
+                    <span> {speciality_name ?? "Otras"}</span>
                     <span className="category">
-                      {Object.values(specialtiesGroups)[index].length} artículos
+                      {articles} artículos
                     </span>
                   </p>
                 </Link>

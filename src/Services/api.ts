@@ -5,6 +5,7 @@ import {
   API_URL,
   BEST_SELLERS_MX,
   IP_API,
+  NOTE_SPECIALITIES,
   baseUrl,
 } from "data/api";
 import { ContactUs, SignUp, Newsletter } from "data/types";
@@ -330,6 +331,14 @@ class ApiService {
 
   async postNewPassword(jsonData: BodyNewPassword) {
     return await axios.post(apiNewPassword, jsonData);
+  }
+
+  async getNotesSpecialities(){
+    try{
+      return await axios.get(NOTE_SPECIALITIES)
+    }catch(e){
+      console.log({e})
+    }
   }
 }
 

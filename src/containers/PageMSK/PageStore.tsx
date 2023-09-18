@@ -157,15 +157,17 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     }
   };
 
-  const triggerFilter = async (event: any) => {
+  const triggerFilter = (event: any) => {
     let sortedProducts: FetchCourseType[] = [];
     setLoading(true);
+
     switch (event) {
       case "":
         sortedProducts = [...auxProducts];
         break;
-      case "newer":
-        sortedProducts = products.sort((a, b) => {
+      case "novedades":
+        sortedProducts = [...products]; // Create a copy of products
+        sortedProducts.sort((a, b) => {
           const isNewA = Boolean(a.is_new);
           const isNewB = Boolean(b.is_new);
           if (isNewA === isNewB) {
@@ -177,8 +179,9 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
           }
         });
         break;
-      case "duration":
-        sortedProducts = await products.sort((a, b) => {
+      case "mas_horas":
+        sortedProducts = [...products];
+        sortedProducts.sort((a, b) => {
           let durationA = parseInt(a.duration);
           let durationB = parseInt(b.duration);
 
@@ -197,9 +200,30 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
           return 0;
         });
         break;
+      case "menos_horas":
+        sortedProducts = [...products];
+        sortedProducts.sort((a, b) => {
+          let durationA = parseInt(a.duration);
+          let durationB = parseInt(b.duration);
+          if (isNaN(durationA)) {
+            durationA = 0;
+          }
+          if (isNaN(durationB)) {
+            durationB = 0;
+          }
+          if (durationA > durationB) {
+            return 1;
+          }
+          if (durationA < durationB) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
       default:
         break;
     }
+
     setLoading(false);
     setProducts(sortedProducts);
   };

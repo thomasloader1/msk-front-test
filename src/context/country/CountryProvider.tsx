@@ -40,6 +40,8 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           currentCountry = await api.getCountryCode();
           console.log("CurrentCountry: " + currentCountry);
         }
+        const currentPathName = window.location.pathname.replace("/", "");
+        if (currentCountry && currentCountry == currentPathName) return;
         console.log("currentCountry2: " + currentCountry);
         localStorage.setItem("country", currentCountry);
         if (!validCountries.includes(currentCountry)) {

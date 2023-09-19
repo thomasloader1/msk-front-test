@@ -11,6 +11,8 @@ import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import useBestSellers from "hooks/useBestSellers";
 import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
+import NcModal from "components/NcModal/NcModal";
+import SpecialtiesModal from "./SpecialtiesModal";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -20,29 +22,21 @@ export interface SingleContentProps {
 const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
-
-  const {courses, loading: loadingBestSellers} = useBestSellers()
+  const [showSpecialties, setShowSpecialties] = useState(false);
+  const { courses, loading: loadingBestSellers } = useBestSellers();
 
   const [recommendedCourses, setRecommendedCourses] = useState([]);
   const { author, contenido, date, themes_to_se, articles } = data;
   const [noteIntroduction, ...noteArticles] = articles;
   const commentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const {fiveSpecialtiesGroups} = useSpecialitiesPosts();
-  const fetchPosts = async () => {
-    const posts = await api.getPosts();
-    setPosts(posts);
-    setLoading(false);
-  };
+  const { fiveSpecialtiesGroups } = useSpecialitiesPosts();
 
   useEffect(() => {
     const courseList = data.the_most_read.map((course: any) => {
       var urlParts = course.link.split("/");
       return { ...course, slug: urlParts[urlParts.length - 2] };
     });
-    fetchPosts();
     setRecommendedCourses(courseList);
   }, [data]);
 
@@ -74,19 +68,15 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       setIsFixed(scrollTop > threshold);
-
       const distanceToBottom = calculateDistanceToBottom();
       const auxDistance = scrollPosition - distanceToBottom - 100;
-      setBottomDistance(distanceToBottom < 550 ? auxDistance / 3 : 0);
+      setBottomDistance(distanceToBottom < 1200 ? auxDistance / 3 : 0);
     };
-
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
 
   return (
     <div className="nc-SingleContent space-y-10 ">
@@ -110,7 +100,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     </li>
                   ))}
                 </ul>
-
               </>
             )}
             <div
@@ -174,17 +163,17 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               : null}
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4 relative course-video-widget">
+        <div className="col-span-12 lg:col-span-4 relative course-video-widget z-50">
           <div
             className={`${
-              isFixed && bottomDistance == 0
-                ? "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
-                : "col-span-12 lg:col-span-4 post-side-data"
-            } ${bottomDistance != 0 ? "lg:post-side-data-bottom" : ""}`}
+              isFixed &&
+              bottomDistance == 0 &&
+              "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
+            } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">
-                <h5 className="side-content-header p-3">🎯 Los más leídos</h5>
+                <h5 className="side-content-header p-2.5">🎯 Los más leídos</h5>
                 <Link
                   to={`/archivo`}
                   className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
@@ -199,7 +188,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   className="side-content-course"
                 >
                   <NcImage
-                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-12 lg:w-12"
+                    containerClassName="flex-shrink-0 h-8 w-8 rounded-lg overflow-hidden lg:h-10 lg:w-10"
                     src={course.image}
                   />
                   <p>
@@ -211,33 +200,35 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             </div>
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">
-                <h5 className="side-content-header p-3">💼 Especialidades </h5>
-                <Link
-                  to={`/archivo`}
-                  className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4"
+                <h5 className="side-content-header p-2.5">
+                  💼 Especialidades{" "}
+                </h5>
+                <a
+                  href="#"
+                  onClick={() => setShowSpecialties(true)}
+                  className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4 pointer"
                 >
                   Ver todas
-                </Link>
+                </a>
               </div>
-              {fiveSpecialtiesGroups.map(({speciality_name, image, articles}, index) => 
-                 (
-                <Link
-                  to={`/archivo?especialidad=${speciality_name}`}
-                  key={`rc_${index}`}
-                  className="side-content-course"
-                >
-                  <NcImage
-                    containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
-                    src={image}
-                  />
-                  <p>
-                    <span> {speciality_name ?? "Otras"}</span>
-                    <span className="category">
-                      {articles} artículos
-                    </span>
-                  </p>
-                </Link>
-              ))}
+              {fiveSpecialtiesGroups.map(
+                ({ speciality_name, image, articles }, index) => (
+                  <Link
+                    to={`/archivo?especialidad=${speciality_name}`}
+                    key={`rc_${index}`}
+                    className="side-content-course"
+                  >
+                    <NcImage
+                      containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-10 lg:w-10"
+                      src={image}
+                    />
+                    <p>
+                      <span> {speciality_name ?? "Otras"}</span>
+                      <span className="category">{articles} artículos</span>
+                    </p>
+                  </Link>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -255,17 +246,31 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
         />
       </div> */}
       <div className="container relative py-16 my-32">
-            <BackgroundSection />
-            <SectionSliderPosts
-              posts={courses}
-              loading={loadingBestSellers}
-              postCardName="card9"
-              heading="Nuestros cursos más elegidos"
-              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-              sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
-            />
-          </div>
+        <BackgroundSection />
+        <SectionSliderPosts
+          posts={courses}
+          loading={loadingBestSellers}
+          postCardName="card9"
+          heading="Nuestros cursos más elegidos"
+          subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+          sliderStype="style2"
+          uniqueSliderClass="pageHome-section6"
+        />
+      </div>
+      <NcModal
+        isOpenProp={showSpecialties}
+        onCloseModal={() => {
+          setShowSpecialties(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() => <SpecialtiesModal setShow={setShowSpecialties} />}
+        modalTitle="Especialidades"
+        modalSubtitle=""
+        centerTitle
+      />
     </div>
   );
 };

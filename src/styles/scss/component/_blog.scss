@@ -557,13 +557,12 @@ div.tagcloud a:hover {
 .side-content-course {
   display: flex;
   border-top: 1px solid #e2e2e2;
-  padding: 10px;
+  padding: 6px 10px;
   gap: 12px;
   align-items: center;
   p {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     span {
       margin: 0;
       padding: 0;
@@ -583,7 +582,7 @@ div.tagcloud a:hover {
   top: 100px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 .post-side-data-bottom {
   .side-content {

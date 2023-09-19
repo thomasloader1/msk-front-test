@@ -73,7 +73,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         </title>
         <meta name="description" content={`${textDesctiption}`} />
       </Helmet>
-      <div className="container grid grid-cols-1  lg:grid-cols-[65%_35%] mb-16">
+      <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div className="">
           <div className="course-details-wrapper animate-fade-down">
             <div className="flex gap-2">

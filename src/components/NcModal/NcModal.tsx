@@ -13,6 +13,7 @@ export interface NcModalProps {
   modalSubtitle?: ReactNode;
   isOpenProp?: boolean;
   onCloseModal?: () => void;
+  centerTitle?: boolean;
 }
 
 const NcModal: FC<NcModalProps> = ({
@@ -25,6 +26,7 @@ const NcModal: FC<NcModalProps> = ({
   modalSubtitle = "",
   isOpenProp,
   onCloseModal,
+  centerTitle,
 }) => {
   let [isOpen, setIsOpen] = useState(!!isOpenProp);
 
@@ -96,7 +98,9 @@ const NcModal: FC<NcModalProps> = ({
                     <div className="py-4 px-6 relative border-b border-neutral-100 dark:border-neutral-700 md:py-6">
                       <Dialog.Title
                         as="h3"
-                        className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway pl-4"
+                        className={`text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 font-raleway pl-4 ${
+                          centerTitle && "text-center"
+                        }`}
                       >
                         {modalTitle}
                       </Dialog.Title>

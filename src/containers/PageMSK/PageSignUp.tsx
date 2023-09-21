@@ -427,7 +427,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                     />
                     <label>
                       Acepto las{" "}
-                      <Link to='/politica-de-privacidad' className="text-primary">
+                      <Link to='/politica-de-privacidad' target="_blank" className="text-primary">
                       politicas de privacidad
                               </Link>
                     </label>

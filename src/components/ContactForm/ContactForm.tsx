@@ -519,6 +519,7 @@ const ContactFormSection = ({
                               Acepto las{" "}
                               <Link
                                 to="/politica-de-privacidad"
+                                target="_blank"
                                 className="text-primary"
                               >
                                 politicas de privacidad

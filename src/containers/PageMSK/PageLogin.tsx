@@ -39,6 +39,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
+      setOnRequest(true)
       try {
         const formData = {
           ...values,
@@ -63,6 +64,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
         console.error("Error al ejecutar reCAPTCHA:", error);
       } finally {
         refreshRecaptcha();
+        setOnRequest(false)
       }
     },
   });
@@ -114,8 +116,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                   placeholder="Ingresar contraseña"
                 />
               </div>
-              <ButtonPrimary type="submit" className="w-full">
-                Acceder
+              <ButtonPrimary type="submit" className="w-full" disabled={onRequest}>
+                {onRequest ? 'Accediendo ...' : 'Acceder'}
               </ButtonPrimary>
             </Form>
           </FormikProvider>

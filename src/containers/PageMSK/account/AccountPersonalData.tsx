@@ -263,7 +263,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     rfc: localUser?.rfc || "",
     dni: localUser?.dni || "",
     rut: localUser?.rut || "",
-    fiscal_regime: localUser?.fiscal_regime,
+    fiscal_regime: localUser?.fiscal_regime || "",
   };
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("El nombre es requerido"),
@@ -278,7 +278,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     state: Yup.string().required("La provincia es requerida"),
     postal_code: Yup.string().required("El código postal es requerido"),
     address: Yup.string().required("La dirección es requerida"),
-    fiscal_regime: Yup.string().required("El régimen fiscal es requerido"),
+    //fiscal_regime: Yup.string().required("El régimen fiscal es requerido"),
     // dni: Yup.string().when("country", {
     //   is: (val: string) => val === "Argentina",
     //   then: Yup.string().required("El DNI es requerido"),
@@ -659,7 +659,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
 
           <label className="block">{renderInputIdentification()}</label>
 
-          <div className="form-input-std">
+          { localUser.country.includes('México') &&(<div className="form-input-std">
             <label className="text-neutral-800 dark:text-neutral-200 mb-1">
               Régimen fiscal
             </label>
@@ -673,7 +673,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               name="fiscal_regime"
               placeholder="Ingresar régimen fiscal"
             />
-          </div>
+          </div>)}
 
           <Button
             className={

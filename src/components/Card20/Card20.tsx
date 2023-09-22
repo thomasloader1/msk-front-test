@@ -24,7 +24,7 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post }) => {
       className={`nc-Card20 group relative flex flex-col ${className}`}
       data-nc-id="Card20"
     >
-      <div className="block flex-shrink-0 flex-grow relative w-full h-0 aspect-w-4 aspect-h-3 rounded-lg overflow-hidden">
+      <div className="block bg-white flex-shrink-0 flex-grow relative w-full h-0 aspect-w-4 aspect-h-3 rounded-lg overflow-hidden">
         <NcImage
           containerClassName="absolute inset-0"
           src={image}

@@ -58,8 +58,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
     return listOfGoals;
   };
+
   const { state } = useContext(CountryContext);
+
   let { isEbook, imagen, title } = useProductDetails(product);
+
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
@@ -93,7 +96,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               {product.authors.length ||
               product.temario ||
               (product.details && product.details["duration"]) ? (
-                <div className="course-detelis-meta">
+                <div className={`course-detelis-meta ${isEbook && 'border-0'}`}>
                   {product.authors.length ? (
                     <>
                       <div className="course-meta-wrapper">
@@ -207,33 +210,34 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             {product.goals && (
               <>
                 <CourseRequirements
-                  title={isEbook ? "Qué aprenderás" : "Objetivos"}
+                  title={!isEbook ? "Qué aprenderás" : "Objetivos"}
                   requirements={productsGoals(product.goals)}
                 />
               </>
             )}
-            {product.authors.length ? (
+
+            {(product.authors.length > 0 && !isEbook) && (
               <h4 className="mt-6 font-bold pt-6 text-xl">
                 Quiénes lo desarrollan
               </h4>
-            ) : (
-              <p></p>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {currentItems.length ? (
-                currentItems.map((instructor, index) => {
-                  return (
-                    <ProductDetailsInstructor
-                      instructor={instructor}
-                      key={`inst_${index}`}
-                    />
-                  );
-                })
-              ) : (
-                <p></p>
-              )}
-            </div>
-            {totalPages > 1 && (
+
+            {!isEbook && (
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  {currentItems.length > 0 && (
+                    currentItems.map((instructor, index) => {
+                      return (
+                        <ProductDetailsInstructor
+                          instructor={instructor}
+                          key={`inst_${index}`}
+                        />
+                      );
+                    })
+                  )}
+                </div>
+                )}
+
+            {(totalPages > 1 && !isEbook) && (
               <div className="flex justify-center">
                 <StorePagination
                   totalPages={totalPages}
@@ -242,6 +246,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 />
               </div>
             )}
+
           </div>
         </div>
         <div className="order-last relative hidden lg:block">
@@ -265,8 +270,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           posts={courses}
           loading={loadingBestSellers}
           postCardName="card9"
-          heading="Nuestros cursos más elegidos"
-          subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+          heading="Descubre nuestras capacitaciones destacadas"
+          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
           sliderStype="style2"
           uniqueSliderClass="pageHome-section6"
         />

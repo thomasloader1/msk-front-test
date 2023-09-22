@@ -228,14 +228,14 @@ const ContactFormSection = ({
 
                 <div className={`section-title mb-30`}>
                   {hideHeader ? null : (
-                    <h2 className="font-medium">
+                    <h2 className="font-medium" style={{maxWidth: '800px'}}>
                       {isEbook
-                        ? "Completa tus datos y obtén la guía ahora"
+                        ? "Completa el formulario para descargar automáticamente el material"
                         : "Contáctanos"}
                     </h2>
                   )}
 
-                  <div className="flex flex-wrap gap-6 preferences">
+                  {!isEbook && <div className="flex flex-wrap gap-6 preferences">
                     <p className="talk-through w-full md:w-auto">
                       Quiero hablar por
                     </p>
@@ -269,7 +269,7 @@ const ContactFormSection = ({
                         }
                       />
                     </div>
-                  </div>
+                  </div>}
                 </div>
                 <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">

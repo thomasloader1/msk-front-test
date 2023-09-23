@@ -6,7 +6,6 @@ import { ContactUs, Newsletter, Specialty } from "data/types";
 import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { useRecaptcha } from "hooks/useRecaptcha";
 import { UTMAction } from "context/utm/UTMContext";
 import * as Yup from "yup";
 import {
@@ -17,6 +16,7 @@ import {
   FormikProvider,
   useFormik,
 } from "formik";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 interface Props {
   email: string;
@@ -41,6 +41,8 @@ const validationSchema = Yup.object().shape({
   ),
 });
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [professions, setProfessions] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
@@ -55,7 +57,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
 
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -153,31 +154,30 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      const body = {
-        ...values,
-        recaptcha_token: recaptchaResponse,
-      };
-      try {
-        let response = await api.postNewsletter(body as Newsletter);
-        // @ts-ignore
-        if (response.status === 200) {
-          setShow(false);
-          refreshRecaptcha();
-          resetForm();
-          dispatchUTM(clearUTMAction);
-          setTimeout(() => {
-            changeRoute("/gracias?origen=newsletter");
-          }, 100);
-        } else {
-          setFormError(
-            "Hubo un error al enviar el formulario, revise los campos"
-          );
+        if (executeRecaptcha) {
+            const body = {
+                ...values,
+                recaptcha_token: await executeRecaptcha("newsletter"),
+            };
+            try {
+                let response = await api.postNewsletter(body as Newsletter);
+                // @ts-ignore
+                if (response.status === 200) {
+                    setShow(false);
+                    resetForm();
+                    dispatchUTM(clearUTMAction);
+                    setTimeout(() => {
+                        changeRoute("/gracias?origen=newsletter");
+                    }, 100);
+                } else {
+                    setFormError(
+                        "Hubo un error al enviar el formulario, revise los campos"
+                    );
+                }
+            } catch (error) {
+                console.error("Error al ejecutar reCAPTCHA:", error);
+            }
         }
-      } catch (error) {
-        console.error("Error al ejecutar reCAPTCHA:", error);
-      } finally {
-        refreshRecaptcha();
-      }
     },
   });
   return (

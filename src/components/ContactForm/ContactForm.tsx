@@ -1,9 +1,10 @@
 import React, {
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState,
 } from "react";
 
 import "../../styles/scss/main.scss";
@@ -20,17 +21,16 @@ import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { useRecaptcha } from "hooks/useRecaptcha";
 import { UTMAction } from "context/utm/UTMContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { ContactFormSchema, useYupValidation } from "hooks/useYupValidation";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 const ContactFormSection = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
 }) => {
-  const [captchaValue, setCaptchaValue] = useState("");
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
@@ -50,8 +50,21 @@ const ContactFormSection = ({
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
-  const formRef = useRef<HTMLFormElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
+    // Create an event handler so you can call the verification on button click event or form submit
+    const handleReCaptchaVerify = useCallback(async () => {
+        if (!executeRecaptcha) {
+            console.log('Execute recaptcha not yet available');
+            return;
+        }
+
+        const token = await executeRecaptcha('yourAction');
+        // Do whatever you want with the token
+    }, [executeRecaptcha]);
+
+
 
   const initialValues: ContactFormSchema = {
     First_Name: "",
@@ -72,7 +85,6 @@ const ContactFormSection = ({
     Terms_And_Conditions: false,
     year: "",
     career: "",
-    recaptcha_token: captchaValue,
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -158,7 +170,8 @@ const ContactFormSection = ({
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+      handleReCaptchaVerify();
+  }, [handleReCaptchaVerify]);
 
   const clearUTMAction: UTMAction = {
     type: "CLEAR_UTM",
@@ -171,8 +184,12 @@ const ContactFormSection = ({
     onSubmit: async (values) => {
       const body = {
         ...values,
-        recaptcha_token: recaptchaResponse,
       };
+        if (executeRecaptcha) {
+            body.recaptcha_token = await executeRecaptcha('contact_form');
+        }else{
+            console.log('Execute recaptcha not yet available1');
+        }
       try {
         const response = await api.postContactUs(body);
         // @ts-ignore
@@ -186,7 +203,6 @@ const ContactFormSection = ({
           setTimeout(() => {
             changeRoute(routeChange);
           }, 100);
-          refreshRecaptcha();
         } else {
           setFormError(
             "Hubo un error al enviar el formulario, revise los campos"
@@ -194,8 +210,6 @@ const ContactFormSection = ({
         }
       } catch (error) {
         console.error("Error al ejecutar reCAPTCHA:", error);
-      } finally {
-        refreshRecaptcha();
       }
     },
   });

@@ -20,7 +20,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { CountryCode } from "libphonenumber-js/types";
-import { useRecaptcha } from "hooks/useRecaptcha";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 interface Props {
   user: User;
@@ -28,6 +28,8 @@ interface Props {
 }
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
   const { state } = useContext(CountryContext);
   const [userData, setUserData] = useState(user);
   const [formSubmitted, setFormSubmitted] = useState(true);
@@ -56,7 +58,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>(
     userData?.contact?.phone || ""
   );
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
     setProfessions(professionList);
@@ -313,11 +314,12 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-      const formData = {
-        ...localUser,
-        ...values,
-        recaptcha_token: recaptchaResponse,
-      };
+        if (executeRecaptcha) {
+            const formData = {
+                ...localUser,
+                ...values,
+                recaptcha_token: await executeRecaptcha('edit_profile'),
+            };
 
       try {
         const res = await api.updateUserData(formData);
@@ -346,9 +348,9 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
           message: "Hubo un error al actualizar el usuario.",
           type: "error",
         });
-      } finally {
-        refreshRecaptcha();
       }
+        }
+
     },
   });
 

@@ -6,24 +6,25 @@ import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
-import { useRecaptcha } from "hooks/useRecaptcha";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 export interface PageLoginProps {
   className?: string;
 }
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
+
   const [loginError, setLoginError] = useState<string>("");
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state, dispatch } = useContext(AuthContext);
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
   const formRef = useRef<HTMLFormElement>(null);
   const initialValues = {
     email: "",
     password: "",
-    recaptcha_token: recaptchaResponse,
+    recaptcha_token: "",
   };
   const history = useHistory();
   const validationSchema = Yup.object().shape({
@@ -41,29 +42,30 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     onSubmit: async (values: any) => {
       setOnRequest(true)
       try {
-        const formData = {
-          ...values,
-          recaptcha_token: recaptchaResponse,
-        };
-        const { data, status } = await api.postLogin(formData);
-        // @ts-ignore
-        if (status == 200) {
-          const { name, speciality, ...restData } = data;
-          const loginData = {
-            ...restData,
-            email: formik.values.email,
-            user: { name, speciality },
-          };
-          dispatch({ type: "LOGIN", payload: loginData });
-          refreshRecaptcha();
-          changeRoute("/mi-perfil");
-        } else {
-          setLoginError(data.message);
-        }
+          if (executeRecaptcha) {
+              const formData = {
+                  ...values,
+                  recaptcha_token: await executeRecaptcha("login"),
+              };
+              const { data, status } = await api.postLogin(formData);
+              // @ts-ignore
+              if (status == 200) {
+                  const { name, speciality, ...restData } = data;
+                  const loginData = {
+                      ...restData,
+                      email: formik.values.email,
+                      user: { name, speciality },
+                  };
+                  dispatch({ type: "LOGIN", payload: loginData });
+                  changeRoute("/mi-perfil");
+              } else {
+                  setLoginError(data.message);
+              }
+          }
+
       } catch (error) {
         console.error("Error al ejecutar reCAPTCHA:", error);
       } finally {
-        refreshRecaptcha();
         setOnRequest(false)
       }
     },

@@ -6,7 +6,6 @@ import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { Link, useHistory } from "react-router-dom";
-import { useRecaptcha } from "hooks/useRecaptcha";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import useProfessions from "hooks/useProfessions";
 import useSpecialties from "hooks/useSpecialties";
@@ -15,11 +14,13 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 export interface PageSignUpProps {
   className?: string;
 }
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
+    const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
@@ -83,7 +84,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const { state } = useContext(CountryContext);
   const { professions } = useProfessions();
   const { specialties, specialtiesGroup } = useSpecialties();
-  const { recaptchaResponse, refreshRecaptcha } = useRecaptcha("submit");
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -149,40 +149,39 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-      const formData = {
-        ...values,
-        name: `${values.first_name} ${values.last_name}`,
-        recaptcha_token: recaptchaResponse,
-        country: fullCountry(selectedCountry),
-        utm_source: utmState.utm_source,
-        utm_medium: utmState.utm_medium,
-        utm_campaign: utmState.utm_campaign,
-        utm_content: utmState.utm_content,
-      };
-
-      try {
-        const res = await api.postSignUp(formData);
-        refreshRecaptcha();
-        if (res.status !== 200) {
-          setSuccess(false);
-          const errorMessages = Object.values(res.response.data.errors)
-            .map((errorMessage) => `- ${errorMessage}`)
-            .join("<br />");
-          setError(
-            `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
-          );
-        } else {
-          setError("");
-          setSuccess(true);
-          setTimeout(() => {
-            history.push("/correo-enviado");
-          }, 1500);
+        if (executeRecaptcha) {
+            const formData = {
+                ...values,
+                name: `${values.first_name} ${values.last_name}`,
+                recaptcha_token: await executeRecaptcha('signup_form'),
+                country: fullCountry(selectedCountry),
+                utm_source: utmState.utm_source,
+                utm_medium: utmState.utm_medium,
+                utm_campaign: utmState.utm_campaign,
+                utm_content: utmState.utm_content,
+            };
+            try {
+                const res = await api.postSignUp(formData);
+                if (res.status !== 200) {
+                    setSuccess(false);
+                    const errorMessages = Object.values(res.response.data.errors)
+                        .map((errorMessage) => `- ${errorMessage}`)
+                        .join("<br />");
+                    setError(
+                        `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
+                    );
+                } else {
+                    setError("");
+                    setSuccess(true);
+                    setTimeout(() => {
+                        history.push("/correo-enviado");
+                    }, 1500);
+                }
+            } catch (error) {
+                console.error("Error al ejecutar reCAPTCHA:", error);
+            }
         }
-      } catch (error) {
-        console.error("Error al ejecutar reCAPTCHA:", error);
-      } finally {
-        refreshRecaptcha();
-      }
+
     },
   });
 

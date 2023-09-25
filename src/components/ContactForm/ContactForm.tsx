@@ -186,31 +186,32 @@ const ContactFormSection = ({
         ...values,
       };
         if (executeRecaptcha) {
-            body.recaptcha_token = await executeRecaptcha('contact_form');
+            try {
+                body.recaptcha_token = await executeRecaptcha('contact_form');
+                const response = await api.postContactUs(body);
+                // @ts-ignore
+                if (response.status === 200) {
+                    let routeChange = isEbook
+                        ? "/gracias?origen=descarga-ebook"
+                        : "/gracias?origen=contact";
+                    setFormSent(true);
+                    resetForm();
+                    dispatchUTM(clearUTMAction);
+                    setTimeout(() => {
+                        changeRoute(routeChange);
+                    }, 100);
+                } else {
+                    setFormError(
+                        "Hubo un error al enviar el formulario, revise los campos"
+                    );
+                }
+            } catch (error) {
+                console.error("Error al ejecutar reCAPTCHA:", error);
+            }
         }else{
             console.log('Execute recaptcha not yet available1');
         }
-      try {
-        const response = await api.postContactUs(body);
-        // @ts-ignore
-        if (response.status === 200) {
-          let routeChange = isEbook
-            ? "/gracias?origen=descarga-ebook"
-            : "/gracias?origen=contact";
-          setFormSent(true);
-          resetForm();
-          dispatchUTM(clearUTMAction);
-          setTimeout(() => {
-            changeRoute(routeChange);
-          }, 100);
-        } else {
-          setFormError(
-            "Hubo un error al enviar el formulario, revise los campos"
-          );
-        }
-      } catch (error) {
-        console.error("Error al ejecutar reCAPTCHA:", error);
-      }
+
     },
   });
 

@@ -5,6 +5,8 @@ import StorePagination from 'components/Store/StorePagination';
 import { UserCourseProgress } from 'data/types';
 import React, { FC } from 'react'
 import CentroAyudaLink from 'components/CentroAyudaLink/CentroAyudaLink';
+import { formatDate } from 'lib/formatDate';
+import calendarIcon from '../../images/icons/calendar.svg'
 export interface CoursesTableComponentProps {
     currentItems: UserCourseProgress[],
     config: {
@@ -57,7 +59,13 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({ currentItems, con
                                                             {item.title || "-"}
                                                         </span>
                                                     </div>
+
+                                                    <div className="flex items-center mt-2 ml-4">
+                                                        <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+                                                        <span className='text-violet-wash text-sm'>Fecha de expiración: {formatDate(new Date(item.expiration))}</span>
+                                                    </div>
                                                     {item.status !== "Activo" && <CentroAyudaLink addClassNames='mt-2 ml-3' />}
+
                                                 </div>
                                             </div>
                                         </td>

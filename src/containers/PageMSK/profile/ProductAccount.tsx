@@ -9,6 +9,11 @@ import expiredIcon from "../../../images/icons/expirado.svg";
 import { goToLMS } from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
+import calendarIcon from '../../../images/icons/calendar.svg'
+import { formatDate } from "lib/formatDate";
+
+
+
 
 interface Props {
   product: UserCourseProgress;
@@ -25,6 +30,7 @@ const ProductAccount: FC<Props> = ({
   hoverEffect = false,
 }) => {
   const activeProductRef = useRef(product.status === "Activo");
+  const productExpiration = useRef(new Date(product.expiration));
   const [onRequest, setOnRequest] = useState<boolean>(false)
   const { state } = useContext(CountryContext);
 
@@ -34,7 +40,7 @@ const ProductAccount: FC<Props> = ({
   );
 
   const handleClick = async () => {
-    if (activeProductRef) {
+    if (activeProductRef.current) {
       setOnRequest(true)
 
       try {
@@ -48,6 +54,7 @@ const ProductAccount: FC<Props> = ({
       }
     }
   };
+
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -105,15 +112,20 @@ const ProductAccount: FC<Props> = ({
           </div>
 
           <div className="portfolio-course-2 line-clamp-3">
-            <a onClick={handleClick}>
+            <a onClick={handleClick} className="">
               <h3 className="font-bold text-sm">{product.title}</h3>
+          
             </a>
           </div>
-          {product?.lista_de_cedentes ? (
+          {/* {product?.lista_de_cedentes && (
             <p className="text-sm">
               {product?.lista_de_cedentes[0].post_title}
             </p>
-          ) : null}
+          )} */}
+<div className="flex items-center mt-2 ">
+            <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+            <span className='text-violet-wash text-sm'>Fecha de expiración: {formatDate(productExpiration.current)}</span>
+          </div>
           {product.status !== "Activo" && (
             <CentroAyudaLink addClassNames="my-2" />
           )}

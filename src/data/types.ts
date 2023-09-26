@@ -94,6 +94,7 @@ export interface CourseProgress {
 export interface UserCourseProgress {
   avance: string;
   ov: string;
+  expiration: string;
   product_code: number;
   product_code_cedente: string;
   status: string;

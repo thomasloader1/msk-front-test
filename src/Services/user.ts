@@ -66,6 +66,7 @@ export const getUserCourses = (
         product_code_cedente: cp.C_digo_de_Curso_Cedente,
         avance: cp.Avance,
         ov: cp.Estado_de_OV,
+        expiration: cp.Fecha_de_expiraci_n,
         ...globalProduct,
         featured_image,
       };

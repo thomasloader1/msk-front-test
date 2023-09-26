@@ -5,6 +5,8 @@ import StorePagination from 'components/Store/StorePagination';
 import React, { FC } from 'react'
 import { CoursesTableComponentProps } from './DesktopCoursesTable';
 import CentroAyudaLink from 'components/CentroAyudaLink/CentroAyudaLink';
+import { formatDate } from 'lib/formatDate';
+import calendarIcon from '../../images/icons/calendar.svg'
 
 const MobileCourseTable: FC<CoursesTableComponentProps> = ({ currentItems, config }) => {
     const { email, goToLMS, handlePageChange, totalPages, currentPage } = config
@@ -32,6 +34,10 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({ currentItems, confi
                                 />
 
                             </div>
+                        </div>
+                        <div className="flex items-center mt-2 ml-1">
+                            <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+                            <span className='text-violet-wash text-sm'>Fecha de expiración: {formatDate(new Date(item.expiration))}</span>
                         </div>
                         {item.status !== "Activo" && <CentroAyudaLink />}
 

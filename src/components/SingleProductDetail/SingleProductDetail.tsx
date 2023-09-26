@@ -102,7 +102,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
                           <img
-                            src={imagen || product.authors[0]?.image}
+                            src={imagen}
                             alt={title}
                           />
                         </div>

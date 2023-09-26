@@ -19,46 +19,67 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const fetchUser = async () => {
-    try {
-
-      const res = await api.getUserData();
-      if (!res.message) {
-        localStorage.setItem("user", JSON.stringify({ name: res.name, speciality: res.contact.speciality }));
-        localStorage.setItem("bypassRedirect", res.test);
-        return { name: res.name, speciality: res.contact.speciality };
-      } else {
-        console.log(res.response.status);
-      }
-    } catch (e) {
-      console.error({ e })
-      localStorage.removeItem("email")
-      localStorage.removeItem("user")
-      dispatch({ type: "LOGOUT" });
-    }
-  };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const email = localStorage.getItem("email");
-    const bypassRedirect = localStorage.getItem("bypassRedirect");
-    let expires_at: string | Date | null = localStorage.getItem("expires_at");
-
-    if (token && email) {
-      const userData = fetchUser();
-      const data = { access_token: token, email, expires_at, bypassRedirect, user: userData };
-      dispatch({ type: "LOGIN", payload: data });
-
-      if (expires_at) {
-        expires_at = new Date(expires_at);
-        expires_at.setDate(expires_at.getDate() - 1);
-
-        if (new Date() > expires_at) {
-          dispatch({ type: "LOGOUT" });
+    const fetchUserData = async () => {
+      try {
+        const res = await api.getUserData();
+        if (!res.message) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              name: res.name,
+              speciality: res.contact.speciality,
+            })
+          );
+          localStorage.setItem("bypassRedirect", res.test);
+          return { name: res.name, speciality: res.contact.speciality };
+        } else {
+          console.log(res.response.status);
+          return null;
         }
+      } catch (e) {
+        console.error({ e });
+        localStorage.removeItem("email");
+        localStorage.removeItem("user");
+        dispatch({ type: "LOGOUT" });
+        return null;
       }
-    } else if (expires_at && new Date(expires_at) < new Date()) {
-      dispatch({ type: "LOGOUT" });
-    }
+    };
+
+    const initializeAuth = async () => {
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      const bypassRedirect = localStorage.getItem("bypassRedirect");
+      let expires_at: string | Date | null = localStorage.getItem("expires_at");
+
+      if (token && email) {
+        const userData = await fetchUserData();
+        if (userData) {
+          const data = {
+            access_token: token,
+            email,
+            expires_at,
+            bypassRedirect,
+            user: userData,
+          };
+          dispatch({ type: "LOGIN", payload: data });
+          if (expires_at) {
+            expires_at = new Date(expires_at);
+            expires_at.setDate(expires_at.getDate() - 1);
+
+            if (new Date() > expires_at) {
+              dispatch({ type: "LOGOUT" });
+            }
+          }
+        } else {
+          console.log("No user data");
+        }
+      } else if (expires_at && new Date(expires_at) < new Date()) {
+        dispatch({ type: "LOGOUT" });
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   return (

@@ -10,12 +10,9 @@ import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { useHistory } from "react-router-dom";
 import { getUserCourses } from "Services/user";
-import axios from "axios";
-import { ALL_PRODUCTS_MX } from "data/api";
 import Heading from "components/Heading/Heading";
 import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
-import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
 
@@ -158,12 +155,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
                     {currentItems
                       ? currentItems.map((post, index) => (
-                        <ProductAccount
-                          key={`${post.id}_${index}`}
-                          product={post}
-                          user={user}
-                        />
-                      ))
+                          <ProductAccount
+                            key={`${post.id}_${index}`}
+                            product={post}
+                            user={user}
+                          />
+                        ))
                       : null}
                   </div>
 
@@ -200,13 +197,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories
               ? categories.map((item, i) => (
-                <CardComponentName
-                  index={i < 1 ? `#${i + 1}` : undefined}
-                  key={item.name}
-                  taxonomy={item}
-                  className="rounded-lg"
-                />
-              ))
+                  <CardComponentName
+                    index={i < 1 ? `#${i + 1}` : undefined}
+                    key={item.name}
+                    taxonomy={item}
+                    className="rounded-lg"
+                  />
+                ))
               : null}
           </div>
         </main>

@@ -58,7 +58,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (getCountryFromURL() != "") {
             redirectUrl = window.location.href.replace(
               "/" + getCountryFromURL() + "/",
-              "/" + currentCountry + "/"
+              "/" + currentCountry
             );
           }
           window.location.href = redirectUrl;

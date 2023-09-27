@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import BlogSummary from "./home/BlogSummary";
-import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CoursesForYou from "./home/CoursesForYou";
 import HomeExtraInfo from "./home/HomeExtraInfo";
@@ -11,16 +11,18 @@ import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGri
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import { TABS_HOME } from "data/MSK/courses";
+import { TABS_BLOG } from "data/MSK/blog";
 import { HOME_SPECIALTIES } from "data/MSK/specialties";
-import axios from "axios";
-import { BEST_SELLERS_MX } from "data/api";
 import api from "Services/api";
+import usePosts from "hooks/usePosts";
 
 const PageHome: React.FC = () => {
   const [courses, setCourses] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
+  const { posts, loading: loadingPosts } = usePosts();
+
   const fetchCourses = async () => {
     const allCourses = await api.getAllProductsMX();
     setCourses(allCourses);
@@ -100,6 +102,15 @@ const PageHome: React.FC = () => {
             className="py-16 lg:py-28"
             heading="Oportunidades para ti"
             desc="Cursos destacados para realizar a distancia"
+          />
+          <BlogSummary
+            posts={posts}
+            tabs={TABS_BLOG}
+            loading={loadingPosts}
+            className="py-16 lg:py-28"
+            heading=""
+            desc=""
+            showTitle
           />
           {/* === SECTION 3 === */}
           <HomeExtraInfo btnOnClick={scrollToContactForm} />

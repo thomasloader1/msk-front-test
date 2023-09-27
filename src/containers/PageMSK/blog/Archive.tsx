@@ -2,9 +2,6 @@ import React, { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
 import NcImage from "components/NcImage/NcImage";
 import { CommentType } from "components/CommentCard/CommentCard";
-import { useAppDispatch } from "app/hooks";
-import axios from "axios";
-import { API_URL } from "data/api";
 import Card11 from "components/Card11/Card11";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "../home/SectionSliderPosts";
@@ -14,6 +11,9 @@ import LoadingImage from "components/Loader/Image";
 import api from "Services/api";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 import { removeAccents } from "lib/removeAccents";
+import Button from "components/Button/Button";
+import NcModal from "components/NcModal/NcModal";
+import SpecialtiesModal from "../note/SpecialtiesModal";
 
 export interface PageArchiveProps {
   className?: string;
@@ -41,6 +41,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [bestSeller, setBestSeller] = useState([]);
   const { state } = useContext(CountryContext);
+  const [showSpecialties, setShowSpecialties] = useState(false);
   const itemsPerPage = 12;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -95,7 +96,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const fetchPosts = async () => {
     const fetchedPosts = await api.getPosts();
     let categoryValue = decodeURIComponent(
-      window.location.search.replace(/^.*\?category=/, "")
+      window.location.search.replace(/^.*\?categoria=/, "")
     );
     let filteredPosts: any = fetchedPosts;
     if (categoryValue) {
@@ -122,7 +123,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   useEffect(() => {
     let categoryValue = decodeURIComponent(
-      window.location.search.replace(/^.*\?category=/, "")
+      window.location.search.replace(/^.*\?categoria=/, "")
     );
 
     setTitle(
@@ -171,14 +172,22 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         ) : null}
         <div className="container my-10 animate-fade-down">
           <div className="flex space-between mb-8">
-            <ArchiveFilterListBox
+            {/* <ArchiveFilterListBox
               setFilter={handleCategoryChange}
               lists={CATEGORIES_FILTERS}
-              className="mr-auto"
-            />
+            /> */}
+            <Button
+              onClick={() => setShowSpecialties(true)}
+              sizeClass="px-4 py-2 sm:px-5"
+              className="border-solid border-1 border-neutral-200 text-neutral-500"
+              bordered
+            >
+              <span className="text-sm">Ver Especialidades</span>
+            </Button>
             <ArchiveFilterListBox
               setFilter={handleFilterChange}
               lists={FILTERS}
+              className="ml-auto"
             />
           </div>
 
@@ -233,6 +242,20 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
           </div>
         </div>
       </div>
+      <NcModal
+        isOpenProp={showSpecialties}
+        onCloseModal={() => {
+          setShowSpecialties(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() => <SpecialtiesModal setShow={setShowSpecialties} />}
+        modalTitle="Especialidades"
+        modalSubtitle=""
+        centerTitle
+      />
     </>
   );
 };

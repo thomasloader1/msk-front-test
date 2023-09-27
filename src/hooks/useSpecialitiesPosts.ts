@@ -1,30 +1,35 @@
-import { useState, useEffect } from 'react';
-import api from '../Services/api'; // Asegúrate de importar tu módulo 'api' correctamente
+import { useState, useEffect } from "react";
+import api from "../Services/api"; // Asegúrate de importar tu módulo 'api' correctamente
 
-interface SpecialitiePost{
-    speciality_name: string;
-    image: string;
-    articles: number;
+export interface SpecialitiePost {
+  speciality_name: string;
+  image: string;
+  articles: number;
+  url_query?: string;
 }
 
 const useSpecialitiesPosts = () => {
-    const [allSpecialtiesGroups, setAllSpecialtiesGroup] = useState<SpecialitiePost[]>([]);
-    const [fiveSpecialtiesGroups, setFiveSpecialtiesGroup] = useState<SpecialitiePost[]>([]);
-    const [loading, setLoading] = useState(true);
+  const [allSpecialtiesGroups, setAllSpecialtiesGroup] = useState<
+    SpecialitiePost[]
+  >([]);
+  const [fiveSpecialtiesGroups, setFiveSpecialtiesGroup] = useState<
+    SpecialitiePost[]
+  >([]);
+  const [loading, setLoading] = useState(true);
 
-    const fetchPostsSpecialities = async () => {
-        const res = await api.getNotesSpecialities();
+  const fetchPostsSpecialities = async () => {
+    const res = await api.getNotesSpecialities();
 
-        setAllSpecialtiesGroup(res?.data.specialities);
-        setFiveSpecialtiesGroup(res?.data.specialities.slice(0,5))
-        setLoading(false);
-      };
+    setAllSpecialtiesGroup(res?.data.specialities);
+    setFiveSpecialtiesGroup(res?.data.specialities.slice(0, 5));
+    setLoading(false);
+  };
 
-      useEffect(() => {
-        fetchPostsSpecialities()
-      }, []);
+  useEffect(() => {
+    fetchPostsSpecialities();
+  }, []);
 
-    return { fiveSpecialtiesGroups, allSpecialtiesGroups, loading };
+  return { fiveSpecialtiesGroups, allSpecialtiesGroups, loading };
 };
 
 export default useSpecialitiesPosts;

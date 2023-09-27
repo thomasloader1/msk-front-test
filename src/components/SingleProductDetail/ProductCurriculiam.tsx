@@ -1,4 +1,5 @@
 import Accordion from "components/Accordion/Accordion";
+import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Topic } from "data/types";
 import React, { FC, useEffect, useRef, useState } from "react";
 
@@ -35,16 +36,32 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
       return <>{textNodes}</>;
     }
 
-    return <>{htmlString}</>
+    return <>{htmlString}</>;
   };
 
-  console.log({ topics, accordionContent })
+  // console.log({ topics, accordionContent });
+
+  const downloadTopics = () => {
+    window.open(topics?.data?.temario_link, "_blank");
+  };
 
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
         <h4 className="font-semibold text-xl">Qué temas verás</h4>
-        <p className="modules-description">{accordionContent.length} módulos • {hours?.value} horas estimadas</p>
+        <div className="flex items-center justify-between">
+          <p className="modules-description">
+            {accordionContent.length} módulos • {hours?.value} horas estimadas
+          </p>
+          <ButtonPrimary
+            onClick={() => downloadTopics()}
+            sizeClass="px-4 py-2 sm:px-5"
+            className="font-semibold"
+            targetBlank
+          >
+            Descargar Temario
+          </ButtonPrimary>
+        </div>
       </div>
       {accordionContent.length ? (
         <div className="modules pb-6">
@@ -57,7 +74,9 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
                 setCurrentIndex={() => handleAccordionClick(index)}
                 key={`acc_${index}`}
               >
-                <p className="accordion-content p-3">{parseToHTML(item.card_body)}</p>
+                <p className="accordion-content p-3">
+                  {parseToHTML(item.card_body)}
+                </p>
               </Accordion>
             );
           })}

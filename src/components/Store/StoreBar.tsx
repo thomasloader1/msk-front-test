@@ -1,5 +1,4 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/solid";
+import { Listbox } from "@headlessui/react";
 import ButtonDropdown from "components/ButtonDropdown/ButtonDropdown";
 import { ListBoxItemType } from "components/NcListBox/NcListBox";
 import React, { FC, useState } from "react";
@@ -75,39 +74,19 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
                     <Listbox.Button as={"div"}>
                       <ButtonDropdown>{selectedOption}</ButtonDropdown>
                     </Listbox.Button>
-                    <Listbox.Options className="absolute right-0 w-52 py-1 mt-2 overflow-auto text-sm text-neutral-900 dark:text-neutral-200 bg-white rounded-xl shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-neutral-900 dark:ring-neutral-700 z-50">
+                    <Listbox.Options className="absolute right-0 w-36 py-1 mt-2 overflow-auto text-sm text-neutral-900 dark:text-neutral-200 bg-white rounded-xl shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-neutral-900 dark:ring-neutral-700 z-50">
                       {filterItems.map(
                         (item: ListBoxItemType, index: number) => (
                           <Listbox.Option
                             key={index}
-                            className={({ active }) =>
-                              `${
-                                active
-                                  ? "text-primary-700 dark:text-neutral-200 bg-primary-50 dark:bg-neutral-700"
-                                  : ""
-                              } cursor-default select-none relative py-2 pl-10 pr-4`
-                            }
+                            className="cursor-default select-none relative py-2 pl-4 pr-4"
                             value={item}
                           >
                             {() => (
                               <>
-                                <span
-                                  className={`${
-                                    selectedOption == item.name
-                                      ? "font-medium"
-                                      : "font-normal"
-                                  } block truncate`}
-                                >
+                                <span className="font-normal block truncate">
                                   {item.name}
                                 </span>
-                                {selectedOption == item.name ? (
-                                  <span className="text-primary-700 absolute inset-y-0 left-0 flex items-center pl-3 dark:text-neutral-200">
-                                    <CheckIcon
-                                      className="w-5 h-5"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                ) : null}
                               </>
                             )}
                           </Listbox.Option>

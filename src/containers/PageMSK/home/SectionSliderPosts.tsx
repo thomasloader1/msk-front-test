@@ -22,6 +22,7 @@ import Card18 from "components/Card18/Card18";
 import Card19 from "components/Card19/Card19";
 import Card20 from "components/Card20/Card20";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import Tooltip from "components/Tooltip/Tooltip";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -158,6 +159,8 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
     }
   };
 
+  // console.log(posts);
+
   const CardName = getPostComponent();
   return (
     <div className={`nc-SectionSliderPosts ${className}`}>
@@ -178,11 +181,11 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               {posts?.map((item: any, index: number) => (
                 <li
                   key={index}
-                  className={`glide__slide h-auto  ${
+                  className={`glide__slide h-auto relative  ${
                     sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
                   }`}
                 >
-                  <CardName post={item} showDescription />
+                  <CardName post={item} index={index} showDescription />
                 </li>
               ))}
             </ul>

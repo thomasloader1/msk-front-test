@@ -12,13 +12,12 @@ import useCourses from "hooks/useCourses";
 import { FetchPostType } from "data/types";
 
 const PageBlog: React.FC = () => {
-
   const { posts, loading } = usePosts();
   const { courses } = useCourses();
-
-  const welcomePosts = posts.filter((p: FetchPostType, i) => i < 5 && p.categories[0].name?.includes("Actualidad"))
-
-
+  const welcomePosts = posts.filter(
+    (p: FetchPostType, i) =>
+      i < 5 && p.categories[0].name?.includes("Actualidad")
+  );
   return (
     <div className="nc-PageHome relative animate-fade-down">
       <Helmet>
@@ -31,7 +30,12 @@ const PageBlog: React.FC = () => {
         {/* ======= START CONTAINER ============= */}
         <div className="container relative">
           {/* === SECTION  === */}
-          <WelcomeBlog tabs={[]} heading="" posts={welcomePosts} loading={loading} />
+          <WelcomeBlog
+            tabs={[]}
+            heading=""
+            posts={welcomePosts}
+            loading={loading}
+          />
           <BlogSummary
             posts={posts}
             tabs={TABS_BLOG}

@@ -35,7 +35,6 @@ const CoursesForYou: FC<Props> = ({
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [localCourses, setLocalCourses] = useState<FetchCourseType[]>([]);
-  // When handeClicktab please get courses from api,... and pass to new state (newcourses) and pass to
   const handleClickTab = (item: string) => {
     switch (item) {
       case "Todo":
@@ -55,8 +54,6 @@ const CoursesForYou: FC<Props> = ({
               (category) => category.name === "Medicina general"
             )
         );
-
-        //console.log(specialtyCourses);
         setLocalCourses(specialtyCourses);
         break;
     }

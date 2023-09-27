@@ -20,7 +20,8 @@ import { CountryContext } from "context/country/CountryContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { CountryCode } from "libphonenumber-js/types";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { countries } from "data/countries";
 
 interface Props {
   user: User;
@@ -28,7 +29,7 @@ interface Props {
 }
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { state } = useContext(CountryContext);
   const [userData, setUserData] = useState(user);
@@ -151,25 +152,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
         break;
     }
   };
-
-  const countries = [
-    {
-      id: "mx",
-      name: "México",
-    },
-    {
-      id: "ar",
-      name: "Argentina",
-    },
-    {
-      id: "cl",
-      name: "Chile",
-    },
-    {
-      id: "ec",
-      name: "Ecuador",
-    },
-  ];
 
   useEffect(() => {
     const hasOtherProfession = selectedOptionProfession.includes("Otra ");
@@ -314,43 +296,42 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-        if (executeRecaptcha) {
-            const formData = {
-                ...localUser,
-                ...values,
-                recaptcha_token: await executeRecaptcha('edit_profile'),
-            };
+      if (executeRecaptcha) {
+        const formData = {
+          ...localUser,
+          ...values,
+          recaptcha_token: await executeRecaptcha("edit_profile"),
+        };
 
-      try {
-        const res = await api.updateUserData(formData);
-        if ((res?.status as number) === 200) {
-          setUpdateStatusMessage({
-            message: "Se actualizó correctamente.",
-            type: "success",
-          });
+        try {
+          const res = await api.updateUserData(formData);
+          if ((res?.status as number) === 200) {
+            setUpdateStatusMessage({
+              message: "Se actualizó correctamente.",
+              type: "success",
+            });
 
-          const userDataDB = await api.getUserData();
+            const userDataDB = await api.getUserData();
 
-          if (typeof setUser === "function") {
-            setUser(userDataDB);
+            if (typeof setUser === "function") {
+              setUser(userDataDB);
+            }
+            setFormSubmitted(true);
+          } else {
+            console.log("Hubo un error al actualizar el usuario", res);
+            setUpdateStatusMessage({
+              message: "Hubo un error al actualizar el usuario.",
+              type: "error",
+            });
           }
-          setFormSubmitted(true);
-        } else {
-          console.log("Hubo un error al actualizar el usuario", res);
+        } catch (error) {
+          console.log("Hubo un error al actualizar el usuario", error);
           setUpdateStatusMessage({
             message: "Hubo un error al actualizar el usuario.",
             type: "error",
           });
         }
-      } catch (error) {
-        console.log("Hubo un error al actualizar el usuario", error);
-        setUpdateStatusMessage({
-          message: "Hubo un error al actualizar el usuario.",
-          type: "error",
-        });
       }
-        }
-
     },
   });
 
@@ -661,21 +642,23 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
 
           <label className="block">{renderInputIdentification()}</label>
 
-          { localUser.country.includes('México') &&(<div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              Régimen fiscal
-            </label>
-            <ErrorMessage
-              name="fiscal_regime"
-              component="span"
-              className="error"
-            />
-            <Field
-              type="text"
-              name="fiscal_regime"
-              placeholder="Ingresar régimen fiscal"
-            />
-          </div>)}
+          {localUser.country.includes("México") && (
+            <div className="form-input-std">
+              <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                Régimen fiscal
+              </label>
+              <ErrorMessage
+                name="fiscal_regime"
+                component="span"
+                className="error"
+              />
+              <Field
+                type="text"
+                name="fiscal_regime"
+                placeholder="Ingresar régimen fiscal"
+              />
+            </div>
+          )}
 
           <Button
             className={

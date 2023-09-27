@@ -3,6 +3,7 @@ import { CountryContext } from "./CountryContext";
 import { countryReducer } from "./CountryReducer";
 import { CountryState } from "data/types";
 import api from "Services/api";
+import { countries } from "data/countries";
 
 interface Props {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
       try {
         console.log("Country Provider");
         let currentCountry = "";
-        let validCountries = ["mx", "cl", "ar", "ec"];
+        let validCountries = countries.map((item) => item.id);
         if (bypassRedirect == "1") {
           console.log("bypassRedirect");
           const currentUrl = window.location.pathname;
@@ -82,6 +83,8 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
     const getCountryFromURL = () => {
       const url = window.location.href;
       switch (true) {
+        // case url.includes("/es/"):
+        //   return "es";
         case url.includes("/cl/"):
           return "cl";
         case url.includes("/ar/"):

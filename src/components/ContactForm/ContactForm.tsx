@@ -1,10 +1,11 @@
 import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useReducer,
-    useRef,
-    useState,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
 } from "react";
 
 import "../../styles/scss/main.scss";
@@ -24,12 +25,21 @@ import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { UTMAction } from "context/utm/UTMContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { ContactFormSchema, useYupValidation } from "hooks/useYupValidation";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { fetchPdfData } from "lib/fetchPDFData";
 
-const ContactFormSection = ({
+interface ContactFormProps {
+  hideHeader?: boolean;
+  productName?: string | undefined;
+  isEbook?: boolean;
+  resourceMedia?: string | boolean;
+}
+
+const ContactFormSection: FC<ContactFormProps> = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
+  resourceMedia,
 }) => {
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -50,21 +60,19 @@ const ContactFormSection = ({
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
-    const formRef = useRef<HTMLFormElement>(null);
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const formRef = useRef<HTMLFormElement>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
-    // Create an event handler so you can call the verification on button click event or form submit
-    const handleReCaptchaVerify = useCallback(async () => {
-        if (!executeRecaptcha) {
-            console.log('Execute recaptcha not yet available');
-            return;
-        }
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
 
-        const token = await executeRecaptcha('yourAction');
-        // Do whatever you want with the token
-    }, [executeRecaptcha]);
-
-
+    const token = await executeRecaptcha("yourAction");
+    // Do whatever you want with the token
+  }, [executeRecaptcha]);
 
   const initialValues: ContactFormSchema = {
     First_Name: "",
@@ -170,7 +178,7 @@ const ContactFormSection = ({
       .catch((error) => {
         console.log(error);
       });
-      handleReCaptchaVerify();
+    handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
 
   const clearUTMAction: UTMAction = {
@@ -185,33 +193,81 @@ const ContactFormSection = ({
       const body = {
         ...values,
       };
-        if (executeRecaptcha) {
-            try {
-                body.recaptcha_token = await executeRecaptcha('contact_form');
-                const response = await api.postContactUs(body);
-                // @ts-ignore
-                if (response.status === 200) {
-                    let routeChange = isEbook
-                        ? "/gracias?origen=descarga-ebook"
-                        : "/gracias?origen=contact";
-                    setFormSent(true);
-                    resetForm();
-                    dispatchUTM(clearUTMAction);
-                    setTimeout(() => {
-                        changeRoute(routeChange);
-                    }, 100);
-                } else {
-                    setFormError(
-                        "Hubo un error al enviar el formulario, revise los campos"
-                    );
-                }
-            } catch (error) {
-                console.error("Error al ejecutar reCAPTCHA:", error);
-            }
-        }else{
-            console.log('Execute recaptcha not yet available1');
-        }
+      if (executeRecaptcha) {
+        try {
+          body.recaptcha_token = await executeRecaptcha("contact_form");
+          const response = await api.postContactUs(body);
+          // @ts-ignore
+          if (response.status === 200) {
+            let routeChange = isEbook
+              ? "/gracias?origen=descarga-ebook"
+              : "/gracias?origen=contact";
+            setFormSent(true);
+            resetForm();
+            dispatchUTM(clearUTMAction);
 
+            if (isEbook && typeof resourceMedia === "string") {
+              try {
+                // Realiza la solicitud para obtener el archivo PDF
+                const replacedUrl = resourceMedia.replace(
+                  /^(https?:\/\/)(ar\.|mx\.|cl\.|ec\.)/,
+                  "$1"
+                );
+                const response = await fetch(replacedUrl);
+
+                if (!response.ok) {
+                  throw new Error("No se pudo descargar el archivo PDF");
+                }
+
+                const blob = await response.blob();
+
+                // Crea un enlace temporal y simula un clic para descargar el archivo con su nombre original
+                const a = document.createElement("a");
+                a.href = window.URL.createObjectURL(blob);
+
+                // Obtén el nombre del archivo del encabezado Content-Disposition si está presente
+                const contentDisposition = response.headers.get(
+                  "Content-Disposition"
+                );
+                const fileNameMatch =
+                  contentDisposition &&
+                  contentDisposition.match(/filename="(.+)"/);
+
+                if (fileNameMatch && fileNameMatch[1]) {
+                  a.download = fileNameMatch[1];
+                } else {
+                  // Si no se encontró el nombre del archivo en el encabezado, utiliza un nombre predeterminado
+                  a.download = "ebook.pdf";
+                }
+
+                // Simula un clic en el enlace para iniciar la descarga
+                a.click();
+
+                // Libera el objeto URL creado
+                window.URL.revokeObjectURL(a.href);
+
+                setTimeout(() => {
+                  changeRoute(routeChange);
+                }, 100);
+              } catch (error) {
+                console.error("Error al descargar el archivo:", error);
+              }
+            } else {
+              setTimeout(() => {
+                changeRoute(routeChange);
+              }, 100);
+            }
+          } else {
+            setFormError(
+              "Hubo un error al enviar el formulario, revise los campos"
+            );
+          }
+        } catch (error) {
+          console.error("Error al ejecutar reCAPTCHA:", error);
+        }
+      } else {
+        console.log("Execute recaptcha not yet available1");
+      }
     },
   });
 
@@ -243,48 +299,52 @@ const ContactFormSection = ({
 
                 <div className={`section-title mb-30`}>
                   {hideHeader ? null : (
-                    <h2 className="font-medium" style={{maxWidth: '800px'}}>
+                    <h2 className="font-medium" style={{ maxWidth: "800px" }}>
                       {isEbook
                         ? "Completa el formulario para descargar automáticamente el material"
                         : "Contáctanos"}
                     </h2>
                   )}
 
-                  {!isEbook && <div className="flex flex-wrap gap-6 preferences">
-                    <p className="talk-through w-full md:w-auto">
-                      Quiero hablar por
-                    </p>
-                    <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Radio
-                        name="Preferencia_de_contactaci_n"
-                        label="Teléfono"
-                        id="Contact_Method_Teléfono"
-                        onChange={() =>
-                          handleContactPreferenceChange(
-                            "Contact_Method_Teléfono"
-                          )
-                        }
-                      />
-                      <Radio
-                        name="Preferencia_de_contactaci_n"
-                        label="E-mail"
-                        id="Contact_Method_E-mail"
-                        onChange={() =>
-                          handleContactPreferenceChange("Contact_Method_E-mail")
-                        }
-                      />
-                      <Radio
-                        name="Preferencia_de_contactaci_n"
-                        label="WhatsApp"
-                        id="Contact_Method_Whatsapp"
-                        onChange={() =>
-                          handleContactPreferenceChange(
-                            "Contact_Method_Whatsapp"
-                          )
-                        }
-                      />
+                  {!isEbook && (
+                    <div className="flex flex-wrap gap-6 preferences">
+                      <p className="talk-through w-full md:w-auto">
+                        Quiero hablar por
+                      </p>
+                      <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Radio
+                          name="Preferencia_de_contactaci_n"
+                          label="Teléfono"
+                          id="Contact_Method_Teléfono"
+                          onChange={() =>
+                            handleContactPreferenceChange(
+                              "Contact_Method_Teléfono"
+                            )
+                          }
+                        />
+                        <Radio
+                          name="Preferencia_de_contactaci_n"
+                          label="E-mail"
+                          id="Contact_Method_E-mail"
+                          onChange={() =>
+                            handleContactPreferenceChange(
+                              "Contact_Method_E-mail"
+                            )
+                          }
+                        />
+                        <Radio
+                          name="Preferencia_de_contactaci_n"
+                          label="WhatsApp"
+                          id="Contact_Method_Whatsapp"
+                          onChange={() =>
+                            handleContactPreferenceChange(
+                              "Contact_Method_Whatsapp"
+                            )
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>}
+                  )}
                 </div>
                 <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">

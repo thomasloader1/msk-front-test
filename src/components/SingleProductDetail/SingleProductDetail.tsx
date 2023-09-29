@@ -66,7 +66,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
-
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
@@ -96,15 +95,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               {product.authors.length ||
               product.temario ||
               (product.details && product.details["duration"]) ? (
-                <div className={`course-detelis-meta ${isEbook && 'border-0'}`}>
+                <div className={`course-detelis-meta ${isEbook && "border-0"}`}>
                   {product.authors.length ? (
                     <>
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
-                          <img
-                            src={imagen}
-                            alt={title}
-                          />
+                          <img src={imagen} alt={title} />
                         </div>
                         <div>
                           <span className="raleway">Cedente</span>
@@ -216,28 +212,27 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               </>
             )}
 
-            {(product.authors.length > 0 && !isEbook) && (
+            {product.authors.length > 0 && !isEbook && (
               <h4 className="mt-6 font-bold pt-6 text-xl">
                 Quiénes lo desarrollan
               </h4>
             )}
 
             {!isEbook && (
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                  {currentItems.length > 0 && (
-                    currentItems.map((instructor, index) => {
-                      return (
-                        <ProductDetailsInstructor
-                          instructor={instructor}
-                          key={`inst_${index}`}
-                        />
-                      );
-                    })
-                  )}
-                </div>
-                )}
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {currentItems.length > 0 &&
+                  currentItems.map((instructor, index) => {
+                    return (
+                      <ProductDetailsInstructor
+                        instructor={instructor}
+                        key={`inst_${index}`}
+                      />
+                    );
+                  })}
+              </div>
+            )}
 
-            {(totalPages > 1 && !isEbook) && (
+            {totalPages > 1 && !isEbook && (
               <div className="flex justify-center">
                 <StorePagination
                   totalPages={totalPages}
@@ -246,7 +241,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 />
               </div>
             )}
-
           </div>
         </div>
         <div className="order-last relative hidden lg:block">
@@ -280,6 +274,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <ContactFormSection
           productName={product.ficha.title}
           isEbook={isEbook}
+          resourceMedia={
+            isEbook ? (product?.temario_link_pdf as string) : false
+          }
         />
       </div>
       {product.related_products.length ? (

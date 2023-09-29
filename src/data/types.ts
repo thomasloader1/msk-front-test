@@ -303,6 +303,7 @@ export interface Ficha {
   code: string;
   isbn: string;
   description: string;
+  temario_link_pdf?: string;
 }
 
 export interface DetailsItem {
@@ -386,6 +387,7 @@ export interface FetchSingleProduct {
   asesoramiento_academico: string;
   certificacion: string;
   idioma: string[];
+  temario_link_pdf?: string;
 }
 export interface FetchCourseType {
   id: number;

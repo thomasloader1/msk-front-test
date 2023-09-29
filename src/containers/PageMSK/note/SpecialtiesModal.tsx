@@ -3,9 +3,11 @@ import axios from "axios";
 import NcImage from "components/NcImage/NcImage";
 import { API_BACKEND_URL } from "data/api";
 import { ContactUs, Newsletter, Specialty } from "data/types";
-import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
+import useSpecialitiesPosts, {
+  SpecialitiePost,
+} from "hooks/useSpecialitiesPosts";
 
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 interface Props {
@@ -14,10 +16,22 @@ interface Props {
 }
 const SpecialtiesModal: FC<Props> = ({ email, setShow }) => {
   const { allSpecialtiesGroups, loading } = useSpecialitiesPosts();
+  const [specialties, setSpecialties] = useState<SpecialitiePost[]>([]);
   const history = useHistory();
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
   };
+
+  useEffect(() => {
+    setSpecialties(
+      allSpecialtiesGroups.map((item) => {
+        item.speciality_name === "Medicina general"
+          ? (item.url_query = "Medicina")
+          : (item.url_query = item.speciality_name);
+        return item;
+      })
+    );
+  }, [allSpecialtiesGroups]);
 
   const loadingArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
@@ -41,10 +55,11 @@ const SpecialtiesModal: FC<Props> = ({ email, setShow }) => {
           ))}
         </>
       ) : (
-        allSpecialtiesGroups.map(
-          ({ speciality_name, image, articles }, index) => (
+        specialties.map(
+          ({ speciality_name, image, articles, url_query }, index) => (
             <Link
-              to={`/archivo?especialidad=${speciality_name}`}
+              to={`/archivo?categoria=${url_query}`}
+              onClick={() => setShow(false)}
               key={`sp__${index}`}
               className="grid grid-cols-4 gap-12 items-center"
             >

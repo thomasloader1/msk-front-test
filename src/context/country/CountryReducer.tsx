@@ -1,4 +1,5 @@
 import { CountryState, AuthAction } from "data/types";
+import { countries } from "data/countries";
 
 const SET_COUNTRY = "SET_COUNTRY";
 export const countryReducer = (
@@ -7,10 +8,17 @@ export const countryReducer = (
 ): CountryState => {
   switch (action.type) {
     case SET_COUNTRY:
-      return {
-        ...state,
-        country: action.payload.country,
-      };
+        let validCountries = countries.map((item) => item.id);
+        if (!validCountries.includes(action.payload.country)) {
+            return {
+                ...state,
+            };
+        }else{
+            return {
+                ...state,
+                country: action.payload.country,
+            };
+        }
     default:
       return state;
   }

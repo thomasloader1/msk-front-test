@@ -517,21 +517,21 @@ export const NAVIGATION_MSK: NavItemType[] = [
 const categoriesMenuBlog: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/blog",
+    href: "/archivo",
     name: "Actualidad",
-    search: "?category=Actualidad",
+    search: "?categoria=Actualidad",
   },
   {
     id: ncNanoId(),
-    href: "/blog",
+    href: "/archivo",
     name: "Entrevistas",
-    search: "?category=Entrevistas",
+    search: "?categoria=Entrevistas",
   },
   {
     id: ncNanoId(),
-    href: "/blog",
+    href: "/archivo",
     name: "Opinión",
-    search: "?category=Opinión",
+    search: "?categoria=Opinión",
   },
 ];
 
@@ -581,19 +581,19 @@ const categoriesMenuArchive: NavItemType[] = [
     id: ncNanoId(),
     href: "/archivo",
     name: "Actualidad",
-    search: "?category=Actualidad",
+    search: "?categoria=Actualidad",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "Entrevistas",
-    search: "?category=Entrevistas",
+    search: "?categoria=Entrevistas",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "Opinión",
-    search: "?category=Opinión",
+    search: "?categoria=Opinión",
   },
 ];
 

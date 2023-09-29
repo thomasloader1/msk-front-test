@@ -50,7 +50,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
       try {
         const post = await api.getSinglePost(slug);
         setNote(post);
-        const auxFuentes = post.fuentes || [];
+        const auxFuentes = post?.fuentes || [];
         setFuentes(
           auxFuentes.map((fuente: { fuente: string }) => fuente.fuente)
         );

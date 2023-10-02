@@ -428,6 +428,14 @@ export interface Category {
   slug: string;
 }
 
+export interface CategoryWP {
+  id: number;
+  name: string;
+  slug: string;
+  link: string;
+  description: string;
+}
+
 export interface Profession {
   id: number;
   name: string;

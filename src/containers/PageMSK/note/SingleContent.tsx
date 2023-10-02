@@ -13,6 +13,7 @@ import useBestSellers from "hooks/useBestSellers";
 import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "./SpecialtiesModal";
+import { slugify } from "lib/Slugify";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -94,7 +95,10 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                 <ul className="pr-5">
                   {articles.map((art, index) => (
                     <li key={`${art.title}_${index}`}>
-                      <a className="text-primary" href={`#${art.title}`}>
+                      <a
+                        className="text-primary"
+                        href={`#${slugify(art.title)}`}
+                      >
                         {art.title}
                       </a>
                     </li>
@@ -108,11 +112,11 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                 __html: noteIntroduction?.content as string,
               }}
             />
-            <NoteExtraData excerpt={data.excerpt} />
+            {/* <NoteExtraData excerpt={data.excerpt} /> */}
             <ul className="themes-to-see">
               {noteArticles?.map((art, index) => (
-                <li key={`content_${art.title}_${index}`}>
-                  <h3 id={art.title as string}>{art.title}</h3>
+                <li key={`content_${slugify(art.title)}_${index}`}>
+                  <h3 id={slugify(art.title)}>{art.title}</h3>
                   {art.content && (
                     <div dangerouslySetInnerHTML={{ __html: art.content }} />
                   )}

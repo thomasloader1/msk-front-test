@@ -5,6 +5,7 @@ import PostMeta2 from "components/PostMeta2/PostMeta2";
 import SingleMetaAction2 from "./SingleMetaAction2";
 import { Helmet } from "react-helmet";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import { CategoryWP } from "data/types";
 
 export interface SingleHeaderProps {
   pageData: SinglePageType;

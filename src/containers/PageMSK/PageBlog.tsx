@@ -16,7 +16,7 @@ const PageBlog: React.FC = () => {
   const { courses } = useCourses();
   const welcomePosts = posts.filter(
     (p: FetchPostType, i) =>
-      i < 5 && p.categories[0].name?.includes("Actualidad")
+      i < 5 && p.categories.some(p => p.name?.includes("Actualidad"))
   );
   return (
     <div className="nc-PageHome relative animate-fade-down">

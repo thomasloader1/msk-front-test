@@ -299,7 +299,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
                 <div className={`section-title mb-30`}>
                   {hideHeader ? null : (
-                    <h2 className="font-medium" style={{ maxWidth: "800px" }}>
+                    <h2 className="font-medium " style={{ maxWidth: "800px" }}>
                       {isEbook
                         ? "Completa el formulario para descargar automáticamente el material"
                         : "Contáctanos"}

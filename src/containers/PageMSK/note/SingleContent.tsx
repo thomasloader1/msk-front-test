@@ -14,6 +14,7 @@ import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "./SpecialtiesModal";
 import { slugify } from "lib/Slugify";
+import { parseHtml } from "utils/parseHTML";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -116,17 +117,22 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             <ul className="themes-to-see">
               {noteArticles?.map((art, index) => {
                 //console.log(art)
-                return(
-                <li key={`content_${slugify(art.title)}_${index}`}>
-                  <h3 id={slugify(art.title)}>{art.title}</h3>
-                  {art.content && (
-                    <div dangerouslySetInnerHTML={{ __html: art.content }} />
-                  )}
-                  {index == 0 && (
-                    <NoteExtraData featured_text={data.featured_text_field} />
-                  )}
-                </li>
-              )})}
+                return (
+                  <li key={`content_${slugify(art.title)}_${index}`}>
+                    <h3 id={slugify(art.title)}>{art.title}</h3>
+                    {
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: parseHtml(art.content),
+                        }}
+                      />
+                    }
+                    {index == 0 && (
+                      <NoteExtraData featured_text={data.featured_text_field} />
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {/* <p className="font-lora text-slate-500 text-xl">
               ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor

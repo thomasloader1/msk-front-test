@@ -172,14 +172,14 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         ) : null}
         <div className="container my-10 animate-fade-down">
           <div className="flex space-between mb-8">
-            {/* <ArchiveFilterListBox
+            <ArchiveFilterListBox
               setFilter={handleCategoryChange}
               lists={CATEGORIES_FILTERS}
-            /> */}
+            />
             <Button
               onClick={() => setShowSpecialties(true)}
               sizeClass="px-4 py-2 sm:px-5"
-              className="border-solid border-1 border-neutral-200 text-neutral-500"
+              className="border-solid border-1 border-neutral-200 text-neutral-500 ml-2"
               bordered
             >
               <span className="text-sm">Ver Especialidades</span>

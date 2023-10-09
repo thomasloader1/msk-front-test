@@ -6,14 +6,16 @@ import Badge from "components/Badge/Badge";
 import activeIcon from "../../../images/icons/activo.svg";
 import inactiveIcon from "../../../images/icons/inactivo.svg";
 import expiredIcon from "../../../images/icons/expirado.svg";
-import { goToLMS } from "logic/account";
+import {
+  goToLMS,
+  productFinishOrActive,
+  productStatusIsExpired,
+  statusCourse,
+} from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
-import calendarIcon from '../../../images/icons/calendar.svg'
+import calendarIcon from "../../../images/icons/calendar.svg";
 import { formatDate } from "lib/formatDate";
-
-
-
 
 interface Props {
   product: UserCourseProgress;
@@ -31,7 +33,7 @@ const ProductAccount: FC<Props> = ({
 }) => {
   const activeProductRef = useRef(product.status === "Activo");
   const productExpiration = useRef(new Date(product.expiration));
-  const [onRequest, setOnRequest] = useState<boolean>(false)
+  const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
 
   const imageURL = product.thumbnail.high.replace(
@@ -41,20 +43,21 @@ const ProductAccount: FC<Props> = ({
 
   const handleClick = async () => {
     if (activeProductRef.current) {
-      setOnRequest(true)
+      setOnRequest(true);
 
       try {
-
-        await goToLMS(product.product_code,product.product_code_cedente, user.email);
-
+        await goToLMS(
+          product.product_code,
+          product.product_code_cedente,
+          user.email
+        );
       } catch (e: any) {
-        console.log(e)
+        console.log(e);
       } finally {
-        setOnRequest(false)
+        setOnRequest(false);
       }
     }
   };
-
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -114,7 +117,6 @@ const ProductAccount: FC<Props> = ({
           <div className="portfolio-course-2 line-clamp-3">
             <a onClick={handleClick} className="">
               <h3 className="font-bold text-sm">{product.title}</h3>
-          
             </a>
           </div>
           {/* {product?.lista_de_cedentes && (
@@ -122,22 +124,24 @@ const ProductAccount: FC<Props> = ({
               {product?.lista_de_cedentes[0].post_title}
             </p>
           )} */}
-<div className="flex items-center mt-2 ">
+          <div className="flex items-center mt-2 ">
             <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-            <span className='text-violet-wash text-sm'>Fecha de expiración: {formatDate(productExpiration.current)}</span>
+            <span className="text-violet-wash text-sm">
+              Fecha de expiración: {formatDate(productExpiration.current)}
+            </span>
           </div>
-          {product.status !== "Activo" && (
+          {statusCourse(product.status) && (
             <CentroAyudaLink addClassNames="my-2" />
           )}
         </div>
       </div>
       <div className="course-2-footer text-grey-course">
-        {product.status === "Activo" ? (
+        {productFinishOrActive(product.status) ? (
           <div className="coursee-clock">
             <img src={activeIcon} alt={product.status} />
             <span className="ml-2">{product.status}</span>
           </div>
-        ) : product.status === "Inactivo" ? (
+        ) : productStatusIsExpired(product.status) ? (
           <div className="coursee-clock">
             <img src={inactiveIcon} alt={product.status} />
             <span className="ml-2">{product.status}</span>
@@ -152,9 +156,9 @@ const ProductAccount: FC<Props> = ({
         <button
           className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
           onClick={handleClick}
-          disabled={product.status !== "Activo" || onRequest}
+          disabled={statusCourse(product.status) || onRequest}
         >
-          {onRequest ? 'Ingresando ...' : 'Ir al curso'}
+          {onRequest ? "Ingresando ..." : "Ir al curso"}
         </button>
       </div>
     </div>

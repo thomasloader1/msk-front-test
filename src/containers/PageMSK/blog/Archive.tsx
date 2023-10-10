@@ -94,7 +94,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   };
 
   const fetchPosts = async () => {
-    const fetchedPosts = await api.getPosts();
+    const fetchedPosts = await api.getPosts(state?.country);
     let categoryValue = decodeURIComponent(
       window.location.search.replace(/^.*\?categoria=/, "")
     );

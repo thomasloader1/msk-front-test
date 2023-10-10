@@ -39,7 +39,7 @@ const SearchProducts = () => {
   };
 
   const fetchBlogPosts = async () => {
-    const postsList = await api.getPosts();
+    const postsList = await api.getPosts(state?.country);
     setAuxProducts([...postsList]);
     setProducts(postsList);
     setIsOnBlog(true);

@@ -100,7 +100,7 @@ const FooterEduman = () => {
                       <img src="/src/images/icons/fb.svg" />
                     </a>
                     <a
-                      href="https://www.instagram.com/"
+                      href="https://www.instagram.com/msk.latam"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -134,7 +134,9 @@ const FooterEduman = () => {
                         <Link to="/partners">Conviértete en Partner</Link>
                       </li>
                       <li>
-                        <a href="https://ayuda.msklatam.com/" target="_blank" >Centro de ayuda</a>
+                        <a href="https://ayuda.msklatam.com/" target="_blank">
+                          Centro de ayuda
+                        </a>
                       </li>
                       <li>
                         <Link to="/convenios">Convenios</Link>
@@ -154,10 +156,14 @@ const FooterEduman = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/politica-de-privacidad">Política de privacidad</Link>
+                        <Link to="/politica-de-privacidad">
+                          Política de privacidad
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/politica-de-cookies">Política de cookies</Link>
+                        <Link to="/politica-de-cookies">
+                          Política de cookies
+                        </Link>
                       </li>
                       <li>
                         <Link to="/condiciones-de-contratacion">

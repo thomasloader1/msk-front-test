@@ -1,26 +1,27 @@
-import { useState, useEffect } from 'react';
-import api from '../Services/api'; // Asegúrate de importar tu módulo 'api' correctamente
+import { useState, useEffect, useContext } from "react";
+import api from "../Services/api";
+import { CountryContext } from "context/country/CountryContext";
 
 const usePosts = () => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { state } = useContext(CountryContext);
 
-    const fetchPosts = async () => {
-        try {
-            const postsData = await api.getPosts();
-            setPosts(postsData);
-            setLoading(false);
-        } catch (error) {
-            // Manejar errores aquí si es necesario
-            console.error({ error })
-        }
-    };
+  const fetchPosts = async () => {
+    try {
+      const postsData = await api.getPosts(state?.country);
+      setPosts(postsData);
+      setLoading(false);
+    } catch (error) {
+      console.error({ error });
+    }
+  };
 
-    useEffect(() => {
-        fetchPosts();
-    }, []);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-    return { posts, loading, fetchPosts };
+  return { posts, loading, fetchPosts };
 };
 
 export default usePosts;

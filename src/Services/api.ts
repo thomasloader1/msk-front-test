@@ -242,7 +242,7 @@ class ApiService {
     }
   }
 
-  async getLinkLMS(product_code: number,cod_curso: string, email: string) {
+  async getLinkLMS(product_code: number, cod_curso: string, email: string) {
     try {
       const { data } = await axios.post(`${baseUrl}/api/sso/link`, {
         product_code,
@@ -273,9 +273,10 @@ class ApiService {
     }
   }
 
-  async getPosts() {
+  async getPosts(country: string) {
     try {
-      const res = await axios.get(`${API_URL}/posts?year=2023`);
+      const iso = country.includes("") ? "int" : country;
+      const res = await axios.get(`${API_URL}/posts?year=2023&country=${iso}`);
       const postsList = res.data.posts.map((post: any) => ({
         ...post,
         image: post.thumbnail,
@@ -296,9 +297,10 @@ class ApiService {
   }
 
   async getSingleCourse(slug: string, country: string) {
-
     try {
-      const { data } = await axios.get(`${API_URL}/product/${slug}?country=${country}`)
+      const { data } = await axios.get(
+        `${API_URL}/product/${slug}?country=${country}`
+      );
       return data;
     } catch (error) {
       console.log({ error });
@@ -310,8 +312,8 @@ class ApiService {
     const { data } = PROD
       ? await axios.post(`${IP_API}?ip=${ip.data.ip}`)
       : await axios.post(
-        `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
-      );
+          `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
+        );
     if (PROD) {
       return data.data;
     }
@@ -333,11 +335,11 @@ class ApiService {
     return await axios.post(apiNewPassword, jsonData);
   }
 
-  async getNotesSpecialities(){
-    try{
-      return await axios.get(NOTE_SPECIALITIES)
-    }catch(e){
-      console.log({e})
+  async getNotesSpecialities() {
+    try {
+      return await axios.get(NOTE_SPECIALITIES);
+    } catch (e) {
+      console.log({ e });
     }
   }
 }

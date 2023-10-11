@@ -123,9 +123,9 @@ class ApiService {
   async getAllCourses() {
     const tag = new URLSearchParams(window.location.search).get("tag");
     try {
-      const queryParams = `${
-        tag != null ? `&tag=${tag}` : ""
-      }&country=${COUNTRY}`;
+      const countryParam = `&country=${COUNTRY}`;
+      const tagParam = tag ? `&tag=${tag}` : "";
+      const queryParams = [countryParam, tagParam].filter(Boolean).join("&");
 
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`

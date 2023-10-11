@@ -121,9 +121,14 @@ class ApiService {
   }
 
   async getAllCourses() {
+    const tag = new URLSearchParams(window.location.search).get("tag");
     try {
+      const queryParams = `${
+        tag != null ? `&tag=${tag}` : ""
+      }&country=${COUNTRY}`;
+
       const courses = await axios.get(
-        `${API_URL}/products?limit=-1&country=${COUNTRY}`
+        `${API_URL}/products?limit=-1${queryParams}`
       );
       return courses.data.products;
     } catch (error) {

@@ -29,10 +29,15 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   //
   // FETCH DATA
   const fetchProducts = async () => {
-    const productList = await api.getAllCourses();
-    setAuxProducts([...productList]);
-    setProducts(productList);
-    setLoading(false);
+    try {
+      const productList = await api.getAllCourses();
+      setAuxProducts([...productList]);
+      setProducts(productList);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
   };
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();

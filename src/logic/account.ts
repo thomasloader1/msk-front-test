@@ -15,8 +15,14 @@ export const productFinishOrActive = (status: string) =>
 export const productStatusIsExpired = (status: string) =>
   status.includes("Expirado");
 
-export const statusCourse = (status: string) =>
-  status === "Inactivo" || status === "Expirado";
+export const statusCourse = (status: string) => {
+  if(status === "Inactivo" || status === "Expirado"){
+    return true;
+  }
+
+  return false;
+}
+  
 
 export const colorStatus = (status: string) => {
   switch (status) {

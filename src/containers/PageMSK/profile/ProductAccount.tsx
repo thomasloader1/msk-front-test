@@ -31,7 +31,9 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const activeProductRef = useRef(product.status === "Activo");
+  const statusProduct = statusCourse(product.status)
+
+  const activeProductRef = useRef(product.status !== 'Inactivo' && product.status !== 'Expirado');
   const productExpiration = useRef(new Date(product.expiration));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
@@ -58,6 +60,7 @@ const ProductAccount: FC<Props> = ({
       }
     }
   };
+
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -130,7 +133,7 @@ const ProductAccount: FC<Props> = ({
               Fecha de expiración: {formatDate(productExpiration.current)}
             </span>
           </div>
-          {statusCourse(product.status) && (
+          {statusProduct && (
             <CentroAyudaLink addClassNames="my-2" />
           )}
         </div>
@@ -156,7 +159,7 @@ const ProductAccount: FC<Props> = ({
         <button
           className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
           onClick={handleClick}
-          disabled={statusCourse(product.status) || onRequest}
+          disabled={statusProduct || onRequest}
         >
           {onRequest ? "Ingresando ..." : "Ir al curso"}
         </button>

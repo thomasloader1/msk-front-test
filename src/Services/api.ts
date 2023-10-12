@@ -13,6 +13,8 @@ import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
 import { ContactFormSchema } from "hooks/useYupValidation";
+import { useContext } from "react";
+import { CountryContext } from "context/country/CountryContext";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
 const COUNTRY = localStorage.getItem("country") || "mx";
@@ -120,18 +122,25 @@ class ApiService {
     }
   }
 
-  async getAllCourses() {
+  async getAllCourses(state?: any, dispatch?: any) {
     const tag = new URLSearchParams(window.location.search).get("tag");
+    const countryParam = COUNTRY ? `&country=${COUNTRY}` : "";
+    const tagParam = tag ? `&tag=${tag}` : "";
+
     try {
-      const countryParam = `&country=${COUNTRY}`;
-      const tagParam = tag ? `&tag=${tag}` : "";
-      const queryParams = [countryParam, tagParam].filter(Boolean).join("&");
+      const queryParams = [countryParam, tagParam].filter(Boolean).join("");
 
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`
       );
       return courses.data.products;
     } catch (error) {
+      if (tag && !countryParam.length && dispatch) {
+        dispatch({
+          type: "SET_ERROR",
+          payload: `No se encontraron productos para el tag ${tag} y el pais ${COUNTRY}`,
+        });
+      }
       return error;
     }
   }

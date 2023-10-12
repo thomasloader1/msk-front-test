@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import StoreLayout from "./store/StoreLayout";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
@@ -13,6 +13,8 @@ import {
 } from "data/types";
 import api from "Services/api";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { CountryContext } from "context/country/CountryContext";
+import { useHistory } from "react-router-dom";
 
 export interface PageStoreProps {
   className?: string;
@@ -25,17 +27,27 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [specialties, setSpecialties] = useState([]);
   const [professions, setProfessions] = useState([]);
   const { storeFilters, clearFilters } = useStoreFilters();
+  const { state, dispatch } = useContext(CountryContext);
+  const history = useHistory();
 
-  //
+  useEffect(() => {
+    if (state && state.error) {
+      console.log("ERROR:", state.error);
+      fetchProducts();
+      setTimeout(() => {
+        history.push(history.location.pathname);
+      }, 1500);
+    }
+  }, [state]);
+
   // FETCH DATA
   const fetchProducts = async () => {
     try {
-      const productList = await api.getAllCourses();
+      const productList = await api.getAllCourses(state, dispatch);
       setAuxProducts([...productList]);
       setProducts(productList);
       setLoading(false);
     } catch (e) {
-      console.log(e);
       setLoading(false);
     }
   };

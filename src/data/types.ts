@@ -561,6 +561,7 @@ export interface AuthState {
 
 export interface CountryState {
   country: string;
+  error?: string;
 }
 
 export interface AuthAction {

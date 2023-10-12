@@ -7,6 +7,7 @@ export const CountryContext = createContext<{
 }>({
   state: {
     country: "",
+    error: "",
   },
   dispatch: () => {},
 });

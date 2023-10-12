@@ -1,5 +1,7 @@
 import Accordion from "components/Accordion/Accordion";
 import ButtonPrimary from "components/Button/ButtonPrimary";
+import TemarioForm from "components/Forms/Temario";
+import NcModal from "components/NcModal/NcModal";
 import { Topic } from "data/types";
 import React, { FC, useEffect, useRef, useState } from "react";
 
@@ -12,6 +14,8 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [accordionContent, setAccordionContent] = useState<any[]>([]);
   const [auxTopics, setAuxTopics] = useState<Topic>(topics);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [isFormSent, setIsFormSent] = useState(false);
   const handleAccordionClick = (index: number) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
@@ -44,6 +48,13 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
   const downloadTopics = () => {
     window.open(topics?.data?.temario_link, "_blank");
   };
+  const updateFormSent = (value: boolean) => {
+    setIsFormSent(value);
+    setTimeout(() => {
+      setShowDownloadModal(false);
+      setIsFormSent(false);
+    }, 2500);
+  };
 
   return (
     <div className="my-4">
@@ -54,7 +65,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
             {accordionContent.length} módulos • {hours?.value} horas estimadas
           </p>
           <ButtonPrimary
-            onClick={() => downloadTopics()}
+            onClick={() => setShowDownloadModal(true)}
             sizeClass="px-4 py-2 sm:px-5"
             className="font-semibold"
             targetBlank
@@ -82,6 +93,23 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
           })}
         </div>
       ) : null}
+      <NcModal
+        isOpenProp={showDownloadModal}
+        onCloseModal={() => {
+          setShowDownloadModal(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass={"max-w-screen-md"}
+        renderContent={() => (
+          <TemarioForm
+            onCloseModal={() => setShowDownloadModal(false)}
+            updateFormSent={updateFormSent}
+          />
+        )}
+        modalTitle={isFormSent ? " " : "Descarga el temario completo"}
+      />
     </div>
   );
 };

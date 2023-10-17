@@ -17,7 +17,7 @@ const StoreProduct: FC<Props> = ({
   hoverEffect = false,
 }): any => {
   const { state } = useContext(CountryContext);
-  
+
   const imageURL = product.thumbnail.high
     .replace(`${state.country}.`, "")
     .replace("wpmsklatam", "wp.msklatam");
@@ -38,7 +38,7 @@ const StoreProduct: FC<Props> = ({
                 color="yellow"
               />
               <Link to={`/curso/${product.slug}`}>
-                <h3>{product.title}</h3>
+                <h3 className="">{product.title}</h3>
               </Link>
               {/* <div className="cart-lavel">
                 <h5>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_BACKEND_URL } from "data/api";
 import { ContactUs, Newsletter, Specialty } from "data/types";
 
-import React, { FC, useEffect, useReducer, useRef, useState } from "react";
+import React, { FC, useContext, useEffect, useReducer, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { UTMAction } from "context/utm/UTMContext";
@@ -17,6 +17,7 @@ import {
   useFormik,
 } from "formik";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { CountryContext } from "context/country/CountryContext";
 
 interface Props {
   email: string;
@@ -56,6 +57,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+  const {state} = useContext(CountryContext);
 
 
   const fetchProfessions = async () => {
@@ -189,6 +191,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         autoComplete="off"
         ref={formRef}
       >
+        <input type="hidden" name="country" value={state?.country} />
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
           <div className="">
             <div className="contact-from-input">

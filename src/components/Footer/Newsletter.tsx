@@ -160,6 +160,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             const body = {
                 ...values,
                 recaptcha_token: await executeRecaptcha("newsletter"),
+                country : state?.country
             };
             try {
                 let response = await api.postNewsletter(body as Newsletter);

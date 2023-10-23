@@ -3,7 +3,14 @@ import axios from "axios";
 import { API_BACKEND_URL } from "data/api";
 import { ContactUs, Newsletter, Specialty } from "data/types";
 
-import React, { FC, useContext, useEffect, useReducer, useRef, useState } from "react";
+import React, {
+  FC,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { UTMAction } from "context/utm/UTMContext";
@@ -16,7 +23,7 @@ import {
   FormikProvider,
   useFormik,
 } from "formik";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { CountryContext } from "context/country/CountryContext";
 
 interface Props {
@@ -42,7 +49,7 @@ const validationSchema = Yup.object().shape({
   ),
 });
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const [professions, setProfessions] = useState([]);
   const [specialties, setSpecialties] = useState([]);
@@ -57,8 +64,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
-  const {state} = useContext(CountryContext);
-
+  const { state } = useContext(CountryContext);
 
   const fetchProfessions = async () => {
     const professionList = await api.getProfessions();
@@ -147,6 +153,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     Terms_And_Conditions2: false,
     Otra_profesion: "",
     Otra_especialidad: "",
+    country: state?.country,
     utm_source: utmState.utm_source,
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
@@ -156,31 +163,31 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-        if (executeRecaptcha) {
-            const body = {
-                ...values,
-                recaptcha_token: await executeRecaptcha("newsletter"),
-                country : state?.country
-            };
-            try {
-                let response = await api.postNewsletter(body as Newsletter);
-                // @ts-ignore
-                if (response.status === 200) {
-                    setShow(false);
-                    resetForm();
-                    dispatchUTM(clearUTMAction);
-                    setTimeout(() => {
-                        changeRoute("/gracias?origen=newsletter");
-                    }, 100);
-                } else {
-                    setFormError(
-                        "Hubo un error al enviar el formulario, revise los campos"
-                    );
-                }
-            } catch (error) {
-                console.error("Error al ejecutar reCAPTCHA:", error);
-            }
+      if (executeRecaptcha) {
+        const body = {
+          ...values,
+          recaptcha_token: await executeRecaptcha("newsletter"),
+          country: state?.country,
+        };
+        try {
+          let response = await api.postNewsletter(body as Newsletter);
+          // @ts-ignore
+          if (response.status === 200) {
+            setShow(false);
+            resetForm();
+            dispatchUTM(clearUTMAction);
+            setTimeout(() => {
+              changeRoute("/gracias?origen=newsletter");
+            }, 100);
+          } else {
+            setFormError(
+              "Hubo un error al enviar el formulario, revise los campos"
+            );
+          }
+        } catch (error) {
+          console.error("Error al ejecutar reCAPTCHA:", error);
         }
+      }
     },
   });
   return (
@@ -422,9 +429,13 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               />
               <label>
                 Acepto las{" "}
-                <Link to='/politica-de-privacidad' target="_blank" className="text-primary">
-                politicas de privacidad
-                              </Link>
+                <Link
+                  to="/politica-de-privacidad"
+                  target="_blank"
+                  className="text-primary"
+                >
+                  politicas de privacidad
+                </Link>
               </label>
             </div>
           </div>

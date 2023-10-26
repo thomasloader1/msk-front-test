@@ -40,6 +40,16 @@ export interface TemarioFormSchema {
   recaptcha_token?: string | null;
 }
 
+export interface CancelSubscriptionSchema {
+  first_name: string;
+  last_name: string;
+  email: string;
+  identificacion: string;
+  Terms_And_Conditions: boolean;
+  motivo_solicitud: string;
+  recaptcha_token?: string | null;
+}
+
 const firstNameValidation = Yup.string().required("El nombre es requerido");
 const lastNameValidation = Yup.string().required("El apellido es requerido");
 const phoneValidation = Yup.string().required("El teléfono es requerido");
@@ -110,6 +120,11 @@ const anotherSpecialtyValidation = Yup.string().test(
   }
 );
 
+const identificationValidation = Yup.string().required(
+  "La identificación es requerida"
+);
+
+const formReason = Yup.string().required("El motivo de solicitud es requerido");
 const emailValidation = Yup.string()
   .email("Correo electrónico inválido")
   .required("El correo electrónico es requerido");
@@ -147,9 +162,23 @@ export const useYupValidation = () => {
       career: careerValidation,
       Terms_And_Conditions: termsAndConditionsValidation,
     });
+  const cancelSubscriptionValidation: Yup.Schema<CancelSubscriptionSchema> =
+    Yup.object().shape({
+      first_name: firstNameValidation,
+      last_name: lastNameValidation,
+      email: emailValidation,
+      identificacion: identificationValidation,
+      motivo_solicitud: formReason,
+      tipo_documento: Yup.string().required(
+        "El tipo de documento es requerido"
+      ),
+      zsWebFormCaptchaWord: Yup.string().required("El captcha es requerido"),
+      Terms_And_Conditions: termsAndConditionsValidation,
+    });
 
   return {
     contactFormValidation,
     temarioFormValidation,
+    cancelSubscriptionValidation,
   };
 };

@@ -356,6 +356,22 @@ class ApiService {
       console.log({ e });
     }
   }
+
+  async cancelSubscription(formData: any) {
+    try {
+      return axios.post(
+        "https://ayuda.msklatam.com/support/WebToCase",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (e) {
+      console.log("ERROR:", e);
+    }
+  }
 }
 
 export default new ApiService();

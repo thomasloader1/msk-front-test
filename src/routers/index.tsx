@@ -28,6 +28,7 @@ import PagePoliticsPrivacy from "containers/PageMSK/PagePoliticsPrivacy";
 import PageTyC from "containers/PageMSK/PageTyC";
 import PageCookies from "containers/PageMSK/PageCookies";
 import PageContractConditions from "containers/PageMSK/PageContractConditions";
+import PageCancelSubscription from "containers/PageMSK/profile/PageCancelSubscription";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -42,16 +43,29 @@ export const pages: Page[] = [
   { path: "/archivo", component: PageArchive, auth: false },
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
+  {
+    path: "/cancelar-suscripcion",
+    component: PageCancelSubscription,
+    auth: false,
+  },
   { path: "/recuperar", component: PageForgotPass, auth: false },
   { path: "/change-pass/:token", component: PageNewPassword, auth: false },
   { path: "/correo-enviado", component: PageEmailSent, auth: false },
   { path: "/mi-cuenta", component: PageAccount, auth: true },
   { path: "/mi-perfil", component: PageProfile, auth: true },
   { path: "/gracias", component: PageThankYou, auth: false },
-  { path: "/politica-de-privacidad", component: PagePoliticsPrivacy, auth: false },
+  {
+    path: "/politica-de-privacidad",
+    component: PagePoliticsPrivacy,
+    auth: false,
+  },
   { path: "/terminos-y-condiciones", component: PageTyC, auth: false },
   { path: "/politica-de-cookies", component: PageCookies, auth: false },
-  { path: "/condiciones-de-contratacion", component: PageContractConditions, auth: false },
+  {
+    path: "/condiciones-de-contratacion",
+    component: PageContractConditions,
+    auth: false,
+  },
 ];
 
 const Routes = () => {

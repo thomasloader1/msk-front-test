@@ -22,16 +22,16 @@ import {
 
 export const argDocumentTypes = [
   {
-    slug: "dni",
-    title: "DNI",
+    slug: "CÉDULA",
+    title: "CÉDULA",
   },
   {
-    slug: "cuit_cuil",
-    title: "CUIT/CUIL",
-  },
-  {
-    slug: "pasaporte",
+    slug: "Pasaporte",
     title: "Pasaporte",
+  },
+  {
+    slug: "RUC",
+    title: "RUC",
   },
 ];
 export interface PageCancelSubscriptionProps {

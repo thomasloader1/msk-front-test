@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import bts from "../../styles/bts.module.css";
 import NcModal from "components/NcModal/NcModal";
 import FooterNewsletter from "./Newsletter";
+import { CountryContext } from "context/country/CountryContext";
 
 const FooterEduman = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [isOnBlog, setIsOnBlog] = useState(false);
+  const {state} = useContext(CountryContext);
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -141,6 +143,12 @@ const FooterEduman = () => {
                       <li>
                         <Link to="/convenios">Convenios</Link>
                       </li>
+
+                      {state.country.includes("ec") && (
+                         <li>
+                         <Link to="/cancelar-suscripcion">Arrepentimiento de compra</Link>
+                       </li>
+                      )}
                     </ul>
                   </div>
                 </div>

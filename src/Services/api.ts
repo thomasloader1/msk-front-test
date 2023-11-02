@@ -357,6 +357,29 @@ class ApiService {
     }
   }
 
+  async temarioDownload(url: string, slug?: string) {
+    const regex = /wp\.msklatam\.com(\/.*)?/;
+    const formattedUrl = `https://${url.match(regex)![0]}`;
+    try {
+      const response = await axios.get(formattedUrl, {
+        responseType: "blob",
+      });
+      if (response?.status == 200) {
+        const blob = new Blob([response.data], {
+          type: "application/pdf",
+        });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${slug || "temario_msk"}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }
+    } catch (e) {
+      console.log({ e });
+    }
+  }
+
   async cancelSubscription(formData: any) {
     try {
       return axios.post(

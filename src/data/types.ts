@@ -388,6 +388,9 @@ export interface FetchSingleProduct {
   certificacion: string;
   idioma: string[];
   temario_link_pdf?: string;
+  params: {
+    slug: string;
+  };
 }
 export interface FetchCourseType {
   id: number;

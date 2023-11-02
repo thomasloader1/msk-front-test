@@ -28,7 +28,9 @@ import ButtonPrimary from "components/Button/ButtonPrimary";
 const TemarioForm: FC<{
   onCloseModal: () => void;
   updateFormSent: (value: boolean) => void;
-}> = ({ onCloseModal, updateFormSent }) => {
+  link: string;
+  slug?: string;
+}> = ({ onCloseModal, updateFormSent, link, slug }) => {
   const { state } = useContext(CountryContext);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
@@ -155,17 +157,19 @@ const TemarioForm: FC<{
           body.recaptcha_token = await executeRecaptcha("contact_form");
           updateFormSent(true);
           setFormSent(true);
-          // const response = await api.postContactUs(body);
-          // // @ts-ignore
-          // if (response.status === 200) {
-          //   setFormSent(true);
-          //   resetForm();
-          //   dispatchUTM(clearUTMAction);
-          // } else {
-          //   setFormError(
-          //     "Hubo un error al enviar el formulario, revise los campos"
-          //   );
-          // }
+          if (link) {
+            try {
+              await api.temarioDownload(link, slug);
+              updateFormSent(true);
+              resetForm();
+              dispatchUTM(clearUTMAction);
+            } catch (e) {
+              console.log("ERROR: ", e);
+              setFormError(
+                "Hubo un error al enviar el formulario, revise los campos"
+              );
+            }
+          }
         } catch (error) {
           console.error("Error al ejecutar reCAPTCHA:", error);
         }

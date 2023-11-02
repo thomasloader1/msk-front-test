@@ -194,6 +194,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               <ProductCurriculiam
                 topics={product.temario}
                 hours={product.details["duration"]}
+                link={product?.temario_link_pdf}
+                slug={product?.params.slug}
               />
             ) : (
               <></>

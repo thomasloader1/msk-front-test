@@ -8,9 +8,11 @@ import React, { FC, useEffect, useRef, useState } from "react";
 interface Props {
   topics: Topic;
   hours: any;
+  link?: string;
+  slug?: string;
 }
 
-const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
+const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [accordionContent, setAccordionContent] = useState<any[]>([]);
   const [auxTopics, setAuxTopics] = useState<Topic>(topics);
@@ -64,14 +66,16 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
           <p className="modules-description">
             {accordionContent.length} módulos • {hours?.value} horas estimadas
           </p>
-          <ButtonPrimary
-            onClick={() => setShowDownloadModal(true)}
-            sizeClass="px-4 py-2 sm:px-5"
-            className="font-semibold"
-            targetBlank
-          >
-            Descargar Temario
-          </ButtonPrimary>
+          {link ? (
+            <ButtonPrimary
+              onClick={() => setShowDownloadModal(true)}
+              sizeClass="px-4 py-2 sm:px-5"
+              className="font-semibold"
+              targetBlank
+            >
+              Descargar Temario
+            </ButtonPrimary>
+          ) : null}
         </div>
       </div>
       {accordionContent.length ? (
@@ -93,23 +97,27 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours }) => {
           })}
         </div>
       ) : null}
-      <NcModal
-        isOpenProp={showDownloadModal}
-        onCloseModal={() => {
-          setShowDownloadModal(false);
-        }}
-        renderTrigger={() => {
-          return null;
-        }}
-        contentExtraClass={"max-w-screen-md"}
-        renderContent={() => (
-          <TemarioForm
-            onCloseModal={() => setShowDownloadModal(false)}
-            updateFormSent={updateFormSent}
-          />
-        )}
-        modalTitle={isFormSent ? " " : "Descarga el temario completo"}
-      />
+      {link ? (
+        <NcModal
+          isOpenProp={showDownloadModal}
+          onCloseModal={() => {
+            setShowDownloadModal(false);
+          }}
+          renderTrigger={() => {
+            return null;
+          }}
+          contentExtraClass={"max-w-screen-md"}
+          renderContent={() => (
+            <TemarioForm
+              onCloseModal={() => setShowDownloadModal(false)}
+              updateFormSent={updateFormSent}
+              link={link}
+              slug={slug}
+            />
+          )}
+          modalTitle={isFormSent ? " " : "Descarga el temario completo"}
+        />
+      ) : null}
     </div>
   );
 };

@@ -16,6 +16,7 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { useYupValidation } from "hooks/useYupValidation";
 
 import {
+  setDependent,
   zsRegenerateCaptcha,
   zsValidateMandatoryFields,
 } from "./arrepentimientoCompra";
@@ -196,6 +197,16 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
                 </label>
                 <ErrorMessage name="email" component="span" className="error" />
                 <Field type="text" name="email" placeholder="Ingresar e-mail" />
+              </div>
+              <div style={{ display: "none" }}>
+                <select
+                  name="País"
+                  value="Ecuador"
+                  onChange={() => setDependent(this, false)}
+                  id="CASECF1"
+                >
+                  <option value="Ecuador">Ecuador</option>
+                </select>
               </div>
               <div className="form-select-std w-full">
                 <label className="text-neutral-800 dark:text-neutral-200 mb-1">

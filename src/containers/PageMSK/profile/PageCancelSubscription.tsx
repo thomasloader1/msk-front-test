@@ -176,11 +176,9 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
                                 Motivo de la solicitud
                             </label>
 
-                            <input
-                                type="text"
-                                name="Subject"
-                                placeholder="Ingresar motivo de la solicitud"
-                            />
+                            <input type='hidden' name='Subject' value='Solicitud de baja' ></input>
+                            <textarea name='Description' placeholder="Ingresar motivo de la solicitud"></textarea>
+
                         </div>
 
                         <table>

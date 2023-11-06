@@ -1,6 +1,7 @@
+import api from "Services/api";
 import Accordion from "components/Accordion/Accordion";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import TemarioForm from "components/Forms/Temario";
+import ContactFormSection from "components/ContactForm/ContactForm";
 import NcModal from "components/NcModal/NcModal";
 import { Topic } from "data/types";
 import React, { FC, useEffect, useRef, useState } from "react";
@@ -45,17 +46,18 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
     return <>{htmlString}</>;
   };
 
-  // console.log({ topics, accordionContent });
-
-  const downloadTopics = () => {
-    window.open(topics?.data?.temario_link, "_blank");
+  const updateFormSent = async (value: boolean, body: any) => {
+    try {
+      if (link && slug) await api.temarioDownload(body, link, slug);
+      setIsFormSent(value);
+    } catch (e) {
+      console.log("error", e);
+    }
   };
-  const updateFormSent = (value: boolean) => {
-    setIsFormSent(value);
-    setTimeout(() => {
-      setShowDownloadModal(false);
-      setIsFormSent(false);
-    }, 2500);
+
+  const onOpenDownloadModal = () => {
+    setIsFormSent(false);
+    setShowDownloadModal(true);
   };
 
   return (
@@ -68,7 +70,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
           </p>
           {link ? (
             <ButtonPrimary
-              onClick={() => setShowDownloadModal(true)}
+              onClick={() => onOpenDownloadModal()}
               sizeClass="px-4 py-2 sm:px-5"
               className="font-semibold"
               targetBlank
@@ -108,12 +110,39 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
           }}
           contentExtraClass={"max-w-screen-md"}
           renderContent={() => (
-            <TemarioForm
-              onCloseModal={() => setShowDownloadModal(false)}
-              updateFormSent={updateFormSent}
-              link={link}
-              slug={slug}
-            />
+            <div>
+              {isFormSent ? (
+                <div
+                  className="thank-you-wrp py-16"
+                  style={{
+                    display: isFormSent ? "block" : "none",
+                  }}
+                >
+                  <h1 className="text-center thank-you-title">¡Listo!</h1>
+                  <div className="max-w-2xl mx-auto space-y-6">
+                    <p className="text-center text-natural-600 md:px-20 px-8">
+                      Ya descargaste el temario completo de este curso en tu
+                      dispositivo
+                      <ButtonPrimary
+                        onClick={() => setShowDownloadModal(false)}
+                      >
+                        Seguir navegando
+                      </ButtonPrimary>
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <ContactFormSection
+                  updateFormSent={updateFormSent}
+                  submitText="Descargar"
+                  submitReason="Solicitud de temario"
+                  hideContactPreference
+                  isDownload
+                  hideHeader
+                  hideSideInfo
+                />
+              )}
+            </div>
           )}
           modalTitle={isFormSent ? " " : "Descarga el temario completo"}
         />

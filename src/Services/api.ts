@@ -357,7 +357,7 @@ class ApiService {
     }
   }
 
-  async temarioDownload(url: string, slug?: string) {
+  async temarioDownload(body: any, url: string, slug?: string) {
     const regex = /wp\.msklatam\.com(\/.*)?/;
     const formattedUrl = `https://${url.match(regex)![0]}`;
     try {

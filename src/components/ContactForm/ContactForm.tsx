@@ -30,9 +30,15 @@ import { fetchPdfData } from "lib/fetchPDFData";
 
 interface ContactFormProps {
   hideHeader?: boolean;
+  hideSideInfo?: boolean;
   productName?: string | undefined;
   isEbook?: boolean;
   resourceMedia?: string | boolean;
+  hideContactPreference?: boolean;
+  submitText?: string;
+  isDownload?: boolean;
+  updateFormSent?: (value: boolean, body: any) => void;
+  submitReason?: string;
 }
 
 const ContactFormSection: FC<ContactFormProps> = ({
@@ -40,6 +46,12 @@ const ContactFormSection: FC<ContactFormProps> = ({
   productName = "",
   isEbook = false,
   resourceMedia,
+  hideSideInfo,
+  hideContactPreference,
+  submitText = isEbook ? "Descargar" : "Enviar",
+  isDownload,
+  submitReason,
+  updateFormSent,
 }) => {
   const { state } = useContext(CountryContext);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -190,8 +202,11 @@ const ContactFormSection: FC<ContactFormProps> = ({
     initialValues,
     validationSchema: contactFormValidation,
     onSubmit: async (values) => {
+      let submitSource = null;
+      if (submitReason) submitSource = submitReason;
       const body = {
         ...values,
+        submitSource,
       };
       if (executeRecaptcha) {
         try {
@@ -202,6 +217,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
             let routeChange = isEbook
               ? "/gracias?origen=descarga-ebook"
               : "/gracias?origen=contact";
+
             setFormSent(true);
             resetForm();
             dispatchUTM(clearUTMAction);
@@ -246,16 +262,24 @@ const ContactFormSection: FC<ContactFormProps> = ({
                 // Libera el objeto URL creado
                 window.URL.revokeObjectURL(a.href);
 
-                setTimeout(() => {
-                  changeRoute(routeChange);
-                }, 100);
+                if (!isDownload) {
+                  setTimeout(() => {
+                    changeRoute(routeChange);
+                  }, 100);
+                } else if (updateFormSent) {
+                  updateFormSent(true, body);
+                }
               } catch (error) {
                 console.error("Error al descargar el archivo:", error);
               }
             } else {
-              setTimeout(() => {
-                changeRoute(routeChange);
-              }, 100);
+              if (!isDownload) {
+                setTimeout(() => {
+                  changeRoute(routeChange);
+                }, 100);
+              } else if (updateFormSent) {
+                updateFormSent(true, body);
+              }
             }
           } else {
             setFormError(
@@ -297,56 +321,66 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   value={productName}
                 />
 
-                <div className={`section-title mb-30`}>
-                  {hideHeader ? null : (
-                    <h2 className="font-medium " style={{ maxWidth: "800px" }}>
-                      {isEbook
-                        ? "Completa el formulario para descargar automáticamente el material"
-                        : "Contáctanos"}
-                    </h2>
-                  )}
+                {hideContactPreference ? null : (
+                  <div className={`section-title mb-30`}>
+                    {hideHeader ? null : (
+                      <h2
+                        className="font-medium "
+                        style={{ maxWidth: "800px" }}
+                      >
+                        {isEbook
+                          ? "Completa el formulario para descargar automáticamente el material"
+                          : "Contáctanos"}
+                      </h2>
+                    )}
 
-                  {!isEbook && (
-                    <div className="flex flex-wrap gap-6 preferences">
-                      <p className="talk-through w-full md:w-auto">
-                        Quiero hablar por
-                      </p>
-                      <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="Teléfono"
-                          id="Contact_Method_Teléfono"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_Teléfono"
-                            )
-                          }
-                        />
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="E-mail"
-                          id="Contact_Method_E-mail"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_E-mail"
-                            )
-                          }
-                        />
-                        <Radio
-                          name="Preferencia_de_contactaci_n"
-                          label="WhatsApp"
-                          id="Contact_Method_Whatsapp"
-                          onChange={() =>
-                            handleContactPreferenceChange(
-                              "Contact_Method_Whatsapp"
-                            )
-                          }
-                        />
+                    {!isEbook && (
+                      <div className="flex flex-wrap gap-6 preferences">
+                        <p className="talk-through w-full md:w-auto">
+                          Quiero hablar por
+                        </p>
+                        <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <Radio
+                            name="Preferencia_de_contactaci_n"
+                            label="Teléfono"
+                            id="Contact_Method_Teléfono"
+                            onChange={() =>
+                              handleContactPreferenceChange(
+                                "Contact_Method_Teléfono"
+                              )
+                            }
+                          />
+                          <Radio
+                            name="Preferencia_de_contactaci_n"
+                            label="E-mail"
+                            id="Contact_Method_E-mail"
+                            onChange={() =>
+                              handleContactPreferenceChange(
+                                "Contact_Method_E-mail"
+                              )
+                            }
+                          />
+                          <Radio
+                            name="Preferencia_de_contactaci_n"
+                            label="WhatsApp"
+                            id="Contact_Method_Whatsapp"
+                            onChange={() =>
+                              handleContactPreferenceChange(
+                                "Contact_Method_Whatsapp"
+                              )
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-4">
+                    )}
+                  </div>
+                )}
+
+                <div
+                  className={`grid md:grid-cols-1  gap-4 ${
+                    hideSideInfo ? "lg:grid-cols-2" : "lg:grid-cols-3"
+                  }`}
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 col-span-2 gap-4">
                     <div className="col-xl-6 col-span-2 md:col-span-1">
                       <div className="contact-from-input">
@@ -611,7 +645,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                             className="cont-btn disabled:bg-grey-disabled"
                             disabled={!formik.values.Terms_And_Conditions}
                           >
-                            {isEbook ? "Descargar" : "Enviar"}
+                            {submitText}
                           </button>
                         </div>
                       </div>
@@ -633,9 +667,11 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-2 md:col-span-1">
-                    <ContactSidebar />
-                  </div>
+                  {hideSideInfo ? null : (
+                    <div className="col-span-2 md:col-span-1">
+                      <ContactSidebar />
+                    </div>
+                  )}
                 </div>
               </Form>
             </FormikProvider>

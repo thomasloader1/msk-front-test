@@ -72,7 +72,7 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
             >
                 <p className="max-w-xl text-center mx-auto block text-sm mb-4 sm:text-base">
                     A continuación, completa y envía el formulario y dentro de las
-                    próximas 24 horas te comunicaremos la resolución de tu solicitud vía
+                    próximas 48 horas te comunicaremos la resolución de tu solicitud vía
                     e-mail.
                 </p>
                 <div className="max-w-md mx-auto space-y-6">

@@ -202,11 +202,11 @@ const ContactFormSection: FC<ContactFormProps> = ({
     initialValues,
     validationSchema: contactFormValidation,
     onSubmit: async (values) => {
-      let submitSource = null;
-      if (submitReason) submitSource = submitReason;
+      let leadSource = null;
+      if (submitReason) leadSource = submitReason;
       const body = {
         ...values,
-        submitSource,
+        leadSource,
       };
       if (executeRecaptcha) {
         try {

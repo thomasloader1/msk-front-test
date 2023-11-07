@@ -395,6 +395,13 @@ class ApiService {
       console.log("ERROR:", e);
     }
   }
+
+  async getWpImages(kind: string) {
+    const response = await axios.get(
+      `https://wp.msklatam.com/wp-json/wp/api/banners`
+    );
+    return response.data[kind];
+  }
 }
 
 export default new ApiService();

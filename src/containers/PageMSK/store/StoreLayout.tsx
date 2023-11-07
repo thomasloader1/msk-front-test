@@ -1,9 +1,11 @@
 import HeadBackgroundCommon from "components/HeadBackgroundCommon/HeadBackgroundCommon";
 import Heading2 from "components/Heading/Heading2";
 import CourseUpdate from "./Slides/CourseUpdate";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { BannerImg } from "models";
+import api from "Services/api";
 export interface LayoutPageProps {
   className?: string;
   heading: string;
@@ -12,7 +14,28 @@ export interface LayoutPageProps {
   children: React.ReactNode;
 }
 
+const defaultImgs = [
+  {
+    imagen_desktop: { link: "/src/images/banners/tienda_desktop.jpg" },
+    imagen_mobile: { link: "/src/images/banners/tienda_mobile.jpg" },
+  },
+];
 const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
+  const [bannerImgs, setBannerImgs] = useState<BannerImg[]>(defaultImgs);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.getWpImages("banners_shop");
+        setBannerImgs(response);
+      } catch (err) {
+        console.log({ err });
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div
       className={`nc-LayoutPage relative ${className}`}
@@ -31,18 +54,20 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
             }}
             pagination={{ enabled: true, clickable: true }}
           >
-            <SwiperSlide>
-              <img
-                src="/src/images/banners/tienda_desktop.jpg"
-                alt="hero"
-                className="store-banner-desktop hidden md:block w-full"
-              />
-              <img
-                src="/src/images/banners/tienda_mobile.jpg"
-                alt="hero"
-                className="store-banner-desktop block md:hidden w-full"
-              />
-            </SwiperSlide>
+            {bannerImgs.map((img, index) => (
+              <SwiperSlide key={`img_${index}`}>
+                <img
+                  src={img.imagen_desktop.link}
+                  alt="hero"
+                  className="store-banner-desktop hidden md:block w-full"
+                />
+                <img
+                  src={img.imagen_mobile.link}
+                  alt="hero"
+                  className="store-banner-desktop block md:hidden w-full"
+                />
+              </SwiperSlide>
+            ))}
           </Swiper>
         </header>
 

@@ -113,7 +113,7 @@ const PageHome: React.FC = () => {
             showTitle
           />
           {/* === SECTION 3 === */}
-          <HomeExtraInfo btnOnClick={scrollToContactForm} />
+          <HomeExtraInfo />
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />

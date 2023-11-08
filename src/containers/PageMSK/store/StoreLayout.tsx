@@ -1,6 +1,3 @@
-import HeadBackgroundCommon from "components/HeadBackgroundCommon/HeadBackgroundCommon";
-import Heading2 from "components/Heading/Heading2";
-import CourseUpdate from "./Slides/CourseUpdate";
 import React, { FC, useEffect, useState } from "react";
 import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -56,16 +53,18 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
           >
             {bannerImgs.map((img, index) => (
               <SwiperSlide key={`img_${index}`}>
-                <img
-                  src={img.imagen_desktop.link}
-                  alt="hero"
-                  className="store-banner-desktop hidden md:block w-full"
-                />
-                <img
-                  src={img.imagen_mobile.link}
-                  alt="hero"
-                  className="store-banner-desktop block md:hidden w-full"
-                />
+                <a href={img.url?.href ? img.url?.href : "#"}>
+                  <img
+                    src={img.imagen_desktop.link}
+                    alt="hero"
+                    className="store-banner-desktop hidden md:block w-full"
+                  />
+                  <img
+                    src={img.imagen_mobile.link}
+                    alt="hero"
+                    className="store-banner-desktop block md:hidden w-full"
+                  />
+                </a>
               </SwiperSlide>
             ))}
           </Swiper>

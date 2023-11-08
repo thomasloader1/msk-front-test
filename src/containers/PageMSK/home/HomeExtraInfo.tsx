@@ -53,16 +53,18 @@ const SectionAds: FC<SectionAdsProps> = ({
       >
         {bannerImgs.map((img, index) => (
           <SwiperSlide key={`img_${index}`}>
-            <img
-              src={img.imagen_desktop.link}
-              alt="hero"
-              className="store-banner-desktop hidden md:block w-full"
-            />
-            <img
-              src={img.imagen_mobile.link}
-              alt="hero"
-              className="store-banner-desktop block md:hidden w-full"
-            />
+            <a href={img.url?.href ? img.url?.href : "#"}>
+              <img
+                src={img.imagen_desktop.link}
+                alt="hero"
+                className="store-banner-desktop hidden md:block w-full"
+              />
+              <img
+                src={img.imagen_mobile.link}
+                alt="hero"
+                className="store-banner-desktop block md:hidden w-full"
+              />
+            </a>
           </SwiperSlide>
         ))}
       </Swiper>

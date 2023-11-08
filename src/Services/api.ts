@@ -397,8 +397,19 @@ class ApiService {
   }
 
   async getWpImages(kind: string) {
-    const response = await axios.get(`${VITE_MSK_WP_API}/banners`);
-    return response.data[kind];
+    const countryParam = COUNTRY ? `?country=${COUNTRY}` : "";
+    const response = await axios.get(
+      `${VITE_MSK_WP_API}/banners${countryParam}`
+    );
+
+    const formattedResponse = response.data[kind].map((img: any) => {
+      const url =
+        typeof img.url_banner == "string"
+          ? { href: img.url_banner }
+          : { href: img.url_banner.url };
+      return { ...img, url };
+    });
+    return formattedResponse;
   }
 }
 

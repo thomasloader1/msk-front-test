@@ -397,9 +397,7 @@ class ApiService {
   }
 
   async getWpImages(kind: string) {
-    const response = await axios.get(
-      `https://wp.msklatam.com/wp-json/wp/api/banners`
-    );
+    const response = await axios.get(`${VITE_MSK_WP_API}/banners`);
     return response.data[kind];
   }
 }

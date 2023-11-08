@@ -46,7 +46,7 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
             slidesPerView={1}
             loop={true}
             autoplay={{
-              delay: 2000,
+              delay: 5000,
               disableOnInteraction: true,
             }}
             pagination={{ enabled: true, clickable: true }}

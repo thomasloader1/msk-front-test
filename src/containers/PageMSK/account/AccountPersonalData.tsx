@@ -380,7 +380,13 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               E-mail
             </label>
             <ErrorMessage name="email" component="span" className="error" />
-            <Field type="text" name="email" placeholder="Ingresar e-mail" />
+            <Field
+              type="text"
+              name="email"
+              placeholder="Ingresar e-mail"
+              className="bg-gray-300"
+              readOnly
+            />
           </div>
           <Field name="phone">
             {({ field, form, meta }: any) => (
@@ -584,6 +590,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               onChange={(event: any) =>
                 handleInputChange("country", event.target.value)
               }
+              disabled
             >
               <option defaultValue="">Seleccionar país</option>
               {countries.map((s) => (
@@ -642,7 +649,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
 
           <label className="block">{renderInputIdentification()}</label>
 
-          {localUser.country.includes("México") && (
+          {localUser?.country?.includes("México") && (
             <div className="form-input-std">
               <label className="text-neutral-800 dark:text-neutral-200 mb-1">
                 Régimen fiscal

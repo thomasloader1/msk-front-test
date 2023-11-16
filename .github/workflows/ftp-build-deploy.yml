@@ -11,25 +11,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Node.js and npm
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'  # Use Node.js 16
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Use Node.js 16
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build React App
-      run: npm run build  # You can adjust flags as needed for your build process
+      - name: Build React App
+        run: npm run build  # You can adjust flags as needed for your build process
 
-    - name: FTP Upload
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
-      with:
-        server: ftp.msklatam.com
-        username: luciano@msklatam.com
-        password: 3V[#d&b^#3Cp
-        localDir: ./dist
-        remoteDir: /dev.msklatam.com/public_html
+      - name: FTP Upload (dev)
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ftp.msklatam.com
+          username: luciano@msklatam.com
+          password: 3V[#d&b^#3Cp
+          local-dir: /dist
+          server-dir: /dev.msklatam.com/public_html
+
+#      - name: FTP Upload (production)
+        #        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+          #with:
+          #server: ftp.msklatam.com
+          #username: luciano@msklatam.com
+          #password: 3V[#d&b^#3Cp
+          #localDir: ./dist
+          #remoteDir: /msklatam.com/public_html

@@ -1,0 +1,34 @@
+name: FTP Deploy
+
+on:
+  push:
+    branches:
+      - site
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Node.js and npm
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Adjust the Node.js version as needed
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build Angular application
+      run: vite build  # You can adjust flags as needed for your build process
+
+    - name: FTP Upload
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ftp.msklatam.com
+        username: luciano@msklatam.com
+        password: 3V[#d&b^#3Cp
+        localDir: ./dist
+        remoteDir: /dev.msklatam.com/public_html

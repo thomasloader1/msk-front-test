@@ -33,16 +33,8 @@ jobs:
       - name: FTP Upload (dev)
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ftp.msklatam.com
-          username: luciano@msklatam.com
-          password: 3V[#d&b^#3Cp
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /dev.msklatam.com/public_html/
-#      - name: FTP Upload (production)
-#        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-#with:
-#server: ftp.msklatam.com
-#username: luciano@msklatam.com
-#password: 3V[#d&b^#3Cp
-#localDir: ./dist
-#remoteDir: /msklatam.com/public_html
+          server-dir: ${{ secrets.PUBLIC_HTML_DEV }}

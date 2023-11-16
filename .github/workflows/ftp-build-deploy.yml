@@ -22,8 +22,8 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build Angular application
-      run: vite build  # You can adjust flags as needed for your build process
+    - name: Build React App
+      run: npm run build  # You can adjust flags as needed for your build process
 
     - name: FTP Upload
       uses: SamKirkland/FTP-Deploy-Action@4.0.0

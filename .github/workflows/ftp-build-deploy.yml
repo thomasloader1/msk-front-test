@@ -17,7 +17,7 @@ jobs:
       - name: Install Node.js and npm
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use Node.js 16
+          node-version: "16" # Use Node.js 16
         env:
           VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
           VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
@@ -28,7 +28,12 @@ jobs:
         run: npm install
 
       - name: Build React App
-        run: npm run build  # You can adjust flags as needed for your build process
+        run: |
+          echo "VITE_LRT_OR_RTL=${VITE_LRT_OR_RTL}" >> $GITHUB_ENV
+          echo "VITE_MSK_WP_API=${VITE_MSK_WP_API}" >> $GITHUB_ENV
+          echo "VITE_PUBLIC_URL=${VITE_PUBLIC_URL}" >> $GITHUB_ENV
+          echo "VITE_RECAPTCHA_PK=${VITE_RECAPTCHA_PK}" >> $GITHUB_ENV
+          npm run build  # You can adjust flags as needed for your build process
 
       - name: FTP Upload (dev)
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
@@ -38,12 +43,11 @@ jobs:
           password: 3V[#d&b^#3Cp
           local-dir: ./dist/
           server-dir: /dev.msklatam.com/public_html/
-
 #      - name: FTP Upload (production)
-        #        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-          #with:
-          #server: ftp.msklatam.com
-          #username: luciano@msklatam.com
-          #password: 3V[#d&b^#3Cp
-          #localDir: ./dist
-          #remoteDir: /msklatam.com/public_html
+#        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+#with:
+#server: ftp.msklatam.com
+#username: luciano@msklatam.com
+#password: 3V[#d&b^#3Cp
+#localDir: ./dist
+#remoteDir: /msklatam.com/public_html

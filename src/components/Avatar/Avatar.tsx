@@ -14,16 +14,27 @@ const Avatar: FC<AvatarProps> = ({
   containerClassName = "ring-1 ring-white dark:ring-neutral-900",
   sizeClass = "h-6 w-6 text-sm",
   radius = "rounded-md",
-  imgUrl = _getAvatarRd(),
+  imgUrl = "",
   userName,
 }) => {
   const url = imgUrl || "";
-  const name = userName || "John Doe";
+  const name = userName || "";
   const _setBgColor = (name: string) => {
     const backgroundIndex = Math.floor(
       name.charCodeAt(0) % avatarColors.length
     );
     return avatarColors[backgroundIndex];
+  };
+
+  const _setInitials = (name: string) => {
+    const initials = name.trim().split(" ");
+    if (initials.length === 1) {
+      return initials[0].charAt(0);
+    } else {
+      const firstInitial = initials[0].charAt(0);
+      const secondInitial = initials[1].charAt(0);
+      return firstInitial + secondInitial;
+    }
   };
 
   return (
@@ -38,7 +49,7 @@ const Avatar: FC<AvatarProps> = ({
           alt={name}
         />
       )}
-      <span className="wil-avatar__name">{name[0]}</span>
+      <span className="wil-avatar__name">{_setInitials(name)}</span>
     </div>
   );
 };

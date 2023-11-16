@@ -150,13 +150,13 @@ const otherPageChildMenus: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/signup",
+    href: "/crear-cuenta",
     name: "Signup",
   },
   {
     id: ncNanoId(),
-    href: "/forgot-pass",
-    name: "Forgot Password",
+    href: "/recuperar",
+    name: "Recuperar Contraseña",
   },
   {
     id: ncNanoId(),
@@ -424,20 +424,202 @@ export const NAVIGATION_SHORT_DEMO: NavItemType[] = [
   },
 ];
 
+//////////////////////////////////////////////
+const aboutMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Cursos para personal médico",
+    search: "?profesion=medicos",
+  },
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Cursos para enfermería y otras profesiones",
+    search: "?profesion=otra-profesion,enfermeros-auxiliares",
+  },
+  // {
+  //   id: ncNanoId(),
+  //   href:
+  //     import.meta.env.VITE_LRT_OR_RTL !== "rtl"
+  //       ? "https://chisnghiax.com/ncmaz-rtl/"
+  //       : "/",
+  //   name: "Home Demo - RTL",
+  //   targetBlank: import.meta.env.VITE_LRT_OR_RTL !== "rtl",
+  // },
+];
+const resourcesMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Guías profesionales",
+    search: "?recurso=2",
+  },
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Blog",
+  },
+  /* {
+    id: ncNanoId(),
+    href: "/webinars",
+    name: "Webinars",
+  },
+  {
+    id: ncNanoId(),
+    href: "/podcasts",
+    name: "Podcasts",
+  }, */
+];
+
+const accountMenu: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta/inicio",
+    name: "Mi Cuenta",
+    search: "",
+  },
+  {
+    id: ncNanoId(),
+    href: "/mi-perfil",
+    name: "Mi Perfil",
+    search: "",
+  },
+];
+
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/",
-    name: "Home",
+    href: "/tienda",
+    name: "Qué ofrecemos",
+    type: "dropdown",
+    children: aboutMenu,
   },
   {
     id: ncNanoId(),
-    href: "/store",
-    name: "Tienda",
+    href: "/recursos",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenu,
+  },
+  // {
+  //   id: ncNanoId(),
+  //   href: "/tienda",
+  //   name: "Tienda",
+  // },
+  // {
+  //   id: ncNanoId(),
+  //   href: "/shop",
+  //   name: "Carrito",
+  // },
+];
+
+const categoriesMenuBlog: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Actualidad",
+    search: "?categoria=Actualidad",
   },
   {
     id: ncNanoId(),
-    href: "/shop",
-    name: "Carrito",
+    href: "/archivo",
+    name: "Entrevistas",
+    search: "?categoria=Entrevistas",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Opinión",
+    search: "?categoria=Opinión",
+  },
+];
+
+const resourcesMenuBlog: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Capacitaciones",
+  },
+  {
+    id: ncNanoId(),
+    href: "/tienda",
+    name: "Guías profesionales",
+    search: "?recurso=2",
+  },
+  /* {
+    id: ncNanoId(),
+    href: "/webinars",
+    name: "Webinars",
+  },
+  {
+    id: ncNanoId(),
+    href: "/podcasts",
+    name: "Podcasts",
+  }, */
+];
+
+export const NAVIGATION_BLOG_MSK: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/blog",
+    name: "Categorías",
+    type: "dropdown",
+    children: categoriesMenuBlog,
+  },
+  {
+    id: ncNanoId(),
+    href: "/recursos",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenuBlog,
+  },
+];
+
+const categoriesMenuArchive: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Actualidad",
+    search: "?categoria=Actualidad",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Entrevistas",
+    search: "?categoria=Entrevistas",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Opinión",
+    search: "?categoria=Opinión",
+  },
+];
+
+export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Categorías",
+    type: "dropdown",
+    children: categoriesMenuArchive,
+  },
+  {
+    id: ncNanoId(),
+    href: "/recursos",
+    name: "Recursos",
+    type: "dropdown",
+    children: resourcesMenuBlog,
+  },
+];
+
+export const NAVIGATION_USER: NavItemType[] = [
+  {
+    id: ncNanoId(),
+    href: "/mi-cuenta",
+    name: "Mi Cuenta",
+    type: "dropdown",
+    children: accountMenu,
   },
 ];

@@ -24,16 +24,20 @@ const DEMO_PAGINATION: CustomLink[] = [
 
 export interface PaginationProps {
   className?: string;
+  activeClass?: string;
 }
 
-const Pagination: FC<PaginationProps> = ({ className = "" }) => {
+const Pagination: FC<PaginationProps> = ({
+  className = "",
+  activeClass = "",
+}) => {
   const renderItem = (pag: CustomLink, index: number) => {
     if (index === 0) {
       // RETURN ACTIVE PAGINATION
       return (
         <span
           key={index}
-          className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary-6000 text-white ${twFocusClass()}`}
+          className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-red-400 text-white ${twFocusClass()} ${activeClass}}`}
         >
           {pag.label}
         </span>

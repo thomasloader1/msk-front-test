@@ -1,16 +1,72 @@
-import React from 'react';
-import fai from "../../styles/fai/fontAwesome5Pro.module.css"
-const StorePagination = () => {
-    return (
+import React, { FC, useEffect, useState } from "react";
+import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+
+interface Props {
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
+
+const StorePagination: FC<Props> = ({
+  totalPages,
+  onPageChange,
+  currentPage,
+}) => {
+  const [pages, setPages] = useState<number[]>([]);
+  useEffect(() => {
+    const newPages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      newPages.push(i);
+    }
+    setPages(newPages);
+  }, [totalPages]);
+  return (
+    <>
+      {totalPages > 1 ? (
         <div className="edu-pagination mt-30 mb-20">
-            <ul>
-                <li><a href="#"><i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i></a></li>
-                <li className="active"><a href="#"><span>01</span></a></li>
-                <li><a href="#"><span>02</span></a></li>
-                <li><a href="#"><i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i></a></li>
-            </ul>
+          <ul>
+            {currentPage > 1 ? (
+              <li
+                onClick={() => onPageChange(currentPage - 1)}
+                className="cursor-pointer"
+              >
+                <a>
+                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                </a>
+              </li>
+            ) : (
+              ""
+            )}
+            {pages.map((page) => {
+              return (
+                <li
+                  className={
+                    currentPage == page
+                      ? "text-red-500 font-bold pointer"
+                      : "text-black-600 cursor-pointer"
+                  }
+                  key={`page_${page}`}
+                  onClick={() => onPageChange(page)}
+                >
+                  <span>{page < 10 ? `0${page}` : page}</span>
+                </li>
+              );
+            })}
+            {totalPages > 1 && currentPage < totalPages ? (
+              <li
+                onClick={() => onPageChange(currentPage + 1)}
+                className="cursor-pointer"
+              >
+                <a>
+                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                </a>
+              </li>
+            ) : null}
+          </ul>
         </div>
-    );
+      ) : null}
+    </>
+  );
 };
 
 export default StorePagination;

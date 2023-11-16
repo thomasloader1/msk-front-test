@@ -9,7 +9,7 @@ import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 
 export interface Card10V3Props {
   className?: string;
-  post: PostDataType;
+  post: any;
   galleryType?: 1 | 2;
 }
 

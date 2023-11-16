@@ -1,4 +1,6 @@
+@use "component/avatar";
 @use "component/common";
+@use "component/note-extra-data";
 @use "component/spacing";
 @use "component/header";
 @use "component/hero";
@@ -10,6 +12,7 @@
 @use "component/education";
 @use "component/partner";
 @use "component/teacher";
+@use "component/home-extra";
 @use "component/blog";
 @use "component/skill";
 @use "component/eduman-card";
@@ -25,8 +28,13 @@
 @use "component/zoom-class";
 @use "component/faq";
 @use "component/contact";
+@use "component/thank_you";
+@use "component/tooltip";
 @use "component/modal";
 @use "component/footer";
 @use "component/webinars";
 @use "component/user-profile";
+@use "component/brand-slider";
 
+@use "module/mission";
+@use "module/course-update";

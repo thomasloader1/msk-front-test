@@ -17,7 +17,10 @@ export interface HeaderProps {
 let MAIN_MENU_HEIGHT = 0;
 let WIN_PREV_POSITION = window.pageYOffset;
 
-const CustomHeader: FC<HeaderProps> = ({ mainNavStyle = "style2", isTopOfPage }) => {
+const CustomHeader: FC<HeaderProps> = ({
+  mainNavStyle = "style2",
+  isTopOfPage,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mainMenuRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);

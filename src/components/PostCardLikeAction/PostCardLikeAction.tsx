@@ -47,7 +47,7 @@ const PostCardLikeAction: FC<PostCardLikeActionProps> = ({
       </svg>
 
       <span
-        className={`ml-1 ${
+        className={`ml-1 text-sm ${
           isLiked ? "text-rose-600" : "text-neutral-900 dark:text-neutral-200"
         }`}
       >

@@ -67,6 +67,23 @@ module.exports = {
           800: customColors("--c-neutral-800"),
           900: customColors("--c-neutral-900"),
         },
+        "yellow-strong-post": "#FFC600",
+        "yellow-post": "#FFEF00",
+        "blue-post": "#759CFF",
+        "orange-post": "#FF7728",
+        "red-post": "#FF7171",
+        "emerald-post": "#9AFFD6",
+        "brown-post": "#E8874E",
+        "teal-active": "#F3FEFC",
+        "grey-course": "#575757",
+        "violet-wash": "#6474A6",
+        "grey-disabled": "#CCD1DC"
+      },
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'lora-italic': ['Lora-Italic', 'sans-serif'],
+        'lora': ['Lora', 'sans-serif'],
+        'raleway': ['Raleway', 'sans-serif']
       },
     },
   },
@@ -80,7 +97,8 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
-    require("@tailwindcss/line-clamp"),
+    //require("@tailwindcss/line-clamp"),
     require("@tailwindcss/aspect-ratio"),
+    require('tailwindcss-animated')
   ],
 };

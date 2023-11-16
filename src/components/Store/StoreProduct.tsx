@@ -1,73 +1,129 @@
-import React from 'react'
-import course1 from "../../images/eduman/course-01.jpg"
-import { Link } from 'react-router-dom'
-import fai from '../../styles/fai/fontAwesome5Pro.module.css'
+import { FC, useContext } from "react";
+import { Link } from "react-router-dom";
+import { FetchCourseType } from "data/types";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import Badge from "components/Badge/Badge";
+import { CountryContext } from "context/country/CountryContext";
 
-
-const StoreProduct = () => {
-    return (
-        <div className="protfolio-course-2-wrapper mb-30">
-            <div className="student-course-img">
-                <Link to="/course-details"><img src={course1} alt="course-img" /></Link>
-            </div>
-            <div className="course-cart">
-                <div className="course-info-wrapper">
-                    <div className="cart-info-body">
-                        <Link to="/course" className="category-color category-color-1">Development</Link>
-                        <Link to="/course-details"><h3>Python and Django Full Stack Web Developer Bootcamp</h3></Link>
-                        <div className="cart-lavel">
-                            <h5>Level : <span>Beginner</span></h5>
-                            <p>Knowledge is power. Information is liberating. Education is the premise of
-                                progress, in every society, in every family</p>
-                        </div>
-                        <div className="info-cart-text">
-                            <ul>
-                                <li><i className="far fa-check"></i>Scratch to HTML</li>
-                                <li><i className="far fa-check"></i>Learn how to code in Python</li>
-                                <li><i className="far fa-check"></i>Unlimited backend database creation</li>
-                                <li><i className="far fa-check"></i>Adobe XD Tutorials</li>
-                            </ul>
-                        </div>
-                        <div className="course-action">
-                            <Link to="/course-details" className="view-details-btn">View Details</Link>
-                            <button className="wishlist-btn"><i className="flaticon-like"></i></button>
-                            <Link to="/course-details" className="c-share-btn"><i className="flaticon-previous"></i></Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="portfolio-course-2-content">
-                <div className="portfolio-course-wrapper">
-                    <div className="portfolio-price">
-                        <span>$12.57</span>
-                        <del>$24.50</del>
-                    </div>
-                    <div className="portfolio-course-2">
-                        <h3><Link to="/course-details">Python and Django Full Stack Web Developer Bootcamp</Link></h3>
-                    </div>
-                    <div className="course-icon">
-                        <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                        <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                        <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                        <i className={`${fai.fas} ${fai["fa-star"]}`}></i>
-                        <i className={`${fai.fal} ${fai["fa-star"]}`}></i>
-                        <span>(25)</span>
-                    </div>
-                </div>
-            </div>
-            <div className="course-2-footer">
-                <div className="coursee-clock">
-                    <i className="flaticon-clock"></i><span>1:33 Min</span>
-                </div>
-                <div className="course-creadit">
-                    <i className="flaticon-menu-1"></i><span>8 Credit</span>
-                </div>
-                <div className="course-network">
-                    <i className={`${fai.fal} ${fai["fa-signal"]} mr-10`}></i><span>Fresh</span>
-                </div>
-            </div>
-        </div>
-    )
+interface Props {
+  product: FetchCourseType;
+  className?: string;
+  hoverEffect?: boolean;
 }
 
-export default StoreProduct
+const StoreProduct: FC<Props> = ({
+  product,
+  className,
+  hoverEffect = false,
+}): any => {
+  const { state } = useContext(CountryContext);
+
+  const imageURL = product.thumbnail.high
+    .replace(`${state.country}.`, "")
+    .replace("wpmsklatam", "wp.msklatam");
+
+  return (
+    <div className={`protfolio-course-2-wrapper ${className}`}>
+      <div className="student-course-img">
+        <Link to={`/curso/${product.slug}`}>
+          <img src={imageURL} alt="course-img" />
+        </Link>
+      </div>
+      {hoverEffect ? (
+        <div className="course-cart">
+          <div className="course-info-wrapper">
+            <div className="cart-info-body">
+              <CategoryBadgeList
+                categories={product.categories}
+                color="yellow"
+              />
+              <Link to={`/curso/${product.slug}`}>
+                <h3 className="">{product.title}</h3>
+              </Link>
+              {/* <div className="cart-lavel">
+                <h5>
+                  Nivel: <span>{product.level}</span>
+                </h5>
+                <p>{product.desc}</p>
+              </div> */}
+              {/* <div className="info-cart-text">
+                <ul>
+                  {product.list?.map((item: any, index) => {
+                    return (
+                      <li key={index}>
+                        <i className="far fa-check"></i>
+                        {item.title}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div> */}
+              <div className="course-action">
+                <Link
+                  to={`/curso/${product.slug}`}
+                  className="view-details-btn"
+                >
+                  Ver más
+                </Link>
+                <button className="wishlist-btn">
+                  <i className="flaticon-like"></i>
+                </button>
+                <Link to={`/curso/${product.slug}`} className="c-share-btn">
+                  <i className="flaticon-previous"></i>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      <div className="portfolio-course-2-content">
+        <div className="portfolio-course-wrapper">
+          <div className="flex flex-wrap gap-1">
+            {product.duration ? null : (
+              <>
+                <Badge
+                  icon="elearning"
+                  color="emerald-post"
+                  name="Guía profesional"
+                  textSize="text-xs"
+                />
+              </>
+            )}
+            <CategoryBadgeList categories={product.categories} color="yellow" />
+          </div>
+          {/* <div className="portfolio-price">
+            <span>${product.discount_price}</span>
+            <del>${product.price}</del>
+          </div> */}
+          <div className="portfolio-course-2 line-clamp-3">
+            <Link to={`/curso/${product.slug}`}>
+              <h3 className="font-bold text-sm">{product.title}</h3>
+            </Link>
+          </div>
+          {product.lista_de_cedentes ? (
+            <p className="text-sm">{product.lista_de_cedentes[0].post_title}</p>
+          ) : null}
+        </div>
+      </div>
+      <div className="course-2-footer">
+        {product.duration ? (
+          <div className="coursee-clock">
+            <i className="flaticon-clock"></i>
+            <span>{product.duration} horas</span>
+          </div>
+        ) : (
+          <div></div>
+        )}
+
+        <Link
+          to={`/curso/${product.slug}`}
+          className="course-network text-primary font-bold"
+        >
+          Descubrir
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default StoreProduct;

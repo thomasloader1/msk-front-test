@@ -8,6 +8,7 @@ export interface CardAuthor2Props
   className?: string;
   readingTime?: PostDataType["readingTime"];
   hoverReadingTime?: boolean;
+  flex?: boolean;
 }
 
 const CardAuthor2: FC<CardAuthor2Props> = ({
@@ -15,12 +16,12 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
   author,
   readingTime,
   date,
+  flex,
   hoverReadingTime = true,
 }) => {
-  const { displayName, href = "/", avatar } = author;
+  const { name, href = "/", avatar } = author;
   return (
-    <Link
-      to={href}
+    <div
       className={`nc-CardAuthor2 relative inline-flex items-center ${className}`}
       data-nc-id="CardAuthor2"
     >
@@ -29,16 +30,16 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
         containerClassName="flex-shrink-0 mr-3"
         radius="rounded-full"
         imgUrl={avatar}
-        userName={displayName}
+        userName={name}
       />
-      <div>
+      <div className={flex ? "flex gap-2" : ""}>
         <h2
-          className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-medium`}
+          className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-bold`}
         >
-          {displayName}
+          {name}
         </h2>
         <span
-          className={`flex items-center mt-1 text-xs text-neutral-500 dark:text-neutral-400`}
+          className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400`}
         >
           <span>{date}</span>
           {readingTime && (
@@ -61,7 +62,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
           )}
         </span>
       </div>
-    </Link>
+    </div>
   );
 };
 

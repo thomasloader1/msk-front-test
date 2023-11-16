@@ -1,4 +1,4 @@
-import { brandImgs } from "contains/brands";
-const DEMO_BRANDS = brandImgs
+import { brands } from "contains/brands";
+const BRANDS = brands;
 
-export { DEMO_BRANDS };
+export { BRANDS };

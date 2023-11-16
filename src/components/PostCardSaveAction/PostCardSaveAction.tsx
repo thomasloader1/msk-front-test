@@ -1,6 +1,6 @@
 import { PostActionDropdownProps } from "components/PostActionDropdown/PostActionDropdown";
 import BookmarkContainer from "containers/BookmarkContainer/BookmarkContainer";
-import { PostDataType } from "data/types";
+import { BlogDataType, PostDataType } from "data/types";
 import React, { FC } from "react";
 
 export interface PostCardSaveActionProps
@@ -9,7 +9,7 @@ export interface PostCardSaveActionProps
   classBgIcon?: string;
   readingTime?: number;
   hidenReadingTime?: boolean;
-  postData: PostDataType;
+  postData: PostDataType | BlogDataType;
 }
 
 const PostCardSaveAction: FC<PostCardSaveActionProps> = ({

@@ -5,11 +5,12 @@ import CardCategory4 from "components/CardCategory4/CardCategory4";
 import CardCategory5 from "components/CardCategory5/CardCategory5";
 import Heading from "components/Heading/Heading";
 import { DEMO_CATEGORIES } from "data/taxonomies";
-import { TaxonomyType } from "data/types";
+import { Specialty, TaxonomyType } from "data/types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export interface SectionGridCategoryBoxProps {
-  categories?: TaxonomyType[];
+  categories?: TaxonomyType[] | Specialty[];
   headingCenter?: boolean;
   categoryCardType?: "card1" | "card2" | "card3" | "card4" | "card5";
   className?: string;
@@ -47,17 +48,27 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
 
   return (
     <div className={`nc-SectionGridCategoryBox relative ${className}`}>
-      <Heading desc="Discover over 100 topics" isCenter={headingCenter}>
-        Top trending topics
+      <Heading
+        desc="Elige un área de interés y descúbrelos"
+        isCenter={headingCenter}
+      >
+        Cursos por especialidades
       </Heading>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 ">
         {categories.map((item, i) => (
           <CardComponentName
-            index={i < 3 ? `#${i + 1}` : undefined}
+            index={i < 1 ? `#${i + 1}` : undefined}
             key={item.id}
             taxonomy={item}
+            className="rounded-lg"
           />
         ))}
+        <Link
+          to={"/tienda"}
+          className="h-full w-full text-primary font-semibold flex items-center justify-center text-center"
+        >
+          Ver todas
+        </Link>
       </div>
     </div>
   );

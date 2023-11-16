@@ -10,7 +10,7 @@ import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeatur
 
 export interface Card3Props {
   className?: string;
-  post: PostDataType;
+  post: any;
   size?: "normal" | "large";
 }
 

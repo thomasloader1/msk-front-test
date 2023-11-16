@@ -16,6 +16,8 @@ export interface ButtonProps {
   targetBlank?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
+  rounded?: string;
+  bordered?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -23,7 +25,9 @@ const Button: FC<ButtonProps> = ({
   translate = "",
   sizeClass = "px-4 py-3 sm:px-6",
   fontSize = "text-sm sm:text-base font-medium",
+  rounded = "rounded",
   disabled = false,
+  bordered = false,
   href,
   children,
   targetBlank,
@@ -32,7 +36,7 @@ const Button: FC<ButtonProps> = ({
   onClick = () => {},
 }) => {
   const CLASSES =
-    `nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors ${fontSize} ${sizeClass} ${translate} ${className} ` +
+    `nc-Button relative h-auto inline-flex items-center justify-center transition-colors ${rounded} ${fontSize} ${sizeClass} ${translate} ${className} ` +
     twFocusClass(true);
 
   const _renderLoading = () => {

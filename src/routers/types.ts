@@ -2,7 +2,14 @@ import { ComponentType } from "react";
 
 export interface LocationStates {
   "/"?: {};
-  "/custom-home"?: {};
+  "/home"?: {};
+  "/contacto"?: {};
+  "/blog"?: {};
+  "/blog/:slug"?: {};
+  "/archivo"?: {};
+  "/nota"?: {};
+  "/nota/:slug"?: {};
+  "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};
   "/archive/:slug"?: {};
@@ -13,6 +20,13 @@ export interface LocationStates {
   "/home-header-style2"?: {};
   "/home-header-style2-logedin"?: {};
   //
+  "/mi-perfil"?: {};
+  "/mi-cuenta"?: {};
+  "/gracias"?: {};
+  "/politica-de-privacidad"?: {};
+  "/terminos-y-condiciones"?: {};
+  "/politica-de-cookies"?: {};
+  "/condiciones-de-contratacion"?: {};
   "/author/:slug"?: {};
   "/author-v2/:slug"?: {};
   //
@@ -31,14 +45,18 @@ export interface LocationStates {
   "/search-v2"?: {};
   "/about"?: {};
   "/contact"?: {};
-  "/login"?: {};
-  "/signup"?: {};
-  "/forgot-pass"?: {};
+  "/iniciar-sesion"?: {};
+  "/crear-cuenta"?: {};
+  "/cancelar-suscripcion"?: {};
+  "/recuperar"?: {};
+  "/change-pass/:token"?: {};
+  "/correo-enviado"?: {};
   "/page404"?: {};
   "/dashboard"?: {};
   "/subscription"?: {};
+  "/tienda"?: {};
   "/store"?: {};
-  "/course-details"?: {};
+  "/curso/:slug"?: {};
   //
   "/theme-cyan-blueGrey"?: {};
   "/theme-blue-blueGrey"?: {};
@@ -69,5 +87,6 @@ export type PathName = keyof LocationStates;
 export interface Page {
   path: PathName;
   exact?: boolean;
+  auth?: boolean;
   component: ComponentType<Object>;
 }

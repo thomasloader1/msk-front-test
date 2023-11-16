@@ -1,3 +1,5 @@
+@import "./scss/abstract/colors";
+
 .root {
   overflow: hidden;
 }
@@ -43,7 +45,8 @@
 
 //
 .nc-box-has-hover {
-  @apply bg-white rounded-3xl border border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent transition-shadow;
+  border: 0.05rem solid;
+  @apply bg-white  border border-neutral-200 border-opacity-70 hover:bg-neutral-50 hover:shadow-xl hover:border-transparent transition-shadow;
 }
 
 .nc-dark-box-bg-has-hover {
@@ -217,4 +220,28 @@
 .nc-custom-shadow-1 {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
     rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+.text-primary {
+  color: #9200ad;
+}
+
+.invert-image {
+  img {
+    filter: invert(100%);
+  }
+}
+
+.text-description {
+  color: $description-text;
+}
+
+.signout-modal {
+  max-width: 440px;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.logout-button {
+  width: 180px;
 }

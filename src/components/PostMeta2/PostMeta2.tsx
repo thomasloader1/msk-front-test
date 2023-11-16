@@ -1,14 +1,15 @@
 import React, { FC } from "react";
 import Avatar from "components/Avatar/Avatar";
-import { PostDataType } from "data/types";
+import { FetchPostType, PostDataType } from "data/types";
 import { Link } from "react-router-dom";
 
 export interface PostMeta2Props {
   className?: string;
-  meta: Pick<PostDataType, "date" | "author" | "categories" | "readingTime">;
+  meta: any;
   hiddenCategories?: boolean;
   size?: "large" | "normal";
   avatarRounded?: string;
+  hideDate?: boolean;
 }
 
 const PostMeta2: FC<PostMeta2Props> = ({
@@ -17,8 +18,9 @@ const PostMeta2: FC<PostMeta2Props> = ({
   hiddenCategories = false,
   size = "normal",
   avatarRounded,
+  hideDate = false,
 }) => {
-  const { date, author, categories, readingTime } = meta;
+  const { date, author, categories } = meta;
   return (
     <div
       className={`nc-PostMeta2 flex items-center flex-wrap text-neutral-700 text-left dark:text-neutral-200 ${
@@ -26,7 +28,7 @@ const PostMeta2: FC<PostMeta2Props> = ({
       } ${className}`}
       data-nc-id="PostMeta2"
     >
-      <Link to={author.href} className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <Avatar
           radius={avatarRounded}
           sizeClass={
@@ -35,16 +37,14 @@ const PostMeta2: FC<PostMeta2Props> = ({
               : "h-10 w-10 sm:h-11 sm:w-11 text-xl"
           }
           imgUrl={author.avatar}
-          userName={author.displayName}
+          userName={author.name}
         />
-      </Link>
+      </div>
       <div className="ml-3">
         <div className="flex items-center">
-          <Link to={author.href} className="block font-semibold">
-            {author.displayName}
-          </Link>
+          <div className="block font-semibold">{author.name}</div>
 
-          {!hiddenCategories && (
+          {/* {!hiddenCategories && (
             <>
               <span className="mx-2 font-semibold">·</span>
               <div className="ml-0">
@@ -57,15 +57,19 @@ const PostMeta2: FC<PostMeta2Props> = ({
                 ))}
               </div>
             </>
-          )}
+          )} */}
         </div>
-        <div className="text-xs mt-[6px]">
-          <span className="text-neutral-700 dark:text-neutral-300">{date}</span>
-          <span className="mx-2 font-semibold">·</span>
-          <span className="text-neutral-700 dark:text-neutral-300">
-            {readingTime} min read
-          </span>
-        </div>
+        {hideDate ? null : (
+          <div className="text-xs mt-[6px]">
+            <span className="text-neutral-700 dark:text-neutral-300">
+              {date}
+            </span>
+            {/* <span className="mx-2 font-semibold">·</span>
+            <span className="text-neutral-700 dark:text-neutral-300">
+              {readingTime} min read
+            </span> */}
+          </div>
+        )}
       </div>
     </div>
   );

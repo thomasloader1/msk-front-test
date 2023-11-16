@@ -2,14 +2,14 @@ import React, { FC, useState } from "react";
 import twFocusClass from "utils/twFocusClass";
 import NcDropDown from "components/NcDropDown/NcDropDown";
 import ModalReportItem from "components/ModalReportItem/ModalReportItem";
-import { PostDataType } from "data/types";
+import { FetchPostType, PostDataType } from "data/types";
 import ModalHideAuthor from "./ModalHideAuthor";
 import { useHistory } from "react-router";
 
 export interface PostActionDropdownProps {
   containerClassName?: string;
   iconClass?: string;
-  postData: PostDataType;
+  postData: any;
   dropdownPositon?: "up" | "down";
 }
 
@@ -18,7 +18,7 @@ const PostActionDropdown: FC<PostActionDropdownProps> = ({
   iconClass = "h-[18px] w-[18px]",
   dropdownPositon = "down",
   postData,
-}) => {
+}): any => {
   let actions = [
     {
       id: "copylink",
@@ -54,9 +54,9 @@ const PostActionDropdown: FC<PostActionDropdownProps> = ({
   const openModalHideAuthor = () => setShowModalHideAuthor(true);
   const onCloseModalHideAuthor = () => setShowModalHideAuthor(false);
 
-  const hanldeClickDropDown = (item: typeof actions[number]) => {
+  const hanldeClickDropDown = (item: (typeof actions)[number]) => {
     if (item.id === "copylink") {
-      navigator.clipboard.writeText(window.location.origin + postData.href);
+      navigator.clipboard.writeText(window.location.origin + postData.link);
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
@@ -70,7 +70,7 @@ const PostActionDropdown: FC<PostActionDropdownProps> = ({
       return openModalHideAuthor();
     }
     if (item.id === "commentThisArticle") {
-      return history.push(postData.href + "#comment");
+      return history.push(postData.link + "#comment");
     }
 
     return;
@@ -99,22 +99,22 @@ const PostActionDropdown: FC<PostActionDropdownProps> = ({
     );
   };
 
-  return (
-    <div>
-      {renderMenu()}
+  // return (
+  //   <div>
+  //     {renderMenu()}
 
-      <ModalReportItem
-        show={isReporting}
-        id={postData.id}
-        onCloseModalReportItem={closeModalReportPost}
-      />
-      <ModalHideAuthor
-        show={showModalHideAuthor}
-        auhthor={postData.author}
-        onCloseModalHideAuthor={onCloseModalHideAuthor}
-      />
-    </div>
-  );
+  //     <ModalReportItem
+  //       show={isReporting}
+  //       id={postData.id}
+  //       onCloseModalReportItem={closeModalReportPost}
+  //     />
+  //     <ModalHideAuthor
+  //       show={showModalHideAuthor}
+  //       author={postData.author}
+  //       onCloseModalHideAuthor={onCloseModalHideAuthor}
+  //     />
+  //   </div>
+  // );
 };
 
 export default PostActionDropdown;

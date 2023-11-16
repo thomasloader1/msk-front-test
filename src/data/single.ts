@@ -52,6 +52,7 @@ export const SINGLE: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles: [],
   categories: [
     {
       id: 1,
@@ -104,6 +105,7 @@ export const SINGLE_AUDIO: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles: [],
   categories: [
     {
       id: 2,
@@ -149,6 +151,7 @@ export const SINGLE_VIDEO: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles:[],
   categories: [
     {
       id: 2,
@@ -193,6 +196,7 @@ export const SINGLE_GALLERY: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
+  articles: [],
   categories: [
     {
       id: 2,

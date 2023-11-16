@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export interface CardCategory3Props {
   className?: string;
-  taxonomy: TaxonomyType;
+  taxonomy: any;
 }
 
 const CardCategory3: FC<CardCategory3Props> = ({

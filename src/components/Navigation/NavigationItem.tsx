@@ -20,6 +20,7 @@ export interface NavItemType {
   megaMenu?: MegamenuItem[];
   type?: "dropdown" | "megaMenu" | "none";
   isNew?: boolean;
+  search?: string;
 }
 
 export interface NavigationItemProps {
@@ -170,7 +171,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
             >
               <Popover.Panel
                 static
-                className="sub-menu absolute transform z-10 min-w-[240px] pt-3 left-0"
+                className="sub-menu absolute transform z-10 min-w-[350px] pt-3 left-0"
               >
                 <ul className="rounded-xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 text-sm relative bg-white dark:bg-neutral-800 py-4 grid space-y-1">
                   {menuDropdown.children?.map((i) => {
@@ -178,7 +179,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                       return renderDropdownMenuNavlinkHasChild(i);
                     } else {
                       return (
-                        <li key={i.id} className="px-2">
+                        <li key={i.id} className={`px-2`}>
                           {renderDropdownMenuNavlink(i)}
                         </li>
                       );
@@ -244,6 +245,11 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   };
 
   const renderDropdownMenuNavlink = (item: NavItemType) => {
+    const isActive =
+      item.href === location.pathname && item.search === location.search;
+    const activeClass = isActive
+      ? "font-semibold text-neutral-700 dark:!text-neutral-200"
+      : "";
     return item.targetBlank ? (
       <a
         target="_blank"
@@ -272,10 +278,10 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         className="flex items-center font-normal text-neutral-6000 dark:text-neutral-300 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
         to={{
           pathname: item.href || undefined,
+          search: item.search,
         }}
-        activeClassName="font-semibold text-neutral-700 dark:!text-neutral-200"
       >
-        <span className="flex-shrink-0">{item.name}</span>
+        <span className={`flex-shrink-0 ${activeClass}`}>{item.name}</span>
         {item.type && (
           <ChevronDownIcon
             className="ml-2 h-4 w-4 text-neutral-500"
@@ -313,18 +319,15 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         exact
         strict
         rel="noopener noreferrer"
-        className="inline-flex items-center text-sm xl:text-base font-normal text-neutral-700 dark:text-neutral-300 py-2 px-4 xl:px-5 rounded-full hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
+        className="inline-flex items-center text-sm xl:text-base font-normal text-neutral-700 dark:text-neutral-300 py-2 px-4 xl:px-5 rounded	hover:text-neutral-100 hover:bg-red-500 dark:hover:bg-amber-600 dark:hover:text-neutral-200"
         to={{
           pathname: item.href || undefined,
         }}
-        activeClassName="!font-semibold !text-neutral-900 bg-neutral-100 dark:bg-neutral-800 dark:!text-neutral-100"
+        activeClassName="!text-neutral-900 dark:bg-neutral-800 dark:!text-neutral-100"
       >
         {item.name}
         {item.type && (
-          <ChevronDownIcon
-            className="ml-1 -mr-1 h-4 w-4 text-neutral-400"
-            aria-hidden="true"
-          />
+          <ChevronDownIcon className="ml-1 -mr-1 h-4 w-4" aria-hidden="true" />
         )}
       </NavLink>
     );

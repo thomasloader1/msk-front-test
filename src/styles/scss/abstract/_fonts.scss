@@ -1,4 +1,57 @@
 // Font Family
-$nunito: 'Nunito Sans', sans-serif;
-$raleway: 'Raleway', sans-serif;
+$raleway: "Raleway", sans-serif;
+$lora: "Lora", serif;
 $fontawesome: "Font Awesome 5 Pro";
+
+@font-face {
+  font-family: "Lora";
+  src: url("../../fonts/Lora/Lora-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Lora";
+  font-style: italic;
+  src: url("../../fonts/Lora/Lora-italic.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("../../fonts/Raleway/static/Raleway-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  weight: 500;
+  src: url("../../fonts/Raleway/static/Raleway-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Raleway-SemiBold";
+  weight: 700;
+  src: url("../../fonts/Raleway/static/Raleway-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Raleway-Bold";
+  weight: 800;
+  src: url("../../fonts/Raleway/static/Raleway-Bold.ttf");
+}
+
+.font-lora {
+  font-family: "Lora", serif;
+}
+
+.font-lora-italic {
+  font-family: "Lora", serif;
+  font-weight: 500;
+}
+
+.raleway {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+}
+
+.raleway-bold {
+  font-family: "Raleway-Bold", sans-serif;
+  font-weight: 800;
+}

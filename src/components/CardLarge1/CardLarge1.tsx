@@ -11,7 +11,7 @@ import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeatur
 
 export interface CardLarge1Props {
   className?: string;
-  post: PostDataType;
+  post: any;
   onClickNext?: () => void;
   onClickPrev?: () => void;
 }

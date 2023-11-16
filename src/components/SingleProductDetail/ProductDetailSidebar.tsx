@@ -1,118 +1,175 @@
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
-import ModalVideo from 'react-modal-video';
-import img from "../../images/eduman/course-video.png"
-import fai from '../../styles/fai/fontAwesome5Pro.module.css'
+import { FC, useContext, useEffect, useState } from "react";
+import { Details, Ficha } from "data/types";
+import { CountryContext } from "context/country/CountryContext";
 
-const ProductDetailSidebar = () => {
+interface Props {
+  ficha: Ficha;
+  details: Details;
+  isEbook?: boolean;
+  sideData: {
+    modalidad: string;
+    curso_disponible: string;
+    asesoramiento_academico: string;
+    certificacion: string;
+    idioma: string[];
+  };
+}
 
-    const [isOpen, setIsOpen] = useState(false);
-    const openVideoModal = () => setIsOpen(!isOpen);
+const ProductDetailSidebar: FC<Props> = ({
+  ficha,
+  details,
+  isEbook,
+  sideData,
+}) => {
+  const [isFixed, setIsFixed] = useState(false);
+  const [bottomDistance, setBottomDistance] = useState(0);
+  const { state } = useContext(CountryContext);
+  let scrollPosition = 0;
 
-    return (
-        <div className="course-video-widget">
-            <div className="course-widget-wrapper mb-30">
-                <ModalVideo channel='youtube' isOpen={isOpen} videoId='vWLcyFtni6U' onClose={() => { openVideoModal(); }} />
-                <div className="course-video-thumb w-img">
-                    <img src={img} alt="img not found" />
-                    <div className="sidber-video-btn">
-                        <span className="popup-video" onClick={() => { openVideoModal(); }}><i className={`${fai.fas} ${fai["fa-play"]}`}></i></span>
-                    </div>
-                </div>
-                <div className="course-video-price">
-                    <span>$147.00</span>
-                </div>
-                <div className="course-video-body">
-                    <ul>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-filter"></i>
-                                <span>Level</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>Beginners</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-computer"></i>
-                                <span>Lectures</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>8 Lectures</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-clock"></i>
-                                <span>Duration</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>1h 30m 12s</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-menu-2"></i>
-                                <span>Category</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>Data Science</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-global"></i>
-                                <span>Laguage</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>English</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-bookmark-white"></i>
-                                <span>Access</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>Full Lifetime</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-award"></i>
-                                <span>Certificate</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>Yes </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="course-vide-icon">
-                                <i className="flaticon-list"></i>
-                                <span>Recourse</span>
-                            </div>
-                            <div className="video-corse-info">
-                                <span>5 Downloadable Files </span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div className="video-wishlist">
-                    <Link to="/cart" className="video-cart-btn"><i className="fal fa-shopping-cart"></i>Add to cart</Link>
-                    <Link to="/wishlist" className="video-wishlist-btn"><i className="far fa-heart"></i>Add to Wishlist</Link>
-                </div>
-                <div className="course-gift">
-                    <div className="course-apply-coupon">
-                        <a href="#">Apply Coupon</a>
-                    </div>
-                    <div className="course-gift-coupon">
-                        <a href="#">Gift Courses</a>
-                    </div>
-                </div>
-            </div>
+  const image = ficha.image;
+
+  const calculateDistanceToBottom = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    return documentHeight - (scrollPosition + windowHeight);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const threshold = 450;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      setIsFixed(scrollTop > threshold);
+
+      const distanceToBottom = calculateDistanceToBottom();
+      const auxDistance = scrollPosition - distanceToBottom - 100;
+      setBottomDistance(
+        distanceToBottom < (isEbook ? 1500 : 1065) ? auxDistance / 2 : 0
+      );
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  let translations: { [key: string]: string } = {
+    modalidad: "Modalidad",
+    curso_disponible: "Curso Disponible",
+    asesoramiento_academico: "Asesoramiento Académico",
+    certificacion: "Certificación",
+    idioma: "Idioma",
+  };
+
+  const ebookData = [
+    { description: "Guía profesional gratuita", icon: "elearning", size: "20" },
+    {
+      description: "Contenido de nivel formativo",
+      icon: "diploma",
+      size: "19",
+    },
+    {
+      description: "Disponible para PC, tablet y smartphone",
+      icon: "devices",
+      size: "17",
+    },
+    { description: "Acceso a newsletters", icon: "newsletter", size: "16" },
+  ];
+
+  return (
+    <div className={`course-video-widget`}>
+      <div
+        className={`${
+          isFixed && bottomDistance == 0 && !isEbook
+            ? "course-widget-wrapper fixed"
+            : "course-widget-wrapper"
+        } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
+      >
+        {isFixed && !isEbook ? null : (
+          <div className="course-video-thumb w-img hidden lg:flex">
+            <img src={image} alt="img not found" />
+          </div>
+        )}
+
+        {isEbook ? null : (
+          <div className="course-video-price">
+            <span>💳 Pagos sin intereses</span>
+          </div>
+        )}
+
+        <div className="course-video-body">
+          <ul>
+            {isEbook ? (
+              <>
+                {ebookData.map((item, index) => {
+                  return (
+                    <li key={`data_${index}`}>
+                      <div className="course-vide-icon">
+                        <img
+                          src={`/src/images/icons/${item.icon}.svg`}
+                          width={item.size}
+                        />
+                        <span>{item.description}</span>
+                      </div>
+                      <div className="video-corse-info"></div>
+                    </li>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {Object.keys(sideData).map((key, index) => {
+                  return (
+                    <li key={`data_${index}`}>
+                      <div className="course-vide-icon w-full">
+                        <img src={`/src/images/icons/${key}.svg`} width="15" />
+                        <p className="w-full flex justify-between">
+                          <span>
+                            {translations[key] ? translations[key] + ":" : ""}
+                          </span>
+                          {key == "idioma" ? (
+                            sideData[key].length && sideData[key][0] != null ? (
+                              <>{sideData[key].join(", ")}</>
+                            ) : (
+                              "Español"
+                            )
+                          ) : (
+                            <span className="ml-auto">
+                              {sideData[key as keyof typeof sideData]}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </>
+            )}
+          </ul>
         </div>
-    );
+        <div className="flex gap-2">
+          <button
+            onClick={scrollToContactForm}
+            className="video-cart-btn w-full"
+          >
+            {isEbook ? "Descargar gratis" : "Contáctanos"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ProductDetailSidebar;
+const scrollToContactForm = () => {
+  const contactForm = document.getElementById("contactanos");
+  if (contactForm) {
+    window.scrollTo({
+      top: document.getElementById("contactanos")!.offsetTop,
+      behavior: "smooth",
+    });
+  }
+};

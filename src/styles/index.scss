@@ -5,3 +5,11 @@
 @import "./_theme_custom";
 //
 @import "./header";
+@import "react-phone-number-input-custom.scss";
+
+@media (min-width: 1024px){
+    .lg\:prose-lg :where(img):not(:where([class~="not-prose"] *)) {
+        margin-top: 0;
+    }
+
+}

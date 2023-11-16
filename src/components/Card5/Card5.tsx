@@ -6,7 +6,7 @@ import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 
 export interface Card5Props {
   className?: string;
-  post: PostDataType;
+  post: any;
 }
 
 const Card5: FC<Card5Props> = ({

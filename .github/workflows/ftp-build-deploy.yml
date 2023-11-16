@@ -31,7 +31,7 @@ jobs:
           server: ftp.msklatam.com
           username: luciano@msklatam.com
           password: 3V[#d&b^#3Cp
-          local-dir: /dist/
+          local-dir: ./dist/
           server-dir: /dev.msklatam.com/public_html/
 
 #      - name: FTP Upload (production)

@@ -23,11 +23,12 @@ jobs:
         run: npm install
 
       - name: Build React App
-        run: |
+        env:
           VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
           VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
           VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_DEV }}
-          VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }} npm run build  # You can adjust flags as needed for your build process
+          VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
+        run: npm run build
 
       - name: FTP Upload (dev)
         uses: SamKirkland/FTP-Deploy-Action@4.0.0

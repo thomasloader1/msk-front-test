@@ -93,7 +93,7 @@ const Routes = () => {
       !isAuthenticated &&
       !localStorage.getItem("token")
     ) {
-      window.location.href = `iniciar-sesion`;
+      window.location.href = '/' + state.country + '/iniciar-sesion';
     }
   }, [state.country]);
 

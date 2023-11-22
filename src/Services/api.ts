@@ -18,7 +18,10 @@ import { CountryContext } from "context/country/CountryContext";
 import { countries } from "data/countries";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
-const COUNTRY = localStorage.getItem("country") || "mx";
+let validCountries = countries.map((item) => item.id);
+const COUNTRY = validCountries.includes(
+  localStorage.getItem("country") || "int"
+);
 
 const WP_URL = VITE_MSK_WP_API;
 const apiSignUpURL = `${baseUrl}/api/signup`;

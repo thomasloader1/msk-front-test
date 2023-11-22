@@ -20,6 +20,7 @@ export interface ContactFormSchema {
   utm_campaign?: string;
   utm_content?: string;
   recaptcha_token?: string | null;
+  URL_ORIGEN?: string;
 }
 export interface TemarioFormSchema {
   First_Name: string;

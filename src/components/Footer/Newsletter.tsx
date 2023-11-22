@@ -158,6 +158,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
     utm_content: utmState.utm_content,
+    URL_ORIGEN: window.location.href
   };
   const formik = useFormik({
     initialValues,

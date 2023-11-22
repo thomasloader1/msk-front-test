@@ -105,6 +105,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     Terms_And_Conditions: false,
     year: "",
     career: "",
+    URL_ORIGEN: window.location.href
   };
 
   const { contactFormValidation } = useYupValidation();

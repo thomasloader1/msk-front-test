@@ -11,15 +11,15 @@ function App() {
   return (
     <div className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
         <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_PK}>
-      <UTMProvider>
-        <CountryProvider>
-          <AuthProvider>
-            <StoreFiltersProvider>
-              <MyRouter />
-            </StoreFiltersProvider>
-          </AuthProvider>
-        </CountryProvider>
-      </UTMProvider>
+          <UTMProvider>
+            <CountryProvider>
+              <AuthProvider>
+                <StoreFiltersProvider>
+                  <MyRouter />
+                </StoreFiltersProvider>
+              </AuthProvider>
+            </CountryProvider>
+          </UTMProvider>
         </GoogleReCaptchaProvider>
     </div>
   );

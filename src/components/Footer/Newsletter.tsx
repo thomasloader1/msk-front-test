@@ -199,6 +199,12 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         autoComplete="off"
         ref={formRef}
       >
+        <input
+          type="hidden"
+          name="URL_ORIGEN"
+          id="URL_ORIGEN"
+          value={window.location.href}
+        />
         <input type="hidden" name="country" value={state?.country} />
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
           <div className="">

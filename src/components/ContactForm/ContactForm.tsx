@@ -321,6 +321,13 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   value={productName}
                 />
 
+                <input
+                  type="hidden"
+                  name="URL_ORIGEN"
+                  id="URL_ORIGEN"
+                  value={window.location.href}
+                />
+
                 {hideContactPreference ? null : (
                   <div className={`section-title mb-30`}>
                     {hideHeader ? null : (

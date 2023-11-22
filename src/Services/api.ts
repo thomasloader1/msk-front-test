@@ -15,6 +15,7 @@ import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
 import { ContactFormSchema } from "hooks/useYupValidation";
 import { useContext } from "react";
 import { CountryContext } from "context/country/CountryContext";
+import { countries } from "data/countries";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
 const COUNTRY = localStorage.getItem("country") || "mx";
@@ -124,7 +125,10 @@ class ApiService {
 
   async getAllCourses(state?: any, dispatch?: any) {
     const tag = new URLSearchParams(window.location.search).get("tag");
-    const countryParam = COUNTRY ? `&country=${COUNTRY}` : "";
+    let validCountries = countries.map((item) => item.id);
+    const countryParam = validCountries.includes(COUNTRY)
+      ? `&country=${COUNTRY}`
+      : `&country=int`;
     const tagParam = tag ? `&tag=${tag}` : "";
 
     try {
@@ -225,8 +229,12 @@ class ApiService {
 
   async getSpecialtiesStore() {
     try {
+      let validCountries = countries.map((item) => item.id);
+      const countryParam = validCountries.includes(COUNTRY)
+        ? `&country=${COUNTRY}`
+        : `&country=int`;
       const res = await axios.get(
-        `${VITE_MSK_WP_API}/products-specialities?country=${COUNTRY}`
+        `${VITE_MSK_WP_API}/products-specialities?${countryParam}`
       );
 
       return res.data.specialities.map(

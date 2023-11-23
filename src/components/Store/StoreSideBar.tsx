@@ -92,21 +92,21 @@ const StoreSideBar: FC<Props> = ({
       queryParams.forEach((param) => {
         const [key, value] = param.split("=");
         const decodedValue = decodeURIComponent(value);
-        if (key === "profesion") {
+        if (key === "profesion" && professions.length) {
           const professionExists = professions.find(
             (item) => item.slug === decodedValue
           );
           if (professionExists) {
             matchingProfessions.push(professionExists);
           }
-        } else if (key === "especialidad") {
+        } else if (key === "especialidad" && specialties.length) {
           const specialtiesExists = specialties.find(
             (item) => item.name === decodedValue
           );
           if (specialtiesExists) {
             matchingSpecialties.push(specialtiesExists);
           }
-        } else if (key === "recurso") {
+        } else if (key === "recurso" && resources.length) {
           const resourceExists = resources.find(
             (item) => item.id.toString() === decodedValue
           );

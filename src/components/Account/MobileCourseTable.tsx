@@ -7,17 +7,19 @@ import { CoursesTableComponentProps } from "./DesktopCoursesTable";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { formatDate } from "lib/formatDate";
 import calendarIcon from "../../images/icons/calendar.svg";
-import { colorStatus, statusCourse } from "logic/account";
+import { colorStatus, statusCourse, goToEnroll } from "logic/account";
 
-const MobileCourseTable: FC<CoursesTableComponentProps> = ({
-  currentItems,
-  config,
-}) => {
+const MobileCourseTable: FC<CoursesTableComponentProps> = ({currentItems,config}) => {
+
   const { email, goToLMS, handlePageChange, totalPages, currentPage } = config;
+  
   return (
     <div className="flex flex-col space-y-8">
       <ul>
-        {currentItems.map((item) => (
+        {currentItems.map((item) => {
+          const { isDisabled, hasText } = statusCourse(item.status)
+          
+          return (
           <li key={item.product_code} className="my-account-courses-mobile">
             <div className="direct-info">
               <NcImage
@@ -42,23 +44,36 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({
                 Fecha de expiración: {formatDate(new Date(item.expiration))}
               </span>
             </div>
-            {statusCourse(item.status) && <CentroAyudaLink />}
+            {isDisabled && <CentroAyudaLink />}
 
             <div className="w-full">
               <ButtonPrimary
-                disabled={statusCourse(item.status)}
+                disabled={isDisabled}
                 onClick={() => {
-                  goToLMS(item.product_code, item.product_code_cedente, email);
+                  if(item.status.includes("Sin enrolar")){
+                    goToEnroll(
+                      item.product_code,
+                      item.product_code_cedente,
+                      email
+                    );
+                  }else{
+                    goToLMS(
+                      item.product_code,
+                      item.product_code_cedente,
+                      email
+                    );
+                  }
                 }}
                 sizeClass="py-1 px-3 sm:px-5"
               >
                 <span className="text-sm">
-                  {statusCourse(item.status) ? "Activar" : "Ir al curso"}
+                  {hasText}
                 </span>
               </ButtonPrimary>
             </div>
           </li>
-        ))}
+        )}
+        )}
       </ul>
       <div className="flex justify-center">
         <StorePagination

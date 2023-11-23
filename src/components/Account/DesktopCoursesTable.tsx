@@ -7,7 +7,7 @@ import React, { FC } from "react";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { formatDate } from "lib/formatDate";
 import calendarIcon from "../../images/icons/calendar.svg";
-import { colorStatus, statusCourse } from "logic/account";
+import { colorStatus, goToEnroll, statusCourse } from "logic/account";
 export interface CoursesTableComponentProps {
   currentItems: UserCourseProgress[];
   config: {
@@ -52,7 +52,9 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-neutral-900 divide-y divide-neutral-200 dark:divide-neutral-800">
-                {currentItems.map((item) => (
+                {currentItems.map((item) => {
+                  const { isDisabled, hasText } = statusCourse(item.status)
+                  return (
                   <tr key={item.product_code}>
                     <td className="px-6 py-4">
                       <div className="flex items-center w-96 lg:w-auto max-w-md overflow-hidden">
@@ -78,7 +80,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                               {formatDate(new Date(item.expiration))}
                             </span>
                           </div>
-                          {statusCourse(item.status) && (
+                          {isDisabled && (
                             <CentroAyudaLink addClassNames="mt-2 ml-3" />
                           )}
                         </div>
@@ -100,24 +102,31 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                     <td className="px-4">
                       <ButtonPrimary
                         onClick={() => {
-                          goToLMS(
-                            item.product_code,
-                            item.product_code_cedente,
-                            email
-                          );
+                          if(item.status.includes("Sin enrolar")){
+                            goToEnroll(
+                              item.product_code,
+                              item.product_code_cedente,
+                              email
+                            );
+                          }else{
+                            goToLMS(
+                              item.product_code,
+                              item.product_code_cedente,
+                              email
+                            );
+                          }
+                          
                         }}
                         sizeClass="py-1 sm:px-5"
-                        disabled={statusCourse(item.status)}
+                        disabled={isDisabled}
                       >
                         <span className="text-sm">
-                          {statusCourse(item.status)
-                            ? "Activar"
-                            : "Ir al curso"}
+                          {hasText}
                         </span>
                       </ButtonPrimary>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>

@@ -13,6 +13,7 @@ const StorePagination: FC<Props> = ({
   currentPage,
 }) => {
   const [pages, setPages] = useState<number[]>([]);
+
   useEffect(() => {
     const newPages = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -20,6 +21,7 @@ const StorePagination: FC<Props> = ({
     }
     setPages(newPages);
   }, [totalPages]);
+  
   return (
     <>
       {totalPages > 1 ? (

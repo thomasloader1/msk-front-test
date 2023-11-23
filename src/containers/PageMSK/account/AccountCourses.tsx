@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { UserCourseProgress } from "data/types";
 import { useHistory } from "react-router-dom";
-import { goToLMS } from "logic/account";
+import { goToLMS, goToEnroll } from "logic/account";
 import CoursesTable from "components/Account/CoursesTable";
 
 interface AccountCoursesProps {
@@ -12,7 +12,6 @@ interface AccountCoursesProps {
 const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
   const [isMobile, setIsMobile] = useState(false);
   const history = useHistory();
-  console.log({ courses, email });
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -47,6 +46,7 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
 
   const tableConfig = {
     goToLMS,
+    goToEnroll,
     goToStore,
     email,
   }

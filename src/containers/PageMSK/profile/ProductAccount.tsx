@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import activeIcon from "../../../images/icons/activo.svg";
-import inactiveIcon from "../../../images/icons/inactivo.svg";
-import expiredIcon from "../../../images/icons/expirado.svg";
 import {
+  getStatusIcon,
+  goToEnroll,
   goToLMS,
   productFinishOrActive,
   productStatusIsExpired,
@@ -31,7 +30,7 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const statusProduct = statusCourse(product.status)
+  const {isDisabled, hasText} = statusCourse(product.status)
 
   const activeProductRef = useRef(product.status !== 'Inactivo' && product.status !== 'Expirado');
   const productExpiration = useRef(new Date(product.expiration));
@@ -48,11 +47,20 @@ const ProductAccount: FC<Props> = ({
       setOnRequest(true);
 
       try {
-        await goToLMS(
-          product.product_code,
-          product.product_code_cedente,
-          user.email
-        );
+        if(product.status.includes("Sin enrolar")){
+          await goToEnroll(
+            product.product_code,
+            product.product_code_cedente,
+            user.email
+          );
+        }else{
+          await goToLMS(
+            product.product_code,
+            product.product_code_cedente,
+            user.email
+          );
+        }
+        
       } catch (e: any) {
         console.log(e);
       } finally {
@@ -61,6 +69,7 @@ const ProductAccount: FC<Props> = ({
     }
   };
 
+  const iconStatus = getStatusIcon(product.status)
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -97,6 +106,7 @@ const ProductAccount: FC<Props> = ({
           </div>
         </div>
       ) : null}
+
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
           <div className="flex gap-2">
@@ -133,35 +143,25 @@ const ProductAccount: FC<Props> = ({
               Fecha de expiración: {formatDate(productExpiration.current)}
             </span>
           </div>
-          {statusProduct && (
+          {isDisabled && (
             <CentroAyudaLink addClassNames="my-2" />
           )}
         </div>
       </div>
       <div className="course-2-footer text-grey-course">
-        {productFinishOrActive(product.status) ? (
+        
           <div className="coursee-clock">
-            <img src={activeIcon} alt={product.status} />
+            <img src={iconStatus} alt={product.status} />
             <span className="ml-2">{product.status}</span>
           </div>
-        ) : productStatusIsExpired(product.status) ? (
-          <div className="coursee-clock">
-            <img src={inactiveIcon} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        ) : (
-          <div className="coursee-clock">
-            <img src={expiredIcon} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        )}
+        
 
         <button
           className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
           onClick={handleClick}
-          disabled={statusProduct || onRequest}
+          disabled={isDisabled || onRequest}
         >
-          {onRequest ? "Ingresando ..." : "Ir al curso"}
+          {onRequest ? "Ingresando ..." : hasText}
         </button>
       </div>
     </div>

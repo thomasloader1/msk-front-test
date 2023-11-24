@@ -55,7 +55,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
               </thead>
               <tbody className="bg-white dark:bg-neutral-900 divide-y divide-neutral-200 dark:divide-neutral-800">
                 {currentItems.map((item) => {
-                  const { isDisabled, hasText } = statusCourse(item.status);
+                  const { isDisabled } = statusCourse(item.status);
                   return (
                     <tr key={item.product_code}>
                       <td className="px-6 py-4">
@@ -110,30 +110,6 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                         </span>
                       </td>
                       <td className="px-4">
-                        {/* <ButtonPrimary
-                        onClick={() => {
-                          if(item.status.includes("Sin enrolar")){
-                            goToEnroll(
-                              item.product_code,
-                              item.product_code_cedente,
-                              email
-                            );
-                          }else{
-                            goToLMS(
-                              item.product_code,
-                              item.product_code_cedente,
-                              email
-                            );
-                          }
-                          
-                        }}
-                        sizeClass="py-1 sm:px-5"
-                        disabled={isDisabled}
-                      >
-                        <span className="text-sm">
-                          {hasText}
-                        </span>
-                      </ButtonPrimary> */}
                         <ButtonAccessCourse
                           email={email}
                           goToEnroll={goToEnroll}

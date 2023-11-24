@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 interface UseIntervalResult {
   isRunning: boolean;
   data: any; // Reemplazar 'any' con el tipo de datos real
-  startWatch: (product_code: number) => void;
+  startWatch: (product_code: number) => number | Promise<NodeJS.Timeout>;
 }
 
 const useInterval = (url: string): UseIntervalResult => {
@@ -46,6 +46,7 @@ const useInterval = (url: string): UseIntervalResult => {
     }, 5000);
 
     setIntervalId(interval);
+    return interval;
     console.groupEnd();
   };
 
@@ -54,7 +55,8 @@ const useInterval = (url: string): UseIntervalResult => {
       clearInterval(intervalId);
       setIsRunning(false);
     }
-    console.log({ data, intervalId });
+
+    return () => clearInterval(intervalId);
   }, [intents, intervalId]);
 
   return {

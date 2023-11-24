@@ -29,25 +29,6 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
   const [onRequest, setOnRequest] = useState(false);
   //const [startInterval, setStartInterval] = useState(null)
   const { isRunning, data, startWatch } = useInterval(email);
-  const { dispatch } = useContext(AuthContext);
-
-  /* useInterval(async () => {
-    try {
-      const response: AxiosResponse = await api.getCoursesProgressStatus(
-        url,
-        product_code
-      );
-      setData(response.data);
-      dispatch({
-        type: "UPDATE_COURSES",
-        payload: { courses_progress: response.data },
-      });
-      setIntents(0);
-    } catch (error) {
-      setData(false);
-      
-    }
-  }, startInterval) */
 
   const handleClick = async () => {
     setOnRequest(true);
@@ -56,8 +37,9 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
         const response = await goToEnroll(item.product_code, email);
 
         if (response.data[0].code.includes("SUCCESS")) {
-          await startWatch(item.product_code);
-          setOnRequest(false);
+          const watching = await startWatch(item.product_code);
+          console.log(!!watching, { watching });
+          setOnRequest(!!watching);
         } else {
           setOnRequest(false);
         }

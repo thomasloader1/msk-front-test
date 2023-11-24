@@ -12,7 +12,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
     "hover:bg-red-500 hover:text-neutral-50 disabled:cursor-not-allowed";
   return (
     <Button
-      className={`ttnc-ButtonPrimary w-full disabled:cursor-not-allowed disabled:bg-grey-disabled bg-primary-6000 text-neutral-50 ${isNotDisabled} ${className}`}
+      className={`ttnc-ButtonPrimary disabled:cursor-not-allowed disabled:bg-grey-disabled bg-primary-6000 text-neutral-50 ${isNotDisabled} ${className}`}
       {...args}
     />
   );

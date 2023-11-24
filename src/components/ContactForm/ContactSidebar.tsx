@@ -2,19 +2,27 @@ import { CountryContext } from "context/country/CountryContext";
 import React, { useContext } from "react";
 
 const ContactSidebar = () => {
-
-  const { state } = useContext(CountryContext)
+  const { state } = useContext(CountryContext);
   const PhoneElement = () => {
     switch (state.country) {
-      case 'mx':
-        return <p>(+52) 5590586200</p>
-      case 'cl':
-        return <p>(+56) 224875300</p>
+      case "mx":
+        return <p>(+52) 5590586200</p>;
+      case "cl":
+        return <p>(+56) 224875300</p>;
+      case "ar":
+        return (
+          <>
+            <p>0800-220-6334</p>
+            <p>011-5263-0582</p>
+          </>
+        );
+      case "cl":
+        return <p>(+56) 224875300</p>;
 
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="sidebar-widget-wrapper">
@@ -32,13 +40,13 @@ const ContactSidebar = () => {
             </div>
           )}
 
-          {/*  <div className="support-item">
+          {/* <div className="support-item">
             <div className="support-icon">
               <img src="/src/images/icons/whatsapp.svg" alt="" width="20" />
             </div>
             <div className="support-info-whatsapp">
               <span>Whatsapp</span>
-              <a href="#">(+88) 422-655-793</a>
+              {PhoneElement()}
             </div>
           </div> */}
           <div className="support-item">

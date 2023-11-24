@@ -105,7 +105,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     Terms_And_Conditions: false,
     year: "",
     career: "",
-    URL_ORIGEN: window.location.href
+    URL_ORIGEN: window.location.href,
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -602,7 +602,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       {!isEbook && (
                         <div className="col-xl-12 mt-4">
                           <div className="contact-from-input">
-                            <label htmlFor="Description">Mensaje</label>
                             <ErrorMessage
                               name="Description"
                               component="span"

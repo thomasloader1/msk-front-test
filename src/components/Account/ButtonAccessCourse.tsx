@@ -1,10 +1,11 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import useInterval from "hooks/useInterval";
+//import { useInterval } from 'usehooks-ts'
 import { hasText } from "logic/account";
 import { UserCourseProgress } from "data/types";
-import spinIcon from "../../images/icons/spin.svg";
 import { AuthContext } from "context/user/AuthContext";
+import api from "Services/api";
 
 interface ButtonAccessCourseProps {
   item: UserCourseProgress;
@@ -26,7 +27,28 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
   const [status, setStatus] = useState(item.status);
   const [isDisabled, setIsDisabled] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
+  //const [startInterval, setStartInterval] = useState(null)
   const { isRunning, data, startWatch } = useInterval(email);
+  const { dispatch } = useContext(AuthContext);
+
+  /* useInterval(async () => {
+    try {
+      const response: AxiosResponse = await api.getCoursesProgressStatus(
+        url,
+        product_code
+      );
+      setData(response.data);
+      dispatch({
+        type: "UPDATE_COURSES",
+        payload: { courses_progress: response.data },
+      });
+      setIntents(0);
+    } catch (error) {
+      setData(false);
+      
+    }
+  }, startInterval) */
+
   const handleClick = async () => {
     setOnRequest(true);
     try {
@@ -64,7 +86,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
     >
       {onRequest || status.includes("Listo para enrolar") ? (
         <div className="flex justify-center items-center">
-          <span className="text-sm mr-2">Procesando</span>
+          <span className="text-sm mr-2">Activando</span>
           <div className="w-4 h-4 my-1 border-t-2 border-white border-solid rounded-full animate-spin"></div>
         </div>
       ) : (

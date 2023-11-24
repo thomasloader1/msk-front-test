@@ -49,7 +49,7 @@ const ProductAccount: FC<Props> = ({
     if (activeProductRef.current) {
       setOnRequest(true);
       try {
-        if (status === "Sin enrolar") {
+        if (product.status === "Sin enrolar") {
           const response = await goToEnroll(product.product_code, user.email);
 
           if (response.data[0].code.includes("SUCCESS")) {

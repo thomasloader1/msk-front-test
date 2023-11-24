@@ -34,6 +34,7 @@ const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
 const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
+const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -428,15 +429,19 @@ class ApiService {
     return formattedResponse;
   }
 
-  async enrollCourse(product_code: number, cod_curso: string, email:string){
-
-    try{
-      const response = await axios.post(apiEnrollCourse,{product_code,cod_curso,email})
+  async enrollCourse(product_code: number, email: string) {
+    try {
+      const response = await axios.post(apiEnrollCourse, {
+        product_code,
+        email,
+      });
       return response.data;
-    }catch(e){
+    } catch (e) {
       return e;
     }
-
+  }
+  async getCoursesProgressStatus(email: string, product_code: number) {
+    return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
   }
 }
 

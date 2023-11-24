@@ -58,6 +58,7 @@ export interface Contact {
   other_speciality?: string;
   career?: string;
   year?: string;
+  courses_progress: CourseProgress[];
 }
 
 export interface Contract {
@@ -156,6 +157,10 @@ export interface User {
   contact?: Contact;
   profession?: string;
   speciality?: string;
+}
+
+export interface UserProfile {
+  courses_progress: CourseProgress[];
 }
 
 export interface CustomUser {
@@ -556,6 +561,7 @@ export type Newsletter = {
 export interface AuthState {
   isAuthenticated: boolean;
   user: User | null;
+  profile: UserProfile | null;
   email: string | null;
   token: string | null;
   expires_at: number | null;

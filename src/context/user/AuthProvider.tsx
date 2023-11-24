@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "./AuthReducer";
-import { AuthState } from "data/types";
+import { AuthState, Contact } from "data/types";
 import api from "Services/api";
 
 interface Props {
@@ -12,6 +12,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const initialState: AuthState = {
     isAuthenticated: false,
     user: null,
+    profile: null,
     email: null,
     token: null,
     expires_at: null,
@@ -19,6 +20,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -32,7 +34,11 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             })
           );
           localStorage.setItem("bypassRedirect", res.test);
-          return { name: res.name, speciality: res.contact.speciality };
+          return {
+            name: res.name,
+            speciality: res.contact.speciality,
+            profile: res.contact,
+          };
         } else {
           console.log(res.response.status);
           return null;
@@ -61,6 +67,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             expires_at,
             bypassRedirect,
             user: userData,
+            profile: userData.profile,
           };
           dispatch({ type: "LOGIN", payload: data });
           if (expires_at) {

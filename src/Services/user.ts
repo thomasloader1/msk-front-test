@@ -1,4 +1,3 @@
-import { CountryContext } from "context/country/CountryContext";
 import {
   Contract,
   CourseProgress,
@@ -60,6 +59,7 @@ export const getUserCourses = (
       const featured_image =
         globalProduct.image &&
         globalProduct.image.replace(`${COUNTRY || "mx"}.`, "");
+
       const product = {
         status: cp.Estado_cursada,
         product_code: cp.Product_Code,

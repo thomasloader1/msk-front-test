@@ -8,6 +8,7 @@ export const AuthContext = createContext<{
   state: {
     isAuthenticated: false,
     user: null,
+    profile: null,
     token: null,
     email: null,
     expires_at: null,

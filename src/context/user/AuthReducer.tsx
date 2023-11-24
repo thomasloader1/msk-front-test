@@ -3,6 +3,8 @@ import { AuthState, AuthAction } from "data/types";
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
 const FRESH = "FRESH";
+const UPDATE_PROFILE = "UPDATE_PROFILE";
+const UPDATE_COURSES = "UPDATE_COURSES";
 
 export const authReducer = (
   state: AuthState,
@@ -25,6 +27,7 @@ export const authReducer = (
         ...state,
         isAuthenticated: true,
         user: user ? JSON.parse(user) : null,
+        profile: action.payload.profile,
         email: action.payload.email,
         token: action.payload.access_token,
         expires_at: action.payload.expires_at,
@@ -60,7 +63,19 @@ export const authReducer = (
         isAuthenticated: true,
         user: userInLocal ? JSON.parse(userInLocal) : null,
       };
-
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        profile: action.payload.profile,
+      };
+    case UPDATE_COURSES:
+      return {
+        ...state,
+        profile: {
+          ...state?.profile,
+          courses_progress: action.payload.courses_progress,
+        },
+      };
     default:
       return state;
   }

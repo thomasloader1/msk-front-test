@@ -30,9 +30,11 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const {isDisabled, hasText} = statusCourse(product.status)
+  const { isDisabled, hasText } = statusCourse(product.status);
 
-  const activeProductRef = useRef(product.status !== 'Inactivo' && product.status !== 'Expirado');
+  const activeProductRef = useRef(
+    product.status !== "Inactivo" && product.status !== "Expirado"
+  );
   const productExpiration = useRef(new Date(product.expiration));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
@@ -47,20 +49,15 @@ const ProductAccount: FC<Props> = ({
       setOnRequest(true);
 
       try {
-        if(product.status.includes("Sin enrolar")){
-          await goToEnroll(
-            product.product_code,
-            product.product_code_cedente,
-            user.email
-          );
-        }else{
+        if (product.status.includes("Sin enrolar")) {
+          await goToEnroll(product.product_code, user.email);
+        } else {
           await goToLMS(
             product.product_code,
             product.product_code_cedente,
             user.email
           );
         }
-        
       } catch (e: any) {
         console.log(e);
       } finally {
@@ -69,7 +66,7 @@ const ProductAccount: FC<Props> = ({
     }
   };
 
-  const iconStatus = getStatusIcon(product.status)
+  const iconStatus = getStatusIcon(product.status);
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -143,18 +140,14 @@ const ProductAccount: FC<Props> = ({
               Fecha de expiración: {formatDate(productExpiration.current)}
             </span>
           </div>
-          {isDisabled && (
-            <CentroAyudaLink addClassNames="my-2" />
-          )}
+          {isDisabled && <CentroAyudaLink addClassNames="my-2" />}
         </div>
       </div>
       <div className="course-2-footer text-grey-course">
-        
-          <div className="coursee-clock">
-            <img src={iconStatus} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        
+        <div className="coursee-clock">
+          <img src={iconStatus} alt={product.status} />
+          <span className="ml-2">{product.status}</span>
+        </div>
 
         <button
           className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"

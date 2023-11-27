@@ -47,17 +47,17 @@ const NavMobile: React.FC<NavMobileProps> = ({
       <Disclosure key={index}>
         <li className="text-neutral-900 dark:text-white">
           <div
-            className={`flex justify-between font-medium text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
-              isChild ? "" : "uppercase tracking-wide"
+            className={`flex items-center font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
+              isChild ? "" : " tracking-wide"
             }`}
           >
             <Disclosure.Button
               as="button"
-              className="py-2.5 px-4 flex flex-1 justify-end select-none focus:outline-none focus:ring-0 uppercase"
+              className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
             >
               {item.name}
               <ChevronDownIcon
-                className="ml-auto h-4 w-4 text-neutral-500"
+                className="ml-2 mr-auto h-4 w-4 text-neutral-500"
                 aria-hidden="true"
               />
             </Disclosure.Button>
@@ -78,8 +78,8 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <NavLink
           exact
           strict
-          className={`flex w-full items-center py-2.5 px-4 font-medium text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
-            isChild ? "" : "uppercase tracking-wide"
+          className={`flex w-full items-center py-2.5 px-4 font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
+            isChild ? "" : " tracking-wide"
           }`}
           to={{
             pathname: item.href || undefined,

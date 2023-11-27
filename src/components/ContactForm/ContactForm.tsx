@@ -12,7 +12,7 @@ import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-import { Profession, Specialty } from "data/types";
+import { Newsletter, Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
 import axios from "axios";
 import Radio from "components/Radio/Radio";
@@ -39,6 +39,7 @@ interface ContactFormProps {
   isDownload?: boolean;
   updateFormSent?: (value: boolean, body: any) => void;
   submitReason?: string;
+  submitEndpoint?: string;
 }
 
 const ContactFormSection: FC<ContactFormProps> = ({
@@ -49,6 +50,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
   hideSideInfo,
   hideContactPreference,
   submitText = isEbook ? "Descargar" : "Enviar",
+  submitEndpoint = "contact",
   isDownload,
   submitReason,
   updateFormSent,
@@ -212,7 +214,13 @@ const ContactFormSection: FC<ContactFormProps> = ({
       if (executeRecaptcha) {
         try {
           body.recaptcha_token = await executeRecaptcha("contact_form");
-          const response = await api.postContactUs(body);
+          let response;
+          switch (submitEndpoint) {
+            case "contact":
+              response = await api.postContactUs(body);
+            case "newsletter":
+              response = await api.postNewsletter(body as Newsletter);
+          }
           // @ts-ignore
           if (response.status === 200) {
             let routeChange = isEbook

@@ -177,8 +177,9 @@ class ApiService {
 
   async getBestSellers() {
     try {
+      const countryParam = validCountries.includes(COUNTRY) ? COUNTRY : "int";
       const bestSellers = await axios.get(
-        `${API_URL}/home/best-sellers?country=${COUNTRY}`
+        `${API_URL}/home/best-sellers?country=${countryParam}`
       );
       return bestSellers.data.products;
     } catch (error) {
@@ -306,8 +307,13 @@ class ApiService {
 
   async getPosts(country: string) {
     try {
-      const iso = country.includes("") ? "int" : country;
-      const res = await axios.get(`${API_URL}/posts?year=2023&country=${iso}`);
+      let validCountries = countries.map((item) => item.id);
+      const countryParam = validCountries.includes(COUNTRY || "")
+        ? COUNTRY
+        : "int";
+      const res = await axios.get(
+        `${API_URL}/posts?year=2023&country=${countryParam}`
+      );
       const postsList = res.data.posts.map((post: any) => ({
         ...post,
         image: post.thumbnail,

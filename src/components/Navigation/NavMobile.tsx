@@ -9,6 +9,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import ButtonSecondary from "components/Button/ButtonSecondary";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { AuthContext } from "context/user/AuthContext";
+import SearchProducts from "components/Header/SearchProducts";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -108,7 +109,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
           <ButtonClose onClick={onClickClose} />
         </span>
       </div>
+
       <ul className="flex flex-col py-6 px-2 space-y-1">
+        <div className="z-10 px-4">
+          <SearchProducts />
+        </div>
         {data.map((item, index) => _renderItem(item, index, false))}
       </ul>
       {state.isAuthenticated ? (

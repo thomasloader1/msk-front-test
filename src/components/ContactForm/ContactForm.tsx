@@ -400,7 +400,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="First_Name"
-                          placeholder="Nombre"
+                          placeholder="Ingresar nombre"
                         />
                       </div>
                     </div>
@@ -414,7 +414,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="Last_Name"
-                          placeholder="Apellido"
+                          placeholder="Ingresar apellido"
                         />
                       </div>
                     </div>
@@ -428,7 +428,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="email"
                           name="Email"
-                          placeholder="Correo electrónico"
+                          placeholder="Ingresar e-mail"
                         />
                       </div>
                     </div>

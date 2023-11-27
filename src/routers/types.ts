@@ -4,6 +4,7 @@ export interface LocationStates {
   "/"?: {};
   "/home"?: {};
   "/contacto"?: {};
+  "/newsletter"?: {};
   "/blog"?: {};
   "/blog/:slug"?: {};
   "/archivo"?: {};

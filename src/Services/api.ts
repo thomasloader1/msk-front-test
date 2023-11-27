@@ -25,8 +25,6 @@ if (LSCountry) {
   COUNTRY = LSCountry;
 }
 
-console.log("EL COUNTRY", COUNTRY);
-
 const WP_URL = VITE_MSK_WP_API;
 const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiSignInURL = `${baseUrl}/api/login`;

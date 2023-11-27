@@ -1,4 +1,7 @@
+import { UTMAction } from "context/utm/UTMContext";
+import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { AuthState, AuthAction } from "data/types";
+import { useReducer } from "react";
 
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
@@ -10,6 +13,12 @@ export const authReducer = (
   state: AuthState,
   action: AuthAction
 ): AuthState => {
+  const clearUTMAction: UTMAction = {
+    type: "CLEAR_UTM",
+    payload: {} as any,
+  };
+  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+
   switch (action.type) {
     case LOGIN:
       localStorage.setItem("token", action.payload.access_token);
@@ -35,9 +44,11 @@ export const authReducer = (
       };
 
     case LOGOUT:
+      dispatchUTM(clearUTMAction);
       localStorage.removeItem("token");
       localStorage.removeItem("email");
       localStorage.removeItem("user");
+
       return {
         ...state,
         isAuthenticated: false,

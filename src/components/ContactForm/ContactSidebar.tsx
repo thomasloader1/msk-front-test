@@ -16,8 +16,6 @@ const ContactSidebar = () => {
             <p>011-5263-0582</p>
           </>
         );
-      case "cl":
-        return <p>(+56) 224875300</p>;
 
       default:
         return null;

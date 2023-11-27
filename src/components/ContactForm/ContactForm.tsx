@@ -196,11 +196,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
     handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
 
-  const clearUTMAction: UTMAction = {
-    type: "CLEAR_UTM",
-    payload: {} as any,
-  };
-
   const formik = useFormik({
     initialValues,
     validationSchema: contactFormValidation,
@@ -218,8 +213,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
           switch (submitEndpoint) {
             case "contact":
               response = await api.postContactUs(body);
+              break;
             case "newsletter":
               response = await api.postNewsletter(body as Newsletter);
+              break;
           }
           // @ts-ignore
           if (response.status === 200) {
@@ -229,7 +226,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
             setFormSent(true);
             resetForm();
-            dispatchUTM(clearUTMAction);
 
             if (isEbook && typeof resourceMedia === "string") {
               try {

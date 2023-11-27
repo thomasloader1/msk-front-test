@@ -130,11 +130,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     history.push(newRoute);
   };
 
-  const clearUTMAction: UTMAction = {
-    type: "CLEAR_UTM",
-    payload: {} as any,
-  };
-
   const formRef = useRef<HTMLFormElement>(null!);
 
   const resetForm = () => {
@@ -158,7 +153,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
     utm_content: utmState.utm_content,
-    URL_ORIGEN: window.location.href
+    URL_ORIGEN: window.location.href,
   };
   const formik = useFormik({
     initialValues,
@@ -176,7 +171,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           if (response.status === 200) {
             setShow(false);
             resetForm();
-            dispatchUTM(clearUTMAction);
             setTimeout(() => {
               changeRoute("/gracias?origen=newsletter");
             }, 100);

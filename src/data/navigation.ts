@@ -524,6 +524,25 @@ const categoriesMenuBlog: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/archivo",
+    name: "Medicina",
+    search: "?categoria=Medicina",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Enfermeria",
+    search: "?categoria=Enfermería",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "E-Learning",
+    search: "?categoria=E-Learning",
+  },
+  
+ /*  {
+    id: ncNanoId(),
+    href: "/archivo",
     name: "Entrevistas",
     search: "?categoria=Entrevistas",
   },
@@ -532,7 +551,7 @@ const categoriesMenuBlog: NavItemType[] = [
     href: "/archivo",
     name: "Opinión",
     search: "?categoria=Opinión",
-  },
+  }, */
 ];
 
 const resourcesMenuBlog: NavItemType[] = [
@@ -586,6 +605,25 @@ const categoriesMenuArchive: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/archivo",
+    name: "Medicina",
+    search: "?categoria=Medicina",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Enfermeria",
+    search: "?categoria=Enfermería",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "E-Learning",
+    search: "?categoria=E-Learning",
+  },
+  
+ /*  {
+    id: ncNanoId(),
+    href: "/archivo",
     name: "Entrevistas",
     search: "?categoria=Entrevistas",
   },
@@ -594,7 +632,7 @@ const categoriesMenuArchive: NavItemType[] = [
     href: "/archivo",
     name: "Opinión",
     search: "?categoria=Opinión",
-  },
+  }, */
 ];
 
 export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [

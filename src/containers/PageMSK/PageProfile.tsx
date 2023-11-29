@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import Avatar from "components/Avatar/Avatar";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import StorePagination from "components/Store/StorePagination";
@@ -15,6 +15,7 @@ import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
+import { AuthContext } from "context/user/AuthContext";
 
 export interface PageAuthorProps {
   className?: string;
@@ -32,6 +33,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const history = useHistory();
+  const { state } = useContext(AuthContext);
 
   const fetchBestSeller = async () => {
     const res = await api.getBestSellers();
@@ -61,7 +63,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   useEffect(() => {
     fetchUser();
     fetchBestSeller();
-  }, []);
+  }, [state?.profile]);
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(posts.length / itemsPerPage);

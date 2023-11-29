@@ -1,20 +1,16 @@
 import { FC, useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import {
-  getStatusIcon,
-  goToEnroll,
-  goToLMS,
-  productFinishOrActive,
-  productStatusIsExpired,
-  statusCourse,
-} from "logic/account";
+import { goToEnroll, goToLMS, statusCourse } from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
 import calendarIcon from "../../../images/icons/calendar.svg";
 import { formatDate } from "lib/formatDate";
+import ProductAccountButton from "./ProductAccountButton";
+import InfoText from "components/InfoText/InfoText";
+import { STATUS } from "data/statusCourses";
+import useInterval from "hooks/useInterval";
 
 interface Props {
   product: UserCourseProgress;
@@ -30,9 +26,16 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const {isDisabled, hasText} = statusCourse(product.status)
+  const { isDisabled } = statusCourse(product.status);
+  const { isRunning, startWatch } = useInterval(user.email);
 
-  const activeProductRef = useRef(product.status !== 'Inactivo' && product.status !== 'Expirado');
+  const activeProductRef = useRef(
+    product.status !== "Inactivo" && product.status !== "Expirado"
+  );
+
+  const showHelp = isDisabled && !product.status.includes(STATUS.TO_ENROLL);
+  const showTip = product.status.includes(STATUS.TO_ENROLL);
+
   const productExpiration = useRef(new Date(product.expiration));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
@@ -45,31 +48,30 @@ const ProductAccount: FC<Props> = ({
   const handleClick = async () => {
     if (activeProductRef.current) {
       setOnRequest(true);
-
       try {
-        if(product.status.includes("Sin enrolar")){
-          await goToEnroll(
+        if (product.status === "Sin enrolar") {
+          const response = await goToEnroll(product.product_code, user.email);
+
+          if (response.data[0].code.includes("SUCCESS")) {
+            const watching = await startWatch(product.product_code);
+            console.log(!!watching, { watching });
+            setOnRequest(!!watching);
+          } else {
+            setOnRequest(false);
+          }
+        } else {
+          goToLMS(
             product.product_code,
-            product.product_code_cedente,
+            product.product_code_cedente as string,
             user.email
           );
-        }else{
-          await goToLMS(
-            product.product_code,
-            product.product_code_cedente,
-            user.email
-          );
+          setOnRequest(false);
         }
-        
-      } catch (e: any) {
-        console.log(e);
-      } finally {
-        setOnRequest(false);
+      } catch (e) {
+        console.error(e);
       }
     }
   };
-
-  const iconStatus = getStatusIcon(product.status)
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -143,27 +145,22 @@ const ProductAccount: FC<Props> = ({
               Fecha de expiración: {formatDate(productExpiration.current)}
             </span>
           </div>
-          {isDisabled && (
-            <CentroAyudaLink addClassNames="my-2" />
+          {showHelp && <CentroAyudaLink addClassNames="my-2" />}
+
+          {showTip && (
+            <InfoText
+              addClassNames="mt-2 "
+              text="¿No ves resultados? Intenta refrescar la pantalla."
+            />
           )}
         </div>
       </div>
-      <div className="course-2-footer text-grey-course">
-        
-          <div className="coursee-clock">
-            <img src={iconStatus} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        
-
-        <button
-          className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
-          onClick={handleClick}
-          disabled={isDisabled || onRequest}
-        >
-          {onRequest ? "Ingresando ..." : hasText}
-        </button>
-      </div>
+      <ProductAccountButton
+        product={product}
+        onRequest={onRequest}
+        isRunning={isRunning}
+        onClick={handleClick}
+      />
     </div>
   );
 };

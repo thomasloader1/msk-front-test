@@ -103,6 +103,8 @@ const PageHome: React.FC = () => {
             heading="Oportunidades para ti"
             desc="Cursos destacados para realizar a distancia"
           />
+          {/* === SECTION 3 === */}
+          <HomeExtraInfo />
           <BlogSummary
             posts={posts}
             tabs={TABS_BLOG}
@@ -112,8 +114,7 @@ const PageHome: React.FC = () => {
             desc=""
             showTitle
           />
-          {/* === SECTION 3 === */}
-          <HomeExtraInfo />
+
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />

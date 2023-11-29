@@ -1,4 +1,4 @@
-name: FTP Deploy
+name: FTP Deploy dev.msklatam.com
 
 on:
   push:
@@ -33,8 +33,8 @@ jobs:
       - name: FTP Upload (dev)
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER_SITEGROUND }}
+          username: ${{ secrets.FTP_USERNAME_SITEGROUND }}
+          password: ${{ secrets.FTP_PASSWORD_SITEGROUND }}
           local-dir: ./dist/
-          server-dir: ${{ secrets.PUBLIC_HTML_DEV }}
+          server-dir: ${{ secrets.PUBLIC_HTML_SITEGROUND_DEV }}

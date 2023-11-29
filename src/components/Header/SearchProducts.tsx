@@ -1,12 +1,10 @@
-import { Popover, Transition } from "@headlessui/react";
+import React, { useContext, useEffect, useState } from "react";
 import api from "Services/api";
-import axios from "axios";
 import Input from "components/Input/Input";
 import { CountryContext } from "context/country/CountryContext";
-import { API_URL } from "data/api";
 import { FetchCourseType } from "data/types";
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import searchIcon from "../../images/icons/search.svg";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -15,7 +13,7 @@ const SearchProducts = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const history = useHistory(); // React Router's history object
+
   const removeAccents = (str: string) => {
     return str
       .normalize("NFD")
@@ -72,16 +70,19 @@ const SearchProducts = () => {
 
   return (
     <div className="search-products">
-      <Input
-        type="search"
-        placeholder="Buscar"
-        className="pr-10 w-full"
-        sizeClass="h-[42px] pl-4 py-3"
-        value={inputValue}
-        onChange={triggerSearch}
-        onFocus={() => setIsInputFocused(true)}
-        onBlur={() => onBlur()}
-      />
+      <div className="relative">
+        <Input
+          type="search"
+          placeholder="Buscar"
+          className="pr-10 w-full"
+          sizeClass="h-[42px] pl-4 py-3"
+          value={inputValue}
+          onChange={triggerSearch}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => onBlur()}
+        />
+        <img src={searchIcon} className="absolute top-2 right-2" />
+      </div>
       {inputValue && isInputFocused && (
         <div className="search-products-results">
           {products

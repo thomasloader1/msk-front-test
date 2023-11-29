@@ -29,6 +29,7 @@ import PageTyC from "containers/PageMSK/PageTyC";
 import PageCookies from "containers/PageMSK/PageCookies";
 import PageContractConditions from "containers/PageMSK/PageContractConditions";
 import PageCancelSubscription from "containers/PageMSK/profile/PageCancelSubscription";
+import PageNewsletter from "containers/PageMSK/PageNewsletter";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -36,6 +37,7 @@ export const pages: Page[] = [
   { path: "/mision", component: PageMission, auth: false },
   { path: "/tienda", component: PageStore, auth: false },
   { path: "/contacto", component: PageContact, auth: false },
+  { path: "/newsletter", component: PageNewsletter, auth: false },
   { path: "/curso/:slug", component: PageSingleProduct, auth: false },
   { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
@@ -93,7 +95,7 @@ const Routes = () => {
       !isAuthenticated &&
       !localStorage.getItem("token")
     ) {
-      window.location.href = '/' + state.country + '/iniciar-sesion';
+      window.location.href = "/" + state.country + "/iniciar-sesion";
     }
   }, [state.country]);
 

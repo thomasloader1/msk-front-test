@@ -12,7 +12,7 @@ import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-import { Profession, Specialty } from "data/types";
+import { Newsletter, Profession, Specialty } from "data/types";
 import { API_BACKEND_URL } from "data/api";
 import axios from "axios";
 import Radio from "components/Radio/Radio";
@@ -39,6 +39,7 @@ interface ContactFormProps {
   isDownload?: boolean;
   updateFormSent?: (value: boolean, body: any) => void;
   submitReason?: string;
+  submitEndpoint?: string;
 }
 
 const ContactFormSection: FC<ContactFormProps> = ({
@@ -49,6 +50,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
   hideSideInfo,
   hideContactPreference,
   submitText = isEbook ? "Descargar" : "Enviar",
+  submitEndpoint = "contact",
   isDownload,
   submitReason,
   updateFormSent,
@@ -106,7 +108,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     year: "",
     career: "",
     URL_ORIGEN: window.location.href,
-    leadSource: isEbook ? "Descarga ebook" : ""
+    leadSource: ""
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -195,11 +197,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
     handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
 
-  const clearUTMAction: UTMAction = {
-    type: "CLEAR_UTM",
-    payload: {} as any,
-  };
-
   const formik = useFormik({
     initialValues,
     validationSchema: contactFormValidation,
@@ -213,7 +210,15 @@ const ContactFormSection: FC<ContactFormProps> = ({
       if (executeRecaptcha) {
         try {
           body.recaptcha_token = await executeRecaptcha("contact_form");
-          const response = await api.postContactUs(body);
+          let response;
+          switch (submitEndpoint) {
+            case "contact":
+              response = await api.postContactUs(body);
+              break;
+            case "newsletter":
+              response = await api.postNewsletter(body as Newsletter);
+              break;
+          }
           // @ts-ignore
           if (response.status === 200) {
             let routeChange = isEbook
@@ -222,7 +227,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
             setFormSent(true);
             resetForm();
-            dispatchUTM(clearUTMAction);
 
             if (isEbook && typeof resourceMedia === "string") {
               try {
@@ -408,7 +412,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="First_Name"
-                          placeholder="Nombre"
+                          placeholder="Ingresar nombre"
                         />
                       </div>
                     </div>
@@ -422,7 +426,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="Last_Name"
-                          placeholder="Apellido"
+                          placeholder="Ingresar apellido"
                         />
                       </div>
                     </div>
@@ -436,7 +440,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="email"
                           name="Email"
-                          placeholder="Correo electrónico"
+                          placeholder="Ingresar e-mail"
                         />
                       </div>
                     </div>
@@ -610,7 +614,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       {!isEbook && (
                         <div className="col-xl-12 mt-4">
                           <div className="contact-from-input">
-                            <label htmlFor="Description">Mensaje</label>
                             <ErrorMessage
                               name="Description"
                               component="span"

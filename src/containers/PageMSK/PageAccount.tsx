@@ -36,8 +36,8 @@ interface DashboardPage {
 
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
+  const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
-  const { dispatch } = useContext(AuthContext);
   const [courses, setCourses] = useState<UserCourseProgress[]>(
     [] as UserCourseProgress[]
   );
@@ -79,7 +79,12 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
-      dispatch({ type: "FRESH", payload: { user: { name: res.name, speciality: res.contact.speciality } } })
+      dispatch({
+        type: "FRESH",
+        payload: {
+          user: { name: res.name, speciality: res.contact.speciality },
+        },
+      });
       let coursesList = getUserCourses(res, allCourses);
       setCourses(coursesList);
       setLoading(false);
@@ -92,10 +97,13 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   useEffect(() => {
     setLoading(true);
     fetchUser();
-  }, []);
+  }, [state?.profile?.courses_progress]);
 
   return (
-    <div className={`nc-PageDashboard animate-fade-down ${className}`} data-nc-id="PageDashboard">
+    <div
+      className={`nc-PageDashboard animate-fade-down ${className}`}
+      data-nc-id="PageDashboard"
+    >
       <Helmet>
         <title>Mi cuenta</title>
       </Helmet>

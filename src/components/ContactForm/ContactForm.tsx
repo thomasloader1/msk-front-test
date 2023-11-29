@@ -73,6 +73,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const [formSent, setFormSent] = useState(false);
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
+  const [onRequest, setOnRequest] = useState(false);
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -201,6 +202,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     initialValues,
     validationSchema: contactFormValidation,
     onSubmit: async (values) => {
+      setOnRequest(true);
       let leadSource = null;
       if (submitReason) leadSource = submitReason;
       const body = {
@@ -298,6 +300,8 @@ const ContactFormSection: FC<ContactFormProps> = ({
       } else {
         console.log("Execute recaptcha not yet available1");
       }
+      setOnRequest(false);
+
     },
   });
 
@@ -664,7 +668,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                             className="cont-btn disabled:bg-grey-disabled"
                             disabled={!formik.values.Terms_And_Conditions}
                           >
-                            {submitText}
+                            {onRequest ? submitText : "Enviando ..."}
                           </button>
                         </div>
                       </div>

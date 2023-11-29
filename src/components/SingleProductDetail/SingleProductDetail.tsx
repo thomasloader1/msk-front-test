@@ -276,6 +276,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <ContactFormSection
           productName={product.ficha.title}
           isEbook={isEbook}
+          submitReason={isEbook ? "Descarga ebook" : ""}
           resourceMedia={
             isEbook ? (product?.temario_link_pdf as string) : false
           }

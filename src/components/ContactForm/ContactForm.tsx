@@ -106,7 +106,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     year: "",
     career: "",
     URL_ORIGEN: window.location.href,
-    leadSource: ""
+    leadSource: isEbook ? "Descarga ebook" : ""
   };
 
   const { contactFormValidation } = useYupValidation();

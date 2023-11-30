@@ -14,11 +14,11 @@ const PageNewsletter: FC<PageProps> = ({ className = "" }) => {
       data-nc-id="PageDashboard"
     >
       <Helmet>
-        <title>Newsletter</title>
+        <title>Nuestro Newsletter</title>
       </Helmet>
       <LayoutPage
-        heading="Newsletter"
-        subHeading="Completa el formulario y en breve nos comunicaremos contigo"
+        heading="Nuestro Newsletter"
+        subHeading="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
       >
         <FooterNewsletter email="" setShow={() => true} />
       </LayoutPage>

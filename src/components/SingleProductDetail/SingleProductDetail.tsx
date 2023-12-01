@@ -15,6 +15,7 @@ import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
 import useBestSellers from "hooks/useBestSellers";
+import ProductFeaturedText from "./ProductFeaturedText";
 interface Props {
   product: FetchSingleProduct;
 }
@@ -172,6 +173,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 <div ref={textRef} />
               </div>
             ) : null}
+
             {product.avales ? (
               <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
                 <SectionSliderPosts
@@ -182,6 +184,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 />
               </div>
             ) : null}
+
+            <ProductFeaturedText text={product.featured_product_text} />
+
             {product.requirements ? (
               <CourseRequirements
                 title="Qué necesitas"

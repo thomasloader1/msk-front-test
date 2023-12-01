@@ -396,6 +396,7 @@ export interface FetchSingleProduct {
   params: {
     slug: string;
   };
+  featured_product_text: string;
 }
 export interface FetchCourseType {
   id: number;

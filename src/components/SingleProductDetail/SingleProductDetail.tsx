@@ -174,8 +174,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               </div>
             ) : null}
 
-            {product.avales ? (
-              <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-22">
+            {product.avales && (
+              <div
+                className={`bg-neutral-100 slider-container px-10 py-10 rounded-2xl ${
+                  product.featured_product_text ? "mb-22" : "mb-24"
+                }`}
+              >
                 <SectionSliderPosts
                   postCardName="card20"
                   sliderStype="style2"
@@ -183,9 +187,11 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   uniqueSliderClass="pageHome-section6"
                 />
               </div>
-            ) : null}
+            )}
 
-            <ProductFeaturedText text={product.featured_product_text} />
+            {product.featured_product_text && (
+              <ProductFeaturedText text={product.featured_product_text} />
+            )}
 
             {product.requirements ? (
               <CourseRequirements

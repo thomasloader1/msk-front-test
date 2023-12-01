@@ -175,7 +175,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             ) : null}
 
             {product.avales ? (
-              <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
+              <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-22">
                 <SectionSliderPosts
                   postCardName="card20"
                   sliderStype="style2"

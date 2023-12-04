@@ -515,12 +515,12 @@ export const NAVIGATION_MSK: NavItemType[] = [
 ];
 
 const categoriesMenuBlog: NavItemType[] = [
-  {
+  /* {
     id: ncNanoId(),
     href: "/archivo",
     name: "Actualidad",
     search: "?categoria=Actualidad",
-  },
+  }, */
   {
     id: ncNanoId(),
     href: "/archivo",
@@ -530,7 +530,7 @@ const categoriesMenuBlog: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/archivo",
-    name: "Enfermeria",
+    name: "Enfermería",
     search: "?categoria=Enfermería",
   },
   {
@@ -539,8 +539,8 @@ const categoriesMenuBlog: NavItemType[] = [
     name: "E-Learning",
     search: "?categoria=E-Learning",
   },
-  
- /*  {
+
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Entrevistas",
@@ -596,12 +596,12 @@ export const NAVIGATION_BLOG_MSK: NavItemType[] = [
 ];
 
 const categoriesMenuArchive: NavItemType[] = [
-  {
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Actualidad",
     search: "?categoria=Actualidad",
-  },
+  }, */
   {
     id: ncNanoId(),
     href: "/archivo",
@@ -611,7 +611,7 @@ const categoriesMenuArchive: NavItemType[] = [
   {
     id: ncNanoId(),
     href: "/archivo",
-    name: "Enfermeria",
+    name: "Enfermería",
     search: "?categoria=Enfermería",
   },
   {
@@ -620,8 +620,8 @@ const categoriesMenuArchive: NavItemType[] = [
     name: "E-Learning",
     search: "?categoria=E-Learning",
   },
-  
- /*  {
+
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Entrevistas",

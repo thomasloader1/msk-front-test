@@ -67,6 +67,7 @@ export const getUserCourses = (
         avance: cp.Avance,
         ov: cp.Estado_de_OV,
         expiration: cp.Fecha_de_expiraci_n,
+        limit_enroll: cp.Fecha_limite_de_Enrolamiento,
         ...globalProduct,
         featured_image,
       };

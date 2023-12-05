@@ -16,15 +16,21 @@ import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
 import useBestSellers from "hooks/useBestSellers";
 import ProductFeaturedText from "./ProductFeaturedText";
+import { DataContext } from "context/data/DataContext";
 interface Props {
   product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
+  const { state: dataState, loadingBestSellers } = useContext(DataContext);
+  const { allBestSellers } = dataState;
+  const [bestSellers, setBestSellers] = useState([]);
+  useEffect(() => {
+    setBestSellers(allBestSellers);
+  }, [allBestSellers]);
+
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
-
-  const { courses, loading: loadingBestSellers } = useBestSellers();
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
@@ -274,7 +280,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container relative py-16 my-32">
         <BackgroundSection />
         <SectionSliderPosts
-          posts={courses}
+          posts={bestSellers}
           loading={loadingBestSellers}
           postCardName="card9"
           heading="Descubre nuestras capacitaciones destacadas"

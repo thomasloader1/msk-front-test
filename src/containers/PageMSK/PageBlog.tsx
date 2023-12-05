@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
@@ -10,13 +10,22 @@ import Newsletter from "./blog/Newsletter";
 import usePosts from "hooks/usePosts";
 import useCourses from "hooks/useCourses";
 import { FetchPostType } from "data/types";
+import { DataContext } from "context/data/DataContext";
 
 const PageBlog: React.FC = () => {
-  const { posts, loading } = usePosts();
-  const { courses } = useCourses();
+  const { state, loadingCourses, loadingPosts, loadingBestSellers } =
+    useContext(DataContext);
+  const { allCourses, allPosts, allBestSellers } = state;
+  const [courses, setCourses] = useState([]);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    setCourses(allCourses);
+    setPosts(allPosts);
+  }, [allCourses, allPosts, allBestSellers]);
+
   const welcomePosts = posts.filter(
     (p: FetchPostType, i) =>
-      i < 5 && p.categories.some(p => p.name?.includes("Actualidad"))
+      i < 5 && p.categories.some((p) => p.name?.includes("Actualidad"))
   );
   return (
     <div className="nc-PageHome relative animate-fade-down">
@@ -34,12 +43,12 @@ const PageBlog: React.FC = () => {
             tabs={[]}
             heading=""
             posts={welcomePosts}
-            loading={loading}
+            loading={loadingPosts}
           />
           <BlogSummary
             posts={posts}
             tabs={TABS_BLOG}
-            loading={loading}
+            loading={loadingPosts}
             className="py-16 lg:py-28"
             heading=""
             desc=""
@@ -50,7 +59,7 @@ const PageBlog: React.FC = () => {
             <BackgroundSection />
             <SectionSliderPosts
               posts={courses}
-              loading={loading}
+              loading={loadingCourses}
               postCardName="card9"
               heading="¿Buscas capacitarte a distancia?"
               subHeading="Estos son los cursos más elegidos entre profesionales de la salud"

@@ -181,7 +181,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("categories")}>
             Especialidades
           </h3>
-          {specialties.length && (
+          {specialties.length ? (
             <ul>
               {specialties.map((specialty, index) => {
                 return (
@@ -205,7 +205,7 @@ const StoreSideBar: FC<Props> = ({
                 );
               })}
             </ul>
-          )}
+          ) : null}
         </div>
       </div>
       <div className="course-sidebar-widget mb-2">
@@ -251,7 +251,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("price")}>
             Profesión
           </h3>
-          {professions.length && (
+          {professions.length ? (
             <ul>
               {professions.map((profession, index: number) => {
                 return (
@@ -275,7 +275,7 @@ const StoreSideBar: FC<Props> = ({
                 );
               })}
             </ul>
-          )}
+          ) : null}
         </div>
       </div>
 

@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { TABS_HOME } from "data/MSK/courses";
+import { TABS_BLOG } from "data/MSK/blog";
+import { HOME_SPECIALTIES } from "data/MSK/specialties";
+import { DataContext } from "context/data/DataContext";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import BlogSummary from "./home/BlogSummary";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
@@ -10,41 +14,20 @@ import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import { TABS_HOME } from "data/MSK/courses";
-import { TABS_BLOG } from "data/MSK/blog";
-import { HOME_SPECIALTIES } from "data/MSK/specialties";
-import api from "Services/api";
-import usePosts from "hooks/usePosts";
 
 const PageHome: React.FC = () => {
+  const { state, loadingCourses, loadingPosts, loadingBestSellers } =
+    useContext(DataContext);
+  const { allCourses, allPosts, allBestSellers } = state;
   const [courses, setCourses] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
-  const [loadingCourses, setLoadingCourses] = useState(true);
-  const [loadingBestSellers, setLoadingBestSellers] = useState(true);
-  const { posts, loading: loadingPosts } = usePosts();
 
-  const fetchCourses = async () => {
-    const allCourses = await api.getAllProductsMX();
-    setCourses(allCourses);
-    setLoadingCourses(false);
-  };
-  const fetchBestSeller = async () => {
-    const fetchedBestSellers = await api.getBestSellersMX();
-    setBestSeller(fetchedBestSellers);
-    setLoadingBestSellers(false);
-  };
   useEffect(() => {
-    fetchCourses();
-    fetchBestSeller();
-    // navigator.geolocation.getCurrentPosition(
-    //   function (position) {
-    //     console.log(position);
-    //   },
-    //   function (err) {
-    //     console.log(err);
-    //   }
-    // );
-  }, []);
+    setCourses(allCourses);
+    setPosts(allPosts);
+    setBestSeller(allBestSellers);
+  }, [allCourses, allPosts, allBestSellers]);
 
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
@@ -67,7 +50,6 @@ const PageHome: React.FC = () => {
         />
       </Helmet>
       {/* === END SEO === */}
-
       <div className="relative overflow-hidden">
         <div className="container relative">
           <SectionHero
@@ -103,8 +85,8 @@ const PageHome: React.FC = () => {
             heading="Oportunidades para ti"
             desc="Cursos destacados para realizar a distancia"
           />
-          {/* === SECTION 3 === */}
           <HomeExtraInfo />
+          {/* === SECTION 3 === */}
           <BlogSummary
             posts={posts}
             tabs={TABS_BLOG}
@@ -114,7 +96,6 @@ const PageHome: React.FC = () => {
             desc=""
             showTitle
           />
-
           {/* === SECTION 6 === */}
           <div className="relative py-16 my-32">
             <BackgroundSection />
@@ -129,11 +110,12 @@ const PageHome: React.FC = () => {
             />
           </div>
           {/* === SECTION 4 === */}
-          {/* <BlogSummary
+          <BlogSummary
             className="py-16 lg:py-28"
             posts={posts}
             tabs={TABS_BLOG}
-          /> */}
+            loading={loadingPosts}
+          />
         </div>
         {/* ======= END CONTAINER ============= */}
         {/* === SECTION  === */}

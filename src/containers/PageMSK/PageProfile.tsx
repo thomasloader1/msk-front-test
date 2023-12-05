@@ -15,31 +15,24 @@ import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
-import { AuthContext } from "context/user/AuthContext";
+import { DataContext } from "context/data/DataContext";
 
 export interface PageAuthorProps {
   className?: string;
 }
 
-const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
+  const history = useHistory();
+  const { state: dataState, loadingBestSellers } = useContext(DataContext);
+  const { allPosts, allBestSellers } = dataState;
   const [posts, setPosts] = useState<UserCourseProgress[]>([]);
+  const [bestSeller, setBestSeller] = useState([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
-  const [loadingBestSellers, setLoadingBestSellers] = useState<boolean>(true);
-  const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const history = useHistory();
-  const { state } = useContext(AuthContext);
-
-  const fetchBestSeller = async () => {
-    const res = await api.getBestSellers();
-    setBestSeller(res);
-    setLoadingBestSellers(false);
-  };
 
   const fetchUser = async () => {
     try {
@@ -61,9 +54,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
+    setPosts(allPosts);
+    setBestSeller(allBestSellers);
+  }, [allPosts, allBestSellers]);
+
+  useEffect(() => {
     fetchUser();
-    fetchBestSeller();
-  }, [state?.profile]);
+  }, []);
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(posts.length / itemsPerPage);

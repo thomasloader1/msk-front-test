@@ -7,14 +7,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-
 import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import { Newsletter, Profession, Specialty } from "data/types";
-import { API_BACKEND_URL } from "data/api";
-import axios from "axios";
 import Radio from "components/Radio/Radio";
 import api from "../../Services/api";
 import { Link, useHistory } from "react-router-dom";
@@ -22,11 +19,10 @@ import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { UTMAction } from "context/utm/UTMContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { ContactFormSchema, useYupValidation } from "hooks/useYupValidation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { fetchPdfData } from "lib/fetchPDFData";
+import { DataContext } from "context/data/DataContext";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -55,10 +51,12 @@ const ContactFormSection: FC<ContactFormProps> = ({
   submitReason,
   updateFormSent,
 }) => {
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const { state } = useContext(CountryContext);
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [selectedOptionProfession, setSelectedOptionProfession] =
@@ -78,15 +76,18 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const formRef = useRef<HTMLFormElement>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  // Create an event handler so you can call the verification on button click event or form submit
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
+
   const handleReCaptchaVerify = useCallback(async () => {
     if (!executeRecaptcha) {
       console.log("Execute recaptcha not yet available");
       return;
     }
-
     const token = await executeRecaptcha("yourAction");
-    // Do whatever you want with the token
   }, [executeRecaptcha]);
 
   const initialValues: ContactFormSchema = {
@@ -109,7 +110,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     year: "",
     career: "",
     URL_ORIGEN: window.location.href,
-    leadSource: ""
+    leadSource: "",
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -177,24 +178,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
   };
 
   useEffect(() => {
-    axios
-      .get(`${API_BACKEND_URL}/professions`)
-      .then((response) => {
-        setProfessions(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get(`${API_BACKEND_URL}/specialities`)
-      .then((response) => {
-        setSpecialties(response.data.specialities);
-        setSpecialtiesGroup(response.data.specialities_group);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
 
@@ -301,7 +284,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
         console.log("Execute recaptcha not yet available1");
       }
       setOnRequest(false);
-
     },
   });
 

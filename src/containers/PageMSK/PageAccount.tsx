@@ -1,18 +1,19 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { ComponentType, FC, useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
 import AccountHome from "./account/AccountHome";
 import { Helmet } from "react-helmet";
-import { Profession, Specialty, User, UserCourseProgress } from "data/types";
+import { User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 import { AuthContext } from "context/user/AuthContext";
+import { DataContext } from "context/data/DataContext";
 
 export interface PageDashboardProps {
   className?: string;
@@ -36,18 +37,25 @@ interface DashboardPage {
 
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
+  const history = useHistory();
+  const { state: dataState } = useContext(DataContext);
+  const { allCourses } = dataState;
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
   const [courses, setCourses] = useState<UserCourseProgress[]>(
     [] as UserCourseProgress[]
   );
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setCourses(allCourses);
+    fetchUser();
+  }, [allCourses, state?.profile?.courses_progress]);
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   const subPages: DashboardPage[] = [
     {
       sPath: "/inicio",
@@ -72,9 +80,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
   ];
 
-  const history = useHistory();
   const fetchUser = async () => {
-    const allCourses = await api.getAllProductsMX();
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
@@ -89,15 +95,10 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
       setCourses(coursesList);
       setLoading(false);
     } else {
-      console.log(res.response.status);
+      // console.log(res.response.status);
       history.push("/iniciar-sesion");
     }
   };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchUser();
-  }, [state?.profile?.courses_progress]);
 
   return (
     <div

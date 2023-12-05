@@ -41,7 +41,6 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
     case "card5":
       CardComponentName = CardCategory5;
       break;
-
     default:
       CardComponentName = CardCategory2;
   }

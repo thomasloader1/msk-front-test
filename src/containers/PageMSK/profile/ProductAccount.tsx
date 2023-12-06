@@ -26,7 +26,6 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  console.log({ product });
   const { isDisabled } = statusCourse(product.status);
   const { isRunning, startWatch } = useInterval(user.email);
 
@@ -42,7 +41,7 @@ const ProductAccount: FC<Props> = ({
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
 
-  const imageURL = product.thumbnail.high.replace(
+  const imageURL = product?.thumbnail?.high?.replace(
     `${"mx" || state.country}.`,
     ""
   );

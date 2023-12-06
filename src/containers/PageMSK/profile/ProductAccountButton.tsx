@@ -31,7 +31,9 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
         onClick={onClick}
         disabled={isDisabled || onRequest || isRunning}
       >
-        {onRequest || isRunning || status.includes("Listo para enrolar") ? (
+        {onRequest ||
+        isRunning ||
+        (status && status.includes("Listo para enrolar")) ? (
           <div className="flex justify-center items-center">
             Activando...
             {/*  <div className="w-4 h-4 my-1 border-t-2 border-primary border-solid rounded-full animate-spin"></div> */}

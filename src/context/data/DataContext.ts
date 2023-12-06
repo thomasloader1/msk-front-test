@@ -1,5 +1,12 @@
 import { createContext, Dispatch } from "react";
 
+export interface DataAction {
+  type: "GET_DATA";
+  payload: {
+    [key: string]: any;
+  };
+}
+
 export interface DataState {
   allCourses: any;
   allPosts: any;
@@ -7,13 +14,7 @@ export interface DataState {
   allProfessions: any;
   allSpecialties: any;
   allSpecialtiesGroups: any;
-}
-
-export interface DataAction {
-  type: "GET_DATA";
-  payload: {
-    [key: string]: any;
-  };
+  allProductsMX: any;
 }
 
 export const DataContext = createContext<{
@@ -22,6 +23,7 @@ export const DataContext = createContext<{
   loadingBestSellers?: boolean;
   loadingProfessions?: boolean;
   loadingSpecialties?: boolean;
+  loadingProductsMX?: boolean;
   state: DataState;
   dispatch: Dispatch<DataAction>;
 }>({
@@ -32,6 +34,7 @@ export const DataContext = createContext<{
     allProfessions: [],
     allSpecialties: [],
     allSpecialtiesGroups: [],
+    allProductsMX: [],
   },
   dispatch: () => {},
 });

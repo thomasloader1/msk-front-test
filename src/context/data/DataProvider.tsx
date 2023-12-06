@@ -13,6 +13,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
   const [loadingProfessions, setLoadingProfessions] = useState(true);
   const [loadingSpecialties, setLoadingSpecialties] = useState(true);
+  const [loadingProductsMX, setLoadingProductsMX] = useState(true);
 
   const dataInitialState = {
     allCourses: [],
@@ -21,6 +22,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     allProfessions: [],
     allSpecialties: [],
     allSpecialtiesGroups: [],
+    allProductsMX: [],
   };
 
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
@@ -90,7 +92,21 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  const fetchProductsMX = async () => {
+    try {
+      const allProductsMX = await api.getAllProductsMX();
+      dispatch({
+        type: "GET_DATA",
+        payload: { allProductsMX },
+      });
+      setLoadingProductsMX(false);
+    } catch (e) {
+      console.error({ e });
+    }
+  };
+
   useEffect(() => {
+    fetchProductsMX();
     fetchCourses();
     fetchPosts();
     fetchBestSeller();
@@ -106,6 +122,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
         loadingPosts,
         loadingProfessions,
         loadingSpecialties,
+        loadingProductsMX,
         state,
         dispatch,
       }}

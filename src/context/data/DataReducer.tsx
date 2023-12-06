@@ -7,6 +7,7 @@ export const dataInitialState = {
   allProfessions: [],
   allSpecialties: [],
   allSpecialtiesGroups: [],
+  allProductsMX: [],
 };
 
 const GET_DATA = "GET_DATA";

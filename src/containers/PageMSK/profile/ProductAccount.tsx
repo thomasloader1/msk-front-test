@@ -109,7 +109,6 @@ const ProductAccount: FC<Props> = ({
           </div>
         </div>
       ) : null}
-
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
           <div className="flex gap-2">
@@ -166,12 +165,14 @@ const ProductAccount: FC<Props> = ({
           )}
         </div>
       </div>
-      <ProductAccountButton
-        product={product}
-        onRequest={onRequest}
-        isRunning={isRunning}
-        onClick={handleClick}
-      />
+      {product ? (
+        <ProductAccountButton
+          product={product}
+          onRequest={onRequest}
+          isRunning={isRunning}
+          onClick={handleClick}
+        />
+      ) : null}
     </div>
   );
 };

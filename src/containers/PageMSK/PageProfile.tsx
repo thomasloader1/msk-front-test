@@ -54,7 +54,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
-    setPosts(allPosts);
+    // setPosts(allPosts); ROMPE
     setBestSeller(allBestSellers);
   }, [allPosts, allBestSellers]);
 

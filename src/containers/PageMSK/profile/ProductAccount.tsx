@@ -26,12 +26,11 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  console.log(product);
-  const { isDisabled } = statusCourse(product.status);
+  const { isDisabled } = statusCourse(product?.status);
   const { isRunning, startWatch } = useInterval(user.email);
 
   const activeProductRef = useRef(
-    product.status !== "Inactivo" && product.status !== "Expirado"
+    product?.status !== "Inactivo" && product?.status !== "Expirado"
   );
 
   const showHelp = isDisabled && !product.status?.includes(STATUS.TO_ENROLL);

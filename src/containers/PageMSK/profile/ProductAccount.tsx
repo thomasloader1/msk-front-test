@@ -26,6 +26,7 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
+  console.log(product);
   const { isDisabled } = statusCourse(product.status);
   const { isRunning, startWatch } = useInterval(user.email);
 
@@ -33,15 +34,15 @@ const ProductAccount: FC<Props> = ({
     product.status !== "Inactivo" && product.status !== "Expirado"
   );
 
-  const showHelp = isDisabled && !product.status.includes(STATUS.TO_ENROLL);
-  const showTip = product.status.includes(STATUS.TO_ENROLL);
+  const showHelp = isDisabled && !product.status?.includes(STATUS.TO_ENROLL);
+  const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
   const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
 
-  const imageURL = product.thumbnail.high.replace(
+  const imageURL = product.thumbnail.high?.replace(
     `${"mx" || state.country}.`,
     ""
   );

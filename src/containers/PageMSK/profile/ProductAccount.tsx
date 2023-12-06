@@ -33,15 +33,15 @@ const ProductAccount: FC<Props> = ({
     product.status !== "Inactivo" && product.status !== "Expirado"
   );
 
-  const showHelp = isDisabled && !product?.status?.includes(STATUS.TO_ENROLL);
-  const showTip = product?.status?.includes(STATUS.TO_ENROLL);
+  const showHelp = isDisabled && !product.status.includes(STATUS.TO_ENROLL);
+  const showTip = product.status.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
   const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
 
-  const imageURL = product?.thumbnail?.high?.replace(
+  const imageURL = product.thumbnail.high.replace(
     `${"mx" || state.country}.`,
     ""
   );
@@ -53,7 +53,7 @@ const ProductAccount: FC<Props> = ({
         if (product.status === "Sin enrolar") {
           const response = await goToEnroll(product.product_code, user.email);
 
-          if (response?.data[0]?.code?.includes("SUCCESS")) {
+          if (response.data[0].code.includes("SUCCESS")) {
             const watching = await startWatch(product.product_code);
             console.log(!!watching, { watching });
             setOnRequest(!!watching);

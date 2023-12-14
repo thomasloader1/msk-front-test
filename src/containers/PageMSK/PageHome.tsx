@@ -109,13 +109,6 @@ const PageHome: React.FC = () => {
               uniqueSliderClass="pageHome-section6"
             />
           </div>
-          {/* === SECTION 4 === */}
-          <BlogSummary
-            className="py-16 lg:py-28"
-            posts={posts}
-            tabs={TABS_BLOG}
-            loading={loadingPosts}
-          />
         </div>
         {/* ======= END CONTAINER ============= */}
         {/* === SECTION  === */}

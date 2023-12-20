@@ -44,7 +44,7 @@ jobs:
         env:
           VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
           VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
-          VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_PROD  }}
+          VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_PRD  }}
           VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
         run: npm run build
 

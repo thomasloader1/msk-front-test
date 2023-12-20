@@ -15,15 +15,22 @@ import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
 import useBestSellers from "hooks/useBestSellers";
+import ProductFeaturedText from "./ProductFeaturedText";
+import { DataContext } from "context/data/DataContext";
 interface Props {
   product: FetchSingleProduct;
 }
 
 const SingleProductDetail: FC<Props> = ({ product }) => {
+  const { state: dataState, loadingBestSellers } = useContext(DataContext);
+  const { allBestSellers } = dataState;
+  const [bestSellers, setBestSellers] = useState([]);
+  useEffect(() => {
+    setBestSellers(allBestSellers);
+  }, [allBestSellers]);
+
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
-
-  const { courses, loading: loadingBestSellers } = useBestSellers();
 
   useEffect(() => {
     const htmlElement = document.createElement("div");
@@ -172,8 +179,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 <div ref={textRef} />
               </div>
             ) : null}
-            {product.avales ? (
-              <div className="bg-neutral-100 slider-container px-10 py-10 rounded-2xl mb-24">
+
+            {product.avales && (
+              <div
+                className={`bg-neutral-100 slider-container px-10 py-10 rounded-2xl ${
+                  product.featured_product_text ? "mb-22" : "mb-24"
+                }`}
+              >
                 <SectionSliderPosts
                   postCardName="card20"
                   sliderStype="style2"
@@ -181,7 +193,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   uniqueSliderClass="pageHome-section6"
                 />
               </div>
-            ) : null}
+            )}
+
+            {product.featured_product_text && (
+              <ProductFeaturedText text={product.featured_product_text} />
+            )}
+
             {product.requirements ? (
               <CourseRequirements
                 title="Qué necesitas"
@@ -263,7 +280,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container relative py-16 my-32">
         <BackgroundSection />
         <SectionSliderPosts
-          posts={courses}
+          posts={bestSellers}
           loading={loadingBestSellers}
           postCardName="card9"
           heading="Descubre nuestras capacitaciones destacadas"
@@ -276,6 +293,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <ContactFormSection
           productName={product.ficha.title}
           isEbook={isEbook}
+          submitReason={isEbook ? "Descarga ebook" : ""}
           resourceMedia={
             isEbook ? (product?.temario_link_pdf as string) : false
           }

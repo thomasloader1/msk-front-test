@@ -83,6 +83,7 @@ export interface CourseProgress {
   Estado_de_OV: string | null;
   Fecha_de_compra: "2023-05-24T11:10:00-03:00";
   Fecha_de_expiraci_n: "2026-03-01T12:37:57-03:00";
+  Fecha_limite_de_Enrolamiento: "2026-03-01T12:37:57-03:00";
   Fecha_de_ltima_sesi_n: string | null;
   Fecha_finalizaci_n: string | null;
   Nombre_de_curso: string;
@@ -96,6 +97,7 @@ export interface UserCourseProgress {
   avance: string;
   ov: string;
   expiration: string;
+  limit_enroll: string;
   product_code: number;
   product_code_cedente: string;
   status: string;
@@ -396,6 +398,7 @@ export interface FetchSingleProduct {
   params: {
     slug: string;
   };
+  featured_product_text: string;
 }
 export interface FetchCourseType {
   id: number;

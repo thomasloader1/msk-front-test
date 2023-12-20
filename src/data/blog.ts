@@ -1,6 +1,6 @@
 // TABS LIST
 const TABS_HOME = ["Todo", "Novedades", "Recomendados", "Especialidades"];
-const TABS_BLOG = ["Actualidad", "Entrevistas", "Opinión"];
+const TABS_BLOG = ["Actualidad", "Medicina", "Enfermería", "E-Learning"];
 
 // COURSES LIST
 

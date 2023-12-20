@@ -15,9 +15,15 @@ interface Props {
   products: FetchCourseType[];
   professions: Profession[];
   specialties: Specialty[];
+  productsLength: number;
 }
 
-const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
+const StoreContent: FC<Props> = ({
+  products,
+  professions,
+  specialties,
+  productsLength,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const { storeFilters, addFilter, removeFilter, clearFilters } =
     useStoreFilters();
@@ -84,7 +90,6 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   useEffect(() => {
     const currentUrl = window.location.href;
     const searchQuery = currentUrl.split("?");
-
     if (searchQuery[1]) {
       const queryParams = searchQuery[1].split("&");
       clearFilters();
@@ -161,7 +166,7 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
 
       setCurrentPage(1);
     }
-  }, [location.search]);
+  }, [location.search, productsLength]);
 
   useEffect(() => {
     setCurrentPage(1);

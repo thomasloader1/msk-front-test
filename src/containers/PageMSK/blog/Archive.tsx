@@ -8,12 +8,12 @@ import SectionSliderPosts from "../home/SectionSliderPosts";
 import { CountryContext } from "context/country/CountryContext";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
-import api from "Services/api";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 import { removeAccents } from "lib/removeAccents";
 import Button from "components/Button/Button";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "../note/SpecialtiesModal";
+import { DataContext } from "context/data/DataContext";
 
 export interface PageArchiveProps {
   className?: string;
@@ -34,27 +34,32 @@ const CATEGORIES_FILTERS = [
 const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
 
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
-  const [title, setTitle] = useState("Actualidad");
-  const [posts, setPosts] = useState([]);
-  const [auxPosts, setAuxPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    state: dataState,
+    loadingCourses,
+    loadingPosts,
+    loadingBestSellers,
+  } = useContext(DataContext);
+  const { allPosts, allBestSellers } = dataState;
+  const [posts, setPosts] = useState(allPosts);
+  const [auxPosts, setAuxPosts] = useState(allPosts);
   const [bestSeller, setBestSeller] = useState([]);
-  const { state } = useContext(CountryContext);
+  useEffect(() => {
+    setPosts(allPosts);
+    setAuxPosts(allPosts);
+    setBestSeller(allBestSellers);
+  }, [allPosts, allBestSellers]);
+
+  const [title, setTitle] = useState("Actualidad");
+  const [currentPage, setCurrentPage] = useState(1);
   const [showSpecialties, setShowSpecialties] = useState(false);
   const itemsPerPage = 12;
 
-  // Calcular el índice del primer y último elemento en la página actual
+  // pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // Obtener los elementos de la página actual
   const currentItems: any[] = posts.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Calcular el número total de páginas
   const totalPages = Math.ceil(posts.length / itemsPerPage);
-
-  // Función para cambiar la página
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -92,34 +97,6 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
       setPosts(the_most_read);
     }
   };
-
-  const fetchPosts = async () => {
-    const fetchedPosts = await api.getPosts(state?.country);
-    let categoryValue = decodeURIComponent(
-      window.location.search.replace(/^.*\?categoria=/, "")
-    );
-    let filteredPosts: any = fetchedPosts;
-    if (categoryValue) {
-      filteredPosts = fetchedPosts.filter((post: PostDataType) => {
-        return post.categories.some((category) =>
-          category.name.includes(categoryValue)
-        );
-      });
-    }
-    setPosts(filteredPosts);
-    setAuxPosts(fetchedPosts);
-    setLoading(false);
-  };
-
-  const fetchBestSeller = async () => {
-    const fetchedBestSellers = await api.getBestSellers();
-    setBestSeller(fetchedBestSellers);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-    fetchBestSeller();
-  }, []);
 
   useEffect(() => {
     let categoryValue = decodeURIComponent(
@@ -190,8 +167,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
               className="ml-auto"
             />
           </div>
-
-          {loading ? (
+          {loadingPosts ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {
                 return loader;
@@ -232,7 +208,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             <BackgroundSection />
             <SectionSliderPosts
               posts={bestSeller}
-              loading={loading}
+              loading={loadingBestSellers}
               postCardName="card9"
               heading="¿Buscas capacitarte a distancia?"
               subHeading="Estos son los cursos más elegidos entre profesionales de la salud"

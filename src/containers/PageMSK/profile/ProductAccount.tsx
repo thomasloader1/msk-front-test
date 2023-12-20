@@ -26,21 +26,22 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const { isDisabled } = statusCourse(product.status);
+  const { isDisabled } = statusCourse(product?.status);
   const { isRunning, startWatch } = useInterval(user.email);
 
   const activeProductRef = useRef(
-    product.status !== "Inactivo" && product.status !== "Expirado"
+    product?.status !== "Inactivo" && product?.status !== "Expirado"
   );
 
-  const showHelp = isDisabled && !product.status.includes(STATUS.TO_ENROLL);
-  const showTip = product.status.includes(STATUS.TO_ENROLL);
+  const showHelp = isDisabled && !product.status?.includes(STATUS.TO_ENROLL);
+  const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
+  const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
 
-  const imageURL = product.thumbnail.high.replace(
+  const imageURL = product.thumbnail.high?.replace(
     `${"mx" || state.country}.`,
     ""
   );
@@ -108,7 +109,6 @@ const ProductAccount: FC<Props> = ({
           </div>
         </div>
       ) : null}
-
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
           <div className="flex gap-2">
@@ -139,12 +139,22 @@ const ProductAccount: FC<Props> = ({
               {product?.lista_de_cedentes[0].post_title}
             </p>
           )} */}
-          <div className="flex items-center mt-2 ">
-            <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-            <span className="text-violet-wash text-sm">
-              Fecha de expiración: {formatDate(productExpiration.current)}
-            </span>
-          </div>
+          {product.expiration ? (
+            <div className="flex items-center mt-2 ">
+              <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+              <span className="text-violet-wash text-sm">
+                Fecha de expiración: {formatDate(productExpiration.current)}
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center mt-2 ">
+              <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+              <span className="text-violet-wash text-sm">
+                Fecha límite de activación:{" "}
+                {formatDate(productExpirationEnroll.current)}
+              </span>
+            </div>
+          )}
           {showHelp && <CentroAyudaLink addClassNames="my-2" />}
 
           {showTip && (
@@ -155,12 +165,14 @@ const ProductAccount: FC<Props> = ({
           )}
         </div>
       </div>
-      <ProductAccountButton
-        product={product}
-        onRequest={onRequest}
-        isRunning={isRunning}
-        onClick={handleClick}
-      />
+      {product ? (
+        <ProductAccountButton
+          product={product}
+          onRequest={onRequest}
+          isRunning={isRunning}
+          onClick={handleClick}
+        />
+      ) : null}
     </div>
   );
 };

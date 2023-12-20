@@ -15,25 +15,27 @@ import api from "Services/api";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
+import { DataContext } from "context/data/DataContext";
 
 export interface PageStoreProps {
   className?: string;
 }
 
 const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
-  const [isLoading, setLoading] = useState(false);
+  const { state: dataState, loadingCourses } = useContext(DataContext);
+  const { allCourses, allProfessions, allSpecialties } = dataState;
+  const [isLoading, setLoading] = useState(loadingCourses);
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
   const [products, setProducts] = useState<FetchCourseType[]>([]);
-  const [specialties, setSpecialties] = useState([]);
-  const [professions, setProfessions] = useState([]);
   const { storeFilters, clearFilters } = useStoreFilters();
   const { state, dispatch } = useContext(CountryContext);
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const history = useHistory();
-
   useEffect(() => {
     if (state && state.error) {
       console.log("ERROR:", state.error);
-      fetchProducts();
+
       setTimeout(() => {
         history.push(history.location.pathname);
       }, 1500);
@@ -41,16 +43,17 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   }, [state]);
 
   // FETCH DATA
-  const fetchProducts = async () => {
-    try {
-      const productList = await api.getAllCourses(state, dispatch);
-      setAuxProducts([...productList]);
-      setProducts(productList);
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    setAuxProducts([...allCourses]);
+    setProducts(allCourses);
+    setLoading(false);
+  }, [allCourses, allProfessions, allSpecialties, loadingCourses]);
+
+  // useEffect(() => {
+  //   clearFilters();
+  //   // setLoading(true);
+  // }, []);
+
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
@@ -62,11 +65,10 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   useEffect(() => {
     clearFilters();
-    setLoading(true);
-
-    fetchProducts();
     fetchProfessions();
     fetchSpecialties();
+    setLoading(false);
+    applyFilters();
   }, []);
 
   // FILTERS
@@ -282,7 +284,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               storeFilters.duration.length
             }
           />
-          {isLoading ? (
+          {loadingCourses ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {
                 return loader;
@@ -293,6 +295,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               products={products}
               specialties={specialties}
               professions={professions}
+              productsLength={auxProducts.length}
             />
           )}
         </section>

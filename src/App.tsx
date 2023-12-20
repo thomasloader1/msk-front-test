@@ -5,6 +5,7 @@ import MyRouter from "routers";
 import { CountryProvider } from "context/country/CountryProvider";
 import UTMProvider from "context/utm/UTMProvider";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import DataProvider from "context/data/DataProvider";
 
 function App() {
   const isDevEnvironment = window.location.hostname === 'dev.msklatam.com';
@@ -14,15 +15,17 @@ function App() {
         {isDevEnvironment && <meta name="robots" content="noindex, follow" />}
       </Helmet>
       <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_PK}>
-        <UTMProvider>
-          <CountryProvider>
-            <AuthProvider>
-              <StoreFiltersProvider>
-                <MyRouter />
-              </StoreFiltersProvider>
-            </AuthProvider>
-          </CountryProvider>
-        </UTMProvider>
+        <DataProvider>
+          <UTMProvider>
+            <CountryProvider>
+              <AuthProvider>
+                <StoreFiltersProvider>
+                  <MyRouter />
+                </StoreFiltersProvider>
+              </AuthProvider>
+            </CountryProvider>
+          </UTMProvider>
+        </DataProvider>
       </GoogleReCaptchaProvider>
     </div>
   );

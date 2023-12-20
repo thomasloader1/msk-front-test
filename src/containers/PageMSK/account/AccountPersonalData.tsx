@@ -1,6 +1,4 @@
 import Button from "components/Button/Button";
-import Input from "components/Input/Input";
-import Label from "components/Label/Label";
 import {
   ChangeEvent,
   Dispatch,
@@ -22,6 +20,7 @@ import * as Yup from "yup";
 import { CountryCode } from "libphonenumber-js/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { countries } from "data/countries";
+import { DataContext } from "context/data/DataContext";
 
 interface Props {
   user: User;
@@ -30,7 +29,10 @@ interface Props {
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
-
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
   const { state } = useContext(CountryContext);
   const [userData, setUserData] = useState(user);
   const [formSubmitted, setFormSubmitted] = useState(true);
@@ -39,8 +41,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [localUser, setLocalUser] = useState<Contact>(
     userData.contact as Contact
   );
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
@@ -59,15 +59,12 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>(
     userData?.contact?.phone || ""
   );
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const response = await api.getSpecialtiesAndGroups();
-    setSpecialties(response.specialities);
-    setSpecialtiesGroup(response.specialities_group);
-  };
+
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
 
   const handleOptionCareerChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -75,11 +72,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     const { value } = event.target;
     setSelectedCareer(value);
   };
-
-  useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
-  }, []);
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);

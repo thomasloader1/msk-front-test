@@ -1183,6 +1183,7 @@
 
   ul li {
     padding: 12px 16px;
+    position: relative;
 
     .item-mark {
       background: #c1c7d2;
@@ -1192,6 +1193,19 @@
       margin-top: 4px;
     }
   }
+  
+  //Bullets para modulos
+  li::before {
+    content: "●";
+    font-size: 5px;
+    margin-right: 6px;
+    margin-left: 3px;
+    top: 13px;
+    position: absolute;
+    display: inline-block;
+    left: 0px;
+}
+
 }
 
 .protfolio-course-2-wrapper:hover {

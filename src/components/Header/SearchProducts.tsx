@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import api from "Services/api";
+import { useContext, useEffect, useState } from "react";
 import Input from "components/Input/Input";
 import { CountryContext } from "context/country/CountryContext";
 import { FetchCourseType } from "data/types";
 import { Link, useLocation } from "react-router-dom";
 import searchIcon from "../../images/icons/search.svg";
+import { DataContext } from "context/data/DataContext";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -13,6 +13,8 @@ const SearchProducts = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
+  const { state: dataState, loadingCourses } = useContext(DataContext);
+  const { allCourses, allPosts } = dataState;
 
   const removeAccents = (str: string) => {
     return str
@@ -36,20 +38,6 @@ const SearchProducts = () => {
     }
   };
 
-  const fetchBlogPosts = async () => {
-    const postsList = await api.getPosts(state?.country);
-    setAuxProducts([...postsList]);
-    setProducts(postsList);
-    setIsOnBlog(true);
-  };
-
-  const fetchProducts = async () => {
-    const productList = await api.getAllCourses();
-    setAuxProducts([...productList]);
-    setProducts(productList);
-    setIsOnBlog(false);
-  };
-
   const onBlur = () => {
     setTimeout(() => {
       setIsInputFocused(false);
@@ -62,11 +50,15 @@ const SearchProducts = () => {
   const location = useLocation();
   useEffect(() => {
     if (location.pathname.includes("/blog")) {
-      fetchBlogPosts();
+      setAuxProducts([...allPosts]);
+      setProducts(allPosts);
+      setIsOnBlog(true);
     } else {
-      fetchProducts();
+      setAuxProducts([...allCourses]);
+      setProducts(allCourses);
+      setIsOnBlog(false);
     }
-  }, [location.pathname]);
+  }, [location.pathname, allCourses, allPosts]);
 
   return (
     <div className="search-products">

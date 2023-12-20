@@ -54,11 +54,19 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
 
           console.log("stateCountry: " + state.country);
           console.log("currentCountry: " + currentCountry);
+
           if (
             state.country != currentCountry ||
             getCountryFromURL() != currentCountry
           ) {
-            redirectUrl = "/" + currentCountry + window.location.pathname;
+            if (
+              validCountries.includes(currentPathName) &&
+              currentPathName != currentCountry
+            ) {
+              redirectUrl = "/" + currentCountry;
+            } else {
+              redirectUrl = "/" + currentCountry + window.location.pathname;
+            }
             console.log("redirectUrl1: " + redirectUrl);
             if (getCountryFromURL() != "") {
               redirectUrl = window.location.href
@@ -70,7 +78,6 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             }
             console.log("redirectUrl2: " + redirectUrl);
           }
-
           if (
             window.location.protocol === "http:" &&
             window.location.hostname !== "localhost"

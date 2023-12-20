@@ -22,7 +22,6 @@ export interface ContactFormSchema {
   recaptcha_token?: string | null;
   URL_ORIGEN?: string;
   leadSource?: string | null;
-
 }
 export interface TemarioFormSchema {
   First_Name: string;

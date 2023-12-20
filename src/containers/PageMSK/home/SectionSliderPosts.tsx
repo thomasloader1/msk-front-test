@@ -3,7 +3,6 @@ import Heading from "components/Heading/Heading";
 import Card4 from "components/Card4/Card4";
 import Card7 from "components/Card7/Card7";
 import Glide from "@glidejs/glide";
-import { PostDataType } from "data/types";
 import Card9 from "components/Card9/Card9";
 import NextPrev from "components/NextPrev/NextPrev";
 import Card10 from "components/Card10/Card10";
@@ -181,7 +180,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               {posts?.map((item: any, index: number) => (
                 <li
                   key={index}
-                  className={`glide__slide h-auto relative  ${
+                  className={`glide__slide h-auto relative ${
                     sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
                   }`}
                 >

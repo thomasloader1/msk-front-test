@@ -1,7 +1,7 @@
 import api from "Services/api";
 import axios from "axios";
 import { API_BACKEND_URL } from "data/api";
-import { ContactUs, Newsletter, Specialty } from "data/types";
+import { ContactUs, Newsletter, Profession, Specialty } from "data/types";
 
 import React, {
   FC,
@@ -25,6 +25,7 @@ import {
 } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { CountryContext } from "context/country/CountryContext";
+import { DataContext } from "context/data/DataContext";
 
 interface Props {
   email: string;
@@ -50,15 +51,22 @@ const validationSchema = Yup.object().shape({
 });
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
 
-  const [professions, setProfessions] = useState([]);
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
@@ -66,21 +74,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const { state } = useContext(CountryContext);
 
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    axios
-      .get(`${API_BACKEND_URL}/specialities`)
-      .then((response) => {
-        setSpecialties(response.data.specialities);
-        setSpecialtiesGroup(response.data.specialities_group);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const fetchNewsletterSpecialties = async () => {
     const newsletterSpecialtyList = await api.getNewsletterSpecialties();
     setNewsletterSpecialties(newsletterSpecialtyList);
@@ -119,8 +112,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   };
 
   useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
     fetchNewsletterSpecialties();
   }, []);
 
@@ -259,7 +250,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                   Seleccionar profesión
                 </option>
                 {professions
-                  ? professions.map((p: { id: string; name: string }) => (
+                  ? professions.map((p: Profession) => (
                       <option key={p.id} value={`${p.name}/${p.id}`}>
                         {p.name}
                       </option>

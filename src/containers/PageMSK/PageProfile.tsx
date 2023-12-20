@@ -1,49 +1,47 @@
 import { FC, useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { User, UserCourseProgress } from "data/types";
+import { useHistory } from "react-router-dom";
+import { getUserCourses } from "Services/user";
+import { DataContext } from "context/data/DataContext";
 import Avatar from "components/Avatar/Avatar";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
-import { Helmet } from "react-helmet";
-import { User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import { useHistory } from "react-router-dom";
-import { getUserCourses } from "Services/user";
 import Heading from "components/Heading/Heading";
 import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
-import { AuthContext } from "context/user/AuthContext";
 
 export interface PageAuthorProps {
   className?: string;
 }
 
-const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
 const TABS = ["Mis cursos", "Todo", "Favoritos"];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
+  const history = useHistory();
+  const {
+    state: dataState,
+    loadingBestSellers,
+    loadingProductsMX,
+  } = useContext(DataContext);
+  const { allPosts, allBestSellers, allProductsMX } = dataState;
   const [posts, setPosts] = useState<UserCourseProgress[]>([]);
+  const [bestSeller, setBestSeller] = useState([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [user, setUser] = useState<User>({} as User);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
-  const [loadingBestSellers, setLoadingBestSellers] = useState<boolean>(true);
-  const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const history = useHistory();
-  const { state } = useContext(AuthContext);
-
-  const fetchBestSeller = async () => {
-    const res = await api.getBestSellers();
-    setBestSeller(res);
-    setLoadingBestSellers(false);
-  };
+  const [currentItems, setCurrentItems] = useState<UserCourseProgress[]>([]);
 
   const fetchUser = async () => {
     try {
-      const productList = await api.getAllProductsMX();
+      const productList = allProductsMX;
       const res = await api.getUserData();
       if (!res.message) {
         setUser(res);
@@ -60,18 +58,23 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-    fetchBestSeller();
-  }, [state?.profile]);
-
   const itemsPerPage = 8;
   const totalPages = Math.ceil(posts.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Función para cambiar la página
+  useEffect(() => {
+    if (!loadingProductsMX) fetchUser();
+  }, [allProductsMX, loadingProductsMX]);
+
+  useEffect(() => {
+    setBestSeller(allBestSellers);
+  }, [allPosts, allBestSellers]);
+
+  useEffect(() => {
+    setCurrentItems(posts.slice(indexOfFirstItem, indexOfLastItem));
+  }, [indexOfFirstItem, indexOfLastItem, posts]);
+
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -143,7 +146,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         <main>
           <Heading desc="">Mis Cursos </Heading>
 
-          {loadingUser ? (
+          {loadingUser || loadingProductsMX ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
               <ItemSkeleton />
               <ItemSkeleton />

@@ -188,7 +188,6 @@ class ApiService {
   async getProfessions() {
     try {
       const res = await axios.get(`${baseUrl}/api/professions`);
-
       return res.data;
     } catch (error) {
       return error;
@@ -303,7 +302,7 @@ class ApiService {
     }
   }
 
-  async getPosts(country: string) {
+  async getPosts(country?: string) {
     try {
       let validCountries = countries.map((item) => item.id);
       const countryParam = validCountries.includes(COUNTRY || "")

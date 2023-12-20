@@ -8,7 +8,7 @@ const API_BACKEND_LARAVEL = PROD
   : `${VITE_PUBLIC_URL_DEV}/api`;
 
 const baseUrl = PROD
-  ? `${VITE_PUBLIC_URL}/msk-laravel/public`
+  ? VITE_PUBLIC_URL
   : VITE_PUBLIC_URL_DEV;
 const API_BACKEND_URL = API_BACKEND_LARAVEL;
 const IP_API = `${API_BACKEND_LARAVEL}/getCountryByIP`;

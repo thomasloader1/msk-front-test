@@ -14,6 +14,7 @@ function App() {
        <Helmet>
         {isDevEnvironment && <meta name="robots" content="noindex, follow" />}
       </Helmet>
+      
       <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_PK}>
         <DataProvider>
           <UTMProvider>

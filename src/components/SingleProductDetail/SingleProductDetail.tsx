@@ -11,12 +11,12 @@ import ContactFormSection from "components/ContactForm/ContactForm";
 import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import { Helmet } from "react-helmet";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
 import useBestSellers from "hooks/useBestSellers";
 import ProductFeaturedText from "./ProductFeaturedText";
 import { DataContext } from "context/data/DataContext";
+import PageHead from "containers/PageMSK/PageHead";
 interface Props {
   product: FetchSingleProduct;
 }
@@ -76,12 +76,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
-      <Helmet>
-        <title>
-          {`${product?.ficha.title}`} | MSK Medical & Scientific Knowledge
-        </title>
-        <meta name="description" content={`${textDesctiption}`} />
-      </Helmet>
+      <PageHead title={`${product?.ficha.title}`} description={textDesctiption} />
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div className="">
           <div className="course-details-wrapper animate-fade-down">

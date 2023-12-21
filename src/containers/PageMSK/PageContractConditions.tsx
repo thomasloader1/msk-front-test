@@ -7,6 +7,7 @@ import { useAppDispatch } from "app/hooks";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
 import useContractConditions from "hooks/useContractConditions";
+import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
     id: "eae0212192f63287e0c212",
@@ -101,9 +102,7 @@ const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
 
     return (
         <>
-            <Helmet>
-                <title>Condiciones de Uso Contratación</title>
-            </Helmet>
+        <PageHead title="Condiciones de Uso Contratación" />
             <div
                 className={`nc-PageSingleTemp3Sidebar animate-fade-down ${className}`}
                 data-nc-id="PageSingleTemp3Sidebar"

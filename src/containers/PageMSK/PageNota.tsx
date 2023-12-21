@@ -3,14 +3,10 @@ import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/note/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
 import { useAppDispatch } from "app/hooks";
-import { changeCurrentPage } from "app/pages/pages";
 import SingleHeader from "../PageMSK/note/SingleHeader";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "data/api";
 import NcImage from "components/NcImage/NcImage";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-import TextSkeleton from "components/Skeleton/TextSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import api from "Services/api";
@@ -66,8 +62,10 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
     getNote();
   }, [slug]);
 
+
   return (
     <>
+   
       {loading ? (
         <>
           <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">

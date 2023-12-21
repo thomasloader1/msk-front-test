@@ -14,6 +14,7 @@ import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 import { AuthContext } from "context/user/AuthContext";
 import { DataContext } from "context/data/DataContext";
+import PageHead from "./PageHead";
 
 export interface PageDashboardProps {
   className?: string;
@@ -105,9 +106,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
       className={`nc-PageDashboard animate-fade-down ${className}`}
       data-nc-id="PageDashboard"
     >
-      <Helmet>
-        <title>Mi cuenta</title>
-      </Helmet>
+      <PageHead title="Mi cuenta" />
       <LayoutPage
         heading="Mi cuenta"
         subHeading="Aquí podrás controlar todo lo referido a tus capacitaciones y tu perfil personal"

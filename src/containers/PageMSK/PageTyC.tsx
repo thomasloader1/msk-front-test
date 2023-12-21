@@ -8,6 +8,7 @@ import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
 import useTyC from "hooks/useTyC";
+import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -102,9 +103,8 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Términos y condiciones</title>
-      </Helmet>
+    <PageHead title="Términos y condiciones" />
+
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

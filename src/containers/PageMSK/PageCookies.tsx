@@ -9,6 +9,7 @@ import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
 import useCookiesTerms from "hooks/useCookiesTerms";
+import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -103,9 +104,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Política de cookies</title>
-      </Helmet>
+    <PageHead title="Política de cookies" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

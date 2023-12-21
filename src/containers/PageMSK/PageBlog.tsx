@@ -11,6 +11,8 @@ import usePosts from "hooks/usePosts";
 import useCourses from "hooks/useCourses";
 import { FetchPostType } from "data/types";
 import { DataContext } from "context/data/DataContext";
+import { removeUrlParams } from "lib/removeUrlParams";
+import PageHead from "./PageHead";
 
 const PageBlog: React.FC = () => {
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =
@@ -27,12 +29,11 @@ const PageBlog: React.FC = () => {
     (p: FetchPostType, i) =>
       i < 5 && p.categories.some((p) => p.name?.includes("Actualidad"))
   );
+
   return (
     <div className="nc-PageHome relative animate-fade-down">
-      <Helmet>
-        <title>MSK | Blog</title>
-      </Helmet>
 
+      <PageHead title="Blog" />
       {/* ======== ALL SECTIONS ======== */}
       <div className="relative overflow-hidden">
         {/* ======== BG GLASS ======== */}

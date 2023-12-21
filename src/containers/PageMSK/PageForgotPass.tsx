@@ -3,9 +3,9 @@ import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
-import { Helmet } from "react-helmet";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
+import PageHead from "./PageHead";
 
 export interface PageForgotPassProps {
   className?: string;
@@ -44,14 +44,14 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
       setError(data.error);
     }
   };
+
   return (
     <div
       className={`nc-PageForgotPass animate-fade-down ${className}`}
       data-nc-id="PageForgotPass"
     >
-      <Helmet>
-        <title>MSK | Olvidaste la contraseña</title>
-      </Helmet>
+      <PageHead title="Olvidaste la contraseña" />
+
       <LayoutPage
         heading="Cambiar contraseña"
         subHeading="Te enviaremos un correo para que puedas crear una nueva"

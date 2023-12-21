@@ -16,6 +16,7 @@ import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
+import PageHead from "./PageHead";
 
 export interface PageAuthorProps {
   className?: string;
@@ -108,10 +109,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
-      <Helmet>
-        <title>Mi Perfil</title>
-      </Helmet>
-
+<PageHead  title="Mi perfil"/>
       {/* HEADER */}
       <div className="animate-fade-down">
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">

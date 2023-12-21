@@ -1,11 +1,8 @@
 import React, { FC } from "react";
 import SingleTitle from "./SingleTitle";
 import { SinglePageType } from "./SingleSidebar";
-import PostMeta2 from "components/PostMeta2/PostMeta2";
-import SingleMetaAction2 from "./SingleMetaAction2";
-import { Helmet } from "react-helmet";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import { CategoryWP } from "data/types";
+import PageHead from "../PageHead";
 
 export interface SingleHeaderProps {
   pageData: SinglePageType;
@@ -26,11 +23,8 @@ const SingleHeader: FC<SingleHeaderProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={excerpt} />
-        <meta name="theme-color" content="#008f68" />
-      </Helmet>
+      <PageHead title={title} description={excerpt} />
+
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5 note-header-blog">
           <CategoryBadgeList itemClass="!px-3" categories={categories} />

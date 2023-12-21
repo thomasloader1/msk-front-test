@@ -1,6 +1,7 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
+import PageHead from "./PageHead";
 
 export interface PageEmailSentProps {
   className?: string;
@@ -13,9 +14,7 @@ const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
 
   return (
     <div className={`nc-PageEmailSent animate-fade-down ${className}`} data-nc-id="PageEmailSent">
-      <Helmet>
-        <title>MSK | Correo enviado</title>
-      </Helmet>
+      <PageHead title="Correo enviado" />
       <LayoutPage subHeading="" heading=" ">
         <div className="thank-you-wrp py-16">
           <h1 className="text-center thank-you-title">¡Listo!</h1>

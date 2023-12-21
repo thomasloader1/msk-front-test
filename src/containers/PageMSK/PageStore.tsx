@@ -3,7 +3,6 @@ import StoreLayout from "./store/StoreLayout";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
 import LoadingImage from "components/Loader/Image";
-import { Helmet } from "react-helmet";
 import {
   DurationFilter,
   FetchCourseType,
@@ -16,6 +15,7 @@ import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
 import { DataContext } from "context/data/DataContext";
+import PageHead from "./PageHead";
 
 export interface PageStoreProps {
   className?: string;
@@ -251,20 +251,14 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   for (let i = 0; i < 9; i++) {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
+
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}
       data-nc-id="PageStore"
     >
       {/* === SEO === */}
-      <Helmet>
-        <html lang="es" />
-        <title>MSK | Tienda</title>
-        <meta
-          name="description"
-          content="Una propuesta moderna para expandir tus metas profesionales"
-        />
-      </Helmet>
+      <PageHead title="Tienda" description="Una propuesta moderna para expandir tus metas profesionales" />
       {/* === END SEO === */}
 
       <StoreLayout

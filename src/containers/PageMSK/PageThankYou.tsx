@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Helmet } from "react-helmet";
 import { useHistory, useLocation } from "react-router-dom";
+import PageHead from "./PageHead";
 
 export interface PageThankYouProps {
   className?: string;
@@ -54,9 +55,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
 
   return (
     <div className={`nc-PageThankYou animate-fade-down ${className}`} data-nc-id="PageThankYou">
-      <Helmet>
-        <title>MSK | Gracias</title>
-      </Helmet>
+      <PageHead title="Gracias"/>
       <LayoutPage subHeading="" heading=" ">
         <div className="thank-you-wrp">
           <h1 className="text-center thank-you-title">¡Listo!</h1>

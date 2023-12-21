@@ -5,7 +5,6 @@ import { CommentType } from "components/CommentCard/CommentCard";
 import Card11 from "components/Card11/Card11";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "../home/SectionSliderPosts";
-import { CountryContext } from "context/country/CountryContext";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
@@ -14,6 +13,7 @@ import Button from "components/Button/Button";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "../note/SpecialtiesModal";
 import { DataContext } from "context/data/DataContext";
+import PageHead from "../PageHead";
 
 export interface PageArchiveProps {
   className?: string;
@@ -124,6 +124,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   return (
     <>
+    <PageHead title="Archivo" />
       <div
         className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"

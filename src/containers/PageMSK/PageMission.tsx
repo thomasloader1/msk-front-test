@@ -5,6 +5,9 @@ import { CommentType } from "components/CommentCard/CommentCard";
 import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
 import SingleHeader from "../PageMSK/mission/SingleHeader";
+import { removeUrlParams } from "lib/removeUrlParams";
+import { Helmet } from 'react-helmet';
+import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -112,8 +115,13 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
     };
   }, []);
 
+  const isDevEnvironment = window.location.hostname === 'dev.msklatam.com';
+  const canonicalUrl = removeUrlParams(window.location.href)
+
   return (
     <>
+    <PageHead title="Misión" />
+
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

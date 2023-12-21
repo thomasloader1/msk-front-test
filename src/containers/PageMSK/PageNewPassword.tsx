@@ -6,6 +6,7 @@ import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "Services/api";
 import { useHistory, useParams } from "react-router-dom";
+import PageHead from "./PageHead";
 
 export interface PageNewPasswordProps {
     className?: string;
@@ -56,9 +57,7 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
             className={`nc-PageForgotPass animate-fade-down ${className}`}
             data-nc-id="PageForgotPass"
         >
-            <Helmet>
-                <title>MSK | Cambia tu contraseña</title>
-            </Helmet>
+            <PageHead title="Cambia tu contraseña" />
             <LayoutPage
                 heading="Cambiar contraseña"
                 subHeading="Te enviaremos un correo para que puedas crear una nueva"

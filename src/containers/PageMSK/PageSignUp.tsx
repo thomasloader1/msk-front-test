@@ -1,7 +1,6 @@
 import React, { FC, useContext, useReducer, useRef, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
@@ -15,6 +14,7 @@ import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import PageHead from "./PageHead";
 export interface PageSignUpProps {
   className?: string;
 }
@@ -185,14 +185,14 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     },
   });
 
+
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}
       data-nc-id="PageSignUp"
     >
-      <Helmet>
-        <title>MSK | Crear cuenta</title>
-      </Helmet>
+            <PageHead title="Crear cuenta" />
+
       <LayoutPage
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
         heading="Crear cuenta"

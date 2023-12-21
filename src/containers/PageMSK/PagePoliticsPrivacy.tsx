@@ -8,6 +8,7 @@ import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import usePoliticsPrivacy from "hooks/usePoliticsPrivacy";
 import SingleHeader from "./privacy/SingleHeader";
+import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -102,9 +103,7 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Política de privacidad</title>
-      </Helmet>
+      <PageHead title="Política de privacidad" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

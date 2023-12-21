@@ -1,25 +1,19 @@
 import React, {
     FC,
-    useContext,
     useEffect,
-    useReducer,
     useRef,
     useState,
 } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import {Helmet} from "react-helmet";
-import api from "../../../Services/api";
 import {Link, useHistory} from "react-router-dom";
-import {utmInitialState, utmReducer} from "context/utm/UTMReducer";
-import {ErrorMessage, Field, Form, FormikProvider, useFormik} from "formik";
-import {useYupValidation} from "hooks/useYupValidation";
 
 import {
   setDependent,
   zsRegenerateCaptcha,
     isFormDisabled
 } from "./arrepentimientoCompra";
+import { removeUrlParams } from "lib/removeUrlParams";
+import PageHead from "../PageHead";
 
 export const argDocumentTypes = [
     {
@@ -63,9 +57,7 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
             className={`nc-PageCancelSubscription ${className} animate-fade-down`}
             data-nc-id="PageCancelSubscription"
         >
-            <Helmet>
-                <title>MSK | Cancelar inscripción</title>
-            </Helmet>
+            <PageHead title="Cancelar inscripción" />
             <LayoutPage
                 heading="Cancelar inscripción"
                 subHeading="Puedes solicitar la cancelación de tu inscripción a un curso hasta 10 días hábiles luego de adquirido el mismo "

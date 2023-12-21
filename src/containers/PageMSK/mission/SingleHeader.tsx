@@ -25,9 +25,6 @@ const SingleHeader: FC<SingleHeaderProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Misión</title>
-      </Helmet>
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5">
           {/* <CategoryBadgeList itemClass="!px-3" categories={categories} /> */}

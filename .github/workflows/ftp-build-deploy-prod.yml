@@ -1,0 +1,39 @@
+name: FTP Deploy msklatam.com
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React App PROD
+        env:
+          VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
+          VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
+          VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_PRD  }}
+          VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
+        run: npm run build
+
+      - name: FTP Upload (PROD)
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER_SITEGROUND }}
+          username: ${{ secrets.FTP_USERNAME_SITEGROUND }}
+          password: ${{ secrets.FTP_PASSWORD_SITEGROUND }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.PUBLIC_HTML_SITEGROUND_PROD  }}

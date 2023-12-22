@@ -12,19 +12,16 @@ const PageHead: FC<PageHeadProps> = ({ title, description }) => {
   const canonicalUrl = isProduction
     ? removeUrlParams(window.location.href, ["especialidad"])
     : "";
-  const metaTags = isProduction ? (
-    <>
-      <link rel="canonical" href={canonicalUrl} />
-      <meta name="description" content={description ?? ""} />
-      <meta name="theme-color" content="#008f68" />
-    </>
-  ) : (
-    <meta name="robots" content="noindex, follow" />
-  );
   return (
     <Helmet>
       <title>{`MSK | ${title}`}</title>
-      {metaTags}
+      {!isProduction && <meta name="robots" content="noindex, follow" />}
+      <link rel="canonical" href={canonicalUrl} />
+      <meta
+        name="description"
+        content={isProduction ? description ?? "" : ""}
+      />
+      <meta name="theme-color" content="#008f68" />
     </Helmet>
   );
 };

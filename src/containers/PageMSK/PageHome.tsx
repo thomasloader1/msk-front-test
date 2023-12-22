@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { TABS_HOME } from "data/MSK/courses";
 import { TABS_BLOG } from "data/MSK/blog";
 import { HOME_SPECIALTIES } from "data/MSK/specialties";
@@ -14,6 +13,7 @@ import rightImg from "images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
+import PageHead from "./PageHead";
 
 const PageHome: React.FC = () => {
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =
@@ -41,14 +41,10 @@ const PageHome: React.FC = () => {
   return (
     <div className="nc-PageHome relative animate-fade-down">
       {/* === SEO === */}
-      <Helmet>
-        <html lang="es" />
-        <title>MSK | Inicio</title>
-        <meta
-          name="description"
-          content="Una propuesta moderna para expandir tus metas profesionales"
-        />
-      </Helmet>
+      <PageHead
+        title="Inicio"
+        description="Una propuesta moderna para expandir tus metas profesionales"
+      />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">
         <div className="container relative">

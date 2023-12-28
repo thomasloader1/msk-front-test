@@ -39,7 +39,7 @@ export const pages: Page[] = [
   { path: "/contacto", component: PageContact, auth: false },
   { path: "/newsletter", component: PageNewsletter, auth: false },
   { path: "/curso/:slug", component: PageSingleProduct, auth: false },
-  { path: "/page404", component: Page404, auth: false },
+ // { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
   { path: "/blog/:slug", component: PageNota, auth: false },
   { path: "/archivo", component: PageArchive, auth: false },

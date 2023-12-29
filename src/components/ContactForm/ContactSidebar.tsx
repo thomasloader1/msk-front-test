@@ -5,6 +5,8 @@ const ContactSidebar = () => {
   const { state } = useContext(CountryContext);
   const PhoneElement = () => {
     switch (state.country) {
+      case "ec":
+        return <p>(+593) 2 4016114</p>;
       case "mx":
         return <p>(+52) 5590586200</p>;
       case "cl":

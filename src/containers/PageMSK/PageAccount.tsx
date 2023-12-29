@@ -40,7 +40,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
   const history = useHistory();
   const { state: dataState } = useContext(DataContext);
-  const { allCourses } = dataState;
+  const { allCourses, allProductsMX } = dataState;
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
   const [courses, setCourses] = useState<UserCourseProgress[]>(
@@ -50,9 +50,9 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setCourses(allCourses);
+    setCourses(allProductsMX);
     fetchUser();
-  }, [allCourses, state?.profile?.courses_progress]);
+  }, [allProductsMX, state?.profile?.courses_progress]);
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -92,7 +92,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
           user: { name: res.name, speciality: res.contact.speciality },
         },
       });
-      let coursesList = getUserCourses(res, allCourses);
+      let coursesList = getUserCourses(res, allProductsMX);
       setCourses(coursesList);
       setLoading(false);
     } else {

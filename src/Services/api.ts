@@ -13,8 +13,6 @@ import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
 import { ContactFormSchema } from "hooks/useYupValidation";
-import { useContext } from "react";
-import { CountryContext } from "context/country/CountryContext";
 import { countries } from "data/countries";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
@@ -133,13 +131,18 @@ class ApiService {
   async getAllCourses(state?: any, dispatch?: any) {
     const tag = new URLSearchParams(window.location.search).get("tag");
     let validCountries = countries.map((item) => item.id);
+    let siteEnv = window.location.hostname !== "msklatam.com";
+
     const countryParam = validCountries.includes(COUNTRY)
       ? `&country=${COUNTRY}`
       : `&country=int`;
     const tagParam = tag ? `&tag=${tag}` : "";
+    const filterParam = siteEnv ? `&filter=all` : "";
 
     try {
-      const queryParams = [countryParam, tagParam].filter(Boolean).join("");
+      const queryParams = [countryParam, tagParam, filterParam]
+        .filter(Boolean)
+        .join("");
 
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`
@@ -164,6 +167,22 @@ class ApiService {
       return error;
     }
   }
+
+  async getAllTestCourses() {
+    const tag = new URLSearchParams(window.location.search).get("tag");
+    const tagParam = tag ? `&tag=${tag}` : "";
+
+    try {
+      const queryParams = [tagParam].filter(Boolean).join("");
+      const courses = await axios.get(
+        `${API_URL}/products?limit=-1${queryParams}&country=int&type=course&filter=test`
+      );
+      return courses.data.products;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getBestSellersMX() {
     try {
       const res = await axios.get(`${BEST_SELLERS_MX}`);

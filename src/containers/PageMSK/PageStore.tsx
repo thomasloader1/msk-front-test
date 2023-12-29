@@ -258,7 +258,10 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       data-nc-id="PageStore"
     >
       {/* === SEO === */}
-      <PageHead title="Tienda" description="Una propuesta moderna para expandir tus metas profesionales" />
+      <PageHead
+        title="Tienda"
+        description="Una propuesta moderna para expandir tus metas profesionales"
+      />
       {/* === END SEO === */}
 
       <StoreLayout

@@ -7,7 +7,12 @@ import { CoursesTableComponentProps } from "./DesktopCoursesTable";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { formatDate } from "lib/formatDate";
 import calendarIcon from "../../images/icons/calendar.svg";
-import { colorStatus, statusCourse, goToEnroll } from "logic/account";
+import {
+  colorStatus,
+  statusCourse,
+  goToEnroll,
+  statusOrdenVenta,
+} from "logic/account";
 import ButtonAccessCourse from "./ButtonAccessCourse";
 import InfoText from "components/InfoText/InfoText";
 
@@ -21,8 +26,10 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({
     <div className="flex flex-col space-y-8">
       <ul>
         {currentItems.map((item) => {
-          const { isDisabled, hasText } = statusCourse(item.status);
+          const { isDisabled } = statusCourse(item.status);
+          const statusOV = statusOrdenVenta(item.ov);
 
+          const isReadyToEnroll = item?.status?.includes("Listo para enrolar");
           return (
             <li key={item.product_code} className="my-account-courses-mobile">
               <div className="direct-info">
@@ -36,8 +43,10 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({
                 </span>
                 <div className="status-badge">
                   <Badge
-                    name={item.status}
-                    color={colorStatus(item.status)}
+                    name={statusOV.isDisabled ? statusOV.hasText : item?.status}
+                    color={colorStatus(
+                      statusOV.isDisabled ? statusOV.hasText : item?.status
+                    )}
                     textSize="text-sm"
                   />
                 </div>
@@ -48,31 +57,13 @@ const MobileCourseTable: FC<CoursesTableComponentProps> = ({
                   Fecha de expiración: {formatDate(new Date(item.expiration))}
                 </span>
               </div>
-              {isDisabled && !item.status.includes("Listo para enrolar") && (
-                <CentroAyudaLink />
-              )}
-              {item.status.includes("Listo para enrolar") && (
+              {(isDisabled && !isReadyToEnroll) ||
+                (statusOV.isDisabled && <CentroAyudaLink />)}
+              {isReadyToEnroll && (
                 <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
               )}
 
               <div className="w-full">
-                {/*  <ButtonPrimary
-                  disabled={isDisabled}
-                  onClick={() => {
-                    if (item.status.includes("Sin enrolar")) {
-                      goToEnroll(item.product_code, email);
-                    } else {
-                      goToLMS(
-                        item.product_code,
-                        item.product_code_cedente,
-                        email
-                      );
-                    }
-                  }}
-                  sizeClass="py-1 px-3 sm:px-5"
-                >
-                  <span className="text-sm">{hasText}</span>
-                </ButtonPrimary> */}
                 <ButtonAccessCourse
                   email={email}
                   goToEnroll={goToEnroll}

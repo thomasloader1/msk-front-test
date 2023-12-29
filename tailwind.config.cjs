@@ -77,12 +77,14 @@ module.exports = {
         "teal-active": "#F3FEFC",
         "grey-course": "#575757",
         "violet-wash": "#6474A6",
+        "violet-custom": "#9200ad",
         "grey-disabled": "#CCD1DC"
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
         'lora-italic': ['Lora-Italic', 'sans-serif'],
         'lora': ['Lora', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
         'raleway': ['Raleway', 'sans-serif']
       },
     },

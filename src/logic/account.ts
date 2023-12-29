@@ -76,6 +76,29 @@ export const statusCourse = (status: string) => {
   return statusObj;
 };
 
+export const statusOrdenVenta = (status: string) => {
+  const statusObj: { isDisabled: boolean; hasText: string; color: string } = {
+    isDisabled: true,
+    hasText: "",
+    color: "",
+  };
+
+  switch (status) {
+    case "Baja":
+      statusObj.isDisabled = true;
+      statusObj.hasText = "Baja";
+      statusObj.color = "red";
+      break;
+    default:
+      statusObj.isDisabled = false;
+      statusObj.hasText = "";
+      statusObj.color = "";
+      break;
+  }
+
+  return statusObj;
+};
+
 export const colorStatus = (status: string) => {
   switch (status) {
     case "Activo":
@@ -83,6 +106,7 @@ export const colorStatus = (status: string) => {
     case "Sin enrolar":
       return "gray";
     case "Expirado":
+    case "Baja":
       return "red";
     case "Finalizado":
       return "green";

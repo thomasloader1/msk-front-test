@@ -46,7 +46,6 @@ export const getUserCourses = (
   const COUNTRY = localStorage.getItem("country");
   const coursesList: UserCourseProgress[] = [];
   const seenProductIds: { [productId: number]: boolean } = {};
-
   res.contact.courses_progress.forEach((cp: CourseProgress) => {
     const globalProduct = courses.find(
       (productAux: { product_code: number }) =>
@@ -75,6 +74,8 @@ export const getUserCourses = (
       coursesList.push({ ...product });
     }
   });
+
+  console.log(res.contact.courses_progress, { courses });
 
   return coursesList;
 };

@@ -2,7 +2,12 @@ import { FC, useContext, useRef, useState } from "react";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import { goToEnroll, goToLMS, statusCourse } from "logic/account";
+import {
+  goToEnroll,
+  goToLMS,
+  statusCourse,
+  statusOrdenVenta,
+} from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
 import calendarIcon from "../../../images/icons/calendar.svg";
@@ -30,8 +35,7 @@ const ProductAccount: FC<Props> = ({
   const { isRunning, startWatch } = useInterval(user.email);
 
   const activeProductRef = useRef(
-    product.ov !== "Baja" ||
-      (product?.status !== "Inactivo" && product?.status !== "Expirado")
+    product?.status !== "Inactivo" && product?.status !== "Expirado"
   );
 
   const showHelp =
@@ -50,7 +54,8 @@ const ProductAccount: FC<Props> = ({
   );
 
   const handleClick = async () => {
-    if (activeProductRef.current) {
+    console.log(product.ov, activeProductRef.current);
+    if (product.ov !== "Baja" && activeProductRef.current) {
       setOnRequest(true);
       try {
         if (product.status === "Sin enrolar") {
@@ -165,7 +170,7 @@ const ProductAccount: FC<Props> = ({
           )}
         </div>
       </div>
-      {product && product.ov !== "Baja" ? (
+      {product ? (
         <ProductAccountButton
           product={product}
           onRequest={onRequest}

@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useContext } from "react";
-import Helmet from 'react-helmet'
+import Helmet from "react-helmet";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
@@ -13,7 +13,7 @@ import PageHead from "./PageHead";
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/src/images/misc/mission.png",
-  title: "Política de privacidad",
+  title: "Política de Protección de Datos",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -79,7 +79,7 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
-  articles: { title: string | null; content: string; }[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
   themes_to_se?: ThemesToSeeType[];
@@ -91,7 +91,7 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { state } = useContext(CountryContext);
-  const { data, loading, error } = usePoliticsPrivacy(state.country)
+  const { data, loading, error } = usePoliticsPrivacy(state.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {
@@ -103,7 +103,7 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <PageHead title="Política de privacidad" />
+      <PageHead title="Política de Protección de Datos" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

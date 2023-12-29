@@ -1,5 +1,10 @@
 import { UserCourseProgress } from "data/types";
-import { getStatusIcon, hasText, statusCourse } from "logic/account";
+import {
+  getStatusIcon,
+  hasText,
+  statusCourse,
+  statusOrdenVenta,
+} from "logic/account";
 import React, { FC } from "react";
 
 interface ProductAccountButtonProps {
@@ -17,19 +22,27 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
 }) => {
   const { status } = product;
   const { isDisabled } = statusCourse(status);
-  const iconStatus = getStatusIcon(status);
+  const statusOV = statusOrdenVenta(product?.ov);
+  const iconStatus = getStatusIcon(
+    statusOV.isDisabled ? statusOV.hasText : status
+  );
 
   return (
     <div className="course-2-footer text-grey-course">
       <div className="coursee-clock">
-        <img src={iconStatus} alt={status} />
-        <span className="ml-2">{status}</span>
+        <img
+          src={iconStatus}
+          alt={statusOV.isDisabled ? statusOV.hasText : status}
+        />
+        <span className="ml-2">
+          {statusOV.isDisabled ? statusOV.hasText : status}
+        </span>
       </div>
 
       <button
         className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
         onClick={onClick}
-        disabled={isDisabled || onRequest || isRunning}
+        disabled={isDisabled || onRequest || isRunning || statusOV.isDisabled}
       >
         {onRequest ||
         isRunning ||

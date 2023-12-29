@@ -64,7 +64,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
       onClick={handleClick}
       sizeClass="py-1 sm:px-5"
       disabled={
-        isDisabled || onRequest || isReadyToEnroll || item.ov.includes("Baja")
+        isDisabled || onRequest || isReadyToEnroll || item?.ov?.includes("Baja")
       }
     >
       {onRequest || isReadyToEnroll ? (

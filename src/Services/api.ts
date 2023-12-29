@@ -133,13 +133,18 @@ class ApiService {
   async getAllCourses(state?: any, dispatch?: any) {
     const tag = new URLSearchParams(window.location.search).get("tag");
     let validCountries = countries.map((item) => item.id);
+    let siteEnv = window.location.hostname !== "msklatam.com";
+
     const countryParam = validCountries.includes(COUNTRY)
       ? `&country=${COUNTRY}`
       : `&country=int`;
     const tagParam = tag ? `&tag=${tag}` : "";
+    const filterParam = siteEnv ? `&filter=all` : "";
 
     try {
-      const queryParams = [countryParam, tagParam].filter(Boolean).join("");
+      const queryParams = [countryParam, tagParam, filterParam]
+        .filter(Boolean)
+        .join("");
 
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`

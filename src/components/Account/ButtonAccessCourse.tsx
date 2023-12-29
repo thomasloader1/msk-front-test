@@ -24,10 +24,11 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
   goToLMS,
   email,
 }) => {
-  const [status, setStatus] = useState(item.status);
+  const [status, setStatus] = useState(item?.status);
   const [isDisabled, setIsDisabled] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
-  //const [startInterval, setStartInterval] = useState(null)
+  const isReadyToEnroll = item?.status?.includes("Listo para enrolar");
+
   const { isRunning, data, startWatch } = useInterval(email);
 
   const handleClick = async () => {
@@ -63,10 +64,10 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
       onClick={handleClick}
       sizeClass="py-1 sm:px-5"
       disabled={
-        isDisabled || onRequest || status.includes("Listo para enrolar")
+        isDisabled || onRequest || isReadyToEnroll || item.ov.includes("Baja")
       }
     >
-      {onRequest || status.includes("Listo para enrolar") ? (
+      {onRequest || isReadyToEnroll ? (
         <div className="flex justify-center items-center">
           <span className="text-sm mr-2">Activando</span>
           <div className="w-4 h-4 my-1 border-t-2 border-white border-solid rounded-full animate-spin"></div>

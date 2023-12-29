@@ -18,6 +18,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
   const dataInitialState = {
     allCourses: [],
     allPosts: [],
+    allTestCourses: [],
     allBestSellers: [],
     allProfessions: [],
     allSpecialties: [],
@@ -27,8 +28,10 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
 
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
 
+  //Habilita los cursos por el buscador
   const fetchCourses = async () => {
     const allCourses = await api.getAllCourses();
+
     dispatch({
       type: "GET_DATA",
       payload: { allCourses },
@@ -95,6 +98,10 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
   const fetchProductsMX = async () => {
     try {
       const allProductsMX = await api.getAllProductsMX();
+      const allTestCourses = await api.getAllTestCourses();
+
+      allProductsMX.push(...allTestCourses);
+
       dispatch({
         type: "GET_DATA",
         payload: { allProductsMX },

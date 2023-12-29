@@ -30,10 +30,13 @@ const ProductAccount: FC<Props> = ({
   const { isRunning, startWatch } = useInterval(user.email);
 
   const activeProductRef = useRef(
-    product?.status !== "Inactivo" && product?.status !== "Expirado"
+    product.ov !== "Baja" ||
+      (product?.status !== "Inactivo" && product?.status !== "Expirado")
   );
 
-  const showHelp = isDisabled && !product.status?.includes(STATUS.TO_ENROLL);
+  const showHelp =
+    product.ov === "Baja" ||
+    (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
   const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
@@ -109,6 +112,7 @@ const ProductAccount: FC<Props> = ({
           </div>
         </div>
       ) : null}
+
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
           <div className="flex gap-2">
@@ -134,11 +138,7 @@ const ProductAccount: FC<Props> = ({
               <h3 className="font-bold text-sm">{product.title}</h3>
             </a>
           </div>
-          {/* {product?.lista_de_cedentes && (
-            <p className="text-sm">
-              {product?.lista_de_cedentes[0].post_title}
-            </p>
-          )} */}
+
           {product.expiration ? (
             <div className="flex items-center mt-2 ">
               <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
@@ -165,7 +165,7 @@ const ProductAccount: FC<Props> = ({
           )}
         </div>
       </div>
-      {product ? (
+      {product && product.ov !== "Baja" ? (
         <ProductAccountButton
           product={product}
           onRequest={onRequest}

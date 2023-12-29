@@ -7,7 +7,12 @@ import React, { FC, useContext } from "react";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { formatDate } from "lib/formatDate";
 import calendarIcon from "../../images/icons/calendar.svg";
-import { colorStatus, goToEnroll, statusCourse } from "logic/account";
+import {
+  colorStatus,
+  goToEnroll,
+  statusCourse,
+  statusOrdenVenta,
+} from "logic/account";
 import ButtonAccessCourse from "./ButtonAccessCourse";
 import InfoText from "components/InfoText/InfoText";
 export interface CoursesTableComponentProps {
@@ -56,6 +61,7 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
               <tbody className="bg-white dark:bg-neutral-900 divide-y divide-neutral-200 dark:divide-neutral-800">
                 {currentItems.map((item) => {
                   const { isDisabled } = statusCourse(item.status);
+                  const statusOV = statusOrdenVenta(item.ov);
                   return (
                     <tr key={item.product_code}>
                       <td className="px-6 py-4">
@@ -82,12 +88,13 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                                 {formatDate(new Date(item.expiration))}
                               </span>
                             </div>
-                            {isDisabled &&
-                              !item.status.includes("Listo para enrolar") && (
+                            {(isDisabled &&
+                              !item?.status?.includes("Listo para enrolar")) ||
+                              (statusOV.isDisabled && (
                                 <CentroAyudaLink addClassNames="mt-2 ml-3" />
-                              )}
+                              ))}
 
-                            {item.status.includes("Listo para enrolar") && (
+                            {item?.status?.includes("Listo para enrolar") && (
                               <InfoText
                                 addClassNames="mt-2 ml-3"
                                 text="¿No ves resultados? Intenta refrescar la pantalla."
@@ -98,8 +105,12 @@ const DesktopCoursesTable: FC<CoursesTableComponentProps> = ({
                       </td>
                       <td className="px-6 py-4 status-badge">
                         <Badge
-                          name={item.status}
-                          color={colorStatus(item.status)}
+                          name={
+                            statusOV.isDisabled ? statusOV.hasText : item.status
+                          }
+                          color={colorStatus(
+                            statusOV.isDisabled ? statusOV.hasText : item.status
+                          )}
                           textSize="text-sm"
                         />
                       </td>

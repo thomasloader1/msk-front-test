@@ -323,12 +323,13 @@ class ApiService {
 
   async getPosts(country?: string) {
     try {
+      let currentYear = new Date().getFullYear();
       let validCountries = countries.map((item) => item.id);
       const countryParam = validCountries.includes(COUNTRY || "")
         ? COUNTRY
         : "int";
       const res = await axios.get(
-        `${API_URL}/posts?year=2023&country=${countryParam}`
+        `${API_URL}/posts?year=${currentYear}&country=${countryParam}`
       );
       const postsList = res.data.posts.map((post: any) => ({
         ...post,

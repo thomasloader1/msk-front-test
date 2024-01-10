@@ -49,11 +49,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     setLoading(false);
   }, [allCourses, allProfessions, allSpecialties, loadingCourses]);
 
-  // useEffect(() => {
-  //   clearFilters();
-  //   // setLoading(true);
-  // }, []);
-
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);

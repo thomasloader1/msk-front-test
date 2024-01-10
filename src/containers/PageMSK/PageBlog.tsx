@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import SectionSliderPosts from "./home/SectionSliderPosts";
-import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import HomeExtraInfo from "containers/PageMSK/home/HomeExtraInfo";
 import BlogSummary from "./home/BlogSummary";
 import { TABS_BLOG } from "data/MSK/blog";
 import WelcomeBlog from "./blog/WelcomeBlog";
 import Newsletter from "./blog/Newsletter";
-import usePosts from "hooks/usePosts";
-import useCourses from "hooks/useCourses";
 import { FetchPostType } from "data/types";
 import { DataContext } from "context/data/DataContext";
-import { removeUrlParams } from "lib/removeUrlParams";
 import PageHead from "./PageHead";
 
 const PageBlog: React.FC = () => {

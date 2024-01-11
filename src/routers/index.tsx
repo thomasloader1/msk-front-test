@@ -1,4 +1,5 @@
 import { Switch, Route, BrowserRouter } from "react-router-dom";
+
 import { Page } from "./types";
 import ScrollToTop from "./ScrollToTop";
 import Page404 from "containers/Page404/Page404";
@@ -8,7 +9,7 @@ import PageLogin from "containers/PageMSK/PageLogin";
 import PageSignUp from "containers/PageMSK/PageSignUp";
 import PageForgotPass from "containers/PageMSK/PageForgotPass";
 import HeaderContainer from "containers/HeaderContainer/HeaderContainer";
-import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
+// import MediaRunningContainer from "containers/MediaRunningContainer/MediaRunningContainer";
 import PageHome from "containers/PageMSK/PageHome";
 import PageContact from "containers/PageMSK/PageContact";
 import FooterEduman from "components/Footer/FooterMSK";
@@ -39,7 +40,7 @@ export const pages: Page[] = [
   { path: "/contacto", component: PageContact, auth: false },
   { path: "/newsletter", component: PageNewsletter, auth: false },
   { path: "/curso/:slug", component: PageSingleProduct, auth: false },
- // { path: "/page404", component: Page404, auth: false },
+  // { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
   { path: "/blog/:slug", component: PageNota, auth: false },
   { path: "/archivo", component: PageArchive, auth: false },
@@ -75,7 +76,7 @@ const Routes = () => {
   const authContext = useContext(AuthContext);
   const [country, setCountry] = useState(state.country);
   const { isAuthenticated } = authContext.state;
-  const location = window.location;
+  const location = typeof window !== "undefined" ? window.location : null;
 
   const authenticatedRoutes = pages.filter((page) => {
     if (page.auth && isAuthenticated) {
@@ -90,6 +91,8 @@ const Routes = () => {
   useEffect(() => {
     setCountry(state.country);
     if (
+      typeof window !== "undefined" &&
+      location &&
       (location.pathname.includes("mi-perfil") ||
         location.pathname.includes("mi-cuenta")) &&
       !isAuthenticated &&
@@ -99,9 +102,11 @@ const Routes = () => {
     }
   }, [state.country]);
 
-  return (
+  return typeof window == "undefined" ? (
+    <></>
+  ) : (
     <BrowserRouter basename={`/${country}`}>
-      <MediaRunningContainer />
+      {/* <MediaRunningContainer /> */}
       <ScrollToTop />
       <HeaderContainer />
       <Switch>

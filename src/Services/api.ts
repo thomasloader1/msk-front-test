@@ -17,7 +17,8 @@ import { countries } from "data/countries";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
 let validCountries = countries.map((item) => item.id);
-const LSCountry = localStorage.getItem("country");
+const LSCountry =
+  typeof window !== "undefined" ? localStorage.getItem("country") : null;
 let COUNTRY = "int";
 if (LSCountry) {
   COUNTRY = LSCountry;
@@ -34,7 +35,8 @@ const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
-  token = localStorage.getItem("tokenLogin");
+  token =
+    typeof window !== "undefined" ? localStorage.getItem("tokenLogin") : null;
 
   async get(endpoint: string) {
     const response = await axios.get(`${this.baseUrl}/${endpoint}`, {
@@ -111,20 +113,22 @@ class ApiService {
   // Aquí puedes agregar más métodos según tus necesidades
 
   async getUserData() {
-    const email = localStorage.getItem("email");
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const res = await axios.get(`${apiProfileUrl}/${email}`, { headers });
-        return res.data.user;
+    if (typeof window !== "undefined") {
+      const email = localStorage.getItem("email");
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          const res = await axios.get(`${apiProfileUrl}/${email}`, { headers });
+          return res.data.user;
+        }
+      } catch (error) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        console.log({ error });
       }
-    } catch (error) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      console.log({ error });
     }
   }
 
@@ -304,20 +308,22 @@ class ApiService {
   }
 
   async updateUserData(data: any): Promise<any> {
-    const userEmail = localStorage.getItem("email");
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const res = await axios.put(`${apiProfileUrl}/${userEmail}`, data, {
-          headers,
-        });
-        return res;
+    if (typeof window !== "undefined") {
+      const userEmail = localStorage.getItem("email");
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          const res = await axios.put(`${apiProfileUrl}/${userEmail}`, data, {
+            headers,
+          });
+          return res;
+        }
+      } catch (error) {
+        return error;
       }
-    } catch (error) {
-      return error;
     }
   }
 

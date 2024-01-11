@@ -21,7 +21,6 @@ import Card18 from "components/Card18/Card18";
 import Card19 from "components/Card19/Card19";
 import Card20 from "components/Card20/Card20";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-import Tooltip from "components/Tooltip/Tooltip";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -66,37 +65,35 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
   // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
-  const MY_GLIDE = new Glide(`.${UNIQUE_CLASS}`, {
-    // @ts-ignore
-    direction:
-      document.querySelector("html")?.getAttribute("dir") === "rtl"
-        ? "rtl"
-        : "ltr",
-    perView: perView,
-    gap: 32,
-    bound: true,
-    breakpoints: {
-      1280: {
-        perView: perView - 1,
-      },
-      1023: {
-        perView: perView - 2 || 1.2,
-        gap: 20,
-      },
-      767: {
-        perView: perView - 2 || 1.2,
-        gap: 20,
-      },
-      639: {
-        perView: 1.2,
-        gap: 20,
-      },
-    },
-  });
+  const MY_GLIDE = null;
+  // new Glide(`.${UNIQUE_CLASS}`, {
+  //   // @ts-ignore
+  //   direction: "ltr",
+  //   perView: perView,
+  //   gap: 32,
+  //   bound: true,
+  //   breakpoints: {
+  //     1280: {
+  //       perView: perView - 1,
+  //     },
+  //     1023: {
+  //       perView: perView - 2 || 1.2,
+  //       gap: 20,
+  //     },
+  //     767: {
+  //       perView: perView - 2 || 1.2,
+  //       gap: 20,
+  //     },
+  //     639: {
+  //       perView: 1.2,
+  //       gap: 20,
+  //     },
+  //   },
+  // });
 
   useEffect(() => {
     if (!MY_GLIDE) return;
-    MY_GLIDE.mount();
+    // MY_GLIDE.mount();
   }, [MY_GLIDE]);
 
   const getPostComponent = () => {

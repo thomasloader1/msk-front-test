@@ -109,7 +109,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     Terms_And_Conditions: false,
     year: "",
     career: "",
-    URL_ORIGEN: window.location.href,
+    URL_ORIGEN: typeof window !== "undefined" ? window.location.href : "",
     leadSource: "",
   };
 
@@ -230,7 +230,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
                 // Crea un enlace temporal y simula un clic para descargar el archivo con su nombre original
                 const a = document.createElement("a");
-                a.href = window.URL.createObjectURL(blob);
+                a.href =
+                  typeof window !== "undefined"
+                    ? window.URL.createObjectURL(blob)
+                    : "";
 
                 // Obtén el nombre del archivo del encabezado Content-Disposition si está presente
                 const contentDisposition = response.headers.get(
@@ -251,7 +254,8 @@ const ContactFormSection: FC<ContactFormProps> = ({
                 a.click();
 
                 // Libera el objeto URL creado
-                window.URL.revokeObjectURL(a.href);
+                if (typeof window !== "undefined")
+                  window.URL.revokeObjectURL(a.href);
 
                 if (!isDownload) {
                   setTimeout(() => {
@@ -317,7 +321,9 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   type="hidden"
                   name="URL_ORIGEN"
                   id="URL_ORIGEN"
-                  value={window.location.href}
+                  value={
+                    typeof window !== "undefined" ? window.location.href : ""
+                  }
                 />
 
                 <input

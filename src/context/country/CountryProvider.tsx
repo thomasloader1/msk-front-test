@@ -11,12 +11,17 @@ interface Props {
 
 export const CountryProvider: React.FC<Props> = ({ children }) => {
   const initialState: CountryState = {
-    country: localStorage.getItem("country") || "",
+    country:
+      typeof window !== "undefined"
+        ? localStorage.getItem("country") || ""
+        : "",
   };
 
   const [state, dispatch] = useReducer(countryReducer, initialState);
   const [bypassRedirect, setBypassRedirect] = useState(
-    localStorage.getItem("bypassRedirect")
+    typeof window !== "undefined"
+      ? localStorage.getItem("bypassRedirect") || ""
+      : ""
   );
 
   useEffect(() => {
@@ -49,8 +54,9 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (!validCountries.includes(currentCountry)) {
             currentCountry = "";
           }
-
-          localStorage.setItem("country", currentCountry);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("country", currentCountry);
+          }
 
           console.log("stateCountry: " + state.country);
           console.log("currentCountry: " + currentCountry);

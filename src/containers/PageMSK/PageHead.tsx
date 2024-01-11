@@ -8,7 +8,10 @@ interface PageHeadProps {
 }
 
 const PageHead: FC<PageHeadProps> = ({ title, description }) => {
-  const isProduction = window.location.hostname === "msklatam.com";
+  const isProduction =
+    typeof window !== "undefined"
+      ? window.location.hostname === "msklatam.com"
+      : false;
   const canonicalUrl = isProduction
     ? removeUrlParams(window.location.href, ["especialidad"])
     : "";

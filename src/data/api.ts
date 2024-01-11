@@ -10,11 +10,15 @@ const API_BACKEND_LARAVEL = PROD
 const baseUrl = PROD ? VITE_PUBLIC_URL : VITE_PUBLIC_URL_DEV;
 const API_BACKEND_URL = API_BACKEND_LARAVEL;
 const IP_API = `${API_BACKEND_LARAVEL}/getCountryByIP`;
-const COUNTRY = localStorage.getItem("country");
+let COUNTRY: string | null = "";
+let isProductionEnv: boolean = false;
+if (typeof window !== "undefined") {
+  COUNTRY = localStorage.getItem("country");
+  isProductionEnv = window.location.hostname === "msklatam.com";
+}
+const filterProductsParam = isProductionEnv ? "" : "&filter=all";
 let validCountries = countries.map((item) => item.id);
 const countryParam = validCountries.includes(COUNTRY || "") ? COUNTRY : "int";
-let isProductionEnv = window.location.hostname === "msklatam.com";
-const filterProductsParam = isProductionEnv ? "" : "&filter=all";
 export const ALL_PRODUCTS_MX = `${API_URL}/products?limit=-1&country=${countryParam}&type=course${filterProductsParam}`;
 export const BEST_SELLERS_MX = `${API_URL}/home/best-sellers?country=${countryParam}`;
 export const NOTE_SPECIALITIES = `${VITE_MSK_WP_API}/posts-specialities`;

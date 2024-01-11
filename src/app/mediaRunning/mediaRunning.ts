@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { PostDataType } from "data/types";
-import persistReducer from "redux-persist/es/persistReducer";
+// import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 
 export interface MediaRunningState {
@@ -127,6 +127,6 @@ const persistConfig = {
   blacklist: ["newestAudioPlayerUrl"],
 };
 
-export default persistReducer(persistConfig, mediaRunningSlice.reducer);
+// export default persistReducer(persistConfig, mediaRunningSlice.reducer);
 
 // export default mediaRunningSlice.reducer;

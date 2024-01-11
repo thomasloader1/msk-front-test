@@ -57,7 +57,9 @@ const HeaderContainer: FC<HeaderContainerProps> = ({ className = "" }) => {
   const [headerSelected, setHeaderSelected] =
     React.useState<SiteHeaders>("Header 2");
 
-  const [isTopOfPage, setIsTopOfPage] = React.useState(window.pageYOffset < 5);
+  const [isTopOfPage, setIsTopOfPage] = React.useState(
+    typeof window !== "undefined" ? window.pageYOffset < 5 : 0
+  );
   const location = useLocation();
 
   const intersectionCallback = (entries: IntersectionObserverEntry[]) => {

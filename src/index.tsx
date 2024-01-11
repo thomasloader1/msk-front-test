@@ -3,7 +3,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { persistor, store } from "./app/store";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+// import { PersistGate } from "redux-persist/integration/react";
 import ReactDOM from "react-dom/client";
 
 // STYLE
@@ -12,7 +12,7 @@ import "./styles/index.scss";
 import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
 import "./styles/flaticon.css";
 import "./fonts/Lora/Lora-VariableFont_wght.ttf";
-import 'sweetalert2/src/sweetalert2.scss'
+import "sweetalert2/src/sweetalert2.scss";
 //
 const RtlImportCssLazy = React.lazy(() => import("RtlImportCss"));
 document
@@ -23,19 +23,29 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
+// if (typeof document !== "undefined") {
+//   persistor.subscribe(() => {
+//     /* Hydrate React components when persistor has synced with redux store */
+//     const { bootstrapped } = persistor.getState();
+
+//     if (bootstrapped) {
+//       ReactDOM.hydrate(<Main />, document.getElementById("root"));
+//     }
+//   });
+// }
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <App />
 
-      {/* LOAD RTL CSS WHEN RTL MODE ENABLE */}
-      {import.meta.env.VITE_LRT_OR_RTL === "rtl" && (
-        <Suspense fallback={<div />}>
-          <RtlImportCssLazy />
-        </Suspense>
-      )}
-    </PersistGate>
+    {/* LOAD RTL CSS WHEN RTL MODE ENABLE */}
+    {import.meta.env.VITE_LRT_OR_RTL === "rtl" && (
+      <Suspense fallback={<div />}>
+        <RtlImportCssLazy />
+      </Suspense>
+    )}
+    {/* </PersistGate> */}
   </Provider>
   // </React.StrictMode>
 );

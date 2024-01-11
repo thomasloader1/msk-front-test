@@ -15,7 +15,8 @@ export interface HeaderProps {
 }
 
 let MAIN_MENU_HEIGHT = 0;
-let WIN_PREV_POSITION = window.pageYOffset;
+let WIN_PREV_POSITION =
+  typeof window !== "undefined" ? window.pageYOffset : null;
 
 const Header: FC<HeaderProps> = ({ mainNavStyle = "style2", isTopOfPage }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,14 +35,16 @@ const Header: FC<HeaderProps> = ({ mainNavStyle = "style2", isTopOfPage }) => {
       return;
     }
     MAIN_MENU_HEIGHT = mainMenuRef.current.offsetHeight;
-    window.addEventListener("scroll", handleShowHideHeaderMenuEvent);
-    return () => {
-      window.removeEventListener("scroll", handleShowHideHeaderMenuEvent);
-    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleShowHideHeaderMenuEvent);
+      return () => {
+        window.removeEventListener("scroll", handleShowHideHeaderMenuEvent);
+      };
+    }
   }, []);
 
   useEffect(() => {
-    if (showSingleMenu) {
+    if (showSingleMenu && typeof window !== "undefined") {
       //  BECAUSE DIV HAVE TRANSITION 100ms
       setTimeout(() => {
         window.addEventListener("scroll", handleShowHideSingleHeadeEvent);
@@ -55,10 +58,14 @@ const Header: FC<HeaderProps> = ({ mainNavStyle = "style2", isTopOfPage }) => {
   }, [showSingleMenu]);
 
   const handleShowHideSingleHeadeEvent = () => {
-    window.requestAnimationFrame(showHideSingleHeade);
+    typeof window !== "undefined"
+      ? window.requestAnimationFrame(showHideSingleHeade)
+      : null;
   };
   const handleShowHideHeaderMenuEvent = () => {
-    window.requestAnimationFrame(showHideHeaderMenu);
+    typeof window !== "undefined"
+      ? window.requestAnimationFrame(showHideHeaderMenu)
+      : null;
   };
 
   const handleProgressIndicator = () => {
@@ -97,21 +104,23 @@ const Header: FC<HeaderProps> = ({ mainNavStyle = "style2", isTopOfPage }) => {
   };
 
   const showHideHeaderMenu = () => {
-    let currentScrollPos = window.pageYOffset;
-    if (!containerRef.current || !mainMenuRef.current) return;
+    if (typeof window !== "undefined") {
+      let currentScrollPos = window.pageYOffset;
+      if (!containerRef.current || !mainMenuRef.current) return;
 
-    if (Math.abs(WIN_PREV_POSITION - currentScrollPos) <= 50) {
-      return;
+      if (Math.abs(WIN_PREV_POSITION - currentScrollPos) <= 50) {
+        return;
+      }
+
+      // SHOW _ HIDE MAIN MENU
+      if (WIN_PREV_POSITION > currentScrollPos) {
+        containerRef.current.style.top = "0";
+      } else {
+        containerRef.current.style.top = `-${MAIN_MENU_HEIGHT + 2}px`;
+      }
+
+      WIN_PREV_POSITION = currentScrollPos;
     }
-
-    // SHOW _ HIDE MAIN MENU
-    if (WIN_PREV_POSITION > currentScrollPos) {
-      containerRef.current.style.top = "0";
-    } else {
-      containerRef.current.style.top = `-${MAIN_MENU_HEIGHT + 2}px`;
-    }
-
-    WIN_PREV_POSITION = currentScrollPos;
   };
 
   const renderSingleHeader = () => {

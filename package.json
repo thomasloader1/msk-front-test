@@ -5,7 +5,7 @@
   "type": "module",
   "proxy": "https://wp.msklatam.com/",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -24,6 +24,7 @@
     "country-list": "^2.3.0",
     "dotenv-cra": "^3.0.2",
     "esbuild": "^0.17.18",
+    "express": "^4.18.2",
     "formik": "^2.4.3",
     "i18n-iso-countries": "^7.6.0",
     "jquery": "^3.7.1",
@@ -53,6 +54,8 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
     "@types/axios": "^0.14.0",
     "@types/country-list": "^2.1.1",
     "@types/glidejs__glide": "^3.4.2",
@@ -60,8 +63,8 @@
     "@types/jquery": "^3.5.25",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.6",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/react-phone-number-input": "^3.0.14",
     "@types/react-router-dom": "^5.1.7",

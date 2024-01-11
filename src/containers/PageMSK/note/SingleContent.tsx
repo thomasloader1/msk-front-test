@@ -80,14 +80,19 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  console.log({data})
+  console.log({ data });
 
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
       <div className="grid grid-cols-12 gap-4">
         <div className="content-container col-span-12 lg:col-span-8 animate-fade-down">
-          <CardAuthor2 className="relative my-4" date={date} author={author} readingTime={Number(reading_time)} />
+          <CardAuthor2
+            className="relative my-4"
+            date={date}
+            author={author}
+            readingTime={Number(reading_time)}
+          />
           <div
             id="single-entry-content"
             className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
@@ -120,11 +125,19 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               {noteArticles?.map((art, index) => {
                 //console.log(art)
                 return (
-                  <li key={`content_${slugify(art.title)}_${index}`} className="p-0 md:p-0">
-                    <h3 id={slugify(art.title)} className="text-3xl md:text-3xl">{art.title}</h3>
+                  <li
+                    key={`content_${slugify(art.title)}_${index}`}
+                    className="p-0 md:p-0"
+                  >
+                    <h3
+                      id={slugify(art.title)}
+                      className="text-3xl md:text-3xl"
+                    >
+                      {art.title}
+                    </h3>
                     {
                       <div
-                      className="font-lora text-xl"
+                        className="font-lora text-xl lg:pr-20"
                         dangerouslySetInnerHTML={{
                           __html: parseHtml(art.content),
                         }}

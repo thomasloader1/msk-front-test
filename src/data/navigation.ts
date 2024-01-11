@@ -453,7 +453,7 @@ const resourcesMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Guías profesionales",
-    search: "?recurso=2",
+    search: "?recurso=guias-profesionales",
   },
   {
     id: ncNanoId(),
@@ -564,7 +564,7 @@ const resourcesMenuBlog: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Guías profesionales",
-    search: "?recurso=2",
+    search: "?recurso=guias-profesionales",
   },
   /* {
     id: ncNanoId(),

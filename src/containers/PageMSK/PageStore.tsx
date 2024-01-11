@@ -32,22 +32,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const history = useHistory();
-  useEffect(() => {
-    if (state && state.error) {
-      console.log("ERROR:", state.error);
-
-      setTimeout(() => {
-        history.push(history.location.pathname);
-      }, 1500);
-    }
-  }, [state]);
-
-  // FETCH DATA
-  useEffect(() => {
-    setAuxProducts([...allCourses]);
-    setProducts(allCourses);
-    setLoading(false);
-  }, [allCourses, allProfessions, allSpecialties, loadingCourses]);
 
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
@@ -66,8 +50,25 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     applyFilters();
   }, []);
 
+  useEffect(() => {
+    if (state && state.error) {
+      console.log("ERROR:", state.error);
+      setTimeout(() => {
+        history.push(history.location.pathname);
+      }, 1500);
+    }
+  }, [state]);
+
+  // FETCH DATA
+  useEffect(() => {
+    setAuxProducts([...allCourses]);
+    setProducts(allCourses);
+    setLoading(false);
+  }, [allCourses, allProfessions, allSpecialties, loadingCourses]);
+
   // FILTERS
   useEffect(() => {
+    // console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 
@@ -84,6 +85,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     const selectedDurations = storeFilters.duration.map(
       (filter: DurationFilter) => filter.value
     );
+
+    // console.table(storeFilters, selectedSpecialties);
 
     if (
       !(

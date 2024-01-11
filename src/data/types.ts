@@ -581,6 +581,33 @@ export interface AuthAction {
   payload?: any;
 }
 
-export interface CustomStaticContext  {
+export interface CustomStaticContext {
   status?: number;
+}
+
+export type SpecialtiesMapping = {
+  cardiologia: string;
+  emergentologia: string;
+  "medicina-general": string;
+  infectologia: string;
+  "medicina-familiar": string;
+  nutricion: string;
+  pediatria: string;
+  oncologia: string;
+  gastroenterologia: string;
+  obstetricia: string;
+  "anestesiologia-y-dolor": string;
+  hematologia: string;
+  diabetes: string;
+  ginecologia: string;
+  traumatologia: string;
+  cirugia: string;
+  geriatria: string;
+  "medicina-intensiva": string;
+  dermatologia: string;
+  psiquiatria: string;
+  oftalmologia: string;
+};
+export interface JsonMapping {
+  [key: string]: string;
 }

@@ -161,7 +161,10 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               {sources && sources.length > 0
                 ? sources.map((source, index) => {
                     return (
-                      <p key={`source_${index}`} className="source-content">
+                      <p
+                        key={`source_${index}`}
+                        className="source-content lg:pr-20"
+                      >
                         {source}
                       </p>
                     );

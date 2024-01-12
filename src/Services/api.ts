@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { AxiosResponse } from "axios";
 import {
   ALL_PRODUCTS_MX,
@@ -67,11 +67,12 @@ class ApiService {
     }
   }
 
-  async postRecover(jsonData: { email: string }): Promise<AxiosResponse<any>> {
+  async postRecover(jsonData: { email: string }) {
     try {
-      return await axios.post(apiRecoverURL, jsonData);
+      const response = await axios.post(apiRecoverURL, jsonData);
+      return response;
     } catch (error: any) {
-      return error;
+      return error.response.message;
     }
   }
 

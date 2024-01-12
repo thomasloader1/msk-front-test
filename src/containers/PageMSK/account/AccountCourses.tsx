@@ -49,10 +49,15 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
     goToEnroll,
     goToStore,
     email,
-  }
+  };
 
-  return (<CoursesTable courses={courses} tableConfig={tableConfig} isMobile={isMobile} />)
-
+  return (
+    <CoursesTable
+      courses={currentItems}
+      tableConfig={tableConfig}
+      isMobile={isMobile}
+    />
+  );
 };
 
 export default AccountCourses;

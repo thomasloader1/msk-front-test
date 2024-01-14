@@ -329,7 +329,7 @@ class ApiService {
         ? COUNTRY
         : "int";
       const res = await axios.get(
-        `${API_URL}/posts?year=2023&country=${countryParam}`
+        `${API_URL}/posts?country=${countryParam}`
       );
       const postsList = res.data.posts.map((post: any) => ({
         ...post,

@@ -324,6 +324,7 @@ class ApiService {
 
   async getPosts(country?: string) {
     try {
+      let currentYear = new Date().getFullYear();
       let validCountries = countries.map((item) => item.id);
       const countryParam = validCountries.includes(COUNTRY || "")
         ? COUNTRY

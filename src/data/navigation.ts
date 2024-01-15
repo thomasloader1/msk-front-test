@@ -525,19 +525,19 @@ const categoriesMenuBlog: NavItemType[] = [
     id: ncNanoId(),
     href: "/archivo",
     name: "Medicina",
-    search: "?categoria=Medicina",
+    search: "?categoria=medicina",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "Enfermería",
-    search: "?categoria=Enfermería",
+    search: "?categoria=enfermeria",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "E-Learning",
-    search: "?categoria=E-Learning",
+    search: "?categoria=e-learning",
   },
 
   /*  {
@@ -606,19 +606,19 @@ const categoriesMenuArchive: NavItemType[] = [
     id: ncNanoId(),
     href: "/archivo",
     name: "Medicina",
-    search: "?categoria=Medicina",
+    search: "?categoria=medicina",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "Enfermería",
-    search: "?categoria=Enfermería",
+    search: "?categoria=enfermeria",
   },
   {
     id: ncNanoId(),
     href: "/archivo",
     name: "E-Learning",
-    search: "?categoria=E-Learning",
+    search: "?categoria=e-learning",
   },
 
   /*  {

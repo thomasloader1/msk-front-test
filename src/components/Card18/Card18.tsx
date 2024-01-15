@@ -68,7 +68,10 @@ const Card18: FC<Card18Props> = ({
         <Link to={`/${kind}/${slug}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
-            <CategoryBadgeList categories={categories} />
+            <CategoryBadgeList
+              categories={categories}
+              isPost={kind === "blog"}
+            />
           </div>
         )}
         {renderMeta()}

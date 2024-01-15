@@ -21,7 +21,6 @@ import Card18 from "components/Card18/Card18";
 import Card19 from "components/Card19/Card19";
 import Card20 from "components/Card20/Card20";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-import Tooltip from "components/Tooltip/Tooltip";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -184,7 +183,12 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
                     sliderStype === "style2" ? "pb-8 xl:pb-10" : ""
                   }`}
                 >
-                  <CardName post={item} index={index} showDescription />
+                  <CardName
+                    post={item}
+                    index={index}
+                    showDescription
+                    kind="curso"
+                  />
                 </li>
               ))}
             </ul>

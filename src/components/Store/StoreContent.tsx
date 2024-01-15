@@ -5,11 +5,15 @@ import StoreProduct from "./StoreProduct";
 import {
   DurationFilter,
   FetchCourseType,
+  JsonMapping,
   Profession,
   ResourceFilter,
   Specialty,
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { useHistory } from "react-router-dom";
+import specialtiesMapping from "../../data/jsons/__specialties.json";
+import resourcesMapping from "../../data/jsons/__resources.json";
 
 interface Props {
   products: FetchCourseType[];
@@ -27,7 +31,7 @@ const StoreContent: FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const { storeFilters, addFilter, removeFilter, clearFilters } =
     useStoreFilters();
-
+  const history = useHistory();
   const itemsPerPage = 18;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -51,8 +55,12 @@ const StoreContent: FC<Props> = ({
         return item.name == specialty.name;
       }
     );
-    if (specialtyExists.length) removeFilter("specialties", specialty);
-    else addFilter("specialties", specialty);
+
+    if (specialtyExists.length) {
+      removeFilter("specialties", specialty);
+    } else {
+      addFilter("specialties", specialty);
+    }
   };
 
   const onChangeProfession = (profession: Profession) => {
@@ -90,9 +98,11 @@ const StoreContent: FC<Props> = ({
   useEffect(() => {
     const currentUrl = window.location.href;
     const searchQuery = currentUrl.split("?");
+    //console.log(currentUrl, { searchQuery });
     if (searchQuery[1]) {
       const queryParams = searchQuery[1].split("&");
       clearFilters();
+
       queryParams.forEach((query, index) => {
         const filterQueries = query
           .split("=")[1]
@@ -124,12 +134,14 @@ const StoreContent: FC<Props> = ({
             }
             break;
           case "especialidad":
-            if (filterQueries.includes("Cardiología"))
-              addFilter("specialties", {
-                id: 1,
-                name: "Cardiología",
-              });
-            if (filterQueries.includes("Emergentología")) {
+            const specialtiesJSON: JsonMapping = specialtiesMapping;
+            const [specialtieQueryName] = filterQueries;
+            const specialtyName = specialtiesJSON[specialtieQueryName];
+            addFilter("specialties", {
+              id: 1,
+              name: specialtyName,
+            });
+            /*  if (filterQueries.includes("Emergentología")) {
               addFilter("specialties", {
                 id: 1,
                 name: "Emergentología",
@@ -146,10 +158,17 @@ const StoreContent: FC<Props> = ({
                 id: 1,
                 name: "Infectología",
               });
-            }
+            } */
             break;
           case "recurso":
-            if (filterQueries.includes("1")) {
+            const resourceJSON: JsonMapping = resourcesMapping;
+            const [resourceQueryName] = filterQueries;
+            const resourceName = resourceJSON[resourceQueryName];
+            addFilter("resources", {
+              name: resourceName,
+              id: 1,
+            });
+          /* if (filterQueries.includes("1")) {
               addFilter("resources", {
                 name: "Curso",
                 id: 1,
@@ -160,7 +179,7 @@ const StoreContent: FC<Props> = ({
                 name: "Guías profesionales",
                 id: 2,
               });
-            }
+            } */
         }
       });
 
@@ -190,10 +209,12 @@ const StoreContent: FC<Props> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {
+                console.log({ currentItems });
                 return (
                   <StoreProduct
                     product={product}
                     key={`${product.slug}_${index}`}
+                    kind={product.father_post_type}
                   />
                 );
               })

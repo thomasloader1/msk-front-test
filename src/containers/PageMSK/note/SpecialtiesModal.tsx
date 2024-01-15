@@ -1,8 +1,4 @@
-import api from "Services/api";
-import axios from "axios";
 import NcImage from "components/NcImage/NcImage";
-import { API_BACKEND_URL } from "data/api";
-import { ContactUs, Newsletter, Specialty } from "data/types";
 import useSpecialitiesPosts, {
   SpecialitiePost,
 } from "hooks/useSpecialitiesPosts";

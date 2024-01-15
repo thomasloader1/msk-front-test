@@ -89,6 +89,7 @@ export interface SinglePageType extends PostDataType {
     title: string | null;
     content: string;
   }> | [];
+  reading_time?: string;
   terminos?: Array<{ titulo: string; descripcion: string }>;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];

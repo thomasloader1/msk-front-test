@@ -50,9 +50,10 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setCourses(allProductsMX);
+    //setCourses(allProductsMX);
     fetchUser();
   }, [allProductsMX, state?.profile?.courses_progress]);
+
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -82,6 +83,8 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   ];
 
   const fetchUser = async () => {
+    setLoading(true);
+
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";

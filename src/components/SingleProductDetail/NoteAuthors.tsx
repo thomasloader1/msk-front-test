@@ -25,7 +25,9 @@ const NoteAuthors: FC<Props> = ({ instructor }) => {
               Licenciado
             </p>
           )}
-          <p className="instructors-description">{instructor.description}</p>
+          <p className="instructors-description lg:pr-20">
+            {instructor.description}
+          </p>
         </div>
       </div>
       {displayBiography &&

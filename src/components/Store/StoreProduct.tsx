@@ -9,12 +9,14 @@ interface Props {
   product: FetchCourseType;
   className?: string;
   hoverEffect?: boolean;
+  kind: string;
 }
 
 const StoreProduct: FC<Props> = ({
   product,
   className,
   hoverEffect = false,
+  kind,
 }): any => {
   const { state } = useContext(CountryContext);
 
@@ -36,6 +38,8 @@ const StoreProduct: FC<Props> = ({
               <CategoryBadgeList
                 categories={product.categories}
                 color="yellow"
+                isCourse={kind === "course"}
+                isEbook={kind === "downloadable"}
               />
               <Link to={`/curso/${product.slug}`}>
                 <h3 className="">{product.title}</h3>
@@ -86,10 +90,15 @@ const StoreProduct: FC<Props> = ({
                   color="emerald-post"
                   name="Guía profesional"
                   textSize="text-xs"
+                  href={`/tienda?recurso=guias-profesionales`}
                 />
               </>
             )}
-            <CategoryBadgeList categories={product.categories} color="yellow" />
+            <CategoryBadgeList
+              categories={product.categories}
+              color="yellow"
+              isCourse={true}
+            />
           </div>
           {/* <div className="portfolio-price">
             <span>${product.discount_price}</span>

@@ -6,6 +6,8 @@ import {
   Specialty,
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { useHistory } from "react-router-dom";
+import { slugifySpecialty } from "lib/Slugify";
 
 interface StoreFilterQuery {
   professions: [{ name: string; id: number; slug: string }];
@@ -170,6 +172,8 @@ const StoreSideBar: FC<Props> = ({
     }
   };
 
+  const history = useHistory();
+
   return (
     <>
       <div className="course-sidebar-widget mb-2">
@@ -191,7 +195,15 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
-                        onChange={(event) => onChangeSpecialty(specialty)}
+                        onChange={(event) => {
+                          /* onChangeSpecialty(specialty) */
+                          //console.error(specialty);
+                          history.push(
+                            `?especialidad=${slugifySpecialty(
+                              specialty.name
+                            )}&recurso=curso`
+                          );
+                        }}
                         checked={isChecked("specialties", specialty)}
                       />
                       <label

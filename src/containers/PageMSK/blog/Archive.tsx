@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useContext, useEffect, useState } from "react";
-import { PostDataType, TaxonomyType } from "data/types";
+import { JsonMapping, PostDataType, TaxonomyType } from "data/types";
 import NcImage from "components/NcImage/NcImage";
 import { CommentType } from "components/CommentCard/CommentCard";
 import Card11 from "components/Card11/Card11";
@@ -14,6 +14,7 @@ import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "../note/SpecialtiesModal";
 import { DataContext } from "context/data/DataContext";
 import PageHead from "../PageHead";
+import notesMapping from "../../../data/jsons/__notes.json";
 
 export interface PageArchiveProps {
   className?: string;
@@ -44,6 +45,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const [posts, setPosts] = useState(allPosts);
   const [auxPosts, setAuxPosts] = useState(allPosts);
   const [bestSeller, setBestSeller] = useState([]);
+
   useEffect(() => {
     setPosts(allPosts);
     setAuxPosts(allPosts);
@@ -103,14 +105,17 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
       window.location.search.replace(/^.*\?categoria=/, "")
     );
 
+    const notesJSON: JsonMapping = notesMapping;
+
     setTitle(
       categoryValue && !categoryValue.includes("Otra")
-        ? categoryValue
+        ? notesJSON[categoryValue]
         : "Actualidad"
     );
     const filteredPosts = auxPosts.filter((post: PostDataType) => {
+      console.log(post.categories, categoryValue);
       return post.categories.some((category) =>
-        category.name.includes(categoryValue)
+        category.name.includes(notesJSON[categoryValue])
       );
     });
 
@@ -124,7 +129,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   return (
     <>
-    <PageHead title="Archivo" />
+      <PageHead title="Archivo" />
       <div
         className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"

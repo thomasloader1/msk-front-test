@@ -1,7 +1,6 @@
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import React, { useState, useEffect, FC } from "react";
+import { useState, useEffect } from "react";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-import TextSkeleton from "components/Skeleton/TextSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import notFoundImg from "../../images/404-msk.png";
 import PageHead from "containers/PageMSK/PageHead";

@@ -12,12 +12,14 @@ export interface Card8Props {
   className?: string;
   post: FetchCourseType;
   badgeColor?: string;
+  kind: "curso" | "guia" | "blog";
 }
 
 const Card8: FC<Card8Props> = ({
   className = "h-full",
   post,
   badgeColor = "yellow",
+  kind,
 }) => {
   const { title, categories, id, slug, image } = post;
   const { state } = useContext(CountryContext);
@@ -52,7 +54,13 @@ const Card8: FC<Card8Props> = ({
       ></Link>
       <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 flex flex-col">
         <Link to={`/curso/${slug}`} className="absolute inset-0" />
-        <CategoryBadgeList color={badgeColor} categories={categories} />
+        <CategoryBadgeList
+          color={badgeColor}
+          categories={categories}
+          isCourse={kind === "curso"}
+          isPost={kind === "blog"}
+          isEbook={kind === "guia"}
+        />
         <h2
           className={`mt-3 relative block font-semibold text-neutral-50 text-lg sm:text-2xl `}
         >

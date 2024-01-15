@@ -11,6 +11,7 @@ export interface Card9Props {
   hoverClass?: string;
   showDescription?: boolean;
   badgeColor?: string;
+  kind: "curso" | "guia" | "blog";
 }
 
 const Card9: FC<Card9Props> = ({
@@ -20,6 +21,7 @@ const Card9: FC<Card9Props> = ({
   hoverClass = "",
   showDescription = false,
   badgeColor = "yellow",
+  kind,
 }) => {
   const { title, categories, id, slug, image } = post;
   const { state } = useContext(CountryContext);
@@ -74,7 +76,13 @@ const Card9: FC<Card9Props> = ({
       <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
         <Link to={`/curso/${slug}`} className="absolute inset-0"></Link>
         <div className="mb-3">
-          <CategoryBadgeList categories={categories} color={badgeColor} />
+          <CategoryBadgeList
+            categories={categories}
+            color={badgeColor}
+            isPost={kind === "blog"}
+            isCourse={kind === "curso"}
+            isEbook={kind === "guia"}
+          />
         </div>
         {renderMeta()}
       </div>

@@ -16,6 +16,7 @@ export const parseHtml = (contentHtml: string) => {
     ulElement.classList.add("m-0", "flex", "flex-col");
     const liElements = ulElement.querySelectorAll("li");
     const brElements = ulElement.querySelectorAll("br");
+    console.log({ liElements });
 
     brElements.forEach((brElement) => {
       if (brElement.parentNode) {
@@ -23,9 +24,13 @@ export const parseHtml = (contentHtml: string) => {
       }
     });
 
-    liElements.forEach((liElement) => {
+    liElements.forEach((liElement, index) => {
       // Crear una imagen y configurar sus atributos
-      liElement.classList.add("flex", "items-start", "mb-6", "mt-0");
+      if (index === 0) {
+        liElement.classList.add("mt-6");
+      }
+
+      liElement.classList.add("flex", "items-start", "mb-6");
 
       const spanElements = liElement.querySelectorAll("span");
 
@@ -41,7 +46,7 @@ export const parseHtml = (contentHtml: string) => {
 
       const imgElement = document.createElement("img");
       imgElement.classList.add("m-0", "mr-3", "mt-1", "w-5");
-      console.log({ imgElement });
+      //console.log({ imgElement });
       imgElement.src = "/src/images/vectors/isotipo.svg"; // Cambia la URL de la imagen según tus necesidades
       imgElement.alt = "Imagen"; // Cambia el texto alternativo según tus necesidades
 

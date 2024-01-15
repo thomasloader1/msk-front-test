@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, SetStateAction, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
@@ -33,15 +33,15 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
       }
     });
 
-    const { data, status } = await api.postRecover(jsonData);
-    if (status == 200) {
-      console.log(data);
+    const res = await api.postRecover(jsonData);
+    if (res.status == 200) {
+      console.log(res.data);
       setTimeout(() => {
         history.push("/correo-enviado");
       }, 1500);
     } else {
-      console.log("Error:", data.error);
-      setError(data.error);
+      console.log("Error:", { res });
+      setError(res as SetStateAction<string>);
     }
   };
 

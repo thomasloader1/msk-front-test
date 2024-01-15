@@ -1,21 +1,14 @@
 import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
 import {
-  BlogDataType,
   FetchCourseType,
   FetchPostType,
-  PostDataType,
   UserCourse,
   UserCourseProgress,
 } from "data/types";
 import { Link } from "react-router-dom";
-import SocialsShare from "components/SocialsShare/SocialsShare";
-import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
-import PostCardLikeAction from "components/PostCardLikeAction/PostCardLikeAction";
 
 export interface Card2Props {
   className?: string;
@@ -32,7 +25,6 @@ const Card2: FC<Card2Props> = ({
   className = "h-full",
   size = "normal",
   post,
-  badgeColor,
   redirectAccount,
   kind = "curso",
   hideDesc,
@@ -48,6 +40,7 @@ const Card2: FC<Card2Props> = ({
     date,
     author,
   } = post;
+
   const imageURL = image?.replace("mx.", "");
   const url = redirectAccount ? `/mi-cuenta/cursos` : `/${kind}/${slug}`;
   return (
@@ -77,8 +70,8 @@ const Card2: FC<Card2Props> = ({
           <CategoryBadgeList
             itemClass="relative"
             isCourse={father_post_type === "course"}
+            isPost={kind === "blog"}
             categories={categories}
-            color={badgeColor}
           />
           <h2
             className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-10 ${

@@ -23,6 +23,7 @@ export interface ContactFormSchema {
   URL_ORIGEN?: string;
   leadSource?: string | null;
   Ebook_consultado?: string | null;
+  Cursos_consultados?: string | null;
 }
 export interface TemarioFormSchema {
   First_Name: string;

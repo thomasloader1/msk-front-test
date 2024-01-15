@@ -111,7 +111,8 @@ const ContactFormSection: FC<ContactFormProps> = ({
     career: "",
     URL_ORIGEN: window.location.href,
     leadSource: "",
-    Ebook_consultado: "",
+    Ebook_consultado: isEbook ? productName : null,
+    Cursos_consultados: isEbook ? null : productName,
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -190,7 +191,9 @@ const ContactFormSection: FC<ContactFormProps> = ({
       let leadSource = null;
       let Ebook_consultado = null;
       if (submitReason) leadSource = submitReason;
-      if (isEbook) Ebook_consultado = productName;
+      if (isEbook) {
+        Ebook_consultado = productName;
+      }
       const body = {
         ...values,
         leadSource,

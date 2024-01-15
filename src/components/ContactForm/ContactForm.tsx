@@ -111,6 +111,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     career: "",
     URL_ORIGEN: window.location.href,
     leadSource: "",
+    Ebook_consultado: "",
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -187,10 +188,13 @@ const ContactFormSection: FC<ContactFormProps> = ({
     onSubmit: async (values) => {
       setOnRequest(true);
       let leadSource = null;
+      let Ebook_consultado = null;
       if (submitReason) leadSource = submitReason;
+      if (isEbook) Ebook_consultado = productName;
       const body = {
         ...values,
         leadSource,
+        Ebook_consultado,
       };
       if (executeRecaptcha) {
         try {
@@ -310,6 +314,13 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   type="hidden"
                   name="Cursos_consultados"
                   id="Cursos_consultados"
+                  value={productName}
+                />
+
+                <input
+                  type="hidden"
+                  name="Ebook_consultado"
+                  id="Ebook_consultado"
                   value={productName}
                 />
 

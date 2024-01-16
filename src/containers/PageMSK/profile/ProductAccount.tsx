@@ -16,6 +16,7 @@ import ProductAccountButton from "./ProductAccountButton";
 import InfoText from "components/InfoText/InfoText";
 import { STATUS } from "data/statusCourses";
 import useInterval from "hooks/useInterval";
+import DateProductExpiration from "components/Account/DateProductExpiration";
 
 interface Props {
   product: UserCourseProgress;
@@ -144,22 +145,22 @@ const ProductAccount: FC<Props> = ({
             </a>
           </div>
 
-          {product.expiration ? (
-            <div className="flex items-center mt-2 ">
-              <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-              <span className="text-violet-wash text-sm">
-                Fecha de expiración: {formatDate(productExpiration.current)}
-              </span>
-            </div>
-          ) : (
-            <div className="flex items-center mt-2 ">
-              <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-              <span className="text-violet-wash text-sm">
-                Fecha límite de activación:{" "}
-                {formatDate(productExpirationEnroll.current)}
-              </span>
-            </div>
+          {product.ov !== "Baja" && (
+            <>
+              {product.expiration ? (
+                <DateProductExpiration
+                  date={productExpiration.current}
+                  text="Fecha de expiración"
+                />
+              ) : (
+                <DateProductExpiration
+                  date={productExpirationEnroll.current}
+                  text="Fecha límite de activación"
+                />
+              )}
+            </>
           )}
+
           {showHelp && <CentroAyudaLink addClassNames="my-2" />}
 
           {showTip && (

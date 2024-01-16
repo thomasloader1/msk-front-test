@@ -43,7 +43,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
               color={color}
               href={`/tienda?especialidad=${slugifySpecialty(
                 item.name
-              )}&resource=curso`}
+              )}&recurso=curso`}
             />
           ))}
         </>

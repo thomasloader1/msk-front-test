@@ -56,16 +56,20 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           />
         </div>
       </div>
-      {item.expiration ? (
-        <DateProductExpiration
-          date={productExpiration.current}
-          text="Fecha de expiración"
-        />
-      ) : (
-        <DateProductExpiration
-          date={productExpirationEnroll.current}
-          text="Fecha límite de activación"
-        />
+      {item.ov !== "Baja" && (
+        <>
+          {item.expiration ? (
+            <DateProductExpiration
+              date={productExpiration.current}
+              text="Fecha de expiración"
+            />
+          ) : (
+            <DateProductExpiration
+              date={productExpirationEnroll.current}
+              text="Fecha límite de activación"
+            />
+          )}
+        </>
       )}
       {(isDisabled && !isReadyToEnroll) ||
         (statusOV.isDisabled && <CentroAyudaLink />)}

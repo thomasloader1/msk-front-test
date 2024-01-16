@@ -15,6 +15,7 @@ import SpecialtiesModal from "../note/SpecialtiesModal";
 import { DataContext } from "context/data/DataContext";
 import PageHead from "../PageHead";
 import notesMapping from "../../../data/jsons/__notes.json";
+import specialtiesMapping from "../../../data/jsons/__specialties.json";
 
 export interface PageArchiveProps {
   className?: string;
@@ -100,7 +101,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     let categoryValue = decodeURIComponent(
       window.location.search.replace(/^.*\?categoria=/, "")
     );
@@ -113,10 +114,37 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         : "Actualidad"
     );
     const filteredPosts = auxPosts.filter((post: PostDataType) => {
-      console.log(post.categories, categoryValue);
       return post.categories.some((category) =>
         category.name.includes(notesJSON[categoryValue])
       );
+    });
+
+    setPosts(filteredPosts);
+  }, [window.location.search]); */
+
+  useEffect(() => {
+    let categoryValue = decodeURIComponent(
+      window.location.search.replace(/^.*\?categoria=/, "")
+    );
+    let specialtyValue = decodeURIComponent(
+      window.location.search.replace(/^.*\?especialidad=/, "")
+    );
+
+    const notesJSON: JsonMapping = notesMapping;
+    const specialtiesJSON: JsonMapping = specialtiesMapping;
+
+    const title = specialtyValue
+      ? specialtiesJSON[specialtyValue]
+      : categoryValue && !categoryValue.includes("Otra")
+      ? notesJSON[categoryValue]
+      : "Actualidad";
+
+    setTitle(title);
+
+    const filteredPosts = auxPosts.filter((post: PostDataType) => {
+      return post.categories.some((category) =>
+        category.name.includes(notesJSON[categoryValue])
+      ) /* && post.specialty.includes(specialtyValue) */;
     });
 
     setPosts(filteredPosts);

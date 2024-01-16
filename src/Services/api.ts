@@ -72,7 +72,8 @@ class ApiService {
       const response = await axios.post(apiRecoverURL, jsonData);
       return response;
     } catch (error: any) {
-      return error.response.message;
+      //console.log(error);
+      return error.response.data.message || error.message;
     }
   }
 
@@ -329,9 +330,7 @@ class ApiService {
       const countryParam = validCountries.includes(COUNTRY || "")
         ? COUNTRY
         : "int";
-      const res = await axios.get(
-        `${API_URL}/posts?country=${countryParam}`
-      );
+      const res = await axios.get(`${API_URL}/posts?country=${countryParam}`);
       const postsList = res.data.posts.map((post: any) => ({
         ...post,
         image: post.thumbnail,

@@ -34,7 +34,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
     });
 
     const res = await api.postRecover(jsonData);
-    if (res.status == 200) {
+    if (res?.status == 200) {
       console.log(res.data);
       setTimeout(() => {
         history.push("/correo-enviado");
@@ -79,6 +79,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
             </label>
             <ButtonPrimary type="submit">Confirmar</ButtonPrimary>
           </form>
+          <p className="text-red-500 font-bold text-center">{error}</p>
 
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
@@ -87,7 +88,6 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
               Iniciar sesión
             </NcLink>
           </span>
-          <p className="text-red-500 text-center">{error}</p>
         </div>
       </LayoutPage>
     </div>

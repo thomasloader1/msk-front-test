@@ -21,14 +21,10 @@ const PageBlog: React.FC = () => {
     setPosts(allPosts);
   }, [allCourses, allPosts, allBestSellers]);
 
-  const welcomePosts = posts.filter(
-    (p: FetchPostType, i) =>
-      i < 5 && p.categories.some((p) => p.name?.includes("Actualidad"))
-  );
+  const welcomePosts = posts.filter((p: FetchPostType, i) => i < 4);
 
   return (
     <div className="nc-PageHome relative animate-fade-down">
-
       <PageHead title="Blog" />
       {/* ======== ALL SECTIONS ======== */}
       <div className="relative overflow-hidden">

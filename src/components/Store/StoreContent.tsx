@@ -209,7 +209,6 @@ const StoreContent: FC<Props> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {
-                console.log({ currentItems });
                 return (
                   <StoreProduct
                     product={product}

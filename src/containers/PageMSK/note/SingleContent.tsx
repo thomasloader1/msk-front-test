@@ -13,7 +13,7 @@ import useBestSellers from "hooks/useBestSellers";
 import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "./SpecialtiesModal";
-import { slugify } from "lib/Slugify";
+import { slugify, slugifySpecialty } from "lib/Slugify";
 import { parseHtml } from "utils/parseHTML";
 
 export interface SingleContentProps {
@@ -245,7 +245,9 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               {fiveSpecialtiesGroups.map(
                 ({ speciality_name, image, articles }, index) => (
                   <Link
-                    to={`/archivo?especialidad=${speciality_name}`}
+                    to={`/archivo?especialidad=${slugifySpecialty(
+                      speciality_name
+                    )}`}
                     key={`rc_${index}`}
                     className="side-content-course"
                   >

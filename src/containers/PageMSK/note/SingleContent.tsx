@@ -80,7 +80,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  console.log({ data });
+  //console.log({ data });
 
   return (
     <div className="nc-SingleContent space-y-10 ">

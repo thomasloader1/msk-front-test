@@ -344,14 +344,14 @@ const ContactFormSection: FC<ContactFormProps> = ({
                 {hideContactPreference ? null : (
                   <div className={`section-title mb-30`}>
                     {hideHeader ? null : (
-                      <h2
+                      <h4
                         className="font-medium "
                         style={{ maxWidth: "800px" }}
                       >
                         {isEbook
                           ? "Completa el formulario para descargar automáticamente el material"
                           : "Contáctanos"}
-                      </h2>
+                      </h4>
                     )}
 
                     {!isEbook && (

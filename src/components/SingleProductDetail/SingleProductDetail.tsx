@@ -73,6 +73,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
+
+  console.log({product})
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
@@ -88,10 +90,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   textSize="text-xs"
                 />
               )}
-              <CategoryBadgeList categories={product.ficha.categorias} />
+              <CategoryBadgeList categories={product.ficha.categorias} isCourse={true} />
             </div>
             <div className="course-heading mb-10 my-5">
-              <h2 className="font-semibold">{product.ficha.title}</h2>
+              <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
             </div>
             <div>
               {product.authors.length ||
@@ -107,12 +109,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                         <div>
                           <span className="raleway">Cedente</span>
                           <div className="flex flex-col">
-                            <h6
+                            <div
                               className="raleway-bold"
                               style={{ maxWidth: "280px" }}
                             >
                               {title || product.authors[0]?.name}
-                            </h6>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -123,9 +125,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     <>
                       <div className="flex flex-col">
                         <span className="raleway">Contenido</span>
-                        <h6 className="raleway-bold">
+                        <div className="raleway-bold">
                           {product.temario["data"]?.row_count} módulos
-                        </h6>
+                        </div>
                       </div>
                       <div className="border-line-meta"></div>
                     </>
@@ -134,9 +136,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   {product.details && product.details["duration"] ? (
                     <div className="flex flex-col">
                       <span className="raleway">Duración</span>
-                      <h6 className="raleway-bold">
+                      <div className="raleway-bold">
                         {product.details["duration"].value} horas estimadas
-                      </h6>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -168,7 +170,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               >
                 {!isEbook && (
                   <div className="course-Description">
-                    <h4 className="font-semibold text-xl">Qué aprenderás</h4>
+                    <div className="font-semibold text-xl">Qué aprenderás</div>
                   </div>
                 )}
                 <div ref={textRef} />

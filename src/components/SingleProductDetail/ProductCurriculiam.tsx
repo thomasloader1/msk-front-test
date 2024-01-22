@@ -67,7 +67,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
-        <h4 className="font-semibold text-xl">Qué temas verás</h4>
+        <div className="font-semibold text-xl">Qué temas verás</div>
         <div className="flex items-center justify-between">
           <p className="modules-description">
             {accordionContent.length} módulos • {hours?.value} horas estimadas

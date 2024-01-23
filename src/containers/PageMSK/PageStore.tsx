@@ -16,6 +16,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
 import { DataContext } from "context/data/DataContext";
 import PageHead from "./PageHead";
+import { removeAccents } from "lib/removeAccents";
 
 export interface PageStoreProps {
   className?: string;
@@ -153,14 +154,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       setProducts(filteredProducts);
     }
   };
-
-  const removeAccents = (str: string) => {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-  };
-  const triggerSearch = (event: any) => {
+  
+   const triggerSearch = (event: any) => {
     if (event) {
       const filteredProducts = auxProducts.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
@@ -273,7 +268,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
         {storeFilters.specialties.length > 0 && <h1 className="pl-10 text-3xl mb-10">Cursos de {storeFilters.specialties[0].name}</h1>}
-          <StoreBar
+          {/* <StoreBar
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}
             length={products.length}
@@ -283,7 +278,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               storeFilters.resources.length +
               storeFilters.duration.length
             }
-          />
+          /> */}
           {loadingCourses ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {
@@ -296,6 +291,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               specialties={specialties}
               professions={professions}
               productsLength={auxProducts.length}
+              handleTriggerSearch={triggerSearch}
+              handleTriggerFilter={triggerFilter}
             />
           )}
         </section>

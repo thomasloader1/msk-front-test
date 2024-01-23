@@ -14,12 +14,15 @@ import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { useHistory } from "react-router-dom";
 import specialtiesMapping from "../../data/jsons/__specialties.json";
 import resourcesMapping from "../../data/jsons/__resources.json";
+import StoreBar from "./StoreBar";
 
 interface Props {
   products: FetchCourseType[];
   professions: Profession[];
   specialties: Specialty[];
   productsLength: number;
+  handleTriggerSearch: (e: any) => void;
+  handleTriggerFilter: (e: any) => void;
 }
 
 const StoreContent: FC<Props> = ({
@@ -27,6 +30,8 @@ const StoreContent: FC<Props> = ({
   professions,
   specialties,
   productsLength,
+  handleTriggerSearch,
+handleTriggerFilter
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const { storeFilters, addFilter, removeFilter, clearFilters } =
@@ -191,6 +196,8 @@ const StoreContent: FC<Props> = ({
     setCurrentPage(1);
   }, [storeFilters]);
 
+  
+
   return (
     <section className="container course-content-area pb-90 animate-fade-down">
 
@@ -206,6 +213,17 @@ const StoreContent: FC<Props> = ({
           />
         </div>
         <div>
+        <StoreBar
+            onSearch={(e) => handleTriggerSearch(e)}
+            onFilter={(e) => handleTriggerFilter(e)}
+            length={products.length}
+            filtersCount={
+              storeFilters.specialties.length +
+              storeFilters.professions.length +
+              storeFilters.resources.length +
+              storeFilters.duration.length
+            }
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {

@@ -2,6 +2,8 @@ import { Listbox } from "@headlessui/react";
 import ButtonDropdown from "components/ButtonDropdown/ButtonDropdown";
 import { ListBoxItemType } from "components/NcListBox/NcListBox";
 import React, { FC, useState } from "react";
+import FiltersApply from "./FiltersApply";
+import SearchBar from "./SearchBar";
 
 interface Props {
   onSearch: (searchTerm: string) => void;
@@ -28,32 +30,12 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
     onFilter(event.value);
   };
   return (
-    <div className=" course-bar-up-area">
-      <div className="container">
+    <div className="course-bar-up-area">
+      <div className="">
         <div className="grid grid-cols-1">
-          <div className="course-main-wrapper mb-30">
-            <div className="bar-filter">
-              <i className="flaticon-filter"></i>
-              <span>Filtros</span>
-              <span>({filtersCount})</span>
-            </div>
-            <div className="corse-bar-wrapper">
-              <div className="bar-search">
-                <form action="#">
-                  <div className="bar-search-icon position-relative">
-                    <i className="flaticon-search"></i>
-                    <input
-                      type="text"
-                      placeholder="Buscar"
-                      onChange={handleSearchInput}
-                    />
-                    <button type="submit">
-                      <i className="far fa-search"></i>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+          <div className="course-main-wrapper mb-30 gap-2">
+           <FiltersApply filtersCount={filtersCount} />
+            <SearchBar handleSearchInput={handleSearchInput} />
             <div className="course-sidebar-tab">
               <div className="course-sidebar-wrapper">
                 <div className="curse-tab-left-wrap">

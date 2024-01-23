@@ -345,7 +345,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   <div className={`section-title mb-30`}>
                     {hideHeader ? null : (
                       <h4
-                        className="font-medium "
+                        className="font-medium text-3xl mb-1"
                         style={{ maxWidth: "800px" }}
                       >
                         {isEbook

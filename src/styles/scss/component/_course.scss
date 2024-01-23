@@ -805,12 +805,14 @@
     color: $heading-color;
     outline: none;
     border: 1px solid $border;
-    min-width: 420px;
+    min-width: 100px;
     background-color: $white;
     border-radius: 3px;
+    max-width: 200px;
 
     @media #{$lg,$md,$sm,$xs} {
       min-width: 100%;
+      max-width: unset;
     }
 
     ::placeholder {

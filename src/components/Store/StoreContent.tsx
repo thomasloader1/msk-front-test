@@ -31,7 +31,7 @@ const StoreContent: FC<Props> = ({
   specialties,
   productsLength,
   handleTriggerSearch,
-handleTriggerFilter
+  handleTriggerFilter,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const { storeFilters, addFilter, removeFilter, clearFilters } =
@@ -196,11 +196,13 @@ handleTriggerFilter
     setCurrentPage(1);
   }, [storeFilters]);
 
-  
-
   return (
     <section className="container course-content-area pb-90 animate-fade-down">
-
+      {storeFilters.specialties.length > 0 && (
+        <h1 className="text-3xl mb-10">
+          Cursos de {storeFilters.specialties[0].name}
+        </h1>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-[40%_60%] lg:grid-cols-[30%_70%] gap-4 mb-10">
         <div className="flex flex-col">
           <StoreSideBar
@@ -213,7 +215,7 @@ handleTriggerFilter
           />
         </div>
         <div>
-        <StoreBar
+          <StoreBar
             onSearch={(e) => handleTriggerSearch(e)}
             onFilter={(e) => handleTriggerFilter(e)}
             length={products.length}

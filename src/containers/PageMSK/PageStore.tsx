@@ -154,8 +154,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       setProducts(filteredProducts);
     }
   };
-  
-   const triggerSearch = (event: any) => {
+
+  const triggerSearch = (event: any) => {
     if (event) {
       const filteredProducts = auxProducts.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
@@ -245,7 +245,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
 
-  console.log(storeFilters)
+  console.log(storeFilters);
 
   return (
     <div
@@ -264,10 +264,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         headingEmoji="💎"
         heading="Store"
       >
-        
-
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-        {storeFilters.specialties.length > 0 && <h1 className="pl-10 text-3xl mb-10">Cursos de {storeFilters.specialties[0].name}</h1>}
           {/* <StoreBar
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}

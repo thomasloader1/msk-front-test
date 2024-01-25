@@ -32,17 +32,18 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   }, [auxTopics]);
 
   const parseToHTML = (htmlString: string): JSX.Element => {
-    console.log({ arrHtml: htmlString.split("\n") })
+    console.log({ arrHtml: htmlString.split("\n") });
     if (htmlString) {
       const textNodes = htmlString.split("\n").map((line, i) => {
-      if(line.includes("<ul>")){
-       line = "<ul class='line-outside'>"
-      }
-      return ( <React.Fragment key={i}>
-          {line}
-          <br/>
-        </React.Fragment>
-      )
+        if (line.includes("<ul>")) {
+          line = "<ul class='line-outside'>";
+        }
+        return (
+          <React.Fragment key={i}>
+            {line}
+            <br />
+          </React.Fragment>
+        );
       });
       return <>{textNodes}</>;
     }
@@ -95,7 +96,10 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
                 setCurrentIndex={() => handleAccordionClick(index)}
                 key={`acc_${index}`}
               >
-                <div className="accordion-content p-3" dangerouslySetInnerHTML={{__html: item.card_body}} />
+                <div
+                  className="accordion-content p-3"
+                  dangerouslySetInnerHTML={{ __html: item.card_body }}
+                />
               </Accordion>
             );
           })}

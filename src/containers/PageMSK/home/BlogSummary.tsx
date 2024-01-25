@@ -72,6 +72,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
         onClickTab={handleClickTab}
         desc={desc}
         viewMore="/archivo"
+        mobileHidden="block"
       />
       {loading && (
         <>
@@ -85,7 +86,22 @@ const BlogSummary: FC<BlogSummaryProps> = ({
           </div>
         </>
       )}
-      {!auxPosts.length && !loading && <span>No hay posts disponibles</span>}
+      {!auxPosts.length && !loading && (
+        <div className="w-full flex flex-col gap-4">
+          <img
+            src="/src/images/icons/no_results.svg"
+            width="47"
+            height="47"
+            className="mx-auto"
+          />
+          <h4 className="text-center text-[18px] w-full font-medium">
+            No hay resultados para tu búsqueda
+          </h4>
+          <p className="text-center text-[12px] leading-4">
+            Elige otra opción e infórmate en Medical & Scientific Knowledge
+          </p>
+        </div>
+      )}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} kind="blog" />}
         <div>

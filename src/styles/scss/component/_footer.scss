@@ -24,6 +24,10 @@
 }
 .footer-copyright {
   max-width: 270px;
+  @media (max-width: 728px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 .footer-widget {
   @media #{sm} {

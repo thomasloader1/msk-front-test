@@ -12,6 +12,7 @@ export interface HeaderFilterProps {
   onClickTab: (item: string) => void;
   desc?: string;
   viewMore?: string;
+  mobileHidden?: string;
 }
 
 const HeaderFilter: FC<HeaderFilterProps> = ({
@@ -21,6 +22,7 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
   onClickTab,
   desc = "",
   viewMore = "/tienda",
+  mobileHidden = "hidden",
 }) => {
   return (
     <div className="flex flex-col mb-8 relative">
@@ -42,10 +44,16 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
             </NavItem>
           ))}
         </Nav>
-        <Link to={viewMore} className="hidden sm:block flex-shrink-0">
-          <ButtonSecondary className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400">
+        <Link
+          to={viewMore}
+          className={`${mobileHidden} sm:block flex-shrink-0`}
+        >
+          <ButtonSecondary
+            className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400"
+            sizeClass="px-3 py-1 sm:py-3 sm:px-6 text-[9.5px]"
+          >
             <span>Ver más</span>
-            <i className="ml-3 las la-arrow-right text-xl"></i>
+            <i className="ml-3 las la-arrow-right text-sm sm:text-xl"></i>
           </ButtonSecondary>
         </Link>
       </div>

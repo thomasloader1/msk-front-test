@@ -489,7 +489,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <option defaultValue="" value="">
                             Seleccionar profesión
                           </option>
-                          {professions
+                          {professions && professions.length
                             ? professions.map((p) => (
                                 <option key={p.id} value={`${p.name}/${p.id}`}>
                                   {p.name}
@@ -558,7 +558,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       </div>
                     ) : (
                       <>
-                        <div className={`col-xl-6`}>
+                        <div className={`col-xl-6 col-span-2 sm:col-span-1`}>
                           <div className="contact-select">
                             <ErrorMessage
                               name="Especialidad"
@@ -583,7 +583,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                                       {s.name}
                                     </option>
                                   ))
-                                : specialties.map((s) => (
+                                : specialties?.map((s) => (
                                     <option
                                       key={`sp_${s.id}`}
                                       defaultValue={s.name}

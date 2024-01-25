@@ -46,9 +46,10 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
       >
         <p className="font-lora text-xl">
-          Medical & Scientific Knowledge es{" "}
-          <strong>
-            una propuesta moderna que desafía a expandir las metas profesionales
+          Medical & Scientific Knowledge{" "}
+          <strong className="font-lora-italic">
+            es una propuesta moderna que desafía a expandir las metas
+            profesionales
           </strong>
           . Nuestra presencia en Latinoamérica y España promueve la difusión de
           un nuevo concepto en e-learning que transforma la experiencia de
@@ -64,10 +65,10 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         <img src="/src/images/misc/woman_pc.png" alt="" />
         <p className="font-lora text- text-xl">
           Quienes hacemos Medical & Scientific Knowledge{" "}
-          <strong>
+          <strong className="font-lora-italic">
             queremos acompañar y ayudar a cada persona en un camino de retos y
             crecimiento laboral.
-          </strong>
+          </strong>{" "}
           Todos los cursos que ofrecemos están desarrollados por sellos,
           instituciones y autores de prestigio. La capacitación se realiza en un
           campus virtual práctico y cada profesional tendrá el apoyo y la

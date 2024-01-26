@@ -121,12 +121,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           ) : (
             <>
               <Avatar
-                containerClassName="dark:ring-0 shadow-2xl"
+                containerClassName="dark:ring-0 shadow-2xl mx-auto"
                 userName={user.name}
                 sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
                 radius="rounded-full"
               />
-              <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
+              <div className="mt-4 sm:mt-6 gap-1 max-w-lg text-center">
                 <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
                   {user.name}
                 </h2>
@@ -205,6 +205,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                     key={item.name}
                     taxonomy={item}
                     className="rounded-lg"
+                    hideDescriptionMobile
                   />
                 ))
               : null}

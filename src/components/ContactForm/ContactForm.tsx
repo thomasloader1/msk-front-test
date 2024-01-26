@@ -629,7 +629,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         </div>
                       )}
 
-                      <div className="flex flex-wrap gap-1 mt-2 mb-4">
+                      <div className="flex flex-wrap gap-1 mt-2 mb-4 justify-center sm:justify-start">
                         <div className="contact-checkbox">
                           <ErrorMessage
                             name="Terms_And_Conditions"
@@ -648,9 +648,9 @@ const ContactFormSection: FC<ContactFormProps> = ({
                               <Link
                                 to="/politica-de-privacidad"
                                 target="_blank"
-                                className="text-primary"
+                                className="text-primary underline"
                               >
-                                politicas de privacidad
+                                condiciones de privacidad
                               </Link>
                             </label>
                           </div>

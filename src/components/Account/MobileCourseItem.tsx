@@ -39,20 +39,20 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
     <li className="my-account-courses-mobile">
       <div className="direct-info">
         <NcImage
-          containerClassName="flex-shrink-0 h-12 w-12 rounded-lg overflow-hidden lg:h-14 lg:w-14"
+          containerClassName="flex-shrink-0 h-[32px] w-[32px] rounded-lg overflow-hidden lg:h-14 lg:w-14"
           src={item.featured_image}
         />
 
-        <span className="font-normal dark:text-neutral-300">
+        <span className="font-normal dark:text-neutral-300 text-[9px]">
           {item.title || "-"}
         </span>
-        <div className="status-badge">
+        <div className="status-badge ml-auto">
           <Badge
             name={statusOV.isDisabled ? statusOV.hasText : item?.status}
             color={colorStatus(
               statusOV.isDisabled ? statusOV.hasText : item?.status
             )}
-            textSize="text-sm"
+            className="text-[9px] h-[16px] leading-3"
           />
         </div>
       </div>
@@ -76,7 +76,6 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
       {isReadyToEnroll && (
         <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
       )}
-
       <div className="w-full">
         <ButtonAccessCourse
           email={email}

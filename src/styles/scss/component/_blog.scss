@@ -535,9 +535,14 @@ div.tagcloud a:hover {
   background: rgb(0, 14, 77);
   height: 700px;
   .header-image-container {
-    height: 500px;
+    overflow: hidden;
+    position: relative !important;
+    height: 440px;
     max-width: 1370px;
     width: 96%;
+    @media (max-width: 639px) {
+      height: 370px;
+    }
   }
 }
 
@@ -558,6 +563,10 @@ div.tagcloud a:hover {
 .side-content {
   background: #f3f4f6;
   width: 100%;
+}
+
+.bg-content-msk {
+  background: #f3f4f6;
 }
 
 .side-content-course {

@@ -44,7 +44,7 @@ const FooterEduman = () => {
               </div>
               <div className="footer-column col-span-6 mx-auto lg:col-span-2">
                 <div className="divisor" />
-                <p className="discounts md:mx-auto text-center md:text-left">
+                <p className="discounts md:mx-auto text-center md:text-left text-[12px] sm:text-[18px] leading-4 sm:leading-6">
                   Descuentos exclusivos y becas completas solo con tu
                   suscripción
                 </p>

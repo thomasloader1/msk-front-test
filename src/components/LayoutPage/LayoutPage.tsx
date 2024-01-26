@@ -35,7 +35,7 @@ const LayoutPage: FC<LayoutPageProps> = ({
         </header>
 
         {/* CONTENT */}
-        <div className="p-5 mx-auto bg-white rounded-[40px] shadow-lg sm:p-10 mt-10 lg:mt-20 lg:p-16 dark:bg-neutral-900">
+        <div className="p-5 mx-auto bg-white rounded-[12px] sm:rounded-[40px] shadow-lg sm:p-10 mt-10 lg:mt-20 lg:p-16 dark:bg-neutral-900">
           {children}
         </div>
       </div>

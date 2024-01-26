@@ -104,7 +104,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
               {/* FEATURED IMAGE */}
               <div className="px-[16px]">
                 {note.featured_image && note.featured_image.length ? (
-                  <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container sm:max-h-[450px] max-h-[300px]">
+                  <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container ">
                     <NcImage
                       containerClassName="absolute inset-0"
                       src={note.featured_image[0]}

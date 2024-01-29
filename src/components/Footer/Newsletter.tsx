@@ -249,7 +249,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                 <option defaultValue="" value="">
                   Seleccionar profesión
                 </option>
-                {professions
+                {professions && professions.length
                   ? professions.map((p: Profession) => (
                       <option key={p.id} value={`${p.name}/${p.id}`}>
                         {p.name}
@@ -327,7 +327,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                             {s.name}
                           </option>
                         ))
-                      : specialties.map((s: { id: string; name: string }) => (
+                      : specialties?.map((s: { id: string; name: string }) => (
                           <option key={`sp_${s.id}`} defaultValue={s.name}>
                             {s.name}
                           </option>

@@ -43,7 +43,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           src={item.featured_image}
         />
 
-        <span className="font-normal dark:text-neutral-300 text-[9px]">
+        <span className="font-normal dark:text-neutral-300 text-[9px] leading-4 sm:leading-1">
           {item.title || "-"}
         </span>
         <div className="status-badge ml-auto">

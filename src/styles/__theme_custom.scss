@@ -238,7 +238,7 @@
 
 .signout-modal {
   max-width: 440px;
-  width: 100%;
+  width: calc(100% - 30px);
   padding-top: 30px;
   padding-bottom: 30px;
 }
@@ -248,4 +248,10 @@
 
 .text-dark-blue-custom {
   color: #374161;
+}
+
+.account-menu-item:hover {
+  .menu-profile-icon {
+    filter: grayscale(1);
+  }
 }

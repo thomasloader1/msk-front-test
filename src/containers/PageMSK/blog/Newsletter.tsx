@@ -86,7 +86,7 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
         renderContent={() => (
           <FooterNewsletter email={email} setShow={setShow} />
         )}
-        modalTitle="Nuestro Newsletter"
+        modalTitle="Nuestro newsletter"
         modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
       />
     </div>

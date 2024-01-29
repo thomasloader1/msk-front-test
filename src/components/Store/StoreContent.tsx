@@ -193,8 +193,8 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down">
-      <div className="grid grid-cols-1 md:grid-cols-[40%_60%] lg:grid-cols-[30%_70%] gap-4 mb-10">
-        <div className="flex flex-col">
+      <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-4 mb-10">
+        <div className="hidden lg:flex flex-col">
           <StoreSideBar
             specialties={specialties}
             professions={professions}

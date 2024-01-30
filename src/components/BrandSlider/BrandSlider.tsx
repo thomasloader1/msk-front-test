@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import { BRANDS } from "data/brands";
 
 // Import Swiper styles
 import "swiper/css/bundle";
+import { CountryContext } from "context/country/CountryContext";
 
 const BrandSlider: React.FC = () => {
+  const { state } = useContext(CountryContext);
+  const brandsByCountry = BRANDS.filter((brand) =>
+    brand?.country?.includes(state.country)
+  );
+  const brandsWithoutCountry = BRANDS.filter((brand) => !brand.country);
   return (
     <div className="swiper-container">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        slidesPerView={3}
+        slidesPerView={5}
         loop={true}
         breakpoints={{
           320: {
@@ -32,7 +38,7 @@ const BrandSlider: React.FC = () => {
           disableOnInteraction: true,
         }}
       >
-        {BRANDS.map((brand, i) => (
+        {brandsWithoutCountry.map((brand, i) => (
           <SwiperSlide key={i} className="w-100 bg-primary">
             <div className="brand-container">
               <img
@@ -44,6 +50,25 @@ const BrandSlider: React.FC = () => {
             </div>
           </SwiperSlide>
         ))}
+        {brandsByCountry.length > 0 && (
+          <>
+            {brandsByCountry.map((brand, i) => (
+              <SwiperSlide
+                key={`${i}_${brand.country}`}
+                className="w-100 bg-primary"
+              >
+                <div className="brand-container">
+                  <img
+                    src={brand.img}
+                    alt="img not found"
+                    width={brand.width}
+                    height="200"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </>
+        )}
       </Swiper>
     </div>
   );

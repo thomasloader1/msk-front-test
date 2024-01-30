@@ -13,11 +13,14 @@ const BrandSlider: React.FC = () => {
     brand?.country?.includes(state.country)
   );
   const brandsWithoutCountry = BRANDS.filter((brand) => !brand.country);
+
+  const brandsUnit = brandsByCountry.length + brandsWithoutCountry.length;
+
   return (
     <div className="swiper-container">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        slidesPerView={5}
+        slidesPerView={brandsUnit}
         loop={true}
         breakpoints={{
           320: {
@@ -27,10 +30,10 @@ const BrandSlider: React.FC = () => {
             slidesPerView: 2,
           },
           770: {
-            slidesPerView: 3,
+            slidesPerView: brandsUnit,
           },
           991: {
-            slidesPerView: 3,
+            slidesPerView: brandsUnit,
           },
         }}
         autoplay={{

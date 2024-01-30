@@ -38,7 +38,6 @@ const BrandSlider: React.FC = () => {
         }}
         autoplay={{
           delay: 2000,
-          disableOnInteraction: true,
         }}
       >
         {brandsWithoutCountry.map((brand, i) => (

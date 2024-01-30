@@ -1493,7 +1493,7 @@
   display: flex;
   align-items: flex-start;
   margin-bottom: 15px;
-  gap: 20px;
+  gap: 0px;
 
   .instructors-img {
     position: relative;
@@ -1514,7 +1514,7 @@
 }
 
 .course-instructors {
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
   border-radius: 5px;
 }
 

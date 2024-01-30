@@ -98,7 +98,7 @@ const MainNav2: FC<MainNav2Props> = () => {
               </>
             )}
           </div>
-          <div className="flex items-center space-x-1.5 xl:hidden">
+          <div className="flex items-center space-x-4 xl:hidden">
             {/* <ButtonPrimary href={"/crear-cuenta"} sizeClass="px-4 py-2 sm:px-5">
               Create account
             </ButtonPrimary> */}

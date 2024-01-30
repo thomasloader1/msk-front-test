@@ -34,7 +34,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
           />
           <SingleTitle mainClass={titleMainClass} title={title} />
           {!!excerpt && !hiddenDesc && (
-            <span className="block text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-[140px] sm:h-[100px]">
+            <span className="block text-[12px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-[140px] sm:h-[100px]">
               {excerpt}
             </span>
           )}

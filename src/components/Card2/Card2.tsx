@@ -74,7 +74,7 @@ const Card2: FC<Card2Props> = ({
             categories={categories}
           />
           <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-10 ${
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-4 sm:h-10 ${
               size === "large" ? "text-lg sm:text-2xl" : "text-base"
             }`}
           >

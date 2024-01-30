@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 const NoResults: FC = () => {
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 justify-center">
       <img
         src="/src/images/icons/no_results.svg"
         width="47"

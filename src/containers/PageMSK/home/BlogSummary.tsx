@@ -90,8 +90,8 @@ const BlogSummary: FC<BlogSummaryProps> = ({
       {!auxPosts.length && !loading && <NoResults />}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} kind="blog" />}
-        <div>
-          <div className="grid gap-6 md:gap-8">
+        <div className="hidden sm:block">
+          <div className="grid gap-6 md:gap-8 ">
             {auxPosts
               .filter((_, i) => i < 4 && i > 0)
               .map((item, index) => (
@@ -101,6 +101,20 @@ const BlogSummary: FC<BlogSummaryProps> = ({
                   className="rounded-3xl"
                   kind="blog"
                   authorRow
+                />
+              ))}
+          </div>
+        </div>
+        <div className="block sm:hidden">
+          <div className="grid gap-6 md:gap-8 ">
+            {auxPosts
+              .filter((_, i) => i < 4 && i > 0)
+              .map((item, index) => (
+                <Card2
+                  key={index}
+                  post={item}
+                  className="rounded-3xl"
+                  kind="blog"
                 />
               ))}
           </div>

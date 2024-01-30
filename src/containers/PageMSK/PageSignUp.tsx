@@ -13,14 +13,14 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 export interface PageSignUpProps {
   className?: string;
 }
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
@@ -149,50 +149,47 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-        if (executeRecaptcha) {
-            const formData = {
-                ...values,
-                name: `${values.first_name} ${values.last_name}`,
-                recaptcha_token: await executeRecaptcha('signup_form'),
-                country: fullCountry(selectedCountry),
-                utm_source: utmState.utm_source,
-                utm_medium: utmState.utm_medium,
-                utm_campaign: utmState.utm_campaign,
-                utm_content: utmState.utm_content,
-            };
-            try {
-                const res = await api.postSignUp(formData);
-                if (res.status !== 200) {
-                    setSuccess(false);
-                    const errorMessages = Object.values(res.response.data.errors)
-                        .map((errorMessage) => `- ${errorMessage}`)
-                        .join("<br />");
-                    setError(
-                        `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
-                    );
-                } else {
-                    setError("");
-                    setSuccess(true);
-                    setTimeout(() => {
-                        history.push("/correo-enviado");
-                    }, 1500);
-                }
-            } catch (error) {
-                console.error("Error al ejecutar reCAPTCHA:", error);
-            }
+      if (executeRecaptcha) {
+        const formData = {
+          ...values,
+          name: `${values.first_name} ${values.last_name}`,
+          recaptcha_token: await executeRecaptcha("signup_form"),
+          country: fullCountry(selectedCountry),
+          utm_source: utmState.utm_source,
+          utm_medium: utmState.utm_medium,
+          utm_campaign: utmState.utm_campaign,
+          utm_content: utmState.utm_content,
+        };
+        try {
+          const res = await api.postSignUp(formData);
+          if (res.status !== 200) {
+            setSuccess(false);
+            const errorMessages = Object.values(res.response.data.errors)
+              .map((errorMessage) => `- ${errorMessage}`)
+              .join("<br />");
+            setError(
+              `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
+            );
+          } else {
+            setError("");
+            setSuccess(true);
+            setTimeout(() => {
+              history.push("/correo-enviado");
+            }, 1500);
+          }
+        } catch (error) {
+          console.error("Error al ejecutar reCAPTCHA:", error);
         }
-
+      }
     },
   });
-
 
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}
       data-nc-id="PageSignUp"
     >
-            <PageHead title="Crear cuenta" />
-
+      <PageHead title="Crear cuenta" />
       <LayoutPage
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
         heading="Crear cuenta"
@@ -426,9 +423,13 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                     />
                     <label>
                       Acepto las{" "}
-                      <Link to='/politica-de-privacidad' target="_blank" className="text-primary">
-                      politicas de privacidad
-                              </Link>
+                      <Link
+                        to="/politica-de-privacidad"
+                        target="_blank"
+                        className="text-primary"
+                      >
+                        politicas de privacidad
+                      </Link>
                     </label>
                   </div>
                 </div>

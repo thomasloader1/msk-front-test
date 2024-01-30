@@ -221,6 +221,7 @@ export interface PostDataType {
   featuredImage?: string;
   featured_image?: string;
   desc?: string;
+  specialty?: string;
   like: {
     count: number;
     isLiked: boolean;

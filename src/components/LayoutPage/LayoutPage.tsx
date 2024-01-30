@@ -28,7 +28,7 @@ const LayoutPage: FC<LayoutPageProps> = ({
         <header className="text-center max-w-2xl mx-auto">
           <Heading2 emoji={headingEmoji}>{heading}</Heading2>
           {subHeading && (
-            <span className="block text-sm mt-2 text-description sm:text-base dark:text-neutral-200">
+            <span className="block text-sm mt-2 text-description sm:text-base dark:text-neutral-200 max-w-[70%] md:max-w-[90%] mx-auto">
               {subHeading}
             </span>
           )}

@@ -62,18 +62,20 @@ const MenuBar: React.FC<MenuBarProps> = () => {
         onClick={() => {
           setIsVisable(!isVisable);
         }}
-        className="p-2.5 rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
+        className="p-0 rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
       >
         <svg
+          width="28"
+          height="22"
+          viewBox="0 0 28 22"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7"
-          viewBox="0 0 20 20"
-          fill="currentColor"
         >
           <path
             fillRule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
             clipRule="evenodd"
+            d="M2 0.5C1.17158 0.5 0.5 1.17158 0.5 2C0.5 2.82842 1.17158 3.5 2 3.5H26C26.8284 3.5 27.5 2.82842 27.5 2C27.5 1.17158 26.8284 0.5 26 0.5H2ZM0.5 11C0.5 10.1715 1.17158 9.5 2 9.5H26C26.8284 9.5 27.5 10.1715 27.5 11C27.5 11.8285 26.8284 12.5 26 12.5H2C1.17158 12.5 0.5 11.8285 0.5 11ZM0.5 20C0.5 19.1716 1.17158 18.5 2 18.5H26C26.8284 18.5 27.5 19.1716 27.5 20C27.5 20.8284 26.8284 21.5 26 21.5H2C1.17158 21.5 0.5 20.8284 0.5 20Z"
+            fill="#9CA3AF"
           />
         </svg>
       </button>

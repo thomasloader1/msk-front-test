@@ -50,7 +50,7 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
         >
           <ButtonSecondary
             className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400"
-            sizeClass="px-3 py-1 sm:py-3 sm:px-6 text-[9.4px]"
+            sizeClass="px-3 py-1 sm:py-3 sm:px-6 text-[9.3px]"
           >
             <span>Ver más</span>
             <i className="ml-3 las la-arrow-right text-sm sm:text-xl"></i>

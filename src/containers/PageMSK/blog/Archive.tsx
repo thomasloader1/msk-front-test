@@ -144,12 +144,19 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
     setTitle(title);
 
-    const filteredPosts = auxPosts.filter((post: PostDataType) => {
-      return post.categories.some((category) =>
-        category.name.includes(notesJSON[categoryValue])
-      ) /* && post.specialty.includes(specialtyValue) */;
-    });
-
+    if (!specialtyValue && !categoryValue) return setPosts(auxPosts);
+    let filteredPosts = [];
+    if (specialtyValue) {
+      filteredPosts = auxPosts.filter((post: PostDataType) => {
+        return post.specialty?.includes(specialtiesJSON[specialtyValue]);
+      });
+    } else {
+      filteredPosts = auxPosts.filter((post: PostDataType) => {
+        return post.categories.some((category) =>
+          category.name.includes(notesJSON[categoryValue])
+        );
+      });
+    }
     setPosts(filteredPosts);
   }, [window.location.search]);
 
@@ -166,7 +173,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         data-nc-id="PageArchive"
       >
         {currentItems.length ? (
-          <header className="w-full px-2 xl:max-w-screen-2xl mx-auto">
+          <header className="w-full px-[20px] xl:max-w-screen-2xl">
             <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
               <NcImage
                 className="rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
@@ -212,7 +219,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
                 {posts.length ? (
                   <>
                     {currentItems.map((post, index) => (
@@ -225,7 +232,9 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
                     ))}
                   </>
                 ) : (
-                  <NoResults />
+                  <div className="col-span-12">
+                    <NoResults />
+                  </div>
                 )}
               </div>
               <div className="flex justify-center">

@@ -24,7 +24,7 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
       className={`nc-Newsletter relative flex flex-col lg:flex-row items-center ${className}`}
       data-nc-id="Newsletter"
     >
-      <div className="flex-shrink-0 mb-14 lg:mb-0 lg:mr-10 lg:w-2/5">
+      <div className="flex-shrink-0 mb-2 lg:mb-0 lg:mr-10 lg:w-2/5">
         <h2 className="font-semibold text-[28px] sm:text-4xl">
           Disfruta nuestros contenidos
         </h2>

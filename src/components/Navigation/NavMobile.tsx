@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import ButtonClose from "components/ButtonClose/ButtonClose";
 import Logo from "components/Logo/Logo";
 import { Disclosure } from "@headlessui/react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { NavItemType } from "./NavigationItem";
 import { NAVIGATION_MSK, NAVIGATION_USER } from "data/navigation";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import ButtonSecondary from "components/Button/ButtonSecondary";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { AuthContext } from "context/user/AuthContext";
@@ -54,25 +54,34 @@ const NavMobile: React.FC<NavMobileProps> = ({
   ) => {
     return (
       <Disclosure key={index}>
-        <li className="text-neutral-900 dark:text-white">
-          <div
-            className={`flex items-center font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
-              isChild ? "" : " tracking-wide"
-            }`}
-          >
-            <Disclosure.Button
-              as="button"
-              className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+        {({ open }) => (
+          <li className="text-neutral-900 dark:text-white">
+            <div
+              className={`flex items-center font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
+                isChild ? "" : " tracking-wide"
+              }`}
             >
-              {item.name}
-              <ChevronDownIcon
-                className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                aria-hidden="true"
-              />
-            </Disclosure.Button>
-          </div>
-          <Disclosure.Panel>{_renderMenuChild(item)}</Disclosure.Panel>
-        </li>
+              <Disclosure.Button
+                as="button"
+                className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+              >
+                {item.name}
+                {open ? (
+                  <ChevronUpIcon
+                    className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <ChevronDownIcon
+                    className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                    aria-hidden="true"
+                  />
+                )}
+              </Disclosure.Button>
+            </div>
+            <Disclosure.Panel>{_renderMenuChild(item)}</Disclosure.Panel>
+          </li>
+        )}
       </Disclosure>
     );
   };
@@ -196,6 +205,8 @@ const NavMobile: React.FC<NavMobileProps> = ({
     } else addFilter("duration", duration);
   };
 
+  const location = useLocation();
+
   return (
     <div className="w-full h-full py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800 border-r border-transparent dark:border-neutral-700">
       <div className="py-6 px-5">
@@ -210,165 +221,213 @@ const NavMobile: React.FC<NavMobileProps> = ({
         </div>
         {data.map((item, index) => _renderItem(item, index, false))}
       </ul>
-      <ul className="flex flex-col py-6 px-2 space-y-1">
-        <Disclosure>
-          <Disclosure.Button
-            as="button"
-            className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-          >
-            Especialidad
-            <ChevronDownIcon
-              className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-              aria-hidden="true"
-            />
-          </Disclosure.Button>
-          <Disclosure.Panel>
-            {specialties.length ? (
-              <ul className="pl-6 flex flex-col gap-2">
-                {specialties.map((specialty, index) => {
-                  return (
-                    <li key={`spe_${index}`}>
-                      <div className="course-sidebar-list">
-                        <input
-                          className="edu-check-box"
-                          type="checkbox"
-                          id={`specialty_${specialty.name}`}
-                          onChange={(event) => {
-                            /* onChangeSpecialty(specialty) */
-                            //console.error(specialty);
-                            history.push(
-                              `?especialidad=${slugifySpecialty(
-                                specialty.name
-                              )}&recurso=curso`
-                            );
-                          }}
-                          checked={isChecked("specialties", specialty)}
-                        />
-                        <label
-                          className="edu-check-label"
-                          htmlFor={`specialty_${specialty.name}`}
-                        >
-                          {specialty.name}
-                        </label>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : null}
-          </Disclosure.Panel>
-        </Disclosure>
-        <Disclosure>
-          <Disclosure.Button
-            as="button"
-            className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-          >
-            Recurso
-            <ChevronDownIcon
-              className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-              aria-hidden="true"
-            />
-          </Disclosure.Button>
-          <Disclosure.Panel>
-            <ul className="pl-6 flex flex-col gap-2">
-              {resources.map((resource, index: number) => {
-                return (
-                  <li key={index}>
-                    <div className="course-sidebar-list">
-                      <input
-                        className="edu-check-box"
-                        type="checkbox"
-                        id={`res_${resource.id}`}
-                        onChange={(event) => onChangeResource(resource)}
-                        checked={isChecked("resources", resource)}
-                      />
-                      <label
-                        className="edu-check-label"
-                        htmlFor={`res_${resource.id}`}
-                      >
-                        {resource.name}
-                      </label>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </Disclosure.Panel>
-        </Disclosure>
-        <Disclosure>
-          <Disclosure.Button
-            as="button"
-            className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-          >
-            Profesión
-            <ChevronDownIcon
-              className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-              aria-hidden="true"
-            />
-          </Disclosure.Button>
-          <Disclosure.Panel>
-            <ul className="pl-6 flex flex-col gap-2">
-              {professions.map((profession, index: number) => {
-                return (
-                  <li key={index}>
-                    <div className="course-sidebar-list">
-                      <input
-                        className="edu-check-box"
-                        type="checkbox"
-                        id={`profession_${profession.id}`}
-                        onChange={(event) => onChangeProfession(profession)}
-                        checked={isChecked("professions", profession)}
-                      />
-                      <label
-                        className="edu-check-label"
-                        htmlFor={`profession_${profession.id}`}
-                      >
-                        {profession.name}
-                      </label>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </Disclosure.Panel>
-        </Disclosure>
-        <Disclosure>
-          <Disclosure.Button
-            as="button"
-            className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-          >
-            Duración
-            <ChevronDownIcon
-              className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-              aria-hidden="true"
-            />
-          </Disclosure.Button>
-          <Disclosure.Panel>
-            <ul className="pl-6 flex flex-col gap-2">
-              {duration.map((item, index) => {
-                return (
-                  <li key={`dur_${index}`}>
-                    <div className="course-sidebar-list">
-                      <input
-                        className="edu-check-box"
-                        type="checkbox"
-                        id={`dur_${item.id}`}
-                        onChange={(event) => onChangeDuration(item)}
-                      />
-                      <label
-                        className="edu-check-label"
-                        htmlFor={`dur_${item.id}`}
-                      >
-                        {item.name}
-                      </label>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </Disclosure.Panel>
-        </Disclosure>
-      </ul>
+      {location.pathname.includes("/tienda") && (
+        <ul className="flex flex-col py-6 px-2 space-y-1">
+          <Disclosure>
+            {({ open }) => (
+              <li>
+                <Disclosure.Button
+                  as="button"
+                  className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+                >
+                  Especialidad
+                  {open ? (
+                    <ChevronUpIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Panel>
+                  {specialties.length ? (
+                    <ul className="pl-6 flex flex-col gap-2">
+                      {specialties.map((specialty, index) => {
+                        return (
+                          <li key={`spe_${index}`}>
+                            <div className="course-sidebar-list">
+                              <input
+                                className="edu-check-box"
+                                type="checkbox"
+                                id={`specialty_${specialty.name}`}
+                                onChange={(event) => {
+                                  /* onChangeSpecialty(specialty) */
+                                  //console.error(specialty);
+                                  history.push(
+                                    `?especialidad=${slugifySpecialty(
+                                      specialty.name
+                                    )}&recurso=curso`
+                                  );
+                                }}
+                                checked={isChecked("specialties", specialty)}
+                              />
+                              <label
+                                className="edu-check-label"
+                                htmlFor={`specialty_${specialty.name}`}
+                              >
+                                {specialty.name}
+                              </label>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : null}
+                </Disclosure.Panel>
+              </li>
+            )}
+          </Disclosure>
+          <Disclosure>
+            {({ open }) => (
+              <li>
+                <Disclosure.Button
+                  as="button"
+                  className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+                >
+                  Recurso
+                  {open ? (
+                    <ChevronUpIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Panel>
+                  <ul className="pl-6 flex flex-col gap-2">
+                    {resources.map((resource, index: number) => {
+                      return (
+                        <li key={index}>
+                          <div className="course-sidebar-list">
+                            <input
+                              className="edu-check-box"
+                              type="checkbox"
+                              id={`res_${resource.id}`}
+                              onChange={(event) => onChangeResource(resource)}
+                              checked={isChecked("resources", resource)}
+                            />
+                            <label
+                              className="edu-check-label"
+                              htmlFor={`res_${resource.id}`}
+                            >
+                              {resource.name}
+                            </label>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Disclosure.Panel>
+              </li>
+            )}
+          </Disclosure>
+          <Disclosure>
+            {({ open }) => (
+              <li>
+                <Disclosure.Button
+                  as="button"
+                  className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+                >
+                  Profesión
+                  {open ? (
+                    <ChevronUpIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Panel>
+                  <ul className="pl-6 flex flex-col gap-2">
+                    {professions.map((profession, index: number) => {
+                      return (
+                        <li key={index}>
+                          <div className="course-sidebar-list">
+                            <input
+                              className="edu-check-box"
+                              type="checkbox"
+                              id={`profession_${profession.id}`}
+                              onChange={(event) =>
+                                onChangeProfession(profession)
+                              }
+                              checked={isChecked("professions", profession)}
+                            />
+                            <label
+                              className="edu-check-label"
+                              htmlFor={`profession_${profession.id}`}
+                            >
+                              {profession.name}
+                            </label>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Disclosure.Panel>
+              </li>
+            )}
+          </Disclosure>
+          <Disclosure>
+            {({ open }) => (
+              <li>
+                <Disclosure.Button
+                  as="button"
+                  className="py-2.5 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+                >
+                  Duración
+                  {open ? (
+                    <ChevronUpIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      className="ml-2 mr-auto h-4 w-4 text-neutral-500"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Panel>
+                  <ul className="pl-6 flex flex-col gap-2">
+                    {duration.map((item, index) => {
+                      return (
+                        <li key={`dur_${index}`}>
+                          <div className="course-sidebar-list">
+                            <input
+                              className="edu-check-box"
+                              type="checkbox"
+                              id={`dur_${item.id}`}
+                              onChange={(event) => onChangeDuration(item)}
+                            />
+                            <label
+                              className="edu-check-label"
+                              htmlFor={`dur_${item.id}`}
+                            >
+                              {item.name}
+                            </label>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Disclosure.Panel>
+              </li>
+            )}
+          </Disclosure>
+        </ul>
+      )}
       {state.isAuthenticated ? (
         <ul className="flex flex-col py-6 px-2 space-y-1">
           {userNav.map((item, index) => _renderItem(item, index, false))}

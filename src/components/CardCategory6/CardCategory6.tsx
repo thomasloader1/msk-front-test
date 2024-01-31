@@ -8,12 +8,14 @@ export interface CardCategory6Props {
   className?: string;
   taxonomy: any;
   index?: string;
+  hideDescriptionMobile?: boolean;
 }
 
 const CardCategory6: FC<CardCategory6Props> = ({
   className = "",
   taxonomy,
   index,
+  hideDescriptionMobile = false,
 }) => {
   const { description, href = "/", name } = taxonomy;
   let thumbnail = "/src/images/courses/";
@@ -45,9 +47,13 @@ const CardCategory6: FC<CardCategory6Props> = ({
   }
   return (
     <>
-      {name.includes('Centro de ayuda') ? (
-        <a href={href} target="_blank" className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
-          data-nc-id="CardCategory6">
+      {name.includes("Centro de ayuda") ? (
+        <a
+          href={href}
+          target="_blank"
+          className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
+          data-nc-id="CardCategory6"
+        >
           <NcImage
             containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
             src={thumbnail}
@@ -56,7 +62,9 @@ const CardCategory6: FC<CardCategory6Props> = ({
             <h2 className={`text-base sm:text-lg`}>
               <span className="line-clamp-1 font-semibold ">{name}</span>
             </h2>
-            <p>{description}</p>
+            <p className={`${hideDescriptionMobile && "hidden sm:block"}`}>
+              {description}
+            </p>
           </div>
         </a>
       ) : (
@@ -73,12 +81,13 @@ const CardCategory6: FC<CardCategory6Props> = ({
             <h2 className={`text-base sm:text-lg`}>
               <span className="line-clamp-1 font-semibold ">{name}</span>
             </h2>
-            <p>{description}</p>
+            <p className={`${hideDescriptionMobile && "hidden sm:block"}`}>
+              {description}
+            </p>
           </div>
         </Link>
       )}
     </>
-
   );
 };
 

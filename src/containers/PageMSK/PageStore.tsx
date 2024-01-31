@@ -24,7 +24,13 @@ export interface PageStoreProps {
 
 const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const { state: dataState, loadingCourses } = useContext(DataContext);
-  const { allCourses, allProfessions, allSpecialties } = dataState;
+  const {
+    allCourses,
+    allProfessions,
+    allSpecialties,
+    allStoreProfessions,
+    allStoreSpecialties,
+  } = dataState;
   const [isLoading, setLoading] = useState(loadingCourses);
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
   const [products, setProducts] = useState<FetchCourseType[]>([]);
@@ -34,22 +40,16 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const history = useHistory();
 
-  const fetchProfessions = async () => {
-    const professionList = await api.getStoreProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const specialtyList = await api.getSpecialtiesStore();
-    setSpecialties(specialtyList);
-  };
-
   useEffect(() => {
     clearFilters();
-    fetchProfessions();
-    fetchSpecialties();
     setLoading(false);
     applyFilters();
   }, []);
+
+  useEffect(() => {
+    setProfessions(allStoreProfessions);
+    setSpecialties(allStoreSpecialties);
+  }, [allStoreProfessions, allStoreSpecialties]);
 
   useEffect(() => {
     if (state && state.error) {

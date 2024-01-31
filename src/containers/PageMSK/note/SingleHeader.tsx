@@ -34,23 +34,25 @@ const SingleHeader: FC<SingleHeaderProps> = ({
           />
           <SingleTitle mainClass={titleMainClass} title={title} />
           {!!excerpt && !hiddenDesc && (
-            <span className="block text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1">
+            <span className="block text-[12px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-[140px] sm:h-[100px]">
               {excerpt}
             </span>
           )}
-          {/* <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
-          <div className="flex  sm:flex-row justify-between ">
-            <p className="dark:text-neutral-100 msk-logo-text">
-              <img
-                className=""
-                src="/src/images/vectors/isotipo.svg"
-                width="30"
-                alt=""
-              />
-              MSK - Medical & Scientific Knowledge
-            </p>
-            <SingleMetaAction2 meta={pageData} />
-          </div> */}
+          {/* 
+            <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
+            <div className="flex  sm:flex-row justify-between ">
+              <p className="dark:text-neutral-100 msk-logo-text">
+                <img
+                  className=""
+                  src="/src/images/vectors/isotipo.svg"
+                  width="30"
+                  alt=""
+                />
+                MSK - Medical & Scientific Knowledge
+              </p>
+              <SingleMetaAction2 meta={pageData} />
+            </div> 
+          */}
         </div>
       </div>
     </>

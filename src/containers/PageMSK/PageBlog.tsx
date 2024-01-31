@@ -48,7 +48,7 @@ const PageBlog: React.FC = () => {
           />
           <HomeExtraInfo />
           {/* <Tendencies className="mt-24" /> */}
-          <div className="relative py-16 my-32">
+          <div className="relative py-16 my-12">
             <BackgroundSection />
             <SectionSliderPosts
               posts={courses}

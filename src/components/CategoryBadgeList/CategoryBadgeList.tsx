@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import Badge from "components/Badge/Badge";
 import { slugifySpecialty } from "lib/Slugify";
 import { badgeColor } from "lib/badgeColor";
@@ -16,7 +16,7 @@ export interface CategoryBadgeListProps {
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
-  className = "flex flex-wrap",
+  className = "flex flex-wrap text-[12px] sm:text-sm",
   itemClass,
   categories,
   color = "yellow",
@@ -25,6 +25,26 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isEbook,
 }) => {
   const notesJSON: JsonMapping = notesMapping;
+  const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
+
+  useEffect(() => {
+    const compararPorSlug = (a: any, b: any) => {
+      const slugA = a.slug.toLowerCase();
+      const slugB = b.slug.toLowerCase();
+      if (slugA.includes("actualidad") && !slugB.includes("actualidad")) {
+        return 1;
+      } else if (
+        !slugA.includes("actualidad") &&
+        slugB.includes("actualidad")
+      ) {
+        return -1;
+      }
+      return 0;
+    };
+    const sortedCategoriesList = categories.sort(compararPorSlug);
+
+    setSortedCategories(sortedCategoriesList);
+  }, [categories]);
 
   return (
     <div
@@ -35,7 +55,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
 
       {isCourse && (
         <>
-          {categories.map((item, index) => (
+          {sortedCategories.map((item, index) => (
             <Badge
               className={itemClass}
               key={index}
@@ -51,7 +71,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
 
       {isPost && (
         <>
-          {categories.map((item, index) => (
+          {sortedCategories.map((item, index) => (
             <Badge
               className={itemClass}
               key={index}

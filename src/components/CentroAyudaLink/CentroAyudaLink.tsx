@@ -1,24 +1,28 @@
-import React, { FC } from 'react'
-import infoIcon from '../../images/icons/info.svg'
+import React, { FC } from "react";
+import infoIcon from "../../images/icons/info.svg";
 
 interface CentroAyudaLinkProps {
-    addClassNames?: string;
+  addClassNames?: string;
 }
 
 const CentroAyudaLink: FC<CentroAyudaLinkProps> = ({ addClassNames }) => {
-    return (
-        <span className={`${addClassNames} dark:text-primary-500 forgot-password col-span-2 text-sm flex items-center`}>
-            <img src={infoIcon} alt="Mensaje Informativo"  className='mr-1'/>
-            <span className='text-violet-wash'>Visita el Centro de ayuda.</span>
-            <a
-                className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000 ml-2"
-                href="https://ayuda.msklatam.com/"
-                target='_blank'
-            >
-                Ingresa aquí
-            </a>
-        </span>
-    )
-}
+  return (
+    <span
+      className={`${addClassNames} dark:text-primary-500 forgot-password col-span-2 text-sm flex items-center`}
+    >
+      <img src={infoIcon} alt="Mensaje Informativo" className="mr-1" />
+      <div className="flex flex-wrap gap-2 text-[10px] sm:text-sm">
+        <span className="text-violet-wash">Visita el Centro de ayuda.</span>
+        <a
+          className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
+          href="https://ayuda.msklatam.com/"
+          target="_blank"
+        >
+          Ingresa aquí
+        </a>
+      </div>
+    </span>
+  );
+};
 
-export default CentroAyudaLink
+export default CentroAyudaLink;

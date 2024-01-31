@@ -53,7 +53,7 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
       >
         Cursos por especialidades
       </Heading>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 ">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 justify-center">
         {categories.map((item, i) => (
           <CardComponentName
             index={i < 1 ? `#${i + 1}` : undefined}
@@ -62,12 +62,14 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
             className="rounded-lg"
           />
         ))}
-        <Link
-          to={"/tienda"}
-          className="h-full w-full text-primary font-semibold flex items-center justify-center text-center"
-        >
-          Ver todas
-        </Link>
+        <div className="w-full col-span-2 sm:col-span-1 flex justify-items-center">
+          <Link
+            to={"/tienda"}
+            className="h-full text-primary font-medium sm:font-semibold flex items-center text-center mx-auto"
+          >
+            Ver todas
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -24,6 +24,10 @@
 }
 .footer-copyright {
   max-width: 270px;
+  @media (max-width: 728px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 .footer-widget {
   @media #{sm} {
@@ -166,7 +170,6 @@
     .discounts {
       color: white;
       font-weight: 500;
-      font-size: 18px;
       max-width: 320px;
       margin-top: 4px;
       font-family: "Inter";
@@ -254,7 +257,7 @@
 }
 
 .footer-main {
-  padding-top: 40px;
+  padding-top: 20px;
   @media (max-width: 1024px) {
     .footer-col-1 {
       margin-top: 40px;

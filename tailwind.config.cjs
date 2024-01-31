@@ -20,7 +20,7 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem",
+        DEFAULT: "20px",
         "2xl": "128px",
       },
     },
@@ -78,14 +78,14 @@ module.exports = {
         "grey-course": "#575757",
         "violet-wash": "#6474A6",
         "violet-custom": "#9200ad",
-        "grey-disabled": "#CCD1DC"
+        "grey-disabled": "#CCD1DC",
       },
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
-        'lora-italic': ['Lora-Italic', 'sans-serif'],
-        'lora': ['Lora', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
-        'raleway': ['Raleway', 'sans-serif']
+        poppins: ["Poppins", "sans-serif"],
+        "lora-italic": ["Lora-Italic", "sans-serif"],
+        lora: ["Lora", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
     },
   },
@@ -101,6 +101,6 @@ module.exports = {
     require("@tailwindcss/forms"),
     //require("@tailwindcss/line-clamp"),
     require("@tailwindcss/aspect-ratio"),
-    require('tailwindcss-animated')
+    require("tailwindcss-animated"),
   ],
 };

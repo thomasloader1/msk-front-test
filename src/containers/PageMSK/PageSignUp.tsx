@@ -13,7 +13,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 import NcImage from "components/NcImage/NcImage";
 import errorIcon from "../../images/icons/error-icon.svg"
@@ -23,7 +23,7 @@ export interface PageSignUpProps {
 }
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
@@ -190,18 +190,16 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               setOnRequest(false);
             }
         }
-
+      }
     },
   });
-
 
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}
       data-nc-id="PageSignUp"
     >
-            <PageHead title="Crear cuenta" />
-
+      <PageHead title="Crear cuenta" />
       <LayoutPage
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
         heading="Crear cuenta"
@@ -435,9 +433,13 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                     />
                     <label>
                       Acepto las{" "}
-                      <Link to='/politica-de-privacidad' target="_blank" className="text-primary">
-                      politicas de privacidad
-                              </Link>
+                      <Link
+                        to="/politica-de-privacidad"
+                        target="_blank"
+                        className="text-primary"
+                      >
+                        politicas de privacidad
+                      </Link>
                     </label>
                   </div>
                 </div>

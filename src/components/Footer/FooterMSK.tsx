@@ -36,7 +36,7 @@ const FooterEduman = () => {
       <div className="footer-area">
         <div className={bts.container}>
           {isOnBlog ? null : (
-            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1">
+            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1 mb-6">
               <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
                 <div className="copyright-text">
                   <p>Nuestro newsletter</p>
@@ -44,7 +44,7 @@ const FooterEduman = () => {
               </div>
               <div className="footer-column col-span-6 mx-auto lg:col-span-2">
                 <div className="divisor" />
-                <p className="discounts md:mx-auto text-center md:text-left">
+                <p className="discounts md:mx-auto text-center md:text-left text-[12px] sm:text-[18px] leading-4 sm:leading-6">
                   Descuentos exclusivos y becas completas solo con tu
                   suscripción
                 </p>
@@ -127,7 +127,7 @@ const FooterEduman = () => {
               </div>
               <div className={`grid grid-cols-2 col-span-2`}>
                 <div className={`col-span-1`}>
-                  <div className="footer-widget f-w3 mt-24">
+                  <div className="footer-widget f-w3 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
                         <Link to="/mision">Nuestra misión</Link>
@@ -155,7 +155,7 @@ const FooterEduman = () => {
                   </div>
                 </div>
                 <div className={`col-span-1`}>
-                  <div className="footer-widget f-w4 mt-24">
+                  <div className="footer-widget f-w4 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
                         <Link to="/contacto">Contacto</Link>

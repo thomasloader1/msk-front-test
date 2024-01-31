@@ -19,6 +19,7 @@ import {
 import api from "Services/api";
 import { slugifySpecialty } from "lib/Slugify";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { DataContext } from "context/data/DataContext";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -121,26 +122,21 @@ const NavMobile: React.FC<NavMobileProps> = ({
   const { state } = useContext(AuthContext);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
+
+  const { state: dataState } = useContext(DataContext);
+  const { allStoreProfessions, allStoreSpecialties } = dataState;
+
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
     { name: "Guías profesionales", id: 2 },
   ];
   const history = useHistory();
-
-  const fetchProfessions = async () => {
-    const professionList = await api.getStoreProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const specialtyList = await api.getSpecialtiesStore();
-    setSpecialties(specialtyList);
-  };
+  const { storeFilters } = useStoreFilters();
 
   useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
-  }, []);
-  const { storeFilters } = useStoreFilters();
+    setProfessions(allStoreProfessions);
+    setSpecialties(allStoreSpecialties);
+  }, [allStoreProfessions, allStoreSpecialties]);
 
   const isChecked = (type: string, value: any) => {
     switch (type) {

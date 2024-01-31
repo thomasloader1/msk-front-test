@@ -24,6 +24,8 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     allSpecialties: [],
     allSpecialtiesGroups: [],
     allProductsMX: [],
+    allStoreProfessions: [],
+    allStoreSpecialties: [],
   };
 
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
@@ -112,6 +114,21 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  const fetchStoreProfessionsFilter = async () => {
+    const allStoreProfessions = await api.getStoreProfessions();
+    dispatch({
+      type: "GET_DATA",
+      payload: { allStoreProfessions },
+    });
+  };
+  const fetchStoreSpecialtiesFilter = async () => {
+    const allStoreSpecialties = await api.getSpecialtiesStore();
+    dispatch({
+      type: "GET_DATA",
+      payload: { allStoreSpecialties },
+    });
+  };
+
   useEffect(() => {
     fetchProductsMX();
     fetchCourses();
@@ -119,6 +136,8 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     fetchBestSeller();
     fetchProfessions();
     fetchSpecialties();
+    fetchStoreProfessionsFilter();
+    fetchStoreSpecialtiesFilter();
   }, []);
 
   return (

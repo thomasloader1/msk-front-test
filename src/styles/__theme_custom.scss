@@ -255,3 +255,13 @@
     filter: grayscale(1);
   }
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  &::after {
+    display: none;
+  }
+}

@@ -21,6 +21,8 @@ import Card18 from "components/Card18/Card18";
 import Card19 from "components/Card19/Card19";
 import Card20 from "components/Card20/Card20";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -162,7 +164,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   const CardName = getPostComponent();
   return (
     <div className={`nc-SectionSliderPosts ${className}`}>
-      <div className={`${UNIQUE_CLASS}`}>
+      <div className={`${UNIQUE_CLASS} sm:block hidden`}>
         {renderHeading()}
         <div className="glide__track" data-glide-el="track">
           {loading ? (
@@ -200,6 +202,58 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             containerClassName="justify-center"
           />
         )}
+      </div>
+      <div className="block sm:hidden">
+        <Swiper
+          modules={[Navigation, A11y, Autoplay]}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: true,
+          }}
+          pagination={{ enabled: true, clickable: true }}
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          }} // Configuración de navegación
+        >
+          {posts?.map((item: any, index: number) => (
+            <SwiperSlide key={`section_slider_${index}`}>
+              <CardName
+                post={item}
+                index={index}
+                showDescription
+                kind="curso"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="flex gap-8 justify-center mt-12">
+          <div className="swiper-button-prev">
+            <button
+              className="w-10 h-10 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300"
+              title="Prev"
+              data-glide-dir="<"
+            >
+              <i className="las la-angle-left"></i>
+            </button>
+          </div>
+          <div className="swiper-button-next">
+            <button
+              className="w-10 h-10 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300"
+              title="Next"
+              data-glide-dir=">"
+            >
+              <i className="las la-angle-right"></i>
+            </button>
+          </div>
+        </div>
+
+        {/* <NextPrev
+          btnClassName="w-12 h-12"
+          containerClassName="justify-center"
+        /> */}
       </div>
     </div>
   );

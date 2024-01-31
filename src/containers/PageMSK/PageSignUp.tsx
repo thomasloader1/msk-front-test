@@ -191,8 +191,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
             }
         }
       }
-    },
-  });
+    });
 
   return (
     <div

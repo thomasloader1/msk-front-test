@@ -6,6 +6,7 @@ import NcLink from "components/NcLink/NcLink";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
 import PageHead from "./PageHead";
+import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageForgotPassProps {
   className?: string;
@@ -79,7 +80,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
             </label>
             <ButtonPrimary type="submit">Confirmar</ButtonPrimary>
           </form>
-          <p className="text-red-500 font-bold text-center">{error}</p>
+          {Boolean(error) && <ShowErrorMessage text={error} />}
 
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">

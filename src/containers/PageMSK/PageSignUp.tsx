@@ -15,6 +15,9 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
+import NcImage from "components/NcImage/NcImage";
+import errorIcon from "../../images/icons/error-icon.svg"
+import ShowErrorMessage from "components/ShowErrorMessage";
 export interface PageSignUpProps {
   className?: string;
 }
@@ -32,6 +35,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
+  const [onRequest, setOnRequest] = useState<boolean>(false);
   const [selectedCareer, setSelectedCareer] = useState("");
   const history = useHistory();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
@@ -149,7 +153,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-        if (executeRecaptcha) {
+      if (executeRecaptcha) {
+        setOnRequest(true);  
             const formData = {
                 ...values,
                 name: `${values.first_name} ${values.last_name}`,
@@ -160,15 +165,17 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 utm_campaign: utmState.utm_campaign,
                 utm_content: utmState.utm_content,
             };
+            
             try {
                 const res = await api.postSignUp(formData);
+                console.log({res})
                 if (res.status !== 200) {
                     setSuccess(false);
-                    const errorMessages = Object.values(res.response.data.errors)
+                    const errorMessages = Object.values(res.data.errors)
                         .map((errorMessage) => `- ${errorMessage}`)
                         .join("<br />");
                     setError(
-                        `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
+                        `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
                     );
                 } else {
                     setError("");
@@ -179,6 +186,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 }
             } catch (error) {
                 console.error("Error al ejecutar reCAPTCHA:", error);
+            }finally{
+              setOnRequest(false);
             }
         }
 
@@ -438,15 +447,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 <ButtonPrimary
                   type="submit"
                   className="w-full"
-                  disabled={!formik.values.Terms_And_Conditions}
+                  disabled={!formik.values.Terms_And_Conditions || onRequest}
                 >
-                  Crear
+                  {onRequest ? "Creando..." :"Crear"}
                 </ButtonPrimary>
                 {error && (
-                  <p
-                    className="text-red-500 text-center w-full"
-                    dangerouslySetInnerHTML={{ __html: error }}
-                  ></p>
+                  <ShowErrorMessage text={error} />
                 )}
 
                 {success && (

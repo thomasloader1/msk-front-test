@@ -50,12 +50,11 @@ class ApiService {
     return response;
   }
 
-  async postSignUp(jsonData: SignUp) {
+  async postSignUp(jsonData: SignUp): Promise<AxiosResponse<any>> {
     try {
-      const { data } = await axios.post(apiSignUpURL, jsonData);
-      return data;
-    } catch (e) {
-      return e;
+      return await axios.post(apiSignUpURL, jsonData);
+    } catch (e: any) {
+      return e.response;
     }
   }
 

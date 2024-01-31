@@ -25,7 +25,7 @@ const SectionHero: FC<SectionHeroProps> = ({
     >
       <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 items-center relative text-center lg:text-left">
         <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1">
-          <h2 className="!leading-tight text-neutral-900 section-hero-title dark:text-neutral-100 font-medium">
+          <h2 className="!leading-tight text-neutral-900 section-hero-title dark:text-neutral-100 font-medium sm:font-bold text-[24px] sm:text-[42px]">
             {heading}
           </h2>
           {subHeading ? (

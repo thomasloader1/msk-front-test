@@ -16,6 +16,9 @@ import { DataContext } from "context/data/DataContext";
 import PageHead from "../PageHead";
 import notesMapping from "../../../data/jsons/__notes.json";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
+import BlogSummary from "../home/BlogSummary";
+import { TABS_BLOG } from "data/MSK/blog";
+import NoResults from "components/NoResults/NoResults";
 
 export interface PageArchiveProps {
   className?: string;
@@ -141,12 +144,19 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
     setTitle(title);
 
-    const filteredPosts = auxPosts.filter((post: PostDataType) => {
-      return post.categories.some((category) =>
-        category.name.includes(notesJSON[categoryValue])
-      ) /* && post.specialty.includes(specialtyValue) */;
-    });
-
+    if (!specialtyValue && !categoryValue) return setPosts(auxPosts);
+    let filteredPosts = [];
+    if (specialtyValue) {
+      filteredPosts = auxPosts.filter((post: PostDataType) => {
+        return post.specialty?.includes(specialtiesJSON[specialtyValue]);
+      });
+    } else {
+      filteredPosts = auxPosts.filter((post: PostDataType) => {
+        return post.categories.some((category) =>
+          category.name.includes(notesJSON[categoryValue])
+        );
+      });
+    }
     setPosts(filteredPosts);
   }, [window.location.search]);
 
@@ -163,7 +173,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         data-nc-id="PageArchive"
       >
         {currentItems.length ? (
-          <header className="w-full px-2 xl:max-w-screen-2xl mx-auto">
+          <header className="w-full px-[20px] xl:max-w-screen-2xl">
             <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
               <NcImage
                 className="rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
@@ -171,7 +181,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
               />
 
               <div className="absolute inset-0 bg-black text-white bg-opacity-30 flex flex-col items-center justify-center">
-                <h2 className="inline-block align-middle text-5xl font-semibold md:text-7xl ">
+                <h2 className="inline-block align-middle text-[27px] sm:text-5xl font-semibold md:text-7xl">
                   {title}
                 </h2>
                 <span className="block mt-4 text-neutral-300">
@@ -182,7 +192,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
           </header>
         ) : null}
         <div className="container my-10 animate-fade-down">
-          <div className="flex space-between mb-8">
+          <div className="flex space-between flex-wrap mb-8 gap-2">
             <ArchiveFilterListBox
               setFilter={handleCategoryChange}
               lists={CATEGORIES_FILTERS}
@@ -190,7 +200,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             <Button
               onClick={() => setShowSpecialties(true)}
               sizeClass="px-4 py-2 sm:px-5"
-              className="border-solid border-1 border-neutral-200 text-neutral-500 ml-2"
+              className="border-1 border-neutral-200 text-neutral-500"
               bordered
             >
               <span className="text-sm">Ver Especialidades</span>
@@ -198,18 +208,18 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             <ArchiveFilterListBox
               setFilter={handleFilterChange}
               lists={FILTERS}
-              className="ml-auto"
+              className="xs:mr-auto md:ml-auto"
             />
           </div>
           {loadingPosts ? (
-            <div className="container grid grid-cols-3 gap-10">
+            <div className="container grid grid-cols-1 md:grid-cols-3 gap-10">
               {loaders.map((loader) => {
                 return loader;
               })}
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-fade-down">
                 {posts.length ? (
                   <>
                     {currentItems.map((post, index) => (
@@ -222,11 +232,9 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
                     ))}
                   </>
                 ) : (
-                  <>
-                    <h4 className="col-span-12 text-xl">
-                      No hay posts disponibles para el filtro aplicado
-                    </h4>
-                  </>
+                  <div className="col-span-12">
+                    <NoResults />
+                  </div>
                 )}
               </div>
               <div className="flex justify-center">
@@ -238,18 +246,14 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
               </div>
             </>
           )}
-          <div className="container relative py-16 mt-16 ">
-            <BackgroundSection />
-            <SectionSliderPosts
-              posts={bestSeller}
-              loading={loadingBestSellers}
-              postCardName="card9"
-              heading="¿Buscas capacitarte a distancia?"
-              subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-              sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
-            />
-          </div>
+          <BlogSummary
+            posts={posts}
+            tabs={TABS_BLOG}
+            loading={loadingPosts}
+            className="py-16 lg:py-28"
+            heading=""
+            desc=""
+          />
         </div>
       </div>
       <NcModal

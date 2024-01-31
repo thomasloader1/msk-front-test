@@ -24,7 +24,10 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
           />
         </div>
         <div className="instructors-body">
-          <h5 dangerouslySetInnerHTML={instructorName} className="animate-fade"></h5>
+          <h5
+            dangerouslySetInnerHTML={instructorName}
+            className="animate-fade"
+          ></h5>
           <p className="mt-2 animate-fade">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
@@ -39,7 +42,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
         </div>
       </div>
       {displayBiography &&
-        (instructor.specialties.length || instructor.centres.length) ? (
+      (instructor.specialties.length || instructor.centres.length) ? (
         <div className="intructors-content">
           {instructor.specialties.length ? (
             <div>

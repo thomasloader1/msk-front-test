@@ -397,4 +397,7 @@
       width: 100%;
     }
   }
+  @media (max-width: 767px) {
+    gap: 4px;
+  }
 }

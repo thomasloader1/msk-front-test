@@ -73,12 +73,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   if (imagen) {
     imagen = imagen.replace(`${state.country || "mx"}.`, "");
   }
-
-  console.log({product})
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
-      <PageHead title={`${product?.ficha.title}`} description={textDesctiption} />
+      <PageHead
+        title={`${product?.ficha.title}`}
+        description={textDesctiption}
+      />
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div className="">
           <div className="course-details-wrapper animate-fade-down">
@@ -90,55 +91,54 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   textSize="text-xs"
                 />
               )}
-              <CategoryBadgeList categories={product.ficha.categorias} isCourse={true} />
+              <CategoryBadgeList categories={product.ficha.categorias} />
             </div>
-            <div className="course-heading mb-10 my-5">
-              <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
+            <div className="course-heading my-5">
+              <h2 className="font-semibold">{product.ficha.title}</h2>
+              <div className="border-line-meta-h" />
             </div>
             <div>
               {product.authors.length ||
               product.temario ||
               (product.details && product.details["duration"]) ? (
-                <div className={`course-detelis-meta ${isEbook && "border-0"}`}>
+                <div className={`grid grid-cols-12 ${isEbook && "border-0"}`}>
                   {product.authors.length ? (
-                    <>
+                    <div className="col-span-12 sm:col-span-5">
                       <div className="course-meta-wrapper">
                         <div className="course-meta-img">
                           <img src={imagen} alt={title} />
                         </div>
                         <div>
-                          <span className="raleway">Cedente</span>
-                          <div className="flex flex-col">
-                            <div
-                              className="raleway-bold"
-                              style={{ maxWidth: "280px" }}
-                            >
+                          <span className="raleway text-dark-blue-custom">
+                            Cedente
+                          </span>
+                          <div className="flex flex-col text-dark-blue-custom">
+                            <h6 className="raleway-bold">
                               {title || product.authors[0]?.name}
-                            </div>
+                            </h6>
                           </div>
                         </div>
                       </div>
-                      <div className="border-line-meta"></div>
-                    </>
+                    </div>
                   ) : null}
+                  <div className="hidden sm:block border-line-meta" />
                   {product.temario ? (
-                    <>
+                    <div className="col-span-4 sm:col-span-2 my-auto text-dark-blue-custom">
                       <div className="flex flex-col">
                         <span className="raleway">Contenido</span>
-                        <div className="raleway-bold">
+                        <h6 className="raleway-bold">
                           {product.temario["data"]?.row_count} módulos
-                        </div>
+                        </h6>
                       </div>
-                      <div className="border-line-meta"></div>
-                    </>
+                    </div>
                   ) : null}
-
+                  <div className="border-line-meta" />
                   {product.details && product.details["duration"] ? (
-                    <div className="flex flex-col">
-                      <span className="raleway">Duración</span>
-                      <div className="raleway-bold">
+                    <div className="col-span-6 sm:col-span-3 my-auto text-dark-blue-custom">
+                      <span className="raleway ">Duración</span>
+                      <h6 className="raleway-bold">
                         {product.details["duration"].value} horas estimadas
-                      </div>
+                      </h6>
                     </div>
                   ) : null}
                 </div>
@@ -146,7 +146,10 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 <></>
               )}
             </div>
-            <div className="order-last relative block lg:hidden">
+            <div className="course-heading my-5">
+              <div className="border-line-meta-h" />
+            </div>
+            <div className="order-last relative block lg:hidden mt-10">
               <ProductDetailSidebar
                 ficha={product.ficha}
                 details={product.details}
@@ -170,7 +173,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               >
                 {!isEbook && (
                   <div className="course-Description">
-                    <div className="font-semibold text-xl">Qué aprenderás</div>
+                    <h4 className="font-semibold text-xl">Qué aprenderás</h4>
                   </div>
                 )}
                 <div ref={textRef} />
@@ -274,7 +277,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       </div>
-      <div className="container relative py-16 my-32">
+      <div className="container relative py-16 mb-20">
         <BackgroundSection />
         <SectionSliderPosts
           posts={bestSellers}

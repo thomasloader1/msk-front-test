@@ -58,7 +58,7 @@ const NcModal: FC<NcModalProps> = ({
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-50 overflow-y-auto"
+          className="fixed inset-0 z-50 overflow-y-auto mx-[16px] sm:mx-0"
           onClose={closeModal}
         >
           <div className="min-h-screen px-1 text-center md:px-4">
@@ -106,13 +106,13 @@ const NcModal: FC<NcModalProps> = ({
                       </Dialog.Title>
                       <Dialog.Description
                         as="p"
-                        className="block text-paragraph-small text-slate-500 pl-4"
+                        className="block text-[14px] sm:text-paragraph-small text-violet-wash pl-4"
                       >
                         {modalSubtitle}
                       </Dialog.Description>
                       <ButtonClose
                         onClick={closeModal}
-                        className="absolute right-8 top-1/2 transform -translate-y-1/2 sm:right-8"
+                        className="absolute right-8 top-8 transform -translate-y-1/2 sm:right-8"
                       />
                     </div>
                   </>

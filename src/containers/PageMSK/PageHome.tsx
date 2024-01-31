@@ -77,7 +77,7 @@ const PageHome: React.FC = () => {
             bestSeller={bestSeller}
             tabs={TABS_HOME}
             loading={loadingCourses}
-            className="py-16 lg:py-28"
+            className="py-16"
             heading="Oportunidades para ti"
             desc="Cursos destacados para realizar a distancia"
           />
@@ -87,13 +87,13 @@ const PageHome: React.FC = () => {
             posts={posts}
             tabs={TABS_BLOG}
             loading={loadingPosts}
-            className="py-16 lg:py-28"
+            className="py-16 "
             heading=""
             desc=""
             showTitle
           />
           {/* === SECTION 6 === */}
-          <div className="relative py-16 my-32">
+          <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderPosts
               posts={bestSeller}
@@ -108,7 +108,7 @@ const PageHome: React.FC = () => {
         </div>
         {/* ======= END CONTAINER ============= */}
         {/* === SECTION  === */}
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-40">
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
           <ContactForm />
         </div>
         {/* ======= END ALL SECTIONS ============= */}

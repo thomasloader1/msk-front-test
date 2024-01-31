@@ -13,13 +13,13 @@ export interface BadgeProps {
 }
 
 const Badge: FC<BadgeProps> = ({
-  textSize = "text-xs",
+  textSize = "text-xs sm:text-sm",
   className = `relative ${textSize}`,
-  name,
   color = "blue",
+  rounded = "rounded",
+  name,
   href,
   icon,
-  rounded = "rounded",
 }) => {
   const getColorClass = (hasHover = true) => {
     switch (color) {
@@ -101,7 +101,7 @@ const Badge: FC<BadgeProps> = ({
   };
   /* transition-colors  */
   const CLASSES =
-    "nc-Badge  inline-flex px-2.5 py-1 font-medium" +
+    "nc-Badge  inline-flex px-2 py-0.5 sm:py-1 font-medium" +
     ` ${className}` +
     ` ${rounded}`;
 
@@ -123,12 +123,10 @@ const Badge: FC<BadgeProps> = ({
   ) : icon ? (
     <div className={`${CLASSES} ${getColorClass(false)}`}>
       <img src={`/src/images/icons/${icon}.svg`} width="15" className="mr-1" />
-      <span className="font-normal">{name} </span>
+      <span className="font-normal">{name}</span>
     </div>
   ) : (
-    <span className={`${CLASSES} ${getColorClass(false)} font-normal`}>
-      {name}
-    </span>
+    <span className={`${CLASSES} ${getColorClass(false)}`}>{name}</span>
   );
 };
 

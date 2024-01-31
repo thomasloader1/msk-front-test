@@ -7,6 +7,7 @@ import Heading from "components/Heading/Heading";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import { badgeColor } from "lib/badgeColor";
 import { it } from "node:test";
+import NoResults from "components/NoResults/NoResults";
 
 interface WelcomeBlogProps {
   tabs: string[];
@@ -62,7 +63,11 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
           </div>
         </>
       )}
-      {!posts.length && !loading && <span>No hay posts disponibles</span>}
+      {!posts.length && !loading && (
+        <div className="w-full" style={{ background: "red" }}>
+          <NoResults />
+        </div>
+      )}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
         {posts[0] && <Card19 className="" post={posts[0]} kind="blog" />}
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-5 gap-5">

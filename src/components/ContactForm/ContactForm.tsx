@@ -489,7 +489,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <option defaultValue="" value="">
                             Seleccionar profesión
                           </option>
-                          {professions
+                          {professions && professions.length
                             ? professions.map((p) => (
                                 <option key={p.id} value={`${p.name}/${p.id}`}>
                                   {p.name}
@@ -558,7 +558,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       </div>
                     ) : (
                       <>
-                        <div className={`col-xl-6`}>
+                        <div className={`col-xl-6 col-span-2 sm:col-span-1`}>
                           <div className="contact-select">
                             <ErrorMessage
                               name="Especialidad"
@@ -583,7 +583,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                                       {s.name}
                                     </option>
                                   ))
-                                : specialties.map((s) => (
+                                : specialties?.map((s) => (
                                     <option
                                       key={`sp_${s.id}`}
                                       defaultValue={s.name}
@@ -629,7 +629,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         </div>
                       )}
 
-                      <div className="flex flex-wrap gap-1 mt-2 mb-4">
+                      <div className="flex flex-wrap gap-1 mt-2 mb-4 justify-center sm:justify-start">
                         <div className="contact-checkbox">
                           <ErrorMessage
                             name="Terms_And_Conditions"
@@ -648,9 +648,9 @@ const ContactFormSection: FC<ContactFormProps> = ({
                               <Link
                                 to="/politica-de-privacidad"
                                 target="_blank"
-                                className="text-primary"
+                                className="text-primary underline"
                               >
-                                politicas de privacidad
+                                condiciones de privacidad
                               </Link>
                             </label>
                           </div>

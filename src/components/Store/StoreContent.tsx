@@ -197,8 +197,13 @@ const StoreContent: FC<Props> = ({
   }, [storeFilters]);
 
   return (
-    <section className="container course-content-area pb-90 animate-fade-down">
-      <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-4 mb-10">
+    <section className="container course-content-area pb-90 animate-fade-down px-0">
+      {storeFilters.specialties.length > 0 && (
+        <h1 className="text-xl sm:text-3xl mb-10">
+          Cursos de {storeFilters.specialties[0].name}
+        </h1>
+      )}
+      <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
           <StoreSideBar
             specialties={specialties}
@@ -244,7 +249,7 @@ const StoreContent: FC<Props> = ({
             )}
           </div>
 
-          <div className="grid grid-cols-1">
+          <div className="flex justify-center md:justify-start">
             <StorePagination
               totalPages={totalPages}
               onPageChange={handlePageChange}

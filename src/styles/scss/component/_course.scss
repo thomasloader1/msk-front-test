@@ -790,7 +790,7 @@
 
 .bar-search-icon {
   position: relative;
-
+  min-width: 200px;
   i {
     position: absolute;
     top: 50%;
@@ -805,10 +805,9 @@
     color: $heading-color;
     outline: none;
     border: 1px solid $border;
-    min-width: 100px;
     background-color: $white;
     border-radius: 3px;
-    max-width: 200px;
+    width: 100%;
 
     @media #{$lg,$md,$sm,$xs} {
       min-width: 100%;
@@ -882,7 +881,7 @@
 
 .bar-filter {
   border: 1px solid $border;
-  padding: 15px 30px;
+  padding: 15px 10px;
   display: flex;
   gap: 10px;
   justify-content: space-around;

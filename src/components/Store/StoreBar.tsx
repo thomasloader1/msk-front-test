@@ -32,8 +32,8 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
   };
   return (
     <div className="course-bar-up-area">
-      <div className="grid grid-cols-1 gap-2 mb-6">
-        <div className="course-main-wrapper mb-30 gap-2 xl:flex-nowrap">
+      <div className="grid grid-cols-1 gap-2">
+        <div className="course-main-wrapper mb-30 gap-2 xl:flex-nowrap px-0 mx-0">
           <FiltersApply filtersCount={filtersCount} />
           <SearchBar handleSearchInput={handleSearchInput} />
           <div className="course-sidebar-tab ">

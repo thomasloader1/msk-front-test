@@ -5,9 +5,9 @@ const SearchBar: FC<{
 }> = ({ handleSearchInput }) => {
   return (
     <div className="corse-bar-wrapper grid-area-search">
-      <div className="bar-search">
+      <div className="bar-search ">
         <form action="#">
-          <div className="bar-search-icon ">
+          <div className="bar-search-icon">
             <i className="flaticon-search"></i>
             <input
               type="text"

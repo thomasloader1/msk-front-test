@@ -13,6 +13,7 @@ export interface CategoryBadgeListProps {
   isCourse?: boolean;
   isPost?: boolean;
   isEbook?: boolean;
+  textSize?: string;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
@@ -23,6 +24,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isCourse,
   isPost,
   isEbook,
+  textSize,
 }) => {
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
@@ -64,6 +66,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
               href={`/tienda?especialidad=${slugifySpecialty(
                 item.name
               )}&recurso=curso`}
+              textSize={textSize}
             />
           ))}
         </>
@@ -78,6 +81,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
               name={notesJSON[slugifySpecialty(item.name)]}
               color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
               href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
+              textSize={textSize}
             />
           ))}
         </>

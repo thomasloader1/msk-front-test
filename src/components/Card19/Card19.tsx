@@ -38,7 +38,8 @@ const Card19: FC<Card19Props> = ({
     );
   };
 
-  const categoriesOrder = kind === 'blog' ? categories.sort(compareByNameDescending) : categories
+  const categoriesOrder =
+    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
 
   return (
     <div

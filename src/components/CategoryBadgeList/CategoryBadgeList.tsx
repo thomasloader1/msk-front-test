@@ -44,6 +44,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       }
       return 0;
     };
+
     const sortedCategoriesList = categories.sort(compararPorSlug);
 
     setSortedCategories(sortedCategoriesList);
@@ -73,16 +74,19 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       )}
       {isPost && (
         <>
-          {sortedCategories.map((item, index) => (
-            <Badge
-              className={itemClass}
-              key={index}
-              name={notesJSON[slugifySpecialty(item.name)]}
-              color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
-              href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
-              textSize={textSize}
-            />
-          ))}
+          {sortedCategories.map((item, index) => {
+            console.log(item);
+            return (
+              <Badge
+                className={itemClass}
+                key={index}
+                name={notesJSON[slugifySpecialty(item.name)]}
+                color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
+                href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
+                textSize={textSize}
+              />
+            );
+          })}
         </>
       )}
     </div>

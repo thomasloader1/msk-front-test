@@ -118,6 +118,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const { contactFormValidation } = useYupValidation();
 
   const history = useHistory();
+  const resourcePDFName = history.location.pathname.split("/").pop();
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
   };
@@ -251,7 +252,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   a.download = fileNameMatch[1];
                 } else {
                   // Si no se encontró el nombre del archivo en el encabezado, utiliza un nombre predeterminado
-                  a.download = "ebook.pdf";
+                  a.download = `${resourcePDFName}.pdf`;
                 }
 
                 // Simula un clic en el enlace para iniciar la descarga

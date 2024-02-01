@@ -74,9 +74,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       )}
       {isPost && (
         <>
-          {sortedCategories.map((item, index) => {
-            console.log(item);
-            return (
+          {sortedCategories.map((item, index) => (
               <Badge
                 className={itemClass}
                 key={index}
@@ -85,8 +83,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
                 href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
                 textSize={textSize}
               />
-            );
-          })}
+          )}
         </>
       )}
     </div>

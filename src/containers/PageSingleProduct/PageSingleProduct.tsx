@@ -5,7 +5,6 @@ import { CountryContext } from "context/country/CountryContext";
 import useSingleProduct from "hooks/useSingleProduct";
 import PageHead from "containers/PageMSK/PageHead";
 
-
 const PageSingleProduct = () => {
   const { state } = useContext(CountryContext);
 
@@ -16,8 +15,10 @@ const PageSingleProduct = () => {
 
   return (
     <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">
-
-      <PageHead title="" />
+      <PageHead
+        title={product?.ficha.title as string}
+        description={product?.ficha.description}
+      />
 
       <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
         {loading ? (

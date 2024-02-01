@@ -23,8 +23,6 @@ const SingleHeader: FC<SingleHeaderProps> = ({
 
   return (
     <>
-      <PageHead title={title} description={excerpt} />
-
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5 note-header-blog">
           <CategoryBadgeList

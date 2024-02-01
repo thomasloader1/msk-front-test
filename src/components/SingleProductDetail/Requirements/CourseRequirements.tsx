@@ -28,7 +28,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
   return (
     <div className="requirements">
       <div className="sm:pr-60 md:pr-5">
-        <div className="text-xl">{title}</div>
+        <div className="text-xl font-raleway font-bold">{title}</div>
         {requirements.map((requirement, index) => {
           return (
             <ul key={`req_${index}`}>

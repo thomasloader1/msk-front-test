@@ -24,10 +24,10 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
           />
         </div>
         <div className="instructors-body">
-          <h5
+          <h3
             dangerouslySetInnerHTML={instructorName}
             className="animate-fade"
-          ></h5>
+          ></h3>
           <p className="mt-2 animate-fade">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p

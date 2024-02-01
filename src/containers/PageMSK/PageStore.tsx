@@ -16,6 +16,7 @@ import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
 import { DataContext } from "context/data/DataContext";
 import PageHead from "./PageHead";
+import { removeAccents } from "lib/removeAccents";
 
 export interface PageStoreProps {
   className?: string;
@@ -154,12 +155,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     }
   };
 
-  const removeAccents = (str: string) => {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-  };
   const triggerSearch = (event: any) => {
     if (event) {
       const filteredProducts = auxProducts.filter((product) =>
@@ -250,6 +245,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
 
+  console.log(storeFilters);
+
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}
@@ -268,7 +265,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         heading="Store"
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-          <StoreBar
+          {/* <StoreBar
             onSearch={(e) => triggerSearch(e)}
             onFilter={(e) => triggerFilter(e)}
             length={products.length}
@@ -278,7 +275,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               storeFilters.resources.length +
               storeFilters.duration.length
             }
-          />
+          /> */}
           {loadingCourses ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {
@@ -291,6 +288,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               specialties={specialties}
               professions={professions}
               productsLength={auxProducts.length}
+              handleTriggerSearch={triggerSearch}
+              handleTriggerFilter={triggerFilter}
             />
           )}
         </section>

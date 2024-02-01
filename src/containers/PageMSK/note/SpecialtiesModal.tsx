@@ -35,10 +35,7 @@ const SpecialtiesModal: FC<Props> = ({ email, setShow }) => {
       {loading ? (
         <>
           {loadingArray.map((i) => (
-            <div
-              key={`loading_${i}`}
-              className="flex items-center justify-between"
-            >
+            <div key={`loading_${i}`} className="flex gap-2 items-center">
               <div
                 role="status"
                 className="flex items-center justify-center h-12 w-12 max-w-sm bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700"
@@ -54,10 +51,10 @@ const SpecialtiesModal: FC<Props> = ({ email, setShow }) => {
         specialties.map(
           ({ speciality_name, image, articles, url_query }, index) => (
             <Link
-              to={`/archivo?categoria=${url_query}`}
+              to={`/archivo?especialidad=${url_query}`}
               onClick={() => setShow(false)}
               key={`sp__${index}`}
-              className="grid grid-cols-4 gap-12 items-center"
+              className="flex gap-2 items-center"
             >
               <NcImage
                 containerClassName="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden lg:h-12 lg:w-12"

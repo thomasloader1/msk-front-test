@@ -13,7 +13,7 @@ export interface BadgeProps {
 }
 
 const Badge: FC<BadgeProps> = ({
-  textSize = "text-xs",
+  textSize = "text-xs sm:text-sm",
   className = `relative ${textSize}`,
   color = "blue",
   rounded = "rounded",
@@ -101,7 +101,7 @@ const Badge: FC<BadgeProps> = ({
   };
   /* transition-colors  */
   const CLASSES =
-    "nc-Badge  inline-flex px-2 py-0.5 sm:py-1 font-medium text-xs sm:text-sm" +
+    "nc-Badge  inline-flex px-2 py-0.5 sm:py-1 font-medium" +
     ` ${className}` +
     ` ${rounded}`;
 

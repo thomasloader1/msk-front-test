@@ -31,11 +31,11 @@ const Card9: FC<Card9Props> = ({
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
-          <h2 className="block text-lg font-semibold text-white">
+          <h4 className="block text-lg font-semibold text-white">
             <span className="text-xl font-raleway" title={title}>
               {title}
             </span>
-          </h2>
+          </h4>
 
           <>
             {showDescription && post.lista_de_cedentes ? (

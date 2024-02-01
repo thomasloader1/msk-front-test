@@ -126,7 +126,7 @@ const ProductDetailSidebar: FC<Props> = ({
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon w-full">
                         <img src={`/src/images/icons/${key}.svg`} width="15" />
-                        <p className="w-full flex justify-between">
+                        <p className="text-[12px] sm:text-base w-full flex justify-between text-dark-blue-custom">
                           <span>
                             {translations[key] ? translations[key] + ":" : ""}
                           </span>

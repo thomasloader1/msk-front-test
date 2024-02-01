@@ -9,6 +9,7 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
+import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageLoginProps {
   className?: string;
@@ -123,9 +124,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             </Form>
           </FormikProvider>
           {/* ==== */}
-          <span className="text-red-500 font-bold block text-center">
-            {loginError}
-          </span>
+          {Boolean(loginError) && <ShowErrorMessage text={loginError} />}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}
             <NcLink to="/crear-cuenta">Créala aquí</NcLink>

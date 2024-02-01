@@ -89,8 +89,8 @@ const StoreProduct: FC<Props> = ({
                   icon="elearning"
                   color="emerald-post"
                   name="Guía profesional"
-                  textSize="text-xs"
                   href={`/tienda?recurso=guias-profesionales`}
+                  textSize="text-xs sm:text-xs"
                 />
               </>
             )}
@@ -98,6 +98,7 @@ const StoreProduct: FC<Props> = ({
               categories={product.categories}
               color="yellow"
               isCourse={true}
+              textSize="text-xs sm:text-xs"
             />
           </div>
           {/* <div className="portfolio-price">

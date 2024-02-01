@@ -7,7 +7,6 @@ export interface PageContactProps {
   className?: string;
 }
 const PageContact: FC<PageContactProps> = ({ className = "" }) => {
-
   return (
     <div
       className={`nc-PageDashboard ${className} animate-fade-down`}

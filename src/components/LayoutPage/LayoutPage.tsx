@@ -28,14 +28,14 @@ const LayoutPage: FC<LayoutPageProps> = ({
         <header className="text-center max-w-2xl mx-auto">
           <Heading2 emoji={headingEmoji}>{heading}</Heading2>
           {subHeading && (
-            <span className="block text-sm mt-2 text-description sm:text-base dark:text-neutral-200">
+            <span className="block text-sm mt-2 text-description sm:text-base dark:text-neutral-200 max-w-[70%] md:max-w-[90%] mx-auto">
               {subHeading}
             </span>
           )}
         </header>
 
         {/* CONTENT */}
-        <div className="p-5 mx-auto bg-white rounded-[40px] shadow-lg sm:p-10 mt-10 lg:mt-20 lg:p-16 dark:bg-neutral-900">
+        <div className="p-5 mx-auto bg-white rounded-[12px] sm:rounded-[40px] shadow-lg sm:p-10 mt-10 lg:mt-20 lg:p-16 dark:bg-neutral-900">
           {children}
         </div>
       </div>

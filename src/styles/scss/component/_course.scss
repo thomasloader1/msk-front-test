@@ -790,7 +790,7 @@
 
 .bar-search-icon {
   position: relative;
-
+  min-width: 200px;
   i {
     position: absolute;
     top: 50%;
@@ -805,12 +805,13 @@
     color: $heading-color;
     outline: none;
     border: 1px solid $border;
-    min-width: 420px;
     background-color: $white;
     border-radius: 3px;
+    width: 100%;
 
     @media #{$lg,$md,$sm,$xs} {
       min-width: 100%;
+      max-width: unset;
     }
 
     ::placeholder {
@@ -880,7 +881,7 @@
 
 .bar-filter {
   border: 1px solid $border;
-  padding: 15px 30px;
+  padding: 15px 10px;
   display: flex;
   gap: 10px;
   justify-content: space-around;
@@ -896,6 +897,9 @@
     line-height: 0;
     font-size: 19px;
     color: $heading-color;
+  }
+  @media (max-width: 1024px) {
+    display: none;
   }
 }
 
@@ -1115,7 +1119,7 @@
 }
 
 .requirements {
-  background: #f3f3f6;
+  background: #f5f8ff;
   display: flex;
   border-radius: 16px;
   padding: 26px 40px;
@@ -1177,7 +1181,6 @@
     .accordion-content {
       color: $modules-text;
       border-top: 1px solid $border2;
-
     }
   }
 
@@ -1193,7 +1196,7 @@
       margin-top: 4px;
     }
   }
-  
+
   //Bullets para modulos
   li::before {
     content: "●";
@@ -1204,8 +1207,7 @@
     position: absolute;
     display: inline-block;
     left: 0px;
-}
-
+  }
 }
 
 .protfolio-course-2-wrapper:hover {
@@ -1270,7 +1272,7 @@
 
   @media #{$xs} {
     margin-top: 0;
-    padding-top: 110px;
+    // padding-top: 110px;
   }
 }
 
@@ -1368,7 +1370,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
-  padding: 20px 0 20px 0;
+  // padding: 20px 0 20px 0;
   border-top: 1px solid $border;
   border-bottom: 1px solid $border;
   align-items: center;
@@ -1430,15 +1432,24 @@
     background: #edeef2;
     top: 50%;
     transform: translateY(-50%);
+  }
+}
+.border-line-meta-h {
+  position: relative;
 
-    @media #{$xs,$sm} {
-      display: none;
-    }
+  &:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: #edeef2;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
 .course-learn-wrapper {
-  padding: 30px 30px 10px;
+  padding: 20px 20px 10px;
   background: #f5f8ff;
   border: 1px solid $border;
   border-radius: 5px;
@@ -1481,9 +1492,9 @@
 
 .instructors-heading {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 15px;
-  gap: 20px;
+  gap: 0px;
 
   .instructors-img {
     position: relative;
@@ -1504,7 +1515,7 @@
 }
 
 .course-instructors {
-  padding: 25px 30px 25px 30px;
+  padding: 10px 10px 10px 0px;
   border-radius: 5px;
 }
 
@@ -1547,11 +1558,18 @@
     margin-bottom: 0px;
     font-family: Poppins;
     font-weight: 600 !important;
-    font-size: 16px;
+    font-size: 16px !important;
+    @media (max-width: 575px) {
+      font-size: 14px !important;
+    }
   }
 
   p {
     font-family: Poppins;
+    @media (max-width: 575px) {
+      font-size: 14px !important;
+      color: #374161;
+    }
   }
 }
 
@@ -1737,6 +1755,9 @@
     font-size: 28px;
     color: $heading-color;
     font-weight: 600;
+    @media (max-width: 575px) {
+      font-size: 23px;
+    }
   }
 }
 

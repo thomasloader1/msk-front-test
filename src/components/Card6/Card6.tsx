@@ -13,6 +13,7 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card6Props {
   className?: string;
@@ -30,6 +31,7 @@ const Card6: FC<Card6Props> = ({
   badgeColor,
 }) => {
   const { title, slug, image, categories, link, author, date } = post;
+  const categoriesOrder = kind === 'blog' ? categories.sort(compareByNameDescending) : categories
 
   return (
     <div
@@ -40,7 +42,7 @@ const Card6: FC<Card6Props> = ({
       <div className="flex flex-col flex-grow">
         <div className="space-y-3 mb-4">
           <CategoryBadgeList
-            categories={categories}
+            categories={categoriesOrder}
             color={badgeColor}
             isCourse={kind === "curso"}
             isPost={kind === "blog"}

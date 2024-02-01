@@ -24,7 +24,9 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
     const fetchData = async () => {
       try {
         const response = await api.getWpImages("banners_shop");
-        setBannerImgs(response);
+        if(response.length > 0){
+          setBannerImgs(response);
+        }
       } catch (err) {
         console.log({ err });
       }

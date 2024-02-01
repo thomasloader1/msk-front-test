@@ -25,11 +25,11 @@ const Heading: React.FC<HeadingProps> = ({
           isCenter ? "text-center w-full max-w-2xl mx-auto " : "w-full"
         }
       >
-        <h2 className={`text-[22px] sm:text-4xl font-medium`} {...args}>
+        <h4 className={`text-[22px] sm:text-4xl font-medium`} {...args}>
           {children}
-        </h2>
+        </h4>
         {desc && (
-          <span className="text-[12px] mt-2 lg:text-lg md:mt-3 font-normal block text-base sm:text-xl text-violet-wash dark:text-neutral-400 leading-4">
+          <span className="text-[12px] mt-2 lg:text-lg md:mt-3 font-normal block text-base sm:text-xl text-violet-wash dark:text-neutral-400 leading-5">
             {desc}
           </span>
         )}

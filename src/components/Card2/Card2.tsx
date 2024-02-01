@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card2Props {
   className?: string;
@@ -43,6 +44,9 @@ const Card2: FC<Card2Props> = ({
 
   const imageURL = image?.replace("mx.", "");
   const url = redirectAccount ? `/mi-cuenta/cursos` : `/${kind}/${slug}`;
+  const categoriesOrder =
+    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
+
   return (
     <div
       className={`nc-Card2 group relative flex flex-col  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden ${className} rounded-lg`}
@@ -71,10 +75,10 @@ const Card2: FC<Card2Props> = ({
             itemClass="relative"
             isCourse={father_post_type === "course"}
             isPost={kind === "blog"}
-            categories={categories}
+            categories={categoriesOrder}
           />
           <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-10 ${
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-4 sm:h-10 ${
               size === "large" ? "text-lg sm:text-2xl" : "text-base"
             }`}
           >

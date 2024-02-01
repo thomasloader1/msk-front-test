@@ -20,13 +20,13 @@ export interface SinglePageType extends PostDataType {
   content: string | ReactNode;
   comments: CommentType[];
   fuentes?: string[];
-  articles: { title: string | null; content: string; }[];
+  articles: { title: string | null; content: string }[];
   themes_to_se: Array<{
     introduction?: string;
     id?: string;
     title?: string;
     type?: string;
-  }>
+  }>;
 }
 
 interface ParamsType {
@@ -62,10 +62,8 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
     getNote();
   }, [slug]);
 
-
   return (
     <>
-   
       {loading ? (
         <>
           <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog">
@@ -92,7 +90,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
             className={`nc-PageSingleTemp3¸Sidebar ${className}`}
             data-nc-id="PageSingleTemp3Sidebar"
           >
-            <header className="relative pt-16 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog animate-fade-down">
+            <header className="relative pt-10 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog animate-fade-down">
               {/* SINGLE HEADER */}
               <div className="dark container relative z-10">
                 <div>
@@ -104,15 +102,17 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
                 </div>
               </div>
               {/* FEATURED IMAGE */}
-              {note.featured_image && note.featured_image.length ? (
-                <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container max-h-[450px]">
-                  <NcImage
-                    containerClassName="absolute inset-0"
-                    src={note.featured_image[0]}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              ) : null}
+              <div className="px-[16px]">
+                {note.featured_image && note.featured_image.length ? (
+                  <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container ">
+                    <NcImage
+                      containerClassName="absolute inset-0"
+                      src={note.featured_image[0]}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                ) : null}
+              </div>
             </header>
 
             {/* SINGLE MAIN CONTENT */}

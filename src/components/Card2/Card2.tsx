@@ -77,7 +77,7 @@ const Card2: FC<Card2Props> = ({
             isPost={kind === "blog"}
             categories={categoriesOrder}
           />
-          <h2
+          <h4
             className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-4 sm:h-10 ${
               size === "large" ? "text-lg sm:text-2xl" : "text-base"
             }`}
@@ -89,7 +89,7 @@ const Card2: FC<Card2Props> = ({
             >
               {title}
             </Link>
-          </h2>
+          </h4>
           <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2 truncate">
             {excerpt}
           </span>

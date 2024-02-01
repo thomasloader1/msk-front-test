@@ -265,17 +265,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         heading="Store"
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-          {/* <StoreBar
-            onSearch={(e) => triggerSearch(e)}
-            onFilter={(e) => triggerFilter(e)}
-            length={products.length}
-            filtersCount={
-              storeFilters.specialties.length +
-              storeFilters.professions.length +
-              storeFilters.resources.length +
-              storeFilters.duration.length
-            }
-          /> */}
           {loadingCourses ? (
             <div className="container grid grid-cols-3 gap-10">
               {loaders.map((loader) => {

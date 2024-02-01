@@ -36,7 +36,6 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h4>
-
           <>
             {showDescription && post.lista_de_cedentes ? (
               <div className="sm:block mt-2">

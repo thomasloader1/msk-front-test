@@ -91,12 +91,18 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   textSize="text-xs"
                 />
               )}
-              <CategoryBadgeList categories={product.ficha.categorias} />
+              <CategoryBadgeList
+                categories={product.ficha.categorias}
+                isEbook={isEbook}
+                isCourse={!isEbook}
+                demo
+              />
             </div>
-            <div className="course-heading my-5">
-              <h2 className="font-semibold">{product.ficha.title}</h2>
-              <div className="border-line-meta-h" />
+            <div className="course-heading mb-10 my-5">
+              <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
             </div>
+            <div className="border-line-meta-h" />
+
             <div>
               {product.authors.length ||
               product.temario ||
@@ -113,9 +119,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                             Cedente
                           </span>
                           <div className="flex flex-col text-dark-blue-custom">
-                            <h6 className="raleway-bold">
+                            <div className="raleway-bold">
                               {title || product.authors[0]?.name}
-                            </h6>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -126,9 +132,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     <div className="col-span-4 sm:col-span-2 my-auto text-dark-blue-custom">
                       <div className="flex flex-col">
                         <span className="raleway">Contenido</span>
-                        <h6 className="raleway-bold">
+                        <div className="raleway-bold">
                           {product.temario["data"]?.row_count} módulos
-                        </h6>
+                        </div>
                       </div>
                     </div>
                   ) : null}
@@ -136,9 +142,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                   {product.details && product.details["duration"] ? (
                     <div className="col-span-6 sm:col-span-3 my-auto text-dark-blue-custom">
                       <span className="raleway ">Duración</span>
-                      <h6 className="raleway-bold">
+                      <div className="raleway-bold">
                         {product.details["duration"].value} horas estimadas
-                      </h6>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -173,7 +179,9 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               >
                 {!isEbook && (
                   <div className="course-Description">
-                    <h4 className="font-semibold text-xl">Qué aprenderás</h4>
+                    <div className="font-semibold text-xl font-raleway">
+                      Qué aprenderás
+                    </div>
                   </div>
                 )}
                 <div ref={textRef} />

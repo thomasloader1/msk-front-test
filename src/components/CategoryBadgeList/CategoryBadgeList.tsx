@@ -14,6 +14,7 @@ export interface CategoryBadgeListProps {
   isPost?: boolean;
   isEbook?: boolean;
   textSize?: string;
+  demo?: boolean;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
@@ -25,10 +26,10 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isPost,
   isEbook,
   textSize,
+  demo,
 }) => {
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
-
   useEffect(() => {
     const compararPorSlug = (a: any, b: any) => {
       const slugA = a.slug.toLowerCase();
@@ -54,7 +55,6 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       data-nc-id="CategoryBadgeList"
     >
       {isEbook && <Badge className={itemClass} name={"Curso"} color={"blue"} />}
-
       {isCourse && (
         <>
           {sortedCategories.map((item, index) => (
@@ -71,7 +71,6 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
           ))}
         </>
       )}
-
       {isPost && (
         <>
           {sortedCategories.map((item, index) => (

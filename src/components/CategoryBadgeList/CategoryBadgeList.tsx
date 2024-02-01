@@ -75,15 +75,15 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       {isPost && (
         <>
           {sortedCategories.map((item, index) => (
-              <Badge
-                className={itemClass}
-                key={index}
-                name={notesJSON[slugifySpecialty(item.name)]}
-                color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
-                href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
-                textSize={textSize}
-              />
-          )}
+            <Badge
+              className={itemClass}
+              key={index}
+              name={notesJSON[slugifySpecialty(item.name)]}
+              color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
+              href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
+              textSize={textSize}
+            />
+          ))}
         </>
       )}
     </div>

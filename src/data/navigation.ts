@@ -655,9 +655,12 @@ export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
 export const NAVIGATION_USER: NavItemType[] = [
   {
     id: ncNanoId(),
+    href: "/mi-perfil",
+    name: "Perfil",
+  },
+  {
+    id: ncNanoId(),
     href: "/mi-cuenta",
-    name: "Mi Cuenta",
-    type: "dropdown",
-    children: accountMenu,
+    name: "Configurar mi Cuenta",
   },
 ];

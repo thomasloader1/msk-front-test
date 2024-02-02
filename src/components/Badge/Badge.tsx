@@ -108,7 +108,7 @@ const Badge: FC<BadgeProps> = ({
   return !!href ? (
     <Link
       to={href || ""}
-      className={`duration-300 ${CLASSES} ${getColorClass(false)}`}
+      className={`items-center duration-300 ${CLASSES} ${getColorClass(false)}`}
     >
       {icon && (
         <img
@@ -121,7 +121,7 @@ const Badge: FC<BadgeProps> = ({
       {name}
     </Link>
   ) : icon ? (
-    <div className={`${CLASSES} ${getColorClass(false)}`}>
+    <div className={`items-center ${CLASSES} ${getColorClass(false)}`}>
       <img src={`/src/images/icons/${icon}.svg`} width="15" className="mr-1" />
       <span className="font-normal">{name}</span>
     </div>

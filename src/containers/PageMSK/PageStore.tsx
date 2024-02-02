@@ -245,8 +245,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
 
-  console.log(storeFilters);
-
   const prioryTitleStore =
     storeFilters?.specialties[0]?.name &&
     `Cursos de ${storeFilters.specialties[0].name}`;

@@ -204,6 +204,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         )}
       </div>
       <div className="block sm:hidden">
+        {renderHeading()}
         <Swiper
           modules={[Navigation, A11y, Autoplay]}
           slidesPerView={1}
@@ -236,7 +237,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               title="Prev"
               data-glide-dir="<"
             >
-              <i className="las la-angle-left"></i>
+              <i className="las la-angle-left text-black"></i>
             </button>
           </div>
           <div className="swiper-button-next">
@@ -245,11 +246,10 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               title="Next"
               data-glide-dir=">"
             >
-              <i className="las la-angle-right"></i>
+              <i className="las la-angle-right text-black"></i>
             </button>
           </div>
         </div>
-
         {/* <NextPrev
           btnClassName="w-12 h-12"
           containerClassName="justify-center"

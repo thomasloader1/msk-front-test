@@ -33,17 +33,6 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
     history.push("/tienda");
   };
 
-  const itemsPerPage = 5;
-  const totalPages = Math.ceil(courses.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = courses.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Función para cambiar la página
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
   const tableConfig = {
     goToLMS,
     goToEnroll,
@@ -53,7 +42,7 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
 
   return (
     <CoursesTable
-      courses={currentItems}
+      courses={courses}
       tableConfig={tableConfig}
       isMobile={isMobile}
     />

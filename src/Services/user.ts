@@ -75,7 +75,7 @@ export const getUserCourses = (
     }
   });
 
-  console.log(res.contact.courses_progress, { courses });
+  // console.log(res.contact.courses_progress, { courses });
 
   return coursesList;
 };

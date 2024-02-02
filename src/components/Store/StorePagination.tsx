@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
+import NcLink from "components/NcLink/NcLink";
+import { useHistory } from "react-router-dom";
+import { keepOnlySpecifiedParams, removeUrlParams } from "lib/removeUrlParams";
 
 interface Props {
   totalPages: number;
@@ -13,6 +16,7 @@ const StorePagination: FC<Props> = ({
   currentPage,
 }) => {
   const [pages, setPages] = useState<number[]>([]);
+  const history = useHistory();
 
   useEffect(() => {
     const newPages = [];
@@ -21,6 +25,9 @@ const StorePagination: FC<Props> = ({
     }
     setPages(newPages);
   }, [totalPages]);
+
+  const hasSearch = history.location.search;
+  const urlTrack = hasSearch ? `${keepOnlySpecifiedParams(hasSearch)}` : "?";
 
   return (
     <>
@@ -32,9 +39,14 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                <a>
+                <NcLink
+                  to={`${urlTrack}${
+                    currentPage - 1 > 1 ? `&page=${currentPage - 1}` : ""
+                  }`}
+                  colorClass=""
+                >
                   <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                </a>
+                </NcLink>
               </li>
             ) : (
               ""
@@ -50,7 +62,12 @@ const StorePagination: FC<Props> = ({
                   key={`page_${page}`}
                   onClick={() => onPageChange(page)}
                 >
-                  <span>{page < 10 ? `0${page}` : page}</span>
+                  <NcLink
+                    to={`${urlTrack}${page > 1 ? `&page=${page}` : ""}`}
+                    colorClass=""
+                  >
+                    {page < 10 ? `0${page}` : page}
+                  </NcLink>
                 </li>
               );
             })}
@@ -59,9 +76,9 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                <a>
+                <NcLink to={`${urlTrack}&page=${currentPage + 1}`}>
                   <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                </a>
+                </NcLink>
               </li>
             ) : null}
           </ul>

@@ -1,5 +1,6 @@
 import { StoreFiltersContext } from "context/storeFilters/StoreContext";
 import { PageFilter } from "data/types";
+import { getDescriptionContent } from "lib/pageHeadUtils";
 import { removeUrlParams } from "lib/removeUrlParams";
 import { FC, useContext } from "react";
 import { Helmet } from "react-helmet";
@@ -10,21 +11,6 @@ interface PageHeadProps {
   prioryTitle?: string;
   customDescription?: string;
 }
-
-const getDescriptionContent = (
-  isProd: boolean,
-  customDesc?: string,
-  desc?: string
-) => {
-  const text = customDesc || desc || "";
-
-  return isProd ? stripHtmlTags(text) || "" : "";
-};
-
-const stripHtmlTags = (html: string) => {
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  return doc.body.textContent;
-};
 
 const generatePrevNextLinks = (page: PageFilter | undefined) => {
   if (!page) {
@@ -75,7 +61,6 @@ const PageHead: FC<PageHeadProps> = ({
 }) => {
   const isProduction = window.location.hostname === "msklatam.com";
   const state = useContext(StoreFiltersContext);
-  console.log({ filters: state?.storeFilters });
 
   const descriptionContent = getDescriptionContent(
     isProduction,

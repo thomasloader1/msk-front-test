@@ -84,7 +84,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 categories={product.ficha.categorias}
                 isEbook={isEbook}
                 isCourse={!isEbook}
-                demo
               />
             </div>
             <div className="course-heading mb-10 my-5">

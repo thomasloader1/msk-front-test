@@ -247,6 +247,10 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   console.log(storeFilters);
 
+  const prioryTitleStore =
+    storeFilters?.specialties[0]?.name &&
+    `Cursos de ${storeFilters.specialties[0].name}`;
+
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}
@@ -256,6 +260,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       <PageHead
         title="Tienda"
         description="Una propuesta moderna para expandir tus metas profesionales"
+        prioryTitle={prioryTitleStore ?? null}
       />
       {/* === END SEO === */}
 

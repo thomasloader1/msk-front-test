@@ -28,6 +28,16 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   textSize,
   demo,
 }) => {
+  console.log({
+    itemClass,
+    categories,
+    color,
+    isCourse,
+    isPost,
+    isEbook,
+    textSize,
+    demo,
+  });
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
   useEffect(() => {
@@ -44,6 +54,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       }
       return 0;
     };
+
     const sortedCategoriesList = categories.sort(compararPorSlug);
 
     setSortedCategories(sortedCategoriesList);
@@ -54,7 +65,15 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       className={`nc-CategoryBadgeList ${className}`}
       data-nc-id="CategoryBadgeList"
     >
-      {isEbook && <Badge className={itemClass} name={"Curso"} color={"blue"} />}
+      {isEbook && (
+        <Badge
+          className={itemClass}
+          name={"Guía profesional"}
+          color={"emerald-post"}
+          href={`/tienda?recurso=guias-profesionales`}
+          icon="elearning"
+        />
+      )}
       {isCourse && (
         <>
           {sortedCategories.map((item, index) => (

@@ -28,16 +28,6 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   textSize,
   demo,
 }) => {
-  console.log({
-    itemClass,
-    categories,
-    color,
-    isCourse,
-    isPost,
-    isEbook,
-    textSize,
-    demo,
-  });
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
   useEffect(() => {

@@ -6,6 +6,7 @@ import {
   DurationFilter,
   FetchCourseType,
   JsonMapping,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
@@ -15,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import specialtiesMapping from "../../data/jsons/__specialties.json";
 import resourcesMapping from "../../data/jsons/__resources.json";
 import StoreBar from "./StoreBar";
+import { keepOnlySpecifiedParams } from "lib/removeUrlParams";
 
 interface Props {
   products: FetchCourseType[];
@@ -33,10 +35,14 @@ const StoreContent: FC<Props> = ({
   handleTriggerSearch,
   handleTriggerFilter,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { storeFilters, addFilter, removeFilter, clearFilters } =
-    useStoreFilters();
   const history = useHistory();
+  const possiblePageParam = history.location.search.includes("page")
+    ? Number(history.location.search.split("&").pop()?.split("=")[1])
+    : 1;
+
+  const [currentPage, setCurrentPage] = useState(possiblePageParam);
+  const { storeFilters, addFilter, removeFilter, updateFilter, clearFilters } =
+    useStoreFilters();
   const itemsPerPage = 18;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -51,7 +57,28 @@ const StoreContent: FC<Props> = ({
 
   // Función para cambiar la página
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    const { pathname, search } = history.location;
+    const pageExists = storeFilters.page.some(
+      (item: PageFilter) => item.id === pageNumber
+    );
+
+    const urlRedirect = keepOnlySpecifiedParams(`${pathname}${search}`);
+
+    if (pageExists) {
+      removeFilter("page", { id: pageNumber, name: String(pageNumber) });
+    } else {
+      updateFilter("page", {
+        id: pageNumber,
+        name: String(pageNumber),
+        total: totalPages,
+      });
+
+      const pageParam = pageNumber > 1 ? `page=${pageNumber}` : "";
+      const separator = urlRedirect.includes("?") ? "&" : "?";
+
+      history.push(`${urlRedirect}${pageParam && separator}${pageParam}`);
+      setCurrentPage(pageNumber);
+    }
   };
 
   const onChangeSpecialty = (specialty: Specialty) => {
@@ -113,6 +140,7 @@ const StoreContent: FC<Props> = ({
           .split("=")[1]
           .split(",")
           .map((item) => decodeURIComponent(item));
+        console.log(filterQueries);
         const filterType = query.split("=")[0];
         switch (filterType) {
           case "profesion":
@@ -146,24 +174,6 @@ const StoreContent: FC<Props> = ({
               id: 1,
               name: specialtyName,
             });
-            /*  if (filterQueries.includes("Emergentología")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Emergentología",
-              });
-            }
-            if (filterQueries.includes("Medicina general")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Medicina general",
-              });
-            }
-            if (filterQueries.includes("Infectología")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Infectología",
-              });
-            } */
             break;
           case "recurso":
             const resourceJSON: JsonMapping = resourcesMapping;
@@ -173,27 +183,25 @@ const StoreContent: FC<Props> = ({
               name: resourceName,
               id: 1,
             });
-          /* if (filterQueries.includes("1")) {
-              addFilter("resources", {
-                name: "Curso",
-                id: 1,
-              });
-            }
-            if (filterQueries.includes("2")) {
-              addFilter("resources", {
-                name: "Guías profesionales",
-                id: 2,
-              });
-            } */
+            break;
+          case "page":
+            addFilter("page", {
+              name: filterQueries[0],
+              id: Number(filterQueries[0]),
+              total: totalPages,
+            });
+            setCurrentPage(Number(filterQueries[0]));
+
+            break;
         }
       });
 
-      setCurrentPage(1);
+      //setCurrentPage(1);
     }
   }, [location.search, productsLength]);
 
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentPage(storeFilters.page[0]?.id ?? 1);
   }, [storeFilters]);
 
   return (

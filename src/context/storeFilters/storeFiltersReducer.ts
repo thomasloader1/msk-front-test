@@ -3,6 +3,7 @@ import {
   DurationFilter,
   Profession,
   Specialty,
+  PageFilter,
 } from "data/types";
 
 export type Filter = {
@@ -10,6 +11,7 @@ export type Filter = {
   professions: Profession[];
   duration: DurationFilter[];
   resources: ResourceFilter[];
+  page: PageFilter[];
 };
 
 export type State = {
@@ -21,14 +23,31 @@ export type Action =
       type: "ADD_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
+        filterValue:
+          | Specialty
+          | Profession
+          | DurationFilter
+          | ResourceFilter
+          | PageFilter;
+      };
+    }
+  | {
+      type: "UPDATE_FILTER";
+      payload: {
+        filterType: keyof Filter;
+        filterValue: PageFilter;
       };
     }
   | {
       type: "REMOVE_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
+        filterValue:
+          | Specialty
+          | Profession
+          | DurationFilter
+          | ResourceFilter
+          | PageFilter;
       };
     }
   | {
@@ -46,6 +65,14 @@ const reducer = (state: State, action: Action): State => {
             ...state.storeFilters[action.payload.filterType],
             action.payload.filterValue,
           ],
+        },
+      };
+    case "UPDATE_FILTER":
+      return {
+        ...state,
+        storeFilters: {
+          ...state.storeFilters,
+          page: [{ ...action.payload.filterValue }],
         },
       };
     case "REMOVE_FILTER":
@@ -71,6 +98,7 @@ const reducer = (state: State, action: Action): State => {
           professions: [],
           duration: [],
           resources: [],
+          page: [],
         },
       };
     default:

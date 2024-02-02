@@ -6,6 +6,7 @@ import LoadingImage from "components/Loader/Image";
 import {
   DurationFilter,
   FetchCourseType,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
@@ -69,7 +70,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   // FILTERS
   useEffect(() => {
-    // console.table(storeFilters);
+    console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 
@@ -244,8 +245,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   for (let i = 0; i < 9; i++) {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
-
-  console.log(storeFilters);
 
   const prioryTitleStore =
     storeFilters?.specialties[0]?.name &&

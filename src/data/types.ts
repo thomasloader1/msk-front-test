@@ -471,6 +471,12 @@ export interface ResourceFilter {
   name: string;
 }
 
+export interface PageFilter {
+  id: number;
+  name: string;
+  total: number;
+}
+
 export interface CourseDataType {
   index: number;
   id: string;

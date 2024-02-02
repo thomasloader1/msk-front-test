@@ -80,13 +80,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         <div className="">
           <div className="course-details-wrapper animate-fade-down">
             <div className="flex gap-2">
-              {isEbook && (
-                <Badge
-                  color="emerald-post"
-                  name="Guía profesional"
-                  textSize="text-xs"
-                />
-              )}
               <CategoryBadgeList
                 categories={product.ficha.categorias}
                 isEbook={isEbook}

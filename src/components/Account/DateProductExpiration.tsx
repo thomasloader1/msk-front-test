@@ -12,12 +12,16 @@ const DateProductExpiration: FC<DateProductExpirationProps> = ({
   text,
 }) => {
   return (
-    <div className="flex items-center mt-2 ml-1 md:ml-4">
-      <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-      <span className="text-violet-wash text-[10px] sm:text-sm">
-        {text}: {formatDate(date)}
-      </span>
-    </div>
+    <>
+      {formatDate(date) && (
+        <div className="flex items-center mt-2">
+          <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
+          <span className="text-violet-wash text-[10px] sm:text-sm">
+            {text}: {formatDate(date)}
+          </span>
+        </div>
+      )}
+    </>
   );
 };
 

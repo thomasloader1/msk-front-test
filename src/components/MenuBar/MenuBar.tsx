@@ -44,8 +44,8 @@ const MenuBar: React.FC<MenuBarProps> = () => {
             leaveTo="opacity-0 -translate-x-14"
           >
             <div className="fixed inset-y-0 left-0 w-screen max-w-sm overflow-y-auto z-50">
-              <div className="flex min-h-full">
-                <div className="w-full max-w-sm overflow-hidden transition-all">
+              <div className="flex min-h-full min-w-full">
+                <div className="w-full h-full fixed overflow-hidden transition-all">
                   <NavMobile onClickClose={handleCloseMenu} />
                 </div>
               </div>

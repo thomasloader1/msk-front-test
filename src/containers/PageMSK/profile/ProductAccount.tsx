@@ -2,16 +2,9 @@ import { FC, useContext, useRef, useState } from "react";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import {
-  goToEnroll,
-  goToLMS,
-  statusCourse,
-  statusOrdenVenta,
-} from "logic/account";
+import { goToEnroll, goToLMS, statusCourse } from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
-import calendarIcon from "../../../images/icons/calendar.svg";
-import { formatDate } from "lib/formatDate";
 import ProductAccountButton from "./ProductAccountButton";
 import InfoText from "components/InfoText/InfoText";
 import { STATUS } from "data/statusCourses";
@@ -55,7 +48,7 @@ const ProductAccount: FC<Props> = ({
   );
 
   const handleClick = async () => {
-    console.log(product.ov, activeProductRef.current);
+    // console.log(product.ov, activeProductRef.current);
     if (product.ov !== "Baja" && activeProductRef.current) {
       setOnRequest(true);
       try {
@@ -102,7 +95,6 @@ const ProductAccount: FC<Props> = ({
               <a onClick={handleClick}>
                 <h3>{product.title}</h3>
               </a>
-
               <div className="course-action">
                 <a onClick={handleClick} className="view-details-btn">
                   Ver más
@@ -121,54 +113,55 @@ const ProductAccount: FC<Props> = ({
 
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
-          <div className="flex gap-2">
-            {product.duration ? null : (
+          <div>
+            <div className="flex gap-2 flex-wrap">
+              {product.duration ? null : (
+                <>
+                  <Badge
+                    icon="elearning"
+                    color="emerald-post"
+                    name="Guía profesional"
+                    textSize="text-[11px]"
+                  />
+                </>
+              )}
+              <CategoryBadgeList
+                categories={product.categories}
+                color="yellow"
+                isCourse={true}
+                textSize="text-[11px]"
+              />
+            </div>
+            <div className="portfolio-course-2 line-clamp-3">
+              <a onClick={handleClick} className="">
+                <h3 className="font-bold text-sm">{product.title}</h3>
+              </a>
+            </div>
+          </div>
+          <div>
+            {product.ov !== "Baja" && (
               <>
-                <Badge
-                  icon="elearning"
-                  color="emerald-post"
-                  name="Guía profesional"
-                  textSize="text-xs"
-                />
+                {product.expiration ? (
+                  <DateProductExpiration
+                    date={productExpiration.current}
+                    text="Fecha de expiración"
+                  />
+                ) : (
+                  <DateProductExpiration
+                    date={productExpirationEnroll.current}
+                    text="Fecha límite de activación"
+                  />
+                )}
               </>
             )}
-            <CategoryBadgeList
-              categories={product.categories}
-              color="yellow"
-              isCourse={true}
-            />
+            {showHelp && <CentroAyudaLink addClassNames="my-2" />}
+            {showTip && (
+              <InfoText
+                addClassNames="mt-2"
+                text="¿No ves resultados? Intenta refrescar la pantalla."
+              />
+            )}
           </div>
-
-          <div className="portfolio-course-2 line-clamp-3">
-            <a onClick={handleClick} className="">
-              <h3 className="font-bold text-sm">{product.title}</h3>
-            </a>
-          </div>
-
-          {product.ov !== "Baja" && (
-            <>
-              {product.expiration ? (
-                <DateProductExpiration
-                  date={productExpiration.current}
-                  text="Fecha de expiración"
-                />
-              ) : (
-                <DateProductExpiration
-                  date={productExpirationEnroll.current}
-                  text="Fecha límite de activación"
-                />
-              )}
-            </>
-          )}
-
-          {showHelp && <CentroAyudaLink addClassNames="my-2" />}
-
-          {showTip && (
-            <InfoText
-              addClassNames="mt-2 "
-              text="¿No ves resultados? Intenta refrescar la pantalla."
-            />
-          )}
         </div>
       </div>
       {product ? (

@@ -17,12 +17,17 @@ import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
 import PageHead from "./PageHead";
+import HeaderFilter from "./home/HeaderFilter";
 
 export interface PageAuthorProps {
   className?: string;
 }
 
-const TABS = ["Mis cursos", "Todo", "Favoritos"];
+const TABS = [
+  "Todo",
+  "Mis cursos",
+  // "Favoritos"
+];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const history = useHistory();
@@ -31,15 +36,16 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     loadingBestSellers,
     loadingProductsMX,
   } = useContext(DataContext);
-  const { allPosts, allBestSellers, allProductsMX } = dataState;
-  const [posts, setPosts] = useState<UserCourseProgress[]>([]);
+  const { allCourses, allPosts, allBestSellers, allProductsMX } = dataState;
   const [bestSeller, setBestSeller] = useState([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
+  const [coursesTabActive, setCoursesTabActive] = useState<string>("Todo");
   const [user, setUser] = useState<User>({} as User);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentItems, setCurrentItems] = useState<UserCourseProgress[]>([]);
-
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [userCourses, setUserCourses] = useState<UserCourseProgress[]>([]);
   const fetchUser = async () => {
     try {
       const productList = allProductsMX;
@@ -47,10 +53,10 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       if (!res.message) {
         setUser(res);
         let coursesList = getUserCourses(res, productList);
-        setPosts(coursesList);
+        setUserCourses(coursesList);
+        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
         setLoadingUser(false);
       } else {
-        console.log(res.response.status);
         history.push("/iniciar-sesion");
       }
     } catch (error) {
@@ -60,7 +66,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -73,8 +78,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   }, [allPosts, allBestSellers]);
 
   useEffect(() => {
-    setCurrentItems(posts.slice(indexOfFirstItem, indexOfLastItem));
-  }, [indexOfFirstItem, indexOfLastItem, posts]);
+    setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+  }, [indexOfFirstItem, indexOfLastItem, allCourses]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -107,6 +112,25 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     tabActive == "Favoritos" ? history.push("/") : history.push("/tienda");
   };
 
+  const handleUserTabChange = (item: string) => {
+    switch (item) {
+      case "Todo":
+        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
+        break;
+      case "Mis cursos":
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
+
+        break;
+      default:
+        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+        break;
+    }
+    setCurrentPage(1);
+    setCoursesTabActive(item);
+  };
+
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
       <PageHead title="Mi perfil" />
@@ -114,19 +138,19 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       <div className="animate-fade-down">
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">
           {loadingUser ? (
-            <>
-              <AvatarSkeleton className="rounded-full w-24 h-24" />
+            <div className="mx-auto">
+              <AvatarSkeleton className="rounded-full w-24 h-24 mx-auto" />
               <TextSkeleton lines="2" />
-            </>
+            </div>
           ) : (
             <>
               <Avatar
                 containerClassName="dark:ring-0 shadow-2xl mx-auto"
                 userName={user.name}
-                sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
+                sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36 mx-auto"
                 radius="rounded-full"
               />
-              <div className="mt-4 sm:mt-6 gap-1 max-w-lg text-center">
+              <div className="mt-4 sm:mt-6 gap-1 max-w-lg text-center mx-auto">
                 <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
                   {user.name}
                 </h2>
@@ -153,6 +177,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             </div>
           ) : (
             <>
+              <HeaderFilter
+                tabActive={coursesTabActive}
+                tabs={TABS}
+                heading={""}
+                onClickTab={handleUserTabChange}
+              />
               {currentItems.length ? (
                 <>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">

@@ -54,7 +54,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         setUser(res);
         let coursesList = getUserCourses(res, productList);
         setUserCourses(coursesList);
-        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
         setLoadingUser(false);
       } else {
         history.push("/iniciar-sesion");
@@ -78,7 +78,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   }, [allPosts, allBestSellers]);
 
   useEffect(() => {
-    setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+    setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
   }, [indexOfFirstItem, indexOfLastItem, allCourses]);
 
   const handlePageChange = (pageNumber: number) => {
@@ -115,8 +115,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const handleUserTabChange = (item: string) => {
     switch (item) {
       case "Todo":
-        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
-        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
         break;
       case "Mis cursos":
         setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));

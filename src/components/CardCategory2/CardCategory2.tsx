@@ -53,7 +53,8 @@ const CardCategory2: FC<CardCategory2Props> = ({
         <Badge
           color={color as TwMainColor}
           name="NUEVO"
-          className="absolute top-2 sm:top-3 left-3"
+          className="absolute top-2 sm:top-3 left-3 text-[8px] sm:text-[12px] leading-4"
+          fontWeight="font-bold"
         />
       )}
       <NcImage
@@ -61,7 +62,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
         src={thumbnail}
       />
       <div>
-        <h2 className={`text-base text-[12px] sm:text-lg font-normal`}>
+        <h2 className={`text-[12px] sm:text-lg font-normal`}>
           <span className="line-clamp-1">{name}</span>
         </h2>
         {/* <span

@@ -65,7 +65,7 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
         <div className="w-full col-span-2 sm:col-span-1 flex justify-items-center">
           <Link
             to={"/tienda"}
-            className="h-full text-primary font-medium sm:font-semibold flex items-center text-center mx-auto"
+            className="h-full text-primary font-medium sm:font-semibold flex items-center text-center mx-auto text-[14px]"
           >
             Ver todas
           </Link>

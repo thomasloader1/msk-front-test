@@ -265,3 +265,20 @@
     display: none;
   }
 }
+
+.header-see-more-btn {
+  margin-left: auto;
+  @media (max-width: 375px) {
+    margin-left: 0;
+  }
+}
+
+.nav-mobile-sub-menu a {
+  color: #ababab;
+  font-size: 16px;
+}
+
+.mobile-nav-container {
+  overflow-y: auto;
+  max-height: calc(100vh - 160px);
+}

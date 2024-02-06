@@ -4,6 +4,7 @@ import { countryReducer } from "./CountryReducer";
 import { CountryState } from "data/types";
 import api from "Services/api";
 import { countries } from "data/countries";
+import { getCountryFromURL } from "lib/getContryFromURL";
 
 interface Props {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       let redirectUrl = "";
+      const currentLocationUrl = window.location.href;
       try {
         console.log("Country Provider");
         let currentCountry = "";
@@ -57,7 +59,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
 
           if (
             state.country != currentCountry ||
-            getCountryFromURL() != currentCountry
+            getCountryFromURL(currentLocationUrl) != currentCountry
           ) {
             if (
               validCountries.includes(currentPathName) &&
@@ -68,10 +70,10 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
               redirectUrl = "/" + currentCountry + window.location.pathname;
             }
             console.log("redirectUrl1: " + redirectUrl);
-            if (getCountryFromURL() != "") {
+            if (getCountryFromURL(currentLocationUrl) != "") {
               redirectUrl = window.location.href
                 .replace(
-                  "/" + getCountryFromURL() + "/",
+                  "/" + getCountryFromURL(currentLocationUrl) + "/",
                   "/" + currentCountry + "/"
                 )
                 .replace(/(https?:\/\/.*?)\/+/g, "$1/");
@@ -97,25 +99,6 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         }
       } catch (error) {
         console.log(error);
-      }
-    };
-
-    const getCountryFromURL = () => {
-      const url = window.location.href;
-      switch (true) {
-        // case url.includes("/es/"):
-        //   return "es";
-        case url.includes("/cl/"):
-          return "cl";
-        case url.includes("/ar/"):
-          return "ar";
-        case url.includes("/ec/"):
-          return "ec";
-        case url.includes("/mx/"):
-          return "mx";
-        // Add more cases for other substrings
-        default:
-          return "";
       }
     };
 

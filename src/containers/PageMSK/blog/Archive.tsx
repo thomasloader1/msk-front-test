@@ -104,27 +104,6 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
     }
   };
 
-  /* useEffect(() => {
-    let categoryValue = decodeURIComponent(
-      window.location.search.replace(/^.*\?categoria=/, "")
-    );
-
-    const notesJSON: JsonMapping = notesMapping;
-
-    setTitle(
-      categoryValue && !categoryValue.includes("Otra")
-        ? notesJSON[categoryValue]
-        : "Actualidad"
-    );
-    const filteredPosts = auxPosts.filter((post: PostDataType) => {
-      return post.categories.some((category) =>
-        category.name.includes(notesJSON[categoryValue])
-      );
-    });
-
-    setPosts(filteredPosts);
-  }, [window.location.search]); */
-
   useEffect(() => {
     let categoryValue = decodeURIComponent(
       window.location.search.replace(/^.*\?categoria=/, "")
@@ -173,7 +152,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         data-nc-id="PageArchive"
       >
         {currentItems.length ? (
-          <header className="w-full px-[20px] xl:max-w-screen-2xl">
+          <header className="w-full px-[20px] xl:max-w-screen-2xl mx-auto">
             <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
               <NcImage
                 className="rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"

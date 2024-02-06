@@ -2,6 +2,7 @@ import { useReducer, useContext, FC, ReactNode } from "react";
 import reducer, { Filter, State } from "./storeFiltersReducer";
 import {
   DurationFilter,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
@@ -14,6 +15,7 @@ const initialState: State = {
     professions: [],
     duration: [],
     resources: [],
+    page: [],
   },
 };
 
@@ -36,14 +38,28 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
 
   const addFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
+    filterValue:
+      | Specialty
+      | Profession
+      | DurationFilter
+      | ResourceFilter
+      | PageFilter
   ) => {
     dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
   };
 
+  const updateFilter = (filterType: keyof Filter, filterValue: PageFilter) => {
+    dispatch({ type: "UPDATE_FILTER", payload: { filterType, filterValue } });
+  };
+
   const removeFilter = (
     filterType: keyof Filter,
-    filterValue: Specialty | Profession | DurationFilter | ResourceFilter
+    filterValue:
+      | Specialty
+      | Profession
+      | DurationFilter
+      | ResourceFilter
+      | PageFilter
   ) => {
     dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
   };
@@ -57,6 +73,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       value={{
         storeFilters: state.storeFilters,
         addFilter,
+        updateFilter,
         removeFilter,
         clearFilters,
       }}

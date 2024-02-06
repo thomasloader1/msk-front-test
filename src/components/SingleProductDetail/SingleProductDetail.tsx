@@ -10,13 +10,12 @@ import ProductEvaluation from "./ProductEvaluation";
 import ContactFormSection from "components/ContactForm/ContactForm";
 import StorePagination from "components/Store/StorePagination";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import Badge from "components/Badge/Badge";
 import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
-import useBestSellers from "hooks/useBestSellers";
 import ProductFeaturedText from "./ProductFeaturedText";
 import { DataContext } from "context/data/DataContext";
-import PageHead from "containers/PageMSK/PageHead";
+import { useHistory } from "react-router-dom";
+
 interface Props {
   product: FetchSingleProduct;
 }
@@ -28,6 +27,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   useEffect(() => {
     setBestSellers(allBestSellers);
   }, [allBestSellers]);
+
+  const history = useHistory();
 
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
@@ -84,7 +85,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 categories={product.ficha.categorias}
                 isEbook={isEbook}
                 isCourse={!isEbook}
-                demo
               />
             </div>
             <div className="course-heading mb-10 my-5">

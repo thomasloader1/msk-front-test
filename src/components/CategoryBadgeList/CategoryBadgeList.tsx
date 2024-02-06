@@ -14,7 +14,6 @@ export interface CategoryBadgeListProps {
   isPost?: boolean;
   isEbook?: boolean;
   textSize?: string;
-  demo?: boolean;
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
@@ -26,18 +25,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isPost,
   isEbook,
   textSize,
-  demo,
 }) => {
-  console.log({
-    itemClass,
-    categories,
-    color,
-    isCourse,
-    isPost,
-    isEbook,
-    textSize,
-    demo,
-  });
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
   useEffect(() => {

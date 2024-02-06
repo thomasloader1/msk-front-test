@@ -6,6 +6,7 @@ import LoadingImage from "components/Loader/Image";
 import {
   DurationFilter,
   FetchCourseType,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
@@ -69,7 +70,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   // FILTERS
   useEffect(() => {
-    // console.table(storeFilters);
+    console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 
@@ -245,8 +246,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
 
-  console.log(storeFilters);
-
   const prioryTitleStore =
     storeFilters?.specialties[0]?.name &&
     `Cursos de ${storeFilters.specialties[0].name}`;
@@ -271,7 +270,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
           {loadingCourses ? (
-            <div className="container grid grid-cols-3 gap-10">
+            <div className="container grid grid-cols-1 sm:grid-cols-3 gap-10">
               {loaders.map((loader) => {
                 return loader;
               })}

@@ -21,7 +21,7 @@ const ButtonClose: React.FC<ButtonCloseProps> = ({
       onClick={onClick}
     >
       <span className="sr-only">Close</span>
-      <img src="/src/images/icons/close.svg" width="20" height="20" />
+      <img src="/src/images/icons/close-menu.svg" width="23" height="23" />
     </button>
   );
 };

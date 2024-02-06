@@ -17,7 +17,7 @@ export interface CategoryBadgeListProps {
 }
 
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
-  className = "flex flex-wrap text-[12px] sm:text-sm",
+  className = "flex flex-wrap",
   itemClass,
   categories,
   color = "yellow",

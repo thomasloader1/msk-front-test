@@ -29,10 +29,10 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
       {desc.length || heading.length ? (
         <Heading desc={desc}>{heading}</Heading>
       ) : null}
-      <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1">
         <Nav
-          className="sm:space-x-2 md:flex-nowrap flex-wrap gap-2"
-          containerClassName="relative flex text-sm md:text-base"
+          className="flex items-center gap-1 flex-wrap"
+          containerClassName="relative text-sm md:text-base"
         >
           {tabs.map((item, index) => (
             <NavItem
@@ -43,19 +43,19 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
               {item}
             </NavItem>
           ))}
-        </Nav>
-        <Link
-          to={viewMore}
-          className={`${mobileHidden} sm:block flex-shrink-0`}
-        >
-          <ButtonSecondary
-            className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400"
-            sizeClass="px-3 py-1 sm:py-3 sm:px-6 text-[9.3px]"
+          <Link
+            to={viewMore}
+            className={`${mobileHidden} sm:block flex-shrink-0 my-auto header-see-more-btn`}
           >
-            <span>Ver más</span>
-            <i className="ml-3 las la-arrow-right text-sm sm:text-xl"></i>
-          </ButtonSecondary>
-        </Link>
+            <ButtonSecondary
+              className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400 rounded-lg"
+              sizeClass="px-3 py-2.5 sm:px-6"
+            >
+              <span className="text-[12px] leading-2">Ver más</span>
+              <i className="ml-3 las la-arrow-right text-sm sm:text-xl"></i>
+            </ButtonSecondary>
+          </Link>
+        </Nav>
       </div>
     </div>
   );

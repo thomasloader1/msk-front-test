@@ -10,16 +10,18 @@ export interface BadgeProps {
   textSize?: string;
   icon?: string;
   rounded?: string;
+  fontWeight?: string;
 }
 
 const Badge: FC<BadgeProps> = ({
-  textSize = "text-xs sm:text-sm",
+  textSize = "text-[14px] sm:text-sm",
   className = `relative ${textSize}`,
   color = "blue",
   rounded = "rounded",
   name,
   href,
   icon,
+  fontWeight = "font-medium",
 }) => {
   const getColorClass = (hasHover = true) => {
     switch (color) {
@@ -101,9 +103,10 @@ const Badge: FC<BadgeProps> = ({
   };
   /* transition-colors  */
   const CLASSES =
-    "nc-Badge  inline-flex px-2 py-0.5 sm:py-1 font-medium" +
+    "nc-Badge inline-flex px-2 py-0.5" +
     ` ${className}` +
-    ` ${rounded}`;
+    ` ${rounded}` +
+    ` ${fontWeight}`;
 
   return !!href ? (
     <Link

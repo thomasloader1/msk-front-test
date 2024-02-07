@@ -109,7 +109,7 @@ const ProductDetailSidebar: FC<Props> = ({
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon">
                         <img
-                          src={`/src/images/icons/${item.icon}.svg`}
+                          src={`/images/icons/${item.icon}.svg`}
                           width={item.size}
                         />
                         <span>{item.description}</span>
@@ -125,7 +125,7 @@ const ProductDetailSidebar: FC<Props> = ({
                   return (
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon w-full">
-                        <img src={`/src/images/icons/${key}.svg`} width="15" />
+                        <img src={`/images/icons/${key}.svg`} width="15" />
                         <p className="text-[12px] sm:text-base w-full flex justify-between text-dark-blue-custom">
                           <span>
                             {translations[key] ? translations[key] + ":" : ""}

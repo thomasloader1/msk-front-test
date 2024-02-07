@@ -16,7 +16,7 @@ const CardCategory2: FC<CardCategory2Props> = ({
   index,
 }) => {
   const { count, href = "/", name, color } = taxonomy;
-  let thumbnail = "/src/images/courses/";
+  let thumbnail = "/images/courses/";
   switch (name) {
     case "Cardiología":
       thumbnail = thumbnail + "cardiology.png";

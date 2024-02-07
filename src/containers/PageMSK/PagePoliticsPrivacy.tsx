@@ -12,7 +12,7 @@ import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
-  featuredImage: "/src/images/misc/mission.png",
+  featuredImage: "/images/misc/mission.png",
   title: "Política de Protección de Datos",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
@@ -125,7 +125,7 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
             <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
             <img
               className="mission-image"
-              src="/src/images/misc/mission.png"
+              src="/images/misc/mission.png"
               alt=""
             />
           </div>

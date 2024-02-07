@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import sliderIcon from "/src/images/icons/sliders.svg";
+import sliderIcon from "/images/icons/sliders.svg";
 const FiltersApply: FC<{ filtersCount: number }> = ({ filtersCount }) => {
   return (
     <div className="hidden md:flex bar-filter grid-area-filter">

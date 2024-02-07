@@ -441,10 +441,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
             >
               <div className="flex center gap-2 px-2 text-sm my-auto">
                 Suscribirme
-                <img
-                  src="/src/images/icons/plane.svg"
-                  className="subscribe-icon"
-                />
+                <img src="/images/icons/plane.svg" className="subscribe-icon" />
               </div>
             </button>
           </div>

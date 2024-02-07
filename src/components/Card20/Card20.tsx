@@ -3,7 +3,7 @@ import NcImage from "components/NcImage/NcImage";
 import { Aval, PostDataType } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import Tooltip from "components/Tooltip/Tooltip";
-import toolTipIcon from "../../images/icons/info_tooltip.svg";
+import toolTipIcon from "/images/icons/info_tooltip.svg";
 
 export interface Card20Props {
   className?: string;

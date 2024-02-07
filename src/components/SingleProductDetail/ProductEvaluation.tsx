@@ -48,11 +48,7 @@ const ProductEvaluation: FC<Props> = ({ evaluations }) => {
               {evaluationList?.map((evaluation, index) => {
                 return (
                   <li key={`ev_${index}`}>
-                    <img
-                      src="/src/images/vectors/isotipo.svg"
-                      width="20"
-                      alt=""
-                    />{" "}
+                    <img src="/images/vectors/isotipo.svg" width="20" alt="" />{" "}
                     {evaluation.methodology}
                   </li>
                 );

@@ -13,8 +13,8 @@ export interface LayoutPageProps {
 
 const defaultImgs = [
   {
-    imagen_desktop: { link: "/src/images/banners/tienda_desktop.jpg" },
-    imagen_mobile: { link: "/src/images/banners/tienda_mobile.jpg" },
+    imagen_desktop: { link: "/images/banners/tienda_desktop.jpg" },
+    imagen_mobile: { link: "/images/banners/tienda_mobile.jpg" },
   },
 ];
 const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {

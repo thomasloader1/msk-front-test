@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import featuredTextImg from "../../images/featuredTextImg.png";
+import featuredTextImg from "/images/featuredTextImg.png";
 
 interface ProductFeaturedTextProps {
   text: string;

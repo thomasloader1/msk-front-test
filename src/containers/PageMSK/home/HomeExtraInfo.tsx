@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import imgAdsDef from "images/home/illustration_1.png";
+import imgAdsDef from "/images/home/illustration_1.png";
 import axios from "axios";
 import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,8 +14,8 @@ export interface SectionAdsProps {
 
 const defaultImgs = [
   {
-    imagen_desktop: { link: "/src/images/banners/promo-home_desktop.png" },
-    imagen_mobile: { link: "/src/images/banners/promo-home_mobile.png" },
+    imagen_desktop: { link: "/images/banners/promo-home_desktop.png" },
+    imagen_mobile: { link: "/images/banners/promo-home_mobile.png" },
   },
 ];
 const SectionAds: FC<SectionAdsProps> = ({

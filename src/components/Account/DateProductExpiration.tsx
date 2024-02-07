@@ -1,5 +1,5 @@
 import { formatDate } from "lib/formatDate";
-import calendarIcon from "../../images/icons/calendar.svg";
+import calendarIcon from "/images/icons/calendar.svg";
 import { FC } from "react";
 
 interface DateProductExpirationProps {

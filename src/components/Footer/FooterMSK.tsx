@@ -68,7 +68,7 @@ const FooterEduman = () => {
                     </div>
                     <button type="submit">
                       Suscribirme
-                      <img src="/src/images/icons/plane.svg" />
+                      <img src="/images/icons/plane.svg" />
                     </button>
                   </form>
                 </div>
@@ -82,7 +82,7 @@ const FooterEduman = () => {
                   <div className="footer-img grid-cols-1 align-center content-center">
                     <Link to="/">
                       <img
-                        src="/src/images/msk-logo-light.svg"
+                        src="/images/msk-logo-light.svg"
                         alt="footer-logo"
                         width="150"
                       />
@@ -99,28 +99,28 @@ const FooterEduman = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/fb.svg" />
+                      <img src="/images/icons/fb.svg" />
                     </a>
                     <a
                       href="https://www.instagram.com/msk.latam"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/ig.svg" />
+                      <img src="/images/icons/ig.svg" />
                     </a>
                     <a
                       href="https://www.youtube.com/@msk.online.learning"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/yt.svg" className="pt-0.5" />
+                      <img src="/images/icons/yt.svg" className="pt-0.5" />
                     </a>
                     <a
                       href="https://www.linkedin.com/company/msk-online-learning/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/in.svg" />
+                      <img src="/images/icons/in.svg" />
                     </a>
                   </div>
                 </div>

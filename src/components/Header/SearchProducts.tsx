@@ -3,7 +3,7 @@ import Input from "components/Input/Input";
 import { CountryContext } from "context/country/CountryContext";
 import { FetchCourseType } from "data/types";
 import { Link, useLocation } from "react-router-dom";
-import searchIcon from "../../images/icons/search.svg";
+import searchIcon from "/images/icons/search.svg";
 import { DataContext } from "context/data/DataContext";
 
 const SearchProducts = () => {

@@ -13,7 +13,7 @@ import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
-  featuredImage: "/src/images/misc/mission.png",
+  featuredImage: "/images/misc/mission.png",
   title: "Política de cookies",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
@@ -79,7 +79,7 @@ export interface ThemesToSeeType {
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
-  articles:  {title: string | null; content: string; }[]
+  articles: { title: string | null; content: string }[];
   comments: CommentType[];
   excerpt?: string;
   contenido?: string;
@@ -87,12 +87,10 @@ export interface SinglePageType extends PostDataType {
   authors?: any[];
 }
 
-const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
-  className = "",
-}) => {
+const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
   const { state } = useContext(CountryContext);
-  const { data, loading, error } = useCookiesTerms(state.country)
+  const { data, loading, error } = useCookiesTerms(state.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {
@@ -104,7 +102,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-    <PageHead title="Política de cookies" />
+      <PageHead title="Política de cookies" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
@@ -126,7 +124,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
             <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
             <img
               className="mission-image"
-              src="/src/images/misc/mission.png"
+              src="/images/misc/mission.png"
               alt=""
             />
           </div>
@@ -138,7 +136,6 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({
             <SingleContent data={data as SinglePageType} />
           </div>
         </div>
-
       </div>
     </>
   );

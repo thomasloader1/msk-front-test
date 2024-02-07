@@ -4,7 +4,7 @@ import __comments from "./jsons/__comments.json";
 import a10 from "./avatars/11.jpg";
 import { DEMO_AUTHORS } from "./authors";
 import { CommentType } from "components/CommentCard/CommentCard";
-import podcastImg from "images/podcast.jpg";
+import podcastImg from "/images/podcast.jpg";
 
 // function nested the comment child -- make tree comment
 const nest = (
@@ -151,7 +151,7 @@ export const SINGLE_VIDEO: SinglePageType = {
     desc: "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
     jobName: "Author Job",
   },
-  articles:[],
+  articles: [],
   categories: [
     {
       id: 2,

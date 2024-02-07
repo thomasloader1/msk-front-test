@@ -1,7 +1,7 @@
 import api from "Services/api";
-import activeIcon from "../images/icons/activo.svg";
-import inactiveIcon from "../images/icons/inactivo.svg";
-import expiredIcon from "../images/icons/expirado.svg";
+import activeIcon from "/images/icons/activo.svg";
+import inactiveIcon from "/images/icons/inactivo.svg";
+import expiredIcon from "/images/icons/expirado.svg";
 
 export const goToLMS = async (
   product_code: number,

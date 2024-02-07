@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import imgAdsDef from "images/vectors/doctor_2.png";
+import imgAdsDef from "/images/vectors/doctor_2.png";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Requirement } from "data/types";
 export interface CourseRequirementsProps {
@@ -38,7 +38,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
                   key={`req_item_${i_index}`}
                 >
                   <img
-                    src="/src/images/vectors/isotipo.svg"
+                    src="/images/vectors/isotipo.svg"
                     width="14"
                     className="mt-2"
                     alt=""

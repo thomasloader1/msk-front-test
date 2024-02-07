@@ -54,7 +54,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         setUser(res);
         let coursesList = getUserCourses(res, productList);
         setUserCourses(coursesList);
-        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
+        setTotalPages(Math.ceil(coursesList.length / itemsPerPage));
         setLoadingUser(false);
       } else {
         history.push("/iniciar-sesion");
@@ -79,7 +79,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
   useEffect(() => {
     setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
-  }, [indexOfFirstItem, indexOfLastItem, allCourses]);
+  }, [indexOfFirstItem, indexOfLastItem, userCourses]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);

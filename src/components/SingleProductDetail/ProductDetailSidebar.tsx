@@ -45,7 +45,7 @@ const ProductDetailSidebar: FC<Props> = ({
       const distanceToBottom = calculateDistanceToBottom();
       const auxDistance = scrollPosition - distanceToBottom - 100;
       setBottomDistance(
-        distanceToBottom < (isEbook ? 1500 : 1065) ? auxDistance / 2 : 0
+        distanceToBottom < (isEbook ? 1500 : 1865) ? auxDistance / 2 : 0
       );
     };
 

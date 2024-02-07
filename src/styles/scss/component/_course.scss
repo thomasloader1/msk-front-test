@@ -831,14 +831,6 @@
   }
 }
 
-.course-result-number {
-  font-weight: 700;
-}
-
-.course-result-showing {
-  font-weight: 700;
-}
-
 .curse-tab-left-wrap {
   display: flex;
   grid-gap: 10px;
@@ -862,11 +854,14 @@
   display: flex;
   justify-content: space-between;
   border: 1px solid $border;
-  padding: 8px 20px;
+  padding: 9px 20px;
   align-items: center;
   border-radius: 3px;
   flex-wrap: wrap;
   gap: 10px;
+  @media (max-width: 480px) {
+    flex-wrap: nowrap;
+  }
 }
 
 .course-sidebar-tab {
@@ -1054,6 +1049,7 @@
 .course-sidebar-list {
   display: flex;
   color: #ababab;
+  align-items: center;
 }
 
 .course-sidebar-list input[type="checkbox"] {
@@ -1062,8 +1058,8 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
   position: relative;
   font-size: 15px;
@@ -1076,14 +1072,14 @@
   color: $white;
 }
 
-.course-sidebar-list input[type="checkbox"]:checked::before {
-  position: absolute;
-  content: "\f00c";
-  font-family: "Font Awesome 5 Pro";
-  line-height: 16px;
-  top: 0;
-  left: 2px;
-}
+// .course-sidebar-list input[type="checkbox"]:checked::before {
+//   position: absolute;
+//   content: "\f00c";
+//   font-family: "Font Awesome 5 Pro";
+//   line-height: 16px;
+//   top: 0;
+//   left: 2px;
+// }
 
 .course-sidebar-list input[type="radio"] {
   border: 1px solid $border;
@@ -1162,12 +1158,12 @@
     bottom: 0;
     right: 30px;
     opacity: 0.8;
-
     @media #{$xs} {
       position: relative;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: -25px;
+      margin-top: 20px;
+      top: 25px;
     }
   }
 }
@@ -1567,7 +1563,7 @@
 
   h3 {
     margin-bottom: 0px;
-    font-family: Poppins;
+    font-family: Poppins !important;
     font-weight: 600 !important;
     font-size: 16px !important;
     @media (max-width: 575px) {

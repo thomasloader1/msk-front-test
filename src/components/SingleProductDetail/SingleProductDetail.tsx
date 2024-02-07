@@ -78,7 +78,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   return (
     <section className="course-details-area my-1 pb-90">
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
-        <div className="">
+        <div>
           <div className="course-details-wrapper animate-fade-down">
             <div className="flex gap-2">
               <CategoryBadgeList
@@ -90,61 +90,67 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             <div className="course-heading mb-10 my-5">
               <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
             </div>
-            <div className="border-line-meta-h" />
-
-            <div>
-              {product.authors.length ||
-              product.temario ||
-              (product.details && product.details["duration"]) ? (
-                <div className={`grid grid-cols-12 ${isEbook && "border-0"}`}>
-                  {product.authors.length ? (
-                    <div className="col-span-12 sm:col-span-5">
-                      <div className="course-meta-wrapper">
-                        <div className="course-meta-img">
-                          <img src={imagen} alt={title} />
-                        </div>
-                        <div>
-                          <span className="raleway text-dark-blue-custom">
-                            Cedente
-                          </span>
-                          <div className="flex flex-col text-dark-blue-custom">
-                            <div className="raleway-bold">
-                              {title || product.authors[0]?.name}
+            {!isEbook && (
+              <>
+                <div className="border-line-meta-h" />
+                <div>
+                  {product.authors.length ||
+                  product.temario ||
+                  (product.details && product.details["duration"]) ? (
+                    <div
+                      className={`grid grid-cols-12 ${isEbook && "border-0"}`}
+                    >
+                      {product.authors.length ? (
+                        <div className="col-span-12 sm:col-span-5">
+                          <div className="course-meta-wrapper">
+                            <div className="course-meta-img">
+                              <img src={imagen} alt={title} />
+                            </div>
+                            <div>
+                              <span className="raleway text-dark-blue-custom">
+                                Cedente
+                              </span>
+                              <div className="flex flex-col text-dark-blue-custom">
+                                <div className="raleway-bold">
+                                  {title || product.authors[0]?.name}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className="hidden sm:block border-line-meta" />
-                  {product.temario ? (
-                    <div className="col-span-4 sm:col-span-2 my-auto text-dark-blue-custom">
-                      <div className="flex flex-col">
-                        <span className="raleway">Contenido</span>
-                        <div className="raleway-bold">
-                          {product.temario["data"]?.row_count} módulos
+                      ) : null}
+                      <div className="hidden sm:block border-line-meta" />
+                      {product.temario ? (
+                        <div className="col-span-4 sm:col-span-2 my-auto text-dark-blue-custom">
+                          <div className="flex flex-col">
+                            <span className="raleway">Contenido</span>
+                            <div className="raleway-bold">
+                              {product.temario["data"]?.row_count} módulos
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      ) : null}
+                      <div className="border-line-meta" />
+                      {product.details && product.details["duration"] ? (
+                        <div className="col-span-6 sm:col-span-3 my-auto text-dark-blue-custom">
+                          <span className="raleway ">Duración</span>
+                          <div className="raleway-bold">
+                            {product.details["duration"].value} horas estimadas
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                  <div className="border-line-meta" />
-                  {product.details && product.details["duration"] ? (
-                    <div className="col-span-6 sm:col-span-3 my-auto text-dark-blue-custom">
-                      <span className="raleway ">Duración</span>
-                      <div className="raleway-bold">
-                        {product.details["duration"].value} horas estimadas
-                      </div>
-                    </div>
-                  ) : null}
+                  ) : (
+                    <></>
+                  )}
                 </div>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className="course-heading my-5">
-              <div className="border-line-meta-h" />
-            </div>
-            <div className="order-last relative block lg:hidden mt-10">
+                <div className="course-heading my-5">
+                  <div className="border-line-meta-h" />
+                </div>
+              </>
+            )}
+
+            <div className="order-last relative block lg:hidden my-10">
               <ProductDetailSidebar
                 ficha={product.ficha}
                 details={product.details}
@@ -158,7 +164,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 isEbook={isEbook}
               />
             </div>
-            {product.ficha.description ? (
+            {product.ficha.description && (
               <div
                 className={
                   isEbook
@@ -175,7 +181,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 )}
                 <div ref={textRef} />
               </div>
-            ) : null}
+            )}
 
             {product.avales && (
               <div
@@ -192,44 +198,38 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               </div>
             )}
 
-            {product.featured_product_text && (
+            {product.featured_product_text && !isEbook && (
               <ProductFeaturedText text={product.featured_product_text} />
             )}
 
-            {product.requirements ? (
+            {product.requirements && (
               <CourseRequirements
                 title="Qué necesitas"
                 requirements={product.requirements}
               />
-            ) : (
-              <></>
             )}
-            {product.temario ? (
+            {product.temario && (
               <ProductCurriculiam
                 topics={product.temario}
                 hours={product.details["duration"]}
                 link={product?.temario_link_pdf}
                 slug={product?.params.slug}
               />
-            ) : (
-              <></>
             )}
-            {product.evaluacion ? (
+            {product.evaluacion && (
               <ProductEvaluation evaluations={product.evaluacion} />
-            ) : (
-              <></>
             )}
             {product.goals && (
               <>
                 <CourseRequirements
-                  title={!isEbook ? "Objetivos" : "Qué aprenderás"}
+                  title={isEbook ? "Objetivos" : "Qué aprenderás"}
                   requirements={productsGoals(product.goals)}
                 />
               </>
             )}
 
             {product.authors.length > 0 && !isEbook && (
-              <h4 className="mt-6 font-bold pt-6 text-xl">
+              <h4 className="mt-6 font-bold pt-6 text-xl poppins-bold">
                 Quiénes lo desarrollan
               </h4>
             )}
@@ -274,6 +274,16 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           />
         </div>
       </div>
+      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 ">
+        <ContactFormSection
+          productName={product.ficha.title}
+          isEbook={isEbook}
+          submitReason={isEbook ? "Descarga ebook" : ""}
+          resourceMedia={
+            isEbook ? (product?.temario_link_pdf as string) : false
+          }
+        />
+      </div>
       <div className="container relative py-16 mb-20">
         <BackgroundSection />
         <SectionSliderPosts
@@ -286,16 +296,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
           uniqueSliderClass="pageHome-section6"
         />
       </div>
-      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 ">
-        <ContactFormSection
-          productName={product.ficha.title}
-          isEbook={isEbook}
-          submitReason={isEbook ? "Descarga ebook" : ""}
-          resourceMedia={
-            isEbook ? (product?.temario_link_pdf as string) : false
-          }
-        />
-      </div>
+
       {product.related_products.length ? (
         <div className="container relative py-16 mt-16 ">
           <BackgroundSection />

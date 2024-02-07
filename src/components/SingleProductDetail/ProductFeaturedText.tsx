@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import featuredTextImg from "../../images/featuredTextImg.png";
 
 interface ProductFeaturedTextProps {
@@ -6,6 +6,10 @@ interface ProductFeaturedTextProps {
 }
 
 const ProductFeaturedText: FC<ProductFeaturedTextProps> = ({ text }) => {
+  const [formattedText, setFormattedText] = useState("");
+  useEffect(() => {
+    setFormattedText(text.replace(/<em>/g, "").replace(/<\/em>/g, ""));
+  }, [text]);
   return (
     <div className="requirements mb-10 sm:mb-16 flex-column flex-nowrap items-center">
       <img
@@ -13,7 +17,10 @@ const ProductFeaturedText: FC<ProductFeaturedTextProps> = ({ text }) => {
         alt="featuredTextImg"
         className="mr-5 hidden sm:block"
       />
-      <div dangerouslySetInnerHTML={{ __html: text }} className="font-normal" />
+      <div
+        dangerouslySetInnerHTML={{ __html: formattedText }}
+        className="font-normal not-italic"
+      />
     </div>
   );
 };

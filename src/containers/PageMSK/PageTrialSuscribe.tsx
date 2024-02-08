@@ -1,18 +1,10 @@
-import React, { FC, useContext, useEffect, useReducer, useRef, useState } from "react";
+import { FC, useContext, useReducer, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import api from "../../Services/api";
-import PhoneInput from "react-phone-number-input";
-import { parsePhoneNumber } from "react-phone-number-input";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import useProfessions from "hooks/useProfessions";
-import useSpecialties from "hooks/useSpecialties";
 import { countries } from "data/countries";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
-import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import * as Yup from "yup";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
@@ -39,19 +31,14 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
   const [selectedCareer, setSelectedCareer] = useState("");
   const history = useHistory();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
-  
-  const { state } = useContext(CountryContext);
 
-  
+  const { state } = useContext(CountryContext);
 
   const fullCountry = (country: string): string => {
     return (
       countries.find((c) => c.id === country.toLowerCase())?.name || country
     );
   };
-
-
-
 
   return (
     <div
@@ -63,9 +50,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
         heading="Crear cuenta"
       >
-        <div className="max-w-md mx-auto space-y-6">
-          holi
-        </div>
+        <div className="max-w-md mx-auto space-y-6">holi</div>
       </LayoutPage>
     </div>
   );

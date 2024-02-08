@@ -13,8 +13,8 @@ export interface LayoutPageProps {
 
 const defaultImgs = [
   {
-    imagen_desktop: { link: "/src/images/banners/tienda_desktop.jpg" },
-    imagen_mobile: { link: "/src/images/banners/tienda_mobile.jpg" },
+    imagen_desktop: { link: "/images/banners/tienda_desktop.jpg" },
+    imagen_mobile: { link: "/images/banners/tienda_mobile.jpg" },
   },
 ];
 const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
@@ -24,7 +24,7 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
     const fetchData = async () => {
       try {
         const response = await api.getWpImages("banners_shop");
-        if(response.length > 0){
+        if (response.length > 0) {
           setBannerImgs(response);
         }
       } catch (err) {
@@ -73,8 +73,8 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
         </header>
 
         {/* CONTENT */}
-        <div className="p-5 mx-auto bg-white rounded-[40px] shadow-lg sm:p-10 lg:p-16 dark:bg-neutral-900">
-          {children}
+        <div className="py-5 mx-auto bg-white rounded-[40px] sm:p-10 lg:py-16 dark:bg-neutral-900">
+          <div className="container">{children}</div>
         </div>
       </div>
     </div>

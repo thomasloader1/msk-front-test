@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import infoIcon from "../../images/icons/info.svg";
+import infoIcon from "/images/icons/info.svg";
 
 interface InfoTextProps {
   addClassNames?: string;

@@ -24,7 +24,7 @@ const NavigationUser = () => {
                 className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
               >
                 <img
-                  src="/src/images/icons/profile.svg"
+                  src="/images/icons/profile.svg"
                   alt=""
                   className="ml-4 mt-2"
                   width="25"
@@ -71,7 +71,7 @@ const NavigationUser = () => {
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                             <img
-                              src="/src/images/icons/profile.svg"
+                              src="/images/icons/profile.svg"
                               alt=""
                               width="20"
                             />
@@ -92,7 +92,7 @@ const NavigationUser = () => {
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                             <img
-                              src="/src/images/icons/config-account.svg"
+                              src="/images/icons/config-account.svg"
                               alt=""
                               width="20"
                             />
@@ -113,7 +113,7 @@ const NavigationUser = () => {
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                             <img
-                              src="/src/images/icons/logout.svg"
+                              src="/images/icons/logout.svg"
                               alt=""
                               width="20"
                             />

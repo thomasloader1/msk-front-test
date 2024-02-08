@@ -32,8 +32,15 @@ const SingleHeader: FC<SingleHeaderProps> = ({
           )}
           <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
           <div className="flex  sm:flex-row justify-between ">
-
-            <p className="dark:text-neutral-100 msk-logo-text"><img className="" src="/src/images/vectors/isotipo.svg" width="30" alt="" />MSK - Medical & Scientific Knowledge</p>
+            <p className="dark:text-neutral-100 msk-logo-text">
+              <img
+                className=""
+                src="/images/vectors/isotipo.svg"
+                width="30"
+                alt=""
+              />
+              MSK - Medical & Scientific Knowledge
+            </p>
             <SingleMetaAction2 meta={pageData} />
           </div>
         </div>

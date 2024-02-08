@@ -47,7 +47,7 @@ export const parseHtml = (contentHtml: string) => {
       const imgElement = document.createElement("img");
       imgElement.classList.add("m-0", "mr-3", "mt-1", "w-5");
       //console.log({ imgElement });
-      imgElement.src = "/src/images/vectors/isotipo.svg"; // Cambia la URL de la imagen según tus necesidades
+      imgElement.src = "/images/vectors/isotipo.svg"; // Cambia la URL de la imagen según tus necesidades
       imgElement.alt = "Imagen"; // Cambia el texto alternativo según tus necesidades
 
       // Agregar la imagen al LI

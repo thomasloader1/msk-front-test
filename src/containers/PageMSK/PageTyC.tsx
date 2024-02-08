@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useContext, useEffect } from "react";
-import Helmet from 'react-helmet'
+import Helmet from "react-helmet";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
@@ -12,7 +12,7 @@ import PageHead from "./PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
-  featuredImage: "/src/images/misc/mission.png",
+  featuredImage: "/images/misc/mission.png",
   title: "Términos y condiciones",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
@@ -79,19 +79,17 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
-  articles: { title: string | null; content: string; }[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageTyC: FC<PageSingleTemp3SidebarProps> = ({
-  className = "",
-}) => {
+const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
   const { state } = useContext(CountryContext);
-  const { data, loading, error } = useTyC(state.country)
+  const { data, loading, error } = useTyC(state.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {
@@ -103,7 +101,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-    <PageHead title="Términos y condiciones" />
+      <PageHead title="Términos y condiciones" />
 
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
@@ -126,7 +124,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({
             <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
             <img
               className="mission-image"
-              src="/src/images/misc/mission.png"
+              src="/images/misc/mission.png"
               alt=""
             />
           </div>
@@ -138,7 +136,6 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({
             <SingleContent data={data as SinglePageType} />
           </div>
         </div>
-
       </div>
     </>
   );

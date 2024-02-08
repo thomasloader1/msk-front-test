@@ -10,6 +10,8 @@ export interface LocationStates {
   "/archivo"?: {};
   "/nota"?: {};
   "/nota/:slug"?: {};
+  "/trial/:slug"?: {};
+  "/suscribe/:slug"?: {};
   "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};

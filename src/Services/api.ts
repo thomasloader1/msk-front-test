@@ -1,5 +1,4 @@
-import axios, { AxiosError } from "axios";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   ALL_PRODUCTS_MX,
   API_URL,
@@ -31,6 +30,7 @@ const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
+const apiCheckEmailUser = `${baseUrl}/api/user`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -464,6 +464,10 @@ class ApiService {
   }
   async getCoursesProgressStatus(email: string, product_code: number) {
     return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
+  }
+  
+  async getUserByEmail(email: string){
+    return await axios.get(`${apiCheckEmailUser}/${email}`);
   }
 }
 

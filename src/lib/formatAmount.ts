@@ -7,7 +7,7 @@ export const formatAmount = (amount: number, currency: string): string => {
 
     // Agregar manualmente el símbolo de moneda y espacio delante del monto
     const customFormattedAmount = `${formattedAmount} ${
-      !formattedAmount.includes(currency) && currency
+      formattedAmount.includes(currency) ? "" : currency
     }`;
 
     return customFormattedAmount;

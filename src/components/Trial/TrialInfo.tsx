@@ -28,8 +28,9 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
   const installments = installmentsJSON[country].quotes;
 
   const totalAmount: number | undefined = parseFloat(
-    product?.total_price as string
+    product?.total_price?.replace(/\./g, "").replace(",", ".") || "0"
   );
+
   const installmentAmount = totalAmount / installments;
 
   return (
@@ -67,7 +68,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
           <p className="text-violet-wash">
             Detalle de tu inscripción al finalizar el período de prueba 
           </p>
-          <p className="text-violet-wash">
+          <p className="text-violet-strong">
             x1{" "}
             <span className="font-bold text-violet-strong">
               {product?.ficha?.title}

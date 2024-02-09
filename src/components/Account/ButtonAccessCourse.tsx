@@ -62,7 +62,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
   return (
     <ButtonPrimary
       onClick={handleClick}
-      sizeClass="py-0 sm:py-1 px-2 sm:px-5"
+      sizeClass="py-0.5 sm:py-1 px-2 sm:px-5"
       disabled={
         isDisabled || onRequest || isReadyToEnroll || item?.ov?.includes("Baja")
       }
@@ -73,7 +73,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
           <div className="w-4 h-4 my-1 border-t-2 border-white border-solid rounded-full animate-spin"></div>
         </div>
       ) : (
-        <span className="text-[10px] sm:text-sm">{hasText(status)}</span>
+        <span className="text-[14px] sm:text-sm">{hasText(status)}</span>
       )}
     </ButtonPrimary>
   );

@@ -157,6 +157,14 @@ const ProductDetailSidebar: FC<Props> = ({
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
+          {!isEbook && (
+            <button
+              onClick={scrollToContactForm}
+              className="video-cart-btn w-full"
+            >
+              Prueba 7 dias
+            </button>
+          )}
         </div>
       </div>
     </div>

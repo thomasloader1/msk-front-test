@@ -1,0 +1,62 @@
+{
+    "cl": {
+        "gateway": "MP",
+        "quotes": 8
+    },
+    "ar": {
+        "gateway": "MP",
+        "quotes": 12
+    },
+    "ec": {
+        "gateway": "ST",
+        "quotes": 15
+    },
+    "mx": {
+        "gateway": "MP",
+        "quotes": 12
+    },
+    "bo": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "co": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "cr": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "sv": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "gt": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "hn": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "ni": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "pa": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "py": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "pe": {
+        "gateway": "ST",
+        "quotes": 12
+    },
+    "uy": {
+        "gateway": "ST",
+        "quotes": 12
+    }
+}

@@ -1,57 +1,45 @@
-import { FC, useContext, useReducer, useState } from "react";
-import LayoutPage from "components/LayoutPage/LayoutPage";
-import { Link, useHistory } from "react-router-dom";
-import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { countries } from "data/countries";
+import { FC, useContext, useEffect, useReducer, useState } from "react";
 import { CountryContext } from "context/country/CountryContext";
-import { CountryCode } from "libphonenumber-js/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
-import ShowErrorMessage from "components/ShowErrorMessage";
-import InputField from "components/Form/InputField";
+import TrialInfo from "components/Trial/TrialInfo";
+import mpImg from "../../../public/images/MP.png";
+import { JsonInstallmentsMapping } from "data/types";
+import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 
 export interface PageTrialSuscribeProps {
   className?: string;
 }
 
-const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
-  const { executeRecaptcha } = useGoogleReCaptcha();
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
-  const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
-  const [showInputProfession, setShowInputProfession] = useState(false);
-  const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
-  const [currentGroup, setCurrentGroup] = useState<any>([]);
-  const [studentInputs, setStudentInputs] = useState(false);
-  const [onRequest, setOnRequest] = useState<boolean>(false);
-  const [selectedCareer, setSelectedCareer] = useState("");
-  const history = useHistory();
-  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
+const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
   const { state } = useContext(CountryContext);
 
-  const fullCountry = (country: string): string => {
-    return (
-      countries.find((c) => c.id === country.toLowerCase())?.name || country
-    );
-  };
+  const { gateway } = installmentsJSON[state.country];
 
   return (
-    <div
-      className={`nc-PageSignUp ${className} animate-fade-down`}
-      data-nc-id="PageSignUp"
-    >
-      <PageHead title="Crear cuenta" />
-      <LayoutPage
-        subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
-        heading="Crear cuenta"
-      >
-        <div className="max-w-md mx-auto space-y-6">holi</div>
-      </LayoutPage>
+    <div className="nc-PageSuscribe relative animate-fade-down">
+      <PageHead
+        title="Inicio"
+        description="Una propuesta moderna para expandir tus metas profesionales"
+      />
+      {/* === END SEO === */}
+      <div className="relative overflow-hidden">
+        <div className="container grid grid-cols-1 lg:grid-cols-2 gap-5 my-24">
+          <TrialInfo country={state.country} />
+          <section>
+            <div id="rebill_elements"></div>
+            <div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
+              <span>Pagos procesados con</span>
+              <img
+                src={gateway === "MP" ? `${mpImg}` : ""}
+                alt="gateway image"
+              />
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

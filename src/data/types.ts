@@ -618,3 +618,9 @@ export type SpecialtiesMapping = {
 export interface JsonMapping {
   [key: string]: string;
 }
+export interface JsonInstallmentsMapping {
+  [key: string]: {
+    quotes: number;
+    gateway: string;
+  };
+}

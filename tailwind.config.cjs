@@ -77,6 +77,7 @@ module.exports = {
         "teal-active": "#F3FEFC",
         "grey-course": "#575757",
         "violet-wash": "#6474A6",
+        "violet-strong": "#374161",
         "violet-custom": "#9200ad",
         "grey-disabled": "#CCD1DC",
       },

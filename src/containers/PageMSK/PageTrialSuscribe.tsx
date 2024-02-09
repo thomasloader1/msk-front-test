@@ -4,6 +4,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 import TrialInfo from "components/Trial/TrialInfo";
 import mpImg from "../../../public/images/MP.png";
+import stImg from "../../../public/images/ST.svg";
 import { JsonInstallmentsMapping } from "data/types";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import { AuthContext } from "context/user/AuthContext";
@@ -42,7 +43,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
             <div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
               <span>Pagos procesados con</span>
               <img
-                src={gateway === "MP" ? `${mpImg}` : ""}
+                src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
                 alt="gateway image"
               />
             </div>

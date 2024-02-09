@@ -21,9 +21,9 @@ const ProductDetailSidebar: FC<Props> = ({
   isEbook,
   sideData,
 }) => {
-  const isLocal = window.location.origin.includes(
-    ":5173" || "dev.msklatam.tech"
-  );
+  const isLocal =
+    window.location.origin.includes("dev.msklatam.tech") ||
+    window.location.origin.includes("localhost");
 
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);

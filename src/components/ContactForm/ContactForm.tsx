@@ -350,7 +350,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         style={{ maxWidth: "800px" }}
                       >
                         {isEbook
-                          ? "Completa el formulario para descargar (abajo) automáticamente el material"
+                          ? "Completa el formulario para descargar automáticamente el material"
                           : "Contáctanos"}
                       </h4>
                     )}

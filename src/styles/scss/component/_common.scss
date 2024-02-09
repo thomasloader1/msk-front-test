@@ -1099,6 +1099,18 @@ p {
     display: flex;
     justify-content: center;
   }
+
+  &.border-2{
+    background-color: transparent;
+    color: $primary;
+    border: 2px solid $primary;
+
+    &:hover {
+      border: 2px solid $secondary;
+      background-color: $secondary;
+      color: $white;
+    }
+  }
 }
 
 .video-wishlist-btn {

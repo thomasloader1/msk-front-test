@@ -21,6 +21,10 @@ const ProductDetailSidebar: FC<Props> = ({
   isEbook,
   sideData,
 }) => {
+  const isLocal = window.location.origin.includes(
+    ":5173" || "dev.msklatam.tech"
+  );
+
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
   const { state } = useContext(CountryContext);
@@ -150,19 +154,19 @@ const ProductDetailSidebar: FC<Props> = ({
             )}
           </ul>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <button
             onClick={scrollToContactForm}
             className="video-cart-btn w-full"
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
-          {!isEbook && (
+          {!isEbook && isLocal && (
             <button
               onClick={scrollToContactForm}
-              className="video-cart-btn w-full"
+              className="video-cart-btn border-2 w-full"
             >
-              Prueba 7 dias
+              Prueba 7 días gratis
             </button>
           )}
         </div>

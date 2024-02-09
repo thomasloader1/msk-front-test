@@ -400,6 +400,7 @@ export interface FetchSingleProduct {
     slug: string;
   };
   featured_product_text: string;
+  total_price: string;
 }
 export interface FetchCourseType {
   id: number;

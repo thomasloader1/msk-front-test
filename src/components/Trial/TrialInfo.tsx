@@ -27,8 +27,9 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
 
-  const totalAmount: number | undefined =
-    Number(product?.ficha?.data_hidden?.price) * 1000;
+  const totalAmount: number | undefined = parseFloat(
+    product?.total_price as string
+  );
   const installmentAmount = totalAmount / installments;
 
   return (

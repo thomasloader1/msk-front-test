@@ -7,7 +7,7 @@ import {
   NOTE_SPECIALITIES,
   baseUrl,
 } from "data/api";
-import { ContactUs, SignUp, Newsletter } from "data/types";
+import { ContactUs, SignUp, Newsletter, ContactCRM } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
@@ -76,13 +76,17 @@ class ApiService {
     }
   }
 
-  async getEmailByIdZohoCRM(module: string, email: string) {
+  async getEmailByIdZohoCRM(
+    module: string,
+    email: string
+  ): Promise<any | ContactCRM> {
     try {
-      const { data } = await axios.get(
+      const res = await axios.get(
         `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
       );
-      return data;
-    } catch (e) {
+
+      return res.data.data[0];
+    } catch (e: any) {
       return e;
     }
   }
@@ -465,9 +469,28 @@ class ApiService {
   async getCoursesProgressStatus(email: string, product_code: number) {
     return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
   }
-  
-  async getUserByEmail(email: string){
+
+  async getUserByEmail(email: string) {
     return await axios.get(`${apiCheckEmailUser}/${email}`);
+  }
+
+  async updateContactZoho(postUpdateZoho: any) {
+    /* try {
+      const res = await axios.post(URL, postUpdateZoho);
+      console.log({ res });
+
+      handleSetContractStatus(payment, checkout.contract_entity_id);
+      //console.log("Pago Realizado");
+      fireToast("Inscripción actualizada", "success", 5000);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 3000);
+      return;
+    } catch (e: any) {
+      console.log({ err });
+      fireToast("Inscripción no actualizada", "error", 5000);
+      return err;
+    } */
   }
 }
 

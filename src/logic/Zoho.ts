@@ -1,5 +1,7 @@
-export const sendToZoho = (response) => {
-  const { invoice, failedTransaction, pendingTransaction } = response;
+import api from "Services/api";
+
+export const sendToZoho = (response: any) => {
+  /*  const { invoice, failedTransaction, pendingTransaction } = response;
 
   if (failedTransaction != null) {
     const { payment } = failedTransaction.paidBags[0];
@@ -81,20 +83,5 @@ export const sendToZoho = (response) => {
 
   const URL = checkout.gateway.includes("Stripe") ? UPDATE_CONTRACT : MP;
 
-  axios
-    .post(URL, postUpdateZoho)
-    .then((res) => {
-      console.log({ res });
-
-      handleSetContractStatus(payment, checkout.contract_entity_id);
-      //console.log("Pago Realizado");
-      fireToast("Inscripción actualizada", "success", 5000);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 3000);
-    })
-    .catch((err) => {
-      console.log({ err });
-      fireToast("Inscripción no actualizada", "error", 5000);
-    });
+  api.updateContactZoho(); */
 };

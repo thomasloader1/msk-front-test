@@ -1,10 +1,17 @@
-import React, { FC, useContext, useEffect, useReducer, useRef, useState } from "react";
+import React, {
+  FC,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import useProfessions from "hooks/useProfessions";
 import useSpecialties from "hooks/useSpecialties";
@@ -17,6 +24,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
 import InputField from "components/Form/InputField";
+import { AuthContext } from "context/user/AuthContext";
 
 export interface PageTrialProps {
   className?: string;
@@ -38,6 +46,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const [selectedCareer, setSelectedCareer] = useState("");
   const history = useHistory();
+  const { slug }: { slug: string } = useParams();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
   const initialValues = {
@@ -70,6 +79,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     ),
   });
   const { state } = useContext(CountryContext);
+  const { state: authState } = useContext(AuthContext);
   const { professions } = useProfessions();
   const { specialties, specialtiesGroup } = useSpecialties();
 
@@ -142,7 +152,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
         const formData = {
           ...values,
           name: `${values.first_name} ${values.last_name}`,
-          recaptcha_token: await executeRecaptcha('signup_form'),
+          recaptcha_token: await executeRecaptcha("signup_form"),
           country: fullCountry(selectedCountry),
           utm_source: utmState.utm_source,
           utm_medium: utmState.utm_medium,
@@ -152,7 +162,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
 
         try {
           const res = await api.postSignUp(formData);
-          console.log({ res })
+          console.log({ res });
           if (res.status !== 200) {
             setSuccess(false);
             const errorMessages = Object.values(res.data.errors)
@@ -174,31 +184,38 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           setOnRequest(false);
         }
       }
-    }
+    },
   });
 
-  console.log({history})
-
   useEffect(() => {
-    const email = document.querySelector("input[name='email']") as HTMLInputElement;
+    const email = document.querySelector(
+      "input[name='email']"
+    ) as HTMLInputElement;
     const handleEmailBlur = async () => {
-      if(email?.value !== ""){
-        const validEmail = await api.getUserByEmail(email?.value)
-        
-        if(Array.from(validEmail.data).length > 0){
-          formik.setFieldError("email", "Este e-mail ya se encuentra registrado.")
-        }else{
-         // formik.setFieldError("email", "Este e-mail ya se encuentra registrado.")
+      if (email?.value !== "") {
+        const validEmail = await api.getUserByEmail(email?.value);
+
+        if (Array.from(validEmail.data).length > 0) {
+          formik.setFieldError(
+            "email",
+            "Este e-mail ya se encuentra registrado."
+          );
+        } else {
+          // formik.setFieldError("email", "Este e-mail ya se encuentra registrado.")
         }
       }
     };
 
-    email?.addEventListener('blur', handleEmailBlur);
+    email?.addEventListener("blur", handleEmailBlur);
 
-    return () =>{
-      email?.removeEventListener('blur', handleEmailBlur);
-    }
+    return () => {
+      email?.removeEventListener("blur", handleEmailBlur);
+    };
   }, []);
+
+  if (authState.isAuthenticated) {
+    return <Redirect to={`/suscribe/${slug}`} />;
+  }
 
   return (
     <div
@@ -219,10 +236,24 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
               autoComplete="off"
               ref={formRef}
             >
-              <InputField label="E-mail" type="text" name="email" placeholder="Ingresar e-mail" />
-              <InputField label="Nombre" type="text" name="first_name" placeholder="Ingresar nombre" />
-              <InputField label="Apellido" type="text" name="last_name" placeholder="Ingresar apellido" />
-             
+              <InputField
+                label="E-mail"
+                type="text"
+                name="email"
+                placeholder="Ingresar e-mail"
+              />
+              <InputField
+                label="Nombre"
+                type="text"
+                name="first_name"
+                placeholder="Ingresar nombre"
+              />
+              <InputField
+                label="Apellido"
+                type="text"
+                name="last_name"
+                placeholder="Ingresar apellido"
+              />
 
               <div>
                 <label className="text-neutral-800 dark:text-neutral-200 mb-1">
@@ -275,10 +306,10 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                     </option>
                     {professions
                       ? professions.map((p) => (
-                        <option key={p.id} value={`${p.name}/${p.id}`}>
-                          {p.name}
-                        </option>
-                      ))
+                          <option key={p.id} value={`${p.name}/${p.id}`}>
+                            {p.name}
+                          </option>
+                        ))
                       : ""}
                   </Field>
                 </div>
@@ -360,18 +391,18 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                         </option>
                         {selectedOptionProfession && currentGroup.length
                           ? currentGroup.map((s: any) => (
-                            <option
-                              key={`sp_group_${s.id}`}
-                              defaultValue={s.name}
-                            >
-                              {s.name}
-                            </option>
-                          ))
+                              <option
+                                key={`sp_group_${s.id}`}
+                                defaultValue={s.name}
+                              >
+                                {s.name}
+                              </option>
+                            ))
                           : specialties.map((s) => (
-                            <option key={`sp_${s.id}`} defaultValue={s.name}>
-                              {s.name}
-                            </option>
-                          ))}
+                              <option key={`sp_${s.id}`} defaultValue={s.name}>
+                                {s.name}
+                              </option>
+                            ))}
                       </Field>
                     </div>
                     {showInputSpecialties && (
@@ -427,9 +458,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                 >
                   {onRequest ? "Creando..." : "Crear"}
                 </ButtonPrimary>
-                {error && (
-                  <ShowErrorMessage text={error} />
-                )}
+                {error && <ShowErrorMessage text={error} />}
 
                 {success && (
                   <p className="text-green-500 text-center w-full">

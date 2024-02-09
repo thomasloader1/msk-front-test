@@ -6,6 +6,9 @@ import TrialInfo from "components/Trial/TrialInfo";
 import mpImg from "../../../public/images/MP.png";
 import { JsonInstallmentsMapping } from "data/types";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
+import { AuthContext } from "context/user/AuthContext";
+import { getEnv } from "utils/getEnv";
+import { initRebill } from "logic/Rebill";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -15,8 +18,11 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
   const { state } = useContext(CountryContext);
+  const { state: authState } = useContext(AuthContext);
 
   const { gateway } = installmentsJSON[state.country];
+
+  initRebill(authState.profile);
 
   return (
     <div className="nc-PageSuscribe relative animate-fade-down">
@@ -26,10 +32,13 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
       />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">
-        <div className="container grid grid-cols-1 lg:grid-cols-2 gap-5 my-24">
+        <div className="container grid grid-cols-1 lg:grid-cols-[60%_40%] gap-5 my-24">
           <TrialInfo country={state.country} />
           <section>
-            <div id="rebill_elements"></div>
+            <div
+              id="rebill_elements"
+              className="flex items-center justify-center h-auto"
+            ></div>
             <div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
               <span>Pagos procesados con</span>
               <img

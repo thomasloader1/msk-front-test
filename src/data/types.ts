@@ -535,6 +535,23 @@ export type Login = {
   password: string;
   recaptcha_token: string | null;
 };
+
+export type ContactCRM = {
+  First_Name: string;
+  Last_Name: string;
+  Email: string;
+  Phone: string;
+  Date_of_Birth: string;
+  Identificacion: string;
+  Tipo_de_Documento: string;
+  Mailing_Street: string;
+  Mailing_City: string;
+  Mailing_State: string;
+  Mailing_Zip: string;
+  Pais: string;
+  Full_Name: string;
+};
+
 export type ContactUs = {
   First_Name: string;
   Last_Name: string;

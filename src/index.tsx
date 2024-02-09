@@ -12,8 +12,9 @@ import "./styles/index.scss";
 import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
 import "./styles/flaticon.css";
 import "./fonts/Lora/Lora-VariableFont_wght.ttf";
-import 'sweetalert2/src/sweetalert2.scss'
+import "sweetalert2/src/sweetalert2.scss";
 //
+
 const RtlImportCssLazy = React.lazy(() => import("RtlImportCss"));
 document
   .getElementsByTagName("html")[0]

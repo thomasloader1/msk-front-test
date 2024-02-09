@@ -27,9 +27,8 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
 
-  const totalAmount: number | undefined = Number(
-    product?.ficha?.data_hidden?.price
-  );
+  const totalAmount: number | undefined =
+    Number(product?.ficha?.data_hidden?.price) * 1000;
   const installmentAmount = totalAmount / installments;
 
   return (
@@ -50,11 +49,11 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
           completo y abonarás la misma de la siguiente manera. 
         </p>
 
-        <div className="my-5 border p-3 rounded-lg max-w-[320px]">
+        <div className="my-5 border p-3 rounded-lg max-w-[350px]">
           <p className="text-violet-strong">Primer pago de</p>
           <h4 className="text-3xl mb-3">{formatAmount(0, currency)}</h4>
           <p className="text-violet-wash">
-            {installments} pagos restandes de{" "}
+            {installments} pagos restantes de{" "}
             {formatAmount(installmentAmount, currency)}
           </p>
         </div>
@@ -62,8 +61,8 @@ const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
 
       <div className="border-t border-dashed border-[#e4e4e4] my-4"></div>
 
-      <div className="flex flex-col lg:flex-row justify-between px-4 pb-3">
-        <div className="mb-3 lg:mb-0">
+      <div className="flex flex-col xl:flex-row justify-between px-4 pb-3">
+        <div className="mb-3 xl:mb-0">
           <p className="text-violet-wash">
             Detalle de tu inscripción al finalizar el período de prueba 
           </p>

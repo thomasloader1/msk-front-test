@@ -685,6 +685,9 @@
 
   span {
     font-size: 14px;
+    @media (max-width: 639px) {
+      font-size: 12px;
+    }
   }
 }
 

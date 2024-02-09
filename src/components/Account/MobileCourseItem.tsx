@@ -43,7 +43,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           src={item.featured_image}
         />
 
-        <span className="font-normal dark:text-neutral-300 text-[9px] leading-4 sm:leading-1">
+        <span className="font-normal dark:text-neutral-300 text-[14px] leading-4 sm:leading-1">
           {item.title || "-"}
         </span>
         <div className="status-badge ml-auto">
@@ -52,7 +52,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
             color={colorStatus(
               statusOV.isDisabled ? statusOV.hasText : item?.status
             )}
-            className="text-[9px] h-[16px] leading-3"
+            className="text-[14px]"
           />
         </div>
       </div>
@@ -76,7 +76,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
       {isReadyToEnroll && (
         <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
       )}
-      <div className="w-full">
+      <div className="w-full mt-1">
         <ButtonAccessCourse
           email={email}
           goToEnroll={goToEnroll}

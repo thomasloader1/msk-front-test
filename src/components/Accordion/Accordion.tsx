@@ -48,7 +48,7 @@ const Accordion: FC<Props> = ({
               <path d="M19 9l-7 7-7-7"></path>
             </svg>
           </div>
-          <h2 className="text-lg font-medium">{title}</h2>
+          <h2 className="font-medium inter text-[16px] py-0.5">{title}</h2>
         </div>
       </div>
       {isOpen && children}

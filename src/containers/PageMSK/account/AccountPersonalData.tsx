@@ -548,15 +548,17 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               </div>
             )}
           </div>
-          <span className="dark:text-primary-500 forgot-password col-span-2">
-            ¿Necesitas cambiar tu contraseña?{" "}
-            <NcLink
-              to="/recuperar"
-              className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
-            >
-              Hazlo aquí
-            </NcLink>
-          </span>
+          <div className="col-span-2 mb-4 sm:mb-0">
+            <span className="dark:text-primary-500 forgot-password">
+              ¿Necesitas cambiar tu contraseña?{" "}
+              <NcLink
+                to="/recuperar"
+                className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
+              >
+                Hazlo aquí
+              </NcLink>
+            </span>
+          </div>
 
           <div className="form-input-std">
             <label className="text-neutral-800 dark:text-neutral-200 mb-1">

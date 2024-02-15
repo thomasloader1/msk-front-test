@@ -31,6 +31,7 @@ const apiProfileUrl = `${baseUrl}/api/profile`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 const apiCheckEmailUser = `${baseUrl}/api/user`;
+const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -474,23 +475,15 @@ class ApiService {
     return await axios.get(`${apiCheckEmailUser}/${email}`);
   }
 
-  async updateContactZoho(postUpdateZoho: any) {
-    /* try {
-      const res = await axios.post(URL, postUpdateZoho);
+  async createContactTrialZoho(data: any) {
+     try {
+      const res = await axios.post(apiCreateTrialContract, data);
       console.log({ res });
-
-      handleSetContractStatus(payment, checkout.contract_entity_id);
-      //console.log("Pago Realizado");
-      fireToast("Inscripción actualizada", "success", 5000);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 3000);
-      return;
+      return res;
     } catch (e: any) {
-      console.log({ err });
-      fireToast("Inscripción no actualizada", "error", 5000);
-      return err;
-    } */
+      console.log({ e });
+      return e;
+    }
   }
 }
 

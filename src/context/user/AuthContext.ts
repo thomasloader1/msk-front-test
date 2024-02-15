@@ -13,6 +13,7 @@ export const AuthContext = createContext<{
     email: null,
     expires_at: null,
     bypassRedirect: null,
+    onRequest: null
   },
   dispatch: () => {},
 });

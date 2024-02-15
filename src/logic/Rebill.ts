@@ -1,7 +1,8 @@
 import { getEnv } from "utils/getEnv";
 import { sendToZoho } from "./Zoho";
 import api from "Services/api";
-import { AuthState, Contact, ContactCRM } from "data/types";
+import { ContactCRM } from "data/types";
+import { Dispatch, SetStateAction } from "react";
 
 declare global {
   interface Window {
@@ -62,21 +63,21 @@ const getPlan = (country: string) => {
   };
 };
 
-export const initRebill = async (user: any) => {
+export const initRebill = async (
+  user: any, 
+  country: string, 
+  product: any, 
+  setShow: Dispatch<SetStateAction<boolean>>,
+  setPaymentCorrect: Dispatch<SetStateAction<boolean | null>>,
+  setMountedInput: Dispatch<SetStateAction<boolean>>
+  ) => {
   const initialization = {
     organization_id: REBILL_CONF.ORG_ID,
     api_key: REBILL_CONF.API_KEY,
     api_url: REBILL_CONF.URL,
   };
 
-  console.log({ initialization });
-
-  const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM(
-    "Contacts",
-    user.email
-  );
-
-  console.log(contactZoho.Date_of_Birth);
+  const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts",user.email);
 
   const RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
@@ -94,7 +95,7 @@ export const initRebill = async (user: any) => {
   });
 
   //Seteo de plan para cobrar
-  const { id, quantity } = getPlan(user.country);
+  const { id, quantity } = getPlan(country);
   RebillSDKCheckout.setTransaction({
     prices: [
       {
@@ -106,7 +107,7 @@ export const initRebill = async (user: any) => {
 
   //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
   RebillSDKCheckout.setCallbacks({
-    onSuccess: (response: any) => sendToZoho(response),
+    onSuccess: (response: any) => sendToZoho(response,user, country,product, setShow, setPaymentCorrect),
     onError: (error: any) => console.error({ callbackRebillError: error }),
   });
 
@@ -161,4 +162,5 @@ export const initRebill = async (user: any) => {
 
   //Aplicar configuracion al DOM
   RebillSDKCheckout.setElements("rebill_elements");
+  setMountedInput(true)
 };

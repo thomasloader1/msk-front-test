@@ -15,6 +15,18 @@ export const countries = [
     id: "ec",
     name: "Ecuador",
   },
+  {
+    id: "co",
+    name: "Colombia",
+  },
+  {
+    id: "bo",
+    name: "Bolivia",
+  },
+  {
+    id: "uy",
+    name: "Uruguay",
+  },
   //   {
   //     id: "es",
   //     name: "España",

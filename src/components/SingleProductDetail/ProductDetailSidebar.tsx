@@ -1,6 +1,8 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { Details, Ficha } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
+import { useHistory, useParams } from "react-router-dom";
+import { AuthContext } from "context/user/AuthContext";
 
 interface Props {
   ficha: Ficha;
@@ -21,6 +23,10 @@ const ProductDetailSidebar: FC<Props> = ({
   isEbook,
   sideData,
 }) => {
+
+  const history = useHistory();
+  const {slug}: {slug:string} = useParams();
+  const {state: authState} = useContext(AuthContext);
   const isLocal =
     window.location.origin.includes("dev.msklatam.tech") ||
     window.location.origin.includes("localhost");
@@ -82,6 +88,14 @@ const ProductDetailSidebar: FC<Props> = ({
     },
     { description: "Acceso a newsletters", icon: "newsletter", size: "16" },
   ];
+
+  const requestTrial = (slug: string) => {
+    if(authState.isAuthenticated){
+      history.push(`/suscribe/${slug}`)
+      return
+    }
+    history.push(`/trial/${slug}`)
+  };
 
   return (
     <div className={`course-video-widget`}>
@@ -163,7 +177,7 @@ const ProductDetailSidebar: FC<Props> = ({
           </button>
           {!isEbook && isLocal && (
             <button
-              onClick={scrollToContactForm}
+              onClick={() => requestTrial(slug)}
               className="video-cart-btn border-2 w-full"
             >
               Prueba 7 días gratis

@@ -5,7 +5,6 @@ import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
-import api from "Services/api";
 import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";

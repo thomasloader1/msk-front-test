@@ -1,37 +1,53 @@
-import React, { FC } from "react";
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from "react";
 import currencyMapping from "../../data/jsons/__countryCurrencies.json";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import { formatAmount } from "lib/formatAmount";
 import {
-  FetchSingleProduct,
   JsonInstallmentsMapping,
   JsonMapping,
 } from "data/types";
 import { useParams } from "react-router-dom";
-import useSingleProduct from "hooks/useSingleProduct";
+import { initRebill } from "logic/Rebill";
+import { AuthContext } from "context/user/AuthContext";
+import { DataContext } from "context/data/DataContext";
 
 interface TrialInfoProps {
   country: string;
+  setShow:Dispatch<SetStateAction<boolean>>;
+  setPaymentCorrect:Dispatch<SetStateAction<boolean | null>>;
+  setMountedInput:Dispatch<SetStateAction<boolean>>;
 }
 
 const currencyJSON: JsonMapping = currencyMapping;
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
-const TrialInfo: FC<TrialInfoProps> = ({ country }) => {
+const TrialInfo: FC<TrialInfoProps> = ({ country, setShow, setPaymentCorrect, setMountedInput }) => {
   const { slug }: { slug: string } = useParams();
-
-  const { product, loading } = useSingleProduct(slug, {
-    country: country,
-  });
+  const { state } = useContext(DataContext);
+  const [product] = state.allCourses.filter((course: any)=> slug === course.slug)
+  
+  const [initedRebill, setInitedRebill] = useState(false)
+  const { state: authState } = useContext(AuthContext);
 
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
 
   const totalAmount: number | undefined = parseFloat(
-    product?.total_price?.replace(/\./g, "").replace(",", ".") || "0"
+    product?.total_price.replace(/\./g, "").replace(",", ".")
   );
 
   const installmentAmount = totalAmount / installments;
+
+  product.totalAmount = totalAmount
+  product.installmentAmount = installmentAmount
+
+  useEffect(()=>{
+    if(!initedRebill && (typeof product !== 'undefined')){
+      console.log(product)
+      setInitedRebill(true)
+      initRebill(authState.profile, country, product, setShow, setPaymentCorrect, setMountedInput);
+    }
+  },[product])
 
   return (
     <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 text-violet-strong">

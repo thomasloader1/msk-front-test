@@ -17,12 +17,15 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     token: null,
     expires_at: null,
     bypassRedirect: null,
+    onRequest: null,
+
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
     const fetchUserData = async () => {
+      dispatch({ type: "SET_FETCH", payload: { onRequest: true} })
       try {
         const res = await api.getUserData();
         if (!res.message) {
@@ -49,6 +52,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         localStorage.removeItem("user");
         dispatch({ type: "LOGOUT" });
         return null;
+      }finally{
+        dispatch({ type: "SET_FETCH", payload: { onRequest: false} })
       }
     };
 

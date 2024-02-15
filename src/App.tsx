@@ -6,6 +6,7 @@ import UTMProvider from "context/utm/UTMProvider";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import DataProvider from "context/data/DataProvider";
 import PageHead from "containers/PageMSK/PageHead";
+import TrialProvider from "context/trial/TrialProvider";
 
 function App() {
 
@@ -19,7 +20,9 @@ function App() {
             <CountryProvider>
               <AuthProvider>
                 <StoreFiltersProvider>
-                  <MyRouter />
+                  {/* <TrialProvider> */}
+                   <MyRouter />
+                 {/*  </TrialProvider> */}
                 </StoreFiltersProvider>
               </AuthProvider>
             </CountryProvider>

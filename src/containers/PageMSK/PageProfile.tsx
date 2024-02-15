@@ -81,6 +81,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
   }, [indexOfFirstItem, indexOfLastItem, userCourses]);
 
+  useEffect(() =>{
+    const redirectToTrialURL = localStorage.getItem('trialURL');
+    if(redirectToTrialURL){
+      history.push(redirectToTrialURL)
+    }
+  }, []);
+
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };

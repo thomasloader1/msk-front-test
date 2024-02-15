@@ -1,17 +1,64 @@
 import api from "Services/api";
+import { JsonInstallmentsMapping, RebillTransaction } from "data/types";
+import { Dispatch, SetStateAction } from "react";
+import installmentsMapping from '../data/jsons/__countryInstallments.json'
+import currencyMapping from "../data/jsons/__countryCurrencies.json";
+import { countries } from "data/countries";
 
-export const sendToZoho = (response: any) => {
-  /*  const { invoice, failedTransaction, pendingTransaction } = response;
+interface RebillCheckoutPayment{
+  invoice: RebillTransaction | null,
+  pendingTransaction: RebillTransaction | null,
+  failedTransaction: RebillTransaction | null
+}
+
+export const sendToZoho = (
+  response: RebillCheckoutPayment,
+  user: any,
+  country: string,
+  product:any, 
+  setShow: Dispatch<SetStateAction<boolean>>, 
+  setPaymentCorrect: Dispatch<SetStateAction<boolean|null>>
+  ) => {
+  const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
+  const currencyJSON: any = currencyMapping;
+  
+  console.log({country})
+   const { invoice, failedTransaction, pendingTransaction } = response;
 
   if (failedTransaction != null) {
     const { payment } = failedTransaction.paidBags[0];
     const { errorMessage } = payment;
-    handleSetContractStatus(payment, checkout.contract_entity_id);
-    fireModalAlert("Error de pago", errorMessage, "error");
+
+    setPaymentCorrect(false)
+    setShow(true)
     return;
   }
 
-  if (pendingTransaction !== null) {
+  if(invoice != null){
+    const { paidBags, buyer } = invoice;
+    const { payment, schedules } = paidBags[0];
+    const { customer } = buyer;
+    const [subscriptionId] = schedules;
+    const [countrie] = countries.filter(c => c.id === country)
+   
+    const contractData = {
+      contactEntityId: user.entity_id_crm,
+      subId: subscriptionId,
+      paymentId: payment.id,
+      currency: currencyJSON[country],
+      country: countrie.name,
+      installments: installmentsJSON[country],
+      installmentAmount: Number(product?.total_price) * 100,
+      product
+    };
+  
+    api.createContactTrialZoho(contractData); 
+  
+    setPaymentCorrect(true)
+    setShow(true)
+  }
+
+  /* if (pendingTransaction !== null) {
     const { payment } = pendingTransaction.paidBags[0];
     const { customer } = pendingTransaction.buyer;
     const dni =
@@ -38,50 +85,7 @@ export const sendToZoho = (response: any) => {
       payment
     );
     return;
-  }
+  } */
 
-  fireModalAlert("Pago Realizado", "", "success", 5000);
-  //fireAlert('Pago Realizado', 'asdasd', 'success', 5000);
 
-  const { paidBags, buyer } = invoice;
-  const { payment, schedules } = paidBags[0];
-  const { customer } = buyer;
-  const [subscriptionId] = schedules;
-  //console.log("subscriptionId: ",subscriptionId);
-  const QUOTES = checkout.quotes ? Number(checkout.quotes) : 1;
-
-  const isAdvanceSuscription = checkout.type.includes(
-    "Suscripción con anticipo"
-  );
-  const advanceSuscription = valuesAdvanceSuscription({
-    total: contractData.sale?.Grand_Total,
-    checkoutPayment: checkout,
-  });
-
-  const dataForZoho = {
-    isAdvanceSuscription,
-    advanceSuscription,
-    QUOTES,
-    customer,
-    payment,
-    paymentLinkCustomer,
-    checkout,
-    sale,
-    subscriptionId,
-    trial: Boolean(checkout.trial),
-  };
-
-  const postUpdateZoho = makePostUpdateZohoCheckout(dataForZoho);
-
-  //console.log("advanceSuscription",advanceSuscription);
-  if (advanceSuscription.isAdvanceSuscription) {
-    handleSuscriptionUpdateCheckout(
-      postUpdateZoho.subscriptionId,
-      advanceSuscription
-    );
-  }
-
-  const URL = checkout.gateway.includes("Stripe") ? UPDATE_CONTRACT : MP;
-
-  api.updateContactZoho(); */
 };

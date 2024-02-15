@@ -5,6 +5,7 @@ const LOGOUT = "LOGOUT";
 const FRESH = "FRESH";
 const UPDATE_PROFILE = "UPDATE_PROFILE";
 const UPDATE_COURSES = "UPDATE_COURSES";
+const SET_FETCH = "SET_FETCH";
 
 export const authReducer = (
   state: AuthState,
@@ -77,6 +78,11 @@ export const authReducer = (
           courses_progress: action.payload.courses_progress,
         },
       };
+      case SET_FETCH:
+        return {
+          ...state,
+          onRequest: action.payload.onRequest,
+        };
     default:
       return state;
   }

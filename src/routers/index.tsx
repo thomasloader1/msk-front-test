@@ -95,7 +95,8 @@ const Routes = () => {
     setCountry(state.country);
     if (
       (location.pathname.includes("mi-perfil") ||
-        location.pathname.includes("mi-cuenta")) &&
+        location.pathname.includes("mi-cuenta") || 
+        location.pathname.includes("suscribe")) &&
       !isAuthenticated &&
       !localStorage.getItem("token")
     ) {

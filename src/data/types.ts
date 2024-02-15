@@ -594,6 +594,7 @@ export interface AuthState {
   token: string | null;
   expires_at: number | null;
   bypassRedirect: boolean | number | null;
+  onRequest: boolean | null;
 }
 
 export interface CountryState {
@@ -641,4 +642,74 @@ export interface JsonInstallmentsMapping {
     quotes: number;
     gateway: string;
   };
+}
+export interface RebillTransaction{
+  id: string,
+  cartId: string;
+  organizationId: string;
+  paidBags: [
+      {
+          payment: {
+              amount: string;
+              id: string;
+              currency: string;
+              status: string;
+              gateway: {
+                  id: string;
+                  type: string;
+                  country: string;
+                  description:string;
+                  status: string;
+              },
+              errorMessage: string;
+              createdAt: string;
+              source: string;
+          },
+          prices: [
+              {
+                  id: string;
+                  quantity: number
+              }
+          ],
+          schedules: string[]
+      }
+  ],
+  buyer: {
+      customer: {
+          id: string;
+          firstName: string;
+          lastName:string;
+          cellPhone: string;
+          birthday: string;
+          taxIdType:string;
+          taxIdNumber: string;
+          personalIdType:string;
+          personalIdNumber: string;
+          userEmail: string;
+          address: {
+              street: string;
+              city: string;
+              state: string;
+              country: string;
+              zipCode: string;
+              number: string;
+              floor: string;
+              apt: string;
+              description: string;
+          }
+      },
+      card: {
+          id: string;
+          bin: number;
+          last4: string;
+          cardHolder: string;
+          cardNumber: string;
+          expiration: {
+              month: number;
+              year: string;
+          }
+      }
+  },
+  type: string;
+  createdAt: string;
 }

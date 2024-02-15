@@ -147,6 +147,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
+      localStorage.setItem('trialURL', `/suscribe/${slug}`);
+
       if (executeRecaptcha) {
         setOnRequest(true);
         const formData = {
@@ -165,9 +167,22 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           console.log({ res });
           if (res.status !== 200) {
             setSuccess(false);
+            console.log(res.data.errors)
+
             const errorMessages = Object.values(res.data.errors)
-              .map((errorMessage) => `- ${errorMessage}`)
-              .join("<br />");
+                                        .map((errorMessage: any, i) => {
+                                          if(errorMessage[i].includes("El Email ya ha sido registrado")){
+                                            const redirectURL = '/iniciar-sesion';
+                                            const loginLink = document.createElement('a');
+                                            loginLink.href = redirectURL;
+                                            loginLink.innerHTML = 'Inicia sesión';
+                                            res.data.errors.email[0] += ` ${loginLink.outerHTML}`
+                                          }
+
+                                          return `- ${errorMessage}`;
+                                        })
+                                        .join("<br />");
+            
             setError(
               `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
             );

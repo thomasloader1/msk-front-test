@@ -110,8 +110,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             title="¡Listo!" 
             desc="Ya tienes disponible tu prueba de 7 días gratis en el curso elegido"
             textButton="Comienza ahora" 
-            goToAccount={() => history.push("/mi-cuenta")}
-
+            goToAccount={true}
             />
             ) : (
           <TrialModalContent 

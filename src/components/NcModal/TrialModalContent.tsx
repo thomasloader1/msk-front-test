@@ -1,21 +1,23 @@
 import { Dispatch, FC, SetStateAction } from 'react'
+import { useHistory } from 'react-router-dom';
 
 interface TrialModalContentProps{
     title: string;
     desc: string;
     textButton: string;
     setShow?: Dispatch<SetStateAction<boolean>>;
-    goToAccount?: () => void;
+    goToAccount?: boolean | undefined;
 }
 
 const TrialModalContent: FC<TrialModalContentProps> = ({ setShow,goToAccount,title, desc, textButton}) => {
+  const history = useHistory()
   const handleCloseModal = () => {
     if(textButton.includes("Volver") && typeof setShow !== 'undefined'){
       setShow(false)
     }
 
-    if(textButton.includes("Comienza ahora") && typeof goToAccount !== 'undefined'){
-      goToAccount()
+    if(textButton.includes("Comienza ahora") && goToAccount){
+      history.push("/mi-cuenta")
     }
   }
 

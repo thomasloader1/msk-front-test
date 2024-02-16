@@ -28,9 +28,9 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
     product?.total_price.replace(/\./g, "").replace(",", ".")
   );
 
-  const installmentAmount = totalAmount / installments;
+  const installmentAmount = (totalAmount ?? 0) / installments;
 
-  product.totalAmount = totalAmount
+  product.totalAmount = totalAmount ?? 0
   product.installmentAmount = installmentAmount
 
   const {state: mountedInput } = mountedInputState

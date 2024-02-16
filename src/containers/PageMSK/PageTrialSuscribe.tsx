@@ -32,7 +32,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const { slug }: { slug: string } = useParams();
   const { state:{ country } } = useContext(CountryContext);
   const { state:{ allCourses } } = useContext(DataContext);
-  const { state:{ profile } } = useContext(AuthContext);
+  const { state:{ profile, ...authState} } = useContext(AuthContext);
   const [product] = allCourses.filter((course: any)=> slug === course.slug)
   const { gateway } = installmentsJSON[country];
   const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
@@ -43,7 +43,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
       initRebill(profile, country, product, setShow, setPaymentCorrect, setMountedInput);
     }
   },[product])
-  
 
   return (
     <div className="nc-PageSuscribe relative animate-fade-down">

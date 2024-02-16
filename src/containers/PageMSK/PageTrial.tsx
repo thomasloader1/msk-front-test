@@ -231,7 +231,6 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   if (authState.isAuthenticated) {
     return <Redirect to={`/suscribe/${slug}`} />;
   }
-
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}

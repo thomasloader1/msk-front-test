@@ -40,7 +40,11 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   useEffect(()=>{
     if(!initedRebill && (typeof product !== 'undefined')){
       setInitedRebill(true)
+      console.group("Rebill")
+      console.log(profile)
       initRebill(profile, country, product, setShow, setPaymentCorrect, setMountedInput);
+      console.groupEnd()
+
     }
   },[product])
 

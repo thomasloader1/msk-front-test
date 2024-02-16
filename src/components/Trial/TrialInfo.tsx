@@ -24,6 +24,8 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
 
+  console.log({product})
+
   const totalAmount: number = parseFloat(
     product?.total_price ? product.total_price.replace(/\./g, "").replace(",", ".") : 0
   );
@@ -56,10 +58,10 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
         <div className="my-5 border p-3 rounded-lg max-w-[350px]">
           <p className="text-violet-strong">Primer pago de</p>
           <h4 className="text-3xl mb-3">{formatAmount(0, currency)}</h4>
-          <p className="text-violet-wash">
+          <span className="text-violet-wash">
             {installments} pagos restantes de{" "}
             {!mountedInput ? <TextSkeleton /> : formatAmount(installmentAmount, currency)}
-          </p>
+          </span>
         </div>
       </div>
 
@@ -70,18 +72,18 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
           <p className="text-violet-wash">
             Detalle de tu inscripción al finalizar el período de prueba 
           </p>
-          {!mountedInput ? <TextSkeleton /> : <p className="text-violet-strong">
+          {!mountedInput ? <TextSkeleton /> : <span className="text-violet-strong">
             x1{" "}
             <span className="font-bold text-violet-strong">
               {product?.title}
             </span>
-          </p>}
+          </span>}
         </div>
         <div>
           <p className="text-violet-wash">Total</p>
-          <p className="text-violet-strong font-bold">
+          <span className="text-violet-strong font-bold">
           {!mountedInput ? <TextSkeleton className="w-full max-w-[100px]" /> : formatAmount(totalAmount, currency)}
-          </p>
+          </span>
         </div>
       </div>
     </section>

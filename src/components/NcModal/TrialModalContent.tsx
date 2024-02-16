@@ -16,7 +16,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ setShow,goToAccount,tit
       setShow(false)
     }
 
-    if(textButton.includes("Comienza ahora") && goToAccount){
+    if(title.includes("Listo") && goToAccount){
       history.push("/mi-cuenta")
     }
   }
@@ -25,7 +25,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ setShow,goToAccount,tit
     <div className='text-center'>
         <h4 className='text-xl mb-4'>{title}</h4>
         <p className='mb-8 font-medium text-violet-wash'>{desc}</p>
-        <button onClick={() => handleCloseModal} className="video-cart-btn w-full">{textButton}</button>
+        <button onClick={() => handleCloseModal() } className="video-cart-btn w-full">{textButton}</button>
     </div>
   )
 }

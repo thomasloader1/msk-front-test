@@ -3,7 +3,6 @@ import { AuthContext } from "./AuthContext";
 import { authReducer } from "./AuthReducer";
 import { AuthState, Contact } from "data/types";
 import api from "Services/api";
-
 interface Props {
   children: React.ReactNode;
 }
@@ -41,7 +40,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           localStorage.setItem(
             "userProfile",
             JSON.stringify({
-              
               ...res.contact,
             })
           );

@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { CountryContext } from "context/country/CountryContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
@@ -15,6 +15,12 @@ import TextSkeleton from "components/Skeleton/TextSkeleton";
 import { DataContext } from "context/data/DataContext";
 import { initRebill } from "logic/Rebill";
 import { AuthContext } from "context/user/AuthContext";
+import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
+import * as Yup from 'yup';
+import api from "Services/api";
+import InputField from "components/Form/InputField";
+import ShowErrorMessage from "components/ShowErrorMessage";
+import ButtonPrimary from "components/Button/ButtonPrimary";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -28,25 +34,31 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [mountedInput, setMountedInput] = useState<boolean>(false)
   const [initedRebill, setInitedRebill] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { slug }: { slug: string } = useParams();
   const { state:{ country } } = useContext(CountryContext);
-  const { state:{ allCourses,  } } = useContext(DataContext);
-  const { state:{ profile } } = useContext(AuthContext);
+  const { state:{ allCourses } } = useContext(DataContext);
+  const { state } = useContext(AuthContext);
   const [product] = allCourses.filter((course: any)=> slug === course.slug)
   const { gateway } = installmentsJSON[country];
   const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
 
   useEffect(()=>{
-    if(!initedRebill && (typeof product !== 'undefined')){
+    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
+
+    if(!initedRebill && (typeof product !== 'undefined' && typeof userProfile !== 'undefined')){
       setInitedRebill(true)
       console.group("Rebill")
-      console.log(profile)
-      initRebill(profile, country, product, setShow, setPaymentCorrect, setMountedInput);
+      console.log({profile: userProfile, country, product})
+      localStorage.removeItem('trialURL');
+      initRebill(userProfile, country, product, setShow, setPaymentCorrect, setMountedInput);
       console.groupEnd()
-
     }
+
   },[product])
+  
+
 
   return (
     <div className="nc-PageSuscribe relative animate-fade-down">
@@ -62,7 +74,10 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             product={product}
             mountedInputState={mountedInputObjectState} 
           />
+
+          
           <section>
+
             <div
               id="rebill_elements"
               className="flex items-center justify-center h-auto"

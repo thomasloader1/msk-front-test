@@ -13,6 +13,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     isAuthenticated: false,
     user: null,
     profile: null,
+    entity_id_crm: null,
     email: null,
     token: null,
     expires_at: null,
@@ -34,6 +35,14 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             JSON.stringify({
               name: res.name,
               speciality: res.contact.speciality,
+              entity_id_crm: res.contact.entity_id_crm,
+            })
+          );
+          localStorage.setItem(
+            "userProfile",
+            JSON.stringify({
+              
+              ...res.contact,
             })
           );
           localStorage.setItem("bypassRedirect", res.test);
@@ -43,7 +52,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             profile: res.contact,
           };
         } else {
-          console.log(res.response.status);
+          console.log({auth:res.response.status});
           return null;
         }
       } catch (e) {
@@ -69,6 +78,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           const data = {
             access_token: token,
             email,
+            entity_id_crm: userData.profile.entity_id_crm,
             expires_at,
             bypassRedirect,
             user: userData,

@@ -28,6 +28,7 @@ const apiSignInURL = `${baseUrl}/api/login`;
 const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
 const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
+const apiUpdateIdentificationUrl = `${baseUrl}/api//crm/contacts/updateIdentification`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 const apiCheckEmailUser = `${baseUrl}/api/user`;
@@ -318,6 +319,23 @@ class ApiService {
           Authorization: `Bearer ${token}`,
         };
         const res = await axios.put(`${apiProfileUrl}/${userEmail}`, data, {
+          headers,
+        });
+        return res;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async updateIdentification(data: any): Promise<any> {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.put(`${apiUpdateIdentificationUrl}`, data, {
           headers,
         });
         return res;

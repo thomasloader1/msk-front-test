@@ -591,6 +591,7 @@ export interface AuthState {
   user: User | null;
   profile: UserProfile | null;
   email: string | null;
+  entity_id_crm: string | null;
   token: string | null;
   expires_at: number | null;
   bypassRedirect: boolean | number | null;

@@ -56,6 +56,30 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const { slug }: { slug: string } = useParams();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
+  const [identification, setIdentification] = useState<string>("");
+  const [selectedDocument, setSelectedDocument] = useState<string>("");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
+
+  const [documents, setDocuments] = useState<{ ar: {id: string; type: string;}[]}>({
+    ar: [{id:'ar',type:'DNI'}]
+  })
+
+  const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
+    const { value } = event.target;
+    if (value && value.length) {
+      const values = value.split("/");
+      const type = values[0];
+      const id = values[1];
+      setSelectedDocument(type);
+      setSelectedDocumentId(id);
+      
+      formik.setFieldValue("type", type);
+    } else {
+      setSelectedDocument("");
+      setSelectedDocumentId("");
+    }
+  }
+
   const initialValues = {
     first_name: "",
     last_name: "",
@@ -68,11 +92,15 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     Career: "",
     Year: "",
     country: "",
+    type: "",
+    identification: "",
     Terms_And_Conditions: false,
   };
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().required("El nombre es requerido"),
     last_name: Yup.string().required("El apellido es requerido"),
+    identification: Yup.string().required("La identificacion es requerida"),
+    type: Yup.string().required("El tipo de identificacion es requerido"),
     email: Yup.string()
       .email(`Correo electrónico inválido`)
       .required("El correo electrónico es requerido"),
@@ -236,6 +264,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   if (authState.isAuthenticated) {
     return <Redirect to={`/suscribe/${slug}`} />;
   }
+
+  
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}
@@ -303,6 +333,45 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                   )}
                 </Field>
               </div>
+
+              <InputField
+                label="Identificacion"
+                type="text"
+                name="identification"
+                placeholder="Ingresar identificacion"
+              />
+
+              <div className="col-xl-6 col-span-2 md:col-span-1">
+                <div className="form-select-std">
+                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                    Tipo de identificacion
+                  </label>
+                  <ErrorMessage
+                    name="type"
+                    component="span"
+                    className="error"
+                  />
+
+                  <Field
+                    as="select"
+                    name="type"
+                    onChange={handleOptionTypeChange}
+                    value={`${selectedDocument}/${selectedDocumentId}`}
+                  >
+                    <option defaultValue="" value="">
+                      Seleccionar tipo
+                    </option>
+                    {documents[state.country]
+                      ? documents[state.country].map((p: any) => (
+                        <option key={p.id} value={`${p.type}/${p.id}`}>
+                          {p.type}
+                        </option>
+                      ))
+                      : ""}
+                  </Field>
+                  
+                </div>
+                </div>
 
               <div className="col-xl-6 col-span-2 md:col-span-1">
                 <div className="form-select-std">

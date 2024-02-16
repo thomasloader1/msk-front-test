@@ -13,6 +13,7 @@ export interface CategoryBadgeListProps {
   isCourse?: boolean;
   isPost?: boolean;
   isEbook?: boolean;
+  isTrial?: boolean;
   textSize?: string;
 }
 
@@ -24,6 +25,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   isCourse,
   isPost,
   isEbook,
+  isTrial,
   textSize,
 }) => {
   const notesJSON: JsonMapping = notesMapping;
@@ -92,6 +94,11 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
           ))}
         </>
       )}
+      {isTrial && (<Badge
+              className={itemClass}
+              name={"Trial"}
+              color={"red"}
+            />)}
     </div>
   );
 };

@@ -29,11 +29,11 @@ const ProductAccount: FC<Props> = ({
   const { isRunning, startWatch } = useInterval(user.email);
 
   const activeProductRef = useRef(
-    product?.status !== "Inactivo" && product?.status !== "Expirado"
+    product?.status !== "Inactivo" && product?.status !== "Expirado" && product?.status !== STATUS.SUSPEND
   );
 
   const showHelp =
-    product.ov === "Baja" ||
+    product.ov === "Baja" || product.ov === STATUS.SUSPEND ||
     (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
   const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
@@ -91,6 +91,11 @@ const ProductAccount: FC<Props> = ({
                 categories={product.categories}
                 color="yellow"
                 isCourse={true}
+              />
+              <CategoryBadgeList
+                categories={product.categories}
+                color="red"
+                isTrial={product.ov === 'Trial'}
               />
               <a onClick={handleClick}>
                 <h3>{product.title}</h3>

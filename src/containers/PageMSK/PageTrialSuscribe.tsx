@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { CountryContext } from "context/country/CountryContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
@@ -10,7 +10,11 @@ import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import TrialModalContent from "components/NcModal/TrialModalContent";
 import NcModalSmall from "components/NcModal/NcModalSmall";
 import InputSkeleton from "components/Skeleton/InputSkeleton";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import TextSkeleton from "components/Skeleton/TextSkeleton";
+import { DataContext } from "context/data/DataContext";
+import { initRebill } from "logic/Rebill";
+import { AuthContext } from "context/user/AuthContext";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -18,23 +22,43 @@ export interface PageTrialSuscribeProps {
 
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
-const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
-  const { state } = useContext(CountryContext);
+const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const history = useHistory();
-  const { gateway } = installmentsJSON[state.country];
   const [show, setShow] = useState<boolean>(false)
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [mountedInput, setMountedInput] = useState<boolean>(false)
+  const [initedRebill, setInitedRebill] = useState(false)
+
+  const { slug }: { slug: string } = useParams();
+  const { state:{ country } } = useContext(CountryContext);
+  const { state:{ allCourses } } = useContext(DataContext);
+  const { state:{ profile } } = useContext(AuthContext);
+  const [product] = allCourses.filter((course: any)=> slug === course.slug)
+  const { gateway } = installmentsJSON[country];
+  const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
+
+  useEffect(()=>{
+    if(!initedRebill && (typeof product !== 'undefined')){
+      setInitedRebill(true)
+      initRebill(profile, country, product, setShow, setPaymentCorrect, setMountedInput);
+    }
+  },[product])
+  
+
   return (
     <div className="nc-PageSuscribe relative animate-fade-down">
       <PageHead
-        title="Inicio"
+        title="Trial"
         description="Una propuesta moderna para expandir tus metas profesionales"
       />
       {/* === END SEO === */}
      <div className="relative overflow-hidden">
         <div className="container grid grid-cols-1 lg:grid-cols-[60%_40%] gap-5 my-24">
-          <TrialInfo country={state.country} setShow={setShow} setPaymentCorrect={setPaymentCorrect} setMountedInput={setMountedInput} />
+          <TrialInfo 
+            country={country} 
+            product={product}
+            mountedInputState={mountedInputObjectState} 
+          />
           <section>
             <div
               id="rebill_elements"
@@ -43,13 +67,13 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = ({ className = "" }) => {
             {!mountedInput && <InputSkeleton className="w-[390px]" />}
 
             </div>
-            <div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
+            {mountedInput ? (<div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
               <span>Pagos procesados con</span>
               <img
                 src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
                 alt="gateway image"
               />
-            </div>
+            </div>) : <TextSkeleton className="w-full flex items-center justify-center"/>}
           </section>
         </div>
       </div>

@@ -60,8 +60,12 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
 
-  const [documents, setDocuments] = useState<{ ar: {id: string; type: string;}[]}>({
-    ar: [{id:'ar',type:'DNI'}]
+  const [documents, setDocuments] = useState<{ [key:string]: {id: string; type: string;}[]}>({
+    ar: [{id:'ar',type:'DNI'}],
+    co: [{id:'co',type:'DNI'}],
+    mx: [{id:'mx',type:'RFC'}],
+    cl: [{id:'cl',type:'RUT'}],
+    uy: [{id:'uy',type:'DNI'}]
   })
 
   const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{

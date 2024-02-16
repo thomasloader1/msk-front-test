@@ -24,13 +24,13 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
 
-  const totalAmount: number | undefined = parseFloat(
-    product?.total_price.replace(/\./g, "").replace(",", ".")
+  const totalAmount: number = parseFloat(
+    product?.total_price ? product.total_price.replace(/\./g, "").replace(",", ".") : 0
   );
 
-  const installmentAmount = (totalAmount ?? 0) / installments;
+  const installmentAmount = (totalAmount) / installments;
 
-  product.totalAmount = totalAmount ?? 0
+  product.totalAmount = totalAmount 
   product.installmentAmount = installmentAmount
 
   const {state: mountedInput } = mountedInputState
@@ -80,7 +80,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
         <div>
           <p className="text-violet-wash">Total</p>
           <p className="text-violet-strong font-bold">
-          {!mountedInput ? <TextSkeleton className="w-full max-w-[100px]" /> : formatAmount(totalAmount ?? 0, currency)}
+          {!mountedInput ? <TextSkeleton className="w-full max-w-[100px]" /> : formatAmount(totalAmount, currency)}
           </p>
         </div>
       </div>

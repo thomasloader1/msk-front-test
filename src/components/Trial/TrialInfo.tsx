@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import currencyMapping from "../../data/jsons/__countryCurrencies.json";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import { formatAmount } from "lib/formatAmount";
@@ -23,19 +23,23 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) => {
   const currency = currencyJSON[country];
   const installments = installmentsJSON[country].quotes;
-
-  console.log({product})
-
-  const totalAmount: number = parseFloat(
-    product?.total_price ? product.total_price.replace(/\./g, "").replace(",", ".") : 0
-  );
-
-  const installmentAmount = (totalAmount) / installments;
-
-  product.totalAmount = totalAmount 
-  product.installmentAmount = installmentAmount
-
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [installmentAmount, setInstallmentAmount] = useState(0)
   const {state: mountedInput } = mountedInputState
+
+  useEffect(() => {
+    console.log({product})
+    
+    if(typeof product !== 'undefined'){
+      let totalAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", "."));
+      setTotalAmount(totalAmount)
+      setInstallmentAmount(totalAmount / installments)
+  
+      product.totalAmount = totalAmount 
+      product.installmentAmount = installmentAmount
+    }
+    
+  }, [product])
 
   return (
     <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 text-violet-strong">

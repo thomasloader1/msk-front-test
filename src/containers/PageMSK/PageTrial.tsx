@@ -13,8 +13,6 @@ import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import useProfessions from "hooks/useProfessions";
-import useSpecialties from "hooks/useSpecialties";
 import { countries } from "data/countries";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
@@ -25,12 +23,21 @@ import PageHead from "./PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
 import InputField from "components/Form/InputField";
 import { AuthContext } from "context/user/AuthContext";
+import { DataContext } from "context/data/DataContext";
+import SimpleInputSkeleton from "components/Skeleton/SimpleInputSkeleton";
 
 export interface PageTrialProps {
   className?: string;
 }
 
 const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
+  const { state:{ 
+    allSpecialties: specialties, 
+    allSpecialtiesGroups: specialtiesGroup, 
+    allProfessions: professions
+  }, 
+  loadingProfessions, 
+  loadingSpecialties } = useContext(DataContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -80,8 +87,6 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   });
   const { state } = useContext(CountryContext);
   const { state: authState } = useContext(AuthContext);
-  const { professions } = useProfessions();
-  const { specialties, specialtiesGroup } = useSpecialties();
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -170,19 +175,19 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
             console.log(res.data.errors)
 
             const errorMessages = Object.values(res.data.errors)
-                                        .map((errorMessage: any, i) => {
-                                          if(errorMessage[i].includes("El Email ya ha sido registrado")){
-                                            const redirectURL = '/iniciar-sesion';
-                                            const loginLink = document.createElement('a');
-                                            loginLink.href = redirectURL;
-                                            loginLink.innerHTML = 'Inicia sesión';
-                                            res.data.errors.email[0] += ` ${loginLink.outerHTML}`
-                                          }
+              .map((errorMessage: any, i) => {
+                if (errorMessage[i].includes("El Email ya ha sido registrado")) {
+                  const redirectURL = '/iniciar-sesion';
+                  const loginLink = document.createElement('a');
+                  loginLink.href = redirectURL;
+                  loginLink.innerHTML = 'Inicia sesión';
+                  res.data.errors.email[0] += ` ${loginLink.outerHTML}`
+                }
 
-                                          return `- ${errorMessage}`;
-                                        })
-                                        .join("<br />");
-            
+                return `- ${errorMessage}`;
+              })
+              .join("<br />");
+
             setError(
               `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
             );
@@ -190,7 +195,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
             setError("");
             setSuccess(true);
             setTimeout(() => {
-              history.push(`${history.location.pathname}/suscribe`);
+              history.push(`/correo-enviado?origin=trial`);
             }, 1500);
           }
         } catch (error) {
@@ -309,7 +314,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                     component="span"
                     className="error"
                   />
-                  <Field
+
+                  {loadingProfessions ? <SimpleInputSkeleton /> : <Field
                     as="select"
                     name="profession"
                     onChange={handleOptionProfessionChange}
@@ -319,13 +325,14 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                       Seleccionar profesión
                     </option>
                     {professions
-                      ? professions.map((p) => (
-                          <option key={p.id} value={`${p.name}/${p.id}`}>
-                            {p.name}
-                          </option>
-                        ))
+                      ? professions.map((p: any) => (
+                        <option key={p.id} value={`${p.name}/${p.id}`}>
+                          {p.name}
+                        </option>
+                      ))
                       : ""}
-                  </Field>
+                  </Field>}
+                  
                 </div>
 
                 {showInputProfession && (
@@ -394,7 +401,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                         component="span"
                         className="error"
                       />
-                      <Field
+                     {loadingSpecialties ? <SimpleInputSkeleton /> :  <Field
                         as="select"
                         name="speciality"
                         onChange={handleOptionSpecialtyChange}
@@ -405,19 +412,19 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                         </option>
                         {selectedOptionProfession && currentGroup.length
                           ? currentGroup.map((s: any) => (
-                              <option
-                                key={`sp_group_${s.id}`}
-                                defaultValue={s.name}
-                              >
-                                {s.name}
-                              </option>
-                            ))
-                          : specialties.map((s) => (
-                              <option key={`sp_${s.id}`} defaultValue={s.name}>
-                                {s.name}
-                              </option>
-                            ))}
-                      </Field>
+                            <option
+                              key={`sp_group_${s.id}`}
+                              defaultValue={s.name}
+                            >
+                              {s.name}
+                            </option>
+                          ))
+                          : specialties.map((s: any) => (
+                            <option key={`sp_${s.id}`} defaultValue={s.name}>
+                              {s.name}
+                            </option>
+                          ))}
+                      </Field>}
                     </div>
                     {showInputSpecialties && (
                       <div className="form-input-std my-4">

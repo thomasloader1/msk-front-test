@@ -14,14 +14,25 @@ import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGri
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
+import { useHistory } from "react-router-dom";
 
 const PageHome: React.FC = () => {
+  const history = useHistory()
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =
     useContext(DataContext);
   const { allCourses, allPosts, allBestSellers } = state;
   const [courses, setCourses] = useState([]);
   const [posts, setPosts] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
+
+  useEffect(() => {
+    const redirectToTrial = localStorage.getItem("trialURL")
+
+    if(redirectToTrial){
+      history.push(redirectToTrial)
+    }
+
+  }, []);
 
   useEffect(() => {
     setCourses(allCourses);

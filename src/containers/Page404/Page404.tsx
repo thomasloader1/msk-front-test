@@ -6,22 +6,31 @@ import notFoundImg from "/images/404-msk.png";
 import PageHead from "containers/PageMSK/PageHead";
 import { AuthContext } from "context/user/AuthContext";
 import { isNull } from "lodash";
+import { useHistory } from "react-router-dom";
 
 const Page404 = () => {
   const {state} = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean | null>(true);
+  const history = useHistory();
   
   useEffect(() => {
     let counterIntents = 0;
 
     const timeout = setTimeout(() => {
       counterIntents++;
+    console.log(counterIntents)
+
     if(Boolean(state.onRequest) == false && !isNull(state.onRequest)){
       setLoading(false);
     }
-if(counterIntents >= 3){
-  setLoading(false);
-}
+    if(!state.isAuthenticated){
+      setLoading(false);
+      history.push("/iniciar-sesion")
+    }
+
+    if(counterIntents >= 3){
+      setLoading(false);
+    }
 
     }, 1500); 
     

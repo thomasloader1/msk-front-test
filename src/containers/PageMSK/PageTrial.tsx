@@ -31,13 +31,14 @@ export interface PageTrialProps {
 }
 
 const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
-  const { state:{ 
-    allSpecialties: specialties, 
-    allSpecialtiesGroups: specialtiesGroup, 
-    allProfessions: professions
-  }, 
-  loadingProfessions, 
-  loadingSpecialties } = useContext(DataContext);
+  const { 
+    state:{ 
+      allSpecialties: specialties, 
+      allSpecialtiesGroups: specialtiesGroup, 
+      allProfessions: professions
+    }, 
+    loadingProfessions, loadingSpecialties 
+  } = useContext(DataContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");

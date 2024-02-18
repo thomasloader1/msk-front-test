@@ -64,103 +64,108 @@ const getPlan = (country: string) => {
 };
 
 export const initRebill = async (
-  user: any, 
-  country: string, 
-  product: any, 
+  user: any,
+  country: string,
+  product: any,
   setShow: Dispatch<SetStateAction<boolean>>,
   setPaymentCorrect: Dispatch<SetStateAction<boolean | null>>,
   setMountedInput: Dispatch<SetStateAction<boolean>>
-  ) => {
+) => {
   const initialization = {
     organization_id: REBILL_CONF.ORG_ID,
     api_key: REBILL_CONF.API_KEY,
     api_url: REBILL_CONF.URL,
   };
 
-  const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts",user.email);
+  try {
+    const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
+    console.log({ contactZoho })
 
-  const RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
+    const RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
-  const customerRebill = mappingCheckoutFields(contactZoho);
-  //Seteo de customer
-  RebillSDKCheckout.setCustomer(customerRebill);
+    const customerRebill = mappingCheckoutFields(contactZoho);
+    //Seteo de customer
+    RebillSDKCheckout.setCustomer(customerRebill);
 
-  //Seteo de identidicacion del customer
-  RebillSDKCheckout.setCardHolder({
-    name: contactZoho.Full_Name,
-    identification: {
-      type: contactZoho.Tipo_de_Documento,
-      value: contactZoho.Identificacion,
-    },
-  });
-
-  //Seteo de plan para cobrar
-  const { id, quantity } = getPlan(country);
-  RebillSDKCheckout.setTransaction({
-    prices: [
-      {
-        id,
-        quantity,
+    //Seteo de identidicacion del customer
+    RebillSDKCheckout.setCardHolder({
+      name: contactZoho.Full_Name,
+      identification: {
+        type: contactZoho.Tipo_de_Documento,
+        value: contactZoho.Identificacion,
       },
-    ],
-  }).then((price_setting: any) => console.log({ price_setting }));
+    });
 
-  //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
-  RebillSDKCheckout.setCallbacks({
-    onSuccess: (response: any) => sendToZoho(response,user, country,product, setShow, setPaymentCorrect),
-    onError: (error: any) => console.error({ callbackRebillError: error }),
-  });
+    //Seteo de plan para cobrar
+    const { id, quantity } = getPlan(country);
+    RebillSDKCheckout.setTransaction({
+      prices: [
+        {
+          id,
+          quantity,
+        },
+      ],
+    }).then((price_setting: any) => console.log({ price_setting }));
 
-  //Seteo metadata de la suscripcio
-  RebillSDKCheckout.setMetadata({
-    contact_id: "x" + user.entity_id_crm,
-  });
+    //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
+    RebillSDKCheckout.setCallbacks({
+      onSuccess: (response: any) => sendToZoho(response, user, country, product, setShow, setPaymentCorrect),
+      onError: (error: any) => console.error({ callbackRebillError: error }),
+    });
 
-  //Textos de validaciones con el elemento de la tarjeta
-  RebillSDKCheckout.setText({
-    card_number: "Numero de tarjeta",
-    pay_button: "Finalizar",
-    error_messages: {
-      emptyCardNumber: "Ingresa el numero de la tarjeta",
-      invalidCardNumber: "El numero de la tarjeta es invalido",
-      emptyExpiryDate: "Enter an expiry date",
-      monthOutOfRange: "Expiry month must be between 01 and 12",
-      yearOutOfRange: "Expiry year cannot be in the past",
-      dateOutOfRange: "Expiry date cannot be in the past",
-      invalidExpiryDate: "Expiry date is invalid",
-      emptyCVC: "Enter a CVC",
-      invalidCVC: "CVC is invalid",
-    },
-  });
+    //Seteo metadata de la suscripcio
+    RebillSDKCheckout.setMetadata({
+      contact_id: "x" + user.entity_id_crm,
+    });
 
-  RebillSDKCheckout.setStyles({
-    fieldWrapper: {
-      base: {
-        maxWidth: "auto",
-        height: "auto",
+    //Textos de validaciones con el elemento de la tarjeta
+    RebillSDKCheckout.setText({
+      card_number: "Numero de tarjeta",
+      pay_button: "Finalizar",
+      error_messages: {
+        emptyCardNumber: "Ingresa el numero de la tarjeta",
+        invalidCardNumber: "El numero de la tarjeta es invalido",
+        emptyExpiryDate: "Enter an expiry date",
+        monthOutOfRange: "Expiry month must be between 01 and 12",
+        yearOutOfRange: "Expiry year cannot be in the past",
+        dateOutOfRange: "Expiry date cannot be in the past",
+        invalidExpiryDate: "Expiry date is invalid",
+        emptyCVC: "Enter a CVC",
+        invalidCVC: "CVC is invalid",
       },
-      errored: {},
-    },
-    inputWrapper: {
-      base: {
-        maxWidth: "auto",
-        fontFamily: '"Inter"',
-        borderColor: "#E4E4E4",
-      },
-    },
-    errorText: {
-      base: {},
-    },
-    button: {
-      base: {
-        color: "#FFFFFF",
-        fontWeight: "bold",
-        fontSize: "14px",
-      },
-    },
-  });
+    });
 
-  //Aplicar configuracion al DOM
-  RebillSDKCheckout.setElements("rebill_elements");
-  setMountedInput(true)
+    RebillSDKCheckout.setStyles({
+      fieldWrapper: {
+        base: {
+          maxWidth: "auto",
+          height: "auto",
+        },
+        errored: {},
+      },
+      inputWrapper: {
+        base: {
+          maxWidth: "auto",
+          fontFamily: '"Inter"',
+          borderColor: "#E4E4E4",
+        },
+      },
+      errorText: {
+        base: {},
+      },
+      button: {
+        base: {
+          color: "#FFFFFF",
+          fontWeight: "bold",
+          fontSize: "14px",
+        },
+      },
+    });
+
+    //Aplicar configuracion al DOM
+    RebillSDKCheckout.setElements("rebill_elements");
+    setMountedInput(true)
+  } catch (e: any) {
+    console.error({ e })
+  }
 };

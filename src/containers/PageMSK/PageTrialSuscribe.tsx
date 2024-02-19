@@ -60,6 +60,9 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             setHasCoursedRequested(isMatch);
           }
         })
+      }else{
+        setHasCoursedRequested(false);
+
       }
   },[product,hasCoursedRequested])
 

@@ -15,12 +15,6 @@ import TextSkeleton from "components/Skeleton/TextSkeleton";
 import { DataContext } from "context/data/DataContext";
 import { initRebill } from "logic/Rebill";
 import { AuthContext } from "context/user/AuthContext";
-import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import * as Yup from 'yup';
-import api from "Services/api";
-import InputField from "components/Form/InputField";
-import ShowErrorMessage from "components/ShowErrorMessage";
-import ButtonPrimary from "components/Button/ButtonPrimary";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -29,8 +23,9 @@ export interface PageTrialSuscribeProps {
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
-  const history = useHistory();
   const [show, setShow] = useState<boolean>(false)
+  const [showAlreadyRequest, setShowAlreadyRequest] = useState<boolean>(false)
+  const [hasCoursedRequested, setHasCoursedRequested] = useState<boolean|null>(null)
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [mountedInput, setMountedInput] = useState<boolean>(false)
   const [initedRebill, setInitedRebill] = useState(false)
@@ -44,10 +39,37 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const { gateway } = installmentsJSON[country];
   const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
 
+  useEffect(() => {
+    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
+    const hasTrialCourses = userProfile.trial_course_sites;
+
+    console.log({hasCoursedRequested})
+
+      if(hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined'){
+        
+        hasTrialCourses.forEach((tc: any) => {
+          let contract = JSON.parse(tc.contractJson)
+          let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === product.product_code;
+    console.log({isMatch})
+
+          if(isMatch){
+            setHasCoursedRequested(isMatch);
+            setShowAlreadyRequest(isMatch);
+            return
+          }else{
+            setHasCoursedRequested(isMatch);
+          }
+        })
+      }
+  },[product,hasCoursedRequested])
+
   useEffect(()=>{
     const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
+    console.log({userProfile})
 
-    if(!initedRebill && (typeof product !== 'undefined' && typeof userProfile !== 'undefined')){
+    if(!initedRebill && 
+        (hasCoursedRequested != null && !hasCoursedRequested) && 
+        (typeof product !== 'undefined' && typeof userProfile !== 'undefined')){
       setInitedRebill(true)
       console.group("Rebill")
       console.log({profile: userProfile, country, product})
@@ -56,7 +78,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
       console.groupEnd()
     }
 
-  },[product])
+  },[product, hasCoursedRequested])
   
 
 
@@ -120,6 +142,25 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             setShow={setShow}
             />
         )}
+      />
+
+<NcModalSmall
+        isOpenProp={showAlreadyRequest}
+        onCloseModal={() => {
+          setShowAlreadyRequest(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() =>  (
+          <TrialModalContent
+            title="Prueba ya solicitada" 
+            desc="Para continuar con este curso, debes inscribirte."
+            textButton="Volver" 
+            goToCourse={slug}
+            />
+            )}
       />
     </div>
   );

@@ -23,6 +23,7 @@ export const authReducer = (
           speciality: action.payload.user.speciality,
         })
       );
+      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
       const user = localStorage.getItem("user");
       return {
         ...state,
@@ -39,6 +40,7 @@ export const authReducer = (
       localStorage.removeItem("token");
       localStorage.removeItem("email");
       localStorage.removeItem("user");
+      localStorage.removeItem("userProfile");
 
       return {
         ...state,
@@ -66,11 +68,13 @@ export const authReducer = (
         user: userInLocal ? JSON.parse(userInLocal) : null,
       };
     case UPDATE_PROFILE:
+      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
       return {
         ...state,
         profile: action.payload.profile,
       };
     case UPDATE_COURSES:
+      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
       return {
         ...state,
         profile: {

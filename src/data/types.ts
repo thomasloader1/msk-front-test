@@ -93,6 +93,17 @@ export interface CourseProgress {
   contact_id: number;
   entity_id_crm: string;
 }
+
+export interface TrialCourse {
+  contact_entity_id: string;
+  contractJson: string;
+  id: number;
+  trial_cancelled_at: Date | null;
+  trial_finish_at: Date;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface UserCourseProgress {
   avance: string;
   ov: string;
@@ -163,6 +174,7 @@ export interface User {
 
 export interface UserProfile {
   courses_progress: CourseProgress[];
+  trial_course_sites?: TrialCourse[] | [];
 }
 
 export interface CustomUser {

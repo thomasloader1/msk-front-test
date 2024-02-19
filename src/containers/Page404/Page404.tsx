@@ -18,12 +18,13 @@ const Page404 = () => {
 
     const timeout = setTimeout(() => {
       counterIntents++;
-    console.log(counterIntents)
+    console.log(counterIntents, state)
 
     if(Boolean(state.onRequest) == false && !isNull(state.onRequest)){
       setLoading(false);
     }
-    if(!state.isAuthenticated){
+
+    if(!state.isAuthenticated && (state.onRequest != null && !Boolean(state.onRequest))){
       setLoading(false);
       history.push("/iniciar-sesion")
     }

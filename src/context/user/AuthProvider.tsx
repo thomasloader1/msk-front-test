@@ -57,6 +57,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         console.error({ e });
         localStorage.removeItem("email");
         localStorage.removeItem("user");
+        localStorage.removeItem("userProfile");
         dispatch({ type: "LOGOUT" });
         return null;
       }finally{

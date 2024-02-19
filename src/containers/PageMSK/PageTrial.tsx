@@ -55,9 +55,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const [selectedCareer, setSelectedCareer] = useState("");
   const history = useHistory();
   const { slug }: { slug: string } = useParams();
-  const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
+  const [utmState] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
-  const [identification, setIdentification] = useState<string>("");
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
 
@@ -68,6 +67,9 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     cl: [{id:'cl',type:'RUT'}],
     uy: [{id:'uy',type:'DNI'}]
   })
+
+  const { state } = useContext(CountryContext);
+  const { state: authState } = useContext(AuthContext);
 
   const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
     const { value } = event.target;
@@ -118,8 +120,6 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
       "Debes aceptar los términos y condiciones"
     ),
   });
-  const { state } = useContext(CountryContext);
-  const { state: authState } = useContext(AuthContext);
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -240,31 +240,6 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     },
   });
 
-  useEffect(() => {
-    const email = document.querySelector(
-      "input[name='email']"
-    ) as HTMLInputElement;
-    const handleEmailBlur = async () => {
-      if (email?.value !== "") {
-        const validEmail = await api.getUserByEmail(email?.value);
-
-        if (Array.from(validEmail.data).length > 0) {
-          formik.setFieldError(
-            "email",
-            "Este e-mail ya se encuentra registrado."
-          );
-        } else {
-          // formik.setFieldError("email", "Este e-mail ya se encuentra registrado.")
-        }
-      }
-    };
-
-    email?.addEventListener("blur", handleEmailBlur);
-
-    return () => {
-      email?.removeEventListener("blur", handleEmailBlur);
-    };
-  }, []);
 
   if (authState.isAuthenticated) {
     return <Redirect to={`/suscribe/${slug}`} />;

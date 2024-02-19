@@ -162,7 +162,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     return (
                       <p
                         key={`source_${index}`}
-                        className="source-content lg:pr-20"
+                        className="source-content lg:pr-20 break-words"
                       >
                         {source}
                       </p>
@@ -170,7 +170,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   })
                 : null}
             </div>
-            <div className="flex flex-wrap gap-2">
+            {/* <div className="flex flex-wrap gap-2">
               {data.tags.length > 0
                 ? data.tags.map((tag, index) => {
                     return (
@@ -180,7 +180,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     );
                   })
                 : null}
-            </div>
+            </div> */}
             {data.authors && data.authors.length > 0
               ? data.authors?.map((currentAuthor, index) => {
                   return (

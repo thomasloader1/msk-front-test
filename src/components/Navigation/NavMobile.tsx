@@ -94,7 +94,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
     isChild: boolean
   ) => {
     return (
-      <li key={index} className="text-neutral-900 dark:text-white">
+      <li
+        key={index}
+        className="text-neutral-900 dark:text-white"
+        onClick={onClickClose}
+      >
         <NavLink
           exact
           strict

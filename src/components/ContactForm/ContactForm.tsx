@@ -663,7 +663,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={!formik.values.Terms_And_Conditions}
+                            disabled={
+                              !formik.values.Terms_And_Conditions ||
+                              !formik.isValid
+                            }
                           >
                             {onRequest ? "Enviando ..." : submitText}
                           </button>

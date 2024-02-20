@@ -67,12 +67,13 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   },[product,hasCoursedRequested])
 
   useEffect(()=>{
-    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
+    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string) ?? {}
     console.log({userProfile})
 
     if(!initedRebill && 
         (hasCoursedRequested != null && !hasCoursedRequested) && 
-        (typeof product !== 'undefined' && (typeof userProfile !== 'undefined' && Object.keys(userProfile).length > 1))){
+        (typeof product !== 'undefined' && 
+          (typeof userProfile !== 'undefined' && userProfile != null && Object.keys(userProfile).length > 1))){
       setInitedRebill(true)
       console.group("Rebill")
       console.log({profile: userProfile, country, product})

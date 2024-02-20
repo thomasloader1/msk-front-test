@@ -83,6 +83,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             user: userData,
             profile: userData.profile,
           };
+          localStorage.setItem("userProfile", JSON.stringify(userData.profile));
           dispatch({ type: "LOGIN", payload: data });
           if (expires_at) {
             expires_at = new Date(expires_at);

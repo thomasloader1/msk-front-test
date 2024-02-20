@@ -72,7 +72,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
     if(!initedRebill && 
         (hasCoursedRequested != null && !hasCoursedRequested) && 
-        (typeof product !== 'undefined' && typeof userProfile !== 'undefined')){
+        (typeof product !== 'undefined' && (typeof userProfile !== 'undefined' && Object.keys(userProfile).length > 1))){
       setInitedRebill(true)
       console.group("Rebill")
       console.log({profile: userProfile, country, product})

@@ -78,6 +78,7 @@ export const initRebill = async (
   };
 
   try {
+    console.log({user})
     const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
     console.log({ contactZoho })
 

@@ -1,3 +1,4 @@
+import api from "Services/api";
 import { AuthState, AuthAction } from "data/types";
 
 const LOGIN = "LOGIN";
@@ -23,7 +24,14 @@ export const authReducer = (
           speciality: action.payload.user.speciality,
         })
       );
-      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
+
+     api.getUserData().then( res => {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.contact)
+        );
+      }).catch( err => console.error(err))
+
       const user = localStorage.getItem("user");
       return {
         ...state,

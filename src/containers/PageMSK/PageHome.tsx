@@ -15,11 +15,13 @@ import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "context/user/AuthContext";
 
 const PageHome: React.FC = () => {
   const history = useHistory()
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =
     useContext(DataContext);
+    const {state: authState} = useContext(AuthContext)
   const { allCourses, allPosts, allBestSellers } = state;
   const [courses, setCourses] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -28,7 +30,7 @@ const PageHome: React.FC = () => {
   useEffect(() => {
     const redirectToTrial = localStorage.getItem("trialURL")
 
-    if(redirectToTrial){
+    if(redirectToTrial && authState.isAuthenticated){
       history.push(redirectToTrial)
     }
 

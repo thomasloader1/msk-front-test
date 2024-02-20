@@ -41,7 +41,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
   useEffect(() => {
     const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
-    const hasTrialCourses = userProfile.trial_course_sites;
+    const hasTrialCourses = userProfile?.trial_course_sites;
 
     console.log({hasCoursedRequested})
 

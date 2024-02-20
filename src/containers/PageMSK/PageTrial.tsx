@@ -65,7 +65,18 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     co: [{id:'co',type:'DNI'}],
     mx: [{id:'mx',type:'RFC'}],
     cl: [{id:'cl',type:'RUT'}],
-    uy: [{id:'uy',type:'DNI'}]
+    uy: [{id:'uy',type:'DNI'}],
+    ec: [{id:'ec-ci',type:'CI'},{id:'ec-ruc',type:'RUC'},{id:'ec-pasaporte',type:'Pasaporte'}],
+    pe: [{id:'pe',type:'DNI'}],
+    py: [{id:'py',type:'DNI'}],
+    ve: [{id:'ve',type:'DNI'}],
+    pn: [{id:'pn',type:'DNI'}],
+    ni: [{id:'ni',type:'DNI'}],
+    hn: [{id:'hn',type:'DNI'}],
+    gt: [{id:'gt',type:'DNI'}],
+    sl: [{id:'sl',type:'DNI'}],
+    cr: [{id:'cr',type:'DNI'}],
+    bo: [{id:'bo',type:'DNI'}],
   })
 
   const { state } = useContext(CountryContext);

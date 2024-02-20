@@ -27,7 +27,7 @@ export const authReducer = (
 
      api.getUserData().then( res => {
         localStorage.setItem(
-          "user",
+          "userProfile",
           JSON.stringify(res.contact)
         );
       }).catch( err => console.error(err))

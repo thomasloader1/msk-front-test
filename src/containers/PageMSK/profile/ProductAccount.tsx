@@ -32,9 +32,7 @@ const ProductAccount: FC<Props> = ({
     product?.status !== "Inactivo" && product?.status !== "Expirado" && product?.status !== STATUS.SUSPEND
   );
 
-  const showHelp =
-    product.ov === "Baja" || product.ov === STATUS.SUSPEND ||
-    (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
+  const showHelp = product.ov === "Baja" || product.ov === STATUS.SUSPEND || (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
   const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
@@ -49,7 +47,7 @@ const ProductAccount: FC<Props> = ({
 
   const handleClick = async () => {
     // console.log(product.ov, activeProductRef.current);
-    if (product.ov !== "Baja" && activeProductRef.current) {
+    if ((product.ov !== "Baja" && product.ov !== 'Trial suspendido') && activeProductRef.current) {
       setOnRequest(true);
       try {
         if (product.status === "Sin enrolar") {
@@ -76,6 +74,8 @@ const ProductAccount: FC<Props> = ({
     }
   };
 
+  console.log({product})
+
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
@@ -91,11 +91,6 @@ const ProductAccount: FC<Props> = ({
                 categories={product.categories}
                 color="yellow"
                 isCourse={true}
-              />
-              <CategoryBadgeList
-                categories={product.categories}
-                color="red"
-                isTrial={product.ov === 'Trial'}
               />
               <a onClick={handleClick}>
                 <h3>{product.title}</h3>
@@ -136,6 +131,10 @@ const ProductAccount: FC<Props> = ({
                 isCourse={true}
                 textSize="text-[11px]"
               />
+              <CategoryBadgeList
+                categories={[]}
+                isTrial={product.ov.includes("Trial")}
+              />
             </div>
             <div className="portfolio-course-2 line-clamp-3">
               <a onClick={handleClick} className="">
@@ -144,7 +143,7 @@ const ProductAccount: FC<Props> = ({
             </div>
           </div>
           <div>
-            {product.ov !== "Baja" && (
+            {(product.ov !== "Baja" && product.ov !== 'Trial suspendido') && (
               <>
                 {product.expiration ? (
                   <DateProductExpiration

@@ -23,9 +23,7 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
   const { status } = product;
   const { isDisabled } = statusCourse(status);
   const statusOV = statusOrdenVenta(product?.ov);
-  const iconStatus = getStatusIcon(
-    statusOV.isDisabled ? statusOV.hasText : status
-  );
+  const iconStatus = getStatusIcon(statusOV.isDisabled ? statusOV.hasText : status);
 
   return (
     <div className="course-2-footer text-grey-course">
@@ -44,12 +42,9 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
         onClick={onClick}
         disabled={isDisabled || onRequest || isRunning || statusOV.isDisabled}
       >
-        {onRequest ||
-        isRunning ||
-        (status && status.includes("Listo para enrolar")) ? (
+        {onRequest || isRunning || (status && status.includes("Listo para enrolar")) ? (
           <div className="flex justify-center items-center">
             Activando...
-            {/*  <div className="w-4 h-4 my-1 border-t-2 border-primary border-solid rounded-full animate-spin"></div> */}
           </div>
         ) : (
           hasText(status)

@@ -4,5 +4,5 @@ export const STATUS = {
   ENROLLED: "Activo",
   FINISH: "Finzalizado",
   EXPIRED: "Expirado",
-  SUSPEND: "Suspendido",
+  SUSPEND: "Trial suspendido",
 };

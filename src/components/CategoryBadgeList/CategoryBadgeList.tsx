@@ -97,7 +97,9 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       {isTrial && (<Badge
               className={itemClass}
               name={"Trial"}
-              color={"red"}
+              color={"purple"}
+              textSize={"text-[11px]"}
+
             />)}
     </div>
   );

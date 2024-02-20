@@ -54,6 +54,11 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
             )}
             className="text-[14px]"
           />
+          {item.ov.includes("Trial") && ( <Badge
+            name={"Trial"}
+            color={"purple"}
+            className="text-[14px]"
+          />)}
         </div>
       </div>
       {item.ov !== "Baja" && (

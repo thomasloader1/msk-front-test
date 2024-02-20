@@ -47,7 +47,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
                 {item.title || "-"}
               </span>
             </div>
-            {item.ov !== "Baja" && (
+            {item.ov !== "Baja" && item.ov !== "Trial suspendido" && (
               <>
                 {item.expiration ? (
                   <DateProductExpiration
@@ -85,6 +85,11 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
           )}
           textSize="text-sm"
         />
+         {item.ov.includes("Trial") && (<Badge
+          name={"Trial"}
+          color={"purple"}
+          textSize="text-sm"
+        />)}
       </td>
       <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
         <span className="text-sm"> {item.avance ? item.avance : 0} %</span>

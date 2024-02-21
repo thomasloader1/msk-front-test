@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-const REBILL_CONF = {
+export const REBILL_CONF = {
   ORG_ID: getEnv("REBILL_ORG_ID"),
   API_KEY: getEnv("REBILL_API_KEY"),
   URL: import.meta.env.VITE_REBILL_URL,
@@ -67,21 +67,18 @@ export const initRebill = async (
   user: any,
   country: string,
   product: any,
+  RebillSDKCheckout: any,
   setShow: Dispatch<SetStateAction<boolean>>,
   setPaymentCorrect: Dispatch<SetStateAction<boolean | null>>,
   setMountedInput: Dispatch<SetStateAction<boolean>>
 ) => {
-  const initialization = {
-    organization_id: REBILL_CONF.ORG_ID,
-    api_key: REBILL_CONF.API_KEY,
-    api_url: REBILL_CONF.URL,
-  };
+  
 
   try {
     const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
     console.log({ contactZoho, product })
 
-    const RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
+    console.log(RebillSDKCheckout)
 
     const customerRebill = mappingCheckoutFields(contactZoho);
     //Seteo de customer
@@ -117,7 +114,7 @@ export const initRebill = async (
 
     //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
     RebillSDKCheckout.setCallbacks({
-      onSuccess: (response: any) => {sendToZoho(response, user, country, product, setShow, setPaymentCorrect)},
+      onSuccess: (response: any) => sendToZoho(response, user, country, product, setShow, setPaymentCorrect),
       onError: (error: any) => console.error({ callbackRebillError: error }),
     });
 

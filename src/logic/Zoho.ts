@@ -40,6 +40,11 @@ export const sendToZoho = (
     const { customer } = buyer;
     const [subscriptionId] = schedules;
     const [countrie] = countries.filter(c => c.id === country)
+    
+    const installmentAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", "."));
+    
+    const [amount, cents] = (installmentAmount / installmentsJSON[country].quotes).toFixed(2).split(".")
+    const discountPrice = (Number(cents) / 100) * installmentsJSON[country].quotes;
    
     const contractData = {
       contactEntityId: user.entity_id_crm,
@@ -48,7 +53,8 @@ export const sendToZoho = (
       currency: currencyJSON[country],
       country: countrie.name,
       installments: installmentsJSON[country],
-      installmentAmount: Number(product?.total_price) * 100,
+      installmentAmount: Number(amount),
+      discount: discountPrice.toFixed(2),
       product
     };
   

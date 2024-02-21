@@ -34,23 +34,19 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const { slug }: { slug: string } = useParams();
   const { state:{ country } } = useContext(CountryContext);
   const { state:{ allCourses } } = useContext(DataContext);
-  const { state } = useContext(AuthContext);
   const [product] = allCourses.filter((course: any)=> slug === course.slug)
   const { gateway } = installmentsJSON[country];
   const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
 
   useEffect(() => {
-    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string)
+    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string) ?? {}
     const hasTrialCourses = userProfile?.trial_course_sites;
-
-    console.log({hasCoursedRequested})
 
       if(hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined'){
         
         hasTrialCourses.forEach((tc: any) => {
           let contract = JSON.parse(tc.contractJson)
           let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === product.product_code;
-    console.log({isMatch})
 
           if(isMatch){
             setHasCoursedRequested(isMatch);
@@ -60,30 +56,28 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             setHasCoursedRequested(isMatch);
           }
         })
-      }else{
+      }else if(Object.keys(userProfile).length > 1){
         setHasCoursedRequested(false);
 
       }
+
+      const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
+      const verifiedProductAndProfile = (typeof product !== 'undefined' && Object.keys(userProfile).length > 1);
+
+      if(!initedRebill && verifiedCoursedRequested && verifiedProductAndProfile){
+          setInitedRebill(true)
+          
+          console.group("Rebill")
+          console.log({profile: userProfile, country, product})
+          localStorage.removeItem('trialURL');
+          initRebill(userProfile, country, product, setShow, setPaymentCorrect, setMountedInput);
+          console.groupEnd()
+        }
+
+        return () => {
+            console.log(window.Rebill)
+        }
   },[product,hasCoursedRequested])
-
-  useEffect(()=>{
-    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string) ?? {}
-    console.log({userProfile})
-
-    if(!initedRebill && 
-        (hasCoursedRequested != null && !hasCoursedRequested) && 
-        (typeof product !== 'undefined' && 
-          (typeof userProfile !== 'undefined' && userProfile != null && Object.keys(userProfile).length > 1))){
-      setInitedRebill(true)
-      console.group("Rebill")
-      console.log({profile: userProfile, country, product})
-      localStorage.removeItem('trialURL');
-      initRebill(userProfile, country, product, setShow, setPaymentCorrect, setMountedInput);
-      console.groupEnd()
-    }
-
-  },[product, hasCoursedRequested])
-  
 
 
   return (

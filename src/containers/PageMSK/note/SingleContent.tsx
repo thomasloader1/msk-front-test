@@ -103,7 +103,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   {articles.map((art, index) => (
                     <li key={`${art.title}_${index}`}>
                       <a
-                        className="text-primary text-lg"
+                        className="text-primary text-lg "
                         href={`#${slugify(art.title)}`}
                       >
                         {art.title}

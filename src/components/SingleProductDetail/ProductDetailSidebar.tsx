@@ -189,7 +189,7 @@ const ProductDetailSidebar: FC<Props> = ({
         <div className="flex flex-col gap-2">
           <button
             onClick={scrollToContactForm}
-            className="video-cart-btn w-full"
+            className="video-cart-btn w-full "
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>

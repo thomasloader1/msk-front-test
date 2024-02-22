@@ -2,6 +2,7 @@ import api from "Services/api";
 import activeIcon from "/images/icons/activo.svg";
 import inactiveIcon from "/images/icons/inactivo.svg";
 import expiredIcon from "/images/icons/expirado.svg";
+import trialIcon from "/images/icons/trialIcon.svg";
 
 export const goToLMS = async (
   product_code: number,
@@ -45,6 +46,8 @@ export const getStatusIcon = (status: string) => {
       return activeIcon;
     case "Expirado":
       return expiredIcon;
+    case "Trial":
+      return trialIcon;
     default:
       return inactiveIcon;
   }
@@ -91,8 +94,13 @@ export const statusOrdenVenta = (status: string) => {
       break;
     case "Trial suspendido":
       statusObj.isDisabled = true;
-      statusObj.hasText = "Suspendido";
-      statusObj.color = "red";
+      statusObj.hasText = "Trial suspendido";
+      statusObj.color = "trial";
+      break;
+    case "Trial":
+      statusObj.isDisabled = true;
+      statusObj.hasText = "Trial";
+      statusObj.color = "trial";
       break;
     default:
       statusObj.isDisabled = false;

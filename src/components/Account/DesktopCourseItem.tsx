@@ -12,6 +12,8 @@ import InfoText from "components/InfoText/InfoText";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import DateProductExpiration from "./DateProductExpiration";
 import NcImage from "components/NcImage/NcImage";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import ButtonOffTrial from "./ButtonOffTrial";
 
 interface DesktopCourseItemProps {
   item: UserCourseProgress;
@@ -78,29 +80,40 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         </div>
       </td>
       <td className="px-6 py-4 status-badge">
-        <Badge
-          name={statusOV.isDisabled ? statusOV.hasText : item.status}
-          color={colorStatus(
-            statusOV.isDisabled ? statusOV.hasText : item.status
+        
+         {item.ov.includes("Trial") ? (
+          <CategoryBadgeList 
+            categories={[item.ov]} 
+            isTrial={item.ov.includes("Trial")} 
+            />
+            ) : (
+            <Badge
+              name={statusOV.isDisabled ? statusOV.hasText : item.status}
+              color={colorStatus(
+                statusOV.isDisabled ? statusOV.hasText : item.status
+              )}
+              textSize="text-sm"
+            />
           )}
-          textSize="text-sm"
-        />
-         {item.ov.includes("Trial") && (<Badge
-          name={"Trial"}
-          color={"purple"}
-          textSize="text-sm"
-        />)}
       </td>
       <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
         <span className="text-sm"> {item.avance ? item.avance : 0} %</span>
       </td>
       <td className="px-4">
+        <div>
         <ButtonAccessCourse
           email={email}
           goToEnroll={goToEnroll}
           goToLMS={goToLMS}
           item={item}
         />
+         {item.ov.includes("Trial") && 
+         <ButtonOffTrial 
+            item={item} 
+            email={email}
+         />
+         }
+        </div>
       </td>
     </tr>
   );

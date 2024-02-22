@@ -80,6 +80,8 @@ module.exports = {
         "violet-strong": "#374161",
         "violet-custom": "#9200ad",
         "grey-disabled": "#CCD1DC",
+        "trial": "#FFD39C",
+        "trial-strong": "#B47528",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

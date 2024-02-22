@@ -28,8 +28,6 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     setBestSellers(allBestSellers);
   }, [allBestSellers]);
 
-  const history = useHistory();
-
   const textRef = useRef<HTMLDivElement>(null);
   const [textDesctiption, setTextDesctiption] = useState<string>("");
 

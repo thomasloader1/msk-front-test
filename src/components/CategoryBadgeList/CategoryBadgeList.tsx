@@ -17,6 +17,11 @@ export interface CategoryBadgeListProps {
   textSize?: string;
 }
 
+export interface PillSwitchProps {
+  value: string;
+  itemClass: string;
+}
+
 const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   className = "flex flex-wrap",
   itemClass,
@@ -49,58 +54,77 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
 
     setSortedCategories(sortedCategoriesList);
   }, [categories]);
+  
+  const pillSwitch = ({ value, itemClass }: PillSwitchProps) => {
+    switch (value) {
+      case 'ebook':
+        return (
+          <Badge
+            className={itemClass}
+            name={"Guía profesional"}
+            color={"emerald-post"}
+            href={`/tienda?recurso=guias-profesionales`}
+            icon="elearning"
+          />
+        );
+  
+      case 'course':
+        return (
+          <>
+            {sortedCategories.map((item, index) => (
+              <Badge
+                className={itemClass}
+                key={index}
+                name={item.name}
+                color={badgeColor(item.name)}
+                href={`/tienda?especialidad=${slugifySpecialty(item.name)}&recurso=curso`}
+                textSize={textSize}
+              />
+            ))}
+          </>
+        );
+  
+      case 'post':
+        return (
+          <>
+            {sortedCategories.map((item, index) => (
+              <Badge
+                className={itemClass}
+                key={index}
+                name={notesJSON[slugifySpecialty(item.name)]}
+                color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
+                href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
+                textSize={textSize}
+              />
+            ))}
+          </>
+        );
+  
+      case 'trial':
+        return (
+          <Badge
+            className={itemClass}
+            name={categories[0]}
+            color={"trial"}
+            textSize={"text-[11px]"}
+          />
+        );
+  
+      default:
+        return null;
+    }
+  };
+  
 
   return (
     <div
       className={`nc-CategoryBadgeList ${className}`}
       data-nc-id="CategoryBadgeList"
     >
-      {isEbook && (
-        <Badge
-          className={itemClass}
-          name={"Guía profesional"}
-          color={"emerald-post"}
-          href={`/tienda?recurso=guias-profesionales`}
-          icon="elearning"
-        />
-      )}
-      {isCourse && (
-        <>
-          {sortedCategories.map((item, index) => (
-            <Badge
-              className={itemClass}
-              key={index}
-              name={item.name}
-              color={color}
-              href={`/tienda?especialidad=${slugifySpecialty(
-                item.name
-              )}&recurso=curso`}
-              textSize={textSize}
-            />
-          ))}
-        </>
-      )}
-      {isPost && (
-        <>
-          {sortedCategories.map((item, index) => (
-            <Badge
-              className={itemClass}
-              key={index}
-              name={notesJSON[slugifySpecialty(item.name)]}
-              color={badgeColor(notesJSON[slugifySpecialty(item.name)])}
-              href={`/archivo?categoria=${slugifySpecialty(item.name)}`}
-              textSize={textSize}
-            />
-          ))}
-        </>
-      )}
-      {isTrial && (<Badge
-              className={itemClass}
-              name={"Trial"}
-              color={"purple"}
-              textSize={"text-[11px]"}
-
-            />)}
+     {pillSwitch({value: isEbook ? 'ebook' : '', itemClass: itemClass as string})}
+     {pillSwitch({value: isCourse ? 'course' : '', itemClass: itemClass as string})}
+     {pillSwitch({value: isPost ? 'post' : '', itemClass: itemClass as string})}
+     {pillSwitch({value: isTrial ? 'trial' : '', itemClass: itemClass as string})}
     </div>
   );
 };

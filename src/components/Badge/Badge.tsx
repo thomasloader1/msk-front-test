@@ -95,6 +95,10 @@ const Badge: FC<BadgeProps> = ({
         return `text-neutral-900 bg-brown-post ${
           hasHover ? "hover:bg-blue-800" : ""
         }`;
+      case "trial":
+        return `text-trial-strong bg-trial ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       default:
         return `text-pink-800 bg-pink-100 ${
           hasHover ? "hover:bg-pink-800" : ""

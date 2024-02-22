@@ -36,7 +36,7 @@ const Button: FC<ButtonProps> = ({
   onClick = () => {},
 }) => {
   const CLASSES =
-    `nc-Button relative h-auto inline-flex items-center justify-center transition-colors ${rounded} ${fontSize} ${sizeClass} ${translate} ${className} ` +
+    `nc-Button relative h-auto inline-flex items-center justify-center transition-colors ${rounded} ${fontSize} ${sizeClass} ${translate} ${className} ${bordered && 'bg-transparent ring-2'}` +
     twFocusClass(true);
 
   const _renderLoading = () => {

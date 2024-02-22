@@ -84,9 +84,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         console.group("Rebill")
         console.log({profile: userProfile, country, product})
         localStorage.removeItem('trialURL');
-
-        console.log({RebillSDKCheckout})
-
         initRebill(userProfile, country, product, RebillSDKCheckout,setShow, setPaymentCorrect, setMountedInput);
         console.groupEnd()
       }

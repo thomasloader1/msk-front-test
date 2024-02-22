@@ -74,8 +74,6 @@ const ProductAccount: FC<Props> = ({
     }
   };
 
-  console.log({product})
-
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
@@ -130,10 +128,6 @@ const ProductAccount: FC<Props> = ({
                 color="yellow"
                 isCourse={true}
                 textSize="text-[11px]"
-              />
-              <CategoryBadgeList
-                categories={[]}
-                isTrial={product.ov.includes("Trial")}
               />
             </div>
             <div className="portfolio-course-2 line-clamp-3">

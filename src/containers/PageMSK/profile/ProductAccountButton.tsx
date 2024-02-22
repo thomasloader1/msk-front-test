@@ -1,3 +1,4 @@
+import NcLink from "components/NcLink/NcLink";
 import { UserCourseProgress } from "data/types";
 import {
   getStatusIcon,
@@ -6,6 +7,7 @@ import {
   statusOrdenVenta,
 } from "logic/account";
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface ProductAccountButtonProps {
   product: UserCourseProgress;
@@ -33,12 +35,17 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
           alt={statusOV.isDisabled ? statusOV.hasText : status}
         />
         <span className="ml-2">
-          {statusOV.isDisabled ? statusOV.hasText : status}
+          {statusOV.isDisabled ? statusOV.hasText : status} 
+          {statusOV.hasText === 'Trial' && 
+          <div className="ml-1 inline-block">
+           - <Link to="#" className="hover:underline hover:text-violet-custom" onClick={()=>{}}> Dar de baja</Link>
+          </div>
+          }
         </span>
       </div>
 
       <button
-        className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
+        className="course-network text-primary font-bold disabled:text-grey-disabled disabled:cursor-not-allowed disabled:opacity-70"
         onClick={onClick}
         disabled={isDisabled || onRequest || isRunning || statusOV.isDisabled}
       >

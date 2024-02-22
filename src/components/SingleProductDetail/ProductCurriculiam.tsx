@@ -68,7 +68,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
-        <div className="font-semibold text-[16px] sm:text-xl">
+        <div className="font-semibold text-[16px] sm:text-xl md:text-2xl text-violet-dark">
           Qué temas verás
         </div>
         <div className="flex items-center justify-between">

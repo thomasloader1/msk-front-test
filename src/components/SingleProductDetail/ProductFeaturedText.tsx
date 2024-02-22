@@ -11,7 +11,7 @@ const ProductFeaturedText: FC<ProductFeaturedTextProps> = ({ text }) => {
     setFormattedText(text.replace(/<em>/g, "").replace(/<\/em>/g, ""));
   }, [text]);
   return (
-    <div className="requirements mb-10 sm:mb-16 flex-column flex-nowrap items-center">
+    <div className="requirements mb-10 sm:mb-16 flex-column flex-nowrap items-center text-violet-dark">
       <img
         src={featuredTextImg}
         alt="featuredTextImg"

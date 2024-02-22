@@ -79,6 +79,7 @@ module.exports = {
         "violet-wash": "#6474A6",
         "violet-strong": "#374161",
         "violet-custom": "#9200ad",
+        "violet-dark": "#392C35",
         "grey-disabled": "#CCD1DC",
         "trial": "#FFD39C",
         "trial-strong": "#B47528",

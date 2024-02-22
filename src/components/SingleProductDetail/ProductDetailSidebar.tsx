@@ -1,12 +1,18 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Details, Ficha } from "data/types";
+import { Details, Ficha, JsonInstallmentsMapping, JsonMapping } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
+import { formatAmount } from "lib/formatAmount";
+import currencyMapping from "../../data/jsons/__countryCurrencies.json"
+import installmentsMapping from "../../data/jsons/__countryInstallments.json"
 
 interface Props {
+ product:{
   ficha: Ficha;
   details: Details;
+  total_price: string;
+ };
   isEbook?: boolean;
   sideData: {
     modalidad: string;
@@ -17,16 +23,20 @@ interface Props {
   };
 }
 
+const currencyJSON: JsonMapping = currencyMapping;
+const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
+
 const ProductDetailSidebar: FC<Props> = ({
-  ficha,
-  details,
+  product,
   isEbook,
   sideData,
 }) => {
 
   const history = useHistory();
+  const { ficha } = product;
   const {slug}: {slug:string} = useParams();
   const {state: authState} = useContext(AuthContext);
+  const {state: countryState} = useContext(CountryContext);
   const isLocal =
     window.location.origin.includes("dev.msklatam.tech") ||
     window.location.origin.includes("localhost");
@@ -96,7 +106,12 @@ const ProductDetailSidebar: FC<Props> = ({
     }
     history.push(`/trial/${slug}`)
   };
+  const installments = installmentsJSON[countryState.country].quotes;
 
+  const currency = currencyJSON[countryState.country];
+  console.log(product.total_price)
+  const totalProductPrice = Number(product.total_price) * 1000;
+  const installmentProductPrice = (totalProductPrice / installments)
   return (
     <div className={`course-video-widget`}>
       <div
@@ -107,14 +122,17 @@ const ProductDetailSidebar: FC<Props> = ({
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
-          <div className="course-video-thumb w-img hidden lg:flex">
+          <div className="course-video-thumb mb-2 w-img hidden lg:flex">
             <img src={image} alt="img not found" />
           </div>
         )}
 
         {isEbook ? null : (
-          <div className="course-video-price">
-            <span>💳 Pagos sin intereses</span>
+          <div className="mb-2">
+            <div className="text-sm mb-4 text-violet-strong">Total: <strong>{formatAmount(totalProductPrice , currency)}</strong></div>
+            <div className="text-sm mb-2 text-violet-strong">{installments} pagos de:</div>
+            <span className="text-[32px] font-bold text-violet-dark">{formatAmount(installmentProductPrice / installments , currency)}</span>
+            {/* <span>💳 Pagos sin intereses</span> */}
           </div>
         )}
 
@@ -144,7 +162,7 @@ const ProductDetailSidebar: FC<Props> = ({
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon w-full">
                         <img src={`/images/icons/${key}.svg`} width="15" />
-                        <p className="text-[12px] sm:text-base w-full flex justify-between text-dark-blue-custom">
+                        <p className="text-[11px] sm:text-sm md:text-base w-full flex justify-between items-center text-dark-blue-custom">
                           <span>
                             {translations[key] ? translations[key] + ":" : ""}
                           </span>
@@ -155,9 +173,9 @@ const ProductDetailSidebar: FC<Props> = ({
                               "Español"
                             )
                           ) : (
-                            <span className="ml-auto">
+                            <div className="ml-auto text-left">
                               {sideData[key as keyof typeof sideData]}
-                            </span>
+                            </div>
                           )}
                         </p>
                       </div>

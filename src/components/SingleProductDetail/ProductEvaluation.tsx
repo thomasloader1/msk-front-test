@@ -35,7 +35,7 @@ const ProductEvaluation: FC<Props> = ({ evaluations }) => {
 
   return (
     <div className="course-learn-wrapper">
-      <div className="course-learn">
+      <div className="course-learn text-violet-dark">
         <div className="course-leranm-tittle">
           <h4 className="mb-15 font-bold text-xl poppins-bold">
             Cómo evaluamos

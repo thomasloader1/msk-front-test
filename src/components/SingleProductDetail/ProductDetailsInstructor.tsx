@@ -26,9 +26,9 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
         <div className="instructors-body">
           <h3
             dangerouslySetInnerHTML={instructorName}
-            className="animate-fade"
+            className="animate-fade text-violet-dark"
           ></h3>
-          <p className="mt-2 animate-fade">{instructor.description}</p>
+          <p className="mt-2 animate-fade text-violet-wash">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
               onClick={triggerDisplayBiography}

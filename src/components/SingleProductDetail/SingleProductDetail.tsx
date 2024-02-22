@@ -14,7 +14,7 @@ import useProductDetails from "hooks/useProductDetails";
 import { CountryContext } from "context/country/CountryContext";
 import ProductFeaturedText from "./ProductFeaturedText";
 import { DataContext } from "context/data/DataContext";
-import { useHistory } from "react-router-dom";
+import { parseHtml } from "utils/parseHTML";
 
 interface Props {
   product: FetchSingleProduct;
@@ -86,7 +86,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               />
             </div>
             <div className="course-heading mb-10 my-5">
-              <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
+              <h1 className="font-semibold text-4xl text-violet-dark">{product.ficha.title}</h1>
             </div>
             {!isEbook && (
               <>
@@ -150,8 +150,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
             <div className="order-last relative block lg:hidden my-10">
               <ProductDetailSidebar
-                ficha={product.ficha}
-                details={product.details}
+                product={product}
                 sideData={{
                   modalidad: product.modalidad,
                   curso_disponible: product.curso_disponible,
@@ -172,12 +171,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               >
                 {!isEbook && (
                   <div className="course-Description">
-                    <div className="font-semibold text-xl font-raleway">
+                    <div className="font-semibold text-xl font-raleway text-violet-dark">
                       Qué aprenderás
                     </div>
                   </div>
                 )}
-                <div ref={textRef} />
+                <div className="text-violet-strong" dangerouslySetInnerHTML={{__html: parseHtml(product.ficha.description)}} />
               </div>
             )}
 
@@ -227,7 +226,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             )}
 
             {product.authors.length > 0 && !isEbook && (
-              <h4 className="mt-6 font-bold pt-6 text-xl poppins-bold">
+              <h4 className="mt-6 font-bold pt-6 text-xl poppins-bold text-violet-dark">
                 Quiénes lo desarrollan
               </h4>
             )}
@@ -259,8 +258,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
         </div>
         <div className="order-last relative hidden lg:block">
           <ProductDetailSidebar
-            ficha={product.ficha}
-            details={product.details}
+            product={product}
             sideData={{
               modalidad: product.modalidad,
               curso_disponible: product.curso_disponible,

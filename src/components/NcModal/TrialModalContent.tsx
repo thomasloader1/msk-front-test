@@ -1,5 +1,3 @@
-import api from 'Services/api';
-import { AuthContext } from 'context/user/AuthContext';
 import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 
@@ -8,15 +6,15 @@ interface TrialModalContentProps{
     desc: string;
     textButton: string;
     setShow?: Dispatch<SetStateAction<boolean>>;
-    product?: any | undefined;
+    productSlug?: string | undefined;
     goToAccount?: boolean | undefined;
     goToCourse?: string | undefined;
     cancelButton?: boolean | undefined;
+    cancelTrial?: () => void;
 }
 
-const TrialModalContent: FC<TrialModalContentProps> = ({ setShow,product,cancelButton,goToAccount, goToCourse,title, desc, textButton}) => {
+const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,productSlug,cancelButton,goToAccount, goToCourse,title, desc, textButton}) => {
   const history = useHistory()
-  const {state: authState} = useContext(AuthContext)
   const handleCloseModal = (forElement: string | null = null) => {
     if(title.includes("Prueba ya solicitada") && goToCourse){
       history.push(`/curso/${goToCourse}`)
@@ -30,9 +28,13 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ setShow,product,cancelB
       history.push("/mi-cuenta")
     }
 
-    if(textButton.includes("Confirmar")){
+    if(textButton.includes("Confirmar") && typeof cancelTrial !== 'undefined'){
       console.log("Confirmar action")
-      api.cancelTrialCourse(product, authState);
+      cancelTrial()
+    }
+
+    if(textButton.includes("Ir al curso") && typeof productSlug !== 'undefined'){
+      history.push(`/curso/${productSlug}`)
     }
    
   }

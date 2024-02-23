@@ -1,10 +1,12 @@
-import  { FC, useEffect, useState } from "react";
+import  { FC, useContext, useEffect, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import useInterval from "hooks/useInterval";
 import { hasText, statusOrdenVenta } from "logic/account";
 import { UserCourseProgress } from "data/types";
 import NcModalSmall from "components/NcModal/NcModalSmall";
 import TrialModalContent from "components/NcModal/TrialModalContent";
+import api from "Services/api";
+import { AuthContext } from "context/user/AuthContext";
 
 interface ButtonOffTrialProps {
   item: UserCourseProgress;
@@ -18,7 +20,9 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
   const statusOV = statusOrdenVenta(item?.ov);
   const [isDisabled, setIsDisabled] = useState(statusOV.isDisabled);
   const [onRequest, setOnRequest] = useState(false);
-  const [isRunning, setIsRunning] = useState(false)
+  const [isRunning, setIsRunning] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const {state:authState} = useContext(AuthContext);
 
   const handleClick = async () => {
     setOnRequest(true);
@@ -34,6 +38,13 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
       setOnRequest(isRunning);
     }
   }, [isRunning]);
+
+  const suspendTrial = async () =>{
+    const res = await api.cancelTrialCourse(item, authState);
+    if(res){
+      setConfirmModal(true)
+    }
+  }
 
   return (
     <>
@@ -69,8 +80,27 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
         desc="Para continuar con este curso, deberás inscribirte."
         textButton="Confirmar" 
         cancelButton={true}
-        product={item}
         setShow={setOnRequest}
+        cancelTrial={suspendTrial}
+        />
+        )}
+    />
+    <NcModalSmall 
+    isOpenProp={confirmModal}
+    onCloseModal={() => {
+      setConfirmModal(false);
+    }}
+    renderTrigger={() => {
+      return null;
+    }}
+    contentExtraClass="max-w-[500px]"
+    renderContent={() => (
+      <TrialModalContent
+        title="Has finalizado tu prueba de 7 días gratis" 
+        desc="Para continuar con este curso, debes inscribirte."
+        textButton="Ir al curso" 
+        productSlug={item.slug}
+        setShow={setConfirmModal}
         />
         )}
     />

@@ -7,7 +7,7 @@ import {
   NOTE_SPECIALITIES,
   baseUrl,
 } from "data/api";
-import { ContactUs, SignUp, Newsletter, ContactCRM } from "data/types";
+import { ContactUs, SignUp, Newsletter, ContactCRM, AuthState } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
@@ -33,7 +33,7 @@ const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 const apiCheckEmailUser = `${baseUrl}/api/user`;
 const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
-
+const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 class ApiService {
   baseUrl = apiSignUpURL;
   token = localStorage.getItem("tokenLogin");
@@ -496,6 +496,17 @@ class ApiService {
   async createContactTrialZoho(data: any) {
      try {
       const res = await axios.post(apiCreateTrialContract, data);
+      console.log({ res });
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
+  }
+
+  async cancelTrialCourse(product: any, authState: AuthState){
+    try {
+      const res = await axios.post(apiCancelTrialContract, {product, authState});
       console.log({ res });
       return res;
     } catch (e: any) {

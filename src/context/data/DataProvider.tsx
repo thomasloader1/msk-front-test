@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { DataContext } from "./DataContext";
 import { dataReducer } from "./DataReducer";
 import api from "Services/api";
@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const DataProvider: React.FC<Props> = ({ children }) => {
+  const appRef = useRef<HTMLDivElement>(null)
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
@@ -26,6 +27,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     allProductsMX: [],
     allStoreProfessions: [],
     allStoreSpecialties: [],
+    appRef
   };
 
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
@@ -149,6 +151,7 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
         loadingProfessions,
         loadingSpecialties,
         loadingProductsMX,
+        appRef,
         state,
         dispatch,
       }}

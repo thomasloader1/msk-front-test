@@ -1,7 +1,8 @@
-import React, { FC, Fragment, ReactNode, useEffect, useState } from "react";
+import React, { FC, Fragment, ReactNode, useContext, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ButtonDropdown from "components/ButtonDropdown/ButtonDropdown";
 import ButtonClose from "components/ButtonClose/ButtonClose";
+import { DataContext } from "context/data/DataContext";
 
 export interface NcModalProps {
   renderContent: () => ReactNode;
@@ -14,6 +15,8 @@ export interface NcModalProps {
   isOpenProp?: boolean;
   onCloseModal?: () => void;
   centerTitle?: boolean;
+  blurView?: any
+
 }
 
 const NcModalSmall: FC<NcModalProps> = ({
@@ -27,7 +30,10 @@ const NcModalSmall: FC<NcModalProps> = ({
   isOpenProp,
   onCloseModal,
   centerTitle,
+  blurView
 }) => {
+  const { appRef } = useContext(DataContext);
+
   let [isOpen, setIsOpen] = useState(!!isOpenProp);
 
   function closeModal() {
@@ -45,6 +51,20 @@ const NcModalSmall: FC<NcModalProps> = ({
 
   useEffect(() => {
     setIsOpen(!!isOpenProp);
+
+    if(appRef?.current?.classList && isOpenProp){
+      appRef.current.classList.add("blur-md")
+
+    }else{
+      appRef?.current?.classList?.remove("blur-md")
+    }
+    
+    if(blurView?.current?.classList && isOpenProp){
+      blurView.current.classList.add("blur-md")
+    }else{
+      blurView?.current?.classList?.remove("blur-md")
+    }
+    console.log({blurView, appRef})
   }, [isOpenProp]);
 
   return (

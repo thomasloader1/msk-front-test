@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, HTMLAttributes, LegacyRef, useContext, useEffect, useRef, useState } from "react";
 import { CountryContext } from "context/country/CountryContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
@@ -15,6 +15,7 @@ import TextSkeleton from "components/Skeleton/TextSkeleton";
 import { DataContext } from "context/data/DataContext";
 import { REBILL_CONF, initRebill } from "logic/Rebill";
 import { AuthContext } from "context/user/AuthContext";
+import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -24,10 +25,8 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const [show, setShow] = useState<boolean>(false)
-  const [showAlreadyRequest, setShowAlreadyRequest] = useState<boolean>(false)
-  
+  const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
-  const [hasCoursedRequested, setHasCoursedRequested] = useState<boolean | null>(null)
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [initedRebill, setInitedRebill] = useState<boolean | null>(null)
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -39,30 +38,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const { gateway } = installmentsJSON[country];
 
   const mountedInputObjectState = {state: mountedInput, setState:setMountedInput}
-
-  useEffect(() => {
-    const userProfile = JSON.parse(localStorage.getItem("userProfile") as string) ?? {}
-    const hasTrialCourses = userProfile?.trial_course_sites;
-
-      if(hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined'){
-        
-        hasTrialCourses.forEach((tc: any) => {
-          let contract = JSON.parse(tc.contractJson)
-          let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === product.product_code;
-
-          if(isMatch){
-            setHasCoursedRequested(isMatch);
-            setShowAlreadyRequest(isMatch);
-            return
-          }else{
-            setHasCoursedRequested(isMatch);
-          }
-        })
-      }else if(Object.keys(userProfile).length > 1){
-        setHasCoursedRequested(false);
-      }
-
-  },[product])
+  const {hasCoursedRequested,showAlreadyRequest, setShowAlreadyRequest} = useRequestedTrialCourse(product);
 
   useEffect(() => {
     const userProfile = JSON.parse(localStorage.getItem("userProfile") as string) ?? {}
@@ -81,11 +57,11 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     if(initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile){
         setInitedRebill(true)
         
-        console.group("Rebill")
-        console.log({profile: userProfile, country, product})
+       /*  console.group("Rebill")
+        console.log({profile: userProfile, country, product}) */
         localStorage.removeItem('trialURL');
         initRebill(userProfile, country, product, RebillSDKCheckout,setShow, setPaymentCorrect, setMountedInput);
-        console.groupEnd()
+       /*  console.groupEnd() */
       }
 
       
@@ -94,7 +70,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
 
   return (
-    <div className="nc-PageSuscribe relative animate-fade-down">
+    <div ref={viewRef} className="nc-PageSuscribe relative animate-fade-down">
       <PageHead
         title="Trial"
         description="Una propuesta moderna para expandir tus metas profesionales"
@@ -133,10 +109,13 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         isOpenProp={show}
         onCloseModal={() => {
           setShow(false);
+          viewRef.current.classList.remove("blur-md")
+          
         }}
         renderTrigger={() => {
           return null;
         }}
+        blurView={viewRef}
         contentExtraClass="max-w-screen-lg"
         renderContent={() => paymentCorrect ? (
           <TrialModalContent
@@ -159,11 +138,14 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         isOpenProp={showAlreadyRequest}
         onCloseModal={() => {
           setShowAlreadyRequest(false);
+          console.log({viewRef})
+          viewRef.current.classList.remove("blur-md")
         }}
         renderTrigger={() => {
           return null;
         }}
         contentExtraClass="max-w-screen-lg"
+        blurView={viewRef}
         renderContent={() =>  (
           <TrialModalContent
             title="Prueba ya solicitada" 

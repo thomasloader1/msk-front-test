@@ -111,6 +111,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
          <ButtonOffTrial 
             item={item} 
             email={email}
+            
          />
          }
         </div>

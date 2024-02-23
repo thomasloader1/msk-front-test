@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import currencyMapping from "../../data/jsons/__countryCurrencies.json";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import { formatAmount } from "lib/formatAmount";
@@ -41,35 +41,30 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
 
   return (
     <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 text-violet-strong">
-      <div className="px-4 pt-3">
-        <h2 className="text-4xl font-bold mb-3">
+      <div className="px-6 pt-6">
+        <h2 className="text-3xl font-bold mb-3">
           Finaliza tu inscripción de prueba 
         </h2>
         <p className="mb-3 text-violet-wash">
-          ¡Prepárate para la experiencia MSK! Con tu{" "}
-          <strong>prueba de 7 días gratis</strong> podrás disfrutar de los
-          contenidos principales del curso elegido. Accede a ellos iniciando
-          sesión, dentro de tu perfil personal, donde también podrás cancelar el
-          período de prueba sin costo. 
+        
+
+          ¡Prepárate para la experiencia MSK! Con tu <strong>prueba de 7 días gratis</strong> podrás disfrutar de los contenidos principales del curso elegido. Accede a ellos iniciando sesión, dentro de tu perfil personal, donde también podrás cancelar el período de prueba sin costo.
         </p>
-        <p className="text-violet-wash">
-          A partir del octavo día, se confirmará tu inscripción al curso
-          completo y abonarás la misma de la siguiente manera. 
-        </p>
+        <p className="text-violet-wash">A partir del octavo día, se confirmará tu inscripción al curso completo.</p>
 
         <div className="my-5 border p-3 rounded-lg max-w-[350px]">
-          <p className="text-violet-strong">Primer pago de</p>
-          <h4 className="text-3xl mb-3">{formatAmount(0, currency)}</h4>
+          <p className="text-violet-strong">¡Ahora!</p>
+          <h4 className="text-2xl mb-3 font-bold !font-inter">Prueba gratuita de 7 días</h4>
           <span className="text-violet-wash">
-            {installments} pagos restantes de{" "}
-            {!mountedInput ? <TextSkeleton /> : formatAmount(installmentAmount, currency)}
+            Luego, {installments} pagos de{" "}
+            {!mountedInput ? <TextSkeleton /> : <strong>{formatAmount(installmentAmount, currency)}</strong>}
           </span>
         </div>
       </div>
 
       <div className="border-t border-dashed border-[#e4e4e4] my-4"></div>
 
-      <div className="flex flex-col xl:flex-row justify-between px-4 pb-3">
+      <div className="flex flex-col xl:flex-row justify-between px-6 pb-6">
         <div className="mb-3 xl:mb-0">
           <p className="text-violet-wash">
             Detalle de tu inscripción al finalizar el período de prueba 
@@ -81,12 +76,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
             </span>
           </span>}
         </div>
-        <div>
-          <p className="text-violet-wash">Total</p>
-          <span className="text-violet-strong font-bold">
-          {!mountedInput ? <TextSkeleton className="w-full max-w-[100px]" /> : formatAmount(totalAmount, currency)}
-          </span>
-        </div>
+        
       </div>
     </section>
   );

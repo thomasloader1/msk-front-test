@@ -177,6 +177,12 @@ export interface UserProfile {
   trial_course_sites?: TrialCourse[] | [];
 }
 
+export interface SingleProduct {
+  ficha: Ficha;
+  details: Details;
+  total_price: string;
+ }
+
 export interface CustomUser {
   id: number;
   firstName: string;

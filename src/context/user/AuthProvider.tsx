@@ -3,6 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { authReducer } from "./AuthReducer";
 import { AuthState, Contact } from "data/types";
 import api from "Services/api";
+import { useHistory } from "react-router-dom";
 interface Props {
   children: React.ReactNode;
 }
@@ -20,7 +21,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     onRequest: null,
 
   };
-
+const history = useHistory()
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
@@ -95,6 +96,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           }
         } else {
           console.log("No user data");
+          history.push("/iniciar-sesion")
         }
       } else if (expires_at && new Date(expires_at) < new Date()) {
         dispatch({ type: "LOGOUT" });

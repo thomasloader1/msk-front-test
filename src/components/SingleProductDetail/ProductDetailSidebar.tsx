@@ -1,18 +1,15 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Details, Ficha, JsonInstallmentsMapping, JsonMapping } from "data/types";
+import { Details, Ficha, JsonInstallmentsMapping, JsonMapping, SingleProduct } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import { formatAmount } from "lib/formatAmount";
 import currencyMapping from "../../data/jsons/__countryCurrencies.json"
 import installmentsMapping from "../../data/jsons/__countryInstallments.json"
+import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 
 interface Props {
- product:{
-  ficha: Ficha;
-  details: Details;
-  total_price: string;
- };
+ product: SingleProduct;
   isEbook?: boolean;
   sideData: {
     modalidad: string;
@@ -109,9 +106,12 @@ const ProductDetailSidebar: FC<Props> = ({
   const installments = installmentsJSON[countryState.country].quotes;
 
   const currency = currencyJSON[countryState.country];
-  console.log(product.total_price)
   const totalProductPrice = Number(product.total_price) * 1000;
   const installmentProductPrice = (totalProductPrice / installments)
+  const {hasCoursedRequested,showAlreadyRequest, setShowAlreadyRequest} = useRequestedTrialCourse(product);
+
+  
+
   return (
     <div className={`course-video-widget`}>
       <div
@@ -196,9 +196,10 @@ const ProductDetailSidebar: FC<Props> = ({
           {!isEbook && isLocal && (
             <button
               onClick={() => requestTrial(slug)}
-              className="video-cart-btn border-2 w-full"
+              className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"
+              disabled={hasCoursedRequested}
             >
-              Prueba 7 días gratis
+             {hasCoursedRequested ? "Prueba ya solicitada" : "Prueba 7 días gratis"}
             </button>
           )}
         </div>

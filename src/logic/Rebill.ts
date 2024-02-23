@@ -76,10 +76,10 @@ export const initRebill = async (
 
   try {
     const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
-    console.log({ contactZoho, product })
+   /*  console.log({ contactZoho, product })
 
     console.log(RebillSDKCheckout)
-
+ */
     const customerRebill = mappingCheckoutFields(contactZoho);
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
@@ -103,14 +103,6 @@ export const initRebill = async (
         },
       ],
     }).then((price_setting: any) => console.log({ price_setting }));
-
-    console.group("Amount")
-    let amount = parseFloat(product.total_price.replace(/\./g, "").replace(",", "."))
-    let month = amount / 12
-    console.log(amount)
-    console.log(month.toFixed(2).split("."))
-    console.log(month - (amount / 12))
-    console.groupEnd()
 
     //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
     RebillSDKCheckout.setCallbacks({

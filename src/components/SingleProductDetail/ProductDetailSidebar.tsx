@@ -130,7 +130,7 @@ const ProductDetailSidebar: FC<Props> = ({
           <div className="mb-2">
             <div className="text-sm mb-4 text-violet-strong">Total: <strong>{formatAmount(totalProductPrice , currency)}</strong></div>
             <div className="text-sm mb-2 text-violet-strong">{installments} pagos de:</div>
-            <span className="text-[32px] font-bold text-violet-dark">{formatAmount(installmentProductPrice / installments , currency)}</span>
+            <span className="text-[32px] font-bold text-violet-dark">{formatAmount(installmentProductPrice , currency)}</span>
             {/* <span>💳 Pagos sin intereses</span> */}
           </div>
         )}

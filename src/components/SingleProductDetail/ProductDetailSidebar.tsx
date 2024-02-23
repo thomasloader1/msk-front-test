@@ -104,7 +104,7 @@ const ProductDetailSidebar: FC<Props> = ({
     history.push(`/trial/${slug}`)
   };
   const installments = installmentsJSON[countryState.country].quotes;
-
+console.log(product, product.total_price, Number(product.total_price))
   const currency = currencyJSON[countryState.country];
   const totalProductPrice = Number(product.total_price) * 1000;
   const installmentProductPrice = (totalProductPrice / installments)

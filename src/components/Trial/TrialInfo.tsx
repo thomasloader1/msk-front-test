@@ -29,7 +29,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
 
   useEffect(() => {
     if(typeof product !== 'undefined'){
-      let totalAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", "."));
+      let totalAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", ".").replaceAll(".",""));
       setTotalAmount(totalAmount)
       setInstallmentAmount(totalAmount / installments)
   

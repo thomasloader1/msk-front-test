@@ -41,7 +41,7 @@ export const sendToZoho = (
     const [subscriptionId] = schedules;
     const [countrie] = countries.filter(c => c.id === country)
     
-    const installmentAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", "."));
+    const installmentAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", ".").replaceAll(".",""));
     
     const [amount, cents] = (installmentAmount / installmentsJSON[country].quotes).toFixed(2).split(".")
     const discountPrice = (Number(cents) / 100) * installmentsJSON[country].quotes;

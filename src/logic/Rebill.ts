@@ -21,6 +21,7 @@ export const REBILL_CONF = {
 };
 
 const mappingCheckoutFields = (contactZoho: ContactCRM) => {
+  console.log({contactZoho})
   return {
     firstName: contactZoho.First_Name,
     lastName: contactZoho.Last_Name,
@@ -72,14 +73,9 @@ export const initRebill = async (
   setPaymentCorrect: Dispatch<SetStateAction<boolean | null>>,
   setMountedInput: Dispatch<SetStateAction<boolean>>
 ) => {
-  
-
   try {
     const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
-   /*  console.log({ contactZoho, product })
-
-    console.log(RebillSDKCheckout)
- */
+    console.log({contactZoho, user})
     const customerRebill = mappingCheckoutFields(contactZoho);
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
@@ -127,8 +123,8 @@ export const initRebill = async (
         yearOutOfRange: "Expiry year cannot be in the past",
         dateOutOfRange: "Expiry date cannot be in the past",
         invalidExpiryDate: "Expiry date is invalid",
-        emptyCVC: "Enter a CVC",
-        invalidCVC: "CVC is invalid",
+        emptyCVC: "Ingresar CVC",
+        invalidCVC: "CVC es invalido",
       },
     });
 

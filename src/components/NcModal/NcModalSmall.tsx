@@ -64,7 +64,7 @@ const NcModalSmall: FC<NcModalProps> = ({
     }else{
       blurView?.current?.classList?.remove("blur-md")
     }
-    console.log({blurView, appRef})
+    //console.log({blurView, appRef})
   }, [isOpenProp]);
 
   return (

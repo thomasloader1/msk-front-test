@@ -1,3 +1,4 @@
+import api from 'Services/api';
 import { AuthContext } from 'context/user/AuthContext';
 import { FetchSingleProduct, UserProfile } from 'data/types';
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
@@ -11,18 +12,21 @@ interface TrialCoursesStatus {
 const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
   const [hasCoursedRequested, setHasCoursedRequested] = useState(false);
   const [showAlreadyRequest, setShowAlreadyRequest] = useState(false);
-  const {state: authState} = useContext(AuthContext)
 
   useEffect(() => {
-    const checkTrialCourses = () => {
-      const userProfile: any = authState.isAuthenticated && authState.profile ? authState.profile : {} as UserProfile;
-      const hasTrialCourses = userProfile?.trial_course_sites;
+    const checkTrialCourses = async () => {
+      const userProfile: any = await api.getUserData();
+      const hasTrialCourses = userProfile?.contact.trial_course_sites;
+      
+      console.log({userProfile, hasTrialCourses})
       
       if (hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined') {
         hasTrialCourses.forEach((tc: any) => {
           let contract = JSON.parse(tc.contractJson);
-          let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === product?.ficha?.product_code;
-
+          let productWpCode = product?.ficha?.product_code ?? product.product_code; 
+          let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === productWpCode;
+          console.log({contract, isMatch,productWpCode,product})
+          
           if (isMatch) {
             setHasCoursedRequested(isMatch);
             setShowAlreadyRequest(isMatch);

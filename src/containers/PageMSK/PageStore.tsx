@@ -70,7 +70,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   // FILTERS
   useEffect(() => {
-    console.table(storeFilters);
+    //console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 

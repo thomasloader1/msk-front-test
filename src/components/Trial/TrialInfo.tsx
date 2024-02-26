@@ -39,6 +39,8 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
     
   }, [product])
 
+  const [forcedRoundedPrice, cents] = installmentAmount.toFixed(2).split(".")
+
   return (
     <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 text-violet-strong">
       <div className="px-6 pt-6">
@@ -57,7 +59,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
           <h4 className="text-2xl mb-3 font-bold !font-inter">Prueba gratuita de 7 días</h4>
           <span className="text-violet-wash">
             Luego, {installments} pagos de{" "}
-            {!mountedInput ? <TextSkeleton /> : <strong>{formatAmount(installmentAmount, currency)}</strong>}
+            {!mountedInput ? <TextSkeleton /> : <strong>{formatAmount(Number(forcedRoundedPrice), currency)}</strong>}
           </span>
         </div>
       </div>

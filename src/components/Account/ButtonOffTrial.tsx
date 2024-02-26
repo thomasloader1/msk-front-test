@@ -77,7 +77,9 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
     renderContent={() => (
       <TrialModalContent
         title="Tu prueba de 7 días gratis finalizará" 
-        desc="Para continuar con este curso, deberás inscribirte."
+        desc="Si más adelante deseas continuar 
+        con este curso, deberás inscribirte.
+        ¿Quieres darte de baja?"
         textButton="Confirmar" 
         cancelButton={true}
         setShow={setOnRequest}

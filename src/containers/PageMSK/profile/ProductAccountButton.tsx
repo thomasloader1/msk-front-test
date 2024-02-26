@@ -1,3 +1,4 @@
+import CancelTrialModal from "components/ModalCancelTrial/CancelTrial";
 import NcLink from "components/NcLink/NcLink";
 import { UserCourseProgress } from "data/types";
 import {
@@ -6,7 +7,7 @@ import {
   statusCourse,
   statusOrdenVenta,
 } from "logic/account";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface ProductAccountButtonProps {
@@ -22,6 +23,7 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
   isRunning,
   onClick,
 }) => {
+  const [showCancelTrial, setShowCancelTrial] = useState(false)
   const { status } = product;
   const { isDisabled } = statusCourse(status);
   const statusOV = statusOrdenVenta(product?.ov);
@@ -37,7 +39,12 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
           {statusOV.isDisabled ? statusOV.hasText : status} 
           {statusOV.hasText === 'Trial' && 
           <div className="ml-1 inline-block">
-           - <Link to="#" className="hover:underline hover:text-violet-custom" onClick={()=>{}}> Dar de baja</Link>
+           - <Link 
+            to="#" 
+            onClick={()=> setShowCancelTrial(true)} 
+            className="underline text-violet-custom hover:text-violet-custom"> 
+            Dar de baja
+           </Link>
           </div>
           }
         </span>
@@ -56,6 +63,10 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
           hasText(status)
         )}
       </button>
+      <CancelTrialModal 
+      isOpenProp={showCancelTrial} item={product} 
+      onCloseModal={() => setShowCancelTrial(false)}
+      />
     </div>
   );
 };

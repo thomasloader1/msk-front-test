@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useContext, useEffect } from 'react'
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 
 interface TrialModalContentProps{
@@ -14,14 +14,18 @@ interface TrialModalContentProps{
 }
 
 const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,productSlug,cancelButton,goToAccount, goToCourse,title, desc, textButton}) => {
+  const [interact, setInteract] = useState(false)
   const history = useHistory()
   const handleCloseModal = (forElement: string | null = null) => {
+    setInteract(true)
     if(title.includes("Prueba ya solicitada") && goToCourse){
       history.push(`/curso/${goToCourse}`)
       return
     }
     if((textButton.includes("Volver") || (forElement != null && forElement.includes("Cancelar"))) && typeof setShow !== 'undefined'){
       setShow(false)
+      setInteract(true)
+      return
     }
 
     if(title.includes("Listo") && goToAccount){
@@ -50,6 +54,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,pro
     document.addEventListener("mousedown", handleClickOutsideModal);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideModal);
+      setInteract(false)
     };
   }, []);
 
@@ -57,11 +62,12 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,pro
     <div id='trial_modal' className='text-center'>
         <h4 className='text-xl mb-4'>{title}</h4>
         <p className='mb-8 font-medium text-violet-wash'>{desc}</p>
-        <button onClick={() => handleCloseModal() } className="video-cart-btn w-full">{textButton}</button>
+        <button onClick={() => handleCloseModal() } disabled={interact} className="video-cart-btn w-full disabled:bg-grey-disabled">{interact ? textButton : "Solicitando ..."}</button>
         { cancelButton && 
         <button 
         onClick={() => handleCloseModal("Cancelar") } 
-        className="video-cart-btn border-2 w-full mt-2">Cancelar</button>
+        disabled={interact}
+        className="video-cart-btn border-2 w-full mt-2 disabled:bg-grey-disabled">Cancelar</button>
       }
     </div>
   )

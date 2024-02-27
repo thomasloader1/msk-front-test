@@ -108,7 +108,7 @@ export const initRebill = async (
 
     //Seteo metadata de la suscripcio
     RebillSDKCheckout.setMetadata({
-      contact_id: "x" + user.entity_id_crm,
+      contact_id: "x" + contactZoho.id,
     });
 
     //Textos de validaciones con el elemento de la tarjeta

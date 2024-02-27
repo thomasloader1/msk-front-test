@@ -569,6 +569,7 @@ export type ContactCRM = {
   Mailing_Zip: string;
   Pais: string;
   Full_Name: string;
+  id: string;
 };
 
 export type ContactUs = {

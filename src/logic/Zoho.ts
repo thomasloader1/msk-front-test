@@ -22,7 +22,7 @@ export const sendToZoho = (
   const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
   const currencyJSON: any = currencyMapping;
   
-  console.log({country, slug: product.slug})
+  //console.log({country, slug: product.slug})
    const { invoice, failedTransaction, pendingTransaction } = response;
 
   if (failedTransaction != null) {
@@ -47,7 +47,8 @@ export const sendToZoho = (
     const discountPrice = (Number(cents) / 100) * installmentsJSON[country].quotes;
    
     const contractData = {
-      contactEntityId: user.entity_id_crm,
+      contactEntityId: user.id,
+      email: user.Usuario,
       subId: subscriptionId,
       paymentId: payment.id,
       currency: currencyJSON[country],
@@ -59,7 +60,7 @@ export const sendToZoho = (
     };
 
     const currentProduct = product.slug === window.location.href.split("/").pop()
-console.log({currentProduct})
+
     if(currentProduct){
       api.createContactTrialZoho(contractData); 
     }

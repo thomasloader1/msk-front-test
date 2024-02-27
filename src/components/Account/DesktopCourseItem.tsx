@@ -34,6 +34,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
   const statusOV = statusOrdenVenta(item.ov);
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
+  const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
 
   return (
     <tr key={item.product_code}>
@@ -83,7 +84,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         
          {item.ov.includes("Trial") ? (
           <CategoryBadgeList 
-            categories={[item.ov]} 
+            categories={[trialName]} 
             isTrial={item.ov.includes("Trial")} 
             />
             ) : (

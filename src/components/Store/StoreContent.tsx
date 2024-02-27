@@ -262,6 +262,7 @@ const StoreContent: FC<Props> = ({
               totalPages={totalPages}
               onPageChange={handlePageChange}
               currentPage={currentPage}
+              linkTracker={true}
             />
           </div>
         </div>

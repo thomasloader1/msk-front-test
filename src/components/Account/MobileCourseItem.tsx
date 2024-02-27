@@ -12,6 +12,8 @@ import { UserCourseProgress } from "data/types";
 import InfoText from "components/InfoText/InfoText";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import DateProductExpiration from "./DateProductExpiration";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import ButtonOffTrial from "./ButtonOffTrial";
 
 interface MobileCourseItemProps {
   item: UserCourseProgress;
@@ -35,6 +37,9 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
 
+  const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
+
+
   return (
     <li className="my-account-courses-mobile">
       <div className="direct-info">
@@ -47,18 +52,21 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           {item.title || "-"}
         </span>
         <div className="status-badge ml-auto">
-          <Badge
-            name={statusOV.isDisabled ? statusOV.hasText : item?.status}
-            color={colorStatus(
-              statusOV.isDisabled ? statusOV.hasText : item?.status
-            )}
-            className="text-[14px]"
-          />
-          {item.ov.includes("Trial") && ( <Badge
-            name={"Trial"}
-            color={"purple"}
-            className="text-[14px]"
-          />)}
+          
+          {item.ov.includes("Trial") ? (
+          <CategoryBadgeList 
+            categories={[trialName]} 
+            isTrial={item.ov.includes("Trial")} 
+            />
+            ) : (
+              <Badge
+              name={statusOV.isDisabled ? statusOV.hasText : item?.status}
+              color={colorStatus(
+                statusOV.isDisabled ? statusOV.hasText : item?.status
+              )}
+              className="text-[14px]"
+            />
+          )}
         </div>
       </div>
       {item.ov !== "Baja" && (
@@ -76,8 +84,10 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           )}
         </>
       )}
+      
       {(isDisabled && !isReadyToEnroll) ||
         (statusOV.isDisabled && <CentroAyudaLink />)}
+
       {isReadyToEnroll && (
         <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
       )}
@@ -88,6 +98,15 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           goToLMS={goToLMS}
           item={item}
         />
+        {item.ov.includes("Trial") && 
+         <>
+         <br />
+         <ButtonOffTrial 
+            item={item} 
+            email={email}
+         />
+         </>
+         }
       </div>
     </li>
   );

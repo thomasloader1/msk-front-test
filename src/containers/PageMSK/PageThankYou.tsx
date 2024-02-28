@@ -1,5 +1,5 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Helmet } from "react-helmet";
 import { useHistory, useLocation } from "react-router-dom";
@@ -62,6 +62,20 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
         "entrevistas y recursos de aprendizaje en múltiples formatos.";
       break;
   }
+
+  useEffect(() => {
+    // Configuración del Data Layer para GTM
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: 'FB_Event_Trial',
+      // Puedes agregar más información si es necesario
+    });
+
+    // Limpieza del efecto si es necesario
+    return () => {
+      // Código de limpieza (si es necesario)
+    };
+  }, []); // El segundo argumento es un array de dependencias, en este caso, está vacío para ejecutarse solo una vez al montar el componente
 
   return (
     <div className={`nc-PageThankYou animate-fade-down ${className}`} data-nc-id="PageThankYou">

@@ -11,23 +11,44 @@ interface TrialModalContentProps{
     goToCourse?: string | undefined;
     cancelButton?: boolean | undefined;
     cancelTrial?: () => void;
+    onCancelTrial?: () => void;
 }
 
-const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,productSlug,cancelButton,goToAccount, goToCourse,title, desc, textButton}) => {
+const TrialModalContent: FC<TrialModalContentProps> = ({ 
+  cancelTrial,
+  onCancelTrial,
+  setShow,
+  productSlug,
+  cancelButton,
+  goToAccount, 
+  goToCourse,title, 
+  desc, 
+  textButton
+}) => {
   const [interact, setInteract] = useState(false)
   const history = useHistory()
+ 
   const handleCloseModal = (forElement: string | null = null) => {
     setInteract(true)
     if(title.includes("Prueba ya solicitada") && goToCourse){
       history.push(`/curso/${goToCourse}`)
       return
     }
+
+    if((textButton.includes("Volver") || (forElement != null && forElement.includes("Cancelar"))) && typeof setShow !== 'undefined' && typeof onCancelTrial !== 'undefined'){
+      setShow(false)
+      setInteract(true)
+      onCancelTrial()
+      return
+    }
+
+
     if((textButton.includes("Volver") || (forElement != null && forElement.includes("Cancelar"))) && typeof setShow !== 'undefined'){
       setShow(false)
       setInteract(true)
       return
     }
-
+   
     if(title.includes("Listo") && goToAccount){
       history.push("/gracias?trial=success")
     }
@@ -35,6 +56,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,pro
     if(textButton.includes("Confirmar") && typeof cancelTrial !== 'undefined'){
       console.log("Confirmar action")
       cancelTrial()
+      return
     }
 
     if(textButton.includes("Ir al curso") && typeof productSlug !== 'undefined'){
@@ -52,6 +74,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,pro
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideModal);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideModal);
       setInteract(false)

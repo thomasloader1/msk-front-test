@@ -59,6 +59,7 @@ const CancelTrialModal: FC<CancelTrialModalProps> = ({isOpenProp,item, onCloseMo
             cancelButton={true}
             setShow={setOnRequest}
             cancelTrial={suspendTrial}
+            onCancelTrial={closeModal}
           />
         )}
       />

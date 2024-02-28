@@ -33,7 +33,6 @@ const NcModalSmall: FC<NcModalProps> = ({
   blurView
 }) => {
   const { appRef } = useContext(DataContext);
-
   let [isOpen, setIsOpen] = useState(!!isOpenProp);
 
   function closeModal() {
@@ -64,7 +63,7 @@ const NcModalSmall: FC<NcModalProps> = ({
     }else{
       blurView?.current?.classList?.remove("blur-md")
     }
-    //console.log({blurView, appRef})
+
   }, [isOpenProp]);
 
   return (

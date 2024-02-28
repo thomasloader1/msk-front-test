@@ -29,7 +29,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({ cancelTrial,setShow,pro
     }
 
     if(title.includes("Listo") && goToAccount){
-      history.push("/mi-cuenta")
+      history.push("/gracias?trial=success")
     }
 
     if(textButton.includes("Confirmar") && typeof cancelTrial !== 'undefined'){

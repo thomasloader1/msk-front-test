@@ -59,6 +59,7 @@ export interface Contact {
   career?: string;
   year?: string;
   courses_progress: CourseProgress[];
+  trial_course_sites: [];
 }
 
 export interface Contract {
@@ -173,8 +174,11 @@ export interface User {
 }
 
 export interface UserProfile {
-  courses_progress: CourseProgress[];
-  trial_course_sites?: TrialCourse[] | [];
+  contact:{
+    courses_progress: CourseProgress[];
+    trial_course_sites?: TrialCourse[] | [];
+  },
+  email: string;
 }
 
 export interface SingleProduct {

@@ -7,6 +7,7 @@ import NcModalSmall from "components/NcModal/NcModalSmall";
 import TrialModalContent from "components/NcModal/TrialModalContent";
 import api from "Services/api";
 import { AuthContext } from "context/user/AuthContext";
+import CancelTrialModal from "components/ModalCancelTrial/CancelTrial";
 
 interface ButtonOffTrialProps {
   item: UserCourseProgress;
@@ -22,7 +23,6 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
   const [onRequest, setOnRequest] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const {state:authState} = useContext(AuthContext);
 
   const handleClick = async () => {
     setOnRequest(true);
@@ -38,13 +38,6 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
       setOnRequest(isRunning);
     }
   }, [isRunning]);
-
-  const suspendTrial = async () =>{
-    const res = await api.cancelTrialCourse(item, authState);
-    if(res){
-      setConfirmModal(true)
-    }
-  }
 
   return (
     <>
@@ -65,7 +58,7 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
         <span className="text-[14px] sm:text-sm">Dar de baja</span>
       )}
     </ButtonPrimary>
-    <NcModalSmall 
+   {/*  <NcModalSmall 
     isOpenProp={onRequest}
     onCloseModal={() => {
       setOnRequest(false);
@@ -105,6 +98,11 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
         setShow={setConfirmModal}
         />
         )}
+    /> */}
+    <CancelTrialModal 
+      isOpenProp={onRequest} 
+      item={item} 
+      onCloseModal={() => setOnRequest(false)}
     />
     </>
   );

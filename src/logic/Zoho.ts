@@ -11,7 +11,7 @@ interface RebillCheckoutPayment{
   failedTransaction: RebillTransaction | null
 }
 
-export const sendToZoho = (
+export const sendToZoho = async (
   response: RebillCheckoutPayment,
   user: any,
   country: string,
@@ -62,12 +62,12 @@ export const sendToZoho = (
     const currentProduct = product.slug === window.location.href.split("/").pop()
 
     if(currentProduct){
-      api.createContactTrialZoho(contractData); 
+     await api.createContactTrialZoho(contractData, country); 
     }
   
   
     setPaymentCorrect(true)
-    setShow(true)
+    //setShow(true)
   }
 
   /* if (pendingTransaction !== null) {

@@ -493,10 +493,12 @@ class ApiService {
     return await axios.get(`${apiCheckEmailUser}/${email}`);
   }
 
-  async createContactTrialZoho(data: any) {
+  async createContactTrialZoho(data: any, country:string) {
      try {
       const res = await axios.post(apiCreateTrialContract, data);
       console.log({ res });
+      window.location.href = `/${country}/gracias?origen=trial`
+
       return res;
     } catch (e: any) {
       console.log({ e });

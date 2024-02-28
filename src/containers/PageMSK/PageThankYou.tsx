@@ -1,5 +1,5 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, { FC } from "react";
+import { FC } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Helmet } from "react-helmet";
 import { useHistory, useLocation } from "react-router-dom";
@@ -21,6 +21,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
   let subHeading = "";
   let message = "";
   let buttonLabel = "Descubrir";
+  let route = "/tienda";
 
   switch (origin) {
     case "newsletter":
@@ -41,6 +42,15 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
       message =
         "Ahora es momento de avanzar un paso más en tu camino profesional.\n" +
         "Conoce nuestras capacitaciones 100% a distancia, desarrolladas por autores de prestigio y respaldadas por grandes instituciones.";
+      break;
+
+    case "trial":
+      subHeading = "";
+      message =
+        "Ya tienes disponible tu prueba de \n" +
+        "7 días gratis en el curso elegido";
+      buttonLabel="Comienza ahora"
+      route= "/mi-cuenta/cursos"
       break;
 
     default:
@@ -66,7 +76,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
             ></span>
             <p className="text-center description">{message}</p>
             <ButtonPrimary
-              onClick={() => changeRoute("/tienda")}
+              onClick={() => changeRoute(route)}
               rounded="rounded-lg"
               className="font-semibold discover"
             >

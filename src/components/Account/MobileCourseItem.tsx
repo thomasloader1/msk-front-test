@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import Badge from "components/Badge/Badge";
 import NcImage from "components/NcImage/NcImage";
 import {
@@ -14,6 +14,7 @@ import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import DateProductExpiration from "./DateProductExpiration";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import ButtonOffTrial from "./ButtonOffTrial";
+import { AuthContext } from "context/user/AuthContext";
 
 interface MobileCourseItemProps {
   item: UserCourseProgress;
@@ -38,7 +39,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
 
   const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
-
+  const {state: authState} = useContext(AuthContext);
 
   return (
     <li className="my-account-courses-mobile">
@@ -75,16 +76,20 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
             <DateProductExpiration
               date={productExpiration.current}
               text="Fecha de expiración"
+              product={item}
+              user={authState.profile}
             />
           ) : (
             <DateProductExpiration
               date={productExpirationEnroll.current}
               text="Fecha límite de activación"
+              product={item}
+              user={authState.profile}
             />
           )}
         </>
       )}
-      
+
       {(isDisabled && !isReadyToEnroll) ||
         (statusOV.isDisabled && <CentroAyudaLink />)}
 

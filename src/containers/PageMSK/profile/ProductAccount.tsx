@@ -10,6 +10,7 @@ import InfoText from "components/InfoText/InfoText";
 import { STATUS } from "data/statusCourses";
 import useInterval from "hooks/useInterval";
 import DateProductExpiration from "components/Account/DateProductExpiration";
+import { AuthContext } from "context/user/AuthContext";
 
 interface Props {
   product: UserCourseProgress;
@@ -39,11 +40,9 @@ const ProductAccount: FC<Props> = ({
   const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
+  const { state:authState } = useContext(AuthContext);
 
-  const imageURL = product.thumbnail.high?.replace(
-    `${"mx" || state.country}.`,
-    ""
-  );
+  const imageURL = product.thumbnail.high?.replace(`${"mx" || state.country}.`,"");
 
   const handleClick = async () => {
     // console.log(product.ov, activeProductRef.current);
@@ -143,11 +142,15 @@ const ProductAccount: FC<Props> = ({
                   <DateProductExpiration
                     date={productExpiration.current}
                     text="Fecha de expiración"
+                    user={authState.profile}
+                    product={product}
                   />
                 ) : (
                   <DateProductExpiration
                     date={productExpirationEnroll.current}
                     text="Fecha límite de activación"
+                    user={authState.profile}
+                    product={product}
                   />
                 )}
               </>

@@ -1,5 +1,5 @@
 import { UserCourseProgress } from "data/types";
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import ButtonAccessCourse from "./ButtonAccessCourse";
 import {
   colorStatus,
@@ -14,6 +14,7 @@ import DateProductExpiration from "./DateProductExpiration";
 import NcImage from "components/NcImage/NcImage";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import ButtonOffTrial from "./ButtonOffTrial";
+import { AuthContext } from "context/user/AuthContext";
 
 interface DesktopCourseItemProps {
   item: UserCourseProgress;
@@ -35,6 +36,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
   const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
+  const {state: authState} = useContext(AuthContext)
 
   return (
     <tr key={item.product_code}>
@@ -56,11 +58,15 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
                   <DateProductExpiration
                     date={productExpiration.current}
                     text="Fecha de expiración"
+                    product={item}
+                    user={authState.profile}
                   />
                 ) : (
                   <DateProductExpiration
                     date={productExpirationEnroll.current}
                     text="Fecha límite de activación"
+                    product={item}
+                    user={authState.profile}
                   />
                 )}
               </>
@@ -112,7 +118,6 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
          <ButtonOffTrial 
             item={item} 
             email={email}
-            
          />
          }
         </div>

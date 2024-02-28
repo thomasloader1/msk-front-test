@@ -52,7 +52,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   useEffect(() => {
     //setCourses(allProductsMX);
     fetchUser();
-  }, [allProductsMX, state?.profile?.courses_progress]);
+  }, [allProductsMX, state?.profile?.contact?.courses_progress]);
 
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);

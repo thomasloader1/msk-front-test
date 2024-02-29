@@ -16,6 +16,7 @@ import { DataContext } from "context/data/DataContext";
 import { REBILL_CONF, initRebill } from "logic/Rebill";
 import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 import api from "Services/api";
+import MissingModalContent from "components/NcModal/MissingModalContent";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -39,7 +40,13 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const { gateway } = installmentsJSON[country];
 
   const mountedInputObjectState = { state: mountedInput, setState: setMountedInput }
-  const { hasCoursedRequested, showAlreadyRequest, setShowAlreadyRequest } = useRequestedTrialCourse(product);
+  const { 
+    hasCoursedRequested, 
+    showAlreadyRequest, 
+    showMissingData, 
+    setShowAlreadyRequest,
+    setShowMissingData 
+  } = useRequestedTrialCourse(product);
 
   useEffect(() => {
     const profile = JSON.parse(localStorage.getItem("userProfile") as string);
@@ -70,7 +77,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     console.log(initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile,
       {product,initedRebill, verifiedCoursedRequested, verifiedProductAndProfile, userProfile})
 
-    if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile) {
+    if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
       setInitedRebill(true)
       console.group("Rebill")
       console.log({ profile: userProfile, country, product }, "init rebill process")
@@ -143,6 +150,28 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             desc="No pudimos procesar los datos de tu tarjeta. Intenta con otra."
             textButton="Volver"
             setShow={setShow}
+          />
+        )}
+      />
+
+    <NcModalSmall
+        isOpenProp={showMissingData}
+        onCloseModal={() => {
+          setShowMissingData(false);
+          viewRef.current.classList.remove("blur-md")
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        blurView={viewRef}
+        renderContent={() => (
+          <MissingModalContent
+            title="Antes de acceder a tu prueba gratuita"
+            desc="Completa tu número de documento entre los datos personales de tu cuenta y continúa con tu solicitud de prueba."
+            textButton="Ir a Datos personales"
+            productSlug={slug}
+            goToPersonalData={true}
           />
         )}
       />

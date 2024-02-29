@@ -5,6 +5,8 @@ import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react
 
 interface TrialCoursesStatus {
   hasCoursedRequested: boolean;
+  showMissingData: boolean;
+  setShowMissingData: Dispatch<SetStateAction<boolean>>
   showAlreadyRequest: boolean;
   setShowAlreadyRequest: Dispatch<SetStateAction<boolean>>
 }
@@ -12,13 +14,18 @@ interface TrialCoursesStatus {
 const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
   const [hasCoursedRequested, setHasCoursedRequested] = useState(false);
   const [showAlreadyRequest, setShowAlreadyRequest] = useState(false);
+  const [showMissingData, setShowMissingData] = useState(false);
 
   useEffect(() => {
     const checkTrialCourses = async () => {
       const userProfile: any = await api.getUserData();
       const hasTrialCourses = userProfile?.contact.trial_course_sites;
       
-      console.log({userProfile, hasTrialCourses})
+      console.log({userProfile})
+
+      if(!(userProfile?.contact.type_doc || userProfile?.contact.identification)){
+        setShowMissingData(true)
+      }
       
       if (hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined') {
         hasTrialCourses.forEach((tc: any) => {
@@ -43,7 +50,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
     checkTrialCourses();
   }, [product]);
 
-  return { hasCoursedRequested, showAlreadyRequest, setShowAlreadyRequest };
+  return { hasCoursedRequested, showAlreadyRequest, showMissingData,setShowMissingData, setShowAlreadyRequest };
 };
 
 export default useRequestedTrialCourse;

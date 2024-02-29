@@ -23,6 +23,7 @@ import { countries } from "data/countries";
 import { DataContext } from "context/data/DataContext";
 import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json"
 import InputField from "components/Form/InputField";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   user: User;
@@ -31,6 +32,7 @@ interface Props {
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const history = useHistory();
   const { state: dataState } = useContext(DataContext);
   const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -347,6 +349,13 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               setUser(userDataDB);
             }
             setFormSubmitted(true);
+
+            const continueTrialAccess = localStorage.getItem("continueTrialAccess");
+            if(typeof continueTrialAccess === 'string'){
+              localStorage.removeItem("continueTrialAccess")
+              history.push(continueTrialAccess)
+            }
+
           } else {
             console.log("Hubo un error al actualizar el usuario", res);
             setUpdateStatusMessage({

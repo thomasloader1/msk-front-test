@@ -48,9 +48,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
           Finaliza tu inscripción de prueba 
         </h2>
         <p className="mb-3 text-violet-wash">
-        
-
-          ¡Prepárate para la experiencia MSK! Con tu <strong>prueba de 7 días gratis</strong> podrás disfrutar de los contenidos principales del curso elegido. Accede a ellos iniciando sesión, dentro de tu perfil personal, donde también podrás cancelar el período de prueba sin costo.
+          ¡Prepárate para la experiencia MSK! Con tu <strong>prueba de 7 días gratis</strong> podrás disfrutar de los contenidos principales del curso elegido. Accederás a ellos dentro de tu perfil personal, donde también podrás cancelar el período de prueba sin costo. 
         </p>
         <p className="text-violet-wash">A partir del octavo día, se confirmará tu inscripción al curso completo.</p>
 

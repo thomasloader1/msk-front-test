@@ -97,7 +97,10 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
 
           <section>
-
+            <div className="text-center mb-4 text-violet-strong">
+              Ingresa los datos de tu tarjeta de débito o crédito. <br />
+              No se realizará ningún cargo hasta el octavo día.
+            </div>
             <div
               id="rebill_elements"
               className="flex items-center justify-center h-auto"

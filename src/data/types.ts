@@ -38,9 +38,9 @@ export interface Contact {
   profession: string;
   speciality: string | null;
   user_id: number;
-  rfc: string;
+  /* rfc: string;
   dni: string;
-  rut: string;
+  rut: string; */
   fiscal_regime: string;
   phone: string;
   email: string;
@@ -58,6 +58,8 @@ export interface Contact {
   other_speciality?: string;
   career?: string;
   year?: string;
+  type_doc: string;
+  identification: string;
   courses_progress: CourseProgress[];
   trial_course_sites: [];
 }
@@ -667,6 +669,13 @@ export interface JsonInstallmentsMapping {
     gateway: string;
   };
 }
+
+export interface JsonIdentificationsMapping {
+   [key:string]: Array<{
+                    id: string; 
+                    type: string;
+                  }>
+  }
 export interface RebillTransaction{
   id: string,
   cartId: string;

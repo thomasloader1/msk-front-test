@@ -25,6 +25,8 @@ import InputField from "components/Form/InputField";
 import { AuthContext } from "context/user/AuthContext";
 import { DataContext } from "context/data/DataContext";
 import SimpleInputSkeleton from "components/Skeleton/SimpleInputSkeleton";
+import countryIdentificationsMapping from "../../data/jsons/__countryIdentifications.json"
+import { JsonIdentificationsMapping } from "data/types";
 
 export interface PageTrialProps {
   className?: string;
@@ -60,24 +62,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
 
-  const [documents, setDocuments] = useState<{ [key:string]: {id: string; type: string;}[]}>({
-    ar: [{id:'ar',type:'DNI'}],
-    co: [{id:'co',type:'DNI'}],
-    mx: [{id:'mx',type:'RFC'}],
-    cl: [{id:'cl',type:'RUT'}],
-    uy: [{id:'uy',type:'DNI'}],
-    ec: [{id:'ec-ci',type:'CI'},{id:'ec-ruc',type:'RUC'},{id:'ec-pasaporte',type:'Pasaporte'}],
-    pe: [{id:'pe',type:'DNI'}],
-    py: [{id:'py',type:'DNI'}],
-    ve: [{id:'ve',type:'DNI'}],
-    pn: [{id:'pn',type:'DNI'}],
-    ni: [{id:'ni',type:'DNI'}],
-    hn: [{id:'hn',type:'DNI'}],
-    gt: [{id:'gt',type:'DNI'}],
-    sl: [{id:'sl',type:'DNI'}],
-    cr: [{id:'cr',type:'DNI'}],
-    bo: [{id:'bo',type:'DNI'}],
-  })
+  const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
 
   const { state } = useContext(CountryContext);
   const { state: authState } = useContext(AuthContext);

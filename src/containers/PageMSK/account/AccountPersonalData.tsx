@@ -11,7 +11,7 @@ import {
 } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-import { Contact, Profession, Specialty, User } from "../../../data/types";
+import { Contact, JsonIdentificationsMapping, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
 import NcLink from "components/NcLink/NcLink";
 import { CountryContext } from "context/country/CountryContext";
@@ -21,6 +21,8 @@ import { CountryCode } from "libphonenumber-js/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { countries } from "data/countries";
 import { DataContext } from "context/data/DataContext";
+import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json"
+import InputField from "components/Form/InputField";
 
 interface Props {
   user: User;
@@ -52,13 +54,28 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     type: "",
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
-  const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>(userData.contact?.profession || "");
-  const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>(userData.contact?.speciality || "");
-  const [phoneNumber, setPhoneNumber] = useState<string>(
-    userData?.contact?.phone || ""
-  );
+  const [currentDocumentsType, setCurrentDocumentsType] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
+  const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>(userData.contact?.profession || "");
+  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>(userData.contact?.speciality || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(userData?.contact?.phone || "");
+  const [selectedDocument, setSelectedDocument] = useState<string>(userData.contact?.type_doc || "");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string>(userData.contact?.type_doc ? state.country : "");
+
+  const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
+    const { value } = event.target;
+    if (value && value.length) {
+      const values = value.split("/");
+      const type = values[0];
+      const id = values[1];
+      setSelectedDocument(type);
+      setSelectedDocumentId(id);
+      
+      formik.setFieldValue("type_doc", type);
+    } else {
+      setSelectedDocument("");
+      setSelectedDocumentId("");
+    }
+  }
 
   useEffect(() => {
     setProfessions(allProfessions);
@@ -130,7 +147,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       formik.setFieldValue("state", value);
     }
 
-    let identification = null;
+    /* let identification = null;
 
     switch (localUser.country) {
       case "Argentina":
@@ -142,7 +159,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       default:
         identification = localUser.rfc;
         break;
-    }
+    } */
   };
 
   useEffect(() => {
@@ -206,13 +223,17 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
         );
       default:
         return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              DNI
-            </label>
-            <ErrorMessage name="dni" component="span" className="error" />
-            <Field type="text" name="dni" placeholder="Ingresar DNI" />
+          <>
+            <div className="form-select-std">
+
+            <InputField
+                label="Identificacion"
+                type="text"
+                name="identification"
+                placeholder="Ingresar identificacion"
+              />
           </div>
+          </>
         );
     }
   };
@@ -235,11 +256,14 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     country: localUser?.country || "",
     postal_code: localUser?.postal_code || "",
     state: localUser?.state || "",
-    rfc: localUser?.rfc || "",
+   /*  rfc: localUser?.rfc || "",
     dni: localUser?.dni || "",
-    rut: localUser?.rut || "",
+    rut: localUser?.rut || "", */
     fiscal_regime: localUser?.fiscal_regime || "",
+    type_doc: localUser?.type_doc || "",
+    identification: localUser?.identification || ""
   };
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("El nombre es requerido"),
     last_name: Yup.string().required("El apellido es requerido"),
@@ -253,6 +277,19 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     state: Yup.string().required("La provincia es requerida"),
     postal_code: Yup.string().required("El código postal es requerido"),
     address: Yup.string().required("La dirección es requerida"),
+    type_doc: Yup.string().required("El tipo de identificacion es requerido"),
+    identification: Yup.string().test('identification-validation', 'Identificación no válida', function (value) {
+
+      const countryRegexMap: any = {
+        ar: /^[0-9]{7,8}$/, // DNI para Argentina
+        co: /^[0-9]{6,10}$/, // CI para Colombia (ejemplo, ajusta según necesites)
+        mx: /^[A-ZÑ&]{3,4}[0-9]{6}[A-V1-9][0-9A-Z]$/, // RFC para México (ejemplo, ajusta según necesites)
+        cl: /^\d{7,8}-[0-9Kk]$/, // RUT para Chile (ejemplo, ajusta según necesites)
+      };
+
+      return countryRegexMap[state.country]?.test(value) || false;
+
+    }).required('Este campo es obligatorio'),
     //fiscal_regime: Yup.string().required("El régimen fiscal es requerido"),
     // dni: Yup.string().when("country", {
     //   is: (val: string) => val === "Argentina",
@@ -288,6 +325,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
+      console.log({values})
       if (executeRecaptcha) {
         const formData = {
           ...localUser,
@@ -334,6 +372,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   }, [localUser]);
 
   useEffect(() => {
+    console.log({formik})
     if (formik.dirty) {
       setFormSubmitted(false);
     }
@@ -641,7 +680,45 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
             />
           </div>
 
-          <label className="block">{renderInputIdentification()}</label>
+          <div className="form-input-std">
+                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                    Tipo de identificacion
+                  </label>
+                  <ErrorMessage
+                    name="type_doc"
+                    component="span"
+                    className="error"
+                  />
+
+                  <Field
+                    as="select"
+                    name="type_doc"
+                    onChange={handleOptionTypeChange}
+                    value={`${selectedDocument}/${selectedDocumentId}`}
+                  >
+                    <option defaultValue="" value="">
+                      Seleccionar tipo
+                    </option>
+                    {currentDocumentsType[state.country]
+                      ? currentDocumentsType[state.country].map((p) => (
+                        <option key={p.id} value={`${p.type}/${p.id}`}>
+                          {p.type}
+                        </option>
+                      ))
+                      : ""}
+                  </Field>
+                  
+                </div>
+
+          {/* <label className="block">
+            {renderInputIdentification()}
+          </label> */}
+          <InputField
+                label="Identificacion"
+                type="text"
+                name="identification"
+                placeholder="Ingresar identificacion"
+              />
 
           {localUser?.country?.includes("México") && (
             <div className="form-input-std">

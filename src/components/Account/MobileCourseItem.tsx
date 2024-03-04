@@ -38,7 +38,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
 
-  const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
+  const trialName = item.ov.includes("suspendido") ? "Prueba cancelada" : "Prueba"
   const {state: authState} = useContext(AuthContext);
 
   return (

@@ -94,7 +94,7 @@ export const statusOrdenVenta = (status: string) => {
       break;
     case "Trial suspendido":
       statusObj.isDisabled = true;
-      statusObj.hasText = "Prueba suspendida";
+      statusObj.hasText = "Prueba cancelada";
       statusObj.color = "trial";
       break;
     case "Trial":

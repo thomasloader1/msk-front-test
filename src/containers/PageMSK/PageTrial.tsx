@@ -208,6 +208,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                 if (errorMessage[i].includes("El Email ya ha sido registrado")) {
                   const redirectURL = '/iniciar-sesion';
                   const loginLink = document.createElement('a');
+                  loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom";
                   loginLink.href = redirectURL;
                   loginLink.innerHTML = 'Inicia sesión';
                   res.data.errors.email[0] += ` ${loginLink.outerHTML}`

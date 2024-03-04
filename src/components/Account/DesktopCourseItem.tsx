@@ -15,6 +15,7 @@ import NcImage from "components/NcImage/NcImage";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import ButtonOffTrial from "./ButtonOffTrial";
 import { AuthContext } from "context/user/AuthContext";
+import ButtonAccessOrSignCourse from "./ButtonAccessOrSignCourse";
 
 interface DesktopCourseItemProps {
   item: UserCourseProgress;
@@ -35,7 +36,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
   const statusOV = statusOrdenVenta(item.ov);
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
-  const trialName = item.ov.includes("suspendido") ? "Prueba suspendida" : "Prueba"
+  const trialName = item.ov.includes("suspendido") ? "Prueba cancelada" : "Prueba"
   const {state: authState} = useContext(AuthContext)
 
   return (
@@ -108,7 +109,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
       </td>
       <td className="px-4">
         <div>
-        <ButtonAccessCourse
+        <ButtonAccessOrSignCourse
           email={email}
           goToEnroll={goToEnroll}
           goToLMS={goToLMS}

@@ -15,6 +15,7 @@ import DateProductExpiration from "./DateProductExpiration";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import ButtonOffTrial from "./ButtonOffTrial";
 import { AuthContext } from "context/user/AuthContext";
+import ButtonAccessOrSignCourse from "./ButtonAccessOrSignCourse";
 
 interface MobileCourseItemProps {
   item: UserCourseProgress;
@@ -97,7 +98,7 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
         <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
       )}
       <div className="w-full mt-1">
-        <ButtonAccessCourse
+        <ButtonAccessOrSignCourse
           email={email}
           goToEnroll={goToEnroll}
           goToLMS={goToLMS}

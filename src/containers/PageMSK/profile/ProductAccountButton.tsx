@@ -9,6 +9,7 @@ import {
 } from "logic/account";
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
+import ButtonActivateOrRegister from "./ButtonActivateOrRegister";
 
 interface ProductAccountButtonProps {
   product: UserCourseProgress;
@@ -50,19 +51,13 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
         </span>
       </div>
 
-      <button
-        className="course-network text-primary font-bold disabled:text-grey-disabled disabled:cursor-not-allowed disabled:opacity-70"
-        onClick={onClick}
-        disabled={isDisabled || onRequest || isRunning || statusOV.isDisabled}
-      >
-        {onRequest || isRunning || (status && status.includes("Listo para enrolar")) ? (
-          <div className="flex justify-center items-center">
-            Activando...
-          </div>
-        ) : (
-          hasText(status)
-        )}
-      </button>
+      <ButtonActivateOrRegister
+      isDisabledActivate={isDisabled || onRequest || isRunning || statusOV.isDisabled}
+      handleActivateClick={onClick}
+      whenActivate={onRequest || isRunning || (status && status.includes("Listo para enrolar"))}
+      status={status}
+      productSlug={product.slug}
+      />
       <CancelTrialModal 
       isOpenProp={showCancelTrial} item={product} 
       onCloseModal={() => setShowCancelTrial(false)}

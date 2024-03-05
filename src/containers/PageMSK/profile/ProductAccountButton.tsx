@@ -27,18 +27,20 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
   const [showCancelTrial, setShowCancelTrial] = useState(false)
   const { status } = product;
   const { isDisabled } = statusCourse(status);
-  const statusOV = statusOrdenVenta(product?.ov);
-  const iconStatus = getStatusIcon(statusOV.isDisabled ? statusOV.hasText : status);
+  const statusOV = statusOrdenVenta(product?.ov, status);
+  const textStatus = statusOV.isDisabled ? statusOV.disabledText : statusOV.hasText
+  const iconStatus = getStatusIcon(textStatus, product?.ov);
+
   return (
     <div className="course-2-footer text-grey-course">
       <div className="coursee-clock">
         <img
           src={iconStatus}
-          alt={statusOV.isDisabled ? statusOV.hasText : status}
+          alt={textStatus as string}
         />
         <span className="ml-2">
-          {statusOV.isDisabled ? statusOV.hasText : status} 
-          {statusOV.hasText === 'Trial' && 
+          {textStatus} 
+          {statusOV.hasText === 'Prueba' && 
           <div className="ml-1 inline-block">
            - <Link 
             to="#" 

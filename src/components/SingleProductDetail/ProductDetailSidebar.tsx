@@ -7,6 +7,7 @@ import { formatAmount } from "lib/formatAmount";
 import currencyMapping from "../../data/jsons/__countryCurrencies.json"
 import installmentsMapping from "../../data/jsons/__countryInstallments.json"
 import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
+import PricingDetail from "./PricingDetail";
 
 interface Props {
  product: SingleProduct;
@@ -40,7 +41,6 @@ const ProductDetailSidebar: FC<Props> = ({
 
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
-  const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
   const image = ficha.image;
@@ -103,13 +103,8 @@ const ProductDetailSidebar: FC<Props> = ({
     }
     history.push(`/trial/${slug}`)
   };
-  const installments = installmentsJSON[countryState.country].quotes;
-  const currency = currencyJSON[countryState.country];
-  const totalProductPrice = Number(product.total_price.replaceAll(".",""));
-  const [installmentProductPrice, cents] = (totalProductPrice / installments).toFixed(2).split(".")
-  const {hasCoursedRequested,showAlreadyRequest, setShowAlreadyRequest} = useRequestedTrialCourse(product);
 
-  
+  const {hasCoursedRequested,showAlreadyRequest} = useRequestedTrialCourse(product);
 
   return (
     <div className={`course-video-widget`}>
@@ -126,14 +121,15 @@ const ProductDetailSidebar: FC<Props> = ({
           </div>
         )}
 
-        {isEbook ? null : (
+        {/* {isEbook ? null : (
           <div className="mb-2">
             <div className="text-sm mb-4 text-violet-strong">Total: <strong>{formatAmount(totalProductPrice , currency)}</strong></div>
             <div className="text-sm mb-2 text-violet-strong">{installments} pagos de:</div>
             <span className="text-[32px] font-bold text-violet-dark">{formatAmount(Number(installmentProductPrice) , currency)}</span>
-            {/* <span>💳 Pagos sin intereses</span> */}
           </div>
-        )}
+        )} */}
+
+        <PricingDetail isEbook={isEbook} product={product} />
 
         <div className="course-video-body">
           <ul>

@@ -667,7 +667,7 @@ export interface JsonMapping {
 }
 export interface JsonInstallmentsMapping {
   [key: string]: {
-    quotes: number;
+    quotes: number | null;
     gateway: string;
   };
 }

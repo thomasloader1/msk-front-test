@@ -7,11 +7,12 @@
     "co": "COP",
     "cr": "CRC",
     "sv": "USD",
-    "gt": "GTQ",
+    "gt": "USD",
     "hn": "HNL",
-    "ni": "NIO",
-    "pa": "PAB",
+    "ni": "USD",
+    "pa": "USD",
     "py": "PYG",
     "pe": "PEN",
-    "uy": "UYU"
+    "uy": "UYU",
+    "ve": "USD"
 }

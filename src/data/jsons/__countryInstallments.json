@@ -9,7 +9,15 @@
     },
     "ec": {
         "gateway": "ST",
-        "quotes": 15
+        "quotes": 12
+    },
+    "es": {
+        "gateway": "ST",
+        "quotes": null
+    },
+    "int": {
+        "gateway": "ST",
+        "quotes": null
     },
     "ve": {
         "gateway": "ST",

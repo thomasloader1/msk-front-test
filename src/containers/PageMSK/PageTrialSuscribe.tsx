@@ -29,6 +29,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const [userProfile, setUserProfile] = useState<string | null>(JSON.parse(localStorage.getItem("userProfile") as string))
   const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
+  const [faliedMessage, setFaliedMessage] = useState<string>("")
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [initedRebill, setInitedRebill] = useState<boolean | null>(null)
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -82,7 +83,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
       console.group("Rebill")
       console.log({ profile: userProfile, country, product }, "init rebill process")
       localStorage.removeItem('trialURL');
-      initRebill(userProfile, country, product, RebillSDKCheckout, setShow, setPaymentCorrect, setMountedInput);
+      initRebill(userProfile, country, product, RebillSDKCheckout, setShow,setFaliedMessage, setPaymentCorrect, setMountedInput);
       console.groupEnd()
     }
   }, [product, hasCoursedRequested, userProfile])
@@ -148,6 +149,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
           <TrialModalContent
             title="Prueba otro método de pago"
             desc="No pudimos procesar los datos de tu tarjeta. Intenta con otra."
+            faliedMessage={faliedMessage}
             textButton="Volver"
             setShow={setShow}
           />

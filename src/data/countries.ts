@@ -27,8 +27,32 @@ export const countries = [
     id: "uy",
     name: "Uruguay",
   },
-  //   {
-  //     id: "es",
-  //     name: "España",
-  //   },
+  {
+    id: "ve",
+    name: "Venezuela",
+  },
+  {
+    id: "es",
+    name: "España",
+  },
+  {
+    id: "hn",
+    name: "Honduras",
+  },
+  {
+    id: "cr",
+    name: "Costa Rica",
+  },
+  {
+    id: "pa",
+    name: "Panama",
+  },
+  {
+    id: "ni",
+    name: "Nicaragua",
+  },
+  {
+    id: "py",
+    name: "Paraguay",
+  },
 ];

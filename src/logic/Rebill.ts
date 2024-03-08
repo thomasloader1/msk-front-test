@@ -1,14 +1,17 @@
 import { getEnv } from "utils/getEnv";
 import { sendToZoho } from "./Zoho";
 import api from "Services/api";
-import { ContactCRM } from "data/types";
+import { ContactCRM, JsonMapping } from "data/types";
 import { Dispatch, SetStateAction } from "react";
+import rebillCountryPriceMapping from "../data/jsons/__rebillCurrencyPrices.json"
 
 declare global {
   interface Window {
     Rebill: any;
   }
 }
+
+const rebillCountriesPrices: JsonMapping = rebillCountryPriceMapping
 
 export const REBILL_CONF = {
   ORG_ID: getEnv("REBILL_ORG_ID"),
@@ -56,7 +59,10 @@ const mappingCheckoutFields = (contactZoho: ContactCRM) => {
 
 const getPlan = (country: string) => {
   const gateway = REBILL_CONF.GATEWAYS.ST.includes(country) ? "STRIPE" : "MP";
-  const price = getEnv(`REBILL_${gateway}_${country.toUpperCase()}_FREEMIUM`);
+  const countryPrice = rebillCountriesPrices[country];
+  const price = getEnv(`REBILL_${gateway}_${countryPrice}_FREEMIUM`);
+
+  console.log({price, countryPrice})
 
   return {
     id: price,
@@ -70,6 +76,7 @@ export const initRebill = async (
   product: any,
   RebillSDKCheckout: any,
   setShow: Dispatch<SetStateAction<boolean>>,
+  setFaliedMessage: Dispatch<SetStateAction<string>>,
   setPaymentCorrect: Dispatch<SetStateAction<boolean | null>>,
   setMountedInput: Dispatch<SetStateAction<boolean>>
 ) => {
@@ -91,6 +98,7 @@ export const initRebill = async (
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
+    console.log({idPrice: id});
     RebillSDKCheckout.setTransaction({
       prices: [
         {
@@ -102,8 +110,10 @@ export const initRebill = async (
 
     //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
     RebillSDKCheckout.setCallbacks({
-      onSuccess: (response: any) => sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect),
-      onError: (error: any) => console.error({ callbackRebillError: error }),
+      onSuccess: (response: any) => sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect, setFaliedMessage),
+      onError: (error: any) => {
+         console.error({ callbackRebillError: error })
+        },
     });
 
     //Seteo metadata de la suscripcio

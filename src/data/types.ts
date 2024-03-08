@@ -181,6 +181,8 @@ export interface UserProfile {
     trial_course_sites?: TrialCourse[] | [];
   },
   email: string;
+  trial_course_sites?: TrialCourse[] | [];
+
 }
 
 export interface SingleProduct {

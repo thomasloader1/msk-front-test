@@ -11,6 +11,10 @@
         "gateway": "ST",
         "quotes": 15
     },
+    "ve": {
+        "gateway": "ST",
+        "quotes": 12
+    },
     "mx": {
         "gateway": "MP",
         "quotes": 12

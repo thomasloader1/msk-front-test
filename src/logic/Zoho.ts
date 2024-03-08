@@ -17,7 +17,8 @@ export const sendToZoho = async (
   country: string,
   product:any, 
   setShow: Dispatch<SetStateAction<boolean>>, 
-  setPaymentCorrect: Dispatch<SetStateAction<boolean|null>>
+  setPaymentCorrect: Dispatch<SetStateAction<boolean|null>>,
+  setFaliedMessage: Dispatch<SetStateAction<string>>
   ) => {
   const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
   const currencyJSON: any = currencyMapping;
@@ -28,7 +29,7 @@ export const sendToZoho = async (
   if (failedTransaction != null) {
     const { payment } = failedTransaction.paidBags[0];
     const { errorMessage } = payment;
-
+    setFaliedMessage(errorMessage)
     setPaymentCorrect(false)
     setShow(true)
     return;

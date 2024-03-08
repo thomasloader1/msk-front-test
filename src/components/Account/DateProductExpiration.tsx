@@ -20,14 +20,13 @@ const DateProductExpiration: FC<DateProductExpirationProps> = ({
   const [trialDateEnd, setTrialDateEnd] = useState<Date | null>(null)
   useEffect(() => {
     if(product.ov.includes("Trial")){
-      user?.contact?.trial_course_sites?.filter((tcs: any) => {
-        console.log(tcs)
+      user?.trial_course_sites?.filter((tcs: any) => {
         let contract = JSON.parse(tcs.contractJson);
         let productDetails = contract.data[0].Product_Details
         let dateEndTrial = contract.data[0].Fecha_de_fin_TRIAL
-        let [productFind] = productDetails.filter((pd: any) => Number(pd.product.Product_Code) === product.product_code)
+        const productFind = productDetails.filter((pd: any) => Number(pd.product.Product_Code) === product.product_code)
 
-        if(productFind.product.id){
+        if(productFind.length >= 1){
           setTrialDateEnd(dateEndTrial)
         }
         

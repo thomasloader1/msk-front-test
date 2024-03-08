@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 interface TrialModalContentProps{
     title: string;
     desc: string;
+    faliedMessage?: string;
     textButton: string;
     setShow?: Dispatch<SetStateAction<boolean>>;
     productSlug?: string | undefined;
@@ -22,7 +23,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
   cancelButton,
   goToAccount, 
   goToCourse,title, 
-  desc, 
+  desc, faliedMessage,
   textButton
 }) => {
   const [interact, setInteract] = useState(false)
@@ -84,7 +85,8 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
   return (
     <div id='trial_modal' className='text-center'>
         <h4 className='text-xl mb-4'>{title}</h4>
-        <p className='mb-8 font-medium text-violet-wash'>{desc}</p>
+        <p className='mb-4 font-medium text-violet-wash'>{desc}</p>
+        {faliedMessage && <p className='mb-8 font-medium text-red-600'>{faliedMessage}</p>}
         <button onClick={() => handleCloseModal() } disabled={interact} className="video-cart-btn w-full disabled:bg-grey-disabled">{interact ? "Solicitando ..." : textButton }</button>
         { cancelButton && 
         <button 

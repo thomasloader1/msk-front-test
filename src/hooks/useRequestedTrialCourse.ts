@@ -1,7 +1,5 @@
 import api from 'Services/api';
-import { AuthContext } from 'context/user/AuthContext';
-import { FetchSingleProduct, UserProfile } from 'data/types';
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface TrialCoursesStatus {
   hasCoursedRequested: boolean;

@@ -1,15 +1,16 @@
+"use client";
 import React, { FC, useState } from "react";
-import NcImage from "components/NcImage/NcImage";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
+import NcImage from "@/components/NcImage/NcImage";
+import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
+import { PostDataType } from "@/data/types";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import PostFeaturedMedia from "@/components/PostFeaturedMedia/PostFeaturedMedia";
+import CardAuthor2 from "@/components/CardAuthor2/CardAuthor2";
+import Link from "next/link";
 
 export interface Card10V3Props {
   className?: string;
-  post: any;
+  post: PostDataType;
   galleryType?: 1 | 2;
 }
 
@@ -36,11 +37,15 @@ const Card10V3: FC<Card10V3Props> = ({
       <div className="w-full h-full grid grid-rows-2 gap-2">
         <div className="grid grid-cols-3 gap-2 ">
           <NcImage
+            alt=""
+            fill
             containerClassName="relative col-span-2"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[0]}
           />
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[1]}
@@ -48,11 +53,15 @@ const Card10V3: FC<Card10V3Props> = ({
         </div>
         <div className="grid grid-cols-3 gap-2 ">
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[2]}
           />
           <NcImage
+            alt=""
+            fill
             containerClassName="relative col-span-2"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[3]}
@@ -68,6 +77,8 @@ const Card10V3: FC<Card10V3Props> = ({
       <div className="w-full h-full grid grid-cols-3 gap-2">
         <div className="grid ">
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[0]}
@@ -75,11 +86,15 @@ const Card10V3: FC<Card10V3Props> = ({
         </div>
         <div className="grid grid-rows-2 gap-2">
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[1]}
           />
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[2]}
@@ -87,6 +102,8 @@ const Card10V3: FC<Card10V3Props> = ({
         </div>
         <div className="grid ">
           <NcImage
+            alt=""
+            fill
             containerClassName="relative"
             className="absolute inset-0 object-cover w-full h-full"
             src={galleryImgs[3]}
@@ -99,7 +116,6 @@ const Card10V3: FC<Card10V3Props> = ({
   return (
     <div
       className={`nc-Card10V3 group relative flex flex-col ${className}`}
-      data-nc-id="Card10V3"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
@@ -115,18 +131,18 @@ const Card10V3: FC<Card10V3Props> = ({
         </div>
 
         <Link
-          to={href}
+          href={href}
           className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"
         ></Link>
       </div>
-      <div className="absolute top-3 inset-x-3 flex justify-between items-start space-x-4">
+      <div className="absolute top-3 inset-x-3 flex justify-between items-start space-x-4 rtl:space-x-reverse">
         <CategoryBadgeList categories={categories} />
-        <PostCardSaveAction postData={post} />
+        <PostCardSaveAction />
       </div>
 
       <div className="space-y-2.5 mt-4 px-4">
         <h2 className="nc-card-title block sm:text-lg font-semibold text-neutral-900 dark:text-neutral-100 ">
-          <Link to={href} className="line-clamp-1" title={title}>
+          <Link href={href} className="line-clamp-1" title={title}>
             {title}
           </Link>
         </h2>

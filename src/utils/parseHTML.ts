@@ -9,14 +9,12 @@ export const parseHtml = (contentHtml: string) => {
   // Buscar elementos UL dentro del contenido
   const ulElements = tempElement.querySelectorAll("ul");
 
-  const pElement = tempElement.querySelector("p");
-  pElement?.classList.add("text-violet-strong")
-
   ulElements.forEach((ulElement) => {
     // Buscar elementos LI dentro de cada UL
     ulElement.classList.add("m-0", "flex", "flex-col");
     const liElements = ulElement.querySelectorAll("li");
     const brElements = ulElement.querySelectorAll("br");
+    console.log({ liElements });
 
     brElements.forEach((brElement) => {
       if (brElement.parentNode) {

@@ -1,9 +1,9 @@
-import { PostDataType } from "data/types";
+import { PostDataType } from "@/data/types";
 import React, { FC } from "react";
 
 export interface PostTypeFeaturedIconProps {
   className?: string;
-  postType?: PostDataType["postType"] | string;
+  postType?: PostDataType["postType"];
   onClick?: () => void;
   wrapSize?: string;
   iconSize?: string;
@@ -128,7 +128,7 @@ const PostTypeFeaturedIcon: FC<PostTypeFeaturedIconProps> = ({
     >
       {!!postType && postType !== "standard" && (
         <span
-          className={`bg-neutral-900 bg-opacity-60 rounded-full flex  items-center justify-center text-xl text-white border border-white ${wrapSize}`}
+          className={`bg-neutral-900/-60 rounded-full flex items-center justify-center text-xl text-white border border-white ${wrapSize} `}
         >
           {renderMediaIcon()}
         </span>

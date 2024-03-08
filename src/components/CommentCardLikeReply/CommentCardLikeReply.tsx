@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import convertNumbThousand from "utils/convertNumbThousand";
-import twFocusClass from "utils/twFocusClass";
+"use client";
+
+import React, { FC, useState } from "react";
+import convertNumbThousand from "@/utils/convertNumbThousand";
+import twFocusClass from "@/utils/twFocusClass";
 
 export interface CommentCardLikeReplyProps {
   className?: string;
-  commentId: number;
-  onClickLike: (id: number) => void;
-  onClickReply: (id: number) => void;
+  onClickReply: () => void;
   likeCount: number;
   isLiked: boolean;
 }
@@ -14,11 +14,11 @@ export interface CommentCardLikeReplyProps {
 const CommentCardLikeReply: FC<CommentCardLikeReplyProps> = ({
   className = "",
   likeCount,
-  isLiked,
-  commentId,
-  onClickLike = () => {},
+  isLiked: likedProps,
   onClickReply = () => {},
 }) => {
+  const [isLiked, setIsLiked] = useState(likedProps);
+
   const renderActionBtns = () => {
     return (
       <>
@@ -28,11 +28,11 @@ const CommentCardLikeReply: FC<CommentCardLikeReplyProps> = ({
               ? "text-rose-600 bg-rose-50"
               : "text-neutral-700 bg-neutral-100 dark:text-neutral-200 dark:bg-neutral-800 hover:bg-rose-50 hover:text-rose-600 dark:hover:text-rose-500"
           }`}
-          onClick={() => onClickLike(commentId)}
+          onClick={() => setIsLiked(!isLiked)}
           title="Liked"
         >
           <svg
-            className="h-5 w-5 mr-1"
+            className="h-5 w-5 me-1"
             fill={isLiked ? "currentColor" : "none"}
             viewBox="0 0 24 24"
           >
@@ -60,11 +60,11 @@ const CommentCardLikeReply: FC<CommentCardLikeReplyProps> = ({
         <button
           className={`flex items-center min-w-[68px] rounded-full text-neutral-6000 bg-neutral-100 dark:text-neutral-200 dark:bg-neutral-800 px-3 h-8 hover:bg-teal-50 hover:text-teal-600 dark:hover:text-teal-500 ${twFocusClass()} `}
           title="Reply"
-          onClick={() => onClickReply(commentId)}
+          onClick={onClickReply}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-[18px] w-[18px] mr-2"
+            className="h-[18px] w-[18px] me-2"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -86,7 +86,7 @@ const CommentCardLikeReply: FC<CommentCardLikeReplyProps> = ({
 
   return (
     <div
-      className={`nc-CommentCardLikeReply flex items-center space-x-2 ${className}`}
+      className={`nc-CommentCardLikeReply flex items-center space-x-2 rtl:space-x-reverse ${className}`}
       data-nc-id="CommentCardLikeReply"
     >
       {renderActionBtns()}

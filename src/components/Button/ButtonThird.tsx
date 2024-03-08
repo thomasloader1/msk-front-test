@@ -1,13 +1,12 @@
-import Button, { ButtonProps } from "components/Button/Button";
-import React from "react";
+"use client";
 
-export interface ButtonThirdProps extends ButtonProps {}
+import React, { FC } from "react";
+import Button, { ButtonProps } from "./Button";
 
-const ButtonThird: React.FC<ButtonThirdProps> = ({
-  className = "text-neutral-700 border border-neutral-200 dark:text-neutral-200 dark:border-neutral-700",
-  ...args
-}) => {
-  return <Button className={`ttnc-ButtonThird ${className}`} {...args} />;
+export interface Props extends ButtonProps {}
+
+const ButtonThird: FC<Props> = (props) => {
+  return <Button {...props} pattern="third" />;
 };
 
 export default ButtonThird;

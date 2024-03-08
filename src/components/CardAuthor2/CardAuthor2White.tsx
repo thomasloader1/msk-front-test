@@ -1,8 +1,7 @@
 import React, { FC } from "react";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import Avatar from "components/Avatar/Avatar";
+import Avatar from "@/components/Avatar/Avatar";
 import { CardAuthor2Props } from "./CardAuthor2";
+import Link from "next/link";
 
 export interface CardAuthor2WhiteProps extends CardAuthor2Props {}
 
@@ -15,9 +14,8 @@ const CardAuthor2White: FC<CardAuthor2WhiteProps> = ({
   const { displayName, href = "/", avatar } = author;
   return (
     <Link
-      to={href}
+      href={href}
       className={`nc-CardAuthor2White relative inline-flex items-center ${className}`}
-      data-nc-id="CardAuthor2White"
     >
       <Avatar
         sizeClass="h-10 w-10 text-base"

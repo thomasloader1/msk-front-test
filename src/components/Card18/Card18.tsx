@@ -1,9 +1,9 @@
 import { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import { FetchPostType } from "data/types";
-import { compareByNameDescending } from "lib/compareByNameDescending";
+import NcImage from "@/components/NcImage/NcImage";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import { FetchPostType } from "@/data/types";
+import { compareByNameDescending } from "@/lib/compareByNameDescending";
+import Link from "next/link";
 
 export interface Card18Props {
   className?: string;
@@ -35,7 +35,8 @@ const Card18: FC<Card18Props> = ({
       </div>
     );
   };
-  const categoriesOrder = kind === 'blog' ? categories.sort(compareByNameDescending) : categories
+  const categoriesOrder =
+    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
 
   return (
     <div
@@ -47,11 +48,14 @@ const Card18: FC<Card18Props> = ({
         <PostCardSaveAction className="relative" postData={post} />
       </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>(
-      <Link to={`/${kind}/${slug}`}>
+      <Link href={`/${kind}/${slug}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-xl"
           className="object-cover w-full h-full rounded-xl"
-          src={image}
+          alt={title}
+          src={image || ""}
+          width="300"
+          height="300"
         />
         {/* <PostTypeFeaturedIcon
             className="absolute top-3 left-3 group-hover:hidden"
@@ -63,11 +67,11 @@ const Card18: FC<Card18Props> = ({
       </Link>
       )
       <Link
-        to={`/${kind}/${slug}`}
+        href={`/${kind}/${slug}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-80"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col flex-grow">
-        <Link to={`/${kind}/${slug}`} className="absolute inset-0"></Link>
+        <Link href={`/${kind}/${slug}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
             <CategoryBadgeList

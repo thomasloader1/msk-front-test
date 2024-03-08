@@ -1,51 +1,101 @@
+"use client";
 import React, { FC } from "react";
-import twFocusClass from "utils/twFocusClass";
 
 export interface NextPrevProps {
-  containerClassName?: string;
-  currentPage?: number;
-  totalPage?: number;
+  className?: string;
   btnClassName?: string;
-  onClickNext?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onClickPrev?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClickNext?: () => void;
+  onClickPrev?: () => void;
   onlyNext?: boolean;
   onlyPrev?: boolean;
 }
 
 const NextPrev: FC<NextPrevProps> = ({
-  containerClassName = "",
+  className = "",
   onClickNext = () => {},
   onClickPrev = () => {},
   btnClassName = "w-10 h-10",
   onlyNext = false,
   onlyPrev = false,
 }) => {
+  const [focus, setFocus] = React.useState<"left" | "right">("right");
+
   return (
     <div
-      className={`nc-NextPrev relative flex items-center text-neutral-900 dark:text-neutral-300 ${containerClassName}`}
-      data-nc-id="NextPrev"
-      data-glide-el="controls"
+      className={`nc-NextPrev relative flex items-center text-slate-500 dark:text-slate-400 ${className}`}
     >
       {!onlyNext && (
         <button
           className={`${btnClassName} ${
-            !onlyPrev ? "mr-[6px]" : ""
-          } bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
-          onClick={onClickPrev}
+            !onlyPrev ? "mr-2" : ""
+          } border-slate-200 dark:border-slate-600 rounded-full flex items-center justify-center ${
+            focus === "left" ? "border-2" : ""
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            onClickPrev();
+          }}
           title="Prev"
-          data-glide-dir="<"
+          onMouseEnter={() => setFocus("left")}
         >
-          <i className="las la-angle-left"></i>
+          <svg
+            className="w-5 h-5 rtl:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M9.57 5.92993L3.5 11.9999L9.57 18.0699"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M20.5 12H3.67004"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       )}
       {!onlyPrev && (
         <button
-          className={`${btnClassName} bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-6000 dark:hover:border-neutral-500 rounded-full flex items-center justify-center hover:border-neutral-300 ${twFocusClass()}`}
-          onClick={onClickNext}
+          className={`${btnClassName}  border-slate-200 dark:border-slate-600 rounded-full flex items-center justify-center ${
+            focus === "right" ? "border-2" : ""
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+            onClickNext();
+          }}
           title="Next"
-          data-glide-dir=">"
+          onMouseEnter={() => setFocus("right")}
         >
-          <i className="las la-angle-right"></i>
+          <svg
+            className="w-5 h-5 rtl:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M14.4301 5.92993L20.5001 11.9999L14.4301 18.0699"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M3.5 12H20.33"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       )}
     </div>

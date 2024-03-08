@@ -1,9 +1,10 @@
+"use client";
 import React, { FC } from "react";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/solid";
-import { ListBoxItemType } from "components/NcListBox/NcListBox";
-import ButtonDropdown from "components/ButtonDropdown/ButtonDropdown";
+// import { CheckIcon } from "@heroicons/react/solid";
+import { ListBoxItemType } from "@/components/NcListBox/NcListBox";
+import ButtonDropdown from "@/components/ButtonDropdown/ButtonDropdown";
 
 export interface ArchiveFilterListBoxProps {
   className?: string;
@@ -61,7 +62,7 @@ const ArchiveFilterListBox: FC<ArchiveFilterListBoxProps> = ({
                       </span>
                       {selected ? (
                         <span className="text-primary-700 absolute inset-y-0 left-0 flex items-center pl-3 dark:text-neutral-200">
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                          {/* <CheckIcon className="w-5 h-5" aria-hidden="true" /> */}
                         </span>
                       ) : null}
                     </>

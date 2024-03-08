@@ -1,22 +1,24 @@
-import Card3Small from "components/Card3Small/Card3Small";
-import WidgetHeading1 from "components/WidgetHeading1/WidgetHeading1";
-import { PostDataType } from "data/types";
+import Card3Small from "@/components/Card3Small/Card3Small";
+import WidgetHeading1 from "@/components/WidgetHeading1/WidgetHeading1";
+import { DEMO_POSTS } from "@/data/posts";
+import { PostDataType } from "@/data/types";
 import React, { FC } from "react";
+
+const widgetPostsDemo: PostDataType[] = DEMO_POSTS.filter(
+  (_, i) => i > 2 && i < 7
+);
 
 export interface WidgetPostsProps {
   className?: string;
-  posts: PostDataType[];
+  posts?: PostDataType[];
 }
 
 const WidgetPosts: FC<WidgetPostsProps> = ({
   className = "bg-neutral-100 dark:bg-neutral-800",
-  posts,
+  posts = widgetPostsDemo,
 }) => {
   return (
-    <div
-      className={`nc-WidgetPosts rounded-3xl overflow-hidden ${className}`}
-      data-nc-id="WidgetPosts"
-    >
+    <div className={`nc-WidgetPosts rounded-3xl overflow-hidden ${className}`}>
       <WidgetHeading1
         title="🎯 Popular Posts"
         viewAll={{ label: "View all", href: "/#" }}

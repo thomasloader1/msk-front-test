@@ -1,18 +1,20 @@
 import { Popover, Transition } from "@headlessui/react";
-import Avatar from "components/Avatar/Avatar";
-import ModalSignOut from "components/Modal/SignOut";
-import { AuthContext } from "context/user/AuthContext";
+import Avatar from "@/components/Avatar/Avatar";
+import ModalSignOut from "@/components/Modal/SignOut";
+import { AuthContext } from "@/context/user/AuthContext";
 import { Fragment, useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-
+import NcLink from "../NcLink/NcLink";
+import NcImage from "../NcImage/NcImage";
+import { CountryContext } from "@/context/country/CountryContext";
 const NavigationUser = () => {
   const { state } = useContext(AuthContext);
+  const { state: countryState } = useContext(CountryContext);
   const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const history = useHistory();
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+  const urlPre = countryState.country ? `/${countryState.country}` : "";
 
   return (
     <>
@@ -23,11 +25,12 @@ const NavigationUser = () => {
               <Popover.Button
                 className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
               >
-                <img
-                  src="/images/icons/profile.svg"
+                <NcImage
+                  src={"/images/icons/profile.svg"}
                   alt=""
                   className="ml-4 mt-2"
                   width="25"
+                  height="25"
                 />
               </Popover.Button>
 
@@ -64,37 +67,37 @@ const NavigationUser = () => {
                         <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
 
                         {/* ------------------ 1 --------------------- */}
-                        <Link
+                        <NcLink
                           onClick={() => close()}
-                          to={"/mi-perfil"}
+                          href={`${urlPre}/mi-perfil`}
                           className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                         >
-                          <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
-                            <img
-                              src="/images/icons/profile.svg"
+                          <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300 w-[20px]">
+                            <NcImage
+                              src={"/images/icons/profile.svg"}
                               alt=""
                               width="20"
+                              height="20"
                             />
                           </div>
                           <div className="ml-4">
-                            <p className="text-sm font-medium ">
-                              {"Mi Perfil"}
-                            </p>
+                            <p className="text-sm font-medium">{"Mi Perfil"}</p>
                           </div>
-                        </Link>
+                        </NcLink>
 
                         {/* ------------------ 2 --------------------- */}
 
-                        <Link
+                        <NcLink
                           onClick={() => close()}
-                          to={"/mi-cuenta/inicio"}
+                          href={`${urlPre}/mi-cuenta/inicio`}
                           className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
-                            <img
-                              src="/images/icons/config-account.svg"
+                            <NcImage
+                              src={"/images/icons/config-account.svg"}
                               alt=""
                               width="20"
+                              height="20"
                             />
                           </div>
                           <div className="ml-4">
@@ -102,7 +105,7 @@ const NavigationUser = () => {
                               {"Configurar mi cuenta"}
                             </p>
                           </div>
-                        </Link>
+                        </NcLink>
 
                         <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
 
@@ -112,10 +115,11 @@ const NavigationUser = () => {
                           onClick={handleModalLogout}
                         >
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
-                            <img
-                              src="/images/icons/logout.svg"
+                            <NcImage
+                              src={"/images/icons/logout.svg"}
                               alt=""
                               width="20"
+                              height="20"
                             />
                           </div>
                           <div className="ml-4">

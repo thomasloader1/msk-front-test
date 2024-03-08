@@ -1,12 +1,10 @@
-import api from "Services/api";
-import { AuthState, AuthAction } from "data/types";
+import { AuthState, AuthAction } from "@/data/types";
 
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
 const FRESH = "FRESH";
 const UPDATE_PROFILE = "UPDATE_PROFILE";
 const UPDATE_COURSES = "UPDATE_COURSES";
-const SET_FETCH = "SET_FETCH";
 
 export const authReducer = (
   state: AuthState,
@@ -24,14 +22,6 @@ export const authReducer = (
           speciality: action.payload.user.speciality,
         })
       );
-
-     api.getUserData().then( res => {
-        localStorage.setItem(
-          "userProfile",
-          JSON.stringify(res.contact)
-        );
-      }).catch( err => console.error(err))
-
       const user = localStorage.getItem("user");
       return {
         ...state,
@@ -48,7 +38,6 @@ export const authReducer = (
       localStorage.removeItem("token");
       localStorage.removeItem("email");
       localStorage.removeItem("user");
-      localStorage.removeItem("userProfile");
 
       return {
         ...state,
@@ -76,13 +65,11 @@ export const authReducer = (
         user: userInLocal ? JSON.parse(userInLocal) : null,
       };
     case UPDATE_PROFILE:
-      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
       return {
         ...state,
         profile: action.payload.profile,
       };
     case UPDATE_COURSES:
-      localStorage.setItem("userProfile",JSON.stringify({...action.payload.profile}));
       return {
         ...state,
         profile: {
@@ -90,11 +77,6 @@ export const authReducer = (
           courses_progress: action.payload.courses_progress,
         },
       };
-      case SET_FETCH:
-        return {
-          ...state,
-          onRequest: action.payload.onRequest,
-        };
     default:
       return state;
   }

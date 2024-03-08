@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import PostCardMeta from "components/PostCardMeta/PostCardMeta";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
+import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
+import { PostDataType } from "@/data/types";
+import Link from "next/link";
+import Image from "next/image";
 
 export interface Card3SmallProps {
   className?: string;
@@ -14,29 +14,30 @@ const Card3Small: FC<Card3SmallProps> = ({ className = "h-full", post }) => {
 
   return (
     <div
-      className={`nc-Card3Small relative flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center ${className}`}
-      data-nc-id="Card3Small"
+      className={`nc-Card3Small relative flex flex-row justify-between items-center ${className}`}
     >
-      <Link to={href} className=" absolute inset-0" title={title}></Link>
+      <Link href={href} className="absolute inset-0" title={title}></Link>
       <div className="relative space-y-2">
         <PostCardMeta meta={{ ...post }} />
-        <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100">
-          <Link to={href} className=" line-clamp-2" title={title}>
+        <h2 className="nc-card-title block text-sm sm:text-base font-medium sm:font-semibold text-neutral-900 dark:text-neutral-100">
+          <Link href={href} className="line-clamp-2" title={title}>
             {title}
           </Link>
         </h2>
       </div>
 
       <Link
-        to={href}
+        href={href}
         title={title}
-        className={`block sm:w-20 flex-shrink-0 relative rounded-lg overflow-hidden z-0 mb-5 sm:ml-4 sm:mb-0 group`}
+        className={`block w-20 flex-shrink-0 relative rounded-lg overflow-hidden z-0 ms-4 group`}
       >
-        <div className={`w-full h-0 aspect-w-16 aspect-h-9 sm:aspect-h-16`}>
-          <NcImage
-            containerClassName="absolute inset-0"
-            className="z-0 object-cover w-full h-full group-hover:scale-110 transform transition-transform duration-300"
+        <div className={`w-full h-0 aspect-w-1 aspect-h-1`}>
+          <Image
+            alt="featured"
+            sizes="100px"
+            className="object-cover w-full h-full group-hover:scale-110 transform transition-transform duration-300"
             src={featuredImage}
+            fill
             title={title}
           />
         </div>

@@ -1,8 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import logoImg from "/images/msk-logo.svg";
-import logoLightImg from "/images/logo-light.png";
-import LogoSvg from "./LogoSvg";
+import NcLink from "../NcLink/NcLink";
+import NcImage from "../NcImage/NcImage";
 
 export interface LogoProps {
   img?: string;
@@ -11,17 +9,17 @@ export interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({
-  img = logoImg,
+  img = "/images/msk-logo.svg",
   isOnBlog,
-  imgLight = logoLightImg,
+  imgLight = "/images/logo-light.png",
 }) => {
   return (
-    <Link
-      to={isOnBlog ? "/blog" : "/"}
-      className="ttnc-logo inline-block text-primary-6000"
+    <NcLink
+      href={isOnBlog ? "/blog" : "/"}
+      className="ttnc-logo inline-block text-primary-6000 w-[100px] "
     >
-      <img src={img} width="100" />
-    </Link>
+      <NcImage src={img} alt="" width="100" height="60" />
+    </NcLink>
   );
 };
 

@@ -1,25 +1,24 @@
 import React, { FC, useEffect, useState } from "react";
-import featuredTextImg from "/images/featuredTextImg.png";
 
 interface ProductFeaturedTextProps {
   text: string;
 }
 
 const ProductFeaturedText: FC<ProductFeaturedTextProps> = ({ text }) => {
-  const [formattedText, setFormattedText] = useState("");
-  useEffect(() => {
-    setFormattedText(text.replace(/<em>/g, "").replace(/<\/em>/g, ""));
-  }, [text]);
+  const formattedText = text.replace(/<em>/g, "").replace(/<\/em>/g, "");
+
   return (
-    <div className="requirements mb-10 sm:mb-16 flex-column flex-nowrap items-center text-violet-dark">
-      <img
-        src={featuredTextImg}
-        alt="featuredTextImg"
-        className="mr-5 hidden sm:block"
-      />
+    <div className="requirements mb-10 sm:mb-16 flex nowrap items-center">
+      <div className="w-[15%] flex justify-center">
+        <img
+          src={"/images/featuredTextImg.png"}
+          alt="featuredTextImg"
+          className="mr-5 hidden sm:block"
+        />
+      </div>
       <div
         dangerouslySetInnerHTML={{ __html: formattedText }}
-        className="font-normal not-italic"
+        className="font-normal not-italic w-[85%]"
       />
     </div>
   );

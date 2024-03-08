@@ -1,6 +1,6 @@
-import { Popover, Transition } from "@headlessui/react";
-import Avatar from "components/Avatar/Avatar";
-import { Fragment } from "react";
+import { Popover, Transition } from "@/app/[lang]/headlessui";
+import Avatar from "@/components/Avatar/Avatar";
+import { FC, Fragment } from "react";
 
 const solutions = [
   {
@@ -23,9 +23,13 @@ const solutions = [
   },
 ];
 
-export default function NotifyDropdown() {
+interface Props {
+  className?: string;
+}
+
+const NotifyDropdown: FC<Props> = ({ className = "hidden sm:block" }) => {
   return (
-    <div className="">
+    <div className={className}>
       <Popover className="relative">
         {({ open }) => (
           <>
@@ -35,7 +39,7 @@ export default function NotifyDropdown() {
                  group  p-3 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-full inline-flex items-center text-base font-medium hover:text-opacity-100
                   focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
             >
-              <span className="w-2 h-2 bg-blue-500 absolute top-2 right-2 rounded-full"></span>
+              <span className="w-2 h-2 bg-blue-500 absolute top-2 end-2 rounded-full"></span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M12 6.43994V9.76994"
@@ -68,7 +72,7 @@ export default function NotifyDropdown() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute z-10 w-screen max-w-xs sm:max-w-sm px-4 mt-3 -right-28 sm:right-0 sm:px-0">
+              <Popover.Panel className="absolute z-10 w-screen max-w-xs sm:max-w-sm px-4 mt-3 -end-28 sm:end-0 sm:px-0">
                 <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid gap-8 bg-white dark:bg-neutral-800 p-7">
                     <h3 className="text-xl font-semibold">Notifications</h3>
@@ -82,7 +86,7 @@ export default function NotifyDropdown() {
                           sizeClass="w-8 h-8 sm:w-12 sm:h-12"
                           radius="rounded-full"
                         />
-                        <div className="ml-3 sm:ml-4 space-y-1">
+                        <div className="ms-3 sm:ms-4 space-y-1">
                           <p className="text-sm font-medium text-gray-900 dark:text-gray-200">
                             {item.name}
                           </p>
@@ -105,4 +109,6 @@ export default function NotifyDropdown() {
       </Popover>
     </div>
   );
-}
+};
+
+export default NotifyDropdown;

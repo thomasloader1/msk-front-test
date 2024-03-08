@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import Input from "components/Input/Input";
-import { CountryContext } from "context/country/CountryContext";
-import { FetchCourseType } from "data/types";
-import { Link, useLocation } from "react-router-dom";
-import searchIcon from "/images/icons/search.svg";
-import { DataContext } from "context/data/DataContext";
+import Input from "@/components/Input/Input";
+import { CountryContext } from "@/context/country/CountryContext";
+import { FetchCourseType } from "@/data/types";
+import { DataContext } from "@/context/data/DataContext";
+import { useLocation } from "react-use";
+import NcLink from "../NcLink/NcLink";
+import NcImage from "../NcImage/NcImage";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -49,14 +50,16 @@ const SearchProducts = () => {
   };
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname.includes("/blog")) {
+    if (location.pathname?.includes("/blog")) {
       setAuxProducts([...allPosts]);
       setProducts(allPosts);
       setIsOnBlog(true);
     } else {
-      setAuxProducts([...allCourses]);
-      setProducts(allCourses);
-      setIsOnBlog(false);
+        if (allCourses.length) {
+            setAuxProducts([...allCourses]);
+            setProducts(allCourses);
+            setIsOnBlog(false);
+        }
     }
   }, [location.pathname, allCourses, allPosts]);
 
@@ -73,26 +76,34 @@ const SearchProducts = () => {
           onFocus={() => setIsInputFocused(true)}
           onBlur={() => onBlur()}
         />
-        <img src={searchIcon} className="absolute top-2 right-2" />
+        <NcImage
+          src={"/images/icons/search.svg"}
+          className="absolute top-2.5 right-2"
+          alt=""
+          width="21"
+          height="21"
+        />
       </div>
       {inputValue && isInputFocused && (
         <div className="search-products-results">
           {products
             .map((product, index) => (
-              <Link
-                to={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
+              <NcLink
+                href={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
-                className="product-item"
+                className="product-item font-medium"
                 onClick={() => clearInputValue()} // Clear input value and update URL
               >
                 <div className="img-container">
-                  <img
+                  <NcImage
                     src={product.image.replace(`${state.country}.`, "")}
                     alt={product.title}
+                    width="50"
+                    height="50"
                   />
                 </div>
                 <p>{product.title}</p>
-              </Link>
+              </NcLink>
             ))
             .filter((product, index) => index < 5)}
         </div>

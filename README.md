@@ -1,56 +1,36 @@
-﻿# template MSK
-Las rutas de la app estan en `src/routers/msk.tsx` desde aca se puede ver las pages y components que usa actualmente este sitio
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Rutas dispobiles de WP
+## Getting Started
 
-### Home
-- https://wp.msklatam.com/wp-json/wp/api/home -> tiene toda la data en un solo endpoint
-- https://wp.msklatam.com/wp-json/wp/api/home/hero
-- https://wp.msklatam.com/wp-json/wp/api/home/tarjetas
-- https://wp.msklatam.com/wp-json/wp/api/home/banner
-- https://wp.msklatam.com/wp-json/wp/api/home/reviews
-- https://wp.msklatam.com/wp-json/wp/api/home/best-sellers
-- https://wp.msklatam.com/wp-json/wp/api/home/destacados
-- https://wp.msklatam.com/wp-json/wp/api/home/webinar 
+First, run the development server:
 
-### Posteos
-- https://wp.msklatam.com/wp-json/wp/api/posts
-- https://wp.msklatam.com/wp-json/wp/api/posts/id
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-### Productos
-- https://wp.msklatam.com/wp-json/wp/api/products
-- https://wp.msklatam.com/wp-json/wp/api/product/id
-  
-### Tienda
-- https://wp.msklatam.com/wp-json/wp/api/shop
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Rutas dispobiles de Backend MSK
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## GET
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-### Profesiones
-- https://www.msklatam.com/msk-laravel/public/api/professions
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-### Especialidades
-- https://msklatam.com/msk-laravel/public/api/specialities
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### Profesiones que debe tener la tienda
-- https://www.msklatam.com/msk-laravel/public/api/store/professions
+## Learn More
 
-## POST
+To learn more about Next.js, take a look at the following resources:
 
-### Formulario de contacto
-- https://msklatam.com/msk-laravel/public/api/CreateLeadMSKCRM
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Mi Cuenta
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-### Logeo y deslogeo (POST)
-- https://msklatam.com/msk-laravel/public/api/login (Al logearse te devuelve un Token Bearer que se deberia almacenar en un estado)
-- https://msklatam.com/msk-laravel/public/api/logout (RUTA PROTEGIDA, necesita el token para revocarlo)
+## Deploy on Vercel
 
-### Perfil (GET)
-- https://msklatam.com/msk-laravel/public/api/profile/{email} (RUTA PROTEGIDA, necesita el token para retornar el perfil completo del usuario)
-
-### Cambio de PW (POST)
-- https://msklatam.com/msk-laravel/public/api/RequestPasswordChange (RUTA QUE DEBE ESTAR EN EL SUBMIT DEL FORM /forgot-pass (front-end), al enviar deberia de enviarte un mail a la casilla que se ingreso al input y en el mail al hacer un click en el boton de continuar te llevaria a otra ruta para ingresar la contraseña)
-- https://msklatam.com/msk-laravel/public/api/newPassword (RUTA QUE ACTUALIZA LA PW EN ZOHO)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

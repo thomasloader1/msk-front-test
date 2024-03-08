@@ -1,15 +1,14 @@
+"use client";
 import { FC, useContext, useEffect, useState } from "react";
-import { Details, Ficha, JsonInstallmentsMapping, JsonMapping, SingleProduct } from "data/types";
-import { CountryContext } from "context/country/CountryContext";
-import { useHistory, useParams } from "react-router-dom";
-import { AuthContext } from "context/user/AuthContext";
-import { formatAmount } from "lib/formatAmount";
-import currencyMapping from "../../data/jsons/__countryCurrencies.json"
-import installmentsMapping from "../../data/jsons/__countryInstallments.json"
-import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
+import { Details, Ficha } from "@/data/types";
+import { CountryContext } from "@/context/country/CountryContext";
+import { AuthContext } from "@/context/user/AuthContext";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Props {
- product: SingleProduct;
+  ficha: Ficha;
+  details: Details;
   isEbook?: boolean;
   sideData: {
     modalidad: string;
@@ -20,20 +19,14 @@ interface Props {
   };
 }
 
-const currencyJSON: JsonMapping = currencyMapping;
-const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
-
 const ProductDetailSidebar: FC<Props> = ({
-  product,
+  ficha,
+  details,
   isEbook,
   sideData,
 }) => {
-
-  const history = useHistory();
-  const { ficha } = product;
-  const {slug}: {slug:string} = useParams();
-  const {state: authState} = useContext(AuthContext);
-  const {state: countryState} = useContext(CountryContext);
+  const { slug }: { slug: string } = useParams();
+  const { state: authState } = useContext(AuthContext);
   const isLocal =
     window.location.origin.includes("dev.msklatam.tech") ||
     window.location.origin.includes("localhost");
@@ -96,20 +89,13 @@ const ProductDetailSidebar: FC<Props> = ({
     { description: "Acceso a newsletters", icon: "newsletter", size: "16" },
   ];
 
-  const requestTrial = (slug: string) => {
-    if(authState.isAuthenticated){
-      history.push(`/suscribe/${slug}`)
-      return
-    }
-    history.push(`/trial/${slug}`)
-  };
-  const installments = installmentsJSON[countryState.country].quotes;
-  const currency = currencyJSON[countryState.country];
-  const totalProductPrice = Number(product.total_price.replaceAll(".",""));
-  const [installmentProductPrice, cents] = (totalProductPrice / installments).toFixed(2).split(".")
-  const {hasCoursedRequested,showAlreadyRequest, setShowAlreadyRequest} = useRequestedTrialCourse(product);
+  const router = useRouter();
 
-  
+  const requestTrial = (slug: string) => {
+    router.push(
+      authState.isAuthenticated ? `/suscribe/${slug}` : `/trial/${slug}`
+    );
+  };
 
   return (
     <div className={`course-video-widget`}>
@@ -121,17 +107,14 @@ const ProductDetailSidebar: FC<Props> = ({
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
-          <div className="course-video-thumb mb-2 w-img hidden lg:flex">
+          <div className="course-video-thumb w-img hidden lg:flex">
             <img src={image} alt="img not found" />
           </div>
         )}
 
         {isEbook ? null : (
-          <div className="mb-2">
-            <div className="text-sm mb-4 text-violet-strong">Total: <strong>{formatAmount(totalProductPrice , currency)}</strong></div>
-            <div className="text-sm mb-2 text-violet-strong">{installments} pagos de:</div>
-            <span className="text-[32px] font-bold text-violet-dark">{formatAmount(Number(installmentProductPrice) , currency)}</span>
-            {/* <span>💳 Pagos sin intereses</span> */}
+          <div className="course-video-price">
+            <span>💳 Pagos sin intereses</span>
           </div>
         )}
 
@@ -161,7 +144,7 @@ const ProductDetailSidebar: FC<Props> = ({
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon w-full">
                         <img src={`/images/icons/${key}.svg`} width="15" />
-                        <p className="text-[11px] sm:text-sm md:text-base w-full flex justify-between items-center text-dark-blue-custom">
+                        <p className="text-[12px] sm:text-base w-full flex justify-between text-dark-blue-custom">
                           <span>
                             {translations[key] ? translations[key] + ":" : ""}
                           </span>
@@ -172,9 +155,9 @@ const ProductDetailSidebar: FC<Props> = ({
                               "Español"
                             )
                           ) : (
-                            <div className="ml-auto text-left">
+                            <span className="ml-auto">
                               {sideData[key as keyof typeof sideData]}
-                            </div>
+                            </span>
                           )}
                         </p>
                       </div>
@@ -188,17 +171,16 @@ const ProductDetailSidebar: FC<Props> = ({
         <div className="flex flex-col gap-2">
           <button
             onClick={scrollToContactForm}
-            className="video-cart-btn w-full "
+            className="video-cart-btn w-full"
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
           {!isEbook && isLocal && (
             <button
               onClick={() => requestTrial(slug)}
-              className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"
-              disabled={hasCoursedRequested}
+              className="video-cart-btn border-2 w-full"
             >
-             {hasCoursedRequested ? "Prueba ya solicitada" : "Prueba 7 días gratis"}
+              Prueba 7 días gratis
             </button>
           )}
         </div>

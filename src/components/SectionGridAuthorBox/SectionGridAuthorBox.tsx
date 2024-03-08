@@ -1,6 +1,6 @@
-import CardAuthorBox from "components/CardAuthorBox/CardAuthorBox";
-import Heading from "components/Heading/Heading";
-import { PostAuthorType } from "data/types";
+import CardAuthorBox from "@/components/CardAuthorBox/CardAuthorBox";
+import Heading from "@/components/Heading/Heading";
+import { PostAuthorType } from "@/data/types";
 import React, { FC } from "react";
 
 export interface SectionGridAuthorBoxProps {
@@ -13,10 +13,7 @@ const SectionGridAuthorBox: FC<SectionGridAuthorBoxProps> = ({
   authors,
 }) => {
   return (
-    <div
-      className={`nc-SectionGridAuthorBox relative ${className}`}
-      data-nc-id="SectionGridAuthorBox"
-    >
+    <div className={`nc-SectionGridAuthorBox relative ${className}`}>
       <Heading desc="Rating based on customer reviews" isCenter>
         Top 10 author of the month
       </Heading>

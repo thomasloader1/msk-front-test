@@ -1,17 +1,14 @@
-@import "../../node_modules/@glidejs/glide/src/assets/sass/glide.core";
 //
+@import "./_theme_rtl";
 @import "./_theme_colors";
 @import "./_theme_font";
 @import "./_theme_custom";
 //
 @import "./header";
-@import "react-phone-number-input-custom.scss";
-@import "searchbar.scss";
-@import "rebill-input.scss";
-
-@media (min-width: 1024px){
-    .lg\:prose-lg :where(img):not(:where([class~="not-prose"] *)) {
-        margin-top: 0;
-    }
-
-}
+@import "./components/contact";
+@import "./components/footer";
+@import "./components/header";
+@import "./components/course";
+@import "./components/shop";
+@import "./components/note";
+@import "/fonts/line-awesome-1.3.0/css/line-awesome.css";

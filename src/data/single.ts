@@ -1,32 +1,12 @@
-import { SinglePageType } from "containers/PageSingle/PageSingle";
 import { DEMO_TAGS } from "./taxonomies";
-import __comments from "./jsons/__comments.json";
 import a10 from "./avatars/11.jpg";
 import { DEMO_AUTHORS } from "./authors";
-import { CommentType } from "components/CommentCard/CommentCard";
 import podcastImg from "/images/podcast.jpg";
-
-// function nested the comment child -- make tree comment
-const nest = (
-  items: CommentType[],
-  id: number | null | undefined
-): CommentType[] => {
-  return items
-    .filter((item) => item.parentId === id)
-    .map((item) => ({
-      ...item,
-      children: nest(items, item.id as number | null),
-    }));
-};
-
-// AUTHOR RANDOM FOR DEMO
-const commentHasAuthor = __comments.map((item) => ({
-  ...item,
-  author: DEMO_AUTHORS[Math.floor(Math.random() * 10)],
-}));
+import { ReactNode } from "react";
+import { PostDataType, SinglePageType } from "./types";
+import { CommentType } from "@/components/CommentCard/CommentCard";
 
 //
-export const DEMO_COMMENTS = nest(commentHasAuthor, null);
 export const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage:
@@ -78,12 +58,12 @@ export const SINGLE: SinglePageType = {
   postType: "standard",
   tags: [DEMO_TAGS[0], DEMO_TAGS[1], DEMO_TAGS[3]],
   content: "",
-  comments: DEMO_COMMENTS,
+  // comments: DEMO_COMMENTS,
 };
 
 export const SINGLE_AUDIO: SinglePageType = {
   id: "ea21212f687e0c",
-  featuredImage: podcastImg,
+  // featuredImage: podcastImg,
   title: "Programming Languages",
   desc: "We’re an online magazine dedicated to covering the best in international product design. We started as a little blog back in 2002 covering student work and over time",
   date: "May 20, 2021",
@@ -123,7 +103,7 @@ export const SINGLE_AUDIO: SinglePageType = {
     "https://chisnghiax.com/ncmaz_mp3/Jarico_-_Landscape_NCS_BEST_OFMP3_160K.mp3",
   tags: [DEMO_TAGS[0], DEMO_TAGS[1], DEMO_TAGS[3]],
   content: "",
-  comments: DEMO_COMMENTS,
+  // comments: DEMO_COMMENTS,
 };
 
 export const SINGLE_VIDEO: SinglePageType = {
@@ -168,7 +148,7 @@ export const SINGLE_VIDEO: SinglePageType = {
   videoUrl: "https://www.youtube.com/watch?v=a6roH6RffnA",
   tags: [DEMO_TAGS[0], DEMO_TAGS[1], DEMO_TAGS[3]],
   content: "",
-  comments: DEMO_COMMENTS,
+  // comments: DEMO_COMMENTS,
 };
 
 export const SINGLE_GALLERY: SinglePageType = {
@@ -219,5 +199,5 @@ export const SINGLE_GALLERY: SinglePageType = {
   ],
   tags: [DEMO_TAGS[0], DEMO_TAGS[1], DEMO_TAGS[3]],
   content: "",
-  comments: DEMO_COMMENTS,
+  // comments: DEMO_COMMENTS,
 };

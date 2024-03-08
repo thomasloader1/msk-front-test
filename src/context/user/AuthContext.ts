@@ -1,5 +1,5 @@
 import { createContext, Dispatch } from "react";
-import { AuthState, AuthAction } from "data/types";
+import { AuthState, AuthAction } from "@/data/types";
 
 export const AuthContext = createContext<{
   state: AuthState;
@@ -11,10 +11,8 @@ export const AuthContext = createContext<{
     profile: null,
     token: null,
     email: null,
-    entity_id_crm: null,
     expires_at: null,
     bypassRedirect: null,
-    onRequest: null
   },
   dispatch: () => {},
 });

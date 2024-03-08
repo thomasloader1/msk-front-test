@@ -1,8 +1,8 @@
 import {
   MegamenuItem,
   NavItemType,
-} from "components/Navigation/NavigationItem";
-import ncNanoId from "utils/ncNanoId";
+} from "@/components/Navigation/NavigationItem";
+import ncNanoId from "@/utils/ncNanoId";
 import __megamenu from "./jsons/__megamenu.json";
 
 const megaMenuDemo: MegamenuItem[] = [
@@ -302,12 +302,12 @@ const demoChildMenus: NavItemType[] = [
   {
     id: ncNanoId(),
     name:
-      import.meta.env.VITE_LRT_OR_RTL === "rtl"
+      process.env.VITE_LRT_OR_RTL === "rtl"
         ? "Default Demo - LTR"
         : "Home Demo 1",
-    targetBlank: import.meta.env.VITE_LRT_OR_RTL === "rtl",
+    targetBlank: process.env.VITE_LRT_OR_RTL === "rtl",
     href:
-      import.meta.env.VITE_LRT_OR_RTL === "rtl"
+      process.env.VITE_LRT_OR_RTL === "rtl"
         ? "https://chisnghiax.com/ncmaz/"
         : "/",
   },
@@ -335,11 +335,11 @@ const demoChildMenus: NavItemType[] = [
   {
     id: ncNanoId(),
     href:
-      import.meta.env.VITE_LRT_OR_RTL !== "rtl"
+      process.env.VITE_LRT_OR_RTL !== "rtl"
         ? "https://chisnghiax.com/ncmaz-rtl/"
         : "/",
     name: "Home Demo - RTL",
-    targetBlank: import.meta.env.VITE_LRT_OR_RTL !== "rtl",
+    targetBlank: process.env.VITE_LRT_OR_RTL !== "rtl",
   },
 ];
 
@@ -430,22 +430,22 @@ const aboutMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Cursos para personal médico",
-    search: "?profesion=medicos",
+    search: "profesion=medicos",
   },
   {
     id: ncNanoId(),
     href: "/tienda",
     name: "Cursos para enfermería y otras profesiones",
-    search: "?profesion=otra-profesion,enfermeros-auxiliares",
+    search: "profesion=otra-profesion,enfermeros-auxiliares",
   },
   // {
   //   id: ncNanoId(),
   //   href:
-  //     import.meta.env.VITE_LRT_OR_RTL !== "rtl"
+  //     process.env.VITE_LRT_OR_RTL !== "rtl"
   //       ? "https://chisnghiax.com/ncmaz-rtl/"
   //       : "/",
   //   name: "Home Demo - RTL",
-  //   targetBlank: import.meta.env.VITE_LRT_OR_RTL !== "rtl",
+  //   targetBlank: process.env.VITE_LRT_OR_RTL !== "rtl",
   // },
 ];
 const resourcesMenu: NavItemType[] = [

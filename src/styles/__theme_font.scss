@@ -1,96 +1,104 @@
-// FONT FACE --INTER
+// Font Family
+@font-face {
+  font-family: "Lora";
+  font-style: italic;
+  src: url("/fonts/Lora/Lora-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Lora";
+  font-style: italic;
+  src: url("/fonts/Lora/Lora-italic.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway/static/Raleway-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Raleway";
+  weight: 500;
+  src: url("/fonts/Raleway/static/Raleway-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Raleway-SemiBold";
+  weight: 700;
+  src: url("/fonts/Raleway/static/Raleway-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Raleway-Bold";
+  weight: 800;
+  src: url("/fonts/Raleway/static/Raleway-Bold.ttf");
+}
+
 @font-face {
   font-family: Inter;
   font-weight: 300;
-  src: url("../fonts/Inter/static/Inter-Light.ttf");
+  src: url("/fonts/Inter/static/Inter-Light.ttf");
 }
 @font-face {
   font-family: Inter;
   font-weight: 400;
-  src: url("../fonts/Inter/static/Inter-Regular.ttf");
+  src: url("/fonts/Inter/static/Inter-Regular.ttf");
 }
 @font-face {
   font-family: Inter;
   font-weight: 500;
-  src: url("../fonts/Inter/static/Inter-Medium.ttf");
+  src: url("/fonts/Inter/static/Inter-Medium.ttf");
 }
 @font-face {
   font-family: Inter;
   font-weight: 600;
-  src: url("../fonts/Inter/static/Inter-SemiBold.ttf");
+  src: url("/fonts/Inter/static/Inter-SemiBold.ttf");
 }
 @font-face {
   font-family: Inter;
   font-weight: 700;
-  src: url("../fonts/Inter/static/Inter-Bold.ttf");
+  src: url("/fonts/Inter/static/Inter-Bold.ttf");
 }
 
-// Courgette
-@font-face {
-  font-family: Courgette;
-  src: url("../fonts/Courgette/Courgette-Regular.ttf");
+$raleway: "Raleway", sans-serif;
+$lora: "Lora", serif;
+$fontawesome: "Font Awesome 5 Pro";
+
+.font-lora {
+  font-family: "Lora", serif;
 }
 
-// POPPINS
-@font-face {
-  font-family: Poppins;
+.font-lora-italic {
+  font-family: "Lora", serif;
+  font-weight: 500;
+}
+
+.raleway {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+}
+
+.raleway-bold {
+  font-family: "Raleway-Bold", sans-serif;
+  font-weight: 800;
+}
+
+p,
+span,
+button,
+a,
+label,
+input,
+select,
+textarea,
+ul,
+div {
+  font-family: "Inter", sans-serif;
   font-weight: 300;
-  src: url("../fonts/Poppins/Poppins-Light.ttf");
-}
-@font-face {
-  font-family: Poppins;
-  font-weight: 400;
-  src: url("../fonts/Poppins/Poppins-Regular.ttf");
-}
-@font-face {
-  font-family: Poppins;
-  font-weight: 500;
-  src: url("../fonts/Poppins/Poppins-Medium.ttf");
-}
-@font-face {
-  font-family: Poppins;
-  font-weight: 600;
-  src: url("../fonts/Poppins/Poppins-SemiBold.ttf");
-}
-@font-face {
-  font-family: Poppins;
-  font-weight: 700;
-  src: url("../fonts/Poppins/Poppins-Bold.ttf");
 }
 
-//
-html body {
-  @apply font-body antialiased;
-}
+// colors
 
-h1,
-h2,
-h3,
-h4 {
-  @apply font-display;
-}
-
-:root {
-  --font-display: Poppins;
-  --font-body: Poppins;
-}
-
-.theme-animals {
-  --font-display: Inter;
-  --font-body: Inter;
-}
-
-.theme-demo-5 {
-  --font-display: Courgette;
-  --font-body: Courgette;
-}
-
-.theme-demo-6 {
-  --font-display: "PT Sans";
-  --font-body: "Rubik";
-}
-
-.theme-demo-7 {
-  --font-display: "Noto Sans Arabic";
-  --font-body: "Noto Sans Arabic";
+.text-primary {
+  color: #9200ad;
 }

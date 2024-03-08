@@ -1,14 +1,14 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import Avatar from "components/Avatar/Avatar";
-import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import NcImage from "@/components/NcImage/NcImage";
+import { PostDataType } from "@/data/types";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import Avatar from "@/components/Avatar/Avatar";
+import PostTypeFeaturedIcon from "@/components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
+import Link from "next/link";
 
 export interface Card14Props {
   className?: string;
-  post: any;
+  post: PostDataType;
   hoverClass?: string;
   ratio?: string;
 }
@@ -25,18 +25,19 @@ const Card14: FC<Card14Props> = ({
   return (
     <div
       className={`nc-Card14 relative flex flex-col group rounded-3xl overflow-hidden ${hoverClass} ${className}`}
-      data-nc-id="Card14"
     >
-      <Link to={href} className={`flex items-start relative w-full ${ratio}`}>
+      <Link href={href} className={`flex items-start relative w-full ${ratio}`}>
         <NcImage
+          alt="post"
           containerClassName="absolute inset-0 overflow-hidden"
-          className="object-cover w-full h-full rounded-3xl "
+          fill
+          className="object-cover w-full h-full rounded-3xl"
           src={featuredImage}
         />
 
         <span className="absolute inset-0 bg-black bg-opacity-40">
           <PostTypeFeaturedIcon
-            className="absolute top-4 right-4"
+            className="absolute top-4 end-4"
             postType={postType}
             wrapSize="w-8 h-8"
             iconSize="w-4 h-4"
@@ -49,16 +50,16 @@ const Card14: FC<Card14Props> = ({
       </div>
 
       <div className="dark absolute bottom-4 inset-x-4 sm:bottom-5 sm:inset-x-5 flex flex-col flex-grow">
-        <h2 className="nc-card-title block text-base font-semibold text-white ">
-          <Link to={href} className="line-clamp-2" title={title}>
+        <h2 className="block text-base font-semibold text-white">
+          <Link href={href} className="line-clamp-2" title={title}>
             {title}
           </Link>
         </h2>
 
         <div className="p-2 sm:p-2.5 mt-4 sm:mt-5 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-full flex items-center text-neutral-50 text-xs sm:text-sm font-medium">
           <Link
-            to={author.href}
-            className="relative flex items-center space-x-2"
+            href={author.href}
+            className="relative flex items-center space-x-2 rtl:space-x-reverse"
           >
             <Avatar
               radius="rounded-full"

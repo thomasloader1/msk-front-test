@@ -1,4 +1,7 @@
-import { SocialType } from "components/SocialsShare/SocialsShare";
+import {
+  SocialType,
+  SOCIALS_DATA,
+} from "@/components/SocialsShare/SocialsShare";
 import React, { FC } from "react";
 
 export interface SocialsListProps {
@@ -7,17 +10,7 @@ export interface SocialsListProps {
   socials?: SocialType[];
 }
 
-const socialsDemo: SocialType[] = [
-  {
-    id: "Facebook",
-    name: "Facebook",
-    icon: "lab la-facebook-square",
-    href: "#",
-  },
-  { id: "Twitter", name: "Twitter", icon: "lab la-twitter", href: "#" },
-  { id: "Youtube", name: "Youtube", icon: "lab la-youtube", href: "#" },
-  { id: "Instagram", name: "Instagram", icon: "lab la-instagram", href: "#" },
-];
+const socialsDemo: SocialType[] = SOCIALS_DATA;
 
 export const SOCIALS_2 = socialsDemo;
 
@@ -28,8 +21,7 @@ const SocialsList: FC<SocialsListProps> = ({
 }) => {
   return (
     <nav
-      className={`nc-SocialsList flex space-x-2.5 text-2xl text-neutral-6000 dark:text-neutral-300 ${className}`}
-      data-nc-id="SocialsList"
+      className={`nc-SocialsList flex space-x-3 text-2xl text-neutral-6000 dark:text-neutral-300 ${className}`}
     >
       {socials.map((item, i) => (
         <a
@@ -40,7 +32,7 @@ const SocialsList: FC<SocialsListProps> = ({
           rel="noopener noreferrer"
           title={item.name}
         >
-          <i className={item.icon}></i>
+          <div dangerouslySetInnerHTML={{ __html: item.icon || "" }}></div>
         </a>
       ))}
     </nav>

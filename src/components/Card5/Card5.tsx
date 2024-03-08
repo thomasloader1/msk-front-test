@@ -1,26 +1,21 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import { PostDataType } from "data/types";
-import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import { PostDataType } from "@/data/types";
+import CardAuthor2 from "@/components/CardAuthor2/CardAuthor2";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import Link from "next/link";
 
 export interface Card5Props {
   className?: string;
-  post: any;
+  post: PostDataType;
 }
 
-const Card5: FC<Card5Props> = ({
-  className = "[ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ",
-  post,
-}) => {
+const Card5: FC<Card5Props> = ({ className = "", post }) => {
   const { author, title, href, id, date, categories, readingTime } = post;
   return (
     <div
-      className={`nc-Card5 relative p-5 group ${className}`}
-      data-nc-id="Card5"
-      data-nc-post-id={id}
+      className={`nc-Card5 relative p-5 group border border-neutral-200 hover:shadow-lg transition-shadow dark:border-neutral-700 rounded-3xl bg-white dark:bg-neutral-900 ${className}`}
     >
-      <Link to={href} className="absolute inset-0 rounded-lg"></Link>
+      <Link href={href} className="absolute inset-0 rounded-lg"></Link>
 
       <div className="flex flex-col">
         <CategoryBadgeList categories={categories} />
@@ -28,7 +23,7 @@ const Card5: FC<Card5Props> = ({
           className="block text-base font-semibold text-neutral-800 dark:text-neutral-300 my-4"
           title={title}
         >
-          <Link to={href} className="line-clamp-2" title={title}>
+          <Link href={href} className="line-clamp-2" title={title}>
             {title}
           </Link>
         </h2>

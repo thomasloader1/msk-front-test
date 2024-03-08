@@ -1,40 +1,30 @@
 import React, { FC } from "react";
-import PostCardCommentBtn from "components/PostCardCommentBtn/PostCardCommentBtn";
-import PostCardLikeContainer from "containers/PostCardLikeContainer/PostCardLikeContainer";
-import { PostDataType } from "data/types";
+import PostCardCommentBtn from "@/components/PostCardCommentBtn/PostCardCommentBtn";
+import PostCardLikeAction from "@/components/PostCardLikeAction/PostCardLikeAction";
 
 export interface PostCardLikeAndCommentProps {
   className?: string;
   itemClass?: string;
-  postData: Pick<PostDataType, "like" | "id" | "href" | "commentCount">;
   hiddenCommentOnMobile?: boolean;
-  onClickLike?: (id: PostDataType["id"]) => void;
+  useOnSinglePage?: boolean;
 }
 
 const PostCardLikeAndComment: FC<PostCardLikeAndCommentProps> = ({
   className = "",
   itemClass = "px-3 h-8 text-xs",
   hiddenCommentOnMobile = true,
-  postData,
-  onClickLike = () => {},
+  useOnSinglePage = false,
 }) => {
   return (
     <div
-      className={`nc-PostCardLikeAndComment flex items-center space-x-2 ${className}`}
-      data-nc-id="PostCardLikeAndComment"
+      className={`nc-PostCardLikeAndComment flex items-center space-x-2 rtl:space-x-reverse ${className}`}
     >
-      <PostCardLikeContainer
-        className={itemClass}
-        like={postData.like}
-        onClickLike={onClickLike}
-        postId={postData.id}
-      />
+      <PostCardLikeAction className={itemClass} />
       <PostCardCommentBtn
-        href={postData.href}
-        commentCount={postData.commentCount}
         className={`${
           hiddenCommentOnMobile ? "hidden sm:flex" : "flex"
         }  ${itemClass}`}
+        isATagOnSingle={useOnSinglePage}
       />
     </div>
   );

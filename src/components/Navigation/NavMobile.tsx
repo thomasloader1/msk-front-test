@@ -1,480 +1,200 @@
-import React, { useContext, useEffect, useState } from "react";
-import ButtonClose from "components/ButtonClose/ButtonClose";
-import Logo from "components/Logo/Logo";
-import { Disclosure } from "@headlessui/react";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+"use client";
+
+import React from "react";
+import ButtonClose from "@/components/ButtonClose/ButtonClose";
+import Logo from "@/components/Logo/Logo";
+import { Disclosure } from "@/app/[lang]/headlessui";
 import { NavItemType } from "./NavigationItem";
-import { NAVIGATION_MSK, NAVIGATION_USER } from "data/navigation";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import ButtonSecondary from "components/Button/ButtonSecondary";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import { AuthContext } from "context/user/AuthContext";
-import SearchProducts from "components/Header/SearchProducts";
-import {
-  DurationFilter,
-  Profession,
-  ResourceFilter,
-  Specialty,
-} from "data/types";
-import api from "Services/api";
-import { slugifySpecialty } from "lib/Slugify";
-import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
-import { DataContext } from "context/data/DataContext";
-import ModalSignOut from "components/Modal/SignOut";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import SocialsList from "@/components/SocialsList/SocialsList";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import SwitchDarkMode from "@/components/SwitchDarkMode/SwitchDarkMode";
+import Link from "next/link";
 
 export interface NavMobileProps {
   data?: NavItemType[];
-  userNav?: NavItemType[];
   onClickClose?: () => void;
 }
 
-const NavMobile: React.FC<NavMobileProps> = ({
-  data = NAVIGATION_MSK,
-  userNav = NAVIGATION_USER,
-  onClickClose,
-}) => {
-  const _renderMenuChild = (item: NavItemType) => {
-    return (
-      <ul className="nav-mobile-sub-menu pb-1 text-base">
-        {item.children?.map((item, index) => _renderItem(item, index, true))}{" "}
-      </ul>
-    );
-  };
-
-  const _renderMenuChildUser = (item: NavItemType) => {
-    return (
-      <ul className="nav-mobile-sub-menu pl-5 pb-1 text-base">
-        {item.children?.map((item, index) => _renderItem(item, index, true))}{" "}
-      </ul>
-    );
-  };
-
-  const _renderItemHasChild = (
+const NavMobile: React.FC<NavMobileProps> = ({ data = [], onClickClose }) => {
+  const _renderMenuChild = (
     item: NavItemType,
-    index: number,
-    isChild: boolean
+    itemClass = " pl-3 text-neutral-900 dark:text-neutral-200 font-medium "
   ) => {
     return (
-      <Disclosure key={index}>
-        {({ open }) => (
-          <li className="text-neutral-900 dark:text-white">
-            <div
-              className={`flex items-center font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
-                isChild ? "" : " tracking-wide"
-              }`}
+      <ul className="nav-mobile-sub-menu ps-6 pb-1 text-base">
+        {item.children?.map((i, index) => (
+          <Disclosure key={index} as="li">
+            <Link
+              href={{
+                pathname: i.href || undefined,
+              }}
+              className={`flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pe-4 ${itemClass}`}
+            >
+              <span
+                className={`py-2.5 ${!i.children ? "block w-full" : ""}`}
+                onClick={onClickClose}
+              >
+                {i.name}
+              </span>
+              {i.children && (
+                <span
+                  className="flex items-center flex-grow"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Disclosure.Button
+                    as="span"
+                    className="flex justify-end flex-grow"
+                  >
+                    <ChevronDownIcon
+                      className="ms-2 h-4 w-4 text-slate-500"
+                      aria-hidden="true"
+                    />
+                  </Disclosure.Button>
+                </span>
+              )}
+            </Link>
+            {i.children && (
+              <Disclosure.Panel>
+                {_renderMenuChild(
+                  i,
+                  "ps-3 text-slate-600 dark:text-slate-400 "
+                )}
+              </Disclosure.Panel>
+            )}
+          </Disclosure>
+        ))}
+      </ul>
+    );
+  };
+
+  const _renderItem = (item: NavItemType, index: number) => {
+    return (
+      <Disclosure
+        key={index}
+        as="li"
+        className="text-slate-900 dark:text-white"
+      >
+        <Link
+          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+          href={{
+            pathname: item.href || undefined,
+          }}
+        >
+          <span
+            className={!item.children ? "block w-full" : ""}
+            onClick={onClickClose}
+          >
+            {item.name}
+          </span>
+          {item.children && (
+            <span
+              className="block flex-grow"
+              onClick={(e) => e.preventDefault()}
             >
               <Disclosure.Button
-                as="button"
-                className="py-1 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
+                as="span"
+                className="flex justify-end flex-grow"
               >
-                {item.name}
-                {open ? (
-                  <ChevronUpIcon
-                    className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <ChevronDownIcon
-                    className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                    aria-hidden="true"
-                  />
-                )}
+                <ChevronDownIcon
+                  className="ms-2 h-4 w-4 text-neutral-500"
+                  aria-hidden="true"
+                />
               </Disclosure.Button>
-            </div>
-            <Disclosure.Panel>{_renderMenuChild(item)}</Disclosure.Panel>
-          </li>
+            </span>
+          )}
+        </Link>
+        {item.children && (
+          <Disclosure.Panel>{_renderMenuChild(item)}</Disclosure.Panel>
         )}
       </Disclosure>
     );
   };
 
-  const _renderItemNoChild = (
-    item: NavItemType,
-    index: number,
-    isChild: boolean
-  ) => {
+  const renderMagnifyingGlassIcon = () => {
     return (
-      <li
-        key={index}
-        className="text-neutral-900 dark:text-white"
-        onClick={onClickClose}
+      <svg
+        width={22}
+        height={22}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <NavLink
-          exact
-          strict
-          className={`flex w-full items-center py-1 px-4 font-regular text-md hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg ${
-            isChild ? "" : " tracking-wide"
-          }`}
-          to={{
-            pathname: item.href || undefined,
-            search: item.search,
-          }}
-          activeClassName="text-secondary"
-        >
-          {item.name}
-        </NavLink>
-      </li>
+        <path
+          d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M22 22L20 20"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     );
   };
 
-  const _renderItem = (item: NavItemType, index: number, isChild: boolean) => {
-    if (item.children) {
-      return _renderItemHasChild(item, index, isChild);
-    }
-    return _renderItemNoChild(item, index, isChild);
-  };
-
-  const { state } = useContext(AuthContext);
-  const [professions, setProfessions] = useState<Profession[]>([]);
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-
-  const { state: dataState } = useContext(DataContext);
-  const { allStoreProfessions, allStoreSpecialties } = dataState;
-
-  const resources: ResourceFilter[] = [
-    { name: "Curso", id: 1 },
-    { name: "Guías profesionales", id: 2 },
-  ];
-  const history = useHistory();
-  const { storeFilters } = useStoreFilters();
-
-  useEffect(() => {
-    setProfessions(allStoreProfessions);
-    setSpecialties(allStoreSpecialties);
-  }, [allStoreProfessions, allStoreSpecialties]);
-
-  const isChecked = (type: string, value: any) => {
-    switch (type) {
-      case "professions":
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (profession: any) => {
-            return profession.slug == value.slug;
-          }
-        ).length;
-      case "specialties":
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (specialty: any) => {
-            return specialty.name == value.name;
-          }
-        ).length;
-      case "resources":
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (resource: any) => {
-            return resource.id == value.id;
-          }
-        ).length;
-    }
-  };
-
-  const duration = [
-    { name: "Hasta 100 horas", id: 1, value: "less_100" },
-    { name: "De 100 a 300 horas", id: 2, value: "100_300" },
-    { name: "Más de 300 horas", id: 3, value: "more_300" },
-  ];
-
-  const { addFilter, removeFilter, clearFilters } = useStoreFilters();
-
-  const onChangeProfession = (profession: Profession) => {
-    const professionExists = storeFilters.professions.filter(
-      (item: Profession) => {
-        return item.slug == profession.slug;
-      }
+  const renderSearchForm = () => {
+    return (
+      <form
+        action=""
+        method="POST"
+        className="flex-1 text-slate-900 dark:text-slate-200"
+      >
+        <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1 rtl:space-x-reverse py-2 px-4 rounded-xl h-full">
+          {renderMagnifyingGlassIcon()}
+          <input
+            type="search"
+            placeholder="Type and press enter"
+            className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-sm "
+          />
+        </div>
+        <input type="submit" hidden value="" />
+      </form>
     );
-    if (professionExists.length) removeFilter("professions", profession);
-    else addFilter("professions", profession);
   };
-
-  const onChangeResource = (resource: ResourceFilter) => {
-    const resourceExists = storeFilters.resources.filter(
-      (item: ResourceFilter) => {
-        return item.id == resource.id;
-      }
-    );
-    if (resourceExists.length) {
-      removeFilter("resources", resource);
-    } else addFilter("resources", resource);
-  };
-
-  const onChangeDuration = (duration: DurationFilter) => {
-    const durationExists = storeFilters.duration.filter(
-      (item: DurationFilter) => {
-        return item.value == duration.value;
-      }
-    );
-    if (durationExists.length) {
-      removeFilter("duration", duration);
-    } else addFilter("duration", duration);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleModalLogout = () => {
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const location = useLocation();
 
   return (
-    <div className="w-full h-full py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 border-r border-transparent dark:border-neutral-700">
-      <div className="py-4 px-5 flex justify-between">
-        <Logo isOnBlog={window.location.href.includes("blog")} />
-        <ButtonClose onClick={onClickClose} />
+    <div className="overflow-y-auto w-full h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800">
+      <div className="py-6 px-5">
+        {/* <Logo /> */}
+        <div className="flex flex-col mt-5 text-slate-600 dark:text-slate-300 text-sm">
+          <span>
+            Discover the most outstanding articles on all topics of life. Write
+            your stories and share them
+          </span>
+
+          <div className="flex justify-between items-center mt-4">
+            <SocialsList itemClass="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl" />
+            <span className="block">
+              <SwitchDarkMode className="bg-neutral-100 dark:bg-neutral-800" />
+            </span>
+          </div>
+        </div>
+        <span className="absolute end-2 top-2 p-1">
+          <ButtonClose onClick={onClickClose} />
+        </span>
+
+        <div className="mt-5">{renderSearchForm()}</div>
       </div>
-      <div className="z-10 px-4 pb-4">
-        <SearchProducts />
+      <ul className="flex flex-col py-6 px-2 space-y-1 rtl:space-x-reverse">
+        {data.map(_renderItem)}
+      </ul>
+      <div className="flex items-center justify-between py-6 px-5 space-x-2 rtl:space-x-reverse">
+        <ButtonPrimary className="!px-10 relative">
+          Buy this template
+          <a
+            href="https://themeforest.net/item/ncmaz-blog-news-magazine-nextjs-template/44412092"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0"
+          ></a>
+        </ButtonPrimary>
       </div>
-      <div className="mobile-nav-container">
-        <ul className="flex flex-col py-2 px-2 space-y-1">
-          {data.map((item, index) => _renderItem(item, index, false))}
-        </ul>
-        {location.pathname.includes("/tienda") && (
-          <>
-            <div className="border-t border-neutral-200 dark:border-neutral-700 w-[90%] mx-auto px-2 space-y-1" />
-            <ul className="flex flex-col py-2 px-2 space-y-1">
-              <Disclosure>
-                {({ open }) => (
-                  <li>
-                    <Disclosure.Button
-                      as="button"
-                      className="py-1 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-                    >
-                      Especialidad
-                      {open ? (
-                        <ChevronUpIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ChevronDownIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
-                      {specialties.length ? (
-                        <ul className="pl-6 flex flex-col gap-2">
-                          {specialties.map((specialty, index) => {
-                            return (
-                              <li key={`spe_${index}`}>
-                                <div className="course-sidebar-list">
-                                  <input
-                                    className="edu-check-box"
-                                    type="checkbox"
-                                    id={`specialty_${specialty.name}`}
-                                    onChange={(event) => {
-                                      history.push(
-                                        `?especialidad=${slugifySpecialty(
-                                          specialty.name
-                                        )}&recurso=curso`
-                                      );
-                                    }}
-                                    checked={isChecked(
-                                      "specialties",
-                                      specialty
-                                    )}
-                                  />
-                                  <label
-                                    className="edu-check-label"
-                                    htmlFor={`specialty_${specialty.name}`}
-                                  >
-                                    {specialty.name}
-                                  </label>
-                                </div>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      ) : null}
-                    </Disclosure.Panel>
-                  </li>
-                )}
-              </Disclosure>
-              <Disclosure>
-                {({ open }) => (
-                  <li>
-                    <Disclosure.Button
-                      as="button"
-                      className="py-1 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-                    >
-                      Recurso
-                      {open ? (
-                        <ChevronUpIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ChevronDownIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
-                      <ul className="pl-6 flex flex-col gap-2">
-                        {resources.map((resource, index: number) => {
-                          return (
-                            <li key={index}>
-                              <div className="course-sidebar-list">
-                                <input
-                                  className="edu-check-box"
-                                  type="checkbox"
-                                  id={`res_${resource.id}`}
-                                  onChange={(event) =>
-                                    onChangeResource(resource)
-                                  }
-                                  checked={isChecked("resources", resource)}
-                                />
-                                <label
-                                  className="edu-check-label"
-                                  htmlFor={`res_${resource.id}`}
-                                >
-                                  {resource.name}
-                                </label>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </Disclosure.Panel>
-                  </li>
-                )}
-              </Disclosure>
-              <Disclosure>
-                {({ open }) => (
-                  <li>
-                    <Disclosure.Button
-                      as="button"
-                      className="py-1 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-                    >
-                      Profesión
-                      {open ? (
-                        <ChevronUpIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ChevronDownIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
-                      <ul className="pl-6 flex flex-col gap-2">
-                        {professions.map((profession, index: number) => {
-                          return (
-                            <li key={index}>
-                              <div className="course-sidebar-list">
-                                <input
-                                  className="edu-check-box"
-                                  type="checkbox"
-                                  id={`profession_${profession.id}`}
-                                  onChange={(event) =>
-                                    onChangeProfession(profession)
-                                  }
-                                  checked={isChecked("professions", profession)}
-                                />
-                                <label
-                                  className="edu-check-label"
-                                  htmlFor={`profession_${profession.id}`}
-                                >
-                                  {profession.name}
-                                </label>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </Disclosure.Panel>
-                  </li>
-                )}
-              </Disclosure>
-              <Disclosure>
-                {({ open }) => (
-                  <li>
-                    <Disclosure.Button
-                      as="button"
-                      className="py-1 px-4 flex flex-1 items-center select-none focus:outline-none focus:ring-0"
-                    >
-                      Duración
-                      {open ? (
-                        <ChevronUpIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <ChevronDownIcon
-                          className="ml-2 mr-auto h-4 w-4 text-neutral-500"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
-                      <ul className="pl-6 flex flex-col gap-2">
-                        {duration.map((item, index) => {
-                          return (
-                            <li key={`dur_${index}`}>
-                              <div className="course-sidebar-list">
-                                <input
-                                  className="edu-check-box"
-                                  type="checkbox"
-                                  id={`dur_${item.id}`}
-                                  onChange={(event) => onChangeDuration(item)}
-                                />
-                                <label
-                                  className="edu-check-label"
-                                  htmlFor={`dur_${item.id}`}
-                                >
-                                  {item.name}
-                                </label>
-                              </div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </Disclosure.Panel>
-                  </li>
-                )}
-              </Disclosure>
-            </ul>
-          </>
-        )}
-        <div className="border-t border-neutral-200 dark:border-neutral-700 w-[90%] mx-auto px-2 space-y-1" />
-        {state.isAuthenticated ? (
-          <ul className="flex flex-col py-2 px-2 space-y-1">
-            {userNav.map((item, index) => _renderItem(item, index, false))}
-            <li>
-              <ButtonSecondary
-                onClick={() => handleModalLogout()}
-                sizeClass="px-4 py-2 sm:px-5 w-full mt-4"
-                className="border-solid border-1 border-neutral-200"
-                bordered
-              >
-                Cerrar sesión
-              </ButtonSecondary>
-            </li>
-          </ul>
-        ) : (
-          <ul className="flex flex-col py-2 px-2 space-y-1">
-            <ButtonSecondary
-              href={"/iniciar-sesion"}
-              sizeClass="px-4 py-2 sm:px-5"
-              className="border-solid border-1 border-neutral-200 text-neutral-500"
-              bordered
-            >
-              Iniciar sesión
-            </ButtonSecondary>
-            <ButtonPrimary
-              href={"/crear-cuenta"}
-              sizeClass="px-4 py-2 sm:px-5"
-              className="font-semibold"
-            >
-              Crear cuenta
-            </ButtonPrimary>
-          </ul>
-        )}
-      </div>
-      <ModalSignOut open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

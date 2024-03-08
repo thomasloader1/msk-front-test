@@ -1,7 +1,8 @@
-import { DotsHorizontalIcon } from "@heroicons/react/solid";
+"use client";
+
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import React, { FC, Fragment, ReactNode } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import twFocusClass from "utils/twFocusClass";
 
 export interface NcDropDownItem {
   id: string;
@@ -12,7 +13,7 @@ export interface NcDropDownItem {
 export interface NcDropDownProps {
   className?: string;
   panelMenusClass?: string;
-  iconClass?: string;
+  triggerIconClass?: string;
   data: NcDropDownItem[];
   renderTrigger?: () => ReactNode;
   renderItem?: (item: NcDropDownItem) => JSX.Element;
@@ -21,8 +22,8 @@ export interface NcDropDownProps {
 }
 
 const NcDropDown: FC<NcDropDownProps> = ({
-  className = `h-8 w-8 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center ${twFocusClass()}`,
-  iconClass = "h-[18px] w-[18px]",
+  className = `h-8 w-8 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center }`,
+  triggerIconClass = "h-6 w-6",
   panelMenusClass = "origin-top-right",
   title = "More",
   renderTrigger,
@@ -36,12 +37,7 @@ const NcDropDown: FC<NcDropDownProps> = ({
         {renderTrigger ? (
           renderTrigger()
         ) : (
-          <DotsHorizontalIcon
-            className={iconClass}
-            aria-hidden="true"
-            stroke="none"
-            fill="currentColor"
-          />
+          <EllipsisHorizontalIcon className={triggerIconClass} />
         )}
       </Menu.Button>
       <Transition
@@ -54,7 +50,7 @@ const NcDropDown: FC<NcDropDownProps> = ({
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          className={`absolute ${panelMenusClass} right-0 w-56 mt-2 bg-white dark:bg-neutral-900 rounded-lg divide-y divide-neutral-100 shadow-lg ring-1 ring-black dark:ring-white ring-opacity-5 dark:ring-opacity-10 focus:outline-none z-30`}
+          className={`absolute ${panelMenusClass} end-0 w-56 mt-2 bg-white dark:bg-neutral-900 rounded-2xl divide-y divide-neutral-100 shadow-lg ring-1 ring-black dark:ring-white ring-opacity-5 dark:ring-opacity-10 focus:outline-none z-30`}
         >
           <div className="px-1 py-3 text-sm text-neutral-6000 dark:text-neutral-300">
             {data.map((item) => (
@@ -70,14 +66,16 @@ const NcDropDown: FC<NcDropDownProps> = ({
                   ) : (
                     <button
                       className={
-                        "flex items-center rounded-md w-full px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 truncate " +
-                        twFocusClass()
+                        "flex items-center rounded-xl w-full px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 truncate "
                       }
                     >
                       {!!item.icon && (
-                        <i className={`${item.icon} mr-1 w-7 text-base`}></i>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.icon }}
+                        ></div>
+                        // <i className={`${item.icon} mr-1 w-7 text-base`}></i>
                       )}
-                      <span className="truncate">{item.name}</span>
+                      <span className="ms-3">{item.name}</span>
                     </button>
                   )
                 }

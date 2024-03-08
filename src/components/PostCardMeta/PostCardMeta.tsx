@@ -1,36 +1,35 @@
 import React, { FC } from "react";
-import Avatar from "components/Avatar/Avatar";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
+import Avatar from "@/components/Avatar/Avatar";
+import { PostDataType } from "@/data/types";
+import Link from "next/link";
 
 export interface PostCardMetaProps {
   className?: string;
   meta: Pick<PostDataType, "date" | "author">;
   hiddenAvatar?: boolean;
-  size?: "large" | "normal";
+  avatarSize?: string;
 }
 
 const PostCardMeta: FC<PostCardMetaProps> = ({
-  className = "leading-none",
+  className = "leading-none text-xs",
   meta,
   hiddenAvatar = false,
-  size = "normal",
+  avatarSize = "h-7 w-7 text-sm",
 }) => {
   const { date, author } = meta;
+
   return (
     <div
-      className={`nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${
-        size === "normal" ? "text-xs" : "text-base"
-      } ${className}`}
-      data-nc-id="PostCardMeta"
+      className={`nc-PostCardMeta inline-flex items-center flex-wrap text-neutral-800 dark:text-neutral-200 ${className}`}
     >
-      <Link to={author.href} className="relative flex items-center space-x-2">
+      <Link
+        href={{ pathname: author.href || "" }}
+        className="relative flex items-center space-x-2 rtl:space-x-reverse"
+      >
         {!hiddenAvatar && (
           <Avatar
             radius="rounded-full"
-            sizeClass={
-              size === "normal" ? "h-7 w-7 text-sm" : "h-10 w-10 text-xl"
-            }
+            sizeClass={avatarSize}
             imgUrl={author.avatar}
             userName={author.displayName}
           />

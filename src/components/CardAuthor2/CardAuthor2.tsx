@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import Avatar from "components/Avatar/Avatar";
+import { PostDataType } from "@/data/types";
+import Avatar from "@/components/Avatar/Avatar";
 
 export interface CardAuthor2Props
   extends Pick<PostDataType, "date" | "author"> {
@@ -41,27 +40,15 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
         <span
           className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400`}
         >
-          <span>{date} {(readingTime != null) && (<span className={`${readingTime <= 0 && 'hidden'}`}> — {readingTime} min lectura</span>)}</span>
-          
-
-          {/* {readingTime && (
-            <>
-              <span
-                className={` lg:inline mx-1 transition-opacity ${
-                  hoverReadingTime ? "opacity-0 group-hover:opacity-100" : ""
-                }`}
-              >
-                ·
+          <span>
+            {date}{" "}
+            {readingTime != null && (
+              <span className={`${readingTime <= 0 && "hidden"}`}>
+                {" "}
+                — {readingTime} min lectura
               </span>
-              <span
-                className={` lg:inline transition-opacity ${
-                  hoverReadingTime ? "opacity-0 group-hover:opacity-100" : ""
-                }`}
-              >
-                - {readingTime} min
-              </span>
-            </>
-          )} */}
+            )}
+          </span>
         </span>
       </div>
     </div>

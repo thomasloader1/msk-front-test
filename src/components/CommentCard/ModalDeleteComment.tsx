@@ -1,25 +1,23 @@
+"use client";
+
 import React, { FC, useEffect, useRef } from "react";
-import NcModal from "components/NcModal/NcModal";
-import { CommentType } from "./CommentCard";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ButtonSecondary from "components/Button/ButtonSecondary";
+import NcModal from "@/components/NcModal/NcModal";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import ButtonSecondary from "@/components/Button/ButtonSecondary";
+import ButtonThird from "../Button/ButtonThird";
 
 export interface ModalDeleteCommentProps {
-  commentId: CommentType["id"];
   show: boolean;
   onCloseModalDeleteComment: () => void;
 }
 
 const ModalDeleteComment: FC<ModalDeleteCommentProps> = ({
-  commentId,
   show,
   onCloseModalDeleteComment,
 }) => {
   const textareaRef = useRef(null);
 
-  const handleClickSubmitForm = () => {
-    console.log({ commentId });
-  };
+  const handleClickSubmitForm = () => {};
 
   useEffect(() => {
     if (show) {
@@ -42,13 +40,17 @@ const ModalDeleteComment: FC<ModalDeleteCommentProps> = ({
           Are you sure you want to delete this comment? You cannot undo this
           action.
         </span>
-        <div className="mt-4 space-x-3">
-          <ButtonPrimary onClick={handleClickSubmitForm} type="submit">
+        <div className="mt-4 space-x-3 rtl:space-x-reverse">
+          <ButtonPrimary
+            className="!bg-red-500"
+            onClick={handleClickSubmitForm}
+            type="submit"
+          >
             Delete
           </ButtonPrimary>
-          <ButtonSecondary type="button" onClick={onCloseModalDeleteComment}>
+          <ButtonThird type="button" onClick={onCloseModalDeleteComment}>
             Cancel
-          </ButtonSecondary>
+          </ButtonThird>
         </div>
       </form>
     );

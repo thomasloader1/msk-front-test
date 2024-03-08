@@ -15,8 +15,6 @@ export interface DataState {
   allSpecialties: any;
   allSpecialtiesGroups: any;
   allProductsMX: any;
-  allStoreProfessions: any;
-  allStoreSpecialties: any;
 }
 
 export const DataContext = createContext<{
@@ -26,7 +24,6 @@ export const DataContext = createContext<{
   loadingProfessions?: boolean;
   loadingSpecialties?: boolean;
   loadingProductsMX?: boolean;
-  appRef?: React.RefObject<HTMLDivElement>;
   state: DataState;
   dispatch: Dispatch<DataAction>;
 }>({
@@ -38,8 +35,6 @@ export const DataContext = createContext<{
     allSpecialties: [],
     allSpecialtiesGroups: [],
     allProductsMX: [],
-    allStoreProfessions: [],
-    allStoreSpecialties: [],
   },
   dispatch: () => {},
 });

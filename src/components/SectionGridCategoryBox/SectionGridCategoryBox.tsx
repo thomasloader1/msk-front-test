@@ -1,13 +1,15 @@
-import CardCategory1 from "components/CardCategory1/CardCategory1";
-import CardCategory2 from "components/CardCategory2/CardCategory2";
-import CardCategory3 from "components/CardCategory3/CardCategory3";
-import CardCategory4 from "components/CardCategory4/CardCategory4";
-import CardCategory5 from "components/CardCategory5/CardCategory5";
-import Heading from "components/Heading/Heading";
-import { DEMO_CATEGORIES } from "data/taxonomies";
-import { Specialty, TaxonomyType } from "data/types";
+"use client";
+import CardCategory1 from "@/components/CardCategory1/CardCategory1";
+import CardCategory2 from "@/components/CardCategory2/CardCategory2";
+import CardCategory3 from "@/components/CardCategory3/CardCategory3";
+import CardCategory4 from "@/components/CardCategory4/CardCategory4";
+import CardCategory5 from "@/components/CardCategory5/CardCategory5";
+import Heading from "@/components/Heading/Heading";
+import { DEMO_CATEGORIES } from "@/data/taxonomies";
+import { Specialty, TaxonomyType } from "@/data/types";
+import Link from "next/link";
 import React from "react";
-import { Link } from "react-router-dom";
+import NcLink from "../NcLink/NcLink";
 
 export interface SectionGridCategoryBoxProps {
   categories?: TaxonomyType[] | Specialty[];
@@ -63,12 +65,12 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
           />
         ))}
         <div className="w-full col-span-2 sm:col-span-1 flex justify-items-center">
-          <Link
-            to={"/tienda"}
-            className="h-full text-primary font-medium sm:font-semibold flex items-center text-center mx-auto text-[14px]"
+          <NcLink
+            href="/tienda"
+            className="h-full text-primary font-medium sm:font-semibold flex items-center text-center mx-auto"
           >
             Ver todas
-          </Link>
+          </NcLink>
         </div>
       </div>
     </div>

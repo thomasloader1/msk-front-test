@@ -2,9 +2,9 @@
   {
     "index": 1,
     "id": "9e3e3994-a3ed-47ca-a014-d4483884cfe2",
-    "featuredImage": "/images/home/opp1.png",
-    "title": "ACCSAP. Programa de actualización en cardiología clínica",
-    "desc": "American College of Cardiology",
+    "featuredImage": "https://images.unsplash.com/photo-1440778303588-435521a205bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+    "title": "Lenovo’s smarter devices stoke professional passions ",
+    "desc": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
     "date": "May 20, 2021",
     "href": "/single/this-is-single-slug",
     "commentCount": 11,
@@ -13,33 +13,33 @@
     "bookmark": { "count": 3007, "isBookmarked": false },
     "like": { "count": 3366, "isLiked": true },
     "authorId": 3,
-    "categoriesId": [1],
+    "categoriesId": [3, 12],
     "postType": "standard"
   },
   {
     "index": 2,
     "id": "af92a665-4a4d-4cff-9e17-89456df21fb5",
-    "featuredImage": "/images/home/opp2.png",
-    "title": "Curso de preparación oposiciones de anestesia y reanimación",
-    "desc": "Tropos",
+    "featuredImage": "https://images.unsplash.com/photo-1489753735160-2cbf3d9006d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80",
+    "title": "How AI and Teams are benefitting the littlest of patients ",
+    "desc": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
     "commentCount": 13,
     "viewdCount": 1646,
     "readingTime": 5,
     "bookmark": { "count": 3751, "isBookmarked": false },
     "like": { "count": 3024, "isLiked": false },
     "authorId": 4,
-    "categoriesId": [5],
+    "categoriesId": [4, 13],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=U5afsxvz75c"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 3,
     "id": "dffe0224-ebff-4803-bb66-e8d128656284",
-    "featuredImage": "/images/home/opp3.png",
-    "title": "Curso de Endocrinología y Nutrición",
-    "desc": "Tropos",
+    "featuredImage": "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    "title": "DIYer and TV host Trisha Hershberger’s journey through gaming keeps evolving",
+    "desc": "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
     "date": "May 20, 2021",
     "href": "/single/this-is-single-slug",
     "commentCount": 33,
@@ -48,15 +48,15 @@
     "bookmark": { "count": 76, "isBookmarked": false },
     "like": { "count": 222, "isLiked": false },
     "authorId": 4,
-    "categoriesId": [6],
+    "categoriesId": [4, 13],
     "postType": "standard"
   },
   {
     "index": 4,
     "id": "5ac7cb90-4694-42e8-8883-16372711eaa8",
-    "featuredImage": "/images/home/opp4.png",
-    "title": "Curso online de preparación oposiciones de medicina interna",
-    "desc": "Tropos",
+    "featuredImage": "https://images.unsplash.com/photo-1581610489881-f316ffcf0424?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+    "title": "New tools for Black pregnant and postpartum mothers to save lives",
+    "desc": "Fusce consequat. Nulla nisl. Nunc nisl.",
     "date": "May 20, 2021",
     "href": "/single/this-is-single-slug",
     "commentCount": 49,
@@ -65,33 +65,34 @@
     "bookmark": { "count": 264, "isBookmarked": true },
     "like": { "count": 3735, "isLiked": true },
     "authorId": 5,
-    "categoriesId": [7],
+    "categoriesId": [5, 14],
     "postType": "standard"
   },
   {
     "index": 5,
     "id": "f82a8455-3a14-4af9-b6d2-ac6cd74e007c",
-    "featuredImage": "/images/home/opp5.png",
-    "title": "Curso de Cardiología",
-    "desc": "Tropos",
+    "featuredImage": "https://images.unsplash.com/photo-1448518340475-e3c680e9b4be?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1951&q=80",
+    "title": "People who inspired us in 2019 ",
+    "desc": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 9,
     "viewdCount": 3338,
     "readingTime": 5,
     "bookmark": { "count": 733, "isBookmarked": false },
     "like": { "count": 3569, "isLiked": true },
     "authorId": 10,
-    "categoriesId": [1],
+    "categoriesId": [10, 19],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=dBsicD0ItD0&t=32s"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 6,
     "id": "54c11c92-049f-4353-8cdb-f7ec70d3ae75",
-    "featuredImage": "/images/home/opp6.png",
-    "title": "Curso superior en médicina interna. MKSAP 18",
-    "desc": "American College of Cardiology",
+    "featuredImage": "https://images.pexels.com/photos/4397925/pexels-photo-4397925.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "title": "How architects visualize design for world’s biggest airport",
+    "desc": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
     "date": "May 20, 2021",
     "href": "/single/this-is-single-slug",
     "commentCount": 13,
@@ -100,7 +101,7 @@
     "bookmark": { "count": 199, "isBookmarked": false },
     "like": { "count": 3052, "isLiked": true },
     "authorId": 9,
-    "categoriesId": [7],
+    "categoriesId": [9, 18],
     "postType": "standard"
   },
   {
@@ -110,7 +111,8 @@
     "title": "Take a 3D tour through a Microsoft datacenter",
     "desc": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 20,
     "viewdCount": 2714,
     "readingTime": 4,
@@ -119,7 +121,7 @@
     "authorId": 2,
     "categoriesId": [2, 11],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=U5afsxvz75c"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 8,
@@ -128,7 +130,7 @@
     "title": "Mind games: How gaming can play a positive role in mental health",
     "desc": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-audio/this-is-single-slug",
     "commentCount": 18,
     "viewdCount": 3800,
     "readingTime": 5,
@@ -180,7 +182,8 @@
     "title": "To cool datacenter servers, Microsoft turns to boiling liquid Donec quis",
     "desc": "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 39,
     "viewdCount": 1460,
     "readingTime": 3,
@@ -189,7 +192,7 @@
     "authorId": 3,
     "categoriesId": [3, 12],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=yvZox35ures"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 12,
@@ -198,7 +201,8 @@
     "title": "Xbox connects people to help through Crisis Text Line and Aenean lectus",
     "desc": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 2,
     "viewdCount": 3418,
     "readingTime": 7,
@@ -207,7 +211,7 @@
     "authorId": 9,
     "categoriesId": [9, 18],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=yvZox35ures"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 13,
@@ -216,7 +220,7 @@
     "title": "Unusual ‘machine in the woods’ taps clean energy deep underground for new Microsoft campus",
     "desc": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-audio/this-is-single-slug",
     "commentCount": 5,
     "viewdCount": 3894,
     "readingTime": 4,
@@ -234,7 +238,7 @@
     "title": "WNBA’s Sabrina Ionescu teams up with Xbox to empower young girls to pursue their hoop dreams ",
     "desc": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-gallery/this-is-single-slug",
     "commentCount": 27,
     "viewdCount": 1038,
     "readingTime": 4,
@@ -257,7 +261,7 @@
     "title": "New tools and advocacy support Black pregnant and postpartum mothers to save lives ",
     "desc": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-audio/this-is-single-slug",
     "commentCount": 3,
     "viewdCount": 584,
     "readingTime": 5,
@@ -275,7 +279,8 @@
     "title": "New Orleans Game Camp creates opportunities for a more diverse pipeline into the gaming industry ",
     "desc": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 19,
     "viewdCount": 52,
     "readingTime": 5,
@@ -284,7 +289,7 @@
     "authorId": 9,
     "categoriesId": [9, 18],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=dBsicD0ItD0&t=32s"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 17,
@@ -429,7 +434,8 @@
     "title": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
     "desc": "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 43,
     "viewdCount": 204,
     "readingTime": 5,
@@ -438,7 +444,7 @@
     "authorId": 5,
     "categoriesId": [5, 14],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=yvZox35ures"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 26,
@@ -481,7 +487,8 @@
     "title": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
     "desc": "Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-video/this-is-single-slug",
+
     "commentCount": 7,
     "viewdCount": 2399,
     "readingTime": 3,
@@ -490,7 +497,7 @@
     "authorId": 5,
     "categoriesId": [5, 14],
     "postType": "video",
-    "videoUrl": "https://www.youtube.com/watch?v=U5afsxvz75c"
+    "videoUrl": "https://www.youtube.com/watch?v=nOQyWbPO2Ds"
   },
   {
     "index": 29,
@@ -516,7 +523,7 @@
     "title": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
     "desc": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
     "date": "May 20, 2021",
-    "href": "/single/this-is-single-slug",
+    "href": "/single-audio/this-is-single-slug",
     "commentCount": 10,
     "viewdCount": 2809,
     "readingTime": 5,

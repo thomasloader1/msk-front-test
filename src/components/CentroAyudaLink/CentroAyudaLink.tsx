@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import infoIcon from "/images/icons/info.svg";
+import NcImage from "../NcImage/NcImage";
 
 interface CentroAyudaLinkProps {
   addClassNames?: string;
@@ -10,7 +10,13 @@ const CentroAyudaLink: FC<CentroAyudaLinkProps> = ({ addClassNames }) => {
     <span
       className={`${addClassNames} dark:text-primary-500 forgot-password col-span-2 text-sm flex items-center`}
     >
-      <img src={infoIcon} alt="Mensaje Informativo" className="mr-1" />
+      <NcImage
+        src={"/images/icons/info.svg"}
+        alt="Mensaje Informativo"
+        className="mr-1"
+        height="15"
+        width="15"
+      />
       <div className="flex flex-wrap text-[10px] sm:text-sm">
         <span className="text-violet-wash">Visita el Centro de ayuda.</span>
         <a

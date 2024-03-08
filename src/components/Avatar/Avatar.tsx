@@ -1,41 +1,44 @@
-import { avatarColors } from "contains/contants";
-import { avatarImgs, _getAvatarRd } from "contains/fakeData";
-import React, { FC } from "react";
+"use client";
+
+import { avatarColors } from "@/contains/contants";
+import { _getAvatarRd } from "@/contains/fakeData";
+import Image, { StaticImageData } from "next/image";
+import React, { FC, useEffect, useState } from "react";
 
 export interface AvatarProps {
   containerClassName?: string;
   sizeClass?: string;
   radius?: string;
-  imgUrl?: string;
+  imgUrl?: string | StaticImageData;
   userName?: string;
 }
+
+const _setBgColor = (name: string) => {
+  const backgroundIndex = Math.floor(name.charCodeAt(0) % avatarColors.length);
+  return avatarColors[backgroundIndex];
+};
+
+const _setInitials = (name: string) => {
+  const initials = name.trim().split(" ");
+  if (initials.length === 1) {
+    return initials[0].charAt(0);
+  } else {
+    const firstInitial = initials[0].charAt(0);
+    const secondInitial = initials[1].charAt(0);
+    return firstInitial + secondInitial;
+  }
+};
 
 const Avatar: FC<AvatarProps> = ({
   containerClassName = "ring-1 ring-white dark:ring-neutral-900",
   sizeClass = "h-6 w-6 text-sm",
-  radius = "rounded-md",
-  imgUrl = "",
+  radius = "rounded-full",
+  imgUrl,
   userName,
 }) => {
-  const url = imgUrl || "";
-  const name = userName || "";
-  const _setBgColor = (name: string) => {
-    const backgroundIndex = Math.floor(
-      name.charCodeAt(0) % avatarColors.length
-    );
-    return avatarColors[backgroundIndex];
-  };
+  const name = userName || "John Doe";
 
-  const _setInitials = (name: string) => {
-    const initials = name.trim().split(" ");
-    if (initials.length === 1) {
-      return initials[0].charAt(0);
-    } else {
-      const firstInitial = initials[0].charAt(0);
-      const secondInitial = initials[1].charAt(0);
-      return firstInitial + secondInitial;
-    }
-  };
+  const [url, setUrl] = useState(imgUrl);
 
   return (
     <div
@@ -43,13 +46,17 @@ const Avatar: FC<AvatarProps> = ({
       style={{ backgroundColor: url ? undefined : _setBgColor(name) }}
     >
       {url && (
-        <img
+        <Image
+          fill
+          sizes="100px"
           className="absolute inset-0 w-full h-full object-cover"
           src={url}
           alt={name}
         />
       )}
-      <span className="wil-avatar__name">{_setInitials(name)}</span>
+      <span className="wil-avatar__name font-semibold">
+        {_setInitials(name)}
+      </span>
     </div>
   );
 };

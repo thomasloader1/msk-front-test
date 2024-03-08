@@ -1,14 +1,14 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+"use client";
+import React, { useEffect, useReducer, useState } from "react";
 import { DataContext } from "./DataContext";
 import { dataReducer } from "./DataReducer";
-import api from "Services/api";
+import api from "../../../Services/api";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const DataProvider: React.FC<Props> = ({ children }) => {
-  const appRef = useRef<HTMLDivElement>(null)
   const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [loadingBestSellers, setLoadingBestSellers] = useState(true);
@@ -25,9 +25,6 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     allSpecialties: [],
     allSpecialtiesGroups: [],
     allProductsMX: [],
-    allStoreProfessions: [],
-    allStoreSpecialties: [],
-    appRef
   };
 
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
@@ -116,30 +113,13 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
-  const fetchStoreProfessionsFilter = async () => {
-    const allStoreProfessions = await api.getStoreProfessions();
-    dispatch({
-      type: "GET_DATA",
-      payload: { allStoreProfessions },
-    });
-  };
-  const fetchStoreSpecialtiesFilter = async () => {
-    const allStoreSpecialties = await api.getSpecialtiesStore();
-    dispatch({
-      type: "GET_DATA",
-      payload: { allStoreSpecialties },
-    });
-  };
-
   useEffect(() => {
-    fetchProductsMX();
-    fetchCourses();
-    fetchPosts();
+    // fetchProductsMX();
+    // fetchCourses();
+    // fetchPosts();
     fetchBestSeller();
     fetchProfessions();
     fetchSpecialties();
-    fetchStoreProfessionsFilter();
-    fetchStoreSpecialtiesFilter();
   }, []);
 
   return (
@@ -151,7 +131,6 @@ export const DataProvider: React.FC<Props> = ({ children }) => {
         loadingProfessions,
         loadingSpecialties,
         loadingProductsMX,
-        appRef,
         state,
         dispatch,
       }}

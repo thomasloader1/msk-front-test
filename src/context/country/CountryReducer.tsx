@@ -1,5 +1,5 @@
-import { CountryState, AuthAction } from "data/types";
-import { countries } from "data/countries";
+import { CountryState, AuthAction } from "@/data/types";
+import { countries } from "@/data/countries";
 
 const SET_COUNTRY = "SET_COUNTRY";
 export const countryReducer = (

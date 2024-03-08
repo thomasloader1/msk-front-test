@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { TaxonomyType, TwMainColor } from "data/types";
-import { Link } from "react-router-dom";
-import Badge from "components/Badge/Badge";
+import NcImage from "@/components/NcImage/NcImage";
+import { TaxonomyType, TwMainColor } from "@/data/types";
+import Badge from "@/components/Badge/Badge";
+import NcLink from "../NcLink/NcLink";
 
 export interface CardCategory6Props {
   className?: string;
@@ -18,7 +18,7 @@ const CardCategory6: FC<CardCategory6Props> = ({
   hideDescriptionMobile = false,
 }) => {
   const { description, href = "/", name } = taxonomy;
-  let thumbnail = "/images/courses/";
+  let thumbnail = "/imagescourses/";
   switch (name) {
     case "Cardiología":
       thumbnail = thumbnail + "cardiology.png";
@@ -57,6 +57,7 @@ const CardCategory6: FC<CardCategory6Props> = ({
           <NcImage
             containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
             src={thumbnail}
+            alt=""
           />
           <div className="mt-3 ">
             <h2 className={`text-base sm:text-lg`}>
@@ -68,14 +69,17 @@ const CardCategory6: FC<CardCategory6Props> = ({
           </div>
         </a>
       ) : (
-        <Link
-          to={href}
+        <NcLink
+          href={href}
           className={`nc-CardCategory6 relative flex flex-col items-center justify-center text-center px-3 py-5 sm:p-6  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]  ${className}`}
           data-nc-id="CardCategory6"
         >
           <NcImage
             containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
             src={thumbnail}
+            alt=""
+            width="50"
+            height="50"
           />
           <div className="mt-3 ">
             <h2 className={`text-base sm:text-lg`}>
@@ -85,7 +89,7 @@ const CardCategory6: FC<CardCategory6Props> = ({
               {description}
             </p>
           </div>
-        </Link>
+        </NcLink>
       )}
     </>
   );

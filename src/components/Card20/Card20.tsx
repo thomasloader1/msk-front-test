@@ -1,9 +1,8 @@
 import React, { FC, useContext } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { Aval, PostDataType } from "data/types";
-import { CountryContext } from "context/country/CountryContext";
-import Tooltip from "components/Tooltip/Tooltip";
-import toolTipIcon from "/images/icons/info_tooltip.svg";
+import NcImage from "@/components/NcImage/NcImage";
+import { Aval, PostDataType } from "@/data/types";
+import { CountryContext } from "@/context/country/CountryContext";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
 export interface Card20Props {
   className?: string;
@@ -28,13 +27,15 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post, index }) => {
           containerClassName="absolute inset-0"
           src={image}
           alt={title}
+          width="30"
+          height="30"
         />
       </div>
       <Tooltip
         text={description}
         className={`absolute bottom-1 ${index == 3 ? "left-1" : "right-1"}`}
       >
-        <img src={toolTipIcon} />
+        <img src={"/images/icons/info_tooltip.svg"} />
       </Tooltip>
     </div>
   );

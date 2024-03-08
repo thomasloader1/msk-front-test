@@ -1,11 +1,10 @@
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ButtonSecondary from "components/Button/ButtonSecondary";
-import NcModal from "components/NcModal/NcModal";
-import { AuthContext } from "context/user/AuthContext";
-import { UTMAction } from "context/utm/UTMContext";
-import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import ButtonSecondary from "@/components/Button/ButtonSecondary";
+import NcModal from "@/components/NcModal/NcModal";
+import { AuthContext } from "@/context/user/AuthContext";
+import { UTMAction } from "@/context/utm/UTMContext";
+import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
 import { FC, useContext, useEffect, useReducer, useState } from "react";
-import { useHistory } from "react-router-dom";
 interface Props {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   onClose: () => any;
@@ -13,7 +12,7 @@ interface Props {
 
 const signOutContent: FC<Props> = ({ setShow, onClose }) => {
   const { dispatch } = useContext(AuthContext);
-  const history = useHistory();
+  // const history = useHistory();
   const clearUTMAction: UTMAction = {
     type: "CLEAR_UTM",
     payload: {} as any,
@@ -24,7 +23,7 @@ const signOutContent: FC<Props> = ({ setShow, onClose }) => {
     onClose();
     dispatchUTM(clearUTMAction);
     dispatch({ type: "LOGOUT" });
-    history.push("/");
+    // history.push("/");
   };
 
   return (

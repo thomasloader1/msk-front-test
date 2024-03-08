@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { Specialty, TaxonomyType } from "data/types";
-import { NavLink } from "react-router-dom";
+import NcImage from "@/components/NcImage/NcImage";
+import { TaxonomyType } from "@/data/types";
+import Link from "next/link";
 
 export interface CardCategory1Props {
   className?: string;
-  taxonomy: any;
+  taxonomy: TaxonomyType;
   size?: "large" | "normal";
 }
 
@@ -16,22 +16,25 @@ const CardCategory1: FC<CardCategory1Props> = ({
 }) => {
   const { count, name, href = "/", thumbnail } = taxonomy;
   return (
-    <NavLink
-      to={href}
+    <Link
+      href={href}
       className={`nc-CardCategory1 flex items-center ${className}`}
-      data-nc-id="CardCategory1"
     >
       <NcImage
-        containerClassName={`flex-shrink-0 ${
+        alt=""
+        containerClassName={`relative flex-shrink-0 ${
           size === "large" ? "w-20 h-20" : "w-12 h-12"
-        } rounded-lg mr-4 overflow-hidden`}
-        src={thumbnail}
+        } rounded-lg me-4 overflow-hidden`}
+        src={thumbnail || ""}
+        fill
+        className="object-cover"
+        sizes="80px"
       />
       <div>
         <h2
           className={`${
             size === "large" ? "text-lg" : "text-base"
-          } nc-card-title text-neutral-900 dark:text-neutral-100 font-semibold`}
+          } nc-card-title text-neutral-900 dark:text-neutral-100 text-sm sm:text-base font-medium sm:font-semibold`}
         >
           {name}
         </h2>
@@ -43,7 +46,7 @@ const CardCategory1: FC<CardCategory1Props> = ({
           {count} Articles
         </span>
       </div>
-    </NavLink>
+    </Link>
   );
 };
 

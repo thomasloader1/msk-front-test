@@ -1,8 +1,11 @@
-import { FC, useContext } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import { CountryContext } from "context/country/CountryContext";
+"use client";
+
+import React, { FC, useContext } from "react";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import Link from "next/link";
+import NcImage from "@/components/NcImage/NcImage";
+import { CountryContext } from "@/context/country/CountryContext";
+import Image from "next/image";
 
 export interface Card9Props {
   className?: string;
@@ -31,11 +34,12 @@ const Card9: FC<Card9Props> = ({
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
-          <h4 className="block text-lg font-semibold text-white">
+          <h2 className="block text-lg font-semibold text-white">
             <span className="text-xl font-raleway" title={title}>
               {title}
             </span>
-          </h4>
+          </h2>
+
           <>
             {showDescription && post.lista_de_cedentes ? (
               <div className="sm:block mt-2">
@@ -53,27 +57,32 @@ const Card9: FC<Card9Props> = ({
   return (
     <div
       className={`nc-Card9 relative flex flex-col group rounded-3xl overflow-hidden z-0 ${hoverClass} ${className}`}
-      data-nc-id="Card9"
     >
-      {/* <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
-        <PostCardLikeAndComment className="relative" postData={post} />
-        <PostCardSaveAction className="relative" postData={post} />
-      </div> */}
+      {/* 
+        <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
+          <PostCardLikeAndComment className="relative" />
+          <PostCardSaveAction hidenReadingTime className="relative" />
+        </div> 
+      */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>
-      <Link to={`/curso/${slug}`}>
+      <Link href={`/curso/${slug}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-3xl"
-          className="object-cover w-full h-full rounded-3xl"
           src={imageURL}
+          fill
+          sizes="200px"
+          alt="categories"
+          className="object-cover"
         />
+
         <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
       </Link>
       <Link
-        to={`/curso/${slug}`}
+        href={`/curso/${slug}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-50"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col flex-grow">
-        <Link to={`/curso/${slug}`} className="absolute inset-0"></Link>
+        <Link href={`/curso/${slug}`} className="absolute inset-0"></Link>
         <div className="mb-3">
           <CategoryBadgeList
             categories={categories}

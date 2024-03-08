@@ -1,4 +1,4 @@
-import { FetchSingleProduct } from "data/types";
+import { FetchSingleProduct } from "@/data/types";
 import { useState, useEffect } from "react";
 
 const useProductDetails = (product: FetchSingleProduct) => {
@@ -23,15 +23,14 @@ const useProductDetails = (product: FetchSingleProduct) => {
       setTitle(authorName);
     } else if (lista_de_cedentes) {
       const [firstCedente] = lista_de_cedentes;
-      if (firstCedente){
-        if (firstCedente.imagen){
+      if (firstCedente) {
+        if (firstCedente.imagen) {
           const imageOfCedente = firstCedente.imagen.replace("mx.", "") || "";
           setImagen(imageOfCedente);
         }
         const cedenteName = firstCedente?.post_title || "-";
         setTitle(cedenteName);
       }
-
     }
 
     return () => {

@@ -1,41 +1,20 @@
-import Accordion from "components/Accordion/Accordion";
-import { Evaluation, Topic } from "data/types";
-import React, { FC, useEffect, useRef, useState } from "react";
+import { Evaluation } from "@/data/types";
+import React, { FC } from "react";
 
 interface Props {
   evaluations: Evaluation;
 }
 
 const ProductEvaluation: FC<Props> = ({ evaluations }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [evaluationList, setEvaluationList] = useState<any[]>();
-  const handleAccordionClick = (index: number) => {
-    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
-
-  useEffect(() => {
-    const formattedEvs: any[] = [];
-    Object.keys(evaluations).map((key, index) => {
-      if (key != "data") formattedEvs.push(evaluations[index]);
-    });
-    setEvaluationList(formattedEvs);
-  }, [evaluations]);
-
-  const parseToHTML = (htmlString: string): JSX.Element => {
-    const textNodes = htmlString.split("\n").map((line, i) => (
-      <React.Fragment key={i}>
-        {line}
-        <br />
-      </React.Fragment>
-    ));
-    return <>{textNodes}</>;
-  };
-
-  useEffect(() => {});
+  const formattedEvs: any[] = [];
+  Object.keys(evaluations).map((key, index) => {
+    if (key != "data") formattedEvs.push(evaluations[index]);
+  });
+  const evaluationList = formattedEvs;
 
   return (
     <div className="course-learn-wrapper">
-      <div className="course-learn text-violet-dark">
+      <div className="course-learn">
         <div className="course-leranm-tittle">
           <h4 className="mb-15 font-bold text-xl poppins-bold">
             Cómo evaluamos

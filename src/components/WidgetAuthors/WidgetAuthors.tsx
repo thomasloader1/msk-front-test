@@ -1,21 +1,23 @@
-import CardAuthor from "components/CardAuthor/CardAuthor";
-import WidgetHeading1 from "components/WidgetHeading1/WidgetHeading1";
-import { PostAuthorType } from "data/types";
+import CardAuthor from "@/components/CardAuthor/CardAuthor";
+import WidgetHeading1 from "@/components/WidgetHeading1/WidgetHeading1";
+import { DEMO_AUTHORS } from "@/data/authors";
+import { PostAuthorType } from "@/data/types";
 import React, { FC } from "react";
+
+const authorsDemo: PostAuthorType[] = DEMO_AUTHORS.filter((_, i) => i < 5);
 
 export interface WidgetAuthorsProps {
   className?: string;
-  authors: PostAuthorType[];
+  authors?: PostAuthorType[];
 }
 
 const WidgetAuthors: FC<WidgetAuthorsProps> = ({
   className = "bg-neutral-100 dark:bg-neutral-800",
-  authors,
+  authors = authorsDemo,
 }) => {
   return (
     <div
       className={`nc-WidgetAuthors rounded-3xl overflow-hidden ${className}`}
-      data-nc-id="WidgetAuthors"
     >
       <WidgetHeading1
         title="🎭 Discover Authors"

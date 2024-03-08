@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { PostDataType } from "data/types";
-import ButtonPlayMusicRunningContainer from "containers/ButtonPlayMusicRunningContainer/ButtonPlayMusicRunningContainer";
+import { PostDataType } from "@/data/types";
+import ButtonPlayMusicPlayer from "@/components/ButtonPlayMusicPlayer";
 
 export interface MediaAudioProps {
   post: PostDataType;
@@ -8,10 +8,12 @@ export interface MediaAudioProps {
 
 const MediaAudio: FC<MediaAudioProps> = ({ post }) => {
   return (
-    <ButtonPlayMusicRunningContainer
-      className="absolute bg-neutral-900 bg-opacity-30 flex items-center justify-center inset-0"
-      post={post}
-    />
+    <>
+      <ButtonPlayMusicPlayer
+        className="absolute inset-0 bg-neutral-900/30 flex items-center justify-center"
+        post={post}
+      />
+    </>
   );
 };
 

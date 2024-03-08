@@ -1,6 +1,7 @@
+"use client";
 import React, { FC, useContext, useState } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
-import { CountryContext } from "context/country/CountryContext";
+import { CountryContext } from "@/context/country/CountryContext";
 interface Props {
   instructor: any;
 }

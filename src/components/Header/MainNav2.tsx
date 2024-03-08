@@ -1,46 +1,46 @@
-import { Popover, Transition } from "@headlessui/react";
-import api from "Services/api";
-import Avatar from "components/Avatar/Avatar";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ButtonSecondary from "components/Button/ButtonSecondary";
-import ErrorBoundary from "components/ErrorBoundary";
-import Input from "components/Input/Input";
-import Logo from "components/Logo/Logo";
-import MenuBar from "components/MenuBar/MenuBar";
-import Navigation from "components/Navigation/Navigation";
-import NavigationUser from "components/Navigation/NavigationUser";
-import DarkModeContainer from "containers/DarkModeContainer/DarkModeContainer";
-import { AuthContext } from "context/user/AuthContext";
+"use client";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import ButtonSecondary from "@/components/Button/ButtonSecondary";
+import Logo from "@/components/Logo/Logo";
+import MenuBar from "@/components/MenuBar/MenuBar";
+import Navigation from "@/components/Navigation/Navigation";
+import NavigationUser from "@/components/Navigation/NavigationUser";
+import { AuthContext } from "@/context/user/AuthContext";
+import { CountryContext } from "@/context/country/CountryContext";
 import {
   NAVIGATION_MSK,
   NAVIGATION_BLOG_MSK,
   NAVIGATION_ARCHIVE_MSK,
-} from "data/navigation";
-import { FetchCourseType } from "data/types";
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+} from "@/data/navigation";
+import React, { FC, useContext, useEffect, useState } from "react";
 import SearchProducts from "./SearchProducts";
-import ModalSignOut from "components/Modal/SignOut";
-
+import ModalSignOut from "@/components/Modal/SignOut";
+import { usePathname } from "next/navigation";
+import { useCurrentLocale } from "next-i18n-router/client";
+// @ts-ignore
+import i18nConfig from "@/i18nConfig";
 export interface MainNav2Props {}
 
 const MainNav2: FC<MainNav2Props> = () => {
+  const locale = useCurrentLocale(i18nConfig);
+
+  const { state: countryState } = useContext(CountryContext);
   const { state } = useContext(AuthContext);
+  const urlPre = countryState.country ? `/${countryState.country}` : "";
   const [isOnBlog, setIsOnBlog] = useState(false);
   const [isOnArchive, setIsOnArchive] = useState(false);
-  const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const history = useHistory();
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+  const pathName = usePathname();
   useEffect(() => {
-    setIsOnBlog(history.location.pathname.includes("blog"));
-    setIsOnArchive(history.location.pathname.includes("archivo"));
+    setIsOnBlog(pathName.includes("blog"));
+    setIsOnArchive(pathName.includes("archivo"));
   });
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
-      <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
+      <div className="container py-3 relative flex justify-between items-center space-x-4 xl:space-x-8">
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
           <Logo isOnBlog={isOnBlog} />
           <div className="hidden sm:block flex-grow max-w-xs">
@@ -79,9 +79,9 @@ const MainNav2: FC<MainNav2Props> = () => {
             ) : (
               <>
                 <div className="hidden sm:block h-10 border-l border-neutral-300 dark:border-neutral-6000 pr-5"></div>
-
                 <ButtonSecondary
-                  href={"/iniciar-sesion"}
+                  href="/iniciar-sesion"
+                  locale={locale}
                   sizeClass="px-4 py-2 sm:px-5"
                   className="border-solid border-1 border-neutral-200 text-neutral-500"
                   bordered
@@ -89,7 +89,7 @@ const MainNav2: FC<MainNav2Props> = () => {
                   Iniciar sesión
                 </ButtonSecondary>
                 <ButtonPrimary
-                  href={"/crear-cuenta"}
+                  href={`/crear-cuenta`}
                   sizeClass="px-4 py-2 sm:px-5"
                   className="font-semibold"
                 >
@@ -99,13 +99,8 @@ const MainNav2: FC<MainNav2Props> = () => {
             )}
           </div>
           <div className="flex items-center space-x-4 xl:hidden">
-            {/* <ButtonPrimary href={"/crear-cuenta"} sizeClass="px-4 py-2 sm:px-5">
-              Create account
-            </ButtonPrimary> */}
-            <ErrorBoundary>
-              <NavigationUser />
-              <MenuBar />
-            </ErrorBoundary>
+            <NavigationUser />
+            <MenuBar />
           </div>
         </div>
       </div>

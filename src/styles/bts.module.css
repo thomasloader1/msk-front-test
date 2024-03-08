@@ -1,10 +1,9 @@
-@import "bootstrap-css";
+/* @import "~bootstrap/dist/css/bootstrap.css"; */
 
-.pt-90{
-    padding-top: 90px;
+.pt-90 {
+  padding-top: 90px;
 }
 
-.pb-120{
-    padding-bottom: 120px;
+.pb-120 {
+  padding-bottom: 120px;
 }
-

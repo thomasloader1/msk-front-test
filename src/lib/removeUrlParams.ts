@@ -35,3 +35,19 @@ export function keepOnlySpecifiedParams(
   const newQueryString = queryParams.toString();
   return newQueryString ? `${baseUrl}?${newQueryString}` : baseUrl;
 }
+
+export function getParamsFromURL(
+  url: string,
+  paramsToKeep: string[] = ["especialidad", "profesion", "recurso"]
+) {
+  const [baseUrl, queryString] = url.split("?");
+  const queryParams = new URLSearchParams(queryString);
+  const existingParams = Array.from(queryParams.keys());
+  const params = {} as any;
+  existingParams.forEach((param: string) => {
+    if (paramsToKeep.includes(param)) {
+      params[param] = queryParams.get(param);
+    }
+  });
+  return params;
+}

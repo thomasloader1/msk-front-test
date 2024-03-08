@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { PostAuthorType } from "data/types";
-import { ArrowRightIcon } from "@heroicons/react/solid";
-import { NavLink } from "react-router-dom";
-import Avatar from "components/Avatar/Avatar";
-import NcImage from "components/NcImage/NcImage";
+import { PostAuthorType } from "@/data/types";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import Avatar from "@/components/Avatar/Avatar";
+import NcImage from "@/components/NcImage/NcImage";
+import Link from "next/link";
 
 export interface CardAuthorBox2Props {
   className?: string;
@@ -16,21 +16,24 @@ const CardAuthorBox2: FC<CardAuthorBox2Props> = ({
 }) => {
   const { displayName, href = "/", avatar, jobName, count, bgImage } = author;
   return (
-    <NavLink
-      to={href}
-      className={`nc-CardAuthorBox2 flex flex-col overflow-hidden [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
-      data-nc-id="CardAuthorBox2"
+    <Link
+      href={href}
+      className={`nc-CardAuthorBox2 flex flex-col overflow-hidden bg-white dark:bg-neutral-800 rounded-3xl ${className}`}
     >
       <div className="relative flex-shrink-0 ">
         <div>
           <NcImage
-            containerClassName="flex aspect-w-7 aspect-h-5 sm:aspect-h-6 w-full h-0"
-            src={bgImage}
+            alt="author"
+            containerClassName="flex aspect-w-7 aspect-h-5 w-full h-0"
+            src={bgImage || ""}
+            fill
+            sizes="(max-width: 600px) 480px, 33vw"
           />
         </div>
         <div className="absolute top-3 inset-x-3 flex">
           <div className=" py-1 px-4 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center leading-none text-xs font-medium">
-            {count} <ArrowRightIcon className="w-5 h-5 text-yellow-600 ml-3" />
+            {count}{" "}
+            <ArrowRightIcon className="w-5 h-5 text-yellow-600 ms-3 rtl:rotate-180" />
           </div>
         </div>
       </div>
@@ -54,7 +57,7 @@ const CardAuthorBox2: FC<CardAuthorBox2Props> = ({
           </span>
         </div>
       </div>
-    </NavLink>
+    </Link>
   );
 };
 

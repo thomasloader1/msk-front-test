@@ -1,14 +1,15 @@
+"use client";
 import React, { FC, useState } from "react";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import PostCardMetaV2 from "components/PostCardMeta/PostCardMetaV2";
+import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
+import { PostDataType } from "@/data/types";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import PostFeaturedMedia from "@/components/PostFeaturedMedia/PostFeaturedMedia";
+import PostCardMetaV2 from "@/components/PostCardMeta/PostCardMetaV2";
+import Link from "next/link";
 
 export interface Card10V2Props {
   className?: string;
-  post: any;
+  post: PostDataType;
 }
 
 const Card10V2: FC<Card10V2Props> = ({ className = "h-full", post }) => {
@@ -18,7 +19,6 @@ const Card10V2: FC<Card10V2Props> = ({ className = "h-full", post }) => {
   return (
     <div
       className={`nc-Card10V2 relative flex flex-col ${className}`}
-      data-nc-id="Card10V2"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
@@ -28,17 +28,17 @@ const Card10V2: FC<Card10V2Props> = ({ className = "h-full", post }) => {
         </div>
 
         <Link
-          to={href}
+          href={href}
           className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 transition-opacity"
         ></Link>
       </div>
-      <div className="absolute top-3 inset-x-3 flex justify-between items-start space-x-4">
+      <div className="absolute top-3 inset-x-3 flex justify-between items-start space-x-4 rtl:space-x-reverse">
         <CategoryBadgeList categories={categories} />
-        <PostCardSaveAction postData={post} />
+        <PostCardSaveAction />
       </div>
 
       <div className="space-y-2.5 mt-4 px-4">
-        <PostCardMetaV2 className="leading-none" meta={post} />
+        <PostCardMetaV2 meta={post} />
       </div>
     </div>
   );

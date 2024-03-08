@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
 import rightImgDemo from "/images/BecomeAnAuthorImg.png";
-import ButtonPrimary from "components/Button/ButtonPrimary";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import Image, { StaticImageData } from "next/image";
 
 export interface SectionBecomeAnAuthorProps {
   className?: string;
-  rightImg?: string;
+  rightImg?: string | StaticImageData;
 }
 
 const SectionBecomeAnAuthor: FC<SectionBecomeAnAuthorProps> = ({
@@ -15,7 +15,6 @@ const SectionBecomeAnAuthor: FC<SectionBecomeAnAuthorProps> = ({
   return (
     <div
       className={`nc-SectionBecomeAnAuthor relative flex flex-col lg:flex-row items-center  ${className}`}
-      data-nc-id="SectionBecomeAnAuthor"
     >
       <div className="flex-shrink-0 mb-14 lg:mb-0 lg:mr-10 lg:w-2/5">
         <span className="text-xs uppercase tracking-wider font-medium text-neutral-400">
@@ -32,7 +31,11 @@ const SectionBecomeAnAuthor: FC<SectionBecomeAnAuthorProps> = ({
         <ButtonPrimary className="mt-8">Become an author</ButtonPrimary>
       </div>
       <div className="flex-grow">
-        <NcImage src={rightImg} />
+        <Image
+          alt="hero"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          src={rightImg}
+        />
       </div>
     </div>
   );

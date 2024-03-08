@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import NavigationItem, { NavItemType } from "./NavigationItem";
-import { NAVIGATION_DEMO } from "data/navigation";
+import { NAVIGATION_DEMO } from "@/data/navigation";
 
 export interface NavigationProps {
   navigations?: NavItemType[];

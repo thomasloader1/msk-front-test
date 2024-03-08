@@ -2,46 +2,52 @@ import { FC, useContext, useEffect, useRef, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
-import SectionSliderPosts from "containers/PageMSK/home/SectionSliderPosts";
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
+// import SectionSliderPosts from "@/containers/PageMSK/home/SectionSliderPosts";
+import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
-import { FetchSingleProduct } from "data/types";
+import { FetchSingleProduct } from "@/data/types";
 import ProductEvaluation from "./ProductEvaluation";
-import ContactFormSection from "components/ContactForm/ContactForm";
-import StorePagination from "components/Store/StorePagination";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import useProductDetails from "hooks/useProductDetails";
-import { CountryContext } from "context/country/CountryContext";
+// import ContactFormSection from "@/components/ContactForm/ContactForm";
+// import StorePagination from "@/components/Store/StorePagination";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import { CountryContext } from "@/context/country/CountryContext";
 import ProductFeaturedText from "./ProductFeaturedText";
-import { DataContext } from "context/data/DataContext";
-import { parseHtml } from "utils/parseHTML";
+import { DataContext } from "@/context/data/DataContext";
+import productDetails from "@/hooks/ssr/productDetails";
+import SectionSliderPosts from "../Sections/SectionSliderPosts";
+import StorePagination from "../MSK/Store/StorePagination";
+import ProductInstructors from "./ProductInstructors";
+import ContactFormSection from "../MSK/ContactForm";
 
 interface Props {
   product: FetchSingleProduct;
+  country?: string;
 }
 
-const SingleProductDetail: FC<Props> = ({ product }) => {
-  const { state: dataState, loadingBestSellers } = useContext(DataContext);
-  const { allBestSellers } = dataState;
-  const [bestSellers, setBestSellers] = useState([]);
-  useEffect(() => {
-    setBestSellers(allBestSellers);
-  }, [allBestSellers]);
+const SingleProductDetail: FC<Props> = ({ product, country }) => {
+  // const { state: dataState, loadingBestSellers } = useContext(DataContext);
+  // const { allBestSellers } = dataState;
+  // const [bestSellers, setBestSellers] = useState([]);
+  // useEffect(() => {
+  //   setBestSellers(allBestSellers);
+  // }, [allBestSellers]);
 
-  const textRef = useRef<HTMLDivElement>(null);
-  const [textDesctiption, setTextDesctiption] = useState<string>("");
+  // const history = useHistory();
 
-  useEffect(() => {
-    const htmlElement = document.createElement("div");
-    htmlElement.innerHTML = product.ficha.description;
-    if (textRef.current) {
-      textRef.current.innerHTML = "";
-      textRef.current.appendChild(htmlElement);
-      setTextDesctiption(textRef?.current?.textContent as string);
-    }
-  }, [location]);
+  // const textRef = useRef<HTMLDivElement>(null);
+  // const [textDesctiption, setTextDesctiption] = useState<string>("");
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // useEffect(() => {
+  //   const htmlElement = document.createElement("div");
+  //   htmlElement.innerHTML = product.ficha.description;
+  //   if (textRef.current) {
+  //     textRef.current.innerHTML = "";
+  //     textRef.current.appendChild(htmlElement);
+  //     setTextDesctiption(textRef?.current?.textContent as string);
+  //   }
+  // }, [location]);
+
+  const currentPage = 1;
   const itemsPerPage = 6;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -49,7 +55,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
   const totalPages = Math.ceil(product.authors.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    console.log(pageNumber);
+    // setCurrentPage(pageNumber);
   };
 
   const productsGoals = (htmlString: string) => {
@@ -65,13 +72,13 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
     return listOfGoals;
   };
 
-  const { state } = useContext(CountryContext);
+  // const { state } = useContext(CountryContext);
 
-  let { isEbook, imagen, title } = useProductDetails(product);
+  let { isEbook, imagen, title } = productDetails(product);
 
-  if (imagen) {
-    imagen = imagen.replace(`${state.country || "mx"}.`, "");
-  }
+  // if (imagen) {
+  //   imagen = imagen.replace(`${state.country || "mx"}.`, "");
+  // }
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
@@ -86,7 +93,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
               />
             </div>
             <div className="course-heading mb-10 my-5">
-              <h1 className="font-semibold text-4xl text-violet-dark">{product.ficha.title}</h1>
+              <h1 className="font-semibold text-4xl">{product.ficha.title}</h1>
             </div>
             {!isEbook && (
               <>
@@ -150,7 +157,8 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
 
             <div className="order-last relative block lg:hidden my-10">
               <ProductDetailSidebar
-                product={product}
+                ficha={product.ficha}
+                details={product.details}
                 sideData={{
                   modalidad: product.modalidad,
                   curso_disponible: product.curso_disponible,
@@ -166,27 +174,32 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 className={
                   isEbook
                     ? "course-description pb-30"
-                    : "course-description pt-45 pb-30"
+                    : "course-description mt-45 pb-30"
                 }
               >
                 {!isEbook && (
-                  <div className="course-Description">
-                    <div className="font-semibold text-xl font-raleway text-violet-dark">
+                  <div className="course-description mt-10">
+                    <div className="font-semibold text-xl font-raleway">
                       Qué aprenderás
                     </div>
                   </div>
                 )}
-                <div className="text-violet-strong" dangerouslySetInnerHTML={{__html: parseHtml(product.ficha.description)}} />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product.ficha.description,
+                  }}
+                />
               </div>
             )}
 
             {product.avales && (
               <div
-                className={`bg-neutral-100 slider-container px-10 py-10 rounded-2xl ${
+                className={`bg-neutral-100 slider-container px-10 my-10 rounded-2xl ${
                   product.featured_product_text ? "mb-22" : "mb-24"
                 }`}
               >
                 <SectionSliderPosts
+                  heading=""
                   postCardName="card20"
                   sliderStype="style2"
                   posts={product.avales}
@@ -224,41 +237,17 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                 />
               </>
             )}
-
-            {product.authors.length > 0 && !isEbook && (
-              <h4 className="mt-6 font-bold pt-6 text-xl poppins-bold text-violet-dark">
-                Quiénes lo desarrollan
-              </h4>
-            )}
-
-            {!isEbook && (
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                {currentItems.length > 0 &&
-                  currentItems.map((instructor, index) => {
-                    return (
-                      <ProductDetailsInstructor
-                        instructor={instructor}
-                        key={`inst_${index}`}
-                      />
-                    );
-                  })}
-              </div>
-            )}
-
-            {totalPages > 1 && !isEbook && (
-              <div className="flex justify-center">
-                <StorePagination
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  currentPage={currentPage}
-                />
-              </div>
-            )}
+            <ProductInstructors
+              product={product}
+              country={country}
+              isEbook={isEbook}
+            />
           </div>
         </div>
         <div className="order-last relative hidden lg:block">
           <ProductDetailSidebar
-            product={product}
+            ficha={product.ficha}
+            details={product.details}
             sideData={{
               modalidad: product.modalidad,
               curso_disponible: product.curso_disponible,
@@ -283,13 +272,12 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container relative py-16 mb-20">
         <BackgroundSection />
         <SectionSliderPosts
-          posts={bestSellers}
-          loading={loadingBestSellers}
           postCardName="card9"
           heading="Descubre nuestras capacitaciones destacadas"
           subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
           sliderStype="style2"
           uniqueSliderClass="pageHome-section6"
+          showPosts="bestSellers"
         />
       </div>
 

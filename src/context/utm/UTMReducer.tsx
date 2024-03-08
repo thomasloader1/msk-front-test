@@ -1,17 +1,20 @@
-import { deleteCookie, getCookie } from "utils/cookies";
+import { deleteCookie, getCookie } from "@/utils/cookies";
 import { UTMAction, UTMState } from "./UTMContext";
 import queryString from "query-string";
-const queryParams = queryString.parse(window.location.search);
+const queryParams =
+  typeof window !== "undefined"
+    ? queryString.parse(window.location.search)
+    : null;
 
 export const utmInitialState = {
   utm_source:
-    queryParams.utm_source?.toString() || getCookie("utm_source") || "",
+    queryParams?.utm_source?.toString() || getCookie("utm_source") || "",
   utm_medium:
-    queryParams.utm_medium?.toString() || getCookie("utm_medium") || "",
+    queryParams?.utm_medium?.toString() || getCookie("utm_medium") || "",
   utm_campaign:
-    queryParams.utm_campaign?.toString() || getCookie("utm_campaign") || "",
+    queryParams?.utm_campaign?.toString() || getCookie("utm_campaign") || "",
   utm_content:
-    queryParams.utm_content?.toString() || getCookie("utm_content") || "",
+    queryParams?.utm_content?.toString() || getCookie("utm_content") || "",
 };
 
 const GET_UTM = "GET_UTM";

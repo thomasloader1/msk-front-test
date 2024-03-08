@@ -1,10 +1,11 @@
-import api from "Services/api";
-import Accordion from "components/Accordion/Accordion";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ContactFormSection from "components/ContactForm/ContactForm";
-import NcModal from "components/NcModal/NcModal";
-import { Topic } from "data/types";
+"use client";
+import Accordion from "@/components/Accordion/Accordion";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import ContactFormSection from "@/components/MSK/ContactForm";
+import NcModal from "@/components/NcModal/NcModal";
+import { Topic } from "@/data/types";
 import React, { FC, useEffect, useRef, useState } from "react";
+import api from "../../../Services/api";
 
 interface Props {
   topics: Topic;
@@ -68,7 +69,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   return (
     <div className="my-4">
       <div className="flex flex-col gap-3 pt-7 pb-6">
-        <div className="font-semibold text-[16px] sm:text-xl md:text-2xl text-violet-dark">
+        <div className="font-semibold text-[16px] sm:text-xl">
           Qué temas verás
         </div>
         <div className="flex items-center justify-between">

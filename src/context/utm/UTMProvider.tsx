@@ -1,7 +1,8 @@
+"use client";
 import React, { useEffect, useReducer, useState } from "react";
 import { UTMContext } from "./UTMContext";
 import { utmInitialState, utmReducer } from "./UTMReducer";
-import { getCookie, setCookie } from "utils/cookies";
+import { getCookie, setCookie } from "@/utils/cookies";
 
 interface Props {
   children: React.ReactNode;

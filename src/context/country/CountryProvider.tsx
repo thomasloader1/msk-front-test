@@ -1,10 +1,12 @@
+"use client";
 import React, { useEffect, useReducer, useState } from "react";
 import { CountryContext } from "./CountryContext";
 import { countryReducer } from "./CountryReducer";
-import { CountryState } from "data/types";
-import api from "Services/api";
-import { countries } from "data/countries";
-import { getCountryFromURL } from "lib/getContryFromURL";
+import { CountryState } from "@/data/types";
+import { countries } from "@/data/countries";
+import api from "../../../Services/api";
+import axios from "axios";
+import { parse } from "cookie";
 
 interface Props {
   children: React.ReactNode;
@@ -12,22 +14,57 @@ interface Props {
 
 export const CountryProvider: React.FC<Props> = ({ children }) => {
   const initialState: CountryState = {
-    country: localStorage.getItem("country") || "",
+    country:
+      typeof window !== "undefined"
+        ? localStorage.getItem("country") || ""
+        : "",
   };
 
   const [state, dispatch] = useReducer(countryReducer, initialState);
   const [bypassRedirect, setBypassRedirect] = useState(
-    localStorage.getItem("bypassRedirect")
+    typeof window !== "undefined"
+      ? localStorage.getItem("bypassRedirect") || ""
+      : ""
   );
+
+  const validCountries = countries.map((item) => item.id);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let currentCountry = "";
+      const currentUrl = window.location.pathname;
+      const validCountryUrl = validCountries.filter(
+        (country) =>
+          currentUrl.includes("/" + country + "/") ||
+          currentUrl.includes("/" + country)
+      );
+      if (validCountryUrl.length) {
+        currentCountry = validCountryUrl[0];
+      }
+
+      const cookies = parse(document.cookie);
+      const countryCookie = cookies.country;
+      if (!countryCookie) {
+        const fetchData = async () => {
+          /*try {
+            await axios.post("/api/cookies", {
+              cookieName: "country",
+              cookieValue: currentCountry,
+            });
+          } catch (err) {
+            console.log({ err });
+          }*/
+        };
+        fetchData();
+      }
+    }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       let redirectUrl = "";
-      const currentLocationUrl = window.location.href;
       try {
-        console.log("Country Provider");
+        //console.log("Country Provider");
         let currentCountry = "";
-        let validCountries = countries.map((item) => item.id);
 
         if (bypassRedirect == "1") {
           console.log("bypassRedirect");
@@ -40,6 +77,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (validCountryUrl.length) {
             currentCountry = validCountryUrl[0];
           }
+          console.log("Country Provider", currentCountry);
         } else {
           currentCountry = await api.getCountryCode();
           console.log("CurrentCountry obtained from IP: " + currentCountry);
@@ -51,15 +89,16 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (!validCountries.includes(currentCountry)) {
             currentCountry = "";
           }
-
-          localStorage.setItem("country", currentCountry);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("country", currentCountry);
+          }
 
           console.log("stateCountry: " + state.country);
           console.log("currentCountry: " + currentCountry);
 
           if (
             state.country != currentCountry ||
-            getCountryFromURL(currentLocationUrl) != currentCountry
+            getCountryFromURL() != currentCountry
           ) {
             if (
               validCountries.includes(currentPathName) &&
@@ -70,10 +109,10 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
               redirectUrl = "/" + currentCountry + window.location.pathname;
             }
             console.log("redirectUrl1: " + redirectUrl);
-            if (getCountryFromURL(currentLocationUrl) != "") {
+            if (getCountryFromURL() != "") {
               redirectUrl = window.location.href
                 .replace(
-                  "/" + getCountryFromURL(currentLocationUrl) + "/",
+                  "/" + getCountryFromURL() + "/",
                   "/" + currentCountry + "/"
                 )
                 .replace(/(https?:\/\/.*?)\/+/g, "$1/");
@@ -99,6 +138,25 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
         }
       } catch (error) {
         console.log(error);
+      }
+    };
+
+    const getCountryFromURL = () => {
+      const url = window.location.href;
+      switch (true) {
+        // case url.includes("/es/"):
+        //   return "es";
+        case url.includes("/cl/"):
+          return "cl";
+        case url.includes("/ar/"):
+          return "ar";
+        case url.includes("/ec/"):
+          return "ec";
+        case url.includes("/mx/"):
+          return "mx";
+        // Add more cases for other substrings
+        default:
+          return "";
       }
     };
 

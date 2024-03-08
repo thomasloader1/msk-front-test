@@ -1,13 +1,12 @@
 import React, { FC, useContext, useState } from "react";
-import fai from "../../styles/fai/fontAwesome5Pro.module.css";
-import { CountryContext } from "context/country/CountryContext";
+// import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 interface Props {
   instructor: any;
+  country?: string;
 }
 
-const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
+const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
   const [displayBiography, setDisplayBiography] = useState(false);
-  const { state } = useContext(CountryContext);
   const triggerDisplayBiography = () => {
     setDisplayBiography(!displayBiography);
   };
@@ -18,7 +17,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
       <div className="instructors-heading">
         <div className="instructors-img">
           <img
-            src={instructor.image.replace(`${state.country || "mx"}.`, "")}
+            src={instructor.image.replace(`${country || "mx"}.`, "")}
             alt="img not found"
             className="animate-fade"
           />
@@ -26,9 +25,9 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
         <div className="instructors-body">
           <h3
             dangerouslySetInnerHTML={instructorName}
-            className="animate-fade text-violet-dark"
+            className="animate-fade"
           ></h3>
-          <p className="mt-2 animate-fade text-violet-wash">{instructor.description}</p>
+          <p className="mt-2 animate-fade">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
               onClick={triggerDisplayBiography}
@@ -41,8 +40,8 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
           )}
         </div>
       </div>
-      {displayBiography &&
-      (instructor.specialties.length || instructor.centres.length) ? (
+      {(displayBiography && instructor.specialties.length) ||
+      instructor.centres.length ? (
         <div className="intructors-content">
           {instructor.specialties.length ? (
             <div>
@@ -52,7 +51,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
                   (specialty: string, index: number) => {
                     return (
                       <li key={`spec_${index}`}>
-                        <i className={`${fai.fa} ${fai["fa-circle"]}`}></i>
+                        {/* <i className={`${fai.fa} ${fai["fa-circle"]}`}></i> */}
                         {specialty}
                       </li>
                     );
@@ -71,7 +70,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor }) => {
                 {instructor.centres.map((specialty: string, index: number) => {
                   return (
                     <li key={`spec_${index}`}>
-                      <i className={`${fai.fa} ${fai["fa-circle"]}`}></i>
+                      {/* <i className={`${fai.fa} ${fai["fa-circle"]}`}></i> */}
                       {specialty}
                     </li>
                   );

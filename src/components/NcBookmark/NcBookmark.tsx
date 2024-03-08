@@ -1,39 +1,37 @@
-import React, { FC } from "react";
-import twFocusClass from "utils/twFocusClass";
-import { PostDataType } from "data/types";
+"use client";
+
+import React, { FC, useState } from "react";
 
 export interface NcBookmarkProps {
   containerClassName?: string;
-  iconClass?: string;
-  isBookmarked: boolean;
-  postId: PostDataType["id"];
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  bookmarked?: boolean;
 }
 
 const NcBookmark: FC<NcBookmarkProps> = ({
   containerClassName = "h-8 w-8 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700",
-  isBookmarked,
-  postId,
-  onClick = () => {},
+  bookmarked = false,
 }) => {
+  const [isBookmarked, setIsBookmarked] = useState(bookmarked);
+
   return (
     <button
-      className={`nc-NcBookmark relative rounded-full flex items-center justify-center ${twFocusClass()} ${containerClassName}`}
-      data-nc-id="NcBookmark"
-      data-nc-bookmark-post-id={postId}
-      onClick={onClick}
+      className={`nc-NcBookmark relative rounded-full flex items-center justify-center ${containerClassName}`}
       title="Save to reading list"
+      onClick={() => setIsBookmarked(!isBookmarked)}
     >
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        fill={isBookmarked ? "currentColor" : "none"}
+        stroke="currentColor"
+        className="w-[18px] h-[18px]"
+      >
         <path
-          stroke="currentColor"
-          aria-hidden="true"
-          fill={isBookmarked ? "currentColor" : "none"}
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="1"
-          d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"
-        ></path>
+          d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+        />
       </svg>
     </button>
   );

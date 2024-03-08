@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import NcImage from "components/NcImage/NcImage";
-import { FetchPostType } from "data/types";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import { compareByNameDescending } from "lib/compareByNameDescending";
+import NcImage from "@/components/NcImage/NcImage";
+import { FetchPostType } from "@/data/types";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import { compareByNameDescending } from "@/lib/compareByNameDescending";
+import Link from "next/link";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export interface Card19Props {
   className?: string;
@@ -51,11 +52,14 @@ const Card19: FC<Card19Props> = ({
         <PostCardSaveAction className="relative" postData={post} />
       </div> */}
       <div className={`flex items-start relative w-full ${ratio}`}></div>(
-      <Link to={`/${kind}/${slug}`}>
+      <Link href={`/${kind}/${slug}`}>
         <NcImage
           containerClassName="absolute inset-0 rounded-xl"
           className="object-cover w-full h-full rounded-xl"
-          src={image}
+          alt={title}
+          src={image as string | StaticImport}
+          width="400"
+          height="400"
         />
         {/* <PostTypeFeaturedIcon
           className="absolute top-3 left-3 group-hover:hidden"
@@ -67,11 +71,11 @@ const Card19: FC<Card19Props> = ({
       </Link>
       )
       <Link
-        to={`/${kind}/${slug}`}
+        href={`/${kind}/${slug}`}
         className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-black opacity-80"
       ></Link>
       <div className="absolute bottom-0 inset-x-0 p-5 sm:p-10 flex flex-col flex-grow">
-        <Link to={`/${kind}/${slug}`} className="absolute inset-0"></Link>
+        <Link href={`/${kind}/${slug}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
             <CategoryBadgeList

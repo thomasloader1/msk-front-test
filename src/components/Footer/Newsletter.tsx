@@ -1,7 +1,6 @@
-import api from "Services/api";
 import axios from "axios";
-import { API_BACKEND_URL } from "data/api";
-import { ContactUs, Newsletter, Profession, Specialty } from "data/types";
+import { API_BACKEND_URL } from "@/data/api";
+import { ContactUs, Newsletter, Profession, Specialty } from "@/data/types";
 
 import React, {
   FC,
@@ -11,9 +10,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { UTMAction } from "context/utm/UTMContext";
+import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
+import { UTMAction } from "@/context/utm/UTMContext";
 import * as Yup from "yup";
 import {
   ErrorMessage,
@@ -24,8 +22,10 @@ import {
   useFormik,
 } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { CountryContext } from "context/country/CountryContext";
-import { DataContext } from "context/data/DataContext";
+import { CountryContext } from "@/context/country/CountryContext";
+import { DataContext } from "@/context/data/DataContext";
+import NcLink from "../NcLink/NcLink";
+import api from "../../../Services/api";
 
 interface Props {
   email: string;
@@ -115,10 +115,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     fetchNewsletterSpecialties();
   }, []);
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const changeRoute = (newRoute: string): void => {
-    history.push(newRoute);
+    // history.push(newRoute);
   };
 
   const formRef = useRef<HTMLFormElement>(null!);
@@ -421,13 +421,13 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               />
               <label>
                 Acepto las{" "}
-                <Link
-                  to="/politica-de-privacidad"
+                <NcLink
+                  href="/politica-de-privacidad"
                   target="_blank"
                   className="text-primary"
                 >
                   politicas de privacidad
-                </Link>
+                </NcLink>
               </label>
             </div>
           </div>

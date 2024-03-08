@@ -1,17 +1,17 @@
 import React, { FC } from "react";
-import imgAdsDef from "/images/vectors/doctor_2.png";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import { Requirement } from "data/types";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import { Requirement } from "@/data/types";
+import { StaticImageData } from "next/image";
 export interface CourseRequirementsProps {
   className?: string;
-  imgAds?: string;
+  imgAds?: StaticImageData | string;
   requirements: Requirement[];
   title?: string;
 }
 
 const CourseRequirements: FC<CourseRequirementsProps> = ({
   className = "",
-  imgAds = imgAdsDef,
+  imgAds = "/images/vectors/doctor_2.png",
   requirements,
   title,
 }) => {
@@ -27,7 +27,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
 
   return (
     <div className="requirements">
-      <div className="sm:pr-60 md:pr-5 text-violet-dark">
+      <div className="sm:pr-60 md:pr-5">
         <div className="text-xl font-raleway font-bold">{title}</div>
         {requirements.map((requirement, index) => {
           return (
@@ -54,7 +54,7 @@ const CourseRequirements: FC<CourseRequirementsProps> = ({
           );
         })}
       </div>
-      <img src={imgAds} alt="" className="absolute-img" />
+      {imgAds && <img src={imgAds as string} alt="" className="absolute-img" />}
     </div>
   );
 };

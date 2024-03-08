@@ -1,3 +1,4 @@
+"use client";
 import { useReducer, useContext, FC, ReactNode } from "react";
 import reducer, { Filter, State } from "./storeFiltersReducer";
 import {
@@ -6,7 +7,7 @@ import {
   Profession,
   ResourceFilter,
   Specialty,
-} from "data/types";
+} from "@/data/types";
 import { StoreFiltersContext } from "./StoreContext";
 
 const initialState: State = {
@@ -45,7 +46,8 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       | ResourceFilter
       | PageFilter
   ) => {
-    dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
+    if (typeof filterValue.id != "undefined")
+      dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
   };
 
   const updateFilter = (filterType: keyof Filter, filterValue: PageFilter) => {

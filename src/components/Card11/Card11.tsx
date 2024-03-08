@@ -1,12 +1,12 @@
 import React, { FC, useState } from "react";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
-import { PostDataType } from "data/types";
-import { Link } from "react-router-dom";
-import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
-import PostCardMeta from "components/PostCardMeta/PostCardMeta";
-import PostFeaturedMedia from "components/PostFeaturedMedia/PostFeaturedMedia";
-import NcImage from "components/NcImage/NcImage";
+import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
+import { PostDataType } from "@/data/types";
+import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
+import PostCardLikeAndComment from "@/components/PostCardLikeAndComment/PostCardLikeAndComment";
+import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
+import PostFeaturedMedia from "@/components/PostFeaturedMedia/PostFeaturedMedia";
+import NcImage from "@/components/NcImage/NcImage";
+import Link from "next/link";
 
 export interface Card11Props {
   className?: string;
@@ -52,6 +52,7 @@ const Card11: FC<Card11Props> = ({
             src={imageURL}
             alt={title}
             height="100"
+            width="100"
           />
           {/* <PostFeaturedMedia post={post} isHover={isHover} /> */}
         </div>
@@ -68,7 +69,11 @@ const Card11: FC<Card11Props> = ({
           <span className="text-xs text-neutral-500">{date}</span>
         )} */}
         <h2 className="nc-card-title block text-base font-semibold text-neutral-900 dark:text-neutral-100 ">
-          <Link to={`/${kind}/${slug}`} className="line-clamp-2" title={title}>
+          <Link
+            href={`/${kind}/${slug}`}
+            className="line-clamp-2"
+            title={title}
+          >
             {title}
           </Link>
         </h2>

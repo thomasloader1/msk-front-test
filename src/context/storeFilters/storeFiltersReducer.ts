@@ -1,10 +1,12 @@
+"use client";
+
 import {
   ResourceFilter,
   DurationFilter,
   Profession,
   Specialty,
   PageFilter,
-} from "data/types";
+} from "@/data/types";
 
 export type Filter = {
   specialties: Specialty[];

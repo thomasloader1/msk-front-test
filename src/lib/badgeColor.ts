@@ -1,4 +1,4 @@
-import { FetchPostType } from "data/types";
+import { FetchPostType } from "@/data/types";
 
 export const badgeColorOld = (item: FetchPostType) => {
   console.log(item.categories);

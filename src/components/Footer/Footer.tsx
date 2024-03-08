@@ -1,100 +1,245 @@
-import Logo from "components/Logo/Logo";
-import SocialsList1 from "components/SocialsList1/SocialsList1";
-import { CustomLink } from "data/types";
-import React from "react";
+"use client";
+import { useContext, useEffect, useState } from "react";
+import bts from "../../styles/bts.module.css";
+import NcModal from "@/components/NcModal/NcModal";
+import FooterNewsletter from "./Newsletter";
+import { CountryContext } from "@/context/country/CountryContext";
+import NcLink from "../NcLink/NcLink";
+import { useLocation } from "react-use";
+import NcImage from "../NcImage/NcImage";
 
-export interface WidgetFooterMenu {
-  id: string;
-  title: string;
-  menus: CustomLink[];
-}
-
-const widgetMenus: WidgetFooterMenu[] = [
-  {
-    id: "5",
-    title: "Getting started",
-    menus: [
-      { href: "#", label: "Installation" },
-      { href: "#", label: "Release Notes" },
-      { href: "#", label: "Upgrade Guide" },
-      { href: "#", label: "Browser Support" },
-      { href: "#", label: "Editor Support" },
-    ],
-  },
-  {
-    id: "1",
-    title: "Explore",
-    menus: [
-      { href: "#", label: "Design features" },
-      { href: "#", label: "Prototyping" },
-      { href: "#", label: "Design systems" },
-      { href: "#", label: "Pricing" },
-      { href: "#", label: "Customers" },
-    ],
-  },
-  {
-    id: "2",
-    title: "Resources",
-    menus: [
-      { href: "#", label: "Best practices" },
-      { href: "#", label: "Support" },
-      { href: "#", label: "Developers" },
-      { href: "#", label: "Learn design" },
-      { href: "#", label: "What's new" },
-    ],
-  },
-  {
-    id: "4",
-    title: "Community",
-    menus: [
-      { href: "#", label: "Discussion Forums" },
-      { href: "#", label: "Code of Conduct" },
-      { href: "#", label: "Community Resources" },
-      { href: "#", label: "Contributing" },
-      { href: "#", label: "Concurrent Mode" },
-    ],
-  },
-];
-
-const Footer: React.FC = () => {
-  const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
-    return (
-      <div key={index} className="text-sm">
-        <h2 className="font-semibold text-neutral-700 dark:text-neutral-200">
-          {menu.title}
-        </h2>
-        <ul className="mt-5 space-y-4">
-          {menu.menus.map((item, index) => (
-            <li key={index}>
-              <a
-                key={index}
-                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-                href={item.href}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+const FooterEduman = () => {
+  const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isOnBlog, setIsOnBlog] = useState(false);
+  const { state } = useContext(CountryContext);
+  const scrollToContactForm = () => {
+    const contactForm = document.getElementById("contactanos");
+    if (contactForm) {
+      window.scrollTo({
+        top: document.getElementById("contactanos")!.offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
 
+  const openModal = (e: any) => {
+    e.preventDefault();
+    setShow(true);
+  };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsOnBlog(location.pathname == "/blog");
+  }, [location.pathname]);
+
   return (
-    <div className="nc-Footer relative py-16 lg:py-28 border-t border-neutral-200 dark:border-neutral-700">
-      <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-10 ">
-        <div className="grid grid-cols-4 gap-5 col-span-2 md:col-span-4 lg:md:col-span-1 lg:flex lg:flex-col">
-          <div className="col-span-2 md:col-span-1">
-            <Logo />
-          </div>
-          <div className="col-span-2 flex items-center md:col-span-3">
-            <SocialsList1 className="flex items-center space-x-3 lg:space-x-0 lg:flex-col lg:space-y-2.5 lg:items-start" />
+    <footer>
+      <div className="footer-area">
+        <div className="container">
+          {isOnBlog ? null : (
+            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1 mb-6">
+              <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
+                <div className="copyright-text">
+                  <p>Nuestro newsletter</p>
+                </div>
+              </div>
+              <div className="footer-column col-span-6 mx-auto lg:col-span-2">
+                <div className="divisor" />
+                <p className="discounts md:mx-auto text-center md:text-left text-[12px] sm:text-[18px] leading-4 sm:leading-6">
+                  Descuentos exclusivos y becas completas solo con tu
+                  suscripción
+                </p>
+                <div className="divisor" />
+              </div>
+              <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-3">
+                <div className="copyright-subcribe ">
+                  <form
+                    onSubmit={openModal}
+                    method="post"
+                    className="widget__subscribe"
+                  >
+                    <div className="field">
+                      <input
+                        type="email"
+                        name="Email"
+                        placeholder="Ingresar e-mail"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <button type="submit">
+                      Suscribirme
+                      <NcImage
+                        src={"/images/icons/plane.svg"}
+                        alt=""
+                        width="20"
+                        height="20"
+                      />
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="footer-main">
+            <div className="grid grid-cols-1 lg:grid-cols-3">
+              <div className={`col-span-1 footer-col-1`}>
+                <div className="footer-widget f-w1 mb-20">
+                  <div className="footer-img grid-cols-1 align-center content-center">
+                    <NcLink href="/">
+                      <div className="w-[150px]">
+                        <NcImage
+                          src={"/images/msk-logo-light.svg"}
+                          alt="footer-logo"
+                          width="100"
+                          height="100"
+                        />
+                      </div>
+                    </NcLink>
+                    <p className="footer-copyright">
+                      Una propuesta moderna que desafía a expandir las metas
+                      profesionales
+                    </p>
+                    <p>© 2023 • Medical&Scientific Knowledge S.L.</p>
+                  </div>
+                  <div className="footer-icon ml-auto">
+                    <a
+                      href="https://www.facebook.com/msk.online.learning"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <NcImage
+                        src={"/images/icons/fb.svg"}
+                        alt=""
+                        width="10"
+                        height="10"
+                        className="object-fill"
+                      />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/msk.latam"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <NcImage
+                        src={"/images/icons/ig.svg"}
+                        alt=""
+                        width="20"
+                        height="20"
+                        className="object-fill"
+                      />
+                    </a>
+                    <a
+                      href="https://www.youtube.com/@msk.online.learning"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <NcImage
+                        src={"/images/icons/yt.svg"}
+                        className="object-fill pt-[4px]"
+                        alt=""
+                        width="20"
+                        height="20"
+                      />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/company/msk-online-learning/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <NcImage
+                        src={"/images/icons/in.svg"}
+                        className="object-fill"
+                        alt=""
+                        width="20"
+                        height="20"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className={`grid grid-cols-2 col-span-2`}>
+                <div className={`col-span-1`}>
+                  <div className="footer-widget f-w3 mt-6">
+                    <ul className="text-sm md:text-base">
+                      <li>
+                        <NcLink href="/mision">Nuestra misión</NcLink>
+                      </li>
+                      <li>
+                        <NcLink href="/partners">Conviértete en Partner</NcLink>
+                      </li>
+                      <li>
+                        <a href="https://ayuda.msklatam.com/" target="_blank">
+                          Centro de ayuda
+                        </a>
+                      </li>
+                      <li>
+                        <NcLink href="/convenios">Convenios</NcLink>
+                      </li>
+
+                      {state.country.includes("ec") && (
+                        <li>
+                          <NcLink href="/cancelar-suscripcion">
+                            Arrepentimiento de compra
+                          </NcLink>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+                <div className={`col-span-1`}>
+                  <div className="footer-widget f-w4 mt-6">
+                    <ul className="text-sm md:text-base">
+                      <li>
+                        <NcLink href="/contacto">Contacto</NcLink>
+                      </li>
+                      <li>
+                        <NcLink href="/terminos-y-condiciones">
+                          Términos y condiciones
+                        </NcLink>
+                      </li>
+                      <li>
+                        <NcLink href="/politica-de-privacidad">
+                          Política de privacidad
+                        </NcLink>
+                      </li>
+                      <li>
+                        <NcLink href="/politica-de-cookies">
+                          Política de cookies
+                        </NcLink>
+                      </li>
+                      <li>
+                        <NcLink href="/condiciones-de-contratacion">
+                          Condiciones de contratación
+                        </NcLink>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        {widgetMenus.map(renderWidgetMenuItem)}
       </div>
-    </div>
+      <NcModal
+        isOpenProp={show}
+        onCloseModal={() => {
+          setShow(false);
+        }}
+        renderTrigger={() => {
+          return null;
+        }}
+        contentExtraClass="max-w-screen-lg"
+        renderContent={() => (
+          <FooterNewsletter email={email} setShow={setShow} />
+        )}
+        modalTitle="Nuestro Newsletter"
+        modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
+      />
+    </footer>
   );
 };
 
-export default Footer;
+export default FooterEduman;

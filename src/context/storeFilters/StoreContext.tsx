@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext } from "react";
 import { Filter } from "./storeFiltersReducer";
 import {
@@ -6,7 +8,7 @@ import {
   Profession,
   ResourceFilter,
   Specialty,
-} from "data/types";
+} from "@/data/types";
 
 export type ContextType = {
   storeFilters: Filter;

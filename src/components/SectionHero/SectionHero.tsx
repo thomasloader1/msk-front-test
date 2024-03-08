@@ -1,13 +1,16 @@
-import ButtonPrimary from "components/Button/ButtonPrimary";
+"use client";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import Image, { StaticImageData } from "next/image";
 import React, { FC, ReactNode } from "react";
+import NcImage from "../NcImage/NcImage";
 
 export interface SectionHeroProps {
   className?: string;
-  rightImg: string;
+  rightImg: string | StaticImageData;
   heading: ReactNode;
   subHeading?: string;
   btnText: string;
-  btnOnClick: () => void;
+  btnOnClick?: () => void;
 }
 
 const SectionHero: FC<SectionHeroProps> = ({
@@ -19,12 +22,9 @@ const SectionHero: FC<SectionHeroProps> = ({
   btnOnClick,
 }) => {
   return (
-    <div
-      className={`nc-SectionHero relative ${className}`}
-      data-nc-id="SectionHero"
-    >
-      <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 items-center relative text-center lg:text-left">
-        <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1">
+    <div className={`nc-SectionHero relative ${className}`}>
+      <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 rtl:space-x-reverse items-center relative text-center lg:text-left">
+        <div className="w-screen max-w-full xl:max-w-lg space-y-5 lg:space-y-7">
           <h2 className="!leading-tight text-neutral-900 section-hero-title dark:text-neutral-100 font-medium sm:font-bold text-[24px] sm:text-[42px]">
             {heading}
           </h2>
@@ -34,17 +34,19 @@ const SectionHero: FC<SectionHeroProps> = ({
             </span>
           ) : null}
           {!!btnText && (
-            <ButtonPrimary
-              onClick={() => btnOnClick()}
-              rounded="rounded-lg"
-              className="font-semibold text-[16px]"
-            >
+            <ButtonPrimary onClick={btnOnClick} className="rounded-lg">
               {btnText}
             </ButtonPrimary>
           )}
         </div>
-        <div className="hero-img">
-          <img className="w-full" src={rightImg} alt="" />
+        <div className="flex-grow">
+          <NcImage
+            className="w-full"
+            src={rightImg}
+            alt=""
+            width="1200"
+            height="400"
+          />
         </div>
       </div>
     </div>

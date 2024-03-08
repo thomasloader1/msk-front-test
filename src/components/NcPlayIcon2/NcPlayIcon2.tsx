@@ -12,11 +12,10 @@ const NcPlayIcon2: FC<NcPlayIcon2Props> = ({
   return (
     <div
       className={`nc-NcPlayIcon2 bg-white relative rounded-full shadow-inner ${className}`}
-      data-nc-id="NcPlayIcon2"
     >
       <span className="absolute inset-0 flex items-center justify-center text-primary-500">
         <svg
-          className={iconClass}
+          className={`${iconClass} rtl:rotate-180`}
           width="24"
           height="24"
           fill="currentColor"

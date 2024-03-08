@@ -1,7 +1,7 @@
-import api from "Services/api";
 import { AxiosResponse } from "axios";
-import { AuthContext } from "context/user/AuthContext";
+import { AuthContext } from "@/context/user/AuthContext";
 import { useContext, useEffect, useState } from "react";
+import api from "../../Services/api";
 
 interface UseIntervalResult {
   isRunning: boolean;

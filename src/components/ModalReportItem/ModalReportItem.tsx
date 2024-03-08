@@ -1,19 +1,20 @@
+"use client";
+
 import React, { FC, useEffect, useRef, useState } from "react";
-import NcModal from "components/NcModal/NcModal";
-import Textarea from "components/Textarea/Textarea";
-import ButtonPrimary from "components/Button/ButtonPrimary";
-import ButtonSecondary from "components/Button/ButtonSecondary";
-import { RadioGroup } from "@headlessui/react";
-import twFocusClass from "utils/twFocusClass";
+import NcModal from "@/components/NcModal/NcModal";
+import Textarea from "@/components/Textarea/Textarea";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import ButtonSecondary from "@/components/Button/ButtonSecondary";
+import { RadioGroup } from "@/app/[lang]/headlessui";
+import twFocusClass from "@/utils/twFocusClass";
+import ButtonThird from "../Button/ButtonThird";
 
 export interface ProblemPlan {
   name: string;
-  id: string;
   label: string;
 }
 
 export interface ModalReportItemProps {
-  id: number | string;
   show: boolean;
   problemPlans?: ProblemPlan[];
   onCloseModalReportItem: () => void;
@@ -28,7 +29,6 @@ const problemPlansDemo = [
 
 const ModalReportItem: FC<ModalReportItemProps> = ({
   problemPlans = problemPlansDemo,
-  id,
   show,
   onCloseModalReportItem,
 }) => {
@@ -47,13 +47,7 @@ const ModalReportItem: FC<ModalReportItemProps> = ({
     }
   }, [show]);
 
-  const handleClickSubmitForm = () => {
-    console.log({
-      id,
-      problem: problemSelected,
-      message: (textareaRef.current as unknown as HTMLTextAreaElement).value,
-    });
-  };
+  const handleClickSubmitForm = () => {};
 
   const renderCheckIcon = () => {
     return (
@@ -136,13 +130,13 @@ const ModalReportItem: FC<ModalReportItemProps> = ({
             id="report-message"
           />
         </div>
-        <div className="mt-4 space-x-3">
+        <div className="mt-4 space-x-3 rtl:space-x-reverse">
           <ButtonPrimary onClick={handleClickSubmitForm} type="submit">
             Submit
           </ButtonPrimary>
-          <ButtonSecondary type="button" onClick={onCloseModalReportItem}>
+          <ButtonThird type="button" onClick={onCloseModalReportItem}>
             Cancel
-          </ButtonSecondary>
+          </ButtonThird>
         </div>
       </form>
     );

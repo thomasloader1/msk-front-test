@@ -1,40 +1,28 @@
-import { PostActionDropdownProps } from "components/PostActionDropdown/PostActionDropdown";
-import BookmarkContainer from "containers/BookmarkContainer/BookmarkContainer";
-import { BlogDataType, PostDataType } from "data/types";
 import React, { FC } from "react";
+import NcBookmark from "../NcBookmark/NcBookmark";
 
-export interface PostCardSaveActionProps
-  extends Pick<PostActionDropdownProps, "dropdownPositon"> {
+export interface PostCardSaveActionProps {
   className?: string;
-  classBgIcon?: string;
+  bookmarkClass?: string;
   readingTime?: number;
   hidenReadingTime?: boolean;
-  postData: PostDataType | BlogDataType;
 }
 
 const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
   className = "",
-  hidenReadingTime = false,
-  classBgIcon,
-  readingTime,
-  postData,
+  bookmarkClass,
+  hidenReadingTime = true,
+  readingTime = 3,
 }) => {
-  const { bookmark, id } = postData;
-
   return (
     <div
       className={`nc-PostCardSaveAction flex items-center space-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
-      data-nc-id="PostCardSaveAction"
     >
       {!hidenReadingTime && !!readingTime && (
         <span>{readingTime} min read</span>
       )}
 
-      <BookmarkContainer
-        initBookmarked={bookmark.isBookmarked}
-        containerClassName={classBgIcon}
-        postId={id}
-      />
+      <NcBookmark containerClassName={bookmarkClass} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import infoIcon from "/images/icons/info.svg";
+import NcImage from "../NcImage/NcImage";
 
 interface InfoTextProps {
   addClassNames?: string;
@@ -11,7 +11,13 @@ const InfoText: FC<InfoTextProps> = ({ addClassNames, text }) => {
     <span
       className={`${addClassNames} dark:text-primary-500 forgot-password col-span-2 text-sm flex items-center`}
     >
-      <img src={infoIcon} alt="Mensaje Informativo" className="mr-1" />
+      <NcImage
+        src={"/images/icons/info.svg"}
+        alt="Mensaje Informativo"
+        className="mr-1"
+        height="15"
+        width="15"
+      />
       <span className="text-violet-wash">{text}</span>
     </span>
   );

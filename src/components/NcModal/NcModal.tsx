@@ -1,7 +1,8 @@
+"use client";
 import React, { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ButtonDropdown from "components/ButtonDropdown/ButtonDropdown";
-import ButtonClose from "components/ButtonClose/ButtonClose";
+import ButtonDropdown from "@/components/ButtonDropdown/ButtonDropdown";
+import ButtonClose from "@/components/ButtonClose/ButtonClose";
 
 export interface NcModalProps {
   renderContent: () => ReactNode;

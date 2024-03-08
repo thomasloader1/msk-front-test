@@ -18,7 +18,7 @@ export const REBILL_CONF = {
   API_KEY: getEnv("REBILL_API_KEY"),
   URL: import.meta.env.VITE_REBILL_URL,
   GATEWAYS: {
-    ST: ["co", "uy"],
+    ST: ["co", "uy", "cr","hn","ve","pe","ni","sv","bo", "py","gt","pa","ec"],
     MP: ["ar", "mx", "cl"],
   },
 };

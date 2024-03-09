@@ -41,6 +41,7 @@ const Card2: FC<Card2Props> = ({
     date,
     author,
   } = post;
+  console.log({categories})
 
   const imageURL = image?.replace("mx.", "");
   const url = redirectAccount ? `/mi-cuenta/cursos` : `/${kind}/${slug}`;

@@ -5,9 +5,11 @@ export const formatAmount = (amount: number, currency: string): string => {
       currency: currency,
     }).format(amount);
 
+    const conditionTypeCoin = formattedAmount.includes(currency) || formattedAmount.includes("US$")
+
     // Agregar manualmente el símbolo de moneda y espacio delante del monto
     const customFormattedAmount = `${formattedAmount} ${
-      formattedAmount.includes(currency) ? "" : currency
+      conditionTypeCoin ? "" : currency
     }`;
 
     return customFormattedAmount;

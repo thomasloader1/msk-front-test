@@ -21,7 +21,6 @@ interface Props {
   };
 }
 
-const currencyJSON: JsonMapping = currencyMapping;
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const ProductDetailSidebar: FC<Props> = ({
@@ -36,8 +35,8 @@ const ProductDetailSidebar: FC<Props> = ({
   const {state: authState} = useContext(AuthContext);
   const {state: countryState} = useContext(CountryContext);
   const isLocal =
-    window.location.origin.includes("dev.msklatam.tech") ||
-    window.location.origin.includes("localhost");
+  countryState.country === "int" ||
+  countryState.country === "es" ;
 
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
@@ -188,7 +187,7 @@ const ProductDetailSidebar: FC<Props> = ({
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
-          {!isEbook && isLocal && (
+          {!isEbook && !isLocal && (
             <button
               onClick={() => requestTrial(slug)}
               className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"

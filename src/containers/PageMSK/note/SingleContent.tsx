@@ -154,10 +154,10 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               reconocimiento en tu profesión?
             </p> */}
             <NoteExtraData suggest_content={data.suggest_content} />
-
+{sources &&
             <div>
               <h4 className="source-title">Fuente/s:</h4>
-              {sources && sources.length > 0
+              {sources.length > 0
                 ? sources.map((source, index) => {
                     return (
                       <p
@@ -170,17 +170,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   })
                 : null}
             </div>
-            {/* <div className="flex flex-wrap gap-2">
-              {data.tags.length > 0
-                ? data.tags.map((tag, index) => {
-                    return (
-                      <span key={`tag_${index}`} className="tag-content">
-                        #{tag.name}
-                      </span>
-                    );
-                  })
-                : null}
-            </div> */}
+            }
+            
             {data.authors && data.authors.length > 0
               ? data.authors?.map((currentAuthor, index) => {
                   return (

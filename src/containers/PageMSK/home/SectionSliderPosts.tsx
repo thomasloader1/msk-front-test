@@ -159,7 +159,6 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
     }
   };
 
-  // console.log(posts);
 
   const CardName = getPostComponent();
   return (

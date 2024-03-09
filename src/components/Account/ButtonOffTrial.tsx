@@ -24,7 +24,7 @@ const ButtonOffTrial: FC<ButtonOffTrialProps> = ({
 
   useEffect(() => {
     if (isRunning != onRequest) {
-      console.log({isRunning, onRequest})
+      //console.log({isRunning, onRequest})
       setOnRequest(isRunning);
       setIsDisabled(isRunning);
     }

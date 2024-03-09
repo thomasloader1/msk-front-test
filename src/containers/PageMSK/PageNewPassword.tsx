@@ -19,7 +19,6 @@ export interface BodyNewPassword {
 
 const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
     const params: { token: string } = useParams();
-    console.log(decodeURIComponent(params.token))
 
     const [password, setPassword] = useState<string>("");
     const history = useHistory();
@@ -42,12 +41,11 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
 
         const { data, status } = await api.postNewPassword(jsonData);
         if (status == 200) {
-            console.log(data);
             setTimeout(() => {
                 history.push("/gracias?origen=new-password");
             }, 1500);
         } else {
-            console.log("Error:", data.error);
+            console.error("Error:", data.error);
             setError(data.error);
         }
     };

@@ -28,7 +28,7 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
           setBannerImgs(response);
         }
       } catch (err) {
-        console.log({ err });
+        console.error({ err });
       }
     };
 

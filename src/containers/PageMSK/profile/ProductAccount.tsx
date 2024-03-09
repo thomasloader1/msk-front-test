@@ -28,7 +28,6 @@ const ProductAccount: FC<Props> = ({
 }) => {
   const { isDisabled } = statusCourse(product?.status);
   const { isRunning, startWatch } = useInterval(user.email);
-console.log({product})
   const activeProductRef = useRef(
     product?.status !== "Inactivo" && product?.status !== "Expirado" && product?.status !== STATUS.SUSPEND
   );
@@ -45,7 +44,6 @@ console.log({product})
   const imageURL = product.thumbnail.high?.replace(`${"mx" || state.country}.`,"");
 
   const handleClick = async () => {
-    // console.log(product.ov, activeProductRef.current);
     if ((product.ov !== "Baja" && product.ov !== 'Trial suspendido') && activeProductRef.current) {
       setOnRequest(true);
       try {

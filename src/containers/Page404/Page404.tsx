@@ -18,7 +18,6 @@ const Page404 = () => {
 
     const timeout = setTimeout(() => {
       counterIntents++;
-    console.log(counterIntents, state)
 
     if(Boolean(state.onRequest) == false && !isNull(state.onRequest)){
       setLoading(false);

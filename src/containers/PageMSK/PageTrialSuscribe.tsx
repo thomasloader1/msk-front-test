@@ -75,13 +75,9 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
     const verifiedProductAndProfile = (typeof product !== 'undefined' && userProfile != null && Object.keys(userProfile).length > 1);
 
-    console.log(initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile,
-      {product,initedRebill, verifiedCoursedRequested, verifiedProductAndProfile, userProfile})
-
     if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
       setInitedRebill(true)
       console.group("Rebill")
-      console.log({ profile: userProfile, country, product }, "init rebill process")
       localStorage.removeItem('trialURL');
       initRebill(userProfile, country, product, RebillSDKCheckout, setShow,setFaliedMessage, setPaymentCorrect, setMountedInput);
       console.groupEnd()
@@ -182,7 +178,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         isOpenProp={showAlreadyRequest}
         onCloseModal={() => {
           setShowAlreadyRequest(false);
-          console.log({ viewRef })
           viewRef.current.classList.remove("blur-md")
         }}
         renderTrigger={() => {

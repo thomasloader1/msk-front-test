@@ -95,7 +95,7 @@ const history = useHistory()
             }
           }
         } else {
-          console.log("No user data");
+          console.warn("No user data");
           history.push("/iniciar-sesion")
         }
       } else if (expires_at && new Date(expires_at) < new Date()) {

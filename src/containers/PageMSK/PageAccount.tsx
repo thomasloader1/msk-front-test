@@ -99,7 +99,6 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
       setCourses(coursesList);
       setLoading(false);
     } else {
-      // console.log(res.response.status);
       history.push("/iniciar-sesion");
     }
   };

@@ -327,7 +327,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-      console.log({values})
       if (executeRecaptcha) {
         const formData = {
           ...localUser,
@@ -357,14 +356,14 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
             }
 
           } else {
-            console.log("Hubo un error al actualizar el usuario", res);
+            console.error("Hubo un error al actualizar el usuario", res);
             setUpdateStatusMessage({
               message: "Hubo un error al actualizar el usuario.",
               type: "error",
             });
           }
         } catch (error) {
-          console.log("Hubo un error al actualizar el usuario", error);
+          console.error("Hubo un error al actualizar el usuario", error);
           setUpdateStatusMessage({
             message: "Hubo un error al actualizar el usuario.",
             type: "error",
@@ -381,7 +380,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   }, [localUser]);
 
   useEffect(() => {
-    console.log({formik})
     if (formik.dirty) {
       setFormSubmitted(false);
     }

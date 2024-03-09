@@ -140,7 +140,7 @@ const StoreContent: FC<Props> = ({
           .split("=")[1]
           .split(",")
           .map((item) => decodeURIComponent(item));
-        console.log(filterQueries);
+       // console.log(filterQueries);
         const filterType = query.split("=")[0];
         switch (filterType) {
           case "profesion":

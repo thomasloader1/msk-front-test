@@ -198,10 +198,9 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
 
         try {
           const res = await api.postSignUp(formData);
-          console.log({ res });
           if (res.status !== 200) {
             setSuccess(false);
-            console.log(res.data.errors)
+            console.error(res.data.errors)
 
             const errorMessages = Object.values(res.data.errors)
               .map((errorMessage: any, i) => {

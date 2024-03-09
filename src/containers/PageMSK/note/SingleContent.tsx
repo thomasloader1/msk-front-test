@@ -79,7 +79,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  //console.log({ data });
 
   return (
     <div className="nc-SingleContent space-y-10 ">
@@ -122,7 +121,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             {/* <NoteExtraData excerpt={data.excerpt} /> */}
             <ul className="themes-to-see">
               {noteArticles?.map((art, index) => {
-                //console.log(art)
                 return (
                   <li
                     key={`content_${slugify(art.title)}_${index}`}

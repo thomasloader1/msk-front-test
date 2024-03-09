@@ -30,7 +30,7 @@ const SectionAds: FC<SectionAdsProps> = ({
         const response = await api.getWpImages("banners_home");
         setBannerImgs(response);
       } catch (err) {
-        console.log({ err });
+        console.error({ err });
       }
     };
 

@@ -32,7 +32,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
   }, [auxTopics]);
 
   const parseToHTML = (htmlString: string): JSX.Element => {
-    console.log({ arrHtml: htmlString.split("\n") });
+    //console.log({ arrHtml: htmlString.split("\n") });
     if (htmlString) {
       const textNodes = htmlString.split("\n").map((line, i) => {
         if (line.includes("<ul>")) {

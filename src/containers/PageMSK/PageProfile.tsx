@@ -60,7 +60,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         history.push("/iniciar-sesion");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       history.push("/iniciar-sesion");
     }
   };

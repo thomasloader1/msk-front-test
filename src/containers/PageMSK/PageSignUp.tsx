@@ -168,7 +168,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
 
         try {
           const res = await api.postSignUp(formData);
-          console.log({ res });
           if (res.status !== 200) {
             setSuccess(false);
             const errorMessages = Object.values(res.data.errors)

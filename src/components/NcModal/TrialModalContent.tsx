@@ -55,7 +55,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
     }
 
     if(textButton.includes("Confirmar") && typeof cancelTrial !== 'undefined'){
-      console.log("Confirmar action")
+      //console.log("Confirmar action")
       cancelTrial()
       return
     }

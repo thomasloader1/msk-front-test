@@ -98,7 +98,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 

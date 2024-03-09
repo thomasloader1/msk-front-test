@@ -154,11 +154,10 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               reconocimiento en tu profesión?
             </p> */}
             <NoteExtraData suggest_content={data.suggest_content} />
-{sources &&
+{sources && sources.length > 0 ?
             <div>
               <h4 className="source-title">Fuente/s:</h4>
-              {sources.length > 0
-                ? sources.map((source, index) => {
+              { sources.map((source, index) => {
                     return (
                       <p
                         key={`source_${index}`}
@@ -168,8 +167,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                       </p>
                     );
                   })
-                : null}
-            </div>
+                }
+            </div>: null
             }
             
             {data.authors && data.authors.length > 0

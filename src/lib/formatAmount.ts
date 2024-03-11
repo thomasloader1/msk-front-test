@@ -1,11 +1,12 @@
 export const formatAmount = (amount: number, currency: string): string => {
   try {
-    const formattedAmount = new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: currency,
-    }).format(amount);
+    // Redondear el monto a números enteros
+    const roundedAmount = Math.round(amount);
 
-    const conditionTypeCoin = formattedAmount.includes(currency) || formattedAmount.includes("US$")
+    // Formatear como cadena y agregar separadores de miles
+    const formattedAmount = `${roundedAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+
+    const conditionTypeCoin = formattedAmount.includes(currency) || formattedAmount.includes("US$");
 
     // Agregar manualmente el símbolo de moneda y espacio delante del monto
     const customFormattedAmount = `${formattedAmount} ${

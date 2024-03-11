@@ -39,7 +39,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
             <p className="dark:text-neutral-100 msk-logo-text grid grid-cols-12 items-center gap-6">
               <div className="img-container col-span-2">
                 <img
-                  src="/src/images/vectors/isotipo.svg"
+                  src="/images/vectors/isotipo.svg"
                   width="40"
                   height="40"
                   alt=""

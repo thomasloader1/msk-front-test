@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import imgAdsDef from "images/home/illustration_1.png";
+import imgAdsDef from "/images/home/illustration_1.png";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 export interface SectionAdsProps {
   className?: string;

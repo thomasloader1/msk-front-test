@@ -346,7 +346,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   <div className={`section-title mb-30`}>
                     {hideHeader ? null : (
                       <h4
-                        className="font-medium text-3xl mb-1"
+                        className="font-medium text-violet-dark text-[36px] mb-1"
                         style={{ maxWidth: "800px" }}
                       >
                         {isEbook
@@ -663,7 +663,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={!formik.values.Terms_And_Conditions}
+                            disabled={
+                              !formik.values.Terms_And_Conditions ||
+                              !formik.isValid
+                            }
                           >
                             {onRequest ? "Enviando ..." : submitText}
                           </button>

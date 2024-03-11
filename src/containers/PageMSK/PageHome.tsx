@@ -9,19 +9,32 @@ import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CoursesForYou from "./home/CoursesForYou";
 import HomeExtraInfo from "./home/HomeExtraInfo";
 import SectionHero from "components/SectionHero/SectionHero";
-import rightImg from "images/hero-msk.png";
+import rightImg from "/images/hero-msk.png";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "context/user/AuthContext";
 
 const PageHome: React.FC = () => {
+  const history = useHistory()
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =
     useContext(DataContext);
+    const {state: authState} = useContext(AuthContext)
   const { allCourses, allPosts, allBestSellers } = state;
   const [courses, setCourses] = useState([]);
   const [posts, setPosts] = useState([]);
   const [bestSeller, setBestSeller] = useState([]);
+
+  useEffect(() => {
+    const redirectToTrial = localStorage.getItem("trialURL")
+
+    if(redirectToTrial && authState.isAuthenticated){
+      history.push(redirectToTrial)
+    }
+
+  }, []);
 
   useEffect(() => {
     setCourses(allCourses);

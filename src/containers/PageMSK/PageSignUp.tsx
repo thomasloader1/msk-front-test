@@ -16,7 +16,7 @@ import * as Yup from "yup";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import PageHead from "./PageHead";
 import NcImage from "components/NcImage/NcImage";
-import errorIcon from "../../images/icons/error-icon.svg"
+import errorIcon from "/images/icons/error-icon.svg";
 import ShowErrorMessage from "components/ShowErrorMessage";
 export interface PageSignUpProps {
   className?: string;
@@ -154,44 +154,43 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     validationSchema,
     onSubmit: async (values: any) => {
       if (executeRecaptcha) {
-        setOnRequest(true);  
-            const formData = {
-                ...values,
-                name: `${values.first_name} ${values.last_name}`,
-                recaptcha_token: await executeRecaptcha('signup_form'),
-                country: fullCountry(selectedCountry),
-                utm_source: utmState.utm_source,
-                utm_medium: utmState.utm_medium,
-                utm_campaign: utmState.utm_campaign,
-                utm_content: utmState.utm_content,
-            };
-            
-            try {
-                const res = await api.postSignUp(formData);
-                console.log({res})
-                if (res.status !== 200) {
-                    setSuccess(false);
-                    const errorMessages = Object.values(res.data.errors)
-                        .map((errorMessage) => `- ${errorMessage}`)
-                        .join("<br />");
-                    setError(
-                        `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
-                    );
-                } else {
-                    setError("");
-                    setSuccess(true);
-                    setTimeout(() => {
-                        history.push("/correo-enviado");
-                    }, 1500);
-                }
-            } catch (error) {
-                console.error("Error al ejecutar reCAPTCHA:", error);
-            }finally{
-              setOnRequest(false);
-            }
+        setOnRequest(true);
+        const formData = {
+          ...values,
+          name: `${values.first_name} ${values.last_name}`,
+          recaptcha_token: await executeRecaptcha("signup_form"),
+          country: fullCountry(selectedCountry),
+          utm_source: utmState.utm_source,
+          utm_medium: utmState.utm_medium,
+          utm_campaign: utmState.utm_campaign,
+          utm_content: utmState.utm_content,
+        };
+
+        try {
+          const res = await api.postSignUp(formData);
+          if (res.status !== 200) {
+            setSuccess(false);
+            const errorMessages = Object.values(res.data.errors)
+              .map((errorMessage) => `- ${errorMessage}`)
+              .join("<br />");
+            setError(
+              `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
+            );
+          } else {
+            setError("");
+            setSuccess(true);
+            setTimeout(() => {
+              history.push("/correo-enviado");
+            }, 1500);
+          }
+        } catch (error) {
+          console.error("Error al ejecutar reCAPTCHA:", error);
+        } finally {
+          setOnRequest(false);
         }
       }
-    });
+    },
+  });
 
   return (
     <div
@@ -450,11 +449,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                   className="w-full"
                   disabled={!formik.values.Terms_And_Conditions || onRequest}
                 >
-                  {onRequest ? "Creando..." :"Crear"}
+                  {onRequest ? "Creando..." : "Crear"}
                 </ButtonPrimary>
-                {error && (
-                  <ShowErrorMessage text={error} />
-                )}
+                {error && <ShowErrorMessage text={error} />}
 
                 {success && (
                   <p className="text-green-500 text-center w-full">

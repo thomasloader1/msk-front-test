@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import useInterval from "hooks/useInterval";
 //import { useInterval } from 'usehooks-ts'
-import { hasText } from "logic/account";
+import { hasText, statusOrdenVenta } from "logic/account";
 import { UserCourseProgress } from "data/types";
 import { AuthContext } from "context/user/AuthContext";
 import api from "Services/api";
@@ -24,8 +24,10 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
   goToLMS,
   email,
 }) => {
+  const statusOV = statusOrdenVenta(item?.ov);
+
   const [status, setStatus] = useState(item?.status);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(statusOV.isDisabled);
   const [onRequest, setOnRequest] = useState(false);
   const isReadyToEnroll = item?.status?.includes("Listo para enrolar");
 
@@ -58,13 +60,14 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
       setOnRequest(isRunning);
     }
   }, [isRunning]);
+ 
 
   return (
     <ButtonPrimary
       onClick={handleClick}
-      sizeClass="py-0 sm:py-1 px-2 sm:px-5"
+      sizeClass="py-0.5 sm:py-1 px-2 sm:px-5"
       disabled={
-        isDisabled || onRequest || isReadyToEnroll || item?.ov?.includes("Baja")
+        isDisabled || onRequest || isReadyToEnroll
       }
     >
       {onRequest || isReadyToEnroll ? (
@@ -73,7 +76,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
           <div className="w-4 h-4 my-1 border-t-2 border-white border-solid rounded-full animate-spin"></div>
         </div>
       ) : (
-        <span className="text-[10px] sm:text-sm">{hasText(status)}</span>
+        <span className="text-[14px] sm:text-sm">{hasText(status)}</span>
       )}
     </ButtonPrimary>
   );

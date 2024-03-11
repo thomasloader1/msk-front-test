@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Cardiología",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/cardiology.png",
+    "thumbnail": "/images/courses/cardiology.png",
     "count": 13,
     "color": "green"
   },
@@ -11,7 +11,7 @@
     "id": 2,
     "name": "Enfermería",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/nursing.png",
+    "thumbnail": "/images/courses/nursing.png",
     "count": 16,
     "color": "red"
   },
@@ -19,7 +19,7 @@
     "id": 3,
     "name": "Medicina general",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/medical.png",
+    "thumbnail": "/images/courses/medical.png",
     "count": 15,
     "color": "yellow"
   },
@@ -27,7 +27,7 @@
     "id": 4,
     "name": "Infectología",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/infectology.png",
+    "thumbnail": "/images/courses/infectology.png",
     "count": 21,
     "color": "pink"
   },
@@ -35,7 +35,7 @@
     "id": 5,
     "name": "Anestesiología",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/infectology.png",
+    "thumbnail": "/images/courses/infectology.png",
     "count": 21,
     "color": "yellow"
   },
@@ -43,7 +43,7 @@
     "id": 6,
     "name": "Nutrición",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/infectology.png",
+    "thumbnail": "/images/courses/infectology.png",
     "count": 21,
     "color": "yellow"
   },
@@ -51,7 +51,7 @@
     "id": 7,
     "name": "Medicina Interna",
     "href": "/tienda",
-    "thumbnail": "/src/images/courses/infectology.png",
+    "thumbnail": "/images/courses/infectology.png",
     "count": 21,
     "color": "yellow"
   },

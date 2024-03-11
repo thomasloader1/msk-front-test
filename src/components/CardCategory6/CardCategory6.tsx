@@ -18,7 +18,7 @@ const CardCategory6: FC<CardCategory6Props> = ({
   hideDescriptionMobile = false,
 }) => {
   const { description, href = "/", name } = taxonomy;
-  let thumbnail = "/src/images/courses/";
+  let thumbnail = "/images/courses/";
   switch (name) {
     case "Cardiología":
       thumbnail = thumbnail + "cardiology.png";

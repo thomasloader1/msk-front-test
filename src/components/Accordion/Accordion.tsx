@@ -29,7 +29,7 @@ const Accordion: FC<Props> = ({
   };
 
   return (
-    <div className="overflow-hidden accordion">
+    <div className="overflow-hidden accordion text-violet-dark">
       <div
         className={`bg-natural-100 py-3 px-1 cursor-pointer flex items-center justify-between ${
           isAnimating ? "opacity-0" : ""
@@ -48,7 +48,7 @@ const Accordion: FC<Props> = ({
               <path d="M19 9l-7 7-7-7"></path>
             </svg>
           </div>
-          <h2 className="text-lg font-medium">{title}</h2>
+          <h2 className="font-normal inter text-[16px] py-0.5"><span className="font-medium">Módulo {index +1}</span> • {title.replace(/^\s*Módulo\s*\d+\.\s*/, '')}</h2>
         </div>
       </div>
       {isOpen && children}

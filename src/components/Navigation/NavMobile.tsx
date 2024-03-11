@@ -20,6 +20,7 @@ import api from "Services/api";
 import { slugifySpecialty } from "lib/Slugify";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { DataContext } from "context/data/DataContext";
+import ModalSignOut from "components/Modal/SignOut";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -93,7 +94,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
     isChild: boolean
   ) => {
     return (
-      <li key={index} className="text-neutral-900 dark:text-white">
+      <li
+        key={index}
+        className="text-neutral-900 dark:text-white"
+        onClick={onClickClose}
+      >
         <NavLink
           exact
           strict
@@ -199,6 +204,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
     if (durationExists.length) {
       removeFilter("duration", duration);
     } else addFilter("duration", duration);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalLogout = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const location = useLocation();
@@ -433,6 +443,16 @@ const NavMobile: React.FC<NavMobileProps> = ({
         {state.isAuthenticated ? (
           <ul className="flex flex-col py-2 px-2 space-y-1">
             {userNav.map((item, index) => _renderItem(item, index, false))}
+            <li>
+              <ButtonSecondary
+                onClick={() => handleModalLogout()}
+                sizeClass="px-4 py-2 sm:px-5 w-full mt-4"
+                className="border-solid border-1 border-neutral-200"
+                bordered
+              >
+                Cerrar sesión
+              </ButtonSecondary>
+            </li>
           </ul>
         ) : (
           <ul className="flex flex-col py-2 px-2 space-y-1">
@@ -454,6 +474,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
           </ul>
         )}
       </div>
+      <ModalSignOut open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

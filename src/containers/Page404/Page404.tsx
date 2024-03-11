@@ -1,19 +1,42 @@
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
-import notFoundImg from "../../images/404-msk.png";
+import notFoundImg from "/images/404-msk.png";
 import PageHead from "containers/PageMSK/PageHead";
+import { AuthContext } from "context/user/AuthContext";
+import { isNull } from "lodash";
+import { useHistory } from "react-router-dom";
 
 const Page404 = () => {
-  const [loading, setLoading] = useState(true);
+  const {state} = useContext(AuthContext);
+  const [loading, setLoading] = useState<boolean | null>(true);
+  const history = useHistory();
+  
   useEffect(() => {
+    let counterIntents = 0;
+
     const timeout = setTimeout(() => {
+      counterIntents++;
+
+    if(Boolean(state.onRequest) == false && !isNull(state.onRequest)){
       setLoading(false);
-    }, 1500);
+    }
+
+    if(!state.isAuthenticated && (state.onRequest != null && !Boolean(state.onRequest))){
+      setLoading(false);
+      history.push("/iniciar-sesion")
+    }
+
+    if(counterIntents >= 3){
+      setLoading(false);
+    }
+
+    }, 1500); 
+    
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [loading]);
 
   return (
     <>

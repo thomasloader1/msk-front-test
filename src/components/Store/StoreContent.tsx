@@ -140,7 +140,7 @@ const StoreContent: FC<Props> = ({
           .split("=")[1]
           .split(",")
           .map((item) => decodeURIComponent(item));
-        console.log(filterQueries);
+       // console.log(filterQueries);
         const filterType = query.split("=")[0];
         switch (filterType) {
           case "profesion":
@@ -247,7 +247,7 @@ const StoreContent: FC<Props> = ({
               })
             ) : (
               <div className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
-                <img src="/src/images/icons/no_items.svg" className="mb-5" />
+                <img src="/images/icons/no_items.svg" className="mb-5" />
                 <p>
                   No hay resultados para tu búsqueda.
                   <br />
@@ -262,6 +262,7 @@ const StoreContent: FC<Props> = ({
               totalPages={totalPages}
               onPageChange={handlePageChange}
               currentPage={currentPage}
+              linkTracker={true}
             />
           </div>
         </div>

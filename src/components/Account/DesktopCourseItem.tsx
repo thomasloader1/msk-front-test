@@ -1,5 +1,5 @@
 import { UserCourseProgress } from "data/types";
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import ButtonAccessCourse from "./ButtonAccessCourse";
 import {
   colorStatus,
@@ -12,6 +12,10 @@ import InfoText from "components/InfoText/InfoText";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import DateProductExpiration from "./DateProductExpiration";
 import NcImage from "components/NcImage/NcImage";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import ButtonOffTrial from "./ButtonOffTrial";
+import { AuthContext } from "context/user/AuthContext";
+import ButtonAccessOrSignCourse from "./ButtonAccessOrSignCourse";
 
 interface DesktopCourseItemProps {
   item: UserCourseProgress;
@@ -32,6 +36,8 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
   const statusOV = statusOrdenVenta(item.ov);
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
+  const trialName = item.ov.includes("suspendido") ? "Prueba cancelada" : "Prueba"
+  const {state: authState} = useContext(AuthContext)
 
   return (
     <tr key={item.product_code}>
@@ -47,17 +53,21 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
                 {item.title || "-"}
               </span>
             </div>
-            {item.ov !== "Baja" && (
+            {item.ov !== "Baja" && item.ov !== "Trial suspendido" && (
               <>
                 {item.expiration ? (
                   <DateProductExpiration
                     date={productExpiration.current}
                     text="Fecha de expiración"
+                    product={item}
+                    user={authState.profile}
                   />
                 ) : (
                   <DateProductExpiration
                     date={productExpirationEnroll.current}
                     text="Fecha límite de activación"
+                    product={item}
+                    user={authState.profile}
                   />
                 )}
               </>
@@ -78,24 +88,40 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         </div>
       </td>
       <td className="px-6 py-4 status-badge">
-        <Badge
-          name={statusOV.isDisabled ? statusOV.hasText : item.status}
-          color={colorStatus(
-            statusOV.isDisabled ? statusOV.hasText : item.status
+        
+         {item.ov.includes("Trial") ? (
+          <CategoryBadgeList 
+            categories={[trialName]} 
+            isTrial={item.ov.includes("Trial")} 
+            />
+            ) : (
+            <Badge
+              name={statusOV.isDisabled ? statusOV.hasText : item.status}
+              color={colorStatus(
+                statusOV.isDisabled ? statusOV.hasText : item.status
+              )}
+              textSize="text-sm"
+            />
           )}
-          textSize="text-sm"
-        />
       </td>
       <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
         <span className="text-sm"> {item.avance ? item.avance : 0} %</span>
       </td>
       <td className="px-4">
-        <ButtonAccessCourse
+        <div>
+        <ButtonAccessOrSignCourse
           email={email}
           goToEnroll={goToEnroll}
           goToLMS={goToLMS}
           item={item}
         />
+         {item.ov.includes("Trial") && 
+         <ButtonOffTrial 
+            item={item} 
+            email={email}
+         />
+         }
+        </div>
       </td>
     </tr>
   );

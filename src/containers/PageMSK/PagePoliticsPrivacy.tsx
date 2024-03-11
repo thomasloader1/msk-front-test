@@ -7,12 +7,12 @@ import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import usePoliticsPrivacy from "hooks/usePoliticsPrivacy";
-import SingleHeader from "./privacy/SingleHeader";
 import PageHead from "./PageHead";
+import SingleHeader from "./mission/SingleHeader";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
-  featuredImage: "/src/images/misc/mission.png",
+  featuredImage: "/images/misc/mission.png",
   title: "Política de Protección de Datos",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
@@ -109,7 +109,6 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">
-          {/* SINGLE HEADER */}
           <div className="dark container relative z-10">
             <div className="max-w-screen-md">
               <SingleHeader
@@ -120,12 +119,11 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
             </div>
           </div>
 
-          {/* FEATURED IMAGE */}
-          <div className="mt-8 md:mt-0 md:absolute md:top-0 md:right-0 md:bottom-0 md:w-1/2 lg:w-2/5 2xl:w-1/3 mission-image-container">
-            <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
+          <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
+            <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
             <img
               className="mission-image"
-              src="/src/images/misc/mission.png"
+              src="/images/misc/mission.png"
               alt=""
             />
           </div>

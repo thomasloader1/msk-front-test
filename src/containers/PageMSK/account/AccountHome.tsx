@@ -8,7 +8,7 @@ const DashboardRoot: FC<DashboardRootProps> = ({ name }) => {
   return (
     <div className="rounded-xl min-h-full text-sm border border-neutral-100 dark:border-neutral-800 p-6 md:text-base">
       <span className="block text-lg mb-3 flex gap-2">
-        <img src="/src/images/icons/wave.svg" alt="Wave" />
+        <img src="/images/icons/wave.svg" alt="Wave" />
         Hola, {name}
       </span>
       En este panel encontrarás detalles de tus cursos adquiridos, además de

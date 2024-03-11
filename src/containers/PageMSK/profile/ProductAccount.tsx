@@ -10,6 +10,7 @@ import InfoText from "components/InfoText/InfoText";
 import { STATUS } from "data/statusCourses";
 import useInterval from "hooks/useInterval";
 import DateProductExpiration from "components/Account/DateProductExpiration";
+import { AuthContext } from "context/user/AuthContext";
 
 interface Props {
   product: UserCourseProgress;
@@ -27,29 +28,23 @@ const ProductAccount: FC<Props> = ({
 }) => {
   const { isDisabled } = statusCourse(product?.status);
   const { isRunning, startWatch } = useInterval(user.email);
-
   const activeProductRef = useRef(
-    product?.status !== "Inactivo" && product?.status !== "Expirado"
+    product?.status !== "Inactivo" && product?.status !== "Expirado" && product?.status !== STATUS.SUSPEND
   );
 
-  const showHelp =
-    product.ov === "Baja" ||
-    (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
+  const showHelp = product.ov === "Baja" || product.ov === STATUS.SUSPEND || (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
   const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
   const productExpiration = useRef(new Date(product.expiration));
   const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state } = useContext(CountryContext);
+  const { state:authState } = useContext(AuthContext);
 
-  const imageURL = product.thumbnail.high?.replace(
-    `${"mx" || state.country}.`,
-    ""
-  );
+  const imageURL = product.thumbnail.high?.replace(`${"mx" || state.country}.`,"");
 
   const handleClick = async () => {
-    // console.log(product.ov, activeProductRef.current);
-    if (product.ov !== "Baja" && activeProductRef.current) {
+    if ((product.ov !== "Baja" && product.ov !== 'Trial suspendido') && activeProductRef.current) {
       setOnRequest(true);
       try {
         if (product.status === "Sin enrolar") {
@@ -139,17 +134,21 @@ const ProductAccount: FC<Props> = ({
             </div>
           </div>
           <div>
-            {product.ov !== "Baja" && (
+            {(product.ov !== "Baja" && product.ov !== 'Trial suspendido') && (
               <>
                 {product.expiration ? (
                   <DateProductExpiration
                     date={productExpiration.current}
                     text="Fecha de expiración"
+                    user={authState.profile}
+                    product={product}
                   />
                 ) : (
                   <DateProductExpiration
                     date={productExpirationEnroll.current}
                     text="Fecha límite de activación"
+                    user={authState.profile}
+                    product={product}
                   />
                 )}
               </>

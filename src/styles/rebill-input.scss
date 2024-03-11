@@ -1,0 +1,9 @@
+div#rebill_elements {
+    iframe{
+        height: 100px !important;
+
+        & + button.rebill_button{
+            background-color: red !important;
+        }
+    }
+}

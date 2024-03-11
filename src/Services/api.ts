@@ -1,5 +1,4 @@
-import axios, { AxiosError } from "axios";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   ALL_PRODUCTS_MX,
   API_URL,
@@ -8,7 +7,7 @@ import {
   NOTE_SPECIALITIES,
   baseUrl,
 } from "data/api";
-import { ContactUs, SignUp, Newsletter } from "data/types";
+import { ContactUs, SignUp, Newsletter, ContactCRM, AuthState } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
@@ -29,9 +28,12 @@ const apiSignInURL = `${baseUrl}/api/login`;
 const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
 const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
+const apiUpdateIdentificationUrl = `${baseUrl}/api//crm/contacts/updateIdentification`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
-
+const apiCheckEmailUser = `${baseUrl}/api/user`;
+const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
+const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 class ApiService {
   baseUrl = apiSignUpURL;
   token = localStorage.getItem("tokenLogin");
@@ -76,13 +78,17 @@ class ApiService {
     }
   }
 
-  async getEmailByIdZohoCRM(module: string, email: string) {
+  async getEmailByIdZohoCRM(
+    module: string,
+    email: string
+  ): Promise<any | ContactCRM> {
     try {
-      const { data } = await axios.get(
+      const res = await axios.get(
         `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
       );
-      return data;
-    } catch (e) {
+
+      return res.data.data[0];
+    } catch (e: any) {
       return e;
     }
   }
@@ -322,6 +328,23 @@ class ApiService {
     }
   }
 
+  async updateIdentification(data: any): Promise<any> {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.put(`${apiUpdateIdentificationUrl}`, data, {
+          headers,
+        });
+        return res;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getPosts(country?: string) {
     try {
       let currentYear = new Date().getFullYear();
@@ -464,6 +487,34 @@ class ApiService {
   }
   async getCoursesProgressStatus(email: string, product_code: number) {
     return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
+  }
+
+  async getUserByEmail(email: string) {
+    return await axios.get(`${apiCheckEmailUser}/${email}`);
+  }
+
+  async createContactTrialZoho(data: any, country:string) {
+     try {
+      const res = await axios.post(apiCreateTrialContract, data);
+      console.log({ res });
+      window.location.href = `/${country}/gracias?origen=trial`
+
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
+  }
+
+  async cancelTrialCourse(product: any, authState: AuthState){
+    try {
+      const res = await axios.post(apiCancelTrialContract, {product, authState});
+      console.log({ res });
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
   }
 }
 

@@ -3,10 +3,12 @@ import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 import NcLink from "components/NcLink/NcLink";
 import { useHistory } from "react-router-dom";
 import { keepOnlySpecifiedParams, removeUrlParams } from "lib/removeUrlParams";
+import ButtonPage from "./ButtonPage";
 
 interface Props {
   totalPages: number;
   currentPage: number;
+  linkTracker?: boolean;
   onPageChange: (page: number) => void;
 }
 
@@ -14,6 +16,7 @@ const StorePagination: FC<Props> = ({
   totalPages,
   onPageChange,
   currentPage,
+  linkTracker = false
 }) => {
   const [pages, setPages] = useState<number[]>([]);
   const history = useHistory();
@@ -39,14 +42,16 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                <NcLink
+                  <ButtonPage icon={<i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>} tracking={linkTracker} page={currentPage - 1} urlTrack={urlTrack} />
+
+                {/* <NcLink
                   to={`${urlTrack}${
                     currentPage - 1 > 1 ? `&page=${currentPage - 1}` : ""
                   }`}
                   colorClass=""
                 >
                   <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                </NcLink>
+                </NcLink> */}
               </li>
             ) : (
               ""
@@ -62,12 +67,13 @@ const StorePagination: FC<Props> = ({
                   key={`page_${page}`}
                   onClick={() => onPageChange(page)}
                 >
-                  <NcLink
+                  <ButtonPage tracking={linkTracker} page={page} urlTrack={urlTrack} />
+                  {/* <NcLink
                     to={`${urlTrack}${page > 1 ? `&page=${page}` : ""}`}
                     colorClass=""
                   >
                     {page < 10 ? `0${page}` : page}
-                  </NcLink>
+                  </NcLink> */}
                 </li>
               );
             })}
@@ -76,9 +82,11 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                <NcLink to={`${urlTrack}&page=${currentPage + 1}`}>
+                  <ButtonPage icon={<i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>} tracking={linkTracker} page={currentPage+ 1} urlTrack={urlTrack} />
+
+                {/* <NcLink to={`${urlTrack}&page=${currentPage + 1}`}>
                   <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                </NcLink>
+                </NcLink> */}
               </li>
             ) : null}
           </ul>

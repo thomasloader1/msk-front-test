@@ -5,7 +5,6 @@ import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
-import api from "Services/api";
 import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";
@@ -80,7 +79,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
-  //console.log({ data });
 
   return (
     <div className="nc-SingleContent space-y-10 ">
@@ -104,7 +102,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   {articles.map((art, index) => (
                     <li key={`${art.title}_${index}`}>
                       <a
-                        className="text-primary text-lg"
+                        className="text-primary text-lg "
                         href={`#${slugify(art.title)}`}
                       >
                         {art.title}
@@ -123,7 +121,6 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             {/* <NoteExtraData excerpt={data.excerpt} /> */}
             <ul className="themes-to-see">
               {noteArticles?.map((art, index) => {
-                //console.log(art)
                 return (
                   <li
                     key={`content_${slugify(art.title)}_${index}`}
@@ -155,33 +152,23 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               reconocimiento en tu profesión?
             </p> */}
             <NoteExtraData suggest_content={data.suggest_content} />
-
+{sources && sources.length > 0 ?
             <div>
               <h4 className="source-title">Fuente/s:</h4>
-              {sources && sources.length > 0
-                ? sources.map((source, index) => {
+              { sources.map((source, index) => {
                     return (
                       <p
                         key={`source_${index}`}
-                        className="source-content lg:pr-20"
+                        className="source-content lg:pr-20 break-words"
                       >
                         {source}
                       </p>
                     );
                   })
-                : null}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {data.tags.length > 0
-                ? data.tags.map((tag, index) => {
-                    return (
-                      <span key={`tag_${index}`} className="tag-content">
-                        #{tag.name}
-                      </span>
-                    );
-                  })
-                : null}
-            </div>
+                }
+            </div>: null
+            }
+            
             {data.authors && data.authors.length > 0
               ? data.authors?.map((currentAuthor, index) => {
                   return (

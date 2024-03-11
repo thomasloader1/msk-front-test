@@ -15,7 +15,7 @@ const NoteAuthors: FC<Props> = ({ instructor }) => {
   return (
     <div className="course-instructors">
       <div className="instructors-heading">
-        <div className="instructors-img note-author">
+        <div className="instructor-avatar">
           {instructor.avatar ? <img src={instructor.avatar} alt="img" /> : null}
         </div>
         <div className="instructors-body">

@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import Badge from "components/Badge/Badge";
 import NcImage from "components/NcImage/NcImage";
 import {
@@ -12,6 +12,10 @@ import { UserCourseProgress } from "data/types";
 import InfoText from "components/InfoText/InfoText";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import DateProductExpiration from "./DateProductExpiration";
+import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import ButtonOffTrial from "./ButtonOffTrial";
+import { AuthContext } from "context/user/AuthContext";
+import ButtonAccessOrSignCourse from "./ButtonAccessOrSignCourse";
 
 interface MobileCourseItemProps {
   item: UserCourseProgress;
@@ -35,6 +39,9 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
   const productExpiration = useRef(new Date(item.expiration));
   const productExpirationEnroll = useRef(new Date(item.limit_enroll));
 
+  const trialName = item.ov.includes("suspendido") ? "Prueba cancelada" : "Prueba"
+  const {state: authState} = useContext(AuthContext);
+
   return (
     <li className="my-account-courses-mobile">
       <div className="direct-info">
@@ -43,17 +50,25 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
           src={item.featured_image}
         />
 
-        <span className="font-normal dark:text-neutral-300 text-[9px] leading-4 sm:leading-1">
+        <span className="font-normal dark:text-neutral-300 text-[14px] leading-4 sm:leading-1">
           {item.title || "-"}
         </span>
         <div className="status-badge ml-auto">
-          <Badge
-            name={statusOV.isDisabled ? statusOV.hasText : item?.status}
-            color={colorStatus(
-              statusOV.isDisabled ? statusOV.hasText : item?.status
-            )}
-            className="text-[9px] h-[16px] leading-3"
-          />
+          
+          {item.ov.includes("Trial") ? (
+          <CategoryBadgeList 
+            categories={[trialName]} 
+            isTrial={item.ov.includes("Trial")} 
+            />
+            ) : (
+              <Badge
+              name={statusOV.isDisabled ? statusOV.hasText : item?.status}
+              color={colorStatus(
+                statusOV.isDisabled ? statusOV.hasText : item?.status
+              )}
+              className="text-[14px]"
+            />
+          )}
         </div>
       </div>
       {item.ov !== "Baja" && (
@@ -62,27 +77,42 @@ const MobileCourseItem: FC<MobileCourseItemProps> = ({
             <DateProductExpiration
               date={productExpiration.current}
               text="Fecha de expiración"
+              product={item}
+              user={authState.profile}
             />
           ) : (
             <DateProductExpiration
               date={productExpirationEnroll.current}
               text="Fecha límite de activación"
+              product={item}
+              user={authState.profile}
             />
           )}
         </>
       )}
+
       {(isDisabled && !isReadyToEnroll) ||
         (statusOV.isDisabled && <CentroAyudaLink />)}
+
       {isReadyToEnroll && (
         <InfoText text="¿No ves resultados? Intenta refrescar la pantalla." />
       )}
-      <div className="w-full">
-        <ButtonAccessCourse
+      <div className="w-full mt-1">
+        <ButtonAccessOrSignCourse
           email={email}
           goToEnroll={goToEnroll}
           goToLMS={goToLMS}
           item={item}
         />
+        {item.ov.includes("Trial") && 
+         <>
+         <br />
+         <ButtonOffTrial 
+            item={item} 
+            email={email}
+         />
+         </>
+         }
       </div>
     </li>
   );

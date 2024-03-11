@@ -26,6 +26,7 @@ export const DataContext = createContext<{
   loadingProfessions?: boolean;
   loadingSpecialties?: boolean;
   loadingProductsMX?: boolean;
+  appRef?: React.RefObject<HTMLDivElement>;
   state: DataState;
   dispatch: Dispatch<DataAction>;
 }>({

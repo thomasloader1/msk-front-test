@@ -52,7 +52,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   useEffect(() => {
     //setCourses(allProductsMX);
     fetchUser();
-  }, [allProductsMX, state?.profile?.courses_progress]);
+  }, [allProductsMX, state?.profile?.contact?.courses_progress]);
 
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
@@ -99,7 +99,6 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
       setCourses(coursesList);
       setLoading(false);
     } else {
-      // console.log(res.response.status);
       history.push("/iniciar-sesion");
     }
   };
@@ -128,7 +127,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                       activeClassName="bg-red-400 dark:bg-neutral-800 text-neutral-100 dark:text-neutral-100 invert-image active-account-menu-item"
                     >
                       <img
-                        src={`/src/images/icons/${icon}.svg`}
+                        src={`/images/icons/${icon}.svg`}
                         width="16"
                         className="mr-2 menu-profile-icon"
                       />
@@ -141,7 +140,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 <a href="https://ayuda.msklatam.com/" target="_blank">
                   <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                     <img
-                      src={`/src/images/icons/faq.svg`}
+                      src={`/images/icons/faq.svg`}
                       width="16"
                       className="mr-2"
                     />
@@ -152,7 +151,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
               <li className="cursor-pointer" onClick={handleModalLogout}>
                 <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                   <img
-                    src={`/src/images/icons/session.svg`}
+                    src={`/images/icons/session.svg`}
                     width="16"
                     className="mr-2"
                   />

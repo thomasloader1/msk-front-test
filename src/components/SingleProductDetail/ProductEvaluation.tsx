@@ -35,9 +35,11 @@ const ProductEvaluation: FC<Props> = ({ evaluations }) => {
 
   return (
     <div className="course-learn-wrapper">
-      <div className="course-learn">
+      <div className="course-learn text-violet-dark">
         <div className="course-leranm-tittle">
-          <h4 className="mb-15 font-bold text-xl">Cómo evaluamos</h4>
+          <h4 className="mb-15 font-bold text-xl poppins-bold">
+            Cómo evaluamos
+          </h4>
         </div>
 
         <div className="grid grid-col-2 grid-flow-col">
@@ -46,11 +48,7 @@ const ProductEvaluation: FC<Props> = ({ evaluations }) => {
               {evaluationList?.map((evaluation, index) => {
                 return (
                   <li key={`ev_${index}`}>
-                    <img
-                      src="/src/images/vectors/isotipo.svg"
-                      width="20"
-                      alt=""
-                    />{" "}
+                    <img src="/images/vectors/isotipo.svg" width="20" alt="" />{" "}
                     {evaluation.methodology}
                   </li>
                 );

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import doctors_1 from "images/vectors/doctors_1.png";
+import doctors_1 from "/images/vectors/doctors_1.png";
 import NcImage from "components/NcImage/NcImage";
 import Badge from "components/Badge/Badge";
 import Input from "components/Input/Input";

@@ -22,7 +22,7 @@ const Heading: React.FC<HeadingProps> = ({
     >
       <div
         className={
-          isCenter ? "text-center w-full max-w-2xl mx-auto " : "w-full"
+          isCenter ? "text-center w-full max-w-4xl mx-auto " : "w-full"
         }
       >
         <h4 className={`text-[22px] md:text-4xl font-medium`} {...args}>

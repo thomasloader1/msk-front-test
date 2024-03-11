@@ -49,7 +49,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           console.log(currentPathName);
           if (currentCountry && currentCountry == currentPathName) return; //Special use case for homepage.
           if (!validCountries.includes(currentCountry)) {
-            currentCountry = "";
+            currentCountry = "int";
           }
 
           localStorage.setItem("country", currentCountry);
@@ -98,7 +98,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 

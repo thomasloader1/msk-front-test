@@ -36,12 +36,11 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
 
     const res = await api.postRecover(jsonData);
     if (res?.status == 200) {
-      console.log(res.data);
       setTimeout(() => {
         history.push("/correo-enviado");
       }, 1500);
     } else {
-      console.log("Error:", { res });
+      console.error("Error:", { res });
       setError(res as SetStateAction<string>);
     }
   };

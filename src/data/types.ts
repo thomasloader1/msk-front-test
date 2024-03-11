@@ -38,9 +38,9 @@ export interface Contact {
   profession: string;
   speciality: string | null;
   user_id: number;
-  rfc: string;
+  /* rfc: string;
   dni: string;
-  rut: string;
+  rut: string; */
   fiscal_regime: string;
   phone: string;
   email: string;
@@ -58,7 +58,10 @@ export interface Contact {
   other_speciality?: string;
   career?: string;
   year?: string;
+  type_doc: string;
+  identification: string;
   courses_progress: CourseProgress[];
+  trial_course_sites: [];
 }
 
 export interface Contract {
@@ -93,6 +96,17 @@ export interface CourseProgress {
   contact_id: number;
   entity_id_crm: string;
 }
+
+export interface TrialCourse {
+  contact_entity_id: string;
+  contractJson: string;
+  id: number;
+  trial_cancelled_at: Date | null;
+  trial_finish_at: Date;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface UserCourseProgress {
   avance: string;
   ov: string;
@@ -162,8 +176,20 @@ export interface User {
 }
 
 export interface UserProfile {
-  courses_progress: CourseProgress[];
+  contact:{
+    courses_progress: CourseProgress[];
+    trial_course_sites?: TrialCourse[] | [];
+  },
+  email: string;
+  trial_course_sites?: TrialCourse[] | [];
+
 }
+
+export interface SingleProduct {
+  ficha: Ficha;
+  details: Details;
+  total_price: string;
+ }
 
 export interface CustomUser {
   id: number;
@@ -400,6 +426,7 @@ export interface FetchSingleProduct {
     slug: string;
   };
   featured_product_text: string;
+  total_price: string;
 }
 export interface FetchCourseType {
   id: number;
@@ -535,6 +562,24 @@ export type Login = {
   password: string;
   recaptcha_token: string | null;
 };
+
+export type ContactCRM = {
+  First_Name: string;
+  Last_Name: string;
+  Email: string;
+  Phone: string;
+  Date_of_Birth: string;
+  Identificacion: string;
+  Tipo_de_Documento: string;
+  Mailing_Street: string;
+  Mailing_City: string;
+  Mailing_State: string;
+  Mailing_Zip: string;
+  Pais: string;
+  Full_Name: string;
+  id: string;
+};
+
 export type ContactUs = {
   First_Name: string;
   Last_Name: string;
@@ -573,9 +618,11 @@ export interface AuthState {
   user: User | null;
   profile: UserProfile | null;
   email: string | null;
+  entity_id_crm: string | null;
   token: string | null;
   expires_at: number | null;
   bypassRedirect: boolean | number | null;
+  onRequest: boolean | null;
 }
 
 export interface CountryState {
@@ -617,4 +664,87 @@ export type SpecialtiesMapping = {
 };
 export interface JsonMapping {
   [key: string]: string;
+}
+export interface JsonInstallmentsMapping {
+  [key: string]: {
+    quotes: number | null;
+    gateway: string;
+  };
+}
+
+export interface JsonIdentificationsMapping {
+   [key:string]: Array<{
+                    id: string; 
+                    type: string;
+                  }>
+  }
+export interface RebillTransaction{
+  id: string,
+  cartId: string;
+  organizationId: string;
+  paidBags: [
+      {
+          payment: {
+              amount: string;
+              id: string;
+              currency: string;
+              status: string;
+              gateway: {
+                  id: string;
+                  type: string;
+                  country: string;
+                  description:string;
+                  status: string;
+              },
+              errorMessage: string;
+              createdAt: string;
+              source: string;
+          },
+          prices: [
+              {
+                  id: string;
+                  quantity: number
+              }
+          ],
+          schedules: string[]
+      }
+  ],
+  buyer: {
+      customer: {
+          id: string;
+          firstName: string;
+          lastName:string;
+          cellPhone: string;
+          birthday: string;
+          taxIdType:string;
+          taxIdNumber: string;
+          personalIdType:string;
+          personalIdNumber: string;
+          userEmail: string;
+          address: {
+              street: string;
+              city: string;
+              state: string;
+              country: string;
+              zipCode: string;
+              number: string;
+              floor: string;
+              apt: string;
+              description: string;
+          }
+      },
+      card: {
+          id: string;
+          bin: number;
+          last4: string;
+          cardHolder: string;
+          cardNumber: string;
+          expiration: {
+              month: number;
+              year: string;
+          }
+      }
+  },
+  type: string;
+  createdAt: string;
 }

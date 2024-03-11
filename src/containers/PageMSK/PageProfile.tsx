@@ -60,7 +60,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         history.push("/iniciar-sesion");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       history.push("/iniciar-sesion");
     }
   };
@@ -80,6 +80,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   useEffect(() => {
     setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
   }, [indexOfFirstItem, indexOfLastItem, userCourses]);
+
+  useEffect(() =>{
+    const redirectToTrialURL = localStorage.getItem('trialURL');
+    if(redirectToTrialURL){
+      history.push(redirectToTrialURL)
+    }
+  }, []);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -164,10 +171,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       </div>
       {/* ====================== END HEADER ====================== */}
 
-      <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
+      <div className="container py-16 lg:pb-28 pt-8 lg:pt-12 space-y-16 lg:space-y-28">
         <main>
-          <Heading desc="">Mis Cursos </Heading>
-
           {loadingUser || loadingProductsMX ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
               <ItemSkeleton />

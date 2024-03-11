@@ -1,5 +1,5 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
-import React, { FC } from "react";
+import { FC, useEffect } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Helmet } from "react-helmet";
 import { useHistory, useLocation } from "react-router-dom";
@@ -21,6 +21,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
   let subHeading = "";
   let message = "";
   let buttonLabel = "Descubrir";
+  let route = "/tienda";
 
   switch (origin) {
     case "newsletter":
@@ -43,6 +44,15 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
         "Conoce nuestras capacitaciones 100% a distancia, desarrolladas por autores de prestigio y respaldadas por grandes instituciones.";
       break;
 
+    case "trial":
+      subHeading = "";
+      message =
+        "Ya tienes disponible tu prueba de \n" +
+        "7 días gratis en el curso elegido";
+      buttonLabel="Comienza ahora"
+      route= "/mi-cuenta/cursos"
+      break;
+
     default:
       subHeading =
         "Gracias por interesarte en <b>Medical & Scientific Knowledge</b>";
@@ -52,6 +62,20 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
         "entrevistas y recursos de aprendizaje en múltiples formatos.";
       break;
   }
+
+  useEffect(() => {
+    // Configuración del Data Layer para GTM
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push({
+      event: 'FB_Event_Trial',
+      // Puedes agregar más información si es necesario
+    });
+
+    // Limpieza del efecto si es necesario
+    return () => {
+      // Código de limpieza (si es necesario)
+    };
+  }, []); // El segundo argumento es un array de dependencias, en este caso, está vacío para ejecutarse solo una vez al montar el componente
 
   return (
     <div className={`nc-PageThankYou animate-fade-down ${className}`} data-nc-id="PageThankYou">
@@ -66,7 +90,7 @@ const PageThankYou: FC<PageThankYouProps> = ({ className = "" }) => {
             ></span>
             <p className="text-center description">{message}</p>
             <ButtonPrimary
-              onClick={() => changeRoute("/tienda")}
+              onClick={() => changeRoute(route)}
               rounded="rounded-lg"
               className="font-semibold discover"
             >

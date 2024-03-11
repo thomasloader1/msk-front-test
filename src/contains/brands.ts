@@ -1,8 +1,8 @@
-import brand1 from "images/brands/tropos.svg";
-import brand2 from "images/brands/colmed.png";
-import brand3 from "images/brands/acc.svg";
-import brand4cl from "images/brands/certificacion-cl.svg";
-import brand5cl from "images/brands/sence-home.png";
+import brand1 from "/images/brands/tropos.svg";
+import brand2 from "/images/brands/colmed.png";
+import brand3 from "/images/brands/acc.svg";
+import brand4cl from "/images/brands/certificacion-cl.svg";
+import brand5cl from "/images/brands/sence-home.png";
 
 export const brands = [
   { img: brand1, width: 200 },

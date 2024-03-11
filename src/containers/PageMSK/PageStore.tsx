@@ -54,7 +54,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   useEffect(() => {
     if (state && state.error) {
-      console.log("ERROR:", state.error);
+      console.error("ERROR:", state.error);
       setTimeout(() => {
         history.push(history.location.pathname);
       }, 1500);
@@ -70,7 +70,7 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   // FILTERS
   useEffect(() => {
-    console.table(storeFilters);
+    //console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 

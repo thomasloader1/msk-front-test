@@ -30,6 +30,8 @@ import PageCookies from "containers/PageMSK/PageCookies";
 import PageContractConditions from "containers/PageMSK/PageContractConditions";
 import PageCancelSubscription from "containers/PageMSK/profile/PageCancelSubscription";
 import PageNewsletter from "containers/PageMSK/PageNewsletter";
+import PageTrial from "containers/PageMSK/PageTrial";
+import PageTrialSuscribe from "containers/PageMSK/PageTrialSuscribe";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
@@ -38,8 +40,10 @@ export const pages: Page[] = [
   { path: "/tienda", component: PageStore, auth: false },
   { path: "/contacto", component: PageContact, auth: false },
   { path: "/newsletter", component: PageNewsletter, auth: false },
+  { path: "/trial/:slug", component: PageTrial, auth: false },
+  { path: "/suscribe/:slug", component: PageTrialSuscribe, auth: true },
   { path: "/curso/:slug", component: PageSingleProduct, auth: false },
- // { path: "/page404", component: Page404, auth: false },
+  // { path: "/page404", component: Page404, auth: false },
   { path: "/blog", exact: true, component: PageBlog, auth: false },
   { path: "/blog/:slug", component: PageNota, auth: false },
   { path: "/archivo", component: PageArchive, auth: false },
@@ -91,7 +95,8 @@ const Routes = () => {
     setCountry(state.country);
     if (
       (location.pathname.includes("mi-perfil") ||
-        location.pathname.includes("mi-cuenta")) &&
+        location.pathname.includes("mi-cuenta") || 
+        location.pathname.includes("suscribe")) &&
       !isAuthenticated &&
       !localStorage.getItem("token")
     ) {

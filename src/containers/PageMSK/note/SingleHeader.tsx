@@ -24,15 +24,15 @@ const SingleHeader: FC<SingleHeaderProps> = ({
   return (
     <>
       <div className={`nc-SingleHeader ${className}`}>
-        <div className="space-y-5 note-header-blog">
+        <div className="space-y-3 note-header-blog">
           <CategoryBadgeList
-            itemClass="!px-3"
+            itemClass="!px-3 text-[14px]"
             categories={categories}
             isPost={true}
           />
           <SingleTitle mainClass={titleMainClass} title={title} />
           {!!excerpt && !hiddenDesc && (
-            <span className="block text-[12px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-[140px] sm:h-[100px]">
+            <span className="block text-[16px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-[180px] sm:h-[120px] leading-5">
               {excerpt}
             </span>
           )}
@@ -42,7 +42,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
               <p className="dark:text-neutral-100 msk-logo-text">
                 <img
                   className=""
-                  src="/src/images/vectors/isotipo.svg"
+                  src="/images/vectors/isotipo.svg"
                   width="30"
                   alt=""
                 />

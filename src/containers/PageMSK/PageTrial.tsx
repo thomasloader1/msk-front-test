@@ -194,6 +194,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           utm_medium: utmState.utm_medium,
           utm_campaign: utmState.utm_campaign,
           utm_content: utmState.utm_content,
+          converted_by: "Trial Sitio web"
         };
 
         try {

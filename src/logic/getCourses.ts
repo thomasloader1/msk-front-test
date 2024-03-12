@@ -1,16 +1,17 @@
 import { DataContext } from "context/data/DataContext";
 import { useContext } from "react";
+import { FetchSingleProduct } from 'data/types';
 
 export const filterAllCoursesBySlug = (slug: string) => {
     const { state } = useContext(DataContext);
     const allCourses = state.allCourses;
-    // slug = "aferesis-terapeutica-en-enfermedades-hematologicas";
 
     const filteredCourses = allCourses.filter((course: any) => course.slug == slug);
     
     let objetoSEO = null;
 
     if (filteredCourses.length !== 0) {
+        // console.log('filteredCourses', JSON.stringify(filteredCourses[0]));
         objetoSEO = generateSchemaCourse(filteredCourses[0]);
     }
 
@@ -42,18 +43,31 @@ export const filterAllCoursesBySlug = (slug: string) => {
       "@type": "Course",
       "name": course.title,
       "description": course.why_course,
-      "url": course.permalink,//tiene el link del wp
+      "url": course.permalink,
       "image": course.image,
       "duration": course.duration,
-      "price": course.total_price,
-      "category": course.categories.map((category:any) => category.name).join(", "),
-      "professions": course.professions.map((profession:any) => profession.title).join(", "),
-      "location": course.language_name,
-      "isbn": course.isbn
+      "price": {
+        "@type": "PriceSpecification",
+        "price": course.total_price,
+        // "priceCurrency": "ARS" // Hacer dinamica la moneda.
+      },
+      "category": course.categories.map((category:any) => category.name),
+      "professions": course.professions.map((profession:any) => profession.title),
+      "location": {
+        "@type": "Place",
+        "name": course.language_name,
+        "sameAs": `https://en.wikipedia.org/wiki/${course.language_name}` // Ejemplo de enlace a Wikipedia para la ubicación
+      },
+      "isbn": course.isbn,
+      "provider": {
+        "@type": "Organization",
+        "name": "MSK Latam",
+        "sameAs": "https://wp.msklatam.com/"
+      }
     };
   };
   
-  const CourseSchema = ({ course }: { course: Course }) => {
+  const generateSchemaCoursePageSingleProduct = ({ course }: { course: Course }) => {
     const generarObjetoSEO = (curso: Course) => {
       return {
         "@context": "https://schema.org",
@@ -76,7 +90,6 @@ export const filterAllCoursesBySlug = (slug: string) => {
   
     return objetoSEO;
   };
-  
 
 interface Course {
   id: number;
@@ -146,3 +159,4 @@ interface Course {
   price_installments: string;
   created_at: string;
 }
+

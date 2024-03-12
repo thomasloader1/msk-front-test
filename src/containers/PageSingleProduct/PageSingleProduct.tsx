@@ -18,7 +18,7 @@ const PageSingleProduct = () => {
   const { product, loading } = useSingleProduct(slug, {
     country: state.country,
   });
-
+  // console.log('useSingleProduct', JSON.stringify(product));
   return (
     <>
       {jsonCourseSchema && (

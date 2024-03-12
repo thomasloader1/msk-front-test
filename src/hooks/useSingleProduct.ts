@@ -9,7 +9,9 @@ const useSingleProduct = (slug: string, state: { country: string }) => {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`${API_URL}/product/${slug}?country=${state.country}`)
+            const url = `${API_URL}/product/${slug}?country=${state.country}`;
+            // console.log('single page', url);
+            const response = await axios.get(url)
             setProduct(response.data);
         } catch (error) {
             console.log(error);

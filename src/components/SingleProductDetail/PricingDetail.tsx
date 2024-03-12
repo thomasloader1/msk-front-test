@@ -33,7 +33,7 @@ const PricingDetail: FC<PricingDetailProps> = ({ isEbook, product }) => {
         )
     }else{
         return (
-            <div className="course-video-price"><span>💳 Pagos sin intereses</span></div>
+            <div className="course-video-price mt-2"><span>💳 Pagos sin intereses</span></div>
         )   
     }
     

@@ -1,8 +1,5 @@
 import api from "Services/api";
-import axios from "axios";
-import { API_BACKEND_URL } from "data/api";
-import { ContactUs, Newsletter, Profession, Specialty } from "data/types";
-
+import { Newsletter, Profession, Specialty } from "data/types";
 import React, {
   FC,
   useContext,
@@ -13,7 +10,6 @@ import React, {
 } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { UTMAction } from "context/utm/UTMContext";
 import * as Yup from "yup";
 import {
   ErrorMessage,
@@ -61,12 +57,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     setSpecialties(allSpecialties);
     setSpecialtiesGroup(allSpecialtiesGroups);
   }, [allProfessions, allSpecialties]);
+
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
+  const [onRequest, setOnRequest] = useState(false);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
@@ -151,6 +149,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     validationSchema,
     onSubmit: async (values) => {
       if (executeRecaptcha) {
+      setOnRequest(true)
+
         const body = {
           ...values,
           recaptcha_token: await executeRecaptcha("newsletter"),
@@ -172,6 +172,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           }
         } catch (error) {
           console.error("Error al ejecutar reCAPTCHA:", error);
+        }finally{
+          setOnRequest(false)
         }
       }
     },
@@ -437,11 +439,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               type="submit"
               id="submit-newsletter"
               className="cont-btn rounded flex center"
-              disabled={!formik.values.Terms_And_Conditions2}
+              disabled={!formik.values.Terms_And_Conditions2 || onRequest}
             >
               <div className="flex center gap-2 px-2 text-sm my-auto">
-                Suscribirme
+                {onRequest ? <>Enviando...</> : <>
+                  Suscribirme
                 <img src="/images/icons/plane.svg" className="subscribe-icon" />
+                </>}
+                
               </div>
             </button>
           </div>

@@ -200,45 +200,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     }
   }, [selectedOptionProfession, professions]);
 
-  const renderInputIdentification = () => {
-    if (!localUser) return <></>;
-    switch (localUser.country) {
-      case "México":
-        return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              RFC
-            </label>
-            <ErrorMessage name="rfc" component="span" className="error" />
-            <Field type="text" name="rfc" placeholder="Ingresar RFC" />
-          </div>
-        );
-      case "Chile":
-        return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              RUT
-            </label>
-            <ErrorMessage name="rut" component="span" className="error" />
-            <Field type="text" name="rut" placeholder="Ingresar RUT" />
-          </div>
-        );
-      default:
-        return (
-          <>
-            <div className="form-select-std">
-
-            <InputField
-                label="Identificacion"
-                type="text"
-                name="identification"
-                placeholder="Ingresar identificacion"
-              />
-          </div>
-          </>
-        );
-    }
-  };
 
   const optionsArray = [1, 2, 3, 4, 5];
 
@@ -422,7 +383,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               type="text"
               name="email"
               placeholder="Ingresar e-mail"
-              className="bg-gray-300"
+              className="bg-gray-300 cursor-not-allowed"
               readOnly
             />
           </div>
@@ -627,6 +588,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               as="select"
               name="country"
               value={localUser?.country}
+              className="cursor-not-allowed"
               onChange={(event: any) =>
                 handleInputChange("country", event.target.value)
               }

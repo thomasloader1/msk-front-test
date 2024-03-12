@@ -31,6 +31,7 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
   const textStatus = statusOV.isDisabled ? statusOV.disabledText : statusOV.hasText
   const iconStatus = getStatusIcon(textStatus, product?.ov);
 
+
   return (
     <div className="course-2-footer text-grey-course">
       <div className="coursee-clock">
@@ -39,7 +40,7 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
           alt={textStatus as string}
         />
         <span className="ml-2">
-          {textStatus} 
+          {textStatus === "" ? status : textStatus} 
           {statusOV.hasText === 'Prueba' && 
           <div className="ml-1 inline-block">
            - <Link 

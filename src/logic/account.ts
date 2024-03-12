@@ -58,9 +58,10 @@ console.log(status, statusOV)
 };
 
 export const statusCourse = (status: string) => {
-  const statusObj: { isDisabled: boolean; hasText: string } = {
+  const statusObj: { isDisabled: boolean; hasText: string, statusText: string } = {
     isDisabled: true,
     hasText: "",
+    statusText: status,
   };
 
   switch (status) {

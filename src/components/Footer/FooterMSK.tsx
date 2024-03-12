@@ -10,6 +10,7 @@ const FooterEduman = () => {
   const [email, setEmail] = useState("");
   const [isOnBlog, setIsOnBlog] = useState(false);
   const { state } = useContext(CountryContext);
+ 
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -66,7 +67,7 @@ const FooterEduman = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
-                    <button type="submit">
+                    <button type="submit" disabled={show} className="disabled:bg-grey-disabled">
                       Suscribirme
                       <img src="/images/icons/plane.svg" />
                     </button>

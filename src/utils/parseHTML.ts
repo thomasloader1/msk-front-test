@@ -12,6 +12,20 @@ export const parseHtml = (contentHtml: string) => {
   const pElement = tempElement.querySelector("p");
   pElement?.classList.add("text-violet-strong")
 
+  const spanElements = tempElement.querySelectorAll("span");
+  spanElements.forEach(span => {
+    if (!span.classList.contains('font-lora')) {
+      // Si no tiene la clase 'font-lora', remueve todas las clases existentes
+      span.className = '';
+  
+      // Agrega la clase 'font-lora'
+      span.classList.add('font-lora');
+    }
+  });
+
+  console.log({spanElements})
+
+
   ulElements.forEach((ulElement) => {
     // Buscar elementos LI dentro de cada UL
     ulElement.classList.add("m-0", "flex", "flex-col");

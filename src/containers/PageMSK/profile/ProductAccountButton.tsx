@@ -31,7 +31,6 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
   const textStatus = statusOV.isDisabled ? statusOV.disabledText : statusOV.hasText
   const iconStatus = getStatusIcon(textStatus, product?.ov);
 
-  console.log(textStatus)
 
   return (
     <div className="course-2-footer text-grey-course">

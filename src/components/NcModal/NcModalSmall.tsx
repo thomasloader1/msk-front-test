@@ -80,7 +80,7 @@ const NcModalSmall: FC<NcModalProps> = ({
           className="fixed inset-0 z-50 overflow-y-auto mx-[16px] sm:mx-0"
           onClose={closeModal}
         >
-          <div className="min-h-screen px-1 text-center md:px-4">
+          <div className="min-h-screen px-1 text-center md:px-4 max-w-[500px] mx-auto">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-75"

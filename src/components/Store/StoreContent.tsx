@@ -36,9 +36,8 @@ const StoreContent: FC<Props> = ({
   handleTriggerFilter,
 }) => {
   const history = useHistory();
-  const possiblePageParam = history.location.search.includes("page")
-    ? Number(history.location.search.split("&").pop()?.split("=")[1])
-    : 1;
+  const params = new URLSearchParams(history.location.search);
+  const possiblePageParam = history.location.search.includes("page") ? Number(history.location.search.split("&").pop()?.split("=")[1]) : 1;
 
   const [currentPage, setCurrentPage] = useState(possiblePageParam);
   const { storeFilters, addFilter, removeFilter, updateFilter, clearFilters } =
@@ -58,11 +57,9 @@ const StoreContent: FC<Props> = ({
   // Función para cambiar la página
   const handlePageChange = (pageNumber: number) => {
     const { pathname, search } = history.location;
-    const pageExists = storeFilters.page.some(
-      (item: PageFilter) => item.id === pageNumber
-    );
-
+    const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
     const urlRedirect = keepOnlySpecifiedParams(`${pathname}${search}`);
+
 
     if (pageExists) {
       removeFilter("page", { id: pageNumber, name: String(pageNumber) });
@@ -75,8 +72,10 @@ const StoreContent: FC<Props> = ({
 
       const pageParam = pageNumber > 1 ? `page=${pageNumber}` : "";
       const separator = urlRedirect.includes("?") ? "&" : "?";
+      const fullUrl = `${urlRedirect}${pageParam && separator}${pageParam}`
+      console.log({pageNumber, pageExists, urlRedirect, pageParam, fullUrl})
 
-      history.push(`${urlRedirect}${pageParam && separator}${pageParam}`);
+      history.push(fullUrl);
       setCurrentPage(pageNumber);
     }
   };
@@ -111,9 +110,14 @@ const StoreContent: FC<Props> = ({
         return item.id == resource.id;
       }
     );
+
+    console.log(resource, params)
+
     if (resourceExists.length) {
       removeFilter("resources", resource);
-    } else addFilter("resources", resource);
+    } else {
+      addFilter("resources", resource);
+    }
   };
 
   const onChangeDuration = (duration: DurationFilter) => {
@@ -140,8 +144,9 @@ const StoreContent: FC<Props> = ({
           .split("=")[1]
           .split(",")
           .map((item) => decodeURIComponent(item));
-       // console.log(filterQueries);
+       
         const filterType = query.split("=")[0];
+        
         switch (filterType) {
           case "profesion":
             if (filterQueries.includes("medicos"))
@@ -183,6 +188,7 @@ const StoreContent: FC<Props> = ({
               name: resourceName,
               id: 1,
             });
+
             break;
           case "page":
             addFilter("page", {

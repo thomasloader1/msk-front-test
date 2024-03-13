@@ -42,20 +42,16 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                  <ButtonPage icon={<i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>} tracking={linkTracker} page={currentPage - 1} urlTrack={urlTrack} />
-
-                {/* <NcLink
-                  to={`${urlTrack}${
-                    currentPage - 1 > 1 ? `&page=${currentPage - 1}` : ""
-                  }`}
-                  colorClass=""
-                >
-                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                </NcLink> */}
+                <ButtonPage 
+                  icon={<i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>} 
+                  tracking={linkTracker} page={currentPage - 1} 
+                  urlTrack={urlTrack} 
+                />
               </li>
             ) : (
               ""
             )}
+
             {pages.map((page) => {
               return (
                 <li
@@ -67,26 +63,26 @@ const StorePagination: FC<Props> = ({
                   key={`page_${page}`}
                   onClick={() => onPageChange(page)}
                 >
-                  <ButtonPage tracking={linkTracker} page={page} urlTrack={urlTrack} />
-                  {/* <NcLink
-                    to={`${urlTrack}${page > 1 ? `&page=${page}` : ""}`}
-                    colorClass=""
-                  >
-                    {page < 10 ? `0${page}` : page}
-                  </NcLink> */}
+                  <ButtonPage 
+                    tracking={linkTracker} 
+                    page={page} 
+                    urlTrack={urlTrack} 
+                  />
                 </li>
               );
             })}
+
             {totalPages > 1 && currentPage < totalPages ? (
               <li
                 onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                  <ButtonPage icon={<i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>} tracking={linkTracker} page={currentPage+ 1} urlTrack={urlTrack} />
-
-                {/* <NcLink to={`${urlTrack}&page=${currentPage + 1}`}>
-                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                </NcLink> */}
+                <ButtonPage 
+                  icon={<i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>} 
+                  tracking={linkTracker} 
+                  page={currentPage + 1} 
+                  urlTrack={urlTrack} 
+                />
               </li>
             ) : null}
           </ul>

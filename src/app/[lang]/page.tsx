@@ -1,7 +1,6 @@
 import { TABS_HOME } from "@/data/MSK/courses";
 import { TABS_BLOG } from "@/data/MSK/blog";
 import { HOME_SPECIALTIES } from "@/data/MSK/specialties";
-import { DataContext } from "@/context/data/DataContext";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
 import BlogSummary from "@/components/MSK/BlogSummary";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
@@ -10,12 +9,19 @@ import HomeExtraInfo from "@/components/MSK/HomeExtraInfo";
 import SectionHero from "@/components/SectionHero/SectionHero";
 import SectionGridCategoryBox from "@/components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "@/components/MSK/BrandSlider";
-import ContactForm from "@/components/MSK/ContactForm";
 import PageHead from "@/components/MSK/PageHead";
-import api from "../../../Services/api";
-import { getCoursesMiddleware } from "@/middleware";
 import { cookies } from "next/headers";
 import ssr from "../../../Services/ssr";
+import {
+  getAllBestSellers,
+  getAllCourses,
+  getAllPosts,
+  isLoadingBestSellers,
+  isLoadingCourses,
+  setAllBestSellers,
+  setAllCourses,
+  setAllPosts,
+} from "@/lib/allData";
 
 interface PageProps {
   params: any;
@@ -23,9 +29,18 @@ interface PageProps {
 
 const PageHome: React.FC<PageProps> = async ({ params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;
-  const allCourses = await ssr.getAllCourses(currentCountry);
-  const allBestSellers = await ssr.getBestSellers(currentCountry);
-  const allPosts = await ssr.getPosts(currentCountry);
+  if (!getAllCourses().length) {
+    const fetchedCourses = await ssr.getAllCourses(currentCountry);
+    setAllCourses(fetchedCourses);
+  }
+  if (!getAllBestSellers().length) {
+    const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
+    setAllBestSellers(fetchedBestSellers);
+  }
+  if (!getAllPosts().length) {
+    const fetchedPosts = await ssr.getPosts(currentCountry);
+    setAllPosts(fetchedPosts);
+  }
 
   const scrollToContactForm = () => {
     // const contactForm = document.getElementById("contactanos");
@@ -68,16 +83,17 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           />
           <BrandSlider />
           <CoursesForYou
-            courses={allCourses}
-            bestSeller={allBestSellers}
+            courses={getAllCourses()}
+            bestSeller={getAllBestSellers()}
             tabs={TABS_HOME}
             className="py-16"
             heading="Oportunidades para ti"
             desc="Cursos destacados para realizar a distancia"
+            loading={isLoadingCourses() || isLoadingBestSellers()}
           />
           <HomeExtraInfo country={currentCountry} />
           <BlogSummary
-            posts={allPosts}
+            posts={getAllPosts()}
             tabs={TABS_BLOG}
             className="py-16 "
             heading=""
@@ -87,7 +103,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderPosts
-              posts={allBestSellers}
+              posts={getAllBestSellers()}
               postCardName="card9"
               heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"

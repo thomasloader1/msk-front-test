@@ -19,14 +19,15 @@ import { usePathname } from "next/navigation";
 import { useCurrentLocale } from "next-i18n-router/client";
 // @ts-ignore
 import i18nConfig from "@/i18nConfig";
+import Link from "next/link";
 export interface MainNav2Props {}
 
 const MainNav2: FC<MainNav2Props> = () => {
   const locale = useCurrentLocale(i18nConfig);
 
-  const { state: countryState } = useContext(CountryContext);
+  // const { state: countryState } = useContext(CountryContext);
   const { state } = useContext(AuthContext);
-  const urlPre = countryState.country ? `/${countryState.country}` : "";
+  // const urlPre = countryState.country ? `/${countryState.country}` : "";
   const [isOnBlog, setIsOnBlog] = useState(false);
   const [isOnArchive, setIsOnArchive] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +38,7 @@ const MainNav2: FC<MainNav2Props> = () => {
   useEffect(() => {
     setIsOnBlog(pathName.includes("blog"));
     setIsOnArchive(pathName.includes("archivo"));
-  });
+  }, []);
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
       <div className="container py-3 relative flex justify-between items-center space-x-4 xl:space-x-8">

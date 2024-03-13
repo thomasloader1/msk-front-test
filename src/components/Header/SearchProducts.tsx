@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import Input from "@/components/Input/Input";
 import { CountryContext } from "@/context/country/CountryContext";
 import { FetchCourseType } from "@/data/types";
-import { DataContext } from "@/context/data/DataContext";
-import { useLocation } from "react-use";
 import NcLink from "../NcLink/NcLink";
 import NcImage from "../NcImage/NcImage";
+import { getAllCourses } from "@/lib/allData";
+import { usePathname } from "next/navigation";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -14,8 +14,6 @@ const SearchProducts = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const { state: dataState, loadingCourses } = useContext(DataContext);
-  const { allCourses, allPosts } = dataState;
 
   const removeAccents = (str: string) => {
     return str
@@ -48,20 +46,20 @@ const SearchProducts = () => {
   const clearInputValue = () => {
     setInputValue("");
   };
-  const location = useLocation();
+  const pathname = usePathname();
   useEffect(() => {
-    if (location.pathname?.includes("/blog")) {
-      setAuxProducts([...allPosts]);
-      setProducts(allPosts);
-      setIsOnBlog(true);
+    if (pathname?.includes("/blog")) {
+      // setAuxProducts([...allPosts]);
+      // setProducts(allPosts);
+      // setIsOnBlog(true);
     } else {
-        if (allCourses.length) {
-            setAuxProducts([...allCourses]);
-            setProducts(allCourses);
-            setIsOnBlog(false);
-        }
+      if (getAllCourses().length) {
+        setAuxProducts([...getAllCourses()]);
+        setProducts(getAllCourses());
+        setIsOnBlog(false);
+      }
     }
-  }, [location.pathname, allCourses, allPosts]);
+  }, [pathname, getAllCourses()]);
 
   return (
     <div className="search-products">

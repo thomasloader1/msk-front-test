@@ -13,7 +13,11 @@ import {
 // import { BodyNewPassword } from "@/components/MSK/PageNewPassword";
 // import { ContactFormSchema } from "@/hooks/useYupValidation";
 import { countries } from "@/data/countries";
-
+import {
+  setAllCourses,
+  setLoadingBestSellers,
+  setLoadingCourses,
+} from "@/lib/allData";
 let validCountries = countries.map((item) => item.id);
 const PROD = process.env.PROD;
 
@@ -49,6 +53,7 @@ class ApiSSRService {
     return "";
   }
   async getAllCourses(country?: string, tag?: string) {
+    setLoadingCourses(true);
     // tag = new URLSearchParams(window.location.search).get("tag");
     let validCountries = countries.map((item) => item.id);
     // let siteEnv = window.location.hostname !== "msklatam.com";
@@ -72,6 +77,8 @@ class ApiSSRService {
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`
       );
+      setAllCourses(courses.data.products);
+      setLoadingCourses(false);
       return courses.data.products;
     } catch (error) {
       // if (tag && !countryParam.length && dispatch) {
@@ -84,6 +91,7 @@ class ApiSSRService {
     }
   }
   async getBestSellers(country?: string, tag?: string) {
+    setLoadingBestSellers(true);
     try {
       let countryParam = "int";
       if (country && validCountries.includes(country)) {
@@ -92,8 +100,10 @@ class ApiSSRService {
       const bestSellers = await axios.get(
         `${API_URL}/home/best-sellers?country=${countryParam}`
       );
+      setLoadingBestSellers(false);
       return bestSellers.data.products;
     } catch (error) {
+      setLoadingBestSellers(false);
       return error;
     }
   }

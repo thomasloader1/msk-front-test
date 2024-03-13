@@ -8,7 +8,7 @@ import {
   NOTE_SPECIALITIES,
   baseUrl,
 } from "@/data/api";
-import { Login, ContactUs, SignUp, Newsletter } from "@/data/types";
+import { Login, ContactUs, SignUp, Newsletter, AuthState } from "@/data/types";
 import countryStates from "@/data/jsons/__countryStates.json";
 import { BodyNewPassword } from "@/components/MSK/PageNewPassword";
 import { ContactFormSchema } from "@/hooks/useYupValidation";
@@ -33,6 +33,7 @@ const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
+const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -112,7 +113,6 @@ class ApiService {
       return e;
     }
   }
-  // Aquí puedes agregar más métodos según tus necesidades
 
   async getUserData() {
     if (typeof window !== "undefined") {
@@ -470,6 +470,19 @@ class ApiService {
   }
   async getCoursesProgressStatus(email: string, product_code: number) {
     return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
+  }
+  async cancelTrialCourse(product: any, authState: AuthState) {
+    try {
+      const res = await axios.post(apiCancelTrialContract, {
+        product,
+        authState,
+      });
+      console.log({ res });
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
   }
 }
 

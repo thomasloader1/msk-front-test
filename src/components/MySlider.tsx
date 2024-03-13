@@ -137,11 +137,11 @@ export default function MySlider<T>({
               <div className="flex gap-2 justify-center mt-16">
                 <PrevBtn
                   onClick={() => changeItemId(currentIndex - 1)}
-                  className={`w-12 h-12 xl:w-16 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
+                  className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
                 />
                 <NextBtn
                   onClick={() => changeItemId(currentIndex + 1)}
-                  className={`w-12 h-12 xl:w-16 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
+                  className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
                 />
               </div>
             </div>

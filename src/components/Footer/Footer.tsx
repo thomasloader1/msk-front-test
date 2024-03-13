@@ -5,8 +5,8 @@ import NcModal from "@/components/NcModal/NcModal";
 import FooterNewsletter from "./Newsletter";
 import { CountryContext } from "@/context/country/CountryContext";
 import NcLink from "../NcLink/NcLink";
-import { useLocation } from "react-use";
 import NcImage from "../NcImage/NcImage";
+import { usePathname } from "next/navigation";
 
 const FooterEduman = () => {
   const [show, setShow] = useState(false);
@@ -28,11 +28,11 @@ const FooterEduman = () => {
     setShow(true);
   };
 
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
-    setIsOnBlog(location.pathname == "/blog");
-  }, [location.pathname]);
+    setIsOnBlog(pathname == "/blog");
+  }, [pathname]);
 
   return (
     <footer>

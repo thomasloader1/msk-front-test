@@ -1,12 +1,8 @@
 "use client";
 import React, { FC, useEffect, useRef, useState } from "react";
-import MainNav2Logged from "./MainNav2Logged";
 import MainNav2 from "./MainNav2";
-import MainNav1 from "./MainNav1";
 
-export interface HeaderProps {
-
-}
+export interface HeaderProps {}
 
 let MAIN_MENU_HEIGHT = 0;
 let WIN_PREV_POSITION = 0;
@@ -54,7 +50,6 @@ const Header: FC<HeaderProps> = () => {
     }
   }, []);
 
-
   return (
     <div
       className="nc-Header sticky top-0 w-full left-0 right-0 z-40 transition-all "
@@ -62,7 +57,7 @@ const Header: FC<HeaderProps> = () => {
     >
       {/* RENDER MAIN NAVIGATION */}
       <div className={`bg-white dark:bg-neutral-900`} ref={mainMenuRef}>
-        <MainNav2/>
+        <MainNav2 />
       </div>
     </div>
   );

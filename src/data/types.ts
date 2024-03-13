@@ -630,3 +630,10 @@ export interface SinglePageType extends PostDataType {
     };
   };
 }
+
+export interface JsonIdentificationsMapping {
+  [key: string]: Array<{
+    id: string;
+    type: string;
+  }>;
+}

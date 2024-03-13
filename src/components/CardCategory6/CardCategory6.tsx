@@ -18,7 +18,7 @@ const CardCategory6: FC<CardCategory6Props> = ({
   hideDescriptionMobile = false,
 }) => {
   const { description, href = "/", name } = taxonomy;
-  let thumbnail = "/imagescourses/";
+  let thumbnail = "/images/courses/";
   switch (name) {
     case "Cardiología":
       thumbnail = thumbnail + "cardiology.png";
@@ -57,13 +57,19 @@ const CardCategory6: FC<CardCategory6Props> = ({
           <NcImage
             containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
             src={thumbnail}
+            height="1000"
+            width="1000"
             alt=""
           />
           <div className="mt-3 ">
             <h2 className={`text-base sm:text-lg`}>
               <span className="line-clamp-1 font-semibold ">{name}</span>
             </h2>
-            <p className={`${hideDescriptionMobile && "hidden sm:block"}`}>
+            <p
+              className={`${
+                hideDescriptionMobile && "hidden sm:block text-neutral-500"
+              }`}
+            >
               {description}
             </p>
           </div>
@@ -78,14 +84,18 @@ const CardCategory6: FC<CardCategory6Props> = ({
             containerClassName={`flex-shrink-0 w-20 h-20 rounded-full overflow-hidden`}
             src={thumbnail}
             alt=""
-            width="50"
-            height="50"
+            width="1000"
+            height="1000"
           />
           <div className="mt-3 ">
             <h2 className={`text-base sm:text-lg`}>
               <span className="line-clamp-1 font-semibold ">{name}</span>
             </h2>
-            <p className={`${hideDescriptionMobile && "hidden sm:block"}`}>
+            <p
+              className={`${
+                hideDescriptionMobile && "hidden sm:block text-neutral-500"
+              }`}
+            >
               {description}
             </p>
           </div>

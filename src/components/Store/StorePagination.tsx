@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import fai from "../../styles/fai/fontAwesome5Pro.module.css";
-import NcLink from "components/NcLink/NcLink";
 import { useHistory } from "react-router-dom";
 import { keepOnlySpecifiedParams, removeUrlParams } from "lib/removeUrlParams";
 import ButtonPage from "./ButtonPage";

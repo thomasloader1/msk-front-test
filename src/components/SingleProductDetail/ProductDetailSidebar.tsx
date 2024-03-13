@@ -1,11 +1,8 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Details, Ficha, JsonInstallmentsMapping, JsonMapping, SingleProduct } from "data/types";
+import { SingleProduct } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
-import { formatAmount } from "lib/formatAmount";
-import currencyMapping from "../../data/jsons/__countryCurrencies.json"
-import installmentsMapping from "../../data/jsons/__countryInstallments.json"
 import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 import PricingDetail from "./PricingDetail";
 
@@ -20,8 +17,6 @@ interface Props {
     idioma: string[];
   };
 }
-
-const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const ProductDetailSidebar: FC<Props> = ({
   product,
@@ -119,14 +114,6 @@ const ProductDetailSidebar: FC<Props> = ({
             <img src={image} alt="img not found" />
           </div>
         )}
-
-        {/* {isEbook ? null : (
-          <div className="mb-2">
-            <div className="text-sm mb-4 text-violet-strong">Total: <strong>{formatAmount(totalProductPrice , currency)}</strong></div>
-            <div className="text-sm mb-2 text-violet-strong">{installments} pagos de:</div>
-            <span className="text-[32px] font-bold text-violet-dark">{formatAmount(Number(installmentProductPrice) , currency)}</span>
-          </div>
-        )} */}
 
         <PricingDetail isEbook={isEbook} product={product} />
 

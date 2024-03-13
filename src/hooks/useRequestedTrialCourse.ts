@@ -19,7 +19,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
       const userProfile: any = await api.getUserData();
       const hasTrialCourses = userProfile?.contact.trial_course_sites;
       
-      console.log({userProfile})
+      //console.log({userProfile})
 
       if(!(userProfile?.contact.type_doc || userProfile?.contact.identification)){
         setShowMissingData(true)
@@ -40,7 +40,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
             setHasCoursedRequested(isMatch);
           }
         });
-      } else if (Object.keys(userProfile).length > 1) {
+      } else if (typeof userProfile !== 'undefined' && Object.keys(userProfile).length > 1) {
         setHasCoursedRequested(false);
       }
     };

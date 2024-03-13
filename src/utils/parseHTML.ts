@@ -23,9 +23,6 @@ export const parseHtml = (contentHtml: string) => {
     }
   });
 
-  console.log({spanElements})
-
-
   ulElements.forEach((ulElement) => {
     // Buscar elementos LI dentro de cada UL
     ulElement.classList.add("m-0", "flex", "flex-col");

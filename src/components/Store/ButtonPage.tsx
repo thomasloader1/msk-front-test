@@ -11,7 +11,7 @@ interface ButtonPageProps{
 const ButtonPage: FC<ButtonPageProps> = ({tracking, page, urlTrack, icon}) => {
     const hasSearch = window.location.search !== "" 
     const prevSearchUrl = !hasSearch ? window.location.search : urlTrack
-    const redirect = tracking ? `${prevSearchUrl.replace(/([&?]page=)\d+/, "")}${hasSearch ? `&page=${page}` : `page=${page}`}` : ""
+    const redirect = tracking ? `${prevSearchUrl.replace(/([?&])page=\d+/, "")}${hasSearch ? `&page=${page}` : `page=${page}`}` : ""
     const content = icon ?? (page < 10 ? `0${page}` : page)
 
   return (

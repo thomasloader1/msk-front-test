@@ -4,7 +4,6 @@ import { API_URL } from "data/api";
 import { FetchSingleProduct } from 'data/types';
 
 const useSingleProduct = (slug: string, state: { country: string }) => {
-    console.log({slug})
     const [product, setProduct] = useState<FetchSingleProduct>();
     const [loading, setLoading] = useState<boolean>(false);
     let [productSlug] = slug.split('?');

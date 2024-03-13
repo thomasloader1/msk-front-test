@@ -23,8 +23,6 @@ const Excerpt: React.FC<NoteExtraDataProps> = ({
 
   const showSuggestContent = suggest_content?.description && suggest_content.description != '';
 
-  console.log({showSuggestContent, suggest_content})
-
   return (
     <>
       {excerpt && (

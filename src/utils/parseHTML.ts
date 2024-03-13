@@ -45,6 +45,7 @@ export const parseHtml = (contentHtml: string) => {
 
       const spanElements = liElement.querySelectorAll("span");
 
+
       spanElements.forEach((spanElement) => {
         // Verificar si el <span> está vacío
         if (spanElement.parentNode && spanElement.textContent) {

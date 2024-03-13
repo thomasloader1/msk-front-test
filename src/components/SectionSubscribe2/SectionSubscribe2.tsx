@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import ButtonCircle from "@/components/Button/ButtonCircle";
-import rightImg from "/images/SVG-subcribe2.png";
+//import rightImg from "/images/SVG-subcribe2.png";
 import Badge from "@/components/Badge/Badge";
 import Input from "@/components/Input/Input";
 import Image from "next/image";
@@ -51,11 +51,11 @@ const SectionSubscribe2: FC<SectionSubscribe2Props> = ({ className = "" }) => {
         </form>
       </div>
       <div className="flex-grow">
-        <Image
+        {/*<Image
           alt="subsc"
           sizes="(max-width: 768px) 100vw, 50vw"
           src={rightImg}
-        />
+        />*/}
       </div>
     </div>
   );

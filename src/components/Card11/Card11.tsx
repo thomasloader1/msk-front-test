@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, useState } from "react";
 import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
 import { PostDataType } from "@/data/types";

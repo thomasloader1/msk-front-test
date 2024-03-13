@@ -62,8 +62,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     type: "",
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
-  const [currentDocumentsType, setCurrentDocumentsType] =
-    /*useState<JsonIdentificationsMapping>(countryIdentificationsMapping);*/
+  //const [currentDocumentsType, setCurrentDocumentsType] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>(userData.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
@@ -723,13 +722,13 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               <option defaultValue="" value="">
                 Seleccionar tipo
               </option>
-              {currentDocumentsType[state.country]
+              {/*{currentDocumentsType[state.country]
                 ? currentDocumentsType[state.country].map((p) => (
                     <option key={p.id} value={`${p.type}/${p.id}`}>
                       {p.type}
                     </option>
                   ))
-                : ""}
+                : ""}*/}
             </Field>
           </div>
 

@@ -2,7 +2,6 @@
 
 import React from "react";
 import Badge from "@/components/Badge/Badge";
-import featuredImageDemo from "/images/podcast.jpg";
 import Image from "next/image";
 import ButtonPlayMusicPlayer from "@/components/ButtonPlayMusicPlayer";
 import { DEMO_POSTS_AUDIO } from "@/data/posts";
@@ -37,13 +36,13 @@ const PageSingleAudio = ({}) => {
       <div
         className={`aspect-w-1 aspect-h-1 rounded-full overflow-hidden z-10 shadow-2xl group cursor-pointer`}
       >
-        <Image
+        {/*<Image
           className={`w-full h-full object-cover transition-transform z-0 nc-animation-spin rounded-full ${
             playing ? "playing" : ""
           }`}
           src={featuredImageDemo}
           alt="audio"
-        />
+        />*/}
 
         <div className="bg-neutral-900 bg-blend-multiply bg-opacity-75 rounded-full"></div>
         <div className="flex items-center justify-center">

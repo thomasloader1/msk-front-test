@@ -1,0 +1,48 @@
+name: FTP Deploy next.msklatam.tech
+
+on:
+  push:
+    branches:
+      - next
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next App TECH
+        env:
+          VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
+          VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
+          VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_TECH }}
+          VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
+          VITE_REBILL_URL: "https://api.rebill.to/v2"
+          VITE_REBILL_ORG_ID_PRD: ${{ secrets.VITE_REBILL_ORG_ID_PRD}}
+          VITE_REBILL_API_KEY_PRD: ${{ secrets.VITE_REBILL_API_KEY_PRD}}
+          VITE_REBILL_TOKEN_PRD: ${{ secrets.VITE_REBILL_TOKEN_PRD}}
+          VITE_REBILL_MP_CL_FREEMIUM_PRD: "7064008c-f0e2-476e-8b56-f6e60b7124e1"
+          VITE_REBILL_MP_MX_FREEMIUM_PRD: "e47460da-4378-40e7-853c-e42aa527d809"
+          VITE_REBILL_MP_AR_FREEMIUM_PRD: "3e22150d-3dee-4fbf-aa21-250a4e2070e0"
+          VITE_REBILL_STRIPE_COP_FREEMIUM_PRD: "efbf93e4-c662-49dc-b206-40d917400a12"
+          VITE_REBILL_STRIPE_UY_FREEMIUM_PRD: "8a4d228a-318e-4893-855c-b0aba27ba1b0"
+        run: npm run build
+
+      - name: FTP Upload (TECH)
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER_SITEGROUND_TECH }}
+          username: ${{ secrets.FTP_USERNAME_SITEGROUND_TECH }}
+          password: ${{ secrets.FTP_PASSWORD_SITEGROUND_TECH }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.PUBLIC_HTML_SITEGROUND_TECH }}

@@ -27,7 +27,7 @@ import { CountryCode } from "libphonenumber-js/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { countries } from "@/data/countries";
 import { DataContext } from "@/context/data/DataContext";
-import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json";
+//import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json";
 import api from "../../../../Services/api";
 
 // import InputField from "@/components/Form/InputField";
@@ -63,7 +63,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
   const [currentDocumentsType, setCurrentDocumentsType] =
-    useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
+    /*useState<JsonIdentificationsMapping>(countryIdentificationsMapping);*/
   const [selectedOptionProfession, setSelectedOptionProfession] =
     useState<string>(userData.contact?.profession || "");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] =

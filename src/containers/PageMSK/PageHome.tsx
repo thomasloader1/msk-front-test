@@ -16,6 +16,7 @@ import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
+import JsonLd from "components/JsonLd/JsonLd";
 
 const PageHome: React.FC = () => {
   const history = useHistory()
@@ -51,6 +52,29 @@ const PageHome: React.FC = () => {
       });
     }
   };
+
+  const schemaOrganization = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      // "@id": "https://www.petco.com/#organization", //No entendi que era
+      "name": "MSK - Medical & Scientific Knowledge",
+      "url": "https://msklatam.com/",
+      "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Buenos Aires",
+          "addressCountry": "Argentina",
+          "postalCode": "C1055",
+          "streetAddress": "Av. Córdoba 1367"
+      },
+      "logo": "https://www.msklatam.com/images/msk-logo.svg",
+      "description": "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional. Nuestro método de capacitación es flexible: brindamos distintos formatos de contenidos de nivel académico, entre los que se incluyen guías profesionales y webinars. Además, contamos con el respaldo de grandes instituciones de todo el mundo que certifican nuestros cursos.",
+      "sameAs":
+          ["https://www.instagram.com/msk.latam",
+          "https://www.linkedin.com/company/msk-online-learning/",
+          "https://www.facebook.com/msk.online.learning",
+          "https://www.youtube.com/@msk.online.learning"]
+  };
+
   return (
     <div className="nc-PageHome relative animate-fade-down">
       {/* === SEO === */}
@@ -58,6 +82,9 @@ const PageHome: React.FC = () => {
         title="Inicio"
         description="Una propuesta moderna para expandir tus metas profesionales"
       />
+      <JsonLd>
+          {schemaOrganization}
+      </JsonLd>
       {/* === END SEO === */}
       <div className="relative overflow-hidden">
         <div className="container relative">

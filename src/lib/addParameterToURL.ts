@@ -1,7 +1,7 @@
 export const addParameterToURL = (param: string, value: string) => {
     const url = new URL(window.location.href);
-  
-    if (!url.searchParams.has("recurso") && param === 'resources') {
+  //console.log(url, param, value)
+    if (!url.searchParams.has("recurso") && param === 'resources' && typeof value !== 'undefined') {
         let valueToUrl = value.includes("Curso") ? 'curso' : 'guia-profesionales';
         url.searchParams.set("recurso", valueToUrl);
         // Actualizar la URL con el nuevo parámetro

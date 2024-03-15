@@ -22,8 +22,8 @@ const Excerpt: React.FC<NoteExtraDataProps> = ({
 }) => {
 
   const showSuggestContent = suggest_content?.description && suggest_content.description != '';
-
-const isEndpoint = suggest_content?.link.url.startsWith('/');
+console.log(suggest_content)
+const isEndpoint = suggest_content?.link?.url?.startsWith('/');
 const url = isEndpoint
   ? `${window.location.origin}${suggest_content?.link.url}`
   : suggest_content?.link.url;

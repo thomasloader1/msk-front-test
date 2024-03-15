@@ -206,7 +206,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           utm_content: utmState.utm_content,
           converted_by: "Trial Sitio web",
           Cursos_consultados: product?.ficha.title,
-          URL_DESCARGA: product?.temario_link_pdf
+          URL_DESCARGA: product?.temario_link_pdf?.replace(/^(https?:\/\/)(ar\.|mx\.|cl\.|ec\.)/,"$1")
         };
 
         try {

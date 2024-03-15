@@ -11,7 +11,7 @@ import ButtonPrimary from "components/Button/ButtonPrimary";
 import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation, useParams } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
 import { countries } from "data/countries";
 import { CountryContext } from "context/country/CountryContext";
@@ -27,6 +27,8 @@ import { DataContext } from "context/data/DataContext";
 import SimpleInputSkeleton from "components/Skeleton/SimpleInputSkeleton";
 import countryIdentificationsMapping from "../../data/jsons/__countryIdentifications.json"
 import { JsonIdentificationsMapping } from "data/types";
+import useSingleProduct from "hooks/useSingleProduct";
+import Skeleton from "components/Skeleton/Skeleton";
 
 export interface PageTrialProps {
   className?: string;
@@ -37,7 +39,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     state:{ 
       allSpecialties: specialties, 
       allSpecialtiesGroups: specialtiesGroup, 
-      allProfessions: professions
+      allProfessions: professions,
+      allCourses: allProducts
     }, 
     loadingProfessions, loadingSpecialties 
   } = useContext(DataContext);
@@ -61,11 +64,15 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
-
   const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
 
   const { state } = useContext(CountryContext);
   const { state: authState } = useContext(AuthContext);
+  const { product, loading } = useSingleProduct(slug, {
+    country: state.country,
+  });
+ 
+  console.log({product},window.location,`${window.location.origin}${window.location.pathname.replace("trial","curso")}`)
 
   const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
     const { value } = event.target;
@@ -98,6 +105,9 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     type: "",
     identification: "",
     Terms_And_Conditions: false,
+    URL_ORIGEN: `${window.location.origin}${window.location.pathname.replace("trial","curso")}`,
+    Cursos_consultados: product?.ficha.title,
+    URL_DESCARGA: product?.temario_link_pdf,
   };
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().required("El nombre es requerido"),
@@ -194,7 +204,9 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           utm_medium: utmState.utm_medium,
           utm_campaign: utmState.utm_campaign,
           utm_content: utmState.utm_content,
-          converted_by: "Trial Sitio web"
+          converted_by: "Trial Sitio web",
+          Cursos_consultados: product?.ficha.title,
+          URL_DESCARGA: product?.temario_link_pdf?.replace(/^(https?:\/\/)(ar\.|mx\.|cl\.|ec\.)/,"$1")
         };
 
         try {
@@ -254,7 +266,16 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
         heading="Crear cuenta"
       >
         <div className="max-w-md mx-auto space-y-6">
-          <FormikProvider value={formik}>
+          {loading ? <>
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+          </> : <FormikProvider value={formik}>
             <Form
               onSubmit={formik.handleSubmit}
               action="#"
@@ -542,7 +563,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                 )}
               </div>
             </Form>
-          </FormikProvider>
+          </FormikProvider>}
+          
         </div>
       </LayoutPage>
     </div>

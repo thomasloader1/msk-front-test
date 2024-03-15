@@ -32,6 +32,7 @@ const SearchProducts = () => {
           removeAccents(value.toLowerCase())
         )
       );
+      //console.log({filteredProducts, products, value})
       setProducts(filteredProducts);
     } else {
       setProducts(auxProducts);

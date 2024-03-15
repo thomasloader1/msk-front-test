@@ -16,6 +16,7 @@ import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
+import { CourseDataType, SingleProduct } from "data/types";
 
 const PageHome: React.FC = () => {
   const history = useHistory()
@@ -37,7 +38,8 @@ const PageHome: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setCourses(allCourses);
+    const onlyCourses = allCourses.filter((course: any) => course.father_post_type === "course")
+    setCourses(onlyCourses);
     setPosts(allPosts);
     setBestSeller(allBestSellers);
   }, [allCourses, allPosts, allBestSellers]);

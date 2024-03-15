@@ -5,6 +5,7 @@ import {
   Specialty,
   PageFilter,
 } from "data/types";
+import { addParameterToURL } from "lib/addParameterToURL";
 
 export type Filter = {
   specialties: Specialty[];
@@ -57,6 +58,9 @@ export type Action =
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
+
+      addParameterToURL(action.payload.filterType, action.payload.filterValue.name)
+      
       return {
         ...state,
         storeFilters: {

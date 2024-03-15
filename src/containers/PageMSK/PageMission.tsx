@@ -101,6 +101,7 @@ export interface SinglePageType extends PostDataType {
     link: {
       title: string;
       url: string;
+      target: string;
     };
   };
 }

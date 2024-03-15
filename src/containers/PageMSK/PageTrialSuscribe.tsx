@@ -10,7 +10,7 @@ import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import TrialModalContent from "components/NcModal/TrialModalContent";
 import NcModalSmall from "components/NcModal/NcModalSmall";
 import InputSkeleton from "components/Skeleton/InputSkeleton";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
 import { DataContext } from "context/data/DataContext";
 import { REBILL_CONF, initRebill } from "logic/Rebill";
@@ -117,7 +117,15 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
                 src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
                 alt="gateway image"
               />
+              
             </div>) : <TextSkeleton className="w-full flex items-center justify-center" />}
+            <Link
+              to="/condiciones-de-contratacion#trial"
+              target="_blank"
+              className="text-primary hover:text-primary underline flex items-center justify-center mt-3"
+            >
+              Ver términos y condiciones de prueba gratuita
+            </Link>
           </section>
         </div>
       </div>

@@ -497,6 +497,13 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                     component="span"
                     className="error"
                   />
+                  <Link
+                        to="/condiciones-de-contratacion#trial"
+                        target="_blank"
+                        className="text-primary hover:text-primary underline"
+                      >
+                        Ver términos y condiciones de prueba gratuita
+                      </Link>
                   <div className="flex gap-2 center text-center">
                     <Field
                       type="checkbox"

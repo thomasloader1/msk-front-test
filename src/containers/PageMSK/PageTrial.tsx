@@ -266,7 +266,16 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
         heading="Crear cuenta"
       >
         <div className="max-w-md mx-auto space-y-6">
-          {loading ? <Skeleton /> : <FormikProvider value={formik}>
+          {loading ? <>
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+            <SimpleInputSkeleton />
+          </> : <FormikProvider value={formik}>
             <Form
               onSubmit={formik.handleSubmit}
               action="#"

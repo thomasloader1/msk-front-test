@@ -51,5 +51,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER_SITEGROUND_TECH }}
           username: ${{ secrets.FTP_USERNAME_SITEGROUND_TECH }}
           password: ${{ secrets.FTP_PASSWORD_SITEGROUND_TECH }}
-          local-dir: /dist
+          local-dir: ./dist/
           server-dir: ${{ secrets.PUBLIC_HTML_SITEGROUND_TECH }}

@@ -30,6 +30,7 @@ const TABS = [
   "Mis cursos",
   // "Favoritos"
 ];
+export const runtime = 'edge';
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const {

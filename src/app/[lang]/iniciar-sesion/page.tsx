@@ -17,6 +17,7 @@ export interface PageLoginProps {
   className?: string;
   lang: string;
 }
+export const runtime = 'edge';
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   // @ts-ignore

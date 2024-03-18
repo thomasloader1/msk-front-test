@@ -19,6 +19,7 @@ import api from "../../../../Services/api";
 import { getUserCourses } from "../../../../Services/user";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
+export const runtime = 'edge';
 
 export interface PageDashboardProps {
   className?: string;

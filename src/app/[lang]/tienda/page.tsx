@@ -18,6 +18,7 @@ import api from "../../../../Services/api";
 import PageHead from "@/components/MSK/PageHead";
 import { cookies } from "next/headers";
 import ssr from "../../../../Services/ssr";
+export const runtime = 'edge';
 
 export interface PageStoreProps {
   className?: string;

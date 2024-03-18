@@ -8,6 +8,7 @@ import ssr from "../../../../../Services/ssr";
 interface PageCourseProps {
   params: any;
 }
+export const runtime = 'edge';
 
 const PageSingleProduct: FC<PageCourseProps> = async ({ params }) => {
   const { product } = await ssr.getSingleProduct(params.slug, params.country);

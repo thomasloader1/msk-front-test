@@ -12,6 +12,7 @@ import NewsletterBlog from "@/components/MSK/Blog/NewsletterBlog";
 interface PageProps {
   params: any;
 }
+export const runtime = 'edge';
 
 const PageBlog: React.FC<PageProps> = async ({ params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;

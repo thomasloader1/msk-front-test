@@ -23,6 +23,8 @@ import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
 
+export const runtime = 'edge';
+
 export interface PageArchiveProps {
   className?: string;
 }

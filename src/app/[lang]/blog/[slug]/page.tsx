@@ -13,6 +13,7 @@ import { cookies } from "next/headers";
 interface PageCourseProps {
   params: any;
 }
+export const runtime = 'edge';
 
 const PageNota: FC<PageCourseProps> = async ({ params }) => {
   const post = await ssr.getSinglePost(params.slug);

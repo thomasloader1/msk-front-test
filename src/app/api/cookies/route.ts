@@ -1,6 +1,6 @@
 import { serialize, parse } from "cookie";
 import { NextResponse } from "next/server";
-export const runtime = 'edge';
+export const runtime = 'edge'; //Test
 
 export const GET = async (request: Request) => {
   try {

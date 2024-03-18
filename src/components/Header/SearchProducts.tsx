@@ -51,7 +51,8 @@ const SearchProducts = () => {
   const location = useLocation();
   useEffect(() => {
     if (location.pathname.includes("/blog")) {
-      setAuxProducts([...allPosts]);
+      const filterGuia = allCourses.filter((course: any) => course.father_post_type.includes("downloadable"))
+      setAuxProducts([...allPosts, ...filterGuia]);
       setProducts(allPosts);
       setIsOnBlog(true);
     } else {

@@ -2,7 +2,7 @@ const withNextIntl = require("next-intl/plugin")("./i18n.ts");
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'export', //For static site (loses SSR cappabilites)
+  //output: 'export', //For static site (loses SSR cappabilites)
   distDir: "dist",
   typescript: {
     // !! WARN !!

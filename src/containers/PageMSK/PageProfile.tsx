@@ -1,75 +1,93 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { User, UserCourseProgress } from "data/types";
+import { useHistory } from "react-router-dom";
+import { getUserCourses } from "Services/user";
+import { DataContext } from "context/data/DataContext";
 import Avatar from "components/Avatar/Avatar";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import StorePagination from "components/Store/StorePagination";
 import SectionSliderPosts from "./home/SectionSliderPosts";
 import CardCategory6 from "components/CardCategory6/CardCategory6";
-import { Helmet } from "react-helmet";
-import { User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import { useHistory } from "react-router-dom";
-import { getUserCourses } from "Services/user";
 import Heading from "components/Heading/Heading";
 import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
+import PageHead from "./PageHead";
+import HeaderFilter from "./home/HeaderFilter";
 
 export interface PageAuthorProps {
   className?: string;
 }
 
-const FILTERS = [{ name: "Más recientes" }, { name: "Más vistos" }];
-const TABS = ["Mis cursos", "Todo", "Favoritos"];
+const TABS = [
+  "Todo",
+  "Mis cursos",
+  // "Favoritos"
+];
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
-  const [posts, setPosts] = useState<UserCourseProgress[]>([]);
+  const history = useHistory();
+  const {
+    state: dataState,
+    loadingBestSellers,
+    loadingProductsMX,
+  } = useContext(DataContext);
+  const { allCourses, allPosts, allBestSellers, allProductsMX } = dataState;
+  const [bestSeller, setBestSeller] = useState([]);
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
+  const [coursesTabActive, setCoursesTabActive] = useState<string>("Todo");
   const [user, setUser] = useState<User>({} as User);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
-  const [loadingBestSellers, setLoadingBestSellers] = useState<boolean>(true);
-  const [bestSeller, setBestSeller] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const history = useHistory();
-
-  const fetchBestSeller = async () => {
-    const res = await api.getBestSellers();
-    setBestSeller(res);
-    setLoadingBestSellers(false);
-  };
-
+  const [currentItems, setCurrentItems] = useState<UserCourseProgress[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [userCourses, setUserCourses] = useState<UserCourseProgress[]>([]);
   const fetchUser = async () => {
     try {
-      const productList = await api.getAllProductsMX();
+      const productList = allProductsMX;
       const res = await api.getUserData();
       if (!res.message) {
         setUser(res);
         let coursesList = getUserCourses(res, productList);
-        setPosts(coursesList);
+        setUserCourses(coursesList);
+        setTotalPages(Math.ceil(coursesList.length / itemsPerPage));
         setLoadingUser(false);
       } else {
-        console.log(res.response.status);
         history.push("/iniciar-sesion");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       history.push("/iniciar-sesion");
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-    fetchBestSeller();
-  }, []);
-
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(posts.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = posts.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Función para cambiar la página
+  useEffect(() => {
+    if (!loadingProductsMX) fetchUser();
+  }, [allProductsMX, loadingProductsMX]);
+
+  useEffect(() => {
+    setBestSeller(allBestSellers);
+  }, [allPosts, allBestSellers]);
+
+  useEffect(() => {
+    setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+  }, [indexOfFirstItem, indexOfLastItem, userCourses]);
+
+  useEffect(() =>{
+    const redirectToTrialURL = localStorage.getItem('trialURL');
+    if(redirectToTrialURL){
+      history.push(redirectToTrialURL)
+    }
+  }, []);
+
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -101,29 +119,45 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     tabActive == "Favoritos" ? history.push("/") : history.push("/tienda");
   };
 
+  const handleUserTabChange = (item: string) => {
+    switch (item) {
+      case "Todo":
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
+        break;
+      case "Mis cursos":
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
+
+        break;
+      default:
+        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+        break;
+    }
+    setCurrentPage(1);
+    setCoursesTabActive(item);
+  };
+
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
-      <Helmet>
-        <title>Mi Perfil</title>
-      </Helmet>
-
+      <PageHead title="Mi perfil" />
       {/* HEADER */}
       <div className="animate-fade-down">
         <div className="bg-neutral-200 dark:bg-neutral-900 dark:border dark:border-neutral-700 p-5 lg:p-16 flex flex-col sm:items-center">
           {loadingUser ? (
-            <>
-              <AvatarSkeleton className="rounded-full w-24 h-24" />
+            <div className="mx-auto">
+              <AvatarSkeleton className="rounded-full w-24 h-24 mx-auto" />
               <TextSkeleton lines="2" />
-            </>
+            </div>
           ) : (
             <>
               <Avatar
-                containerClassName="dark:ring-0 shadow-2xl"
+                containerClassName="dark:ring-0 shadow-2xl mx-auto"
                 userName={user.name}
-                sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36"
+                sizeClass="w-20 h-20 text-xl lg:text-3xl lg:w-36 lg:h-36 mx-auto"
                 radius="rounded-full"
               />
-              <div className="mt-8 sm:mt-6 space-y-4 max-w-lg text-center">
+              <div className="mt-4 sm:mt-6 gap-1 max-w-lg text-center mx-auto">
                 <h2 className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium">
                   {user.name}
                 </h2>
@@ -137,11 +171,9 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       </div>
       {/* ====================== END HEADER ====================== */}
 
-      <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
+      <div className="container py-16 lg:pb-28 pt-8 lg:pt-12 space-y-16 lg:space-y-28">
         <main>
-          <Heading desc="">Mis Cursos </Heading>
-
-          {loadingUser ? (
+          {loadingUser || loadingProductsMX ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
               <ItemSkeleton />
               <ItemSkeleton />
@@ -150,6 +182,12 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             </div>
           ) : (
             <>
+              <HeaderFilter
+                tabActive={coursesTabActive}
+                tabs={TABS}
+                heading={""}
+                onClickTab={handleUserTabChange}
+              />
               {currentItems.length ? (
                 <>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
@@ -202,6 +240,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                     key={item.name}
                     taxonomy={item}
                     className="rounded-lg"
+                    hideDescriptionMobile
                   />
                 ))
               : null}

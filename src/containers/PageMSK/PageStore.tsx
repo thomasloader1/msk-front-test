@@ -3,10 +3,10 @@ import StoreLayout from "./store/StoreLayout";
 import StoreBar from "components/Store/StoreBar";
 import StoreContent from "components/Store/StoreContent";
 import LoadingImage from "components/Loader/Image";
-import { Helmet } from "react-helmet";
 import {
   DurationFilter,
   FetchCourseType,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
@@ -15,42 +15,26 @@ import api from "Services/api";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
+import { DataContext } from "context/data/DataContext";
+import PageHead from "./PageHead";
+import { removeAccents } from "lib/removeAccents";
 
 export interface PageStoreProps {
   className?: string;
 }
 
 const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
-  const [isLoading, setLoading] = useState(false);
+  const { state: dataState, loadingCourses } = useContext(DataContext);
+  const { allCourses, allProfessions, allSpecialties } = dataState;
+  const [isLoading, setLoading] = useState(loadingCourses);
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
   const [products, setProducts] = useState<FetchCourseType[]>([]);
-  const [specialties, setSpecialties] = useState([]);
-  const [professions, setProfessions] = useState([]);
   const { storeFilters, clearFilters } = useStoreFilters();
   const { state, dispatch } = useContext(CountryContext);
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const history = useHistory();
 
-  useEffect(() => {
-    if (state && state.error) {
-      console.log("ERROR:", state.error);
-      fetchProducts();
-      setTimeout(() => {
-        history.push(history.location.pathname);
-      }, 1500);
-    }
-  }, [state]);
-
-  // FETCH DATA
-  const fetchProducts = async () => {
-    try {
-      const productList = await api.getAllCourses(state, dispatch);
-      setAuxProducts([...productList]);
-      setProducts(productList);
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-    }
-  };
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
@@ -62,15 +46,31 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
 
   useEffect(() => {
     clearFilters();
-    setLoading(true);
-
-    fetchProducts();
     fetchProfessions();
     fetchSpecialties();
+    setLoading(false);
+    applyFilters();
   }, []);
+
+  useEffect(() => {
+    if (state && state.error) {
+      console.error("ERROR:", state.error);
+      setTimeout(() => {
+        history.push(history.location.pathname);
+      }, 1500);
+    }
+  }, [state]);
+
+  // FETCH DATA
+  useEffect(() => {
+    setAuxProducts([...allCourses]);
+    setProducts(allCourses);
+    setLoading(false);
+  }, [allCourses, allProfessions, allSpecialties, loadingCourses]);
 
   // FILTERS
   useEffect(() => {
+    //console.table(storeFilters);
     applyFilters();
   }, [storeFilters]);
 
@@ -87,6 +87,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     const selectedDurations = storeFilters.duration.map(
       (filter: DurationFilter) => filter.value
     );
+
+    // console.table(storeFilters, selectedSpecialties);
 
     if (
       !(
@@ -154,12 +156,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
     }
   };
 
-  const removeAccents = (str: string) => {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-  };
   const triggerSearch = (event: any) => {
     if (event) {
       const filteredProducts = auxProducts.filter((product) =>
@@ -249,20 +245,22 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
   for (let i = 0; i < 9; i++) {
     loaders.push(<LoadingImage key={`loader_${i}`} />);
   }
+
+  const prioryTitleStore =
+    storeFilters?.specialties[0]?.name &&
+    `Cursos de ${storeFilters.specialties[0].name}`;
+
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}
       data-nc-id="PageStore"
     >
       {/* === SEO === */}
-      <Helmet>
-        <html lang="es" />
-        <title>MSK | Tienda</title>
-        <meta
-          name="description"
-          content="Una propuesta moderna para expandir tus metas profesionales"
-        />
-      </Helmet>
+      <PageHead
+        title="Tienda"
+        description="Una propuesta moderna para expandir tus metas profesionales"
+        prioryTitle={prioryTitleStore ?? null}
+      />
       {/* === END SEO === */}
 
       <StoreLayout
@@ -271,19 +269,8 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
         heading="Store"
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-          <StoreBar
-            onSearch={(e) => triggerSearch(e)}
-            onFilter={(e) => triggerFilter(e)}
-            length={products.length}
-            filtersCount={
-              storeFilters.specialties.length +
-              storeFilters.professions.length +
-              storeFilters.resources.length +
-              storeFilters.duration.length
-            }
-          />
-          {isLoading ? (
-            <div className="container grid grid-cols-3 gap-10">
+          {loadingCourses ? (
+            <div className="container grid grid-cols-1 sm:grid-cols-3 gap-10">
               {loaders.map((loader) => {
                 return loader;
               })}
@@ -293,6 +280,9 @@ const PageStore: FC<PageStoreProps> = ({ className = "" }) => {
               products={products}
               specialties={specialties}
               professions={professions}
+              productsLength={auxProducts.length}
+              handleTriggerSearch={triggerSearch}
+              handleTriggerFilter={triggerFilter}
             />
           )}
         </section>

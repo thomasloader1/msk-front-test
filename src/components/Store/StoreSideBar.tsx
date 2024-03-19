@@ -6,6 +6,8 @@ import {
   Specialty,
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { useHistory } from "react-router-dom";
+import { slugifySpecialty } from "lib/Slugify";
 
 interface StoreFilterQuery {
   professions: [{ name: string; id: number; slug: string }];
@@ -92,21 +94,21 @@ const StoreSideBar: FC<Props> = ({
       queryParams.forEach((param) => {
         const [key, value] = param.split("=");
         const decodedValue = decodeURIComponent(value);
-        if (key === "profesion") {
+        if (key === "profesion" && professions.length) {
           const professionExists = professions.find(
             (item) => item.slug === decodedValue
           );
           if (professionExists) {
             matchingProfessions.push(professionExists);
           }
-        } else if (key === "especialidad") {
+        } else if (key === "especialidad" && specialties.length) {
           const specialtiesExists = specialties.find(
             (item) => item.name === decodedValue
           );
           if (specialtiesExists) {
             matchingSpecialties.push(specialtiesExists);
           }
-        } else if (key === "recurso") {
+        } else if (key === "recurso" && resources.length) {
           const resourceExists = resources.find(
             (item) => item.id.toString() === decodedValue
           );
@@ -170,6 +172,8 @@ const StoreSideBar: FC<Props> = ({
     }
   };
 
+  const history = useHistory();
+
   return (
     <>
       <div className="course-sidebar-widget mb-2">
@@ -181,7 +185,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("categories")}>
             Especialidades
           </h3>
-          {specialties.length && (
+          {specialties.length ? (
             <ul>
               {specialties.map((specialty, index) => {
                 return (
@@ -191,7 +195,15 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
-                        onChange={(event) => onChangeSpecialty(specialty)}
+                        onChange={(event) => {
+                          /* onChangeSpecialty(specialty) */
+                          //console.error(specialty);
+                          history.push(
+                            `?especialidad=${slugifySpecialty(
+                              specialty.name
+                            )}&recurso=curso`
+                          );
+                        }}
                         checked={isChecked("specialties", specialty)}
                       />
                       <label
@@ -205,7 +217,7 @@ const StoreSideBar: FC<Props> = ({
                 );
               })}
             </ul>
-          )}
+          ) : null}
         </div>
       </div>
       <div className="course-sidebar-widget mb-2">
@@ -251,7 +263,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={() => dispatch("price")}>
             Profesión
           </h3>
-          {professions.length && (
+          {professions.length ? (
             <ul>
               {professions.map((profession, index: number) => {
                 return (
@@ -275,7 +287,7 @@ const StoreSideBar: FC<Props> = ({
                 );
               })}
             </ul>
-          )}
+          ) : null}
         </div>
       </div>
 

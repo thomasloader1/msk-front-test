@@ -12,6 +12,7 @@ export interface HeaderFilterProps {
   onClickTab: (item: string) => void;
   desc?: string;
   viewMore?: string;
+  mobileHidden?: string;
 }
 
 const HeaderFilter: FC<HeaderFilterProps> = ({
@@ -21,16 +22,17 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
   onClickTab,
   desc = "",
   viewMore = "/tienda",
+  mobileHidden = "hidden",
 }) => {
   return (
     <div className="flex flex-col mb-8 relative">
       {desc.length || heading.length ? (
         <Heading desc={desc}>{heading}</Heading>
       ) : null}
-      <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1">
         <Nav
-          className="sm:space-x-2 md:flex-nowrap flex-wrap gap-2"
-          containerClassName="relative flex text-sm md:text-base"
+          className="flex items-center gap-1 flex-wrap"
+          containerClassName="relative text-sm md:text-base"
         >
           {tabs.map((item, index) => (
             <NavItem
@@ -41,13 +43,19 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
               {item}
             </NavItem>
           ))}
+          <Link
+            to={viewMore}
+            className={`${mobileHidden} sm:block flex-shrink-0 my-auto header-see-more-btn`}
+          >
+            <ButtonSecondary
+              className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400 rounded-lg"
+              sizeClass="px-3 py-2.5 sm:px-6"
+            >
+              <span className="text-[12px] leading-2">Ver más</span>
+              <i className="ml-3 las la-arrow-right text-sm sm:text-xl"></i>
+            </ButtonSecondary>
+          </Link>
         </Nav>
-        <Link to={viewMore} className="hidden sm:block flex-shrink-0">
-          <ButtonSecondary className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400">
-            <span>Ver más</span>
-            <i className="ml-3 las la-arrow-right text-xl"></i>
-          </ButtonSecondary>
-        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { CountryContext } from "context/country/CountryContext";
 import {
   Contract,
   CourseProgress,
@@ -47,7 +46,6 @@ export const getUserCourses = (
   const COUNTRY = localStorage.getItem("country");
   const coursesList: UserCourseProgress[] = [];
   const seenProductIds: { [productId: number]: boolean } = {};
-
   res.contact.courses_progress.forEach((cp: CourseProgress) => {
     const globalProduct = courses.find(
       (productAux: { product_code: number }) =>
@@ -60,6 +58,7 @@ export const getUserCourses = (
       const featured_image =
         globalProduct.image &&
         globalProduct.image.replace(`${COUNTRY || "mx"}.`, "");
+
       const product = {
         status: cp.Estado_cursada,
         product_code: cp.Product_Code,
@@ -67,6 +66,7 @@ export const getUserCourses = (
         avance: cp.Avance,
         ov: cp.Estado_de_OV,
         expiration: cp.Fecha_de_expiraci_n,
+        limit_enroll: cp.Fecha_limite_de_Enrolamiento,
         ...globalProduct,
         featured_image,
       };
@@ -74,6 +74,8 @@ export const getUserCourses = (
       coursesList.push({ ...product });
     }
   });
+
+  // console.log(res.contact.courses_progress, { courses });
 
   return coursesList;
 };

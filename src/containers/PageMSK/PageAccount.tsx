@@ -1,18 +1,20 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { ComponentType, FC, useContext, useEffect, useState } from "react";
 import { Redirect, Route, Switch, useRouteMatch } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AccountPersonalData from "./account/AccountPersonalData";
 import AccountCourses from "./account/AccountCourses";
 import AccountHome from "./account/AccountHome";
 import { Helmet } from "react-helmet";
-import { Profession, Specialty, User, UserCourseProgress } from "data/types";
+import { User, UserCourseProgress } from "data/types";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
 import LoadingText from "components/Loader/Text";
 import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 import { AuthContext } from "context/user/AuthContext";
+import { DataContext } from "context/data/DataContext";
+import PageHead from "./PageHead";
 
 export interface PageDashboardProps {
   className?: string;
@@ -36,18 +38,26 @@ interface DashboardPage {
 
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   let { path, url } = useRouteMatch();
+  const history = useHistory();
+  const { state: dataState } = useContext(DataContext);
+  const { allCourses, allProductsMX } = dataState;
+  const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
-  const { dispatch } = useContext(AuthContext);
   const [courses, setCourses] = useState<UserCourseProgress[]>(
     [] as UserCourseProgress[]
   );
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    //setCourses(allProductsMX);
+    fetchUser();
+  }, [allProductsMX, state?.profile?.contact?.courses_progress]);
+
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   const subPages: DashboardPage[] = [
     {
       sPath: "/inicio",
@@ -72,33 +82,33 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     },
   ];
 
-  const history = useHistory();
   const fetchUser = async () => {
-    const allCourses = await api.getAllProductsMX();
+    setLoading(true);
+
     const res = await api.getUserData();
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);
-      dispatch({ type: "FRESH", payload: { user: { name: res.name, speciality: res.contact.speciality } } })
-      let coursesList = getUserCourses(res, allCourses);
+      dispatch({
+        type: "FRESH",
+        payload: {
+          user: { name: res.name, speciality: res.contact.speciality },
+        },
+      });
+      let coursesList = getUserCourses(res, allProductsMX);
       setCourses(coursesList);
       setLoading(false);
     } else {
-      console.log(res.response.status);
       history.push("/iniciar-sesion");
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    fetchUser();
-  }, []);
-
   return (
-    <div className={`nc-PageDashboard animate-fade-down ${className}`} data-nc-id="PageDashboard">
-      <Helmet>
-        <title>Mi cuenta</title>
-      </Helmet>
+    <div
+      className={`nc-PageDashboard animate-fade-down ${className}`}
+      data-nc-id="PageDashboard"
+    >
+      <PageHead title="Mi cuenta" />
       <LayoutPage
         heading="Mi cuenta"
         subHeading="Aquí podrás controlar todo lo referido a tus capacitaciones y tu perfil personal"
@@ -112,14 +122,14 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 return (
                   <li key={index}>
                     <NavLink
-                      className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+                      className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100 account-menu-item"
                       to={`${url}${sPath}`}
                       activeClassName="bg-red-400 dark:bg-neutral-800 text-neutral-100 dark:text-neutral-100 invert-image active-account-menu-item"
                     >
                       <img
-                        src={`/src/images/icons/${icon}.svg`}
+                        src={`/images/icons/${icon}.svg`}
                         width="16"
-                        className="mr-2"
+                        className="mr-2 menu-profile-icon"
                       />
                       {pageName}
                     </NavLink>
@@ -130,7 +140,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
                 <a href="https://ayuda.msklatam.com/" target="_blank">
                   <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                     <img
-                      src={`/src/images/icons/faq.svg`}
+                      src={`/images/icons/faq.svg`}
                       width="16"
                       className="mr-2"
                     />
@@ -141,7 +151,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
               <li className="cursor-pointer" onClick={handleModalLogout}>
                 <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
                   <img
-                    src={`/src/images/icons/session.svg`}
+                    src={`/images/icons/session.svg`}
                     width="16"
                     className="mr-2"
                   />

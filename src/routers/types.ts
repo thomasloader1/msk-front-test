@@ -4,11 +4,14 @@ export interface LocationStates {
   "/"?: {};
   "/home"?: {};
   "/contacto"?: {};
+  "/newsletter"?: {};
   "/blog"?: {};
   "/blog/:slug"?: {};
   "/archivo"?: {};
   "/nota"?: {};
   "/nota/:slug"?: {};
+  "/trial/:slug"?: {};
+  "/suscribe/:slug"?: {};
   "/mision"?: {};
   "/#/custom-home"?: {};
   "/#"?: {};

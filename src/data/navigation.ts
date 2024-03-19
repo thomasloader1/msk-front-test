@@ -453,7 +453,7 @@ const resourcesMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Guías profesionales",
-    search: "?recurso=2",
+    search: "?recurso=guias-profesionales",
   },
   {
     id: ncNanoId(),
@@ -515,13 +515,32 @@ export const NAVIGATION_MSK: NavItemType[] = [
 ];
 
 const categoriesMenuBlog: NavItemType[] = [
-  {
+  /* {
     id: ncNanoId(),
     href: "/archivo",
     name: "Actualidad",
     search: "?categoria=Actualidad",
+  }, */
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Medicina",
+    search: "?categoria=medicina",
   },
   {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Enfermería",
+    search: "?categoria=enfermeria",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "E-Learning",
+    search: "?categoria=e-learning",
+  },
+
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Entrevistas",
@@ -532,7 +551,7 @@ const categoriesMenuBlog: NavItemType[] = [
     href: "/archivo",
     name: "Opinión",
     search: "?categoria=Opinión",
-  },
+  }, */
 ];
 
 const resourcesMenuBlog: NavItemType[] = [
@@ -545,7 +564,7 @@ const resourcesMenuBlog: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Guías profesionales",
-    search: "?recurso=2",
+    search: "?recurso=guias-profesionales",
   },
   /* {
     id: ncNanoId(),
@@ -577,13 +596,32 @@ export const NAVIGATION_BLOG_MSK: NavItemType[] = [
 ];
 
 const categoriesMenuArchive: NavItemType[] = [
-  {
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Actualidad",
     search: "?categoria=Actualidad",
+  }, */
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Medicina",
+    search: "?categoria=medicina",
   },
   {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "Enfermería",
+    search: "?categoria=enfermeria",
+  },
+  {
+    id: ncNanoId(),
+    href: "/archivo",
+    name: "E-Learning",
+    search: "?categoria=e-learning",
+  },
+
+  /*  {
     id: ncNanoId(),
     href: "/archivo",
     name: "Entrevistas",
@@ -594,7 +632,7 @@ const categoriesMenuArchive: NavItemType[] = [
     href: "/archivo",
     name: "Opinión",
     search: "?categoria=Opinión",
-  },
+  }, */
 ];
 
 export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
@@ -617,9 +655,12 @@ export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
 export const NAVIGATION_USER: NavItemType[] = [
   {
     id: ncNanoId(),
+    href: "/mi-perfil",
+    name: "Perfil",
+  },
+  {
+    id: ncNanoId(),
     href: "/mi-cuenta",
-    name: "Mi Cuenta",
-    type: "dropdown",
-    children: accountMenu,
+    name: "Configurar mi Cuenta",
   },
 ];

@@ -1,8 +1,5 @@
 import api from "Services/api";
-import axios from "axios";
-import { API_BACKEND_URL } from "data/api";
-import { ContactUs, Newsletter, Specialty } from "data/types";
-
+import { Newsletter, Profession, Specialty } from "data/types";
 import React, {
   FC,
   useContext,
@@ -13,7 +10,6 @@ import React, {
 } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { UTMAction } from "context/utm/UTMContext";
 import * as Yup from "yup";
 import {
   ErrorMessage,
@@ -25,6 +21,7 @@ import {
 } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { CountryContext } from "context/country/CountryContext";
+import { DataContext } from "context/data/DataContext";
 
 interface Props {
   email: string;
@@ -50,15 +47,24 @@ const validationSchema = Yup.object().shape({
 });
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
+  const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
 
-  const [professions, setProfessions] = useState([]);
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
+
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
   const [selectedOptionProfession, setSelectedOptionProfession] = useState("");
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [onRequest, setOnRequest] = useState(false);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
@@ -66,21 +72,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const { state } = useContext(CountryContext);
 
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    axios
-      .get(`${API_BACKEND_URL}/specialities`)
-      .then((response) => {
-        setSpecialties(response.data.specialities);
-        setSpecialtiesGroup(response.data.specialities_group);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const fetchNewsletterSpecialties = async () => {
     const newsletterSpecialtyList = await api.getNewsletterSpecialties();
     setNewsletterSpecialties(newsletterSpecialtyList);
@@ -119,8 +110,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   };
 
   useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
     fetchNewsletterSpecialties();
   }, []);
 
@@ -128,11 +117,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
 
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
-  };
-
-  const clearUTMAction: UTMAction = {
-    type: "CLEAR_UTM",
-    payload: {} as any,
   };
 
   const formRef = useRef<HTMLFormElement>(null!);
@@ -158,12 +142,15 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
     utm_content: utmState.utm_content,
+    URL_ORIGEN: window.location.href,
   };
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       if (executeRecaptcha) {
+      setOnRequest(true)
+
         const body = {
           ...values,
           recaptcha_token: await executeRecaptcha("newsletter"),
@@ -175,7 +162,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           if (response.status === 200) {
             setShow(false);
             resetForm();
-            dispatchUTM(clearUTMAction);
             setTimeout(() => {
               changeRoute("/gracias?origen=newsletter");
             }, 100);
@@ -186,6 +172,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           }
         } catch (error) {
           console.error("Error al ejecutar reCAPTCHA:", error);
+        }finally{
+          setOnRequest(false)
         }
       }
     },
@@ -199,6 +187,12 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         autoComplete="off"
         ref={formRef}
       >
+        <input
+          type="hidden"
+          name="URL_ORIGEN"
+          id="URL_ORIGEN"
+          value={window.location.href}
+        />
         <input type="hidden" name="country" value={state?.country} />
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
           <div className="">
@@ -257,8 +251,8 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                 <option defaultValue="" value="">
                   Seleccionar profesión
                 </option>
-                {professions
-                  ? professions.map((p: { id: string; name: string }) => (
+                {professions && professions.length
+                  ? professions.map((p: Profession) => (
                       <option key={p.id} value={`${p.name}/${p.id}`}>
                         {p.name}
                       </option>
@@ -335,7 +329,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                             {s.name}
                           </option>
                         ))
-                      : specialties.map((s: { id: string; name: string }) => (
+                      : specialties?.map((s: { id: string; name: string }) => (
                           <option key={`sp_${s.id}`} defaultValue={s.name}>
                             {s.name}
                           </option>
@@ -445,14 +439,14 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               type="submit"
               id="submit-newsletter"
               className="cont-btn rounded flex center"
-              disabled={!formik.values.Terms_And_Conditions2}
+              disabled={!formik.values.Terms_And_Conditions2 || onRequest}
             >
               <div className="flex center gap-2 px-2 text-sm my-auto">
-                Suscribirme
-                <img
-                  src="/src/images/icons/plane.svg"
-                  className="subscribe-icon"
-                />
+                {onRequest ? <>Enviando...</> : <>
+                  Suscribirme
+                <img src="/images/icons/plane.svg" className="subscribe-icon" />
+                </>}
+                
               </div>
             </button>
           </div>

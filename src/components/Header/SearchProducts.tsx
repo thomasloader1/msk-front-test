@@ -1,12 +1,10 @@
-import { Popover, Transition } from "@headlessui/react";
-import api from "Services/api";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import Input from "components/Input/Input";
 import { CountryContext } from "context/country/CountryContext";
-import { API_URL } from "data/api";
 import { FetchCourseType } from "data/types";
-import React, { Fragment, useContext, useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import searchIcon from "/images/icons/search.svg";
+import { DataContext } from "context/data/DataContext";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -15,7 +13,9 @@ const SearchProducts = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { state } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const history = useHistory(); // React Router's history object
+  const { state: dataState, loadingCourses } = useContext(DataContext);
+  const { allCourses, allPosts } = dataState;
+
   const removeAccents = (str: string) => {
     return str
       .normalize("NFD")
@@ -32,24 +32,11 @@ const SearchProducts = () => {
           removeAccents(value.toLowerCase())
         )
       );
+      //console.log({filteredProducts, products, value})
       setProducts(filteredProducts);
     } else {
       setProducts(auxProducts);
     }
-  };
-
-  const fetchBlogPosts = async () => {
-    const postsList = await api.getPosts(state?.country);
-    setAuxProducts([...postsList]);
-    setProducts(postsList);
-    setIsOnBlog(true);
-  };
-
-  const fetchProducts = async () => {
-    const productList = await api.getAllCourses();
-    setAuxProducts([...productList]);
-    setProducts(productList);
-    setIsOnBlog(false);
   };
 
   const onBlur = () => {
@@ -64,24 +51,32 @@ const SearchProducts = () => {
   const location = useLocation();
   useEffect(() => {
     if (location.pathname.includes("/blog")) {
-      fetchBlogPosts();
+      const filterGuia = allCourses.filter((course: any) => course.father_post_type.includes("downloadable"))
+      setAuxProducts([...allPosts, ...filterGuia]);
+      setProducts(allPosts);
+      setIsOnBlog(true);
     } else {
-      fetchProducts();
+      setAuxProducts([...allCourses]);
+      setProducts(allCourses);
+      setIsOnBlog(false);
     }
-  }, [location.pathname]);
+  }, [location.pathname, allCourses, allPosts]);
 
   return (
     <div className="search-products">
-      <Input
-        type="search"
-        placeholder="Buscar"
-        className="pr-10 w-full"
-        sizeClass="h-[42px] pl-4 py-3"
-        value={inputValue}
-        onChange={triggerSearch}
-        onFocus={() => setIsInputFocused(true)}
-        onBlur={() => onBlur()}
-      />
+      <div className="relative">
+        <Input
+          type="search"
+          placeholder="Buscar"
+          className="pr-10 w-full"
+          sizeClass="h-[42px] pl-4 py-3"
+          value={inputValue}
+          onChange={triggerSearch}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => onBlur()}
+        />
+        <img src={searchIcon} className="absolute top-2 right-2" />
+      </div>
       {inputValue && isInputFocused && (
         <div className="search-products-results">
           {products

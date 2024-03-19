@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import doctors_1 from "images/vectors/doctors_1.png";
+import doctors_1 from "/images/vectors/doctors_1.png";
 import NcImage from "components/NcImage/NcImage";
 import Badge from "components/Badge/Badge";
 import Input from "components/Input/Input";
@@ -24,33 +24,35 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
       className={`nc-Newsletter relative flex flex-col lg:flex-row items-center ${className}`}
       data-nc-id="Newsletter"
     >
-      <div className="flex-shrink-0 mb-14 lg:mb-0 lg:mr-10 lg:w-2/5">
-        <h2 className="font-semibold text-4xl">Disfruta nuestros contenidos</h2>
+      <div className="flex-shrink-0 mb-2 lg:mb-0 lg:mr-10 lg:w-2/5">
+        <h2 className="font-semibold text-[28px] sm:text-4xl">
+          Disfruta nuestros contenidos
+        </h2>
         <span className="block mt-6 text-neutral-500 dark:text-neutral-400">
           Suscríbete al newsletter y accede con anticipación a materiales
           académicos 100% sin costo.
         </span>
-        <ul className="space-y-5 mt-10">
-          <li className="flex items-center space-x-4">
+        <ul className="space-y-2 mt-6">
+          <li className="flex items-center space-x-2">
             <Badge color="indigo" name="01" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Guías profesionales
             </span>
           </li>
-          <li className="flex items-center space-x-4">
+          <li className="flex items-center space-x-2">
             <Badge color="indigo" name="02" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Webinars
             </span>
           </li>
-          <li className="flex items-center space-x-4">
+          <li className="flex items-center space-x-2">
             <Badge color="indigo" name="03" className="rounded-3xl" />
             <span className="font-medium text-neutral-700 dark:text-neutral-300">
               Podcasts
             </span>
           </li>
         </ul>
-        <form onSubmit={openModal} className="mt-10 relative max-w-sm">
+        <form onSubmit={openModal} className="mt-6 relative max-w-sm">
           <Input
             required
             aria-required
@@ -84,7 +86,7 @@ const Newsletter: FC<NewsletterProps> = ({ className = "" }) => {
         renderContent={() => (
           <FooterNewsletter email={email} setShow={setShow} />
         )}
-        modalTitle="Nuestro Newsletter"
+        modalTitle="Nuestro newsletter"
         modalSubtitle="Suscrí­bete para acceder a descuentos exclusivos, becas completas y contenido personalizado"
       />
     </div>

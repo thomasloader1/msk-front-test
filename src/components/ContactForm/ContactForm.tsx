@@ -7,14 +7,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-
 import "../../styles/scss/main.scss";
 import ContactSidebar from "./ContactSidebar";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-import { Profession, Specialty } from "data/types";
-import { API_BACKEND_URL } from "data/api";
-import axios from "axios";
+import { Newsletter, Profession, Specialty } from "data/types";
 import Radio from "components/Radio/Radio";
 import api from "../../Services/api";
 import { Link, useHistory } from "react-router-dom";
@@ -22,11 +19,10 @@ import { getName } from "country-list";
 import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { utmInitialState, utmReducer } from "context/utm/UTMReducer";
-import { UTMAction } from "context/utm/UTMContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { ContactFormSchema, useYupValidation } from "hooks/useYupValidation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { fetchPdfData } from "lib/fetchPDFData";
+import { DataContext } from "context/data/DataContext";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -39,6 +35,7 @@ interface ContactFormProps {
   isDownload?: boolean;
   updateFormSent?: (value: boolean, body: any) => void;
   submitReason?: string;
+  submitEndpoint?: string;
 }
 
 const ContactFormSection: FC<ContactFormProps> = ({
@@ -49,14 +46,17 @@ const ContactFormSection: FC<ContactFormProps> = ({
   hideSideInfo,
   hideContactPreference,
   submitText = isEbook ? "Descargar" : "Enviar",
+  submitEndpoint = "contact",
   isDownload,
   submitReason,
   updateFormSent,
 }) => {
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const { state } = useContext(CountryContext);
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
+  const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
   const [selectedOptionProfession, setSelectedOptionProfession] =
@@ -71,19 +71,23 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const [formSent, setFormSent] = useState(false);
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
+  const [onRequest, setOnRequest] = useState(false);
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  // Create an event handler so you can call the verification on button click event or form submit
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
+
   const handleReCaptchaVerify = useCallback(async () => {
     if (!executeRecaptcha) {
       console.log("Execute recaptcha not yet available");
       return;
     }
-
     const token = await executeRecaptcha("yourAction");
-    // Do whatever you want with the token
   }, [executeRecaptcha]);
 
   const initialValues: ContactFormSchema = {
@@ -105,11 +109,16 @@ const ContactFormSection: FC<ContactFormProps> = ({
     Terms_And_Conditions: false,
     year: "",
     career: "",
+    URL_ORIGEN: window.location.href,
+    leadSource: "",
+    Ebook_consultado: isEbook ? productName : null,
+    Cursos_consultados: isEbook ? null : productName,
   };
 
   const { contactFormValidation } = useYupValidation();
 
   const history = useHistory();
+  const resourcePDFName = history.location.pathname.split("/").pop();
   const changeRoute = (newRoute: string): void => {
     history.push(newRoute);
   };
@@ -172,46 +181,37 @@ const ContactFormSection: FC<ContactFormProps> = ({
   };
 
   useEffect(() => {
-    axios
-      .get(`${API_BACKEND_URL}/professions`)
-      .then((response) => {
-        setProfessions(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get(`${API_BACKEND_URL}/specialities`)
-      .then((response) => {
-        setSpecialties(response.data.specialities);
-        setSpecialtiesGroup(response.data.specialities_group);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     handleReCaptchaVerify();
   }, [handleReCaptchaVerify]);
-
-  const clearUTMAction: UTMAction = {
-    type: "CLEAR_UTM",
-    payload: {} as any,
-  };
 
   const formik = useFormik({
     initialValues,
     validationSchema: contactFormValidation,
     onSubmit: async (values) => {
+      setOnRequest(true);
       let leadSource = null;
+      let Ebook_consultado = null;
       if (submitReason) leadSource = submitReason;
+      if (isEbook) {
+        Ebook_consultado = productName;
+      }
       const body = {
         ...values,
         leadSource,
+        Ebook_consultado,
       };
       if (executeRecaptcha) {
         try {
           body.recaptcha_token = await executeRecaptcha("contact_form");
-          const response = await api.postContactUs(body);
+          let response;
+          switch (submitEndpoint) {
+            case "contact":
+              response = await api.postContactUs(body);
+              break;
+            case "newsletter":
+              response = await api.postNewsletter(body as Newsletter);
+              break;
+          }
           // @ts-ignore
           if (response.status === 200) {
             let routeChange = isEbook
@@ -220,7 +220,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
             setFormSent(true);
             resetForm();
-            dispatchUTM(clearUTMAction);
 
             if (isEbook && typeof resourceMedia === "string") {
               try {
@@ -253,7 +252,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   a.download = fileNameMatch[1];
                 } else {
                   // Si no se encontró el nombre del archivo en el encabezado, utiliza un nombre predeterminado
-                  a.download = "ebook.pdf";
+                  a.download = `${resourcePDFName}.pdf`;
                 }
 
                 // Simula un clic en el enlace para iniciar la descarga
@@ -292,6 +291,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
       } else {
         console.log("Execute recaptcha not yet available1");
       }
+      setOnRequest(false);
     },
   });
 
@@ -321,17 +321,38 @@ const ContactFormSection: FC<ContactFormProps> = ({
                   value={productName}
                 />
 
+                <input
+                  type="hidden"
+                  name="Ebook_consultado"
+                  id="Ebook_consultado"
+                  value={productName}
+                />
+
+                <input
+                  type="hidden"
+                  name="URL_ORIGEN"
+                  id="URL_ORIGEN"
+                  value={window.location.href}
+                />
+
+                <input
+                  type="hidden"
+                  name="leadSource"
+                  id="leadSource"
+                  value={isEbook ? "Descarga ebook" : ""}
+                />
+
                 {hideContactPreference ? null : (
                   <div className={`section-title mb-30`}>
                     {hideHeader ? null : (
-                      <h2
-                        className="font-medium "
+                      <h4
+                        className="font-medium text-violet-dark text-[36px] mb-1"
                         style={{ maxWidth: "800px" }}
                       >
                         {isEbook
                           ? "Completa el formulario para descargar automáticamente el material"
                           : "Contáctanos"}
-                      </h2>
+                      </h4>
                     )}
 
                     {!isEbook && (
@@ -392,7 +413,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="First_Name"
-                          placeholder="Nombre"
+                          placeholder="Ingresar nombre"
                         />
                       </div>
                     </div>
@@ -406,7 +427,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="text"
                           name="Last_Name"
-                          placeholder="Apellido"
+                          placeholder="Ingresar apellido"
                         />
                       </div>
                     </div>
@@ -420,7 +441,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         <Field
                           type="email"
                           name="Email"
-                          placeholder="Correo electrónico"
+                          placeholder="Ingresar e-mail"
                         />
                       </div>
                     </div>
@@ -469,7 +490,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <option defaultValue="" value="">
                             Seleccionar profesión
                           </option>
-                          {professions
+                          {professions && professions.length
                             ? professions.map((p) => (
                                 <option key={p.id} value={`${p.name}/${p.id}`}>
                                   {p.name}
@@ -538,7 +559,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       </div>
                     ) : (
                       <>
-                        <div className={`col-xl-6`}>
+                        <div className={`col-xl-6 col-span-2 sm:col-span-1`}>
                           <div className="contact-select">
                             <ErrorMessage
                               name="Especialidad"
@@ -563,7 +584,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                                       {s.name}
                                     </option>
                                   ))
-                                : specialties.map((s) => (
+                                : specialties?.map((s) => (
                                     <option
                                       key={`sp_${s.id}`}
                                       defaultValue={s.name}
@@ -594,7 +615,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
                       {!isEbook && (
                         <div className="col-xl-12 mt-4">
                           <div className="contact-from-input">
-                            <label htmlFor="Description">Mensaje</label>
                             <ErrorMessage
                               name="Description"
                               component="span"
@@ -610,7 +630,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                         </div>
                       )}
 
-                      <div className="flex flex-wrap gap-1 mt-2 mb-4">
+                      <div className="flex flex-wrap gap-1 mt-2 mb-4 justify-center sm:justify-start">
                         <div className="contact-checkbox">
                           <ErrorMessage
                             name="Terms_And_Conditions"
@@ -629,9 +649,9 @@ const ContactFormSection: FC<ContactFormProps> = ({
                               <Link
                                 to="/politica-de-privacidad"
                                 target="_blank"
-                                className="text-primary"
+                                className="text-primary underline"
                               >
-                                politicas de privacidad
+                                condiciones de privacidad
                               </Link>
                             </label>
                           </div>
@@ -643,9 +663,12 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={!formik.values.Terms_And_Conditions}
+                            disabled={
+                              !formik.values.Terms_And_Conditions ||
+                              !formik.isValid || onRequest
+                            }
                           >
-                            {submitText}
+                            {onRequest ? "Enviando ..." : submitText}
                           </button>
                         </div>
                       </div>

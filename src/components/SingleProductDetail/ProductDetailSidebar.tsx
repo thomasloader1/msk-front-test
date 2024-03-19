@@ -1,10 +1,13 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { Details, Ficha } from "data/types";
+import { SingleProduct } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
+import { useHistory, useParams } from "react-router-dom";
+import { AuthContext } from "context/user/AuthContext";
+import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
+import PricingDetail from "./PricingDetail";
 
 interface Props {
-  ficha: Ficha;
-  details: Details;
+ product: SingleProduct;
   isEbook?: boolean;
   sideData: {
     modalidad: string;
@@ -16,14 +19,22 @@ interface Props {
 }
 
 const ProductDetailSidebar: FC<Props> = ({
-  ficha,
-  details,
+  product,
   isEbook,
   sideData,
 }) => {
+
+  const history = useHistory();
+  const { ficha } = product;
+  const {slug}: {slug:string} = useParams();
+  const {state: authState} = useContext(AuthContext);
+  const {state: countryState} = useContext(CountryContext);
+  const isLocal =
+  countryState.country === "int" ||
+  countryState.country === "es" ;
+
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
-  const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
   const image = ficha.image;
@@ -45,7 +56,7 @@ const ProductDetailSidebar: FC<Props> = ({
       const distanceToBottom = calculateDistanceToBottom();
       const auxDistance = scrollPosition - distanceToBottom - 100;
       setBottomDistance(
-        distanceToBottom < (isEbook ? 1500 : 1065) ? auxDistance / 2 : 0
+        distanceToBottom < (isEbook ? 1500 : 1865) ? auxDistance / 2 : 0
       );
     };
 
@@ -79,6 +90,16 @@ const ProductDetailSidebar: FC<Props> = ({
     { description: "Acceso a newsletters", icon: "newsletter", size: "16" },
   ];
 
+  const requestTrial = (slug: string) => {
+    if(authState.isAuthenticated){
+      history.push(`/suscribe/${slug}`)
+      return
+    }
+    history.push(`/trial/${slug}`)
+  };
+
+  const {hasCoursedRequested,showAlreadyRequest} = useRequestedTrialCourse(product);
+
   return (
     <div className={`course-video-widget`}>
       <div
@@ -89,16 +110,12 @@ const ProductDetailSidebar: FC<Props> = ({
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
         {isFixed && !isEbook ? null : (
-          <div className="course-video-thumb w-img hidden lg:flex">
+          <div className="course-video-thumb mb-2 w-img hidden lg:flex">
             <img src={image} alt="img not found" />
           </div>
         )}
 
-        {isEbook ? null : (
-          <div className="course-video-price">
-            <span>💳 Pagos sin intereses</span>
-          </div>
-        )}
+        <PricingDetail isEbook={isEbook} product={product} />
 
         <div className="course-video-body">
           <ul>
@@ -109,7 +126,7 @@ const ProductDetailSidebar: FC<Props> = ({
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon">
                         <img
-                          src={`/src/images/icons/${item.icon}.svg`}
+                          src={`/images/icons/${item.icon}.svg`}
                           width={item.size}
                         />
                         <span>{item.description}</span>
@@ -125,8 +142,8 @@ const ProductDetailSidebar: FC<Props> = ({
                   return (
                     <li key={`data_${index}`}>
                       <div className="course-vide-icon w-full">
-                        <img src={`/src/images/icons/${key}.svg`} width="15" />
-                        <p className="w-full flex justify-between">
+                        <img src={`/images/icons/${key}.svg`} width="15" />
+                        <p className="text-[11px] sm:text-sm md:text-base w-full flex justify-between items-center text-dark-blue-custom">
                           <span>
                             {translations[key] ? translations[key] + ":" : ""}
                           </span>
@@ -137,9 +154,9 @@ const ProductDetailSidebar: FC<Props> = ({
                               "Español"
                             )
                           ) : (
-                            <span className="ml-auto">
+                            <div className="ml-auto text-left">
                               {sideData[key as keyof typeof sideData]}
-                            </span>
+                            </div>
                           )}
                         </p>
                       </div>
@@ -150,13 +167,22 @@ const ProductDetailSidebar: FC<Props> = ({
             )}
           </ul>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <button
             onClick={scrollToContactForm}
-            className="video-cart-btn w-full"
+            className="video-cart-btn w-full "
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
+          {!isEbook && !isLocal && (
+            <button
+              onClick={() => requestTrial(slug)}
+              className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"
+              disabled={hasCoursedRequested}
+            >
+             {hasCoursedRequested ? "Prueba ya solicitada" : "Prueba 7 días gratis"}
+            </button>
+          )}
         </div>
       </div>
     </div>

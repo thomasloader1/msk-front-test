@@ -3,6 +3,7 @@ import NcImage from "components/NcImage/NcImage";
 import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import { FetchPostType } from "data/types";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card18Props {
   className?: string;
@@ -34,6 +35,7 @@ const Card18: FC<Card18Props> = ({
       </div>
     );
   };
+  const categoriesOrder = kind === 'blog' ? categories.sort(compareByNameDescending) : categories
 
   return (
     <div
@@ -68,7 +70,10 @@ const Card18: FC<Card18Props> = ({
         <Link to={`/${kind}/${slug}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
-            <CategoryBadgeList categories={categories} />
+            <CategoryBadgeList
+              categories={categoriesOrder}
+              isPost={kind === "blog"}
+            />
           </div>
         )}
         {renderMeta()}

@@ -238,10 +238,47 @@
 
 .signout-modal {
   max-width: 440px;
-  width: 100%;
+  width: calc(100% - 30px);
   padding-top: 30px;
   padding-bottom: 30px;
 }
 .logout-button {
   width: 180px;
+}
+
+.text-dark-blue-custom {
+  color: #374161;
+}
+
+.account-menu-item:hover {
+  .menu-profile-icon {
+    filter: grayscale(1);
+  }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  &::after {
+    display: none;
+  }
+}
+
+.header-see-more-btn {
+  margin-left: auto;
+  @media (max-width: 375px) {
+    margin-left: 0;
+  }
+}
+
+.nav-mobile-sub-menu a {
+  color: #ababab;
+  font-size: 16px;
+}
+
+.mobile-nav-container {
+  overflow-y: auto;
+  max-height: calc(100vh - 360px);
 }

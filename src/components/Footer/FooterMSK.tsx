@@ -9,7 +9,8 @@ const FooterEduman = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const {state} = useContext(CountryContext);
+  const { state } = useContext(CountryContext);
+ 
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -36,7 +37,7 @@ const FooterEduman = () => {
       <div className="footer-area">
         <div className={bts.container}>
           {isOnBlog ? null : (
-            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1">
+            <div className="copyright-area grid grid-cols-1 md:grid-cols-6 items-center sm:gap-1 mb-6">
               <div className="footer-column col-span-6 md:mx-auto text-center md:text-left lg:col-span-1">
                 <div className="copyright-text">
                   <p>Nuestro newsletter</p>
@@ -44,7 +45,7 @@ const FooterEduman = () => {
               </div>
               <div className="footer-column col-span-6 mx-auto lg:col-span-2">
                 <div className="divisor" />
-                <p className="discounts md:mx-auto text-center md:text-left">
+                <p className="discounts md:mx-auto text-center md:text-left text-[16px] sm:text-[18px] leading-5 sm:leading-6">
                   Descuentos exclusivos y becas completas solo con tu
                   suscripción
                 </p>
@@ -66,9 +67,9 @@ const FooterEduman = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
-                    <button type="submit">
+                    <button type="submit" disabled={show} className="disabled:bg-grey-disabled">
                       Suscribirme
-                      <img src="/src/images/icons/plane.svg" />
+                      <img src="/images/icons/plane.svg" />
                     </button>
                   </form>
                 </div>
@@ -82,7 +83,7 @@ const FooterEduman = () => {
                   <div className="footer-img grid-cols-1 align-center content-center">
                     <Link to="/">
                       <img
-                        src="/src/images/msk-logo-light.svg"
+                        src="/images/msk-logo-light.svg"
                         alt="footer-logo"
                         width="150"
                       />
@@ -99,35 +100,35 @@ const FooterEduman = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/fb.svg" />
+                      <img src="/images/icons/fb.svg" />
                     </a>
                     <a
                       href="https://www.instagram.com/msk.latam"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/ig.svg" />
+                      <img src="/images/icons/ig.svg" />
                     </a>
                     <a
                       href="https://www.youtube.com/@msk.online.learning"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/yt.svg" className="pt-0.5" />
+                      <img src="/images/icons/yt.svg" className="pt-0.5" />
                     </a>
                     <a
                       href="https://www.linkedin.com/company/msk-online-learning/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img src="/src/images/icons/in.svg" />
+                      <img src="/images/icons/in.svg" />
                     </a>
                   </div>
                 </div>
               </div>
               <div className={`grid grid-cols-2 col-span-2`}>
                 <div className={`col-span-1`}>
-                  <div className="footer-widget f-w3 mt-24">
+                  <div className="footer-widget f-w3 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
                         <Link to="/mision">Nuestra misión</Link>
@@ -145,15 +146,17 @@ const FooterEduman = () => {
                       </li>
 
                       {state.country.includes("ec") && (
-                         <li>
-                         <Link to="/cancelar-suscripcion">Arrepentimiento de compra</Link>
-                       </li>
+                        <li>
+                          <Link to="/cancelar-suscripcion">
+                            Arrepentimiento de compra
+                          </Link>
+                        </li>
                       )}
                     </ul>
                   </div>
                 </div>
                 <div className={`col-span-1`}>
-                  <div className="footer-widget f-w4 mt-24">
+                  <div className="footer-widget f-w4 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
                         <Link to="/contacto">Contacto</Link>

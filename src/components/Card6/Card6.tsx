@@ -13,6 +13,7 @@ import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLi
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card6Props {
   className?: string;
@@ -30,6 +31,9 @@ const Card6: FC<Card6Props> = ({
   badgeColor,
 }) => {
   const { title, slug, image, categories, link, author, date } = post;
+  const categoriesOrder = kind === 'blog' && categories
+
+  console.log(categories)
 
   return (
     <div
@@ -39,7 +43,13 @@ const Card6: FC<Card6Props> = ({
       <Link to={`/${kind}/${slug}`} className="absolute inset-0 z-0"></Link>
       <div className="flex flex-col flex-grow">
         <div className="space-y-3 mb-4">
-          <CategoryBadgeList categories={categories} color={badgeColor} />
+          <CategoryBadgeList
+            categories={categories}
+            color={badgeColor}
+            isCourse={kind === "curso"}
+            isPost={kind === "blog"}
+            isEbook={kind === "guia"}
+          />
           <h2 className={`block font-semibold text-base`}>
             <Link
               to={`/${kind}/${slug}`}
@@ -68,7 +78,7 @@ const Card6: FC<Card6Props> = ({
       </div>
 
       <Link
-        to={link}
+        to={`/${kind}/${slug}`}
         className={`block relative flex-shrink-0 w-full sm:w-40 h-40 sm:h-full sm:ml-5 rounded-2xl overflow-hidden mb-5 sm:mb-0 `}
       >
         <NcImage

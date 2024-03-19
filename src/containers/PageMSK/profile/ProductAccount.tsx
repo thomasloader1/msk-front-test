@@ -1,21 +1,16 @@
 import { FC, useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { User, UserCourseProgress } from "data/types";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "components/Badge/Badge";
-import activeIcon from "../../../images/icons/activo.svg";
-import inactiveIcon from "../../../images/icons/inactivo.svg";
-import expiredIcon from "../../../images/icons/expirado.svg";
-import {
-  goToLMS,
-  productFinishOrActive,
-  productStatusIsExpired,
-  statusCourse,
-} from "logic/account";
+import { goToEnroll, goToLMS, statusCourse } from "logic/account";
 import CentroAyudaLink from "components/CentroAyudaLink/CentroAyudaLink";
 import { CountryContext } from "context/country/CountryContext";
-import calendarIcon from "../../../images/icons/calendar.svg";
-import { formatDate } from "lib/formatDate";
+import ProductAccountButton from "./ProductAccountButton";
+import InfoText from "components/InfoText/InfoText";
+import { STATUS } from "data/statusCourses";
+import useInterval from "hooks/useInterval";
+import DateProductExpiration from "components/Account/DateProductExpiration";
+import { AuthContext } from "context/user/AuthContext";
 
 interface Props {
   product: UserCourseProgress;
@@ -31,36 +26,50 @@ const ProductAccount: FC<Props> = ({
   className,
   hoverEffect = false,
 }) => {
-  const statusProduct = statusCourse(product.status)
-
-  const activeProductRef = useRef(product.status !== 'Inactivo' && product.status !== 'Expirado');
-  const productExpiration = useRef(new Date(product.expiration));
-  const [onRequest, setOnRequest] = useState<boolean>(false);
-  const { state } = useContext(CountryContext);
-
-  const imageURL = product.thumbnail.high.replace(
-    `${"mx" || state.country}.`,
-    ""
+  const { isDisabled } = statusCourse(product?.status);
+  const { isRunning, startWatch } = useInterval(user.email);
+  const activeProductRef = useRef(
+    product?.status !== "Inactivo" && product?.status !== "Expirado" && product?.status !== STATUS.SUSPEND
   );
 
-  const handleClick = async () => {
-    if (activeProductRef.current) {
-      setOnRequest(true);
+  const showHelp = product.ov === "Baja" || product.ov === STATUS.SUSPEND || (isDisabled && !product.status?.includes(STATUS.TO_ENROLL));
+  const showTip = product.status?.includes(STATUS.TO_ENROLL);
 
+  const productExpiration = useRef(new Date(product.expiration));
+  const productExpirationEnroll = useRef(new Date(product.limit_enroll));
+  const [onRequest, setOnRequest] = useState<boolean>(false);
+  const { state } = useContext(CountryContext);
+  const { state:authState } = useContext(AuthContext);
+
+  const imageURL = product.thumbnail.high?.replace(`${"mx" || state.country}.`,"");
+
+  const handleClick = async () => {
+    if ((product.ov !== "Baja" && product.ov !== 'Trial suspendido') && activeProductRef.current) {
+      setOnRequest(true);
       try {
-        await goToLMS(
-          product.product_code,
-          product.product_code_cedente,
-          user.email
-        );
-      } catch (e: any) {
-        console.log(e);
-      } finally {
-        setOnRequest(false);
+        if (product.status === "Sin enrolar") {
+          const response = await goToEnroll(product.product_code, user.email);
+
+          if (response.data[0].code.includes("SUCCESS")) {
+            const watching = await startWatch(product.product_code);
+            console.log(!!watching, { watching });
+            setOnRequest(!!watching);
+          } else {
+            setOnRequest(false);
+          }
+        } else {
+          goToLMS(
+            product.product_code,
+            product.product_code_cedente as string,
+            user.email
+          );
+          setOnRequest(false);
+        }
+      } catch (e) {
+        console.error(e);
       }
     }
   };
-
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
@@ -81,7 +90,6 @@ const ProductAccount: FC<Props> = ({
               <a onClick={handleClick}>
                 <h3>{product.title}</h3>
               </a>
-
               <div className="course-action">
                 <a onClick={handleClick} className="view-details-btn">
                   Ver más
@@ -97,73 +105,72 @@ const ProductAccount: FC<Props> = ({
           </div>
         </div>
       ) : null}
+
       <div className="portfolio-course-2-content">
         <div className="portfolio-course-wrapper">
-          <div className="flex gap-2">
-            {product.duration ? null : (
+          <div>
+            <div className="flex gap-2 flex-wrap">
+              {product.duration ? null : (
+                <>
+                  <Badge
+                    icon="elearning"
+                    color="emerald-post"
+                    name="Guía profesional"
+                    textSize="text-[11px]"
+                  />
+                </>
+              )}
+              <CategoryBadgeList
+                categories={product.categories}
+                color="yellow"
+                isCourse={true}
+                textSize="text-[11px]"
+              />
+            </div>
+            <div className="portfolio-course-2 line-clamp-3">
+              <a onClick={handleClick} className="">
+                <h3 className="font-bold text-sm">{product.title}</h3>
+              </a>
+            </div>
+          </div>
+          <div>
+            {(product.ov !== "Baja" && product.ov !== 'Trial suspendido') && (
               <>
-                <Badge
-                  icon="elearning"
-                  color="emerald-post"
-                  name="Guía profesional"
-                  textSize="text-xs"
-                />
+                {product.expiration ? (
+                  <DateProductExpiration
+                    date={productExpiration.current}
+                    text="Fecha de expiración"
+                    user={authState.profile}
+                    product={product}
+                  />
+                ) : (
+                  <DateProductExpiration
+                    date={productExpirationEnroll.current}
+                    text="Fecha límite de activación"
+                    user={authState.profile}
+                    product={product}
+                  />
+                )}
               </>
             )}
-            <CategoryBadgeList
-              categories={product.categories}
-              color="yellow"
-              isCourse={true}
-            />
+            {showHelp && <CentroAyudaLink addClassNames="my-2" />}
+            {showTip && (
+              <InfoText
+                addClassNames="mt-2"
+                text="¿No ves resultados? Intenta refrescar la pantalla."
+              />
+            )}
           </div>
-
-          <div className="portfolio-course-2 line-clamp-3">
-            <a onClick={handleClick} className="">
-              <h3 className="font-bold text-sm">{product.title}</h3>
-            </a>
-          </div>
-          {/* {product?.lista_de_cedentes && (
-            <p className="text-sm">
-              {product?.lista_de_cedentes[0].post_title}
-            </p>
-          )} */}
-          <div className="flex items-center mt-2 ">
-            <img src={calendarIcon} alt="Calendar Icon" className="mr-2" />
-            <span className="text-violet-wash text-sm">
-              Fecha de expiración: {formatDate(productExpiration.current)}
-            </span>
-          </div>
-          {statusProduct && (
-            <CentroAyudaLink addClassNames="my-2" />
-          )}
         </div>
       </div>
-      <div className="course-2-footer text-grey-course">
-        {productFinishOrActive(product.status) ? (
-          <div className="coursee-clock">
-            <img src={activeIcon} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        ) : productStatusIsExpired(product.status) ? (
-          <div className="coursee-clock">
-            <img src={inactiveIcon} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        ) : (
-          <div className="coursee-clock">
-            <img src={expiredIcon} alt={product.status} />
-            <span className="ml-2">{product.status}</span>
-          </div>
-        )}
-
-        <button
-          className="course-network text-primary font-bold disabled:cursor-not-allowed disabled:opacity-70"
+      {product ? (
+        <ProductAccountButton
+          product={product}
+          onRequest={onRequest}
+          isRunning={isRunning}
           onClick={handleClick}
-          disabled={statusProduct || onRequest}
-        >
-          {onRequest ? "Ingresando ..." : "Ir al curso"}
-        </button>
-      </div>
+        />
+      ) : null}
     </div>
   );
 };

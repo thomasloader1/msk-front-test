@@ -3,6 +3,7 @@ import NcImage from "components/NcImage/NcImage";
 import { FetchPostType } from "data/types";
 import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card19Props {
   className?: string;
@@ -12,6 +13,7 @@ export interface Card19Props {
   hoverClass?: string;
   showCategories?: boolean;
   kind?: string;
+  badgeColor?: string;
 }
 
 const Card19: FC<Card19Props> = ({
@@ -22,6 +24,7 @@ const Card19: FC<Card19Props> = ({
   post,
   hoverClass = "",
   showCategories = true,
+  badgeColor,
 }) => {
   const { slug, title, image, categories, link } = post;
 
@@ -34,6 +37,9 @@ const Card19: FC<Card19Props> = ({
       </div>
     );
   };
+
+  const categoriesOrder =
+    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
 
   return (
     <div
@@ -68,7 +74,11 @@ const Card19: FC<Card19Props> = ({
         <Link to={`/${kind}/${slug}`} className="absolute inset-0"></Link>
         {showCategories && (
           <div className="mb-3">
-            <CategoryBadgeList categories={categories} />
+            <CategoryBadgeList
+              categories={categoriesOrder}
+              color={badgeColor}
+              isPost={kind === "blog"}
+            />
           </div>
         )}
         {renderMeta()}

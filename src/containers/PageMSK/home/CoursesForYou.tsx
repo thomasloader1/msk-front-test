@@ -95,6 +95,7 @@ const CoursesForYou: FC<Props> = ({
               <Card8
                 className="sm:col-span-2 rounded-3xl"
                 post={localCourses[0]}
+                kind="curso"
               />
             )}
             {localCourses
@@ -105,6 +106,7 @@ const CoursesForYou: FC<Props> = ({
                   post={item}
                   badgeColor="yellow"
                   showDescription
+                  kind="curso"
                 />
               ))}
             {localCourses
@@ -115,6 +117,7 @@ const CoursesForYou: FC<Props> = ({
                   post={item}
                   badgeColor="yellow"
                   showDescription
+                  kind="curso"
                 />
               ))}
             {localCourses && localCourses[5] && (
@@ -122,6 +125,7 @@ const CoursesForYou: FC<Props> = ({
                 className="sm:col-span-2 rounded-3xl"
                 badgeColor="yellow"
                 post={localCourses[5]}
+                kind="curso"
               />
             )}
           </div>

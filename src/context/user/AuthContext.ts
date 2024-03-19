@@ -8,10 +8,13 @@ export const AuthContext = createContext<{
   state: {
     isAuthenticated: false,
     user: null,
+    profile: null,
     token: null,
     email: null,
+    entity_id_crm: null,
     expires_at: null,
     bypassRedirect: null,
+    onRequest: null
   },
   dispatch: () => {},
 });

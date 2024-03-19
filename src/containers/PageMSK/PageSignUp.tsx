@@ -1,7 +1,6 @@
 import React, { FC, useContext, useReducer, useRef, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
@@ -14,13 +13,17 @@ import { CountryContext } from "context/country/CountryContext";
 import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import PageHead from "./PageHead";
+import NcImage from "components/NcImage/NcImage";
+import errorIcon from "/images/icons/error-icon.svg";
+import ShowErrorMessage from "components/ShowErrorMessage";
 export interface PageSignUpProps {
   className?: string;
 }
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
-    const { executeRecaptcha } = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
@@ -32,6 +35,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
   const [studentInputs, setStudentInputs] = useState(false);
+  const [onRequest, setOnRequest] = useState<boolean>(false);
   const [selectedCareer, setSelectedCareer] = useState("");
   const history = useHistory();
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
@@ -149,39 +153,42 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-        if (executeRecaptcha) {
-            const formData = {
-                ...values,
-                name: `${values.first_name} ${values.last_name}`,
-                recaptcha_token: await executeRecaptcha('signup_form'),
-                country: fullCountry(selectedCountry),
-                utm_source: utmState.utm_source,
-                utm_medium: utmState.utm_medium,
-                utm_campaign: utmState.utm_campaign,
-                utm_content: utmState.utm_content,
-            };
-            try {
-                const res = await api.postSignUp(formData);
-                if (res.status !== 200) {
-                    setSuccess(false);
-                    const errorMessages = Object.values(res.response.data.errors)
-                        .map((errorMessage) => `- ${errorMessage}`)
-                        .join("<br />");
-                    setError(
-                        `Ocurrió un error. Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
-                    );
-                } else {
-                    setError("");
-                    setSuccess(true);
-                    setTimeout(() => {
-                        history.push("/correo-enviado");
-                    }, 1500);
-                }
-            } catch (error) {
-                console.error("Error al ejecutar reCAPTCHA:", error);
-            }
-        }
+      if (executeRecaptcha) {
+        setOnRequest(true);
+        const formData = {
+          ...values,
+          name: `${values.first_name} ${values.last_name}`,
+          recaptcha_token: await executeRecaptcha("signup_form"),
+          country: fullCountry(selectedCountry),
+          utm_source: utmState.utm_source,
+          utm_medium: utmState.utm_medium,
+          utm_campaign: utmState.utm_campaign,
+          utm_content: utmState.utm_content,
+        };
 
+        try {
+          const res = await api.postSignUp(formData);
+          if (res.status !== 200) {
+            setSuccess(false);
+            const errorMessages = Object.values(res.data.errors)
+              .map((errorMessage) => `- ${errorMessage}`)
+              .join("<br />");
+            setError(
+              `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
+            );
+          } else {
+            setError("");
+            setSuccess(true);
+            setTimeout(() => {
+              history.push("/correo-enviado");
+            }, 1500);
+          }
+        } catch (error) {
+          console.error("Error al ejecutar reCAPTCHA:", error);
+        } finally {
+          setOnRequest(false);
+        }
+      }
     },
   });
 
@@ -190,9 +197,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       className={`nc-PageSignUp ${className} animate-fade-down`}
       data-nc-id="PageSignUp"
     >
-      <Helmet>
-        <title>MSK | Crear cuenta</title>
-      </Helmet>
+      <PageHead title="Crear cuenta" />
       <LayoutPage
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
         heading="Crear cuenta"
@@ -426,9 +431,13 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                     />
                     <label>
                       Acepto las{" "}
-                      <Link to='/politica-de-privacidad' target="_blank" className="text-primary">
-                      politicas de privacidad
-                              </Link>
+                      <Link
+                        to="/politica-de-privacidad"
+                        target="_blank"
+                        className="text-primary"
+                      >
+                        politicas de privacidad
+                      </Link>
                     </label>
                   </div>
                 </div>
@@ -438,16 +447,11 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 <ButtonPrimary
                   type="submit"
                   className="w-full"
-                  disabled={!formik.values.Terms_And_Conditions}
+                  disabled={!formik.values.Terms_And_Conditions || onRequest}
                 >
-                  Crear
+                  {onRequest ? "Creando..." : "Crear"}
                 </ButtonPrimary>
-                {error && (
-                  <p
-                    className="text-red-500 text-center w-full"
-                    dangerouslySetInnerHTML={{ __html: error }}
-                  ></p>
-                )}
+                {error && <ShowErrorMessage text={error} />}
 
                 {success && (
                   <p className="text-green-500 text-center w-full">

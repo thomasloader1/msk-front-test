@@ -1,5 +1,4 @@
-import axios from "axios";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   ALL_PRODUCTS_MX,
   API_URL,
@@ -8,16 +7,20 @@ import {
   NOTE_SPECIALITIES,
   baseUrl,
 } from "data/api";
-import { ContactUs, SignUp, Newsletter } from "data/types";
+import { ContactUs, SignUp, Newsletter, ContactCRM, AuthState } from "data/types";
 import { Login } from "data/types";
 import countryStates from "data/jsons/__countryStates.json";
 import { BodyNewPassword } from "containers/PageMSK/PageNewPassword";
 import { ContactFormSchema } from "hooks/useYupValidation";
-import { useContext } from "react";
-import { CountryContext } from "context/country/CountryContext";
+import { countries } from "data/countries";
 
 const { PROD, VITE_MSK_WP_API } = import.meta.env;
-const COUNTRY = localStorage.getItem("country") || "mx";
+let validCountries = countries.map((item) => item.id);
+const LSCountry = localStorage.getItem("country");
+let COUNTRY = "int";
+if (LSCountry) {
+  COUNTRY = LSCountry;
+}
 
 const WP_URL = VITE_MSK_WP_API;
 const apiSignUpURL = `${baseUrl}/api/signup`;
@@ -25,7 +28,12 @@ const apiSignInURL = `${baseUrl}/api/login`;
 const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
 const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
-
+const apiUpdateIdentificationUrl = `${baseUrl}/api//crm/contacts/updateIdentification`;
+const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
+const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
+const apiCheckEmailUser = `${baseUrl}/api/user`;
+const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
+const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 class ApiService {
   baseUrl = apiSignUpURL;
   token = localStorage.getItem("tokenLogin");
@@ -44,12 +52,11 @@ class ApiService {
     return response;
   }
 
-  async postSignUp(jsonData: SignUp) {
+  async postSignUp(jsonData: SignUp): Promise<AxiosResponse<any>> {
     try {
-      const { data } = await axios.post(apiSignUpURL, jsonData);
-      return data;
-    } catch (e) {
-      return e;
+      return await axios.post(apiSignUpURL, jsonData);
+    } catch (e: any) {
+      return e.response;
     }
   }
 
@@ -61,21 +68,27 @@ class ApiService {
     }
   }
 
-  async postRecover(jsonData: { email: string }): Promise<AxiosResponse<any>> {
+  async postRecover(jsonData: { email: string }) {
     try {
-      return await axios.post(apiRecoverURL, jsonData);
+      const response = await axios.post(apiRecoverURL, jsonData);
+      return response;
     } catch (error: any) {
-      return error;
+      //console.log(error);
+      return error.response.data.message || error.message;
     }
   }
 
-  async getEmailByIdZohoCRM(module: string, email: string) {
+  async getEmailByIdZohoCRM(
+    module: string,
+    email: string
+  ): Promise<any | ContactCRM> {
     try {
-      const { data } = await axios.get(
+      const res = await axios.get(
         `${baseUrl}/api/crm/GetByEmail/${module}/${email}`
       );
-      return data;
-    } catch (e) {
+
+      return res.data.data[0];
+    } catch (e: any) {
       return e;
     }
   }
@@ -124,11 +137,19 @@ class ApiService {
 
   async getAllCourses(state?: any, dispatch?: any) {
     const tag = new URLSearchParams(window.location.search).get("tag");
-    const countryParam = COUNTRY ? `&country=${COUNTRY}` : "";
+    let validCountries = countries.map((item) => item.id);
+    let siteEnv = window.location.hostname !== "msklatam.com";
+
+    const countryParam = validCountries.includes(COUNTRY)
+      ? `&country=${COUNTRY}`
+      : `&country=int`;
     const tagParam = tag ? `&tag=${tag}` : "";
+    const filterParam = siteEnv ? `&filter=all` : "";
 
     try {
-      const queryParams = [countryParam, tagParam].filter(Boolean).join("");
+      const queryParams = [countryParam, tagParam, filterParam]
+        .filter(Boolean)
+        .join("");
 
       const courses = await axios.get(
         `${API_URL}/products?limit=-1${queryParams}`
@@ -153,6 +174,22 @@ class ApiService {
       return error;
     }
   }
+
+  async getAllTestCourses() {
+    const tag = new URLSearchParams(window.location.search).get("tag");
+    const tagParam = tag ? `&tag=${tag}` : "";
+
+    try {
+      const queryParams = [tagParam].filter(Boolean).join("");
+      const courses = await axios.get(
+        `${API_URL}/products?limit=-1${queryParams}&country=int&type=course&filter=test`
+      );
+      return courses.data.products;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getBestSellersMX() {
     try {
       const res = await axios.get(`${BEST_SELLERS_MX}`);
@@ -164,8 +201,9 @@ class ApiService {
 
   async getBestSellers() {
     try {
+      const countryParam = validCountries.includes(COUNTRY) ? COUNTRY : "int";
       const bestSellers = await axios.get(
-        `${API_URL}/home/best-sellers?country=${COUNTRY}`
+        `${API_URL}/home/best-sellers?country=${countryParam}`
       );
       return bestSellers.data.products;
     } catch (error) {
@@ -176,7 +214,6 @@ class ApiService {
   async getProfessions() {
     try {
       const res = await axios.get(`${baseUrl}/api/professions`);
-
       return res.data;
     } catch (error) {
       return error;
@@ -225,8 +262,12 @@ class ApiService {
 
   async getSpecialtiesStore() {
     try {
+      let validCountries = countries.map((item) => item.id);
+      const countryParam = validCountries.includes(COUNTRY)
+        ? `&country=${COUNTRY}`
+        : `&country=int`;
       const res = await axios.get(
-        `${VITE_MSK_WP_API}/products-specialities?country=${COUNTRY}`
+        `${VITE_MSK_WP_API}/products-specialities?${countryParam}`
       );
 
       return res.data.specialities.map(
@@ -287,10 +328,31 @@ class ApiService {
     }
   }
 
-  async getPosts(country: string) {
+  async updateIdentification(data: any): Promise<any> {
     try {
-      const iso = country.includes("") ? "int" : country;
-      const res = await axios.get(`${API_URL}/posts?year=2023&country=${iso}`);
+      const token = localStorage.getItem("token");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.put(`${apiUpdateIdentificationUrl}`, data, {
+          headers,
+        });
+        return res;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getPosts(country?: string) {
+    try {
+      let currentYear = new Date().getFullYear();
+      let validCountries = countries.map((item) => item.id);
+      const countryParam = validCountries.includes(COUNTRY || "")
+        ? COUNTRY
+        : "int";
+      const res = await axios.get(`${API_URL}/posts?country=${countryParam}`);
       const postsList = res.data.posts.map((post: any) => ({
         ...post,
         image: post.thumbnail,
@@ -324,10 +386,11 @@ class ApiService {
   async getCountryCode() {
     const ip = await axios.get("https://api.ipify.org/?format=json");
     const { data } = PROD
-      ? await axios.post(`${IP_API}?ip=${ip.data.ip}`)
+      ? await axios.post(`${IP_API}?ip=${ip.data.ip}`) //
       : await axios.post(
           `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
         );
+
     if (PROD) {
       return data.data;
     }
@@ -410,6 +473,49 @@ class ApiService {
       return { ...img, url };
     });
     return formattedResponse;
+  }
+
+  async enrollCourse(product_code: number, email: string) {
+    try {
+      const response = await axios.post(apiEnrollCourse, {
+        product_code,
+        email,
+      });
+      return response.data;
+    } catch (e) {
+      return e;
+    }
+  }
+  async getCoursesProgressStatus(email: string, product_code: number) {
+    return await axios.get(`${apiEnrollCourseStatus}/${email}/${product_code}`);
+  }
+
+  async getUserByEmail(email: string) {
+    return await axios.get(`${apiCheckEmailUser}/${email}`);
+  }
+
+  async createContactTrialZoho(data: any, country:string) {
+     try {
+      const res = await axios.post(apiCreateTrialContract, data);
+      console.log({ res });
+      window.location.href = `/${country}/gracias?origen=trial`
+
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
+  }
+
+  async cancelTrialCourse(product: any, authState: AuthState){
+    try {
+      const res = await axios.post(apiCancelTrialContract, {product, authState});
+      console.log({ res });
+      return res;
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
   }
 }
 

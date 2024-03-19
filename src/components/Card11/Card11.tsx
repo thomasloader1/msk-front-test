@@ -29,7 +29,7 @@ const Card11: FC<Card11Props> = ({
 
   //Fix para encoding de HTML que viene de la API
   function decodeEntities(encodedString: string) {
-    const textarea = document.createElement('textarea');
+    const textarea = document.createElement("textarea");
     textarea.innerHTML = encodedString;
     return textarea.value;
   }
@@ -41,7 +41,7 @@ const Card11: FC<Card11Props> = ({
       data-nc-id="Card11"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-    //
+      //
     >
       <div
         className={`block flex-shrink-0 relative w-full rounded-t-xl overflow-hidden ${ratio}`}
@@ -58,7 +58,7 @@ const Card11: FC<Card11Props> = ({
       </div>
       {/* <Link to={href} className="absolute inset-0"></Link> */}
       <span className="absolute top-3 inset-x-3 z-10">
-        <CategoryBadgeList categories={categories} />
+        <CategoryBadgeList categories={categories} isPost={kind === "blog"} />
       </span>
 
       <div className="p-4 flex flex-col flex-grow space-y-3">

@@ -3,13 +3,16 @@ import {
   DurationFilter,
   Profession,
   Specialty,
+  PageFilter,
 } from "data/types";
+import { addParameterToURL } from "lib/addParameterToURL";
 
 export type Filter = {
   specialties: Specialty[];
   professions: Profession[];
   duration: DurationFilter[];
   resources: ResourceFilter[];
+  page: PageFilter[];
 };
 
 export type State = {
@@ -21,14 +24,31 @@ export type Action =
       type: "ADD_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
+        filterValue:
+          | Specialty
+          | Profession
+          | DurationFilter
+          | ResourceFilter
+          | PageFilter;
+      };
+    }
+  | {
+      type: "UPDATE_FILTER";
+      payload: {
+        filterType: keyof Filter;
+        filterValue: PageFilter;
       };
     }
   | {
       type: "REMOVE_FILTER";
       payload: {
         filterType: keyof Filter;
-        filterValue: Specialty | Profession | DurationFilter | ResourceFilter;
+        filterValue:
+          | Specialty
+          | Profession
+          | DurationFilter
+          | ResourceFilter
+          | PageFilter;
       };
     }
   | {
@@ -38,6 +58,9 @@ export type Action =
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
+    //console.log(action.payload.filterValue.name)
+      addParameterToURL(action.payload.filterType, action.payload.filterValue.name)
+      
       return {
         ...state,
         storeFilters: {
@@ -46,6 +69,14 @@ const reducer = (state: State, action: Action): State => {
             ...state.storeFilters[action.payload.filterType],
             action.payload.filterValue,
           ],
+        },
+      };
+    case "UPDATE_FILTER":
+      return {
+        ...state,
+        storeFilters: {
+          ...state.storeFilters,
+          page: [{ ...action.payload.filterValue }],
         },
       };
     case "REMOVE_FILTER":
@@ -71,6 +102,7 @@ const reducer = (state: State, action: Action): State => {
           professions: [],
           duration: [],
           resources: [],
+          page: [],
         },
       };
     default:

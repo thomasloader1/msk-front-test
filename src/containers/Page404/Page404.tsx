@@ -1,21 +1,42 @@
 import ButtonPrimary from "components/Button/ButtonPrimary";
-import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
-import inProgressIcon from "../../images/construccion.svg";
+import { useState, useEffect, useContext } from "react";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-import TextSkeleton from "components/Skeleton/TextSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
+import notFoundImg from "/images/404-msk.png";
+import PageHead from "containers/PageMSK/PageHead";
+import { AuthContext } from "context/user/AuthContext";
+import { isNull } from "lodash";
+import { useHistory } from "react-router-dom";
 
-const Page404: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-
+const Page404 = () => {
+  const {state} = useContext(AuthContext);
+  const [loading, setLoading] = useState<boolean | null>(true);
+  const history = useHistory();
+  
   useEffect(() => {
+    let counterIntents = 0;
+
     const timeout = setTimeout(() => {
+      counterIntents++;
+
+    if(Boolean(state.onRequest) == false && !isNull(state.onRequest)){
       setLoading(false);
-    }, 1500);
+    }
+
+    if(!state.isAuthenticated && (state.onRequest != null && !Boolean(state.onRequest))){
+      setLoading(false);
+      history.push("/iniciar-sesion")
+    }
+
+    if(counterIntents >= 3){
+      setLoading(false);
+    }
+
+    }, 1500); 
+    
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [loading]);
 
   return (
     <>
@@ -28,25 +49,33 @@ const Page404: React.FC = () => {
         </div>
       ) : (
         <div className="nc-Page404 animate-fade-down">
-          <Helmet>
-            <title>En construcción | MSK Medical & Scientific Knowledge</title>
-          </Helmet>
+          <PageHead title="No encontrado" />
           <div className="container relative py-16 lg:py-20">
             {/* HEADER */}
             <header className="text-center max-w-2xl mx-auto space-y-7">
               <img
-                src={inProgressIcon}
-                alt="En construcción"
+                src={notFoundImg}
+                alt="No encontrado"
                 className="object-center mx-auto"
               />
-              <h3 className="text-sm md:text-5xl font-semibold tracking-widest">
-                En construcción
-              </h3>
-              <span className="block text-sm text-neutral-800 sm:text-base dark:text-neutral-200 tracking-wider font-medium">
-                En estos momentos no se puede abrir esta página
-              </span>
-              <ButtonPrimary href="/" className="mt-4">
+              <h6 className="text-md font-medium font-inter tracking-widest text-violet-wash">
+                Ha habido un error
+              </h6>
+              <h1 className="block text-3xl text-neutral-800 whitespace-pre-wrap dark:text-neutral-200 tracking-wider font-bold">
+                En estos momentos no se <br /> puede abrir esta página
+              </h1>
+              <ButtonPrimary
+                href="/"
+                className="mt-4 mr-3 border border-solid border-violet-custom hover:border-red-500"
+              >
                 Volver al inicio
+              </ButtonPrimary>
+
+              <ButtonPrimary
+                onClick={() => window.history.back()}
+                className="mt-4 px-5 text-violet-custom bg-transparent border border-solid border-violet-custom hover:border-red-500"
+              >
+                Atrás
               </ButtonPrimary>
             </header>
           </div>

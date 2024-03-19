@@ -1,6 +1,8 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
+import PageHead from "./PageHead";
+import { useLocation } from "react-router-dom";
 
 export interface PageEmailSentProps {
   className?: string;
@@ -8,14 +10,31 @@ export interface PageEmailSentProps {
 
 const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
   let subHeading = "";
-  let message =
-    "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, spam o correos no deseados.";
+  let message = "";
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const origin = queryParams.get("origen");
+
+    switch (origin) {
+        case "trial":
+          subHeading = "Gracias por interesarte en <b>Medical & Scientific Knowledge</b>";
+          message =
+          "Recibirás en tu casilla de e-mail un correo de verificación. \n" +
+            "<b>Revisa tu bandeja de entrada, spam o correos no deseados.</b>\n" +
+            "Una vez terminado la verificacion obtendras el Trial";
+          break;
+  
+      default:
+        subHeading =
+          "Gracias por interesarte en <b>Medical & Scientific Knowledge</b>";
+        message = "Recibirás en tu casilla de e-mail un correo de verificación. Revisa tu bandeja de entrada, spam o correos no deseados.";
+        break;
+    }
+
 
   return (
     <div className={`nc-PageEmailSent animate-fade-down ${className}`} data-nc-id="PageEmailSent">
-      <Helmet>
-        <title>MSK | Correo enviado</title>
-      </Helmet>
+      <PageHead title="Correo enviado" />
       <LayoutPage subHeading="" heading=" ">
         <div className="thank-you-wrp py-16">
           <h1 className="text-center thank-you-title">¡Listo!</h1>

@@ -5,23 +5,43 @@ import StoreProduct from "./StoreProduct";
 import {
   DurationFilter,
   FetchCourseType,
+  JsonMapping,
+  PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "data/types";
 import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
+import { useHistory } from "react-router-dom";
+import specialtiesMapping from "../../data/jsons/__specialties.json";
+import resourcesMapping from "../../data/jsons/__resources.json";
+import StoreBar from "./StoreBar";
+import { keepOnlySpecifiedParams } from "lib/removeUrlParams";
 
 interface Props {
   products: FetchCourseType[];
   professions: Profession[];
   specialties: Specialty[];
+  productsLength: number;
+  handleTriggerSearch: (e: any) => void;
+  handleTriggerFilter: (e: any) => void;
 }
 
-const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { storeFilters, addFilter, removeFilter, clearFilters } =
-    useStoreFilters();
+const StoreContent: FC<Props> = ({
+  products,
+  professions,
+  specialties,
+  productsLength,
+  handleTriggerSearch,
+  handleTriggerFilter,
+}) => {
+  const history = useHistory();
+  const params = new URLSearchParams(history.location.search);
+  const possiblePageParam = history.location.search.includes("page") ? Number(history.location.search.split("&").pop()?.split("=")[1]) : 1;
 
+  const [currentPage, setCurrentPage] = useState(possiblePageParam);
+  const { storeFilters, addFilter, removeFilter, updateFilter, clearFilters } =
+    useStoreFilters();
   const itemsPerPage = 18;
 
   // Calcular el índice del primer y último elemento en la página actual
@@ -36,7 +56,28 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
 
   // Función para cambiar la página
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    const { pathname, search } = history.location;
+    const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
+    const urlRedirect = keepOnlySpecifiedParams(`${pathname}${search}`);
+
+
+    if (pageExists) {
+      removeFilter("page", { id: pageNumber, name: String(pageNumber) });
+    } else {
+      updateFilter("page", {
+        id: pageNumber,
+        name: String(pageNumber),
+        total: totalPages,
+      });
+
+      const pageParam = pageNumber > 1 ? `page=${pageNumber}` : "";
+      const separator = urlRedirect.includes("?") ? "&" : "?";
+      const fullUrl = `${urlRedirect}${pageParam && separator}${pageParam}`
+      console.log({pageNumber, pageExists, urlRedirect, pageParam, fullUrl})
+
+      history.push(fullUrl);
+      setCurrentPage(pageNumber);
+    }
   };
 
   const onChangeSpecialty = (specialty: Specialty) => {
@@ -45,8 +86,12 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
         return item.name == specialty.name;
       }
     );
-    if (specialtyExists.length) removeFilter("specialties", specialty);
-    else addFilter("specialties", specialty);
+
+    if (specialtyExists.length) {
+      removeFilter("specialties", specialty);
+    } else {
+      addFilter("specialties", specialty);
+    }
   };
 
   const onChangeProfession = (profession: Profession) => {
@@ -65,9 +110,14 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
         return item.id == resource.id;
       }
     );
+
+    console.log(resource, params)
+
     if (resourceExists.length) {
       removeFilter("resources", resource);
-    } else addFilter("resources", resource);
+    } else {
+      addFilter("resources", resource);
+    }
   };
 
   const onChangeDuration = (duration: DurationFilter) => {
@@ -84,16 +134,19 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
   useEffect(() => {
     const currentUrl = window.location.href;
     const searchQuery = currentUrl.split("?");
-
+    //console.log(currentUrl, { searchQuery });
     if (searchQuery[1]) {
       const queryParams = searchQuery[1].split("&");
       clearFilters();
+
       queryParams.forEach((query, index) => {
         const filterQueries = query
           .split("=")[1]
           .split(",")
           .map((item) => decodeURIComponent(item));
+       
         const filterType = query.split("=")[0];
+        
         switch (filterType) {
           case "profesion":
             if (filterQueries.includes("medicos"))
@@ -119,58 +172,53 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
             }
             break;
           case "especialidad":
-            if (filterQueries.includes("Cardiología"))
-              addFilter("specialties", {
-                id: 1,
-                name: "Cardiología",
-              });
-            if (filterQueries.includes("Emergentología")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Emergentología",
-              });
-            }
-            if (filterQueries.includes("Medicina general")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Medicina general",
-              });
-            }
-            if (filterQueries.includes("Infectología")) {
-              addFilter("specialties", {
-                id: 1,
-                name: "Infectología",
-              });
-            }
+            const specialtiesJSON: JsonMapping = specialtiesMapping;
+            const [specialtieQueryName] = filterQueries;
+            const specialtyName = specialtiesJSON[specialtieQueryName];
+            addFilter("specialties", {
+              id: 1,
+              name: specialtyName,
+            });
             break;
           case "recurso":
-            if (filterQueries.includes("1")) {
-              addFilter("resources", {
-                name: "Curso",
-                id: 1,
-              });
-            }
-            if (filterQueries.includes("2")) {
-              addFilter("resources", {
-                name: "Guías profesionales",
-                id: 2,
-              });
-            }
+            const resourceJSON: JsonMapping = resourcesMapping;
+            const [resourceQueryName] = filterQueries;
+            const resourceName = resourceJSON[resourceQueryName];
+            addFilter("resources", {
+              name: resourceName,
+              id: 1,
+            });
+
+            break;
+          case "page":
+            addFilter("page", {
+              name: filterQueries[0],
+              id: Number(filterQueries[0]),
+              total: totalPages,
+            });
+            setCurrentPage(Number(filterQueries[0]));
+
+            break;
         }
       });
 
-      setCurrentPage(1);
+      //setCurrentPage(1);
     }
-  }, [location.search]);
+  }, [location.search, productsLength]);
 
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentPage(storeFilters.page[0]?.id ?? 1);
   }, [storeFilters]);
 
   return (
-    <section className="container course-content-area pb-90 animate-fade-down">
-      <div className="grid grid-cols-1 md:grid-cols-[40%_60%] lg:grid-cols-[30%_70%] gap-4 mb-10">
-        <div className="flex flex-col">
+    <section className="container course-content-area pb-90 animate-fade-down px-0">
+      {storeFilters.specialties.length > 0 && (
+        <h1 className="text-xl sm:text-3xl mb-10">
+          Cursos de {storeFilters.specialties[0].name}
+        </h1>
+      )}
+      <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
+        <div className="hidden lg:flex flex-col">
           <StoreSideBar
             specialties={specialties}
             professions={professions}
@@ -180,8 +228,18 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
             onChangeDuration={onChangeDuration}
           />
         </div>
-
         <div>
+          <StoreBar
+            onSearch={(e) => handleTriggerSearch(e)}
+            onFilter={(e) => handleTriggerFilter(e)}
+            length={products.length}
+            filtersCount={
+              storeFilters.specialties.length +
+              storeFilters.professions.length +
+              storeFilters.resources.length +
+              storeFilters.duration.length
+            }
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {
@@ -189,12 +247,13 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
                   <StoreProduct
                     product={product}
                     key={`${product.slug}_${index}`}
+                    kind={product.father_post_type}
                   />
                 );
               })
             ) : (
               <div className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
-                <img src="/src/images/icons/no_items.svg" className="mb-5" />
+                <img src="/images/icons/no_items.svg" className="mb-5" />
                 <p>
                   No hay resultados para tu búsqueda.
                   <br />
@@ -204,11 +263,12 @@ const StoreContent: FC<Props> = ({ products, professions, specialties }) => {
             )}
           </div>
 
-          <div className="grid grid-cols-1">
+          <div className="flex justify-center md:justify-start">
             <StorePagination
               totalPages={totalPages}
               onPageChange={handlePageChange}
               currentPage={currentPage}
+              linkTracker={true}
             />
           </div>
         </div>

@@ -12,14 +12,14 @@ const Radio: React.FC<RadioProps> = ({ name, label, id, onChange }) => {
         id={id}
         name={name}
         type="radio"
-        className="focus:ring-action-primary h-4 w-4 text-action-primary border-primary"
+        className="focus:ring-action-primary h-5 w-5 text-action-primary border-primary"
         onChange={onChange}
         required
       />
       {label && (
         <label
           htmlFor={id}
-          className="ml-3 block text-paragraph-small text-black dark:text-white"
+          className="ml-2 block text-paragraph-small text-black dark:text-white"
         >
           {label}
         </label>

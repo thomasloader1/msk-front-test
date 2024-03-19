@@ -1,6 +1,4 @@
 import Button from "components/Button/Button";
-import Input from "components/Input/Input";
-import Label from "components/Label/Label";
 import {
   ChangeEvent,
   Dispatch,
@@ -13,7 +11,7 @@ import {
 } from "react";
 import "react-phone-number-input/style.css";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-import { Contact, Profession, Specialty, User } from "../../../data/types";
+import { Contact, JsonIdentificationsMapping, Profession, Specialty, User } from "../../../data/types";
 import api from "Services/api";
 import NcLink from "components/NcLink/NcLink";
 import { CountryContext } from "context/country/CountryContext";
@@ -22,6 +20,10 @@ import * as Yup from "yup";
 import { CountryCode } from "libphonenumber-js/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { countries } from "data/countries";
+import { DataContext } from "context/data/DataContext";
+import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json"
+import InputField from "components/Form/InputField";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   user: User;
@@ -30,7 +32,11 @@ interface Props {
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
-
+  const history = useHistory();
+  const { state: dataState } = useContext(DataContext);
+  const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [professions, setProfessions] = useState<Profession[]>([]);
   const { state } = useContext(CountryContext);
   const [userData, setUserData] = useState(user);
   const [formSubmitted, setFormSubmitted] = useState(true);
@@ -39,8 +45,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const [localUser, setLocalUser] = useState<Contact>(
     userData.contact as Contact
   );
-  const [specialties, setSpecialties] = useState<Specialty[]>([]);
-  const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
@@ -52,22 +56,34 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     type: "",
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
-  const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>(userData.contact?.profession || "");
-  const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>(userData.contact?.speciality || "");
-  const [phoneNumber, setPhoneNumber] = useState<string>(
-    userData?.contact?.phone || ""
-  );
-  const fetchProfessions = async () => {
-    const professionList = await api.getProfessions();
-    setProfessions(professionList);
-  };
-  const fetchSpecialties = async () => {
-    const response = await api.getSpecialtiesAndGroups();
-    setSpecialties(response.specialities);
-    setSpecialtiesGroup(response.specialities_group);
-  };
+  const [currentDocumentsType, setCurrentDocumentsType] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
+  const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>(userData.contact?.profession || "");
+  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>(userData.contact?.speciality || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(userData?.contact?.phone || "");
+  const [selectedDocument, setSelectedDocument] = useState<string>(userData.contact?.type_doc || "");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string>(userData.contact?.type_doc ? state.country : "");
+
+  const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
+    const { value } = event.target;
+    if (value && value.length) {
+      const values = value.split("/");
+      const type = values[0];
+      const id = values[1];
+      setSelectedDocument(type);
+      setSelectedDocumentId(id);
+      
+      formik.setFieldValue("type_doc", type);
+    } else {
+      setSelectedDocument("");
+      setSelectedDocumentId("");
+    }
+  }
+
+  useEffect(() => {
+    setProfessions(allProfessions);
+    setSpecialties(allSpecialties);
+    setSpecialtiesGroup(allSpecialtiesGroups);
+  }, [allProfessions, allSpecialties]);
 
   const handleOptionCareerChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -75,11 +91,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     const { value } = event.target;
     setSelectedCareer(value);
   };
-
-  useEffect(() => {
-    fetchProfessions();
-    fetchSpecialties();
-  }, []);
 
   const handlePhoneChange = (value: string) => {
     setPhoneNumber(value);
@@ -138,7 +149,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       formik.setFieldValue("state", value);
     }
 
-    let identification = null;
+    /* let identification = null;
 
     switch (localUser.country) {
       case "Argentina":
@@ -150,7 +161,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       default:
         identification = localUser.rfc;
         break;
-    }
+    } */
   };
 
   useEffect(() => {
@@ -189,65 +200,33 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     }
   }, [selectedOptionProfession, professions]);
 
-  const renderInputIdentification = () => {
-    if (!localUser) return <></>;
-    switch (localUser.country) {
-      case "México":
-        return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              RFC
-            </label>
-            <ErrorMessage name="rfc" component="span" className="error" />
-            <Field type="text" name="rfc" placeholder="Ingresar RFC" />
-          </div>
-        );
-      case "Chile":
-        return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              RUT
-            </label>
-            <ErrorMessage name="rut" component="span" className="error" />
-            <Field type="text" name="rut" placeholder="Ingresar RUT" />
-          </div>
-        );
-      default:
-        return (
-          <div className="form-input-std">
-            <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-              DNI
-            </label>
-            <ErrorMessage name="dni" component="span" className="error" />
-            <Field type="text" name="dni" placeholder="Ingresar DNI" />
-          </div>
-        );
-    }
-  };
 
   const optionsArray = [1, 2, 3, 4, 5];
 
   const formRef = useRef<HTMLFormElement>(null);
   const initialValues = {
-    name: localUser?.name,
-    last_name: localUser?.last_name,
-    email: localUser?.email,
-    phone: localUser?.phone,
-    profession: localUser?.profession,
-    speciality: localUser?.speciality,
+    name: localUser?.name || "",
+    last_name: localUser?.last_name || "",
+    email: localUser?.email || "",
+    phone: localUser?.phone || "",
+    profession: localUser?.profession || "",
+    speciality: localUser?.speciality || "",
     other_profession: localUser?.other_profession || "",
     other_speciality: localUser?.other_speciality || "",
-    career: localUser?.career,
-    year: localUser?.year,
-    address: localUser?.address,
-    country: localUser?.country,
-    postal_code: localUser?.postal_code,
-    state: localUser?.state,
-    rfc: localUser?.rfc || "",
+    career: localUser?.career || "",
+    year: localUser?.year || "",
+    address: localUser?.address || "",
+    country: localUser?.country || "",
+    postal_code: localUser?.postal_code || "",
+    state: localUser?.state || "",
+   /*  rfc: localUser?.rfc || "",
     dni: localUser?.dni || "",
-    rut: localUser?.rut || "",
+    rut: localUser?.rut || "", */
     fiscal_regime: localUser?.fiscal_regime || "",
+    type_doc: localUser?.type_doc || "",
+    identification: localUser?.identification || ""
   };
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("El nombre es requerido"),
     last_name: Yup.string().required("El apellido es requerido"),
@@ -261,6 +240,19 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     state: Yup.string().required("La provincia es requerida"),
     postal_code: Yup.string().required("El código postal es requerido"),
     address: Yup.string().required("La dirección es requerida"),
+    type_doc: Yup.string().required("El tipo de identificacion es requerido"),
+    identification: Yup.string().test('identification-validation', 'Identificación no válida', function (value) {
+
+      const countryRegexMap: any = {
+        ar: /^[0-9]{7,8}$/, // DNI para Argentina
+        co: /^[0-9]{6,10}$/, // CI para Colombia (ejemplo, ajusta según necesites)
+        mx: /^[A-ZÑ&]{3,4}[0-9]{6}[A-V1-9][0-9A-Z]$/, // RFC para México (ejemplo, ajusta según necesites)
+        cl: /^\d{7,8}-[0-9Kk]$/, // RUT para Chile (ejemplo, ajusta según necesites)
+      };
+
+      return countryRegexMap[state.country]?.test(value) || false;
+
+    }).required('Este campo es obligatorio'),
     //fiscal_regime: Yup.string().required("El régimen fiscal es requerido"),
     // dni: Yup.string().when("country", {
     //   is: (val: string) => val === "Argentina",
@@ -317,15 +309,22 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               setUser(userDataDB);
             }
             setFormSubmitted(true);
+
+            const continueTrialAccess = localStorage.getItem("continueTrialAccess");
+            if(typeof continueTrialAccess === 'string'){
+              localStorage.removeItem("continueTrialAccess")
+              history.push(continueTrialAccess)
+            }
+
           } else {
-            console.log("Hubo un error al actualizar el usuario", res);
+            console.error("Hubo un error al actualizar el usuario", res);
             setUpdateStatusMessage({
               message: "Hubo un error al actualizar el usuario.",
               type: "error",
             });
           }
         } catch (error) {
-          console.log("Hubo un error al actualizar el usuario", error);
+          console.error("Hubo un error al actualizar el usuario", error);
           setUpdateStatusMessage({
             message: "Hubo un error al actualizar el usuario.",
             type: "error",
@@ -380,7 +379,13 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               E-mail
             </label>
             <ErrorMessage name="email" component="span" className="error" />
-            <Field type="text" name="email" placeholder="Ingresar e-mail" />
+            <Field
+              type="text"
+              name="email"
+              placeholder="Ingresar e-mail"
+              className="bg-gray-300 cursor-not-allowed"
+              readOnly
+            />
           </div>
           <Field name="phone">
             {({ field, form, meta }: any) => (
@@ -550,15 +555,17 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               </div>
             )}
           </div>
-          <span className="dark:text-primary-500 forgot-password col-span-2">
-            ¿Necesitas cambiar tu contraseña?{" "}
-            <NcLink
-              to="/recuperar"
-              className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
-            >
-              Hazlo aquí
-            </NcLink>
-          </span>
+          <div className="col-span-2 mb-4 sm:mb-0">
+            <span className="dark:text-primary-500 forgot-password">
+              ¿Necesitas cambiar tu contraseña?{" "}
+              <NcLink
+                to="/recuperar"
+                className="nc-NcLink underline text-primary-6000 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-6000"
+              >
+                Hazlo aquí
+              </NcLink>
+            </span>
+          </div>
 
           <div className="form-input-std">
             <label className="text-neutral-800 dark:text-neutral-200 mb-1">
@@ -581,9 +588,11 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               as="select"
               name="country"
               value={localUser?.country}
+              className="cursor-not-allowed"
               onChange={(event: any) =>
                 handleInputChange("country", event.target.value)
               }
+              disabled
             >
               <option defaultValue="">Seleccionar país</option>
               {countries.map((s) => (
@@ -640,9 +649,47 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
             />
           </div>
 
-          <label className="block">{renderInputIdentification()}</label>
+          <div className="form-input-std">
+                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                    Tipo de identificacion
+                  </label>
+                  <ErrorMessage
+                    name="type_doc"
+                    component="span"
+                    className="error"
+                  />
 
-          {localUser.country.includes("México") && (
+                  <Field
+                    as="select"
+                    name="type_doc"
+                    onChange={handleOptionTypeChange}
+                    value={`${selectedDocument}/${selectedDocumentId}`}
+                  >
+                    <option defaultValue="" value="">
+                      Seleccionar tipo
+                    </option>
+                    {currentDocumentsType[state.country]
+                      ? currentDocumentsType[state.country].map((p) => (
+                        <option key={p.id} value={`${p.type}/${p.id}`}>
+                          {p.type}
+                        </option>
+                      ))
+                      : ""}
+                  </Field>
+                  
+                </div>
+
+          {/* <label className="block">
+            {renderInputIdentification()}
+          </label> */}
+          <InputField
+                label="Identificacion"
+                type="text"
+                name="identification"
+                placeholder="Ingresar identificacion"
+              />
+
+          {localUser?.country?.includes("México") && (
             <div className="form-input-std">
               <label className="text-neutral-800 dark:text-neutral-200 mb-1">
                 Régimen fiscal

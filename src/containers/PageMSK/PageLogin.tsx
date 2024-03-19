@@ -2,13 +2,14 @@ import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC, useContext, useRef, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
-import { Helmet } from "react-helmet";
 import api from "../../Services/api";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import PageHead from "./PageHead";
+import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageLoginProps {
   className?: string;
@@ -76,9 +77,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       className={`nc-PageLogin ${className} animate-fade-down`}
       data-nc-id="PageLogin"
     >
-      <Helmet>
-        <title>MSK | Iniciar sesión</title>
-      </Helmet>
+      <PageHead title="Iniciar sesión" />
+
       <LayoutPage
         subHeading="Accede a tu perfil personal"
         heading="Iniciar sesión"
@@ -124,9 +124,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             </Form>
           </FormikProvider>
           {/* ==== */}
-          <span className="text-red-500 font-bold block text-center">
-            {loginError}
-          </span>
+          {Boolean(loginError) && <ShowErrorMessage text={loginError} />}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
             ¿No tienes una cuenta? {` `}
             <NcLink to="/crear-cuenta">Créala aquí</NcLink>

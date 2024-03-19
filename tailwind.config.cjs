@@ -20,7 +20,7 @@ module.exports = {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1rem",
+        DEFAULT: "20px",
         "2xl": "128px",
       },
     },
@@ -77,13 +77,19 @@ module.exports = {
         "teal-active": "#F3FEFC",
         "grey-course": "#575757",
         "violet-wash": "#6474A6",
-        "grey-disabled": "#CCD1DC"
+        "violet-strong": "#374161",
+        "violet-custom": "#9200ad",
+        "violet-dark": "#392C35",
+        "grey-disabled": "#CCD1DC",
+        "trial": "#FFD39C",
+        "trial-strong": "#B47528",
       },
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
-        'lora-italic': ['Lora-Italic', 'sans-serif'],
-        'lora': ['Lora', 'sans-serif'],
-        'raleway': ['Raleway', 'sans-serif']
+        poppins: ["Poppins", "sans-serif"],
+        "lora-italic": ["Lora-Italic", "sans-serif"],
+        lora: ["Lora", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
     },
   },
@@ -99,6 +105,6 @@ module.exports = {
     require("@tailwindcss/forms"),
     //require("@tailwindcss/line-clamp"),
     require("@tailwindcss/aspect-ratio"),
-    require('tailwindcss-animated')
+    require("tailwindcss-animated"),
   ],
 };

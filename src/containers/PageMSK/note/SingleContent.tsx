@@ -5,7 +5,6 @@ import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import { Link } from "react-router-dom";
 import NcImage from "components/NcImage/NcImage";
 import NoteAuthors from "../../../components/SingleProductDetail/NoteAuthors";
-import api from "Services/api";
 import NoteExtraData from "components/NoteExtraData/NoteExtraData";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "../home/SectionSliderPosts";
@@ -13,7 +12,7 @@ import useBestSellers from "hooks/useBestSellers";
 import useSpecialitiesPosts from "hooks/useSpecialitiesPosts";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "./SpecialtiesModal";
-import { slugify } from "lib/Slugify";
+import { slugify, slugifySpecialty } from "lib/Slugify";
 import { parseHtml } from "utils/parseHTML";
 
 export interface SingleContentProps {
@@ -28,7 +27,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
   const { courses, loading: loadingBestSellers } = useBestSellers();
 
   const [recommendedCourses, setRecommendedCourses] = useState([]);
-  const { author, contenido, date, themes_to_se, articles } = data;
+  const { author, date, reading_time, articles } = data;
   const [noteIntroduction, ...noteArticles] = articles;
   const commentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -80,12 +79,18 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
+
   return (
     <div className="nc-SingleContent space-y-10 ">
       {/* ENTRY CONTENT */}
       <div className="grid grid-cols-12 gap-4">
         <div className="content-container col-span-12 lg:col-span-8 animate-fade-down">
-          <CardAuthor2 className="relative my-4" date={date} author={author} />
+          <CardAuthor2
+            className="relative my-4"
+            date={date}
+            author={author}
+            readingTime={Number(reading_time)}
+          />
           <div
             id="single-entry-content"
             className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
@@ -97,7 +102,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                   {articles.map((art, index) => (
                     <li key={`${art.title}_${index}`}>
                       <a
-                        className="text-primary"
+                        className="text-primary text-lg "
                         href={`#${slugify(art.title)}`}
                       >
                         {art.title}
@@ -108,7 +113,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               </>
             )}
             <div
-              className="text-xl font-lora font-normal lg:pr-20"
+              className="text-xl font-lora font-normal lg:pr-20 "
               dangerouslySetInnerHTML={{
                 __html: noteIntroduction?.content as string,
               }}
@@ -116,12 +121,20 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
             {/* <NoteExtraData excerpt={data.excerpt} /> */}
             <ul className="themes-to-see">
               {noteArticles?.map((art, index) => {
-                //console.log(art)
                 return (
-                  <li key={`content_${slugify(art.title)}_${index}`}>
-                    <h3 id={slugify(art.title)}>{art.title}</h3>
+                  <li
+                    key={`content_${slugify(art.title)}_${index}`}
+                    className="p-0 md:p-0"
+                  >
+                    <h3
+                      id={slugify(art.title)}
+                      className="text-3xl md:text-3xl"
+                    >
+                      {art.title}
+                    </h3>
                     {
                       <div
+                        className="font-lora text-xl lg:pr-20"
                         dangerouslySetInnerHTML={{
                           __html: parseHtml(art.content),
                         }}
@@ -139,49 +152,41 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               reconocimiento en tu profesión?
             </p> */}
             <NoteExtraData suggest_content={data.suggest_content} />
-
-            <div>
-              <h4 className="source-title">Fuente/s:</h4>
-              {sources && sources.length > 0
-                ? sources.map((source, index) => {
-                    return (
-                      <p key={`source_${index}`} className="source-content">
-                        {source}
-                      </p>
-                    );
-                  })
-                : null}
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {data.tags.length > 0
-                ? data.tags.map((tag, index) => {
-                    return (
-                      <span key={`tag_${index}`} className="tag-content">
-                        #{tag.name}
-                      </span>
-                    );
-                  })
-                : null}
-            </div>
-            {data.authors && data.authors.length > 0
-              ? data.authors?.map((currentAuthor, index) => {
+            {sources && sources.length > 0 ?
+              <div>
+                <h4 className="source-title">Fuente/s:</h4>
+                {sources.map((source, index) => {
                   return (
-                    <NoteAuthors
-                      key={`note_author_${index}`}
-                      instructor={currentAuthor}
-                    />
+                    <p
+                      key={`source_${index}`}
+                      className="source-content lg:pr-20 break-words"
+                    >
+                      {source}
+                    </p>
                   );
                 })
+                }
+              </div> : null
+            }
+
+            {data.authors && data.authors.length > 0
+              ? data.authors?.map((currentAuthor, index) => {
+                return (
+                  <NoteAuthors
+                    key={`note_author_${index}`}
+                    instructor={currentAuthor}
+                  />
+                );
+              })
               : null}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget z-50">
           <div
-            className={`${
-              isFixed &&
+            className={`${isFixed &&
               bottomDistance == 0 &&
               "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
-            } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
+              } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">
@@ -226,7 +231,9 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               {fiveSpecialtiesGroups.map(
                 ({ speciality_name, image, articles }, index) => (
                   <Link
-                    to={`/archivo?especialidad=${speciality_name}`}
+                    to={`/archivo?especialidad=${slugifySpecialty(
+                      speciality_name
+                    )}`}
                     key={`rc_${index}`}
                     className="side-content-course"
                   >
@@ -245,18 +252,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
           </div>
         </div>
       </div>
-      {/* TAGS */}
-      {/* <div className="relative py-16 my-32">
-        <BackgroundSection />
-        <SectionSliderPosts
-          postCardName="card9"
-          heading="Comienza tu experiencia aquí"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          posts={courses}
-          uniqueSliderClass="pageHome-section6"
-        />
-      </div> */}
+     
       <div className="container relative py-16 my-32">
         <BackgroundSection />
         <SectionSliderPosts

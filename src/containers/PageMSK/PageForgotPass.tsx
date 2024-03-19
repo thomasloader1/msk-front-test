@@ -1,11 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, SetStateAction, useState } from "react";
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import Input from "components/Input/Input";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
-import { Helmet } from "react-helmet";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
+import PageHead from "./PageHead";
+import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageForgotPassProps {
   className?: string;
@@ -33,25 +34,24 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
       }
     });
 
-    const { data, status } = await api.postRecover(jsonData);
-    if (status == 200) {
-      console.log(data);
+    const res = await api.postRecover(jsonData);
+    if (res?.status == 200) {
       setTimeout(() => {
         history.push("/correo-enviado");
       }, 1500);
     } else {
-      console.log("Error:", data.error);
-      setError(data.error);
+      console.error("Error:", { res });
+      setError(res as SetStateAction<string>);
     }
   };
+
   return (
     <div
       className={`nc-PageForgotPass animate-fade-down ${className}`}
       data-nc-id="PageForgotPass"
     >
-      <Helmet>
-        <title>MSK | Olvidaste la contraseña</title>
-      </Helmet>
+      <PageHead title="Olvidaste la contraseña" />
+
       <LayoutPage
         heading="Cambiar contraseña"
         subHeading="Te enviaremos un correo para que puedas crear una nueva"
@@ -79,6 +79,7 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
             </label>
             <ButtonPrimary type="submit">Confirmar</ButtonPrimary>
           </form>
+          {Boolean(error) && <ShowErrorMessage text={error} />}
 
           {/* ==== */}
           <span className="block text-center text-neutral-700 dark:text-neutral-300">
@@ -87,7 +88,6 @@ const PageForgotPass: FC<PageForgotPassProps> = ({ className = "" }) => {
               Iniciar sesión
             </NcLink>
           </span>
-          <p className="text-red-500 text-center">{error}</p>
         </div>
       </LayoutPage>
     </div>

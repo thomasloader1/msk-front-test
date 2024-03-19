@@ -3,6 +3,7 @@ import NcImage from "components/NcImage/NcImage";
 import { Aval, PostDataType } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import Tooltip from "components/Tooltip/Tooltip";
+import toolTipIcon from "/images/icons/info_tooltip.svg";
 
 export interface Card20Props {
   className?: string;
@@ -33,7 +34,7 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post, index }) => {
         text={description}
         className={`absolute bottom-1 ${index == 3 ? "left-1" : "right-1"}`}
       >
-        <img src="/src/images/icons/info_tooltip.svg" />
+        <img src={toolTipIcon} />
       </Tooltip>
     </div>
   );

@@ -2,11 +2,12 @@ import React, { FC, useState } from "react";
 import HeaderFilter from "./HeaderFilter";
 import Card19 from "components/Card19/Card19";
 import Card18 from "components/Card18/Card18";
-import { FetchPostType, PostDataType } from "data/types";
-import { CourseDataType } from "data/types";
+import { FetchPostType } from "data/types";
 import Heading from "components/Heading/Heading";
-import Skeleton from "components/Skeleton/Skeleton";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
+import { badgeColor } from "lib/badgeColor";
+import { it } from "node:test";
+import NoResults from "components/NoResults/NoResults";
 
 interface WelcomeBlogProps {
   tabs: string[];
@@ -31,6 +32,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
     }
     setTabActive(item);
   };
+
 
   return (
     <div className={`nc-WelcomeBlog ${className} animate-fade-down`}>
@@ -60,9 +62,13 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
           </div>
         </>
       )}
-      {!posts.length && !loading && <span>No hay posts disponibles</span>}
+      {!posts.length && !loading && (
+        <div className="w-full" style={{ background: "red" }}>
+          <NoResults />
+        </div>
+      )}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-        {posts[0] && <Card19 className="" post={posts[0]} />}
+        {posts[0] && <Card19 className="" post={posts[0]} kind="blog" />}
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-5 gap-5">
           {posts
             .map((item, index) => (
@@ -71,6 +77,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
                 className="sm:row-span-3 col-span-1"
                 key={index}
                 post={item}
+                kind="blog"
               />
             ))
             .filter((_, i) => i < 3 && i >= 1)}
@@ -82,6 +89,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
               titleClass="text-xl sm:text-2xl xl:text-2xl"
               post={posts[3]}
               showCategories={true}
+              kind="blog"
             />
           )}
         </div>

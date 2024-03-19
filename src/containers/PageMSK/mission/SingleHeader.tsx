@@ -25,9 +25,6 @@ const SingleHeader: FC<SingleHeaderProps> = ({
 
   return (
     <>
-      <Helmet>
-        <title>Misión</title>
-      </Helmet>
       <div className={`nc-SingleHeader ${className}`}>
         <div className="space-y-5">
           {/* <CategoryBadgeList itemClass="!px-3" categories={categories} /> */}
@@ -38,17 +35,20 @@ const SingleHeader: FC<SingleHeaderProps> = ({
             </span>
           )}
           <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
-          <div className="flex  sm:flex-row justify-between ">
-            {/* <PostMeta2
-              size="large"
-              className="leading-none flex-shrink-0"
-              meta={pageData}
-              avatarRounded="rounded-full shadow-inner"
-              hiddenCategories
-              hideDate
-            /> */}
-
-            <p className="dark:text-neutral-100 msk-logo-text"><img className="" src="/src/images/vectors/isotipo.svg" width="30" alt="" />MSK - Medical & Scientific Knowledge</p>
+          <div className="flex items-center sm:flex-row justify-between pb-4 sm:pb-0">
+            <p className="dark:text-neutral-100 msk-logo-text grid grid-cols-12 items-center gap-6">
+              <div className="img-container col-span-2">
+                <img
+                  src="/images/vectors/isotipo.svg"
+                  width="40"
+                  height="40"
+                  alt=""
+                />
+              </div>
+              <p className="text-neutral-100 col-span-10 font-semibold leading-5 text-[14px] sm:text-base">
+                MSK - Medical & Scientific Knowledge
+              </p>
+            </p>
             <SingleMetaAction2 meta={pageData} />
           </div>
         </div>

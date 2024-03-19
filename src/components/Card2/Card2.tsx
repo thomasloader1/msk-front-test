@@ -1,21 +1,15 @@
 import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
-import PostCardSaveAction from "components/PostCardSaveAction/PostCardSaveAction";
 import {
-  BlogDataType,
   FetchCourseType,
   FetchPostType,
-  PostDataType,
   UserCourse,
   UserCourseProgress,
 } from "data/types";
 import { Link } from "react-router-dom";
-import SocialsShare from "components/SocialsShare/SocialsShare";
-import PostCardLikeAndComment from "components/PostCardLikeAndComment/PostCardLikeAndComment";
 import CardAuthor2 from "components/CardAuthor2/CardAuthor2";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
-import PostCardLikeAction from "components/PostCardLikeAction/PostCardLikeAction";
+import { compareByNameDescending } from "lib/compareByNameDescending";
 
 export interface Card2Props {
   className?: string;
@@ -32,7 +26,6 @@ const Card2: FC<Card2Props> = ({
   className = "h-full",
   size = "normal",
   post,
-  badgeColor,
   redirectAccount,
   kind = "curso",
   hideDesc,
@@ -48,8 +41,12 @@ const Card2: FC<Card2Props> = ({
     date,
     author,
   } = post;
+
   const imageURL = image?.replace("mx.", "");
   const url = redirectAccount ? `/mi-cuenta/cursos` : `/${kind}/${slug}`;
+  const categoriesOrder =
+    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
+
   return (
     <div
       className={`nc-Card2 group relative flex flex-col  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden ${className} rounded-lg`}
@@ -77,11 +74,11 @@ const Card2: FC<Card2Props> = ({
           <CategoryBadgeList
             itemClass="relative"
             isCourse={father_post_type === "course"}
-            categories={categories}
-            color={badgeColor}
+            isPost={kind === "blog"}
+            categories={categoriesOrder}
           />
-          <h2
-            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-10 ${
+          <h4
+            className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors h-4 sm:h-10 ${
               size === "large" ? "text-lg sm:text-2xl" : "text-base"
             }`}
           >
@@ -92,7 +89,7 @@ const Card2: FC<Card2Props> = ({
             >
               {title}
             </Link>
-          </h2>
+          </h4>
           <span className="block text-neutral-500 dark:text-neutral-400 text-sm line-clamp-2 truncate">
             {excerpt}
           </span>

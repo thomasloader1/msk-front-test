@@ -535,14 +535,25 @@ div.tagcloud a:hover {
   background: rgb(0, 14, 77);
   height: 700px;
   .header-image-container {
-    height: 500px;
+    overflow: hidden;
+    position: relative !important;
+    height: 440px;
     max-width: 1370px;
     width: 96%;
+    @media (max-width: 639px) {
+      height: 370px;
+    }
   }
 }
 
 .note-container {
   margin-top: 150px !important;
+  @media (max-width: 639px) {
+    margin-top: 75px !important;
+  }
+  @media (max-width: 375px) {
+    margin-top: 100px !important;
+  }
 }
 
 .content-container .prose {
@@ -552,6 +563,10 @@ div.tagcloud a:hover {
 .side-content {
   background: #f3f4f6;
   width: 100%;
+}
+
+.bg-content-msk {
+  background: #f3f4f6;
 }
 
 .side-content-course {
@@ -621,22 +636,19 @@ div.tagcloud a:hover {
 .instructors-heading {
   display: flex;
   align-items: center;
-  .instructors-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-  }
-  .instructors-img.note-author {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .instructor-avatar {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    min-height: 65px;
+    border-radius: 8px;
+    margin-right: 16px;
     img {
-      width: 60px;
-      height: 60px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       border-radius: 8px;
-      margin: 10px;
+      margin: 0;
     }
   }
   h5 {
@@ -666,5 +678,6 @@ div.tagcloud a:hover {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
+    line-height: 16.94px;
   }
 }

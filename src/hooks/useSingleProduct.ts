@@ -6,6 +6,7 @@ const useSingleProduct = (slug: string, state: { country: string }) => {
   const [product, setProduct] = useState<FetchSingleProduct>();
   const [loading, setLoading] = useState<boolean>(false);
 
+
   const fetchProduct = async () => {
     try {
         const response = await fetch(`${API_URL}/product/${slug}?country=${state.country}`);

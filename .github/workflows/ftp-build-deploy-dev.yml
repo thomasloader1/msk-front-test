@@ -44,7 +44,7 @@ jobs:
           VITE_REBILL_STRIPE_USD_FREEMIUM_PRD: "837889d6-ac75-4e06-96e7-681d412e7398"
         run: npm run build
 
-      - name: FTP Upload (TECH)
+      - name: FTP Upload (TECH).
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.FTP_SERVER_SITEGROUND_TECH }}

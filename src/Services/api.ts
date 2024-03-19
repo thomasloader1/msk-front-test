@@ -390,8 +390,10 @@ class ApiService {
       : await axios.post(
           `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
         );
-
+    console.log('PROD: ',PROD);
     if (PROD) {
+        console.log(IP_API);
+        console.log(ip.data.ip);
       return data.data;
     }
     if (data.countryCode) {

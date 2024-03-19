@@ -23,11 +23,9 @@ jobs:
 
       - name: Build React App TECH
         env:
-          API_BACKEND_LARAVEL: "https://dev.msklatam.tech/msk-laravel/public/api/"
           VITE_LRT_OR_RTL: ${{ secrets.VITE_LRT_OR_RTL }}
           VITE_MSK_WP_API: ${{ secrets.VITE_MSK_WP_API }}
           VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_TECH }}
-          #VITE_PUBLIC_URL: "https://dev.msklatam.com"
           VITE_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
           VITE_REBILL_URL: "https://api.rebill.to/v2"
           VITE_REBILL_ORG_ID_PRD: ${{ secrets.VITE_REBILL_ORG_ID_PRD}}

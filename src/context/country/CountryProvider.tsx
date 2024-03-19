@@ -5,7 +5,6 @@ import { countryReducer } from "./CountryReducer";
 import { CountryState } from "@/data/types";
 import { countries } from "@/data/countries";
 import api from "../../../Services/api";
-import axios from "axios";
 import { parse } from "cookie";
 
 interface Props {
@@ -45,14 +44,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
       const countryCookie = cookies.country;
       if (!countryCookie) {
         const fetchData = async () => {
-          /*try {
-            await axios.post("/api/cookies", {
-              cookieName: "country",
-              cookieValue: currentCountry,
-            });
-          } catch (err) {
-            console.log({ err });
-          }*/
+
         };
         fetchData();
       }

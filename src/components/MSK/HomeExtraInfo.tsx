@@ -1,6 +1,5 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BannerImg } from "@/data/types";
 import api from "../../../Services/api";

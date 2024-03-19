@@ -33,9 +33,12 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   const handleClickTab = (item: string) => {
     const itemParsed = removeAccents(item);
 
-    const filteredPosts = posts.filter((post) =>
-      post.categories?.some((category: any) => category.name === itemParsed)
-    );
+    let filteredPosts: any[] = [];
+    if (posts){
+        filteredPosts = posts.filter((post) =>
+            post.categories?.some((category: any) => category.name === itemParsed)
+        );
+    }
 
     const finalPosts = itemParsed.includes("Actualidad")
       ? filteredPosts.slice(4, 9)

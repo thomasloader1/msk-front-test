@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { API_URL } from "@/data/api";
 import { FetchSingleProduct } from "@/data/types";
 
@@ -9,10 +8,13 @@ const useSingleProduct = (slug: string, state: { country: string }) => {
 
   const fetchProduct = async () => {
     try {
-      const response = await axios.get(
-        `${API_URL}/product/${slug}?country=${state.country}`
-      );
-      setProduct(response.data);
+        const response = await fetch(`${API_URL}/product/${slug}?country=${state.country}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch product data. HTTP status ${response.status}`);
+        }
+        const productData = await response.json();
+        setProduct(productData);
+
     } catch (error) {
       console.log(error);
     } finally {

@@ -3,7 +3,7 @@ name: FTP Deploy next.msklatam.tech
 on:
   push:
     branches:
-      - next2
+      - site
 
 jobs:
   deploy:

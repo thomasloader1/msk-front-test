@@ -102,36 +102,39 @@ export default function MySlider<T>({
           >
             <div className={`relative flow-root`} {...handlers}>
               <div className={`flow-root overflow-hidden rounded-xl`}>
-                <motion.ul
-                  initial={false}
-                  className="relative whitespace-nowrap -mx-2 xl:-mx-4 "
-                >
-                  <AnimatePresence initial={false} custom={direction}>
-                    {data.map((item, indx) => (
-                      <motion.li
-                        className={`relative inline-block px-2 xl:px-4 whitespace-normal`}
-                        custom={direction}
-                        initial={{
-                          x: !isRTL
-                            ? `${(currentIndex - 1) * -100}%`
-                            : `${(currentIndex - 1) * 100}%`,
-                        }}
-                        animate={{
-                          x: !isRTL
-                            ? `${currentIndex * -100}%`
-                            : `${currentIndex * 100}%`,
-                        }}
-                        variants={variants(200, 1)}
-                        key={indx}
-                        style={{
-                          width: `calc(1/${numberOfItems} * 100%)`,
-                        }}
-                      >
-                        {renderItem(item, indx)}
-                      </motion.li>
-                    ))}
-                  </AnimatePresence>
-                </motion.ul>
+                  <motion.ul
+                      initial={false}
+                      className="relative whitespace-nowrap -mx-2 xl:-mx-4 "
+                  >
+                      {data && data.length > 0 && ( // Check if data has items
+                          <AnimatePresence initial={false} custom={direction}>
+                              {data.map((item, indx) => (
+                                  <motion.li
+                                      className={`relative inline-block px-2 xl:px-4 whitespace-normal`}
+                                      custom={direction}
+                                      initial={{
+                                          x: !isRTL
+                                              ? `${(currentIndex - 1) * -100}%`
+                                              : `${(currentIndex - 1) * 100}%`,
+                                      }}
+                                      animate={{
+                                          x: !isRTL
+                                              ? `${currentIndex * -100}%`
+                                              : `${currentIndex * 100}%`,
+                                      }}
+                                      variants={variants(200, 1)}
+                                      key={indx}
+                                      style={{
+                                          width: `calc(1/${numberOfItems} * 100%)`,
+                                      }}
+                                  >
+                                      {renderItem(item, indx)}
+                                  </motion.li>
+                              ))}
+                          </AnimatePresence>
+                      )}
+                  </motion.ul>
+
               </div>
 
               <div className="flex gap-2 justify-center mt-16">

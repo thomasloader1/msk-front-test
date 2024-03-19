@@ -1,4 +1,3 @@
-import axios from "axios";
 import { API_BACKEND_URL } from "@/data/api";
 import { ContactUs, Newsletter, Profession, Specialty } from "@/data/types";
 

@@ -313,9 +313,12 @@ const StoreContent: FC<Props> = ({
   // };
 
   useEffect(() => {
-    setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-    setLocalProducts(products);
-    setAllProducts(products);
+      if (products){
+          console.log('Products: ', products);
+          setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+          setLocalProducts(products);
+          setAllProducts(products);
+      }
   }, [products]);
 
   return (

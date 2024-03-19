@@ -37,7 +37,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
     setAllBestSellers(fetchedBestSellers);
   }
-  if (!getAllPosts().length) {
+  if (!getAllPosts() || !getAllPosts().length) {
     const fetchedPosts = await ssr.getPosts(currentCountry);
     setAllPosts(fetchedPosts);
   }

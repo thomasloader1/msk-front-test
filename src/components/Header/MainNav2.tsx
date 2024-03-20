@@ -28,12 +28,13 @@ const MainNav2: FC<MainNav2Props> = () => {
   const { state } = useContext(AuthContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
   const [isOnArchive, setIsOnArchive] = useState(false);
-  const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
+
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   useEffect(() => {
     setIsOnBlog(history.location.pathname.includes("blog"));
     setIsOnArchive(history.location.pathname.includes("archivo"));
@@ -42,7 +43,7 @@ const MainNav2: FC<MainNav2Props> = () => {
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
       <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
-          <Logo isOnBlog={isOnBlog} />
+          <Logo isOnBlog={isOnBlog} isOnArchive={isOnArchive} />
           <div className="hidden sm:block flex-grow max-w-xs">
             <SearchProducts />
           </div>

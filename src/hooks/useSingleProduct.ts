@@ -20,6 +20,7 @@ const useSingleProduct = (slug: string, state: { country: string }) => {
       console.log(error);
     } finally {
       setLoading(false);
+
     }
   };
 

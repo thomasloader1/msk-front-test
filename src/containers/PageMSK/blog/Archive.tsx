@@ -127,7 +127,6 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         return post.specialty?.includes(specialtiesJSON[specialtyValue]);
       });
     } else {
-      console.log({auxPosts})
       filteredPosts = auxPosts.filter((post: PostDataType) => {
         return post.categories.some((category) =>
           category.name.includes(notesJSON[categoryValue])

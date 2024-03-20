@@ -1,11 +1,9 @@
-import React, { FC, ReactNode, useContext, useEffect, useState } from "react";
+import { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { JsonMapping, PostDataType, TaxonomyType } from "data/types";
 import NcImage from "components/NcImage/NcImage";
 import { CommentType } from "components/CommentCard/CommentCard";
 import Card11 from "components/Card11/Card11";
 import StorePagination from "components/Store/StorePagination";
-import SectionSliderPosts from "../home/SectionSliderPosts";
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import LoadingImage from "components/Loader/Image";
 import ArchiveFilterListBox from "components/ArchiveFilterListBox/ArchiveFilterListBox";
 import { removeAccents } from "lib/removeAccents";
@@ -41,9 +39,7 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const {
     state: dataState,
-    loadingCourses,
     loadingPosts,
-    loadingBestSellers,
   } = useContext(DataContext);
   const { allPosts, allBestSellers } = dataState;
   const [posts, setPosts] = useState(allPosts);
@@ -72,11 +68,13 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   const handleCategoryChange = (e: { name: string }) => {
     if (e.name == "Otras categorías") return setPosts(auxPosts);
+   
     let filteredPosts = auxPosts.filter((post: PostDataType) => {
       return post.categories.some((category) =>
         category.name.includes(removeAccents(e.name))
       );
     });
+
     setTitle(e.name);
     setPosts(filteredPosts);
   };
@@ -89,6 +87,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
       });
       setPosts(filteredPosts);
     }
+
     if (e.name === "Más leídos") {
       const the_most_read = filteredPosts[0].the_most_read.map(
         (post: { category: string }) => {
@@ -105,31 +104,30 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
-    let categoryValue = decodeURIComponent(
+    let queryString = window.location.search;
+    let categoryValue = queryString.includes('categoria=') ? decodeURIComponent(
       window.location.search.replace(/^.*\?categoria=/, "")
-    );
-    let specialtyValue = decodeURIComponent(
+    ): "";
+    let specialtyValue = queryString.includes('especialidad=') ? decodeURIComponent(
       window.location.search.replace(/^.*\?especialidad=/, "")
-    );
+    ) : "";
 
     const notesJSON: JsonMapping = notesMapping;
     const specialtiesJSON: JsonMapping = specialtiesMapping;
 
-    const title = specialtyValue
-      ? specialtiesJSON[specialtyValue]
-      : categoryValue && !categoryValue.includes("Otra")
-      ? notesJSON[categoryValue]
-      : "Actualidad";
+    const title = specialtyValue ? specialtiesJSON[specialtyValue] : categoryValue && !categoryValue.includes("Otra") ? notesJSON[categoryValue] : "Actualidad";
 
     setTitle(title);
-
+      console.log(specialtyValue, categoryValue)
     if (!specialtyValue && !categoryValue) return setPosts(auxPosts);
+    
     let filteredPosts = [];
     if (specialtyValue) {
       filteredPosts = auxPosts.filter((post: PostDataType) => {
         return post.specialty?.includes(specialtiesJSON[specialtyValue]);
       });
     } else {
+      console.log({auxPosts})
       filteredPosts = auxPosts.filter((post: PostDataType) => {
         return post.categories.some((category) =>
           category.name.includes(notesJSON[categoryValue])
@@ -226,11 +224,12 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </>
           )}
           <BlogSummary
-            posts={posts}
+            posts={allPosts}
+            applyGlobalFilter={false}
             tabs={TABS_BLOG}
             loading={loadingPosts}
             className="py-16 lg:py-28"
-            heading=""
+            heading="Recursos para informarte y aprender de distintas maneras"
             desc=""
           />
         </div>

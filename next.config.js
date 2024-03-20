@@ -3,7 +3,7 @@ const withNextIntl = require("next-intl/plugin")("./i18n.ts");
 
 const nextConfig = {
   //output: 'export', //For static site (loses SSR cappabilites)
-  //distDir: "dist",
+  distDir: "dist",
   /*runtime: 'experimental-edge',*/
 
   typescript: {

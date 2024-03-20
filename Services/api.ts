@@ -686,6 +686,7 @@ class ApiService {
 
             const data = await response.json();
 
+
             const formattedResponse = data[kind].map((img: any) => {
                 const url =
                     typeof img.url_banner == "string"

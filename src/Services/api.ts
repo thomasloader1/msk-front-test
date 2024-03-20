@@ -509,6 +509,17 @@ class ApiService {
     }
   }
 
+  async getMissionContent(country:string){
+    try {
+      const { data } = await axios.get(
+        `${API_URL}/mision?country=${country}`
+      );
+      return data;
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+
   async cancelTrialCourse(product: any, authState: AuthState){
     try {
       const res = await axios.post(apiCancelTrialContract, {product, authState});

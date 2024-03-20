@@ -17,13 +17,13 @@ export interface PageLoginProps {
   className?: string;
   lang: string;
 }
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   // @ts-ignore
   const router = useRouter();
   const locale = useCurrentLocale(i18nConfig);
-  //console.log("LANG", locale);
+  //// console.log("LANG", locale);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loginError, setLoginError] = useState<string>("");
   const [onRequest, setOnRequest] = useState<boolean>(false);
@@ -56,7 +56,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             recaptcha_token: await executeRecaptcha("login"),
           };
           const { data, status } = await api.postLogin(formData);
-          console.log(data, status);
+          // console.log(data, status);
           // @ts-ignore
           if (status == 200) {
             const { name, speciality, ...restData } = data;

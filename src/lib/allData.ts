@@ -28,3 +28,13 @@ export const setAllPosts = (posts: any) => {
 export const getAllPosts = () => allPosts;
 export const setLoadingPosts = (value: boolean) => (loadingPosts = value);
 export const isLoadingPosts = () => loadingPosts;
+
+// Store
+let allStoreSpecialties: any = [];
+let loadingAllStoreSpecialties: boolean = false;
+export const setAllStoreSpecialties = (value: any) => {
+  allStoreSpecialties = value;
+};
+
+export const getAllStoreSpecialties = () => allStoreSpecialties;
+export const isLoadingStoreSpecialties = () => loadingAllStoreSpecialties;

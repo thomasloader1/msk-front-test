@@ -55,7 +55,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
   const totalPages = Math.ceil(product.authors.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    console.log(pageNumber);
+    // console.log(pageNumber);
     // setCurrentPage(pageNumber);
   };
 

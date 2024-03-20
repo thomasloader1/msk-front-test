@@ -14,7 +14,7 @@ export const parseHtml = (contentHtml: string) => {
     ulElement.classList.add("m-0", "flex", "flex-col");
     const liElements = ulElement.querySelectorAll("li");
     const brElements = ulElement.querySelectorAll("br");
-    console.log({ liElements });
+    // console.log({ liElements });
 
     brElements.forEach((brElement) => {
       if (brElement.parentNode) {
@@ -44,7 +44,7 @@ export const parseHtml = (contentHtml: string) => {
 
       const imgElement = document.createElement("img");
       imgElement.classList.add("m-0", "mr-3", "mt-1", "w-5");
-      //console.log({ imgElement });
+      //// console.log({ imgElement });
       imgElement.src = "/images/vectors/isotipo.svg"; // Cambia la URL de la imagen según tus necesidades
       imgElement.alt = "Imagen"; // Cambia el texto alternativo según tus necesidades
 

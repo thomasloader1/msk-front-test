@@ -48,7 +48,7 @@ const ProductAccount: FC<Props> = ({
   );
 
   const handleClick = async () => {
-    // console.log(product.ov, activeProductRef.current);
+    // // console.log(product.ov, activeProductRef.current);
     if (product.ov !== "Baja" && activeProductRef.current) {
       setOnRequest(true);
       try {
@@ -57,7 +57,7 @@ const ProductAccount: FC<Props> = ({
 
           if (response.data[0].code.includes("SUCCESS")) {
             const watching = await startWatch(product.product_code);
-            console.log(!!watching, { watching });
+            // console.log(!!watching, { watching });
             setOnRequest(!!watching);
           } else {
             setOnRequest(false);

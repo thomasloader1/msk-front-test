@@ -18,7 +18,7 @@ export interface BodyNewPassword {
 const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
   const router = useRouter();
   const { token } = router.query; // Access token from the router query
-  console.log(decodeURIComponent(token as string));
+  // console.log(decodeURIComponent(token as string));
 
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
@@ -41,12 +41,12 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
 
     const { data, status } = await api.postNewPassword(jsonData);
     if (status === 200) {
-      console.log(data);
+      // console.log(data);
       setTimeout(() => {
         router.push("/gracias?origen=new-password");
       }, 1500);
     } else {
-      console.log("Error:", data.error);
+      // console.log("Error:", data.error);
       setError(data.error);
     }
   };

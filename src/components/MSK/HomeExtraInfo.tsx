@@ -25,7 +25,7 @@ const SectionAds: FC<SectionAdsProps> = ({ country, btnOnClick }) => {
         const response = await api.getWpImages("banners_home", country);
         setBannerImgs(response);
       } catch (err) {
-        console.log({ err });
+        // console.log({ err });
       }
     };
 

@@ -32,7 +32,7 @@ const WelcomeBlog: FC<WelcomeBlogProps> = ({
     setTabActive(item);
   };
 
-  //console.log({ posts });
+  //// console.log({ posts });
 
   return (
     <div className={`nc-WelcomeBlog ${className} animate-fade-down`}>

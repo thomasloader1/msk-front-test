@@ -43,9 +43,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
       const cookies = parse(document.cookie);
       const countryCookie = cookies.country;
       if (!countryCookie) {
-        const fetchData = async () => {
-
-        };
+        const fetchData = async () => {};
         fetchData();
       }
     }
@@ -55,11 +53,11 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
     const fetchData = async () => {
       let redirectUrl = "";
       try {
-        //console.log("Country Provider");
+        //// console.log("Country Provider");
         let currentCountry = "";
 
         if (bypassRedirect == "1") {
-          console.log("bypassRedirect");
+          // console.log("bypassRedirect");
           const currentUrl = window.location.pathname;
           const validCountryUrl = validCountries.filter(
             (country) =>
@@ -69,14 +67,14 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (validCountryUrl.length) {
             currentCountry = validCountryUrl[0];
           }
-          console.log("Country Provider", currentCountry);
+          // console.log("Country Provider", currentCountry);
         } else {
           currentCountry = await api.getCountryCode();
-          console.log("CurrentCountry obtained from IP: " + currentCountry);
-          console.log(window.location.pathname);
+          // console.log("CurrentCountry obtained from IP: " + currentCountry);
+          // console.log(window.location.pathname);
           const currentPathName = window.location.pathname.replace("/", "");
 
-          console.log(currentPathName);
+          // console.log(currentPathName);
           if (currentCountry && currentCountry == currentPathName) return; //Special use case for homepage.
           if (!validCountries.includes(currentCountry)) {
             currentCountry = "";
@@ -85,8 +83,8 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             localStorage.setItem("country", currentCountry);
           }
 
-          console.log("stateCountry: " + state.country);
-          console.log("currentCountry: " + currentCountry);
+          // console.log("stateCountry: " + state.country);
+          // console.log("currentCountry: " + currentCountry);
 
           if (
             state.country != currentCountry ||
@@ -100,7 +98,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             } else {
               redirectUrl = "/" + currentCountry + window.location.pathname;
             }
-            console.log("redirectUrl1: " + redirectUrl);
+            // console.log("redirectUrl1: " + redirectUrl);
             if (getCountryFromURL() != "") {
               redirectUrl = window.location.href
                 .replace(
@@ -109,7 +107,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
                 )
                 .replace(/(https?:\/\/.*?)\/+/g, "$1/");
             }
-            console.log("redirectUrl2: " + redirectUrl);
+            // console.log("redirectUrl2: " + redirectUrl);
           }
           if (
             window.location.protocol === "http:" &&
@@ -129,7 +127,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           }
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 

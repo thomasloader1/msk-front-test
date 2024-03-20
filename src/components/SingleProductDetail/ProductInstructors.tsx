@@ -19,7 +19,7 @@ const ProductInstructors: FC<Props> = ({ product, country, isEbook }) => {
   const totalPages = Math.ceil(product.authors.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    console.log(pageNumber);
+    // console.log(pageNumber);
     setCurrentPage(pageNumber);
   };
 

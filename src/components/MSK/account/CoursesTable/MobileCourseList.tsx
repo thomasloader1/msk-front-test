@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import MobileCourseItem from "./MobileCourseItem";
-import { UserCourseProgress } from "data/types";
+import { UserCourseProgress } from "@/data/types";
 
 interface MobileCourseListProps {
   items: UserCourseProgress[];

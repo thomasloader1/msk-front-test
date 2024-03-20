@@ -27,8 +27,8 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post, index }) => {
           containerClassName="absolute inset-0"
           src={image}
           alt={title}
-          width="30"
-          height="30"
+          width="300"
+          height="300"
         />
       </div>
       <Tooltip

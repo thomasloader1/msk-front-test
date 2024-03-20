@@ -41,7 +41,7 @@ const useInterval = (url: string): UseIntervalResult => {
           clearInterval(intervalId);
           setIsRunning(false);
         }
-        console.log(intents);
+        // console.log(intents);
       }
     }, 5000);
 

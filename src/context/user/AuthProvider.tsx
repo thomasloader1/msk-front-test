@@ -51,7 +51,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
             }
           }
         } else {
-          console.log("No user data");
+          // console.log("No user data");
         }
       } else if (expires_at && new Date(expires_at) < new Date()) {
         dispatch({ type: "LOGOUT" });

@@ -39,7 +39,7 @@ const ButtonAccessCourse: FC<ButtonAccessCourseProps> = ({
 
         if (response.data[0].code.includes("SUCCESS")) {
           const watching = await startWatch(item.product_code);
-          console.log(!!watching, { watching });
+          // console.log(!!watching, { watching });
           setOnRequest(!!watching);
         } else {
           setOnRequest(false);

@@ -30,7 +30,7 @@ const TABS = [
   "Mis cursos",
   // "Favoritos"
 ];
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const {
@@ -66,7 +66,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         router.push("/iniciar-sesion");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       router.push("/iniciar-sesion");
     }
   };

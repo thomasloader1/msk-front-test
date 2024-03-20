@@ -24,10 +24,12 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { DataContext } from "@/context/data/DataContext";
 import { removeAccents } from "@/lib/removeAccents";
 import api from "../../../../Services/api";
+import { filterStoreProducts } from "@/lib/storeFilters";
 
 interface Props {
   products: FetchCourseType[];
   productsLength: number;
+  specialties?: any;
   // handleTriggerSearch: (e: any) => void;
   // handleTriggerFilter: (e: any) => void;
 }
@@ -35,6 +37,7 @@ interface Props {
 const StoreContent: FC<Props> = ({
   products,
   productsLength,
+  specialties,
   // handleTriggerSearch,
   // handleTriggerFilter,
 }) => {
@@ -46,9 +49,10 @@ const StoreContent: FC<Props> = ({
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
   };
-  useEffect(() => {
-    if (!professions.length) fetchProfessions();
-    if (typeof window != "undefined") {
+
+  if (typeof window != "undefined") {
+    useEffect(() => {
+      if (!professions.length) fetchProfessions();
       if (professions.length) {
         const auxURLParams = getParamsFromURL(window.location.href, [
           "profesion",
@@ -59,8 +63,8 @@ const StoreContent: FC<Props> = ({
         setStoreURLParams(auxProfessions);
         applyFilters();
       }
-    }
-  }, [window.location.search, professions]);
+    }, [window.location.search, professions]);
+  }
   const [currentPage, setCurrentPage] = useState(1);
 
   const { storeFilters, addFilter, removeFilter, updateFilter, clearFilters } =
@@ -75,7 +79,9 @@ const StoreContent: FC<Props> = ({
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
 
   // Calcular el número total de páginas
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(products.length / itemsPerPage)
+  );
 
   // Función para cambiar la página
   const pathname = usePathname();
@@ -107,6 +113,43 @@ const StoreContent: FC<Props> = ({
       removeFilter("page", { id: pageNumber, name: String(pageNumber) });
     }
   };
+
+  useEffect(() => {
+    if (products) {
+      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+      setLocalProducts(products);
+      setAllProducts(products);
+    }
+  }, [products]);
+
+  // STOREBAR FILTERS
+
+  const handleTriggerSearch = (event: any) => {
+    if (event) {
+      const filteredProducts = products.filter((product) =>
+        removeAccents(product.title.toLowerCase()).includes(
+          removeAccents(event.toLowerCase())
+        )
+      );
+      setCurrentItems(
+        filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
+      );
+      setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+      setCurrentPage(1);
+    } else {
+      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+      setTotalPages(Math.ceil(products.length / itemsPerPage));
+      setCurrentPage(1);
+    }
+  };
+
+  const triggerFilter = (event: any) => {
+    setCurrentItems(filterStoreProducts(products, event));
+  };
+
+  // END STOREBAR FILTERS
+
+  // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
     const specialtyExists = storeFilters.specialties.filter(
@@ -164,7 +207,6 @@ const StoreContent: FC<Props> = ({
     const selectedDurations = storeFilters.duration.map(
       (filter: DurationFilter) => filter.value
     );
-    console.log("ENTRO", selectedProfessions.length);
 
     if (
       !(
@@ -233,7 +275,7 @@ const StoreContent: FC<Props> = ({
         );
       });
 
-      console.log("Filtered Products", filteredProducts);
+      // console.log("Filtered Products", filteredProducts);
       setCurrentItems(
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
@@ -241,89 +283,9 @@ const StoreContent: FC<Props> = ({
       // setLocalProducts(filteredProducts);
     }
   };
-  // const triggerFilter = (event: any) => {
-  //   let sortedProducts: FetchCourseType[] = [];
-  //   // setLoading(true);
-
-  //   switch (event) {
-  //     case "":
-  //       sortedProducts = [...auxProducts];
-  //       break;
-  //     case "novedades":
-  //       sortedProducts = [...products]; // Create a copy of products
-  //       sortedProducts.sort((a, b) => {
-  //         const isNewA = Boolean(a.is_new);
-  //         const isNewB = Boolean(b.is_new);
-  //         if (isNewA === isNewB) {
-  //           return 0;
-  //         } else if (isNewA) {
-  //           return -1;
-  //         } else {
-  //           return 1;
-  //         }
-  //       });
-  //       break;
-  //     case "mas_horas":
-  //       sortedProducts = [...products];
-  //       sortedProducts.sort((a, b) => {
-  //         let durationA = parseInt(a.duration);
-  //         let durationB = parseInt(b.duration);
-
-  //         if (isNaN(durationA)) {
-  //           durationA = 0;
-  //         }
-  //         if (isNaN(durationB)) {
-  //           durationB = 0;
-  //         }
-  //         if (durationA < durationB) {
-  //           return 1;
-  //         }
-  //         if (durationA > durationB) {
-  //           return -1;
-  //         }
-  //         return 0;
-  //       });
-  //       break;
-  //     case "menos_horas":
-  //       sortedProducts = [...products];
-  //       sortedProducts.sort((a, b) => {
-  //         let durationA = parseInt(a.duration);
-  //         let durationB = parseInt(b.duration);
-  //         if (isNaN(durationA)) {
-  //           durationA = 0;
-  //         }
-  //         if (isNaN(durationB)) {
-  //           durationB = 0;
-  //         }
-  //         if (durationA > durationB) {
-  //           return 1;
-  //         }
-  //         if (durationA < durationB) {
-  //           return -1;
-  //         }
-  //         return 0;
-  //       });
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  // setLoading(false);
-  // setProducts(sortedProducts);
-  // };
-
-  useEffect(() => {
-      if (products){
-          console.log('Products: ', products);
-          setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-          setLocalProducts(products);
-          setAllProducts(products);
-      }
-  }, [products]);
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
-      {/* {localProducts.length} */}
       {storeFilters.specialties.length > 0 && (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
@@ -331,18 +293,19 @@ const StoreContent: FC<Props> = ({
       )}
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
-          <StoreSideBar
+          {/* <StoreSideBar
             onChangeSpecialty={onChangeSpecialty}
             onChangeProfession={onChangeProfession}
             onChangeResource={onChangeResource}
             onChangeDuration={onChangeDuration}
             professions={professions}
-          />
+            specialties={specialties}
+          /> */}
         </div>
         <div>
-          {/* <StoreBar
-            onSearch={(e) => triggerSearch(e)}
-            onFilter={(e) => triggerFilter(e)}
+          <StoreBar
+            onSearch={handleTriggerSearch}
+            onFilter={triggerFilter}
             length={products.length}
             filtersCount={
               storeFilters.specialties.length +
@@ -350,7 +313,7 @@ const StoreContent: FC<Props> = ({
               storeFilters.resources.length +
               storeFilters.duration.length
             }
-          /> */}
+          />
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {currentItems.length ? (
               currentItems.map((product, index) => {

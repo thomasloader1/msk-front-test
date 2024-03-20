@@ -95,7 +95,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
 
   const handleReCaptchaVerify = useCallback(async () => {
     if (!executeRecaptcha) {
-      console.log("Execute recaptcha not yet available");
+      // console.log("Execute recaptcha not yet available");
       return;
     }
     const token = await executeRecaptcha("yourAction");
@@ -295,7 +295,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
           console.error("Error al ejecutar reCAPTCHA:", error);
         }
       } else {
-        console.log("Execute recaptcha not yet available1");
+        // console.log("Execute recaptcha not yet available1");
       }
       setOnRequest(false);
     },

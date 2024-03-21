@@ -10,6 +10,7 @@ export default function Error({
     reset: () => void
 }) {
     let apiURL = process.env.NEXT_PUBLIC_PUBLIC_URL;
+    console.log("APIIIII",apiURL);
     useEffect(() => {
         // Log the error to an error reporting service
         console.error("Server Error: ", error)
@@ -18,7 +19,8 @@ export default function Error({
     return (
         <div>
             <h2>Something went wrong!</h2>
-            <p>Api url: {apiURL}</p>
+            <p>Api url: {apiURL || 'Not available'}</p> {/* Display "Not available" if apiURL is empty */}
+
             <button
                 onClick={
                     // Attempt to recover by trying to re-render the segment

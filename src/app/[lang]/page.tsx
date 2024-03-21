@@ -84,8 +84,24 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             loading={isLoadingCourses() || isLoadingBestSellers()}
           />
           <HomeExtraInfo/>
+          <BlogSummary
+            posts={getAllPosts()}
+            tabs={TABS_BLOG}
+            className="py-16 "
+            heading=""
+            desc=""
+            showTitle
+          />
           <div className="relative py-16">
             <BackgroundSection />
+            <SectionSliderPosts
+              posts={getAllBestSellers()}
+              postCardName="card9"
+              heading="Nuestros cursos más elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+              sliderStype="style2"
+              uniqueSliderClass="pageHome-section6"
+            />
           </div>
         </div>
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">

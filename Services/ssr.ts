@@ -85,6 +85,12 @@ class ApiSSRService {
 
             console.log("Get all courses URL", `${API_URL}/products?limit=-1${queryParams}`);
             const response = await fetch(`${API_URL}/products?limit=-1${queryParams}`);
+            const responseBody = await response.text(); // Log the response body
+            const statusCode = response.status;
+
+            // Log the HTTP status code
+            console.log("HTTP status code:", statusCode);
+            console.log("Response body:", responseBody);
             console.log("Get all courses response", JSON.stringify(response));
             console.debug(response);
             if (!response.ok) {

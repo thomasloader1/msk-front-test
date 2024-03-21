@@ -34,23 +34,13 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     try {
         // Your render logic here
         const currentCountry = params.lang || cookies().get("country")?.value;
-        if (!getAllCourses().length) {
-            const fetchedCourses = await ssr.getAllCourses(currentCountry);
-            setAllCourses(fetchedCourses);
-        }
-        if (!getAllBestSellers().length) {
-            const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
-            setAllBestSellers(fetchedBestSellers);
-        }
-        if (!getAllPosts() || !getAllPosts().length) {
-            const fetchedPosts = await ssr.getPosts(currentCountry);
-            setAllPosts(fetchedPosts);
-        }
+
     } catch (error) {
         console.error("Error rendering MyComponent:", error);
         throw error; // Re-throw to let React's error boundaries catch it
     }
 
+    let apiURL = process.env.NEXT_PUBLIC_PUBLIC_URL;
 
   return (
     <div className="nc-PageHome relative animate-fade-down">
@@ -76,6 +66,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               </>
             }
           />
+            <p>Api url: {apiURL}</p>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}
@@ -93,24 +84,8 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             loading={isLoadingCourses() || isLoadingBestSellers()}
           />
           <HomeExtraInfo/>
-          <BlogSummary
-            posts={getAllPosts()}
-            tabs={TABS_BLOG}
-            className="py-16 "
-            heading=""
-            desc=""
-            showTitle
-          />
           <div className="relative py-16">
             <BackgroundSection />
-            <SectionSliderPosts
-              posts={getAllBestSellers()}
-              postCardName="card9"
-              heading="Nuestros cursos más elegidos"
-              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-              sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
-            />
           </div>
         </div>
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">

@@ -85,12 +85,13 @@ class ApiSSRService {
 
             console.log("Get all courses URL", `${API_URL}/products?limit=-1${queryParams}`);
             const response = await fetch(`${API_URL}/products?limit=-1${queryParams}`);
-
+            console.log("Get all courses response", response);
             if (!response.ok) {
-                throw new Error(`Failed to fetch courses. HTTP status ${response.status}`);
+                //throw new Error(`Failed to fetch courses. HTTP status ${response.status}`);
             }
 
             const data = await response.json();
+            console.log("Get all courses data", data);
 
             setAllCourses(data.products);
             setLoadingCourses(false);

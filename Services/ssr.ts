@@ -86,6 +86,7 @@ class ApiSSRService {
             console.log("Get all courses URL", `${API_URL}/products?limit=-1${queryParams}`);
             const response = await fetch(`${API_URL}/products?limit=-1${queryParams}`);
             console.log("Get all courses response", JSON.stringify(response));
+            console.debug(response);
             if (!response.ok) {
                 //throw new Error(`Failed to fetch courses. HTTP status ${response.status}`);
             }
@@ -100,7 +101,7 @@ class ApiSSRService {
             return data.products;
         } catch (error) {
             console.error("Network error:", error);
-            return error;
+            //return error;
         }
     }
 

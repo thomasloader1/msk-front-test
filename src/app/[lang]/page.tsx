@@ -34,10 +34,10 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     try {
         // Your render logic here
         const currentCountry = params.lang || cookies().get("country")?.value;
-        if (!getAllCourses().length) {
+        //if (!getAllCourses().length) {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
             setAllCourses(fetchedCourses);
-        }
+        //}
     } catch (error) {
         console.error("Error rendering MyComponent:", error);
         throw error; // Re-throw to let React's error boundaries catch it

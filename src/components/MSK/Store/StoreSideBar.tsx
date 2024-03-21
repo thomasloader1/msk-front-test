@@ -6,52 +6,18 @@ import {
   Specialty,
 } from "@/data/types";
 import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
-// import { useHistory } from "react-router-dom";
 import { slugifySpecialty } from "@/lib/Slugify";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { DataContext } from "@/context/data/DataContext";
-import api from "../../../../Services/api";
-
-interface StoreFilterQuery {
-  professions: [{ name: string; id: number; slug: string }];
-  specialties: [{ name: string; id: number; image?: string }];
-  resources: [{ name: string; id: number }];
-}
-
-const initialState = {
-  isActive: false,
-  isActiveA: false,
-  isActiveB: false,
-  isActiveC: false,
-  isActiveD: false,
-  isActiveE: false,
-};
-const reducer = (state: any, action: any) => {
-  switch (action) {
-    case "categories":
-      return {
-        ...state,
-        isActive: !state.isActive,
-      };
-    case "ratings":
-      return {
-        ...state,
-        isActiveA: !state.isActiveA,
-      };
-    case "price":
-      return {
-        ...state,
-        isActiveB: !state.isActiveB,
-      };
-    case "durations":
-      return {
-        ...state,
-        isActiveE: !state.isActiveE,
-      };
-    default:
-      throw new Error("Unexpected action");
-  }
-};
+import Link from "next/link";
+import {
+  addFilterNew,
+  filterSpecialtiesAux,
+  getFilters,
+  isSpecialtySelected,
+  setFilterSpecialty,
+} from "@/lib/storeFilters";
+import specialtiesMapping from "../../../data/jsons/__specialties.json";
 
 interface Props {
   onChangeSpecialty: (specialty: Specialty) => void;
@@ -59,6 +25,7 @@ interface Props {
   onChangeResource: (resource: ResourceFilter) => void;
   onChangeDuration: (duration: DurationFilter) => void;
   professions: Profession[];
+  specialties: Specialty[];
 }
 
 const StoreSideBar: FC<Props> = ({
@@ -67,136 +34,45 @@ const StoreSideBar: FC<Props> = ({
   onChangeResource,
   onChangeDuration,
   professions,
+  specialties,
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [initialLoad, setInitialLoad] = useState(true);
-  const { storeFilters } = useStoreFilters();
-  const { state: dataState } = useContext(DataContext);
-  // const { allProfessions: professions, allSpecialties: specialties } =
-  // dataState;
-
-  // const [professions, setProfessions] = useState<Profession[]>(allProfessions);
-  // const [specialties, setSpecialties] = useState<Specialty[]>(allSpecialties);
-
-  const resources: ResourceFilter[] = [
-    { name: "Curso", id: 1 },
-    { name: "Guías profesionales", id: 2 },
-  ];
-
-  const duration = [
-    { name: "Hasta 100 horas", id: 1, value: "less_100" },
-    { name: "De 100 a 300 horas", id: 2, value: "100_300" },
-    { name: "Más de 300 horas", id: 3, value: "more_300" },
-  ];
-  useEffect(() => {
-    const currentUrl = window.location.href;
-    const searchQuery = currentUrl.split("?")[1];
-
-    if (searchQuery) {
-      const queryParams = searchQuery.split("&");
-      const matchingProfessions = [{}] as StoreFilterQuery["professions"];
-      const matchingSpecialties = [{}] as StoreFilterQuery["specialties"];
-      const matchingResources = [{}] as StoreFilterQuery["resources"];
-
-      queryParams.forEach((param) => {
-        const [key, value] = param.split("=");
-        const decodedValue = decodeURIComponent(value);
-        if (key === "profesion" && professions.length) {
-          const professionExists = professions.find(
-            (item) => item.slug === decodedValue
-          );
-          if (professionExists) {
-            matchingProfessions.push(professionExists);
-          }
-        } else if (key === "especialidad" && specialties.length) {
-          const specialtiesExists = specialties.find(
-            (item) => item.name === decodedValue
-          );
-          if (specialtiesExists) {
-            matchingSpecialties.push(specialtiesExists);
-          }
-        } else if (key === "recurso" && resources.length) {
-          const resourceExists = resources.find(
-            (item) => item.id.toString() === decodedValue
-          );
-          if (resourceExists) {
-            matchingResources.push(resourceExists);
-          }
-        }
-      });
-
-      if (
-        (matchingProfessions.length ||
-          matchingSpecialties.length ||
-          matchingResources.length) &&
-        initialLoad
-      ) {
-        matchingProfessions.forEach((profession) => {
-          onChangeProfession({
-            id: profession.id,
-            name: profession.name,
-            slug: profession.slug,
-          });
-        });
-        matchingSpecialties.forEach((specialty) => {
-          onChangeSpecialty({
-            id: specialty.id,
-            name: specialty.name,
-          });
-        });
-        matchingResources.forEach((resource) => {
-          onChangeResource({
-            id: resource.id,
-            name: resource.name,
-          });
-        });
-        setInitialLoad(false);
-      }
-    }
-  }, [onChangeProfession, onChangeSpecialty, onChangeResource]);
-
-  const isChecked = (type: string, value: any) => {
-    switch (type) {
-      case "professions":
-        !!storeFilters[type as keyof typeof storeFilters].filter(
-          (profession: any) => {
-            return profession.slug == value.slug;
-          }
-        );
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (profession: any) => {
-            return profession.slug == value.slug;
-          }
-        ).length;
-      case "specialties":
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (specialty: any) => {
-            return specialty.name == value.name;
-          }
-        ).length;
-      case "resources":
-        return !!storeFilters[type as keyof typeof storeFilters].filter(
-          (resource: any) => {
-            return resource.id == value.id;
-          }
-        ).length;
+  const router = useRouter();
+  const [currentSpecialty, setCurrentSpecialty] = useState<
+    Specialty | string | null
+  >();
+  const setSpecialtyFilter = (specialty: Specialty) => {
+    const specialtySlug = slugifySpecialty(specialty.name);
+    if (currentSpecialty == specialtySlug) {
+      router.push(`?recurso=curso`);
+      setCurrentSpecialty(null);
+      onChangeSpecialty(specialty);
+    } else {
+      router.push(`?especialidad=${specialtySlug}&recurso=curso`);
+      setCurrentSpecialty(specialtySlug);
+      onChangeSpecialty(specialty);
     }
   };
 
-  const history = useRouter();
+  if (typeof window != "undefined") {
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      const specialtySlug = params.get("especialidad");
+      if (specialtySlug && specialtySlug !== currentSpecialty) {
+        const specialtyName =
+          specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
+        setSpecialtyFilter({ name: specialtyName });
+      }
+    }, [window.location.search]);
+  }
   return (
     <>
       <div className="course-sidebar-widget mb-2">
         <div
-          className={`course-sidebar-info ${
-            state.isActive ? "content-visiable" : "content-hidden"
-          }`}
+          className={`course-sidebar-info`}
+          // ${ state.isActive ? "content-visiable" : "content-hidden" }
         >
-          <h3 className="drop-btn" onClick={() => dispatch("categories")}>
-            Especialidades
-          </h3>
-          {false ? (
-            // specialties.length
+          <h3 className="drop-btn">Especialidades</h3>
+          {specialties && specialties.length ? (
             <ul>
               {specialties.map((specialty, index) => {
                 return (
@@ -206,16 +82,10 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
-                        onChange={(event) => {
-                          /* onChangeSpecialty(specialty) */
-                          //console.error(specialty);
-                          history.push(
-                            `?especialidad=${slugifySpecialty(
-                              specialty.name
-                            )}&recurso=curso`
-                          );
-                        }}
-                        checked={isChecked("specialties", specialty)}
+                        onChange={() => setSpecialtyFilter(specialty)}
+                        checked={
+                          currentSpecialty == slugifySpecialty(specialty.name)
+                        }
                       />
                       <label
                         className="edu-check-label"
@@ -231,7 +101,7 @@ const StoreSideBar: FC<Props> = ({
           ) : null}
         </div>
       </div>
-      <div className="course-sidebar-widget mb-2">
+      {/* <div className="course-sidebar-widget mb-2">
         <div
           className={`course-sidebar-info ${
             state.isActiveA ? "content-visiable" : "content-hidden"
@@ -334,7 +204,7 @@ const StoreSideBar: FC<Props> = ({
             })}
           </ul>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

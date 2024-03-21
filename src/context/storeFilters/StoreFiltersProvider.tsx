@@ -46,8 +46,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       | ResourceFilter
       | PageFilter
   ) => {
-    if (typeof filterValue.id != "undefined")
-      dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
+    dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
   };
 
   const updateFilter = (filterType: keyof Filter, filterValue: PageFilter) => {

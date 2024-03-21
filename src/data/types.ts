@@ -457,7 +457,7 @@ export interface Profession {
 }
 
 export interface Specialty {
-  id: number;
+  id?: number;
   name: string;
   href?: string;
 }

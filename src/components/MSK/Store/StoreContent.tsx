@@ -152,17 +152,9 @@ const StoreContent: FC<Props> = ({
   // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    const specialtyExists = storeFilters.specialties.filter(
-      (item: Specialty) => {
-        return item.name == specialty.name;
-      }
-    );
-
-    if (specialtyExists.length) {
-      removeFilter("specialties", specialty);
-    } else {
-      addFilter("specialties", specialty);
-    }
+    removeFilter("specialties", specialty);
+    addFilter("specialties", specialty);
+    applyFilters();
   };
   const onChangeProfession = (profession: Profession) => {
     const professionExists = storeFilters.professions.filter(
@@ -233,52 +225,53 @@ const StoreContent: FC<Props> = ({
           );
         }
 
-        if (
-          storeURLParams &&
-          !selectedProfessions.includes(storeURLParams.slug)
-        ) {
-          selectedProfessions.push(storeURLParams.slug);
-        }
-        const professionsMatch =
-          selectedProfessions.length === 0 ||
-          selectedProfessions.some((profession) =>
-            prodProfessions.some((prodProfession) =>
-              prodProfession.toLowerCase().includes(profession?.toLowerCase())
-            )
-          );
+        // if (
+        //   storeURLParams &&
+        //   !selectedProfessions.includes(storeURLParams.slug)
+        // ) {
+        //   selectedProfessions.push(storeURLParams.slug);
+        // }
+        // const professionsMatch =
+        //   selectedProfessions.length === 0 ||
+        //   selectedProfessions.some((profession) =>
+        //     prodProfessions.some((prodProfession) =>
+        //       prodProfession.toLowerCase().includes(profession?.toLowerCase())
+        //     )
+        //   );
 
-        const resourcesMatch = selectedResources
-          .filter((e: string) => e != undefined)
-          .every((resource) => {
-            if (resource === "Curso") {
-              return product.father_post_type === "course";
-            } else if (resource === "Guías profesionales") {
-              return product.father_post_type === "downloadable";
-            }
-          });
+        // const resourcesMatch = selectedResources
+        //   .filter((e: string) => e != undefined)
+        //   .every((resource) => {
+        //     if (resource === "Curso") {
+        //       return product.father_post_type === "course";
+        //     } else if (resource === "Guías profesionales") {
+        //       return product.father_post_type === "downloadable";
+        //     }
+        //   });
 
-        const durationsMatch = selectedDurations.every((duration) => {
-          const currentDuration = parseInt(prodDuration);
-          switch (duration) {
-            case "less_100":
-              return currentDuration <= 100;
-            case "100_300":
-              return currentDuration > 100 && currentDuration <= 300;
-            case "more_300":
-              return currentDuration > 300;
-          }
-        });
+        // const durationsMatch = selectedDurations.every((duration) => {
+        //   const currentDuration = parseInt(prodDuration);
+        //   switch (duration) {
+        //     case "less_100":
+        //       return currentDuration <= 100;
+        //     case "100_300":
+        //       return currentDuration > 100 && currentDuration <= 300;
+        //     case "more_300":
+        //       return currentDuration > 300;
+        //   }
+        // });
 
-        return (
-          // specialtiesMatch &&
-          professionsMatch && resourcesMatch && durationsMatch
-        );
+        return specialtiesMatch;
+        // &&
+        // professionsMatch &&
+        // resourcesMatch &&
+        // durationsMatch
       });
-
-      // console.log("Filtered Products", filteredProducts);
       setCurrentItems(
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
+      setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+      setCurrentPage(1);
 
       // setLocalProducts(filteredProducts);
     }
@@ -293,14 +286,14 @@ const StoreContent: FC<Props> = ({
       )}
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
-          {/* <StoreSideBar
+          <StoreSideBar
             onChangeSpecialty={onChangeSpecialty}
             onChangeProfession={onChangeProfession}
             onChangeResource={onChangeResource}
             onChangeDuration={onChangeDuration}
             professions={professions}
             specialties={specialties}
-          /> */}
+          />
         </div>
         <div>
           <StoreBar

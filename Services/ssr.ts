@@ -83,6 +83,7 @@ class ApiSSRService {
                 tagParam
             ].filter(Boolean).join("");
 
+            console.log("Get all courses URL", `${API_URL}/products?limit=-1${queryParams}`);
             const response = await fetch(`${API_URL}/products?limit=-1${queryParams}`);
 
             if (!response.ok) {

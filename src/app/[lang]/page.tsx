@@ -27,30 +27,31 @@ interface PageProps {
   params: any;
 }
 
-const PageHome: React.FC<PageProps> = async ({ params }) => {
-  const currentCountry = params.lang || cookies().get("country")?.value;
-  if (!getAllCourses().length) {
-    const fetchedCourses = await ssr.getAllCourses(currentCountry);
-    setAllCourses(fetchedCourses);
-  }
-  if (!getAllBestSellers().length) {
-    const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
-    setAllBestSellers(fetchedBestSellers);
-  }
-  if (!getAllPosts() || !getAllPosts().length) {
-    const fetchedPosts = await ssr.getPosts(currentCountry);
-    setAllPosts(fetchedPosts);
-  }
+// Add logging to debug
 
-  const scrollToContactForm = () => {
-    // const contactForm = document.getElementById("contactanos");
-    // if (contactForm) {
-    //   window.scrollTo({
-    //     top: document.getElementById("contactanos")!.offsetTop,
-    //     behavior: "smooth",
-    //   });
-    // }
-  };
+const PageHome: React.FC<PageProps> = async ({ params }) => {
+
+    try {
+        // Your render logic here
+        const currentCountry = params.lang || cookies().get("country")?.value;
+        if (!getAllCourses().length) {
+            const fetchedCourses = await ssr.getAllCourses(currentCountry);
+            setAllCourses(fetchedCourses);
+        }
+        if (!getAllBestSellers().length) {
+            const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
+            setAllBestSellers(fetchedBestSellers);
+        }
+        if (!getAllPosts() || !getAllPosts().length) {
+            const fetchedPosts = await ssr.getPosts(currentCountry);
+            setAllPosts(fetchedPosts);
+        }
+    } catch (error) {
+        console.error("Error rendering MyComponent:", error);
+        throw error; // Re-throw to let React's error boundaries catch it
+    }
+
+
   return (
     <div className="nc-PageHome relative animate-fade-down">
       <PageHead
@@ -91,7 +92,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             desc="Cursos destacados para realizar a distancia"
             loading={isLoadingCourses() || isLoadingBestSellers()}
           />
-          <HomeExtraInfo country={currentCountry} />
+          <HomeExtraInfo/>
           <BlogSummary
             posts={getAllPosts()}
             tabs={TABS_BLOG}

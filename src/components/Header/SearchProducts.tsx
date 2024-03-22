@@ -51,7 +51,9 @@ const SearchProducts = () => {
   const location = useLocation();
   useEffect(() => {
     if (location.pathname.includes("/blog")) {
-      setAuxProducts([...allPosts]);
+      const filterGuia = allCourses.filter((course: any) => course.father_post_type.includes("downloadable"))
+      //console.log({allPosts, filterGuia})
+      setAuxProducts([...allPosts, ...filterGuia]);
       setProducts(allPosts);
       setIsOnBlog(true);
     } else {
@@ -81,7 +83,7 @@ const SearchProducts = () => {
           {products
             .map((product, index) => (
               <Link
-                to={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
+                to={`/${isOnBlog && !(product.father_post_type) ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
                 className="product-item"
                 onClick={() => clearInputValue()} // Clear input value and update URL

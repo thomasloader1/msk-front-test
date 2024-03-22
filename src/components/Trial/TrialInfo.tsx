@@ -59,6 +59,9 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
             Luego, {installments} pagos de{" "}
             {!mountedInput ? <TextSkeleton /> : <strong>{formatAmount(Number(forcedRoundedPrice), currency)}</strong>}
           </span>
+        {country === 'ec' && 
+          <span className="text-violet-wash block">+ impuestos aplicables</span>
+        }
         </div>
       </div>
 

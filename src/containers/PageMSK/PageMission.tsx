@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/mission/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
@@ -7,6 +7,8 @@ import { changeCurrentPage } from "app/pages/pages";
 import SingleHeader from "../PageMSK/mission/SingleHeader";
 import { removeUrlParams } from "lib/removeUrlParams";
 import PageHead from "./PageHead";
+import api from "Services/api";
+import { CountryContext } from "context/country/CountryContext";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -110,10 +112,17 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
   const dispatch = useAppDispatch();
-
+  const [contentMission, setContentMission] = useState("")
+  const {state:countryState} = useContext(CountryContext)
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   useEffect(() => {
     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
+
+    const fetchMissionContent = async () =>{
+      const res = await api.getMissionContent(countryState.country);
+      setContentMission(res.contenido)
+    }
+    fetchMissionContent()
     return () => {
       dispatch(changeCurrentPage({ type: "/", data: {} }));
     };
@@ -156,12 +165,10 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
         {/* SINGLE MAIN CONTENT */}
         <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
-            <SingleContent data={SINGLE} />
+            <SingleContent data={SINGLE} content={contentMission} />
           </div>
         </div>
 
-        {/* RELATED POSTS */}
-        {/* <SingleRelatedPosts /> */}
       </div>
     </>
   );

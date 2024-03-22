@@ -13,14 +13,21 @@ interface CancelTrialModalProps{
 const CancelTrialModal: FC<CancelTrialModalProps> = ({isOpenProp,item, onCloseModal}) => {
   const [onRequest, setOnRequest] = useState(isOpenProp);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
   const {state: authState} = useContext(AuthContext);
 
   const suspendTrial = async () =>{
     const res = await api.cancelTrialCourse(item, authState);
-    
-    if(res){
-        setOnRequest(false);
-        setConfirmModal(true)
+    let errorConditionCRM = res.data.error ?? res.data.data[0].data[0].code.includes("INVALID_DATA");
+   
+    if(!errorConditionCRM){
+      setOnRequest(false);
+      onCloseModal()
+      setConfirmModal(true)
+    }else{
+      setOnRequest(false);
+      onCloseModal()
+      setErrorModal(true)
     }
   }
 
@@ -76,6 +83,22 @@ const CancelTrialModal: FC<CancelTrialModalProps> = ({isOpenProp,item, onCloseMo
             textButton="Ir al curso"
             productSlug={item.slug}
             setShow={setConfirmModal}
+          />
+        )}
+      />
+
+      <NcModalSmall
+        isOpenProp={errorModal}
+        onCloseModal={() => setErrorModal(false)}
+        renderTrigger={() => null}
+        contentExtraClass="max-w-[500px]"
+        renderContent={() => (
+          <TrialModalContent
+            title="Hubo un error al finalizar tu prueba"
+            desc="Intenta nuevamente mas tarde"
+            textButton="Volver"
+            productSlug={item.slug}
+            setShow={setErrorModal}
           />
         )}
       />

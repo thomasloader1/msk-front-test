@@ -87,12 +87,12 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
         <h4 className='text-xl mb-4'>{title}</h4>
         <p className='mb-4 font-medium text-violet-wash'>{desc}</p>
         {faliedMessage && <p className='mb-8 font-medium text-red-600'>{faliedMessage}</p>}
-        <button onClick={() => handleCloseModal() } disabled={interact} className="video-cart-btn w-full disabled:bg-grey-disabled">{interact ? "Solicitando ..." : textButton }</button>
+        <button onClick={() => handleCloseModal() } disabled={interact} className="video-cart-btn w-full disabled:cursor-not-allowed disabled:bg-grey-disabled">{interact ? "Solicitando ..." : textButton }</button>
         { cancelButton && 
         <button 
         onClick={() => handleCloseModal("Cancelar") } 
         disabled={interact}
-        className="video-cart-btn border-2 w-full mt-2 disabled:bg-grey-disabled">Cancelar</button>
+        className="video-cart-btn border-2 w-full mt-2 disabled:cursor-not-allowed disabled:hover:bg-grey-disabled disabled:bg-grey-disabled disabled:text-white disabled:border-white disabled:hover:border-white">Cancelar</button>
       }
     </div>
   )

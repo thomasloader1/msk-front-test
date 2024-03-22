@@ -4,15 +4,16 @@ import { useLocation } from "react-router";
 import SectionSliderPosts from "../home/SectionSliderPosts";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import api from "Services/api";
+import { parseHtml } from "utils/parseHTML";
 
 export interface SingleContentProps {
   data: SinglePageType;
+  content?: string;
 }
 
-const SingleContent: FC<SingleContentProps> = ({ data }) => {
+const SingleContent: FC<SingleContentProps> = ({ data, content }) => {
   const [courses, setCourses] = useState([]);
   const commentRef = useRef<HTMLDivElement>(null);
-  //
   const location = useLocation();
 
   const fetchCourses = async () => {
@@ -42,6 +43,12 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
     <div className="nc-SingleContent space-y-10">
       {/* ENTRY CONTENT */}
       <div
+        id="single-entry-content"
+        className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
+        dangerouslySetInnerHTML={{__html: parseHtml(content as string)}}
+      />
+        
+     {/*  <div
         id="single-entry-content"
         className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
       >
@@ -78,7 +85,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           ¿Te gustaría alcanzar nuevos objetivos y obtener un mayor
           reconocimiento en tu profesión?
         </p>
-      </div>
+      </div> */}
 
       {/* TAGS */}
       <div className="relative py-16 my-32">

@@ -33,7 +33,7 @@ const Card6: FC<Card6Props> = ({
   const { title, slug, image, categories, link, author, date } = post;
   const categoriesOrder = kind === 'blog' && categories
 
-  console.log(categories)
+  //console.log(categories)
 
   return (
     <div

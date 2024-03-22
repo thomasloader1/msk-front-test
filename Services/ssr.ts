@@ -74,7 +74,6 @@ class ApiSSRService {
         if (country && validCountries.includes(country)) {
             countryParam = `&country=${country}`;
         }
-
         const tagParam = tag ? `&tag=${tag}` : "";
 
         try {

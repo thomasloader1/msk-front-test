@@ -527,7 +527,7 @@ class ApiService {
       return res;
     } catch (e: any) {
       console.log({ e });
-      return e;
+      return {data: { error: true} };
     }
   }
 }

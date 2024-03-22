@@ -18,12 +18,12 @@ const CancelTrialModal: FC<CancelTrialModalProps> = ({isOpenProp,item, onCloseMo
 
   const suspendTrial = async () =>{
     const res = await api.cancelTrialCourse(item, authState);
-    let errorConditionCRM = res.data.data[0].data[0].code.includes("INVALID_DATA");
+    let errorConditionCRM = res.data.error ?? res.data.data[0].data[0].code.includes("INVALID_DATA");
+   
     if(!errorConditionCRM){
-        setOnRequest(false);
+      setOnRequest(false);
       onCloseModal()
-
-        setConfirmModal(true)
+      setConfirmModal(true)
     }else{
       setOnRequest(false);
       onCloseModal()

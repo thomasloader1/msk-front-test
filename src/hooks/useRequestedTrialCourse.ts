@@ -23,12 +23,12 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
         setShowMissingData(true)
       }
       
-      //console.log({hasTrialCourses, product, userProfile})
+      console.log({hasTrialCourses, product, userProfile})
       if (hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined') {
         hasTrialCourses.forEach((tc: any) => {
           let contract = JSON.parse(tc.contractJson);
           let productWpCode = product?.ficha?.product_code ?? product.product_code; 
-          //let isMatch = Number(contract.data[0].Product_Details[0].product.Product_Code) === productWpCode;
+          
           
           let isMatch = contract.data[0].Product_Details.map((pd:any) => {
             return Number(pd.product.Product_Code) === productWpCode;

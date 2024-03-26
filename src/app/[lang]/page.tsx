@@ -36,7 +36,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
         const currentCountry = params.lang || cookies().get("country")?.value;
         //if (!getAllCourses().length) {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
-            console.log("fetched courses: ", fetchedCourses);
+            //console.log("fetched courses: ", fetchedCourses);
             setAllCourses(fetchedCourses);
         //}
         if (!getAllBestSellers().length) {
@@ -52,7 +52,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
         throw error; // Re-throw to let React's error boundaries catch it
     }
 
-    let apiURL = process.env.NEXT_PUBLIC_PUBLIC_URL;
 
   return (
     <div className="nc-PageHome relative animate-fade-down">
@@ -78,7 +77,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               </>
             }
           />
-            <p>Api url: {apiURL}</p>
+            <p>Fetched Data: {JSON.stringify({})}</p>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}

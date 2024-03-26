@@ -1,8 +1,3 @@
-import { DataContext } from "context/data/DataContext";
-import { useContext } from "react";
-import { FetchSingleProduct } from 'data/types';
-
-
 interface Course {
   id: number;
   related_tag: number[];
@@ -71,10 +66,21 @@ interface Course {
   price_installments: string;
   created_at: string;
 }
+
 export const buildCourseSchema = (data: any) => {
   console.log({databuildcourseschema: data});
   let schema = null;
+  
   if(data != undefined && data != null){
+
+   const temario = data?.temario ? Object.values(data.temario).map((tema: any) => {
+      return {
+          "@type": "Course",
+          "name": tema.card_title,
+          "description": tema.card_body
+      };
+    }) : []
+
     schema = {
       "@context": "http://schema.org/",
       "@type": "Course",
@@ -122,13 +128,7 @@ export const buildCourseSchema = (data: any) => {
             "image": aval.image
         };
       }) : [], 
-      "temario": data?.temario ? Object.values(data.temario).map((tema: any) => {
-        return {
-            "@type": "Course",
-            "name": tema.card_title,
-            "description": tema.card_body
-        };
-      }) : [], // Manejo del caso en que data.ficha?.temario sea undefined o null
+      "temario": temario, // Manejo del caso en que data.ficha?.temario sea undefined o null
       "temario_link_pdf": data.temario_link_pdf
     
     };

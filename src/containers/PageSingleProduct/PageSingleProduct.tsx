@@ -19,22 +19,16 @@ const PageSingleProduct = () => {
   });
 
   console.log(product);
-  const jsonCourseSchema = buildCourseSchema(product);
+ /*  const jsonCourseSchema = buildCourseSchema(product);
   
   console.log({
     useSingleProduct : product ?? null,
     jsonCourseSchema: jsonCourseSchema ?? null
-  });
+  }); */
   return (
     <>
-      {jsonCourseSchema && (
-        <JsonLd>{jsonCourseSchema}</JsonLd>
-      )}
       <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">
-        <PageHead
-          title={product?.ficha.title as string}
-          description={product?.ficha.description}
-        />
+        
 
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
           {loading ? (
@@ -44,7 +38,15 @@ const PageSingleProduct = () => {
               <LoadingText />
             </div>
           ) : product ? (
+            <>
+            <PageHead
+          title={product?.ficha.title as string}
+          description={product?.ficha.description}
+          schemaJson="Course"
+          schemaJsonData={product}
+        />
             <SingleProductDetail product={product} />
+            </>
           ) : null}
         </section>
       </div>

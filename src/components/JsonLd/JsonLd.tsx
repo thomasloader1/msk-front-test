@@ -1,10 +1,12 @@
+import { FC } from "react";
 
-const JsonLd = ({ children  }:any) => {
+interface JsonLdProps{
+  content: string;
+}
+
+const JsonLd: FC<JsonLdProps> = ({ content }) => {
   return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(children) }}
-      />
+      <script type="application/ld+json">{content}</script>
   );
 };
 

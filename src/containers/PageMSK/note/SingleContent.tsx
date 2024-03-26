@@ -79,6 +79,13 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
+  const scrollToContainer = (id: string) => {
+    const container = document.getElementById(id);
+    if (container) {
+      container.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
 
   return (
     <div className="nc-SingleContent space-y-10 ">
@@ -103,7 +110,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     <li key={`${art.title}_${index}`}>
                       <a
                         className="text-primary text-lg "
-                        href={`#${slugify(art.title)}`}
+                        //href={`#${slugify(art.title)}`}
+                        onClick={() => scrollToContainer(`${slugify(art.title)}`)}
                       >
                         {art.title}
                       </a>

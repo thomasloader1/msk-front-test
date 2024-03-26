@@ -1,6 +1,4 @@
-import { CustomLink } from "data/types";
 import React from "react";
-import { Link } from "react-router-dom";
 
 interface NoteExtraDataProps {
   excerpt?: string;
@@ -22,7 +20,6 @@ const Excerpt: React.FC<NoteExtraDataProps> = ({
 }) => {
 
   const showSuggestContent = suggest_content?.description && suggest_content.description != '';
-console.log(suggest_content)
 const isEndpoint = suggest_content?.link?.url?.startsWith('/');
 const url = isEndpoint
   ? `${window.location.origin}${suggest_content?.link.url}`

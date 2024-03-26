@@ -34,10 +34,10 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     try {
         // Your render logic here
         const currentCountry = params.lang || cookies().get("country")?.value;
-        if (!getAllCourses().length) {
+        //if (!getAllCourses().length) {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
             setAllCourses(fetchedCourses);
-        }
+        //}
         if (!getAllBestSellers().length) {
             const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
             setAllBestSellers(fetchedBestSellers);
@@ -77,6 +77,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               </>
             }
           />
+            <p>Api url: {apiURL}</p>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}

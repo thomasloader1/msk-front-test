@@ -36,6 +36,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
         const currentCountry = params.lang || cookies().get("country")?.value;
         //if (!getAllCourses().length) {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
+            console.log("fetched courses: ", fetchedCourses);
             setAllCourses(fetchedCourses);
         //}
         if (!getAllBestSellers().length) {

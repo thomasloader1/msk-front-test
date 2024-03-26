@@ -38,6 +38,14 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
             setAllCourses(fetchedCourses);
         }
+        if (!getAllBestSellers().length) {
+            const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
+            setAllBestSellers(fetchedBestSellers);
+        }
+        if (!getAllPosts() || !getAllPosts().length) {
+            const fetchedPosts = await ssr.getPosts(currentCountry);
+            setAllPosts(fetchedPosts);
+        }
     } catch (error) {
         console.error("Error rendering MyComponent:", error);
         throw error; // Re-throw to let React's error boundaries catch it
@@ -69,7 +77,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               </>
             }
           />
-            <p>Api url: {apiURL}</p>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}

@@ -37,6 +37,7 @@ export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome, auth: false },
   { path: "/#", exact: true, component: PageHome, auth: false },
   { path: "/mision", component: PageMission, auth: false },
+  { path: "/quienes-somos", component: PageMission, auth: false },
   { path: "/tienda", component: PageStore, auth: false },
   { path: "/contacto", component: PageContact, auth: false },
   { path: "/newsletter", component: PageNewsletter, auth: false },

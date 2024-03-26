@@ -73,9 +73,6 @@ const mapToSchema = (SCHEMA: any, data: any) =>{
                 image: data.ficha?.image,
                 url: data.ficha?.data_hidden?.product_permalink,
                 coursePrerequisites: data.require,
-                productCode: data.ficha?.product_code, // Agrega el campo "product_code" al esquema
-                certificate: data.ficha?.data_hidden?.certificate ? "Certificado" : "No certificado", // Agrega la información sobre si el curso está certificado o no,
-                temario_link_pdf: data.temario_link_pdf
             };
     }
 }
@@ -85,7 +82,6 @@ const WEBSITE_SCHEMA = {
     "@type": "WebSite",
     "name": "Medical & Scientific Knowledge",
     "url": "https://www.msklatam.com",
-    "logo": "https://www.msklatam.com/images/msk-logo.svg",
     "description": "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional. Nuestro método de capacitación es flexible: brindamos distintos formatos de contenidos de nivel académico, entre los que se incluyen guías profesionales y webinars. Además, contamos con el respaldo de grandes instituciones de todo el mundo que certifican nuestros cursos.",
     "sameAs":
         ["https://www.instagram.com/msk.latam",

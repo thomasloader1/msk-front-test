@@ -1,6 +1,8 @@
+import JsonLd from "components/JsonLd/JsonLd";
 import { StoreFiltersContext } from "context/storeFilters/StoreContext";
 import { PageFilter } from "data/types";
 import { getDescriptionContent } from "lib/pageHeadUtils";
+import { generateSchemaJson } from "lib/pageSchemaJson";
 import { removeUrlParams } from "lib/removeUrlParams";
 import { FC, useContext } from "react";
 import { Helmet } from "react-helmet";
@@ -10,6 +12,8 @@ interface PageHeadProps {
   description?: string;
   prioryTitle?: string;
   customDescription?: string;
+  schemaJson?: string;
+  schemaJsonData?: any| null;
 }
 
 const generatePrevNextLinks = (page: PageFilter | undefined) => {
@@ -58,6 +62,8 @@ const PageHead: FC<PageHeadProps> = ({
   description,
   prioryTitle,
   customDescription,
+  schemaJson = "",
+  schemaJsonData = null
 }) => {
   const isProduction = window.location.hostname === "msklatam.com";
   const state = useContext(StoreFiltersContext);
@@ -74,6 +80,9 @@ const PageHead: FC<PageHeadProps> = ({
     ? removeUrlParams(window.location.href, ["especialidad"])
     : "";
 
+  const schema = generateSchemaJson(schemaJson, schemaJsonData)
+  console.log({schema ,schemaJson})
+
   return (
     <Helmet>
       <title>{`${prioryTitle || title} | MSK`}</title>
@@ -82,6 +91,7 @@ const PageHead: FC<PageHeadProps> = ({
       {isProduction && window.location.href.includes("tienda") && prevNextLinks}
       <meta name="description" content={descriptionContent} />
       <meta name="theme-color" content="#008f68" />
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
     </Helmet>
   );
 };

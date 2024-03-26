@@ -1,83 +1,3 @@
-import { DataContext } from "context/data/DataContext";
-import { useContext } from "react";
-
-export const filterAllCoursesBySlug = (slug: string) => {
-    const { state } = useContext(DataContext);
-    const allCourses = state.allCourses;
-    // slug = "aferesis-terapeutica-en-enfermedades-hematologicas";
-
-    const filteredCourses = allCourses.filter((course: any) => course.slug == slug);
-    
-    let objetoSEO = null;
-
-    if (filteredCourses.length !== 0) {
-        objetoSEO = generateSchemaCourse(filteredCourses[0]);
-    }
-
-    // console.log({filterAllCoursesBySlug: {
-    //   slug,
-    //   filteredCourses,
-    //   objetoSEO
-    // }});
-
-    return objetoSEO;
-};
-
-  export const getAllCoursesWithSchema = () => {
-    const { state } = useContext(DataContext);
-    const allCourses = state.allCourses;
-    
-    // Aplicar CourseSchema a cada curso y devolver los objetos transformados
-    const coursesWithSchema = allCourses.map((course: Course) => {
-      const objetoSEO = generateSchemaCourse(course);
-      return objetoSEO;
-    });
-  
-    return coursesWithSchema;
-  };
-
-  const generateSchemaCourse = (course: Course) => {
-    return {
-      "@context": "https://schema.org",
-      "@type": "Course",
-      "name": course.title,
-      "description": course.why_course,
-      "url": course.permalink,//tiene el link del wp
-      "image": course.image,
-      "duration": course.duration,
-      "price": course.total_price,
-      "category": course.categories.map((category:any) => category.name).join(", "),
-      "professions": course.professions.map((profession:any) => profession.title).join(", "),
-      "location": course.language_name,
-      "isbn": course.isbn
-    };
-  };
-  
-  const CourseSchema = ({ course }: { course: Course }) => {
-    const generarObjetoSEO = (curso: Course) => {
-      return {
-        "@context": "https://schema.org",
-        "@type": "Course",
-        "name": course.title,
-        "description": course.why_course,
-        "url": course.permalink,
-        "image": course.image,
-        "duration": course.duration,
-        "price": course.total_price,
-        "category": course.categories.map((category:any) => category.name).join(", "),
-        "professions": course.professions.map((profession:any) => profession.title).join(", "),
-        "keywords": course.related_tag.join(", "),
-        "location": course.language_name,
-        "isbn": course.isbn
-      };
-    };
-  
-    const objetoSEO = generarObjetoSEO(course);
-  
-    return objetoSEO;
-  };
-  
-
 interface Course {
   id: number;
   related_tag: number[];
@@ -145,4 +65,74 @@ interface Course {
   max_installments: string;
   price_installments: string;
   created_at: string;
+}
+
+export const buildCourseSchema = (data: any) => {
+  console.log({databuildcourseschema: data});
+  let schema = null;
+  
+  if(data != undefined && data != null){
+
+   const temario = data?.temario ? Object.values(data.temario).map((tema: any) => {
+      return {
+          "@type": "Course",
+          "name": tema.card_title,
+          "description": tema.card_body
+      };
+    }) : []
+
+    schema = {
+      "@context": "http://schema.org/",
+      "@type": "Course",
+      "name": data?.ficha?.title,
+      "description": data.ficha?.description,
+      "provider": {
+          "@type": "Organization",
+          "name": "MSK Latam"
+      },
+      "image": data.ficha?.image,
+      "url": data.ficha?.data_hidden?.product_permalink, // este link hay que probarlo porque me tira 404 en msk
+      "offers": {
+          "@type": "Offer",
+          "price": data.ficha?.data_hidden?.price,
+          "priceCurrency": "ARS", // hay que conseguir la moneda.
+          "availability": "http://schema.org/InStock", // disponibilidad del curso
+          "validFrom": new Date().toISOString(), // momento en que la oferta del curso zomienza a ser valida
+          "seller": { // vendedor
+              "@type": "Organization",
+              "name": "MSK Latam"
+          }
+      },
+      "coursePrerequisites": data.require,
+      "hasCourseInstance": { // Este dato ayuda a definir las características específicas de una instancia particular del curso
+          "@type": "CourseInstance",
+          "courseMode": data.modalidad,
+          "duration": data.details?.duration?.value,
+          // "description": data.ficha.description podria usar la informacion de data.temario
+      },
+      "categories": data.ficha?.categorias ? data.ficha?.categorias?.map((category: any)  => {
+          return {
+              "@type": "Category",
+              "name": category?.name,
+              // "url": `[URL_${category.slug.toUpperCase()}]` //podria ser el slug solamente
+          };
+      }) : [],
+      "productCode": data.ficha?.product_code, // Agrega el campo "product_code" al esquema
+      "certificate": data.ficha?.data_hidden?.certificate ? "Certificado" : "No certificado", // Agrega la información sobre si el curso está certificado o no,
+      "avales": data.avales ? data.avales.map((aval: any) => {
+        return {
+            "@type": "Organization",
+            "name": aval.title,
+            "description": aval.description,
+            "description_long": aval.description_long,
+            "image": aval.image
+        };
+      }) : [], 
+      "temario": temario, // Manejo del caso en que data.ficha?.temario sea undefined o null
+      "temario_link_pdf": data.temario_link_pdf
+    
+    };
+  }
+
+  return schema;
 }

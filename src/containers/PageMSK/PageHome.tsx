@@ -53,12 +53,14 @@ const PageHome: React.FC = () => {
       });
     }
   };
+
   return (
     <div className="nc-PageHome relative animate-fade-down">
       {/* === SEO === */}
       <PageHead
         title="Inicio"
         description="Una propuesta moderna para expandir tus metas profesionales"
+        schemaJson={"WebSite"}
       />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">

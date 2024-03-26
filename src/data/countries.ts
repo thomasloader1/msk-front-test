@@ -52,6 +52,14 @@ export const countries = [
     name: "Nicaragua",
   },
   {
+    id: "gt",
+    name: "Guatemala",
+  },
+  {
+    id: "sv",
+    name: "El Salvador",
+  },
+  {
     id: "py",
     name: "Paraguay",
   },

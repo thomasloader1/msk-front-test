@@ -219,7 +219,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
             {product.goals && (
               <>
                 <CourseRequirements
-                  title={isEbook ? "Objetivos" : "Qué aprenderás"}
+                  title={isEbook ? "Qué aprenderás" : "Qué aprenderás"}
                   requirements={productsGoals(product.goals)}
                 />
               </>

@@ -23,9 +23,6 @@ export const parseHtml = (contentHtml: string) => {
     }
   });
 
-  console.log({spanElements})
-
-
   ulElements.forEach((ulElement) => {
     // Buscar elementos LI dentro de cada UL
     ulElement.classList.add("m-0", "flex", "flex-col");
@@ -47,6 +44,7 @@ export const parseHtml = (contentHtml: string) => {
       liElement.classList.add("flex", "items-start", "mb-6");
 
       const spanElements = liElement.querySelectorAll("span");
+
 
       spanElements.forEach((spanElement) => {
         // Verificar si el <span> está vacío

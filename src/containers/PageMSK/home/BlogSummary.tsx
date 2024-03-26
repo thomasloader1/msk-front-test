@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Card2 from "components/Card2/Card2";
 import { FetchPostType } from "data/types";
 import Card6 from "components/Card6/Card6";
@@ -6,7 +6,6 @@ import HeaderFilter from "./HeaderFilter";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import { useHistory } from "react-router-dom";
 import { removeAccents } from "lib/removeAccents";
-import { badgeColor } from "lib/badgeColor";
 import NoResults from "components/NoResults/NoResults";
 
 export interface BlogSummaryProps {
@@ -17,6 +16,7 @@ export interface BlogSummaryProps {
   desc?: string;
   loading?: boolean;
   showTitle?: boolean;
+  applyGlobalFilter?: boolean;
 }
 
 const BlogSummary: FC<BlogSummaryProps> = ({
@@ -27,10 +27,12 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   desc = "",
   loading = false,
   showTitle,
+  applyGlobalFilter = true
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
-
   const [auxPosts, setPosts] = useState<FetchPostType[]>([]);
+  const history = useHistory();
+
   const handleClickTab = (item: string) => {
     const itemParsed = removeAccents(item);
 
@@ -51,13 +53,13 @@ const BlogSummary: FC<BlogSummaryProps> = ({
     setTabActive(item);
   };
 
-  const history = useHistory();
-
   useEffect(() => {
     setPosts(posts.filter((_, i: number) => i < 5 && i >= 1));
-    let categoryValue = decodeURIComponent(
+    
+    let categoryValue = applyGlobalFilter ? decodeURIComponent(
       history.location.search.replace(/^.*\?categoria=/, "")
-    );
+    ): null;
+
     handleClickTab(categoryValue || "Actualidad");
   }, [posts, history.location.search]);
 

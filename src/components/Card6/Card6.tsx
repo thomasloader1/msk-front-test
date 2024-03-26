@@ -31,7 +31,9 @@ const Card6: FC<Card6Props> = ({
   badgeColor,
 }) => {
   const { title, slug, image, categories, link, author, date } = post;
-  const categoriesOrder = kind === 'blog' ? categories.sort(compareByNameDescending) : categories
+  const categoriesOrder = kind === 'blog' && categories
+
+  //console.log(categories)
 
   return (
     <div
@@ -42,7 +44,7 @@ const Card6: FC<Card6Props> = ({
       <div className="flex flex-col flex-grow">
         <div className="space-y-3 mb-4">
           <CategoryBadgeList
-            categories={categoriesOrder}
+            categories={categories}
             color={badgeColor}
             isCourse={kind === "curso"}
             isPost={kind === "blog"}

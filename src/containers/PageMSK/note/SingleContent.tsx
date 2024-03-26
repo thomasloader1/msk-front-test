@@ -79,6 +79,13 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
     };
   }, []);
 
+  const scrollToContainer = (id: string) => {
+    const container = document.getElementById(id);
+    if (container) {
+      container.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
 
   return (
     <div className="nc-SingleContent space-y-10 ">
@@ -103,7 +110,8 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
                     <li key={`${art.title}_${index}`}>
                       <a
                         className="text-primary text-lg "
-                        href={`#${slugify(art.title)}`}
+                        //href={`#${slugify(art.title)}`}
+                        onClick={() => scrollToContainer(`${slugify(art.title)}`)}
                       >
                         {art.title}
                       </a>
@@ -152,42 +160,41 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
               reconocimiento en tu profesión?
             </p> */}
             <NoteExtraData suggest_content={data.suggest_content} />
-{sources && sources.length > 0 ?
-            <div>
-              <h4 className="source-title">Fuente/s:</h4>
-              { sources.map((source, index) => {
-                    return (
-                      <p
-                        key={`source_${index}`}
-                        className="source-content lg:pr-20 break-words"
-                      >
-                        {source}
-                      </p>
-                    );
-                  })
-                }
-            </div>: null
-            }
-            
-            {data.authors && data.authors.length > 0
-              ? data.authors?.map((currentAuthor, index) => {
+            {sources && sources.length > 0 ?
+              <div>
+                <h4 className="source-title">Fuente/s:</h4>
+                {sources.map((source, index) => {
                   return (
-                    <NoteAuthors
-                      key={`note_author_${index}`}
-                      instructor={currentAuthor}
-                    />
+                    <p
+                      key={`source_${index}`}
+                      className="source-content lg:pr-20 break-words"
+                    >
+                      {source}
+                    </p>
                   );
                 })
+                }
+              </div> : null
+            }
+
+            {data.authors && data.authors.length > 0
+              ? data.authors?.map((currentAuthor, index) => {
+                return (
+                  <NoteAuthors
+                    key={`note_author_${index}`}
+                    instructor={currentAuthor}
+                  />
+                );
+              })
               : null}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-4 relative course-video-widget z-50">
           <div
-            className={`${
-              isFixed &&
+            className={`${isFixed &&
               bottomDistance == 0 &&
               "col-span-12 lg:col-span-4 post-side-data lg:fixed lg:max-w-[330px] xl:max-w-[420px]"
-            } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
+              } ${bottomDistance != 0 ? "absolute bottom-0" : ""}`}
           >
             <div className="side-content rounded-2xl ">
               <div className="flex w-full">
@@ -253,18 +260,7 @@ const SingleContent: FC<SingleContentProps> = ({ data, sources }) => {
           </div>
         </div>
       </div>
-      {/* TAGS */}
-      {/* <div className="relative py-16 my-32">
-        <BackgroundSection />
-        <SectionSliderPosts
-          postCardName="card9"
-          heading="Comienza tu experiencia aquí"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          posts={courses}
-          uniqueSliderClass="pageHome-section6"
-        />
-      </div> */}
+     
       <div className="container relative py-16 my-32">
         <BackgroundSection />
         <SectionSliderPosts

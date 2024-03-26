@@ -31,7 +31,6 @@ jobs:
 
           NEXT_PUBLIC_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL_TECH }}
           NEXT_PUBLIC_MSK_WP_API: "https://wp.msklatam.com/wp-json/wp/api"
-          NEXT_PUBLIC_OM_WP_API: "https://oceanomedicina.com/wp-json/wp/api"
           NEXT_PUBLIC_PUBLIC_URL_DEV: "https://dev.msklatam.com/msk-laravel/public"
           NEXT_PUBLIC_RECAPTCHA_PK: ${{ secrets.VITE_RECAPTCHA_PK }}
 

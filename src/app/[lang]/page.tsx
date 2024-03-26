@@ -34,11 +34,11 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     try {
         // Your render logic here
         const currentCountry = params.lang || cookies().get("country")?.value;
-        //if (!getAllCourses().length) {
+        if (!getAllCourses().length) {
             const fetchedCourses = await ssr.getAllCourses(currentCountry);
             //console.log("fetched courses: ", fetchedCourses);
             setAllCourses(fetchedCourses);
-        //}
+        }
         if (!getAllBestSellers().length) {
             const fetchedBestSellers = await ssr.getBestSellers(currentCountry);
             setAllBestSellers(fetchedBestSellers);
@@ -77,7 +77,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               </>
             }
           />
-            <p>Fetched Data: {JSON.stringify({})}</p>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}

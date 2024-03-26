@@ -66,6 +66,8 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
     }
   };
 
+  useEffect(() => {}, [user]);
+
   return (
     <div
       className={`nc-PageDashboard animate-fade-down ${className}`}

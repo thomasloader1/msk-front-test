@@ -4,8 +4,9 @@ import { i18nRouter } from "next-i18n-router";
 // @ts-ignore
 import i18nConfig from "./i18nConfig";
 
+const protectedRoutes = ["/mi-cuenta", "mi-perfil"];
+
 export function middleware(request: NextRequest) {
-  // @ts-ignore
   return i18nRouter(request, i18nConfig);
 }
 
@@ -13,40 +14,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: "/((?!api|static|.*\\..*|_next).*)",
 };
-
-export const getCoursesMiddleware = async (request: any) => {
-  // try {
-  //   // Obtener todas las cookies de la solicitud
-  //   const cookieHeader = request.headers.get("Cookie");
-  //   // Parsear las cookies en un objeto
-  //   const cookies = parse(cookieHeader || "");
-  //   // Acceder a una cookie específica, por ejemplo, la cookie "country"
-  //   const countryCookie = cookies.country;
-  //   // Hacer algo con la cookie, por ejemplo, imprimir su valor
-  //   // console.log("Valor de la cookie 'country':", countryCookie);
-  //   // Continuar con el flujo normal del middleware o realizar otras operaciones aquí
-  //   // Puedes llamar a otras funciones, realizar verificaciones, etc.
-  //   // Devolver un valor opcional del middleware
-  //   return "Middleware ejecutado correctamente";
-  // } catch (error) {
-  //   console.error("Error en el middleware:", error);
-  //   // Manejar errores aquí
-  //   // Devolver una respuesta de error o realizar otra acción apropiada
-  //   return new Response("Error interno del servidor", { status: 500 });
-  // }
-};
-
-async function getLocale(request: NextRequest, response: NextResponse) {
-  let cookie = request.cookies.get("NEXT_LOCALE");
-  if (cookie) {
-    return cookie.value;
-  } else {
-    /*let countryCode = await ssr.getCountryCode();
-        countryCode = "mx";
-        response.cookies.set('NEXT_LOCALE', countryCode);
-        return countryCode;*/
-  }
-}
 
 export const fetchUserData = async () => {
   try {

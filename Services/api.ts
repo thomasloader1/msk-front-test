@@ -87,7 +87,15 @@ class ApiService {
     }
   }
 
-  async postLogin(jsonData: Login): Promise<Response> {
+  async postLogin(jsonData: Login): Promise<{
+    data: {
+      token: string;
+      name: string;
+      speciality: string;
+      token_type: string;
+    };
+    status: number;
+  }> {
     try {
       const response = await fetch(apiSignInURL, {
         method: "POST",
@@ -100,8 +108,8 @@ class ApiService {
       if (!response.ok) {
         throw new Error(`Failed to login. HTTP status ${response.status}`);
       }
-
-      return response;
+      const data = await response.json();
+      return { data: data, status: response.status };
     } catch (error) {
       // @ts-ignore
       return error.response;

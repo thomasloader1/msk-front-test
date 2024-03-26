@@ -56,7 +56,6 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             recaptcha_token: await executeRecaptcha("login"),
           };
           const { data, status } = await api.postLogin(formData);
-          // console.log(data, status);
           // @ts-ignore
           if (status == 200) {
             const { name, speciality, ...restData } = data;

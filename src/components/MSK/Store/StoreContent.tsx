@@ -67,49 +67,45 @@ const StoreContent: FC<Props> = ({
   }
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { storeFilters, addFilter, removeFilter, updateFilter, clearFilters } =
-    useStoreFilters();
+  const {
+    storeFilters,
+    addFilter,
+    removeFilter,
+    updateFilter,
+    clearFilters,
+    clearSpecialties,
+  } = useStoreFilters();
+
   const itemsPerPage = 18;
 
-  // Calcular el índice del primer y último elemento en la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  // Obtener los elementos de la página actual
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
 
-  // Calcular el número total de páginas
   const [totalPages, setTotalPages] = useState(
     Math.ceil(products.length / itemsPerPage)
   );
 
-  // Función para cambiar la página
   const pathname = usePathname();
   const handlePageChange = (pageNumber: number) => {
     const pageExists = storeFilters.page.some(
       (item: PageFilter) => item.id === pageNumber
     );
-
     if (!pageExists) {
-      // Si la página seleccionada no existe en los filtros de página, la agregamos
       updateFilter("page", {
         id: pageNumber,
         name: String(pageNumber),
         total: totalPages,
       });
-
-      // Calculamos el índice del primer elemento en la página actual
       const indexOfFirstItem = (pageNumber - 1) * itemsPerPage;
-      // Calculamos los elementos de la página actual
       const currentItems = products.slice(
         indexOfFirstItem,
         indexOfFirstItem + itemsPerPage
       );
-      // Actualizamos el estado con los elementos de la página actual y el número de página actual
       setCurrentItems(currentItems);
       setCurrentPage(pageNumber);
     } else {
-      // Si la página ya existe en los filtros de página, la eliminamos
       removeFilter("page", { id: pageNumber, name: String(pageNumber) });
     }
   };
@@ -148,11 +144,9 @@ const StoreContent: FC<Props> = ({
   };
 
   // END STOREBAR FILTERS
-
   // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    removeFilter("specialties", specialty);
     addFilter("specialties", specialty);
     applyFilters();
   };

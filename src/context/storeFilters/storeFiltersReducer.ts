@@ -54,6 +54,9 @@ export type Action =
     }
   | {
       type: "CLEAR_FILTERS";
+    }
+  | {
+      type: "CLEAR_SPECIALTIES";
     };
 
 const reducer = (state: State, action: Action): State => {
@@ -101,6 +104,17 @@ const reducer = (state: State, action: Action): State => {
           duration: [],
           resources: [],
           page: [],
+        },
+      };
+    case "CLEAR_SPECIALTIES":
+      return {
+        ...state,
+        storeFilters: {
+          specialties: [],
+          professions: state.storeFilters.professions,
+          duration: state.storeFilters.duration,
+          resources: state.storeFilters.resources,
+          page: state.storeFilters.page,
         },
       };
     default:

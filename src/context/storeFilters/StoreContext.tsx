@@ -32,6 +32,7 @@ export type ContextType = {
       | PageFilter
   ) => void;
   clearFilters: () => void;
+  clearSpecialties: () => void;
 };
 
 export const StoreFiltersContext = createContext<ContextType | undefined>(

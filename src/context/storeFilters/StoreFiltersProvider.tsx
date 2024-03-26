@@ -69,6 +69,10 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
     dispatch({ type: "CLEAR_FILTERS" });
   };
 
+  const clearSpecialties = () => {
+    dispatch({ type: "CLEAR_SPECIALTIES" });
+  };
+
   return (
     <StoreFiltersContext.Provider
       value={{
@@ -77,6 +81,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
         updateFilter,
         removeFilter,
         clearFilters,
+        clearSpecialties,
       }}
     >
       {children}

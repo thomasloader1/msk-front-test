@@ -43,9 +43,10 @@ const StoreSideBar: FC<Props> = ({
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
     if (currentSpecialty == specialtySlug) {
+      console.log("LIMPIO", currentSpecialty, specialtySlug);
       router.push(`?recurso=curso`);
       setCurrentSpecialty(null);
-      onChangeSpecialty(specialty);
+      onChangeSpecialty(null);
     } else {
       router.push(`?especialidad=${specialtySlug}&recurso=curso`);
       setCurrentSpecialty(specialtySlug);

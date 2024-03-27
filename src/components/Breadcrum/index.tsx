@@ -46,9 +46,9 @@ const Breadcrum: React.FC<BreadcrumProps> = ({isEbook=false, onBlog=false, onPro
     if (part.includes("mainCategory") && onNote) {
         return onNote.categories[0].name ;
       }
-    
+    console.log(onNote)
     if (part.includes("Curso|Guía profesional")) {
-      return isEbook ? "Guía profesional" : "Curso";
+      return isEbook ? onProduct.ficha.title : onProduct.ficha.title;
     }
 
     if (part.includes("searchCategory")) {
@@ -79,32 +79,31 @@ const Breadcrum: React.FC<BreadcrumProps> = ({isEbook=false, onBlog=false, onPro
         }
         
         return managedURL ?? `/${part.toLowerCase()}`
-    
   }
 
   return (
-    <div className="flex items-center mb-10">
+    <div className="flex flex-wrap md:flex-nowrap items-center mb-10">
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
       {location.pathname !== '/' && (
         <Link to="/">
-          <img src={`${onBlog ? breadcrumHomeIconWhite : breadcrumHomeIcon}`} alt="Home" />
+          <img src={`${onBlog ? breadcrumHomeIconWhite : breadcrumHomeIcon}`} alt="Home" className="h-4" />
         </Link>
       )}
 
       {partsFlattened.map((part, index) => (
-        <React.Fragment key={part}>
-          <img src={`${onBlog ? breadcrumArrowIconWhite : breadcrumArrowIcon}`} className="mx-4" alt="Arrow" />
+        <div className={`inline-flex ${index === parts.length && 'ml-4 md:ml-0 w-[220px] sm:w-auto md:w-[70%] lg:w-auto mt-2 sm:mt-0'}`} key={part}>
+          <img src={`${onBlog ? breadcrumArrowIconWhite : breadcrumArrowIcon}`} className="mx-3" alt="Arrow" />
 
           {/* Agregar una clase para el último segmento */}
           {index === parts.length ? (
-            <span className={`font-bold ${onBlog ? 'text-white' : 'text-[#ABABAB]'}`}>{part}</span>
+            <span className={`font-bold truncate   ${onBlog ? 'text-white' : 'text-[#ABABAB]'}`}>{part}</span>
           ) : (
             // Partes intermedias
             <Link to={handleUrl(part)}  className={`${onBlog ? 'text-white' : 'text-[#ABABAB]'} hover:underline hover:text-[#FF5D5E] `}>
               {part}
             </Link>
           )}
-        </React.Fragment>
+        </div>
       ))}
     </div>
   );

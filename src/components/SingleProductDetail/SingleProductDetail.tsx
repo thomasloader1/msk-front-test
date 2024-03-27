@@ -15,6 +15,7 @@ import { CountryContext } from "context/country/CountryContext";
 import ProductFeaturedText from "./ProductFeaturedText";
 import { DataContext } from "context/data/DataContext";
 import { parseHtml } from "utils/parseHTML";
+import Breadcrum from "components/Breadcrum";
 
 interface Props {
   product: FetchSingleProduct;
@@ -78,6 +79,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div>
           <div className="course-details-wrapper animate-fade-down">
+            <Breadcrum isEbook={isEbook} onProduct={product} />
             <div className="flex gap-2">
               <CategoryBadgeList
                 categories={product.ficha.categorias}

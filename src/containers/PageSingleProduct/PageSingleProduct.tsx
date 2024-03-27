@@ -4,27 +4,16 @@ import LoadingText from "components/Loader/Text";
 import { CountryContext } from "context/country/CountryContext";
 import useSingleProduct from "hooks/useSingleProduct";
 import PageHead from "containers/PageMSK/PageHead";
-import {buildCourseSchema} from "logic/getCourses";
 import { useParams } from "react-router-dom";
-import JsonLd from "components/JsonLd/JsonLd";
 
 const PageSingleProduct = () => {
   const { state } = useContext(CountryContext);
-
-  const params = useParams();
 
   const slug = window.location.href.split("/").pop() || "";
   const { product, loading } = useSingleProduct(slug, {
     country: state.country,
   });
 
-  console.log(product);
- /*  const jsonCourseSchema = buildCourseSchema(product);
-  
-  console.log({
-    useSingleProduct : product ?? null,
-    jsonCourseSchema: jsonCourseSchema ?? null
-  }); */
   return (
     <>
       <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">

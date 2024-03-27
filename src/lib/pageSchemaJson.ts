@@ -16,7 +16,6 @@ const makeInstance = (type:any, data:any) => {
 
     switch(type){
         case "CourseInstance":
-            console.log(data)
             return { 
                 // Este dato ayuda a definir las características específicas de una instancia particular del curso
                 "@type": type,
@@ -34,7 +33,7 @@ const makeInstance = (type:any, data:any) => {
                 };
             })
         case "Organization":
-            if(data.avales) return []
+            if(!data.avales) return []
             return  data.avales.map((aval: any)  => {
                 return {
                     "@type": type,
@@ -45,7 +44,7 @@ const makeInstance = (type:any, data:any) => {
                 };
             })
         case "Course":
-            if(data.temario) return []
+            if(!data.temario) return []
             return Object.values(data.temario).map((tema: any) => {
                     return {
                         "@type": "Course",
@@ -109,7 +108,7 @@ const COURSE_SCHEMA = {
         "priceCurrency": "ARS", // hay que conseguir la moneda.
         "availability": "http://schema.org/InStock", // disponibilidad del curso
         "validFrom": new Date().toISOString(), // momento en que la oferta del curso zomienza a ser valida
-        "seller": { // vendedor
+        "seller": { 
             "@type": "Organization",
             "name": "MSK Latam"
         }
@@ -117,9 +116,6 @@ const COURSE_SCHEMA = {
     "coursePrerequisites": "",
     "hasCourseInstance": {},
     "categories": {},
-    "productCode": "",
-    "certificate": "",
     "avales": {}, 
     "temario": {}, // Manejo del caso en que data.ficha?.temario sea undefined o null
-    "temario_link_pdf": ""
   };

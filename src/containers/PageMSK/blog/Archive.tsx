@@ -17,6 +17,7 @@ import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import BlogSummary from "../home/BlogSummary";
 import { TABS_BLOG } from "data/MSK/blog";
 import NoResults from "components/NoResults/NoResults";
+import Breadcrum from "components/Breadcrum";
 
 export interface PageArchiveProps {
   className?: string;
@@ -168,6 +169,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
           </header>
         ) : null}
         <div className="container my-10 animate-fade-down">
+          <Breadcrum  />
           <div className="flex space-between flex-wrap mb-8 gap-2">
             <ArchiveFilterListBox
               setFilter={handleCategoryChange}

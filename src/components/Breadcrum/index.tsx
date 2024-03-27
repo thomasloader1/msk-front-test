@@ -97,11 +97,11 @@ const Breadcrum: React.FC<BreadcrumProps> = ({isEbook=false, onBlog=false, onPro
 
           {/* Agregar una clase para el último segmento */}
           {index === parts.length ? (
-            <span className={`font-bold ${onBlog && 'text-white'}`}>{part}</span>
+            <span className={`font-bold ${onBlog ? 'text-white' : 'text-[#ABABAB]'}`}>{part}</span>
           ) : (
             // Partes intermedias
-            <Link to={handleUrl(part)}  className={` ${onBlog && 'text-white'}`}>
-              <span>{part}</span>
+            <Link to={handleUrl(part)}  className={`${onBlog ? 'text-white' : 'text-[#ABABAB]'} hover:underline hover:text-[#FF5D5E] `}>
+              {part}
             </Link>
           )}
         </React.Fragment>

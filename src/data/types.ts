@@ -38,6 +38,7 @@ export interface Contact {
   entity_id_crm?: string;
   name: string;
   last_name: string;
+  identification?: string;
   profession: string;
   speciality: string | null;
   user_id: number;
@@ -166,6 +167,7 @@ export interface User {
 
 export interface UserProfile {
   courses_progress: CourseProgress[];
+  contact?: Contact;
 }
 
 export interface CustomUser {

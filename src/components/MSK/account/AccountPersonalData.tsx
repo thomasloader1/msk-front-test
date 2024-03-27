@@ -30,6 +30,7 @@ import { DataContext } from "@/context/data/DataContext";
 import countryIdentificationsMapping from "../../../data/jsons/__countryIdentifications.json";
 import InputField from "@/components/InputField/InputField";
 import api from "../../../../Services/api";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: User;
@@ -37,16 +38,44 @@ interface Props {
 }
 
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
+  const router = useRouter();
   const [userData, setUserData] = useState(user);
   const [localUser, setLocalUser] = useState<Contact>(
     userData.contact as Contact
   );
+  const [defaultCountry, setDefaultCountry] = useState("" as CountryCode);
+  const initialValues = {
+    name: localUser?.name || "",
+    last_name: localUser?.last_name || "",
+    email: localUser?.email || "",
+    phone: localUser?.phone || "",
+    profession: localUser?.profession || "",
+    speciality: localUser?.speciality || "",
+    other_profession: localUser?.other_profession || "",
+    other_speciality: localUser?.other_speciality || "",
+    career: localUser?.career || "",
+    year: localUser?.year || "",
+    address: localUser?.address || "",
+    country: localUser?.country || "",
+    postal_code: localUser?.postal_code || "",
+    state: localUser?.state || "",
+    /*  rfc: localUser?.rfc || "",
+  dni: localUser?.dni || "",
+  rut: localUser?.rut || "", */
+    fiscal_regime: localUser?.fiscal_regime || "",
+    type_doc: localUser?.type_doc || "",
+    identification: localUser?.identification || "",
+  };
   const { executeRecaptcha } = useGoogleReCaptcha();
   const { state: dataState } = useContext(DataContext);
+
   const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const { state } = useContext(CountryContext);
+  useEffect(() => {
+    setDefaultCountry(state.country?.toUpperCase() as CountryCode);
+  }, [state]);
   const [formSubmitted, setFormSubmitted] = useState(true);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
@@ -205,7 +234,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const optionsArray = [1, 2, 3, 4, 5];
 
   const formRef = useRef<HTMLFormElement>(null);
-  const [initialValues, setInitialValues] = useState({});
+  // const [initialValues, setInitialValues] = useState({});
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("El nombre es requerido"),
@@ -270,7 +299,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
             );
             if (typeof continueTrialAccess === "string") {
               localStorage.removeItem("continueTrialAccess");
-              history.push(continueTrialAccess);
+              router.push(continueTrialAccess);
             }
           } else {
             console.error("Hubo un error al actualizar el usuario", res);
@@ -305,30 +334,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   useEffect(() => {
     if (!localUser && user.contact) {
       setLocalUser(user.contact);
-      setInitialValues({
-        name: localUser?.name || "",
-        last_name: localUser?.last_name || "",
-        email: localUser?.email || "",
-        phone: localUser?.phone || "",
-        profession: localUser?.profession || "",
-        speciality: localUser?.speciality || "",
-        other_profession: localUser?.other_profession || "",
-        other_speciality: localUser?.other_speciality || "",
-        career: localUser?.career || "",
-        year: localUser?.year || "",
-        address: localUser?.address || "",
-        country: localUser?.country || "",
-        postal_code: localUser?.postal_code || "",
-        state: localUser?.state || "",
-        /*  rfc: localUser?.rfc || "",
-      dni: localUser?.dni || "",
-      rut: localUser?.rut || "", */
-        fiscal_regime: localUser?.fiscal_regime || "",
-        type_doc: localUser?.type_doc || "",
-        identification: localUser?.identification || "",
-      });
     }
-    console.log("TESTING", localUser);
   }, [user]);
 
   return (
@@ -346,12 +352,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               Nombre
             </label>
             <ErrorMessage name="name" component="span" className="error" />
-            <Field
-              type="text"
-              name="name"
-              placeholder="Ingresar nombre"
-              defaultValue={user.contact?.name}
-            />
+            <Field type="text" name="name" placeholder="Ingresar nombre" />
           </div>
           <div className="form-input-std">
             <label className="text-neutral-800 dark:text-neutral-200 mb-1">
@@ -362,7 +363,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               type="text"
               name="last_name"
               placeholder="Ingresar apellido"
-              defaultValue={user.contact?.last_name}
             />
           </div>
           <div className="form-input-std">
@@ -376,7 +376,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               placeholder="Ingresar e-mail"
               className="bg-gray-300 cursor-not-allowed"
               readOnly
-              defaultValue={user.contact?.email}
             />
           </div>
           <Field name="phone">
@@ -401,7 +400,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               </div>
             )}
           </Field>
-
           <div className="grid grid-cols-2 col-span-2 gap-6">
             <div className="col-xl-6 col-span-2 md:col-span-1">
               <div className="form-select-std">
@@ -569,7 +567,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               type="text"
               name="address"
               placeholder="Ingresar dirección"
-              defaultValue={user.contact?.address}
             />
           </div>
 
@@ -640,11 +637,10 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               type="text"
               name="postal_code"
               placeholder="Ingresar código postal"
-              defaultValue={user.contact?.postal_code}
             />
           </div>
 
-          <div className="form-input-std">
+          <div className="form-select-std">
             <label className="text-neutral-800 dark:text-neutral-200 mb-1">
               Tipo de identificacion
             </label>
@@ -690,7 +686,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                 type="text"
                 name="fiscal_regime"
                 placeholder="Ingresar régimen fiscal"
-                defaultValue={user.contact?.fiscal_regime}
               />
             </div>
           )}

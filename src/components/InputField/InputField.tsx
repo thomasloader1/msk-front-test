@@ -7,6 +7,7 @@ interface InputFieldProps {
   type: string;
   name: string;
   placeholder: string;
+  defaultValue?: string;
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -14,6 +15,7 @@ const InputField: FC<InputFieldProps> = ({
   type,
   name,
   placeholder,
+  defaultValue,
 }) => {
   const { errors, touched } = useFormikContext<{ [key: string]: any }>();
 
@@ -30,7 +32,12 @@ const InputField: FC<InputFieldProps> = ({
           <ErrorMessage name={name} component="span" className="error" />
         </span>
       )}
-      <Field type={type} name={name} placeholder={placeholder} />
+      <Field
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+      />
     </div>
   );
 };

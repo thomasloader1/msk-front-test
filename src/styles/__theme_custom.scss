@@ -411,6 +411,13 @@ li {
   }
 }
 
+.signout-modal {
+  max-width: 440px;
+  width: calc(100% - 30px);
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 $xxxl: "only screen and (min-width: 1600px) and (max-width: 1800px)";
 $xxl: "only screen and (min-width: 1400px) and (max-width: 1599px)";
 $xl: "only screen and (min-width: 1200px) and (max-width: 1399px)";

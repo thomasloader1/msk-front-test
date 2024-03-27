@@ -109,10 +109,10 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         )}
       </td>
       <td className="px-6 py-4  text-xs text-neutral-500 dark:text-neutral-400">
-        <span className="text-sm"> {item.avance ? item.avance : 0} %</span>
+        <span className="text-sm"> {item.avance ? item.avance : 0}%</span>
       </td>
       <td className="px-4">
-        <div>
+        <div className="w-[110px]">
           <ButtonAccessOrSignCourse
             email={email}
             goToEnroll={goToEnroll}

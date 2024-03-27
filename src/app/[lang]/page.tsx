@@ -22,6 +22,7 @@ import {
   setAllCourses,
   setAllPosts,
 } from "@/lib/allData";
+import ContactForm from "@/components/MSK/ContactForm";
 
 interface PageProps {
   params: any;
@@ -113,7 +114,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           </div>
         </div>
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
-          {/* <ContactForm /> */}
+          <ContactForm />
         </div>
       </div>
     </div>

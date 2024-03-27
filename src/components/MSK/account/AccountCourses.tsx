@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import { UserCourseProgress } from "@/data/types";
 import { goToLMS, goToEnroll } from "@/lib/account";
 import CoursesTable from "@/components/MSK/account/CoursesTable/CoursesTable";
+import { useRouter } from "next/navigation";
 
 interface AccountCoursesProps {
   courses: UserCourseProgress[];
@@ -10,7 +11,7 @@ interface AccountCoursesProps {
 
 const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
   const [isMobile, setIsMobile] = useState(false);
-  // const history = useHistory();
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
   }, []);
 
   const goToStore = () => {
-    // history.push("/tienda");
+    router.push("/tienda");
   };
 
   const tableConfig = {

@@ -60,7 +60,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         setUser(res);
         let coursesList = getUserCourses(res, productList);
         setUserCourses(coursesList);
-        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
         setLoadingUser(false);
       } else {
         router.push("/iniciar-sesion");
@@ -122,7 +121,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
       case "Mis cursos":
         setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
         setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
-
         break;
       default:
         setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
@@ -166,7 +164,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
 
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
-          <Heading desc="">Mis Cursos </Heading>
           {loadingUser ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 mt-8 lg:mt-10 mb-8">
               <ItemSkeleton />
@@ -226,7 +223,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             </>
           )}
 
-          {/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 ">
             {categories
               ? categories.map((item, i) => (
                   <CardComponentName
@@ -238,7 +235,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                   />
                 ))
               : null}
-          </div> */}
+          </div>
         </main>
         <div className="relative py-16 my-32">
           <BackgroundSection />

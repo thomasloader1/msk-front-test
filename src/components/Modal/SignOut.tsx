@@ -32,7 +32,7 @@ const signOutContent: FC<Props> = ({ setShow, onClose }) => {
       <ButtonSecondary
         onClick={() => handleLogout()}
         sizeClass="py-3 "
-        className="border-solid border-1 border-primary-6000 text-primary-6000 logout-button"
+        className="border-solid border-1 border-primary-6000 text-primary-6000 logout-button w-[160px]"
         bordered
       >
         Confirmar
@@ -40,7 +40,7 @@ const signOutContent: FC<Props> = ({ setShow, onClose }) => {
       <ButtonPrimary
         onClick={() => setShow(false)} // Triggeamos setShow(false) al hacer clic
         sizeClass="py-3 "
-        className="font-semibold logout-button"
+        className="font-semibold logout-button w-[160px]"
       >
         Cancelar
       </ButtonPrimary>

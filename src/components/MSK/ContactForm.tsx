@@ -41,7 +41,7 @@ interface ContactFormProps {
   submitEndpoint?: string;
 }
 
-const ContactFormSection: FC<ContactFormProps> = ({
+const ContactForm: FC<ContactFormProps> = ({
   hideHeader = false,
   productName = "",
   isEbook = false,
@@ -57,6 +57,12 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const { state: dataState } = useContext(DataContext);
   const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const { state } = useContext(CountryContext);
+  const [defaultCountry, setDefaultCountry] = useState<CountryCode>(
+    "" as CountryCode
+  );
+  useEffect(() => {
+    setDefaultCountry(state.country?.toUpperCase() as CountryCode);
+  }, [state]);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -466,9 +472,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                                 name="Phone"
                                 id="Phone"
                                 placeholder="Ingresar número telefónico"
-                                defaultCountry={
-                                  state.country.toUpperCase() as CountryCode
-                                }
+                                defaultCountry={defaultCountry}
                                 onChange={(value: any) => {
                                   form.setFieldValue("Phone", value);
                                   handlePhoneChange(value);
@@ -707,4 +711,4 @@ const ContactFormSection: FC<ContactFormProps> = ({
     </>
   );
 };
-export default ContactFormSection;
+export default ContactForm;

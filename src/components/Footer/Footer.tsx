@@ -61,6 +61,12 @@ const FooterEduman = () => {
                     className="widget__subscribe"
                   >
                     <div className="field">
+                      <NcImage
+                        src={"/images/icons/email_alt.svg"}
+                        alt=""
+                        width="10"
+                        height="20"
+                      />
                       <input
                         type="email"
                         name="Email"
@@ -165,19 +171,21 @@ const FooterEduman = () => {
                   <div className="footer-widget f-w3 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
-                        <NcLink href="/mision">Nuestra misión</NcLink>
+                        <NcLink href="/mision" className="font-light">
+                          Nuestra misión
+                        </NcLink>
                       </li>
-                      <li>
+                      {/* <li>
                         <NcLink href="/partners">Conviértete en Partner</NcLink>
-                      </li>
+                      </li> */}
                       <li>
                         <a href="https://ayuda.msklatam.com/" target="_blank">
                           Centro de ayuda
                         </a>
                       </li>
-                      <li>
+                      {/* <li>
                         <NcLink href="/convenios">Convenios</NcLink>
-                      </li>
+                      </li> */}
 
                       {state.country.includes("ec") && (
                         <li>
@@ -193,25 +201,39 @@ const FooterEduman = () => {
                   <div className="footer-widget f-w4 mt-6">
                     <ul className="text-sm md:text-base">
                       <li>
-                        <NcLink href="/contacto">Contacto</NcLink>
+                        <NcLink href="/contacto" className="font-light">
+                          Contacto
+                        </NcLink>
                       </li>
                       <li>
-                        <NcLink href="/terminos-y-condiciones">
+                        <NcLink
+                          href="/terminos-y-condiciones"
+                          className="font-light"
+                        >
                           Términos y condiciones
                         </NcLink>
                       </li>
                       <li>
-                        <NcLink href="/politica-de-privacidad">
+                        <NcLink
+                          href="/politica-de-privacidad"
+                          className="font-light"
+                        >
                           Política de privacidad
                         </NcLink>
                       </li>
                       <li>
-                        <NcLink href="/politica-de-cookies">
+                        <NcLink
+                          href="/politica-de-cookies"
+                          className="font-light"
+                        >
                           Política de cookies
                         </NcLink>
                       </li>
                       <li>
-                        <NcLink href="/condiciones-de-contratacion">
+                        <NcLink
+                          href="/condiciones-de-contratacion"
+                          className="font-light"
+                        >
                           Condiciones de contratación
                         </NcLink>
                       </li>

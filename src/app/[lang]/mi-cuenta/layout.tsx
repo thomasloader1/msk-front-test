@@ -88,6 +88,11 @@ const PageDashboard: FC<PageDashboardProps> = ({
                             pathname.includes(`/mi-cuenta${sPath}`) &&
                             activeClassName
                           } ${navClassName}`}
+                          colorClass={
+                            pathname.includes(`/mi-cuenta${sPath}`)
+                              ? "text-neutral-600"
+                              : "text-white-900"
+                          }
                           href={`/mi-cuenta/${sPath}`}
                         >
                           <img

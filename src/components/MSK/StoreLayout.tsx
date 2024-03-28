@@ -47,9 +47,8 @@ const StoreLayout: FC<LayoutPageProps> = ({
     >
       <div className="container-fluid relative">
         {/* HEADER */}
-        <header className="swiper-container">
+        <header>
           <Swiper
-            navigation
             scrollbar
             slidesPerView={1}
             loop={true}

@@ -9,6 +9,7 @@ import {
   setAllCourses,
   setAllStoreSpecialties,
 } from "@/lib/allData";
+import HomeExtraInfo from "@/components/MSK/HomeExtraInfo";
 
 export interface PageStoreProps {
   className?: string;
@@ -30,7 +31,12 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
       className={`nc-PageStore ${className} animate-fade-down`}
       data-nc-id="PageStore"
     >
-      <StoreLayout subHeading="" headingEmoji="" heading="Tienda">
+      <StoreLayout
+        subHeading=""
+        headingEmoji=""
+        heading="Tienda"
+        country={currentCountry}
+      >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
           <StoreContent
             products={getAllCourses()}

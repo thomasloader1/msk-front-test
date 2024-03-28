@@ -425,3 +425,26 @@ $lg: "only screen and (min-width: 992px) and (max-width: 1199px)";
 $md: "only screen and (min-width: 768px) and (max-width: 991px)";
 $sm: "only screen and (min-width: 576px) and (max-width: 767px)";
 $xs: "(max-width: 575px)";
+
+.mission-image {
+  height: 100%;
+  object-fit: cover;
+  object-position: right;
+}
+
+.msk-logo-text {
+  .img-container {
+    background-color: white;
+    border-radius: 50%;
+    padding: 8px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}

@@ -1,19 +1,16 @@
 import SingleProductDetail from "@/components/SingleProductDetail/SingleProductDetail";
 import React, { FC, useContext } from "react";
 // import LoadingText from "@/components/Loader/Text";
-import { CountryContext } from "@/context/country/CountryContext";
-import useSingleProduct from "@/hooks/useSingleProduct";
 import ssr from "../../../../../Services/ssr";
 import SingleHeader from "@/components/MSK/Blog/Post/PostSingleHeader";
 import NcImage from "@/components/NcImage/NcImage";
 import SingleContent from "@/components/MSK/Blog/Post/SingleContent";
-import SingleRelatedPosts from "@/app/(singles)/SingleRelatedPosts";
 import { cookies } from "next/headers";
 
 interface PageCourseProps {
   params: any;
 }
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const PageNota: FC<PageCourseProps> = async ({ params }) => {
   const post = await ssr.getSinglePost(params.slug);

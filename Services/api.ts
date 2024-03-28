@@ -754,6 +754,7 @@ class ApiService {
         return { ...img, url };
       });
 
+      console.log(`${API_URL}/banners${countryParam}`, "TESTING");
       return formattedResponse;
     } catch (error) {
       console.error("Network error:", error);

@@ -9,6 +9,7 @@ export interface LayoutPageProps {
   headingEmoji?: string;
   subHeading?: string;
   children: React.ReactNode;
+  country?: string;
 }
 
 const defaultImgs = [
@@ -17,13 +18,17 @@ const defaultImgs = [
     imagen_mobile: { link: "/images/banners/tienda_mobile.jpg" },
   },
 ];
-const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
+const StoreLayout: FC<LayoutPageProps> = ({
+  className = "",
+  children,
+  country,
+}) => {
   const [bannerImgs, setBannerImgs] = useState<BannerImg[]>(defaultImgs);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.getWpImages("banners_shop");
+        const response = await api.getWpImages("banners_shop", country);
         if (response.length > 0) {
           setBannerImgs(response);
         }
@@ -42,7 +47,7 @@ const StoreLayout: FC<LayoutPageProps> = ({ className = "", children }) => {
     >
       <div className="container-fluid relative">
         {/* HEADER */}
-        <header className="w-full">
+        <header className="swiper-container">
           <Swiper
             navigation
             scrollbar

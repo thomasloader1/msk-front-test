@@ -32,13 +32,13 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
   useEffect(() => {
     const compararPorSlug = (a: any, b: any) => {
-      const slugA = a.slug.toLowerCase();
-      const slugB = b.slug.toLowerCase();
-      if (slugA.includes("actualidad") && !slugB.includes("actualidad")) {
+      const slugA = a.slug?.toLowerCase();
+      const slugB = b.slug?.toLowerCase();
+      if (slugA?.includes("actualidad") && !slugB?.includes("actualidad")) {
         return 1;
       } else if (
-        !slugA.includes("actualidad") &&
-        slugB.includes("actualidad")
+        !slugA?.includes("actualidad") &&
+        slugB?.includes("actualidad")
       ) {
         return -1;
       }

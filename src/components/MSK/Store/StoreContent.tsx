@@ -1,27 +1,20 @@
 "use client";
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
 import {
   DurationFilter,
   FetchCourseType,
-  JsonMapping,
   PageFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "@/data/types";
 import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
-import specialtiesMapping from "@/data/jsons/__specialties.json";
-import resourcesMapping from "@/data/jsons/__resources.json";
 import StoreBar from "./StoreBar";
-import {
-  getParamsFromURL,
-  keepOnlySpecifiedParams,
-} from "@/lib/removeUrlParams";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { DataContext } from "@/context/data/DataContext";
+import { getParamsFromURL } from "@/lib/removeUrlParams";
+import { usePathname } from "next/navigation";
 import { removeAccents } from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import { filterStoreProducts } from "@/lib/storeFilters";

@@ -1,14 +1,14 @@
-import { FC, useContext, useEffect, useReducer, useState } from "react";
+import {FC, useContext, useEffect, useReducer, useState} from "react";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
-import { slugifySpecialty } from "@/lib/Slugify";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { DataContext } from "@/context/data/DataContext";
+import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
+import {slugifySpecialty} from "@/lib/Slugify";
+import {useParams, useRouter, useSearchParams} from "next/navigation";
+import {DataContext} from "@/context/data/DataContext";
 import Link from "next/link";
 import {
   addFilterNew,
@@ -18,9 +18,10 @@ import {
   setFilterSpecialty,
 } from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
+import reducer, {State} from "@/context/storeFilters/storeFiltersReducer";
 
 interface Props {
-  onChangeSpecialty: (specialty: Specialty) => void;
+  onChangeSpecialty: (specialty: any) => void;
   onChangeProfession: (profession: Profession) => void;
   onChangeResource: (resource: ResourceFilter) => void;
   onChangeDuration: (duration: DurationFilter) => void;
@@ -29,40 +30,48 @@ interface Props {
 }
 
 const StoreSideBar: FC<Props> = ({
-  onChangeSpecialty,
-  onChangeProfession,
-  onChangeResource,
-  onChangeDuration,
-  professions,
-  specialties,
-}) => {
+                                   onChangeSpecialty,
+                                   onChangeProfession,
+                                   onChangeResource,
+                                   onChangeDuration,
+                                   professions,
+                                   specialties,
+                                 }) => {
   const router = useRouter();
   const [currentSpecialty, setCurrentSpecialty] = useState<
     Specialty | string | null
   >();
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
+    console.log("SPECIALTY CLICKEADA", specialty);
+    console.log("SPECIALTYSLUG", specialtySlug);
     if (currentSpecialty == specialtySlug) {
       console.log("LIMPIO", currentSpecialty, specialtySlug);
-      router.push(`?recurso=curso`);
       setCurrentSpecialty(null);
       onChangeSpecialty(null);
+      //router.push(`?recurso=curso`);
     } else {
-      router.push(`?especialidad=${specialtySlug}&recurso=curso`);
+      console.log("CAMBIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(specialtySlug);
       onChangeSpecialty(specialty);
+      //router.push(`?especialidad=${specialtySlug}&recurso=curso`);
     }
+
   };
+
+  const updateResults = () => {
+    const params = new URLSearchParams(window.location.search);
+    const specialtySlug = params.get("especialidad");
+    if (specialtySlug && specialtySlug !== currentSpecialty) {
+      const specialtyName =
+        specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
+      setSpecialtyFilter({name: specialtyName});
+    }
+  }
 
   if (typeof window != "undefined") {
     useEffect(() => {
-      const params = new URLSearchParams(window.location.search);
-      const specialtySlug = params.get("especialidad");
-      if (specialtySlug && specialtySlug !== currentSpecialty) {
-        const specialtyName =
-          specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
-        setSpecialtyFilter({ name: specialtyName });
-      }
+      updateResults();
     }, [window.location.search]);
   }
   return (

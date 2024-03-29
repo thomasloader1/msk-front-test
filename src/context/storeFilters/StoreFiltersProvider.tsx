@@ -46,7 +46,8 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       | ResourceFilter
       | PageFilter
   ) => {
-    dispatch({ type: "ADD_FILTER", payload: { filterType, filterValue } });
+    console.log('Add filter dispatch');
+    dispatch({type: "ADD_FILTER", payload: {filterType, filterValue}});
   };
 
   const updateFilter = (filterType: keyof Filter, filterValue: PageFilter) => {
@@ -70,6 +71,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
   };
 
   const clearSpecialties = () => {
+    console.log('clearing specialties');
     dispatch({ type: "CLEAR_SPECIALTIES" });
   };
 

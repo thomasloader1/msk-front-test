@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, {FC, useEffect, useState} from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -11,13 +11,13 @@ import {
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
+import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import StoreBar from "./StoreBar";
-import { getParamsFromURL } from "@/lib/removeUrlParams";
-import { usePathname } from "next/navigation";
-import { removeAccents } from "@/lib/removeAccents";
+import {getParamsFromURL} from "@/lib/removeUrlParams";
+import {usePathname} from "next/navigation";
+import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
-import { filterStoreProducts } from "@/lib/storeFilters";
+import {filterStoreProducts} from "@/lib/storeFilters";
 
 interface Props {
   products: FetchCourseType[];
@@ -28,12 +28,12 @@ interface Props {
 }
 
 const StoreContent: FC<Props> = ({
-  products,
-  productsLength,
-  specialties,
-  // handleTriggerSearch,
-  // handleTriggerFilter,
-}) => {
+                                   products,
+                                   productsLength,
+                                   specialties,
+                                   // handleTriggerSearch,
+                                   // handleTriggerFilter,
+                                 }) => {
   const [storeURLParams, setStoreURLParams] = useState({});
   const [localProducts, setLocalProducts] = useState<FetchCourseType[]>([]);
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>([]);
@@ -99,7 +99,7 @@ const StoreContent: FC<Props> = ({
       setCurrentItems(currentItems);
       setCurrentPage(pageNumber);
     } else {
-      removeFilter("page", { id: pageNumber, name: String(pageNumber) });
+      removeFilter("page", {id: pageNumber, name: String(pageNumber)});
     }
   };
 
@@ -110,6 +110,10 @@ const StoreContent: FC<Props> = ({
       setAllProducts(products);
     }
   }, [products]);
+
+  useEffect(() => {
+    applyFilters(); // Trigger applyFilters whenever storeFilters change
+  }, [storeFilters]);
 
   // STOREBAR FILTERS
 
@@ -140,8 +144,13 @@ const StoreContent: FC<Props> = ({
   // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    addFilter("specialties", specialty);
-    applyFilters();
+    if (specialty == null) {
+      clearSpecialties();
+    } else {
+      //todo: Remove old filter?
+      console.log('Adding filter');
+      addFilter("specialties", specialty);
+    }
   };
   const onChangeProfession = (profession: Profession) => {
     const professionExists = storeFilters.professions.filter(
@@ -174,6 +183,8 @@ const StoreContent: FC<Props> = ({
   };
 
   const applyFilters = () => {
+    console.log('Applying filters');
+    console.log("Store Filters",storeFilters);
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -187,7 +198,8 @@ const StoreContent: FC<Props> = ({
       (filter: DurationFilter) => filter.value
     );
 
-    if (
+    console.log('SELECTED SPECIALTIES', selectedSpecialties);
+    if ( //No filters, set the products to the original list
       !(
         selectedSpecialties.length ||
         selectedProfessions.length ||
@@ -195,8 +207,10 @@ const StoreContent: FC<Props> = ({
         selectedDurations.length
       )
     ) {
-      setLocalProducts(products);
-    } else {
+      console.log('SET LOCAL PRODUCTS', products);
+      setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
+    } else { //There are filters we need to apply
+      console.log('There are filters we need to apply');
       const filteredProducts = products.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
@@ -254,23 +268,25 @@ const StoreContent: FC<Props> = ({
         // resourcesMatch &&
         // durationsMatch
       });
-      setCurrentItems(
-        filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
-      );
+      console.log("FILTERED PRODUCTS", filteredProducts);
+      setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(1);
-
-      // setLocalProducts(filteredProducts);
     }
   };
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
-      {storeFilters.specialties.length > 0 && (
+      {storeFilters.specialties.length > 0 ? (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
         </h1>
+      ) : (
+        <h1 className="text-xl sm:text-3xl mb-10">
+          Cursos
+        </h1>
       )}
+
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
           <StoreSideBar
@@ -306,11 +322,12 @@ const StoreContent: FC<Props> = ({
                 );
               })
             ) : (
-              <div className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
-                <img src="/images/icons/no_items.svg" className="mb-5" />
+              <div
+                className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
+                <img src="/images/icons/no_items.svg" className="mb-5"/>
                 <p>
                   No hay resultados para tu búsqueda.
-                  <br />
+                  <br/>
                   Modifica los filtros y encuentra tu curso ideal.
                 </p>
               </div>

@@ -18,6 +18,7 @@ import {
   setFilterSpecialty,
 } from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
+import resourcesMapping from "../../../data/jsons/__resources.json";
 import reducer, {State} from "@/context/storeFilters/storeFiltersReducer";
 import {json} from "stream/consumers";
 
@@ -38,7 +39,17 @@ const StoreSideBar: FC<Props> = ({
                                    professions,
                                    specialties,
                                  }) => {
-  const router = useRouter();
+  const [specialtyVisible, setSpecialtyVisible] = useState<boolean>(true);
+  const [resourceVisible, setResourceVisible] = useState<boolean>(false);
+
+  const toggleSpecialtyVisibility = () => {
+    setSpecialtyVisible((prevVisible) => !prevVisible);
+  };
+  const toggleResourceVisibility = () => {
+    setResourceVisible((prevVisible) => !prevVisible);
+  };
+
+
   const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
@@ -81,11 +92,8 @@ const StoreSideBar: FC<Props> = ({
   return (
     <>
       <div className="course-sidebar-widget mb-2">
-        <div
-          className={`course-sidebar-info`}
-          // ${ state.isActive ? "content-visiable" : "content-hidden" }
-        >
-          <h3 className="drop-btn">Especialidades</h3>
+        <div className={`course-sidebar-info ${specialtyVisible ? "content-visible" : "content-hidden"}`}>
+          <h3 className="drop-btn" onClick={toggleSpecialtyVisibility}>Especialidades</h3>
           {specialties && specialties.length ? (
             <ul>
               {specialties.map((specialty, index) => {
@@ -113,6 +121,34 @@ const StoreSideBar: FC<Props> = ({
               })}
             </ul>
           ) : null}
+        </div>
+      </div>
+      <div className="course-sidebar-widget mb-2">
+        <div className={`course-sidebar-info ${resourceVisible ? "content-visible" : "content-hidden"}`}>
+          <h3 className="drop-btn" onClick={toggleResourceVisibility}>Recurso</h3>
+          {resourceVisible && (
+            <ul>
+              {Object.entries(resourcesMapping).map(([key, value], index) => (
+                <li key={index}>
+                  <div className="course-sidebar-list">
+                    <input
+                      className="edu-check-box"
+                      type="checkbox"
+                      id={`res_${key}`}
+                      /*onChange={(event) => onChangeResource({ id: key, name: value })}*/
+                      // Implement your checked logic here
+                    />
+                    <label
+                      className="edu-check-label"
+                      htmlFor={`res_${key}`}
+                    >
+                      {value}
+                    </label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       {/* <div className="course-sidebar-widget mb-2">

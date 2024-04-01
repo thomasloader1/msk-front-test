@@ -19,6 +19,7 @@ import {
 } from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import reducer, {State} from "@/context/storeFilters/storeFiltersReducer";
+import {json} from "stream/consumers";
 
 interface Props {
   onChangeSpecialty: (specialty: any) => void;
@@ -38,33 +39,36 @@ const StoreSideBar: FC<Props> = ({
                                    specialties,
                                  }) => {
   const router = useRouter();
-  const [currentSpecialty, setCurrentSpecialty] = useState<
-    Specialty | string | null
-  >();
+  const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
     console.log("SPECIALTY CLICKEADA", specialty);
     console.log("SPECIALTYSLUG", specialtySlug);
+    const urlSearchParams = new URLSearchParams(window.location.search);
     if (currentSpecialty == specialtySlug) {
       console.log("LIMPIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(null);
       onChangeSpecialty(null);
-      //router.push(`?recurso=curso`);
+      urlSearchParams.delete("especialidad");
+      const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
+      window.history.pushState({path: newurl}, '', newurl);
     } else {
       console.log("CAMBIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(specialtySlug);
       onChangeSpecialty(specialty);
-      //router.push(`?especialidad=${specialtySlug}&recurso=curso`);
+      //Add especialidad to the url
+      urlSearchParams.set("especialidad", specialtySlug);
+      const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
+      window.history.pushState({path: newurl}, '', newurl);
     }
-
   };
 
   const updateResults = () => {
+    console.log('UPDATING RESULTS FROM REFRESH', currentSpecialty);
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     if (specialtySlug && specialtySlug !== currentSpecialty) {
-      const specialtyName =
-        specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
+      const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
       setSpecialtyFilter({name: specialtyName});
     }
   }

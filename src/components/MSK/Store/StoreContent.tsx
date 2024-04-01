@@ -82,6 +82,7 @@ const StoreContent: FC<Props> = ({
 
   const pathname = usePathname();
   const handlePageChange = (pageNumber: number) => {
+    console.log('HANDLING PAGE CHANGE');
     const pageExists = storeFilters.page.some(
       (item: PageFilter) => item.id === pageNumber
     );
@@ -104,16 +105,13 @@ const StoreContent: FC<Props> = ({
   };
 
   useEffect(() => {
+    console.log('PRODUCTS WERE UPDATED', products);
     if (products) {
       setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
       setLocalProducts(products);
       setAllProducts(products);
     }
   }, [products]);
-
-  useEffect(() => {
-    applyFilters(); // Trigger applyFilters whenever storeFilters change
-  }, [storeFilters]);
 
   // STOREBAR FILTERS
 
@@ -147,7 +145,6 @@ const StoreContent: FC<Props> = ({
     if (specialty == null) {
       clearSpecialties();
     } else {
-      //todo: Remove old filter?
       console.log('Adding filter');
       addFilter("specialties", specialty);
     }

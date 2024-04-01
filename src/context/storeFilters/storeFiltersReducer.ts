@@ -122,11 +122,8 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         storeFilters: {
+          ...state.storeFilters,
           specialties: [],
-          professions: state.storeFilters.professions,
-          duration: state.storeFilters.duration,
-          resources: state.storeFilters.resources,
-          page: state.storeFilters.page,
         },
       };
     default:

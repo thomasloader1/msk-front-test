@@ -567,8 +567,11 @@ export type Newsletter = {
 };
 
 export interface BannerImg {
-  imagen_desktop: { link: string };
-  imagen_mobile: { link: string };
+  id?: number;
+  imagen_desktop: {
+    url?: string;
+    link: string };
+  imagen_mobile: { link: string, url?: string };
   url_banner?: string | { title?: string; url: string; target?: string };
   url?: { href: string };
 }

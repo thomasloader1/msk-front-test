@@ -1,6 +1,7 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/swiper-bundle.css';
 import { BannerImg } from "@/data/types";
 import api from "../../../Services/api";
 export interface LayoutPageProps {
@@ -13,6 +14,10 @@ export interface LayoutPageProps {
 }
 
 const defaultImgs = [
+  {
+    imagen_desktop: { link: "/images/banners/tienda_desktop.jpg" },
+    imagen_mobile: { link: "/images/banners/tienda_mobile.jpg" },
+  },
   {
     imagen_desktop: { link: "/images/banners/tienda_desktop.jpg" },
     imagen_mobile: { link: "/images/banners/tienda_mobile.jpg" },

@@ -207,6 +207,7 @@ const StoreContent: FC<Props> = ({
     ) {
       console.log('SET LOCAL PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
+      setTotalPages(Math.ceil(products.length / itemsPerPage));
     } else { //There are filters we need to apply
       console.log('There are filters we need to apply');
       const filteredProducts = products.filter((product) => {
@@ -333,6 +334,7 @@ const StoreContent: FC<Props> = ({
           </div>
 
           <div className="flex justify-center md:justify-start">
+            {/*<p>Total pages: {totalPages}</p>*/}
             <StorePagination
               totalPages={totalPages}
               onPageChange={handlePageChange}

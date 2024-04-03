@@ -189,6 +189,7 @@ export interface SingleProduct {
   ficha: Ficha;
   details: Details;
   total_price: string;
+  sale_price: string;
  }
 
 export interface CustomUser {
@@ -427,6 +428,8 @@ export interface FetchSingleProduct {
   };
   featured_product_text: string;
   total_price: string;
+  sale_price: string;
+  regular_price: string;
 }
 export interface FetchCourseType {
   id: number;

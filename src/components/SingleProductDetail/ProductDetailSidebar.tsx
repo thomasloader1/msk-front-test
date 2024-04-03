@@ -1,13 +1,14 @@
 import { FC, useContext, useEffect, useState } from "react";
-import { SingleProduct } from "data/types";
+import { FetchSingleProduct, SingleProduct } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 import PricingDetail from "./PricingDetail";
+import Badge from "components/Badge/Badge";
 
 interface Props {
- product: SingleProduct;
+ product: FetchSingleProduct;
   isEbook?: boolean;
   sideData: {
     modalidad: string;
@@ -18,11 +19,7 @@ interface Props {
   };
 }
 
-const ProductDetailSidebar: FC<Props> = ({
-  product,
-  isEbook,
-  sideData,
-}) => {
+const ProductDetailSidebar: FC<Props> = ({ product, isEbook, sideData }) => {
 
   const history = useHistory();
   const { ficha } = product;
@@ -109,11 +106,16 @@ const ProductDetailSidebar: FC<Props> = ({
             : "course-widget-wrapper"
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
-        {isFixed && !isEbook ? null : (
-          <div className="course-video-thumb mb-2 w-img hidden lg:flex">
+        {isFixed && !isEbook ? <>
+          {(product.sale_price !== "0") && <Badge color="sale" name="EN PROMOCIÓN" className="hidden lg:inline-block mb-2" />}
+        </> : (
+          <div className="course-video-thumb mb-2 w-img hidden lg:flex relative">
+            {product.sale_price !== "0" && <Badge color="sale" name="EN PROMOCIÓN" className="absolute top-2 left-2" />}
             <img src={image} alt="img not found" />
           </div>
         )}
+        
+         {(product.sale_price !== "0") && <Badge color="sale" name="EN PROMOCIÓN" className="mb-2 lg:hidden" />}
 
         <PricingDetail isEbook={isEbook} product={product} />
 

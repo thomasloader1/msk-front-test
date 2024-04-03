@@ -9,8 +9,6 @@ import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import CoursesForYou from "./home/CoursesForYou";
 import HomeExtraInfo from "./home/HomeExtraInfo";
 import SectionHero from "components/SectionHero/SectionHero";
-import starIcon from "/images/icons/star.svg";
-import googleIcon from "/images/icons/googleIcon.svg";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
@@ -18,11 +16,12 @@ import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import useWpContent from "hooks/useWpContent";
-import { parseHtml } from "utils/parseHTML";
 import WelcomeBox from "components/WelcomeBox";
 import Phrase from "components/Phrase";
 import ContainerSecondary from "components/Container/ContainerSecondary";
 import Questions from "components/Questions";
+import ReferenceSlider from "components/Sliders/ReferenceSlider";
+import ReferenceCard from "components/ReferenceCard";
 
 const PageNewHome: React.FC = () => {
   const history = useHistory()
@@ -105,9 +104,9 @@ const PageNewHome: React.FC = () => {
                         </div>
 
                        <ContainerSecondary contentAttribute={content?.recomendaciones} >
-                        
-                        <div className="flex flex-col lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-center justify-center mt-12">
-                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-4 px-4 ">
+                        <div className="flex flex-col  lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-stretch justify-center mt-12">
+                            
+                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-4 px-4 mb-8 md:mb-0">
                                 {content?.recomendaciones.items_1.map( (cri, index) => (
                                     <div key={index} className="mb-6">
                                         <h4 className="font-lora-italic text-[36px] text-[#392C35]">{cri.titulo}</h4>
@@ -115,27 +114,15 @@ const PageNewHome: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-8 lg:gap-y-1">
+
+                            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-8">
                                 {content?.recomendaciones.items_2.map( (cri, index) => (
-                                        <div key={index} className="mb-6 px-10 p-6 bg-white transition-all hover:shadow-xl rounded-xl">
-                                            <div className="flex items-center mb-4">
-                                                <img src={cri.imagen} alt={cri.titulo} className="mr-3" />
-                                                <div >
-                                                    <h4 className="text-lg text-[#392C35]">{cri.titulo}</h4>
-                                                    <div className="flex">
-                                                        <img src={starIcon} alt="" />
-                                                        <img src={starIcon} alt="" />
-                                                        <img src={starIcon} alt="" />
-                                                        <img src={starIcon} alt="" />
-                                                        <img src={starIcon} alt="" />
-                                                    </div>
-                                                </div>
-                                                    <img src={googleIcon} className="ml-auto mr-3" />
-                                            </div>
-                                            <p className="text-violet-wash text-left text-sm">{cri.parrafo}</p>
-                                        </div>
+                                        <ReferenceCard key={index} reference={cri} />
                                     ))}
                             </div>
+
+                            <ReferenceSlider references={content?.recomendaciones.items_2} />
+                            
                         </div>
                        </ContainerSecondary>
 

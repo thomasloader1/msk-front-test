@@ -22,6 +22,7 @@ import { parseHtml } from "utils/parseHTML";
 import WelcomeBox from "components/WelcomeBox";
 import Phrase from "components/Phrase";
 import ContainerSecondary from "components/Container/ContainerSecondary";
+import Questions from "components/Questions";
 
 const PageNewHome: React.FC = () => {
   const history = useHistory()
@@ -35,7 +36,6 @@ const PageNewHome: React.FC = () => {
 
   const { content, loading, error} = useWpContent("/home-msk")
 
-console.log({ content, loading, error})
   useEffect(() => {
     const redirectToTrial = localStorage.getItem("trialURL")
 
@@ -105,18 +105,19 @@ console.log({ content, loading, error})
                         </div>
 
                        <ContainerSecondary contentAttribute={content?.recomendaciones} >
+                        
                         <div className="flex flex-col lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-center justify-center mt-4">
-                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-8 px-4">
+                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-14 px-4">
                                 {content?.recomendaciones.items_1.map( (cri, index) => (
                                     <div key={index} className="mb-6">
-                                        <h4 className="font-lora-italic text-2xl text-[#392C35]">{cri.titulo}</h4>
-                                        <p className="text-[#8D929E]">{cri.parrafo}</p>
+                                        <h4 className="font-lora-italic text-[36px] text-[#392C35]">{cri.titulo}</h4>
+                                        <p className="text-[18px] text-[#8D929E]">{cri.parrafo}</p>
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-8 lg:gap-y-4">
+                            <div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-8 lg:gap-y-1">
                                 {content?.recomendaciones.items_2.map( (cri, index) => (
-                                        <div key={index} className="mb-6 px-10 p-6 bg-white shadow-xl rounded-xl">
+                                        <div key={index} className="mb-6 px-10 p-6 bg-white transition-all hover:shadow-xl rounded-xl">
                                             <div className="flex items-center mb-4">
                                                 <img src={cri.imagen} alt={cri.titulo} className="mr-3" />
                                                 <div >
@@ -145,7 +146,7 @@ console.log({ content, loading, error})
                             bestSeller={bestSeller}
                             tabs={TABS_HOME}
                             loading={loadingCourses}
-                            className="py-16"
+                            className="mb-[96px]"
                             heading="Oportunidades para ti"
                             desc="Cursos destacados para realizar a distancia"
                         />
@@ -153,13 +154,15 @@ console.log({ content, loading, error})
                             posts={posts}
                             tabs={TABS_BLOG}
                             loading={loadingPosts}
-                            className="py-16 "
-                            heading=""
-                            desc=""
+                            heading="Blog"
+                            className="mb-[96px]"
+                            desc="Recursos para informarte y aprender de distintas maneras"
                             showTitle
                         />
+
+                        <Questions content={content.preguntas_frecuentes} />
                         {/* === SECTION 6 === */}
-                        <div className="relative py-16">
+                        <div className="relative py-16 mb-[96px]">
                             <BackgroundSection />
                             <SectionSliderPosts
                             posts={bestSeller}

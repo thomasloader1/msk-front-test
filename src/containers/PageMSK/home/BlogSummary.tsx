@@ -66,9 +66,9 @@ const BlogSummary: FC<BlogSummaryProps> = ({
 
   return (
     <div className={`nc-BlogSummary ${className} animate-fade-down`}>
-      {showTitle && (
+      {/* {showTitle && (
         <h2 className={`text-3xl md:text-4xl font-medium mb-12`}>Blog</h2>
-      )}
+      )} */}
       <HeaderFilter
         tabActive={tabActive}
         tabs={tabs}
@@ -93,7 +93,6 @@ const BlogSummary: FC<BlogSummaryProps> = ({
       {!auxPosts.length && !loading && <NoResults />}
 
       <BlogSlider posts={auxPosts} />
-
 
       <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} kind="blog" />}

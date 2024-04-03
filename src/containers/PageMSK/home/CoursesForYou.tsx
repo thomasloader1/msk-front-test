@@ -36,8 +36,6 @@ const CoursesForYou: FC<Props> = ({
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [localCourses, setLocalCourses] = useState<FetchCourseType[]>([]);
-  const size = useWindowSize();
-  console.log({size})
   const handleClickTab = (item: string) => {
     switch (item) {
       case "Todo":

@@ -21,7 +21,7 @@ const Questions: FC<QuestionProps> = ({ content }) => {
         
   return (
     <section className='text-center mb-[96px]'>
-        <h4 className='text-[36px] mb-8'>{stripHtmlTags(content.texto)}</h4>
+        <h2 className='text-[36px] mb-8'>{stripHtmlTags(content.texto)}</h2>
 
         {content.items.map((item, index) => {
             return (

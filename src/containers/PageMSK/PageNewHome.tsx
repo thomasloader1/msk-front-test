@@ -51,7 +51,7 @@ const PageNewHome: React.FC = () => {
     setBestSeller(allBestSellers);
   }, [allCourses, allPosts, allBestSellers]);
 
-  const scrollToContactForm = () => {
+  /* const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
       window.scrollTo({
@@ -59,14 +59,14 @@ const PageNewHome: React.FC = () => {
         behavior: "smooth",
       });
     }
-  };
+  }; */
 
   return (
     <div className="nc-PageNewHome relative animate-fade-down">
       {/* === SEO === */}
       <PageHead
-        title="Inicio"
-        description="Una propuesta moderna para expandir tus metas profesionales"
+        title="Cursos de medicina para expandir tus metas profesionales"
+        description="Cursos de medicina para expandir tus metas profesionales"
         schemaJson={"WebSite"}
       />
       {/* === END SEO === */}
@@ -82,7 +82,7 @@ const PageNewHome: React.FC = () => {
                             rightImg={content?.header.imagen as string}
                             className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
                             btnText="Comienza tu experiencia"
-                            btnOnClick={scrollToContactForm}
+                            btnOnClick={() => history.push("/tienda")}
                             heading={content?.header.cabecera}
                         />
                     </div>
@@ -116,9 +116,7 @@ const PageNewHome: React.FC = () => {
                             </div>
 
                             <div className="hidden lg:grid lg:grid-cols-2 lg:gap-8">
-                                {content?.recomendaciones.items_2.map( (cri, index) => (
-                                        <ReferenceCard key={index} reference={cri} />
-                                    ))}
+                                {content?.recomendaciones.items_2.map((cri, index) => ( <ReferenceCard key={index} reference={cri} /> ))}
                             </div>
 
                             <ReferenceSlider references={content?.recomendaciones.items_2} />

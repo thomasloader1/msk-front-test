@@ -1,12 +1,10 @@
-import React, { FC, useContext } from "react";
+import { FC, useContext } from "react";
 import NcImage from "components/NcImage/NcImage";
-import { FetchCourseType, PostDataType } from "data/types";
+import { FetchCourseType } from "data/types";
 import { Link } from "react-router-dom";
-import SocialsShare from "components/SocialsShare/SocialsShare";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PostTypeFeaturedIcon from "components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
-import { CourseDataType } from "data/types";
 import { CountryContext } from "context/country/CountryContext";
+import timeIcon from "../../../public/images/icons/time.svg"
 
 export interface Card8Props {
   className?: string;
@@ -24,6 +22,8 @@ const Card8: FC<Card8Props> = ({
   const { title, categories, id, slug, image } = post;
   const { state } = useContext(CountryContext);
   const imageURL = image.replace(`${state.country || "mx"}.`, "");
+
+  console.log(post)
   return (
     <div
       className={`nc-Card8 group relative [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden z-0 ${className}`}
@@ -39,7 +39,8 @@ const Card8: FC<Card8Props> = ({
           src={imageURL}
           alt={title}
         />
-        <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+        <span className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 group-hover:opacity-100 transition-opacity"></span>
+
 
         {/* <PostTypeFeaturedIcon
           className="absolute top-4 left-4"
@@ -72,8 +73,19 @@ const Card8: FC<Card8Props> = ({
             {title}
           </Link>
         </h2>
+
+        {post.duration && (
+          <div className="flex items-center mt-2">
+            <img src={timeIcon} className="size-[10px] mr-2" alt="Horas Estimadas" /> 
+            <span className="text-neutral-300 text-[14px] line-clamp-1">{post.duration} horas estimadas</span>
+          </div>
+        )}
+
+        
+
         {post.lista_de_cedentes ? (
           <div className="sm:block mt-2">
+            <span className="text-neutral-300 text-[10px] line-clamp-1">Certificación</span>
             <span className="text-neutral-300 text-sm line-clamp-1">
               {post.lista_de_cedentes[0].post_title}
             </span>

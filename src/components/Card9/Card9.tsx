@@ -3,6 +3,7 @@ import NcImage from "components/NcImage/NcImage";
 import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import { CountryContext } from "context/country/CountryContext";
+import timeIcon from "../../../public/images/icons/time.svg"
 
 export interface Card9Props {
   className?: string;
@@ -36,9 +37,18 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h4>
+
+          {post.duration && (
+          <div className="flex items-center mt-2">
+            <img src={timeIcon} className="size-[10px] mr-2" alt="Horas Estimadas" /> 
+            <span className="text-neutral-300 text-[14px] line-clamp-1">{post.duration} horas estimadas</span>
+          </div>
+        )}
           <>
             {showDescription && post.lista_de_cedentes ? (
               <div className="sm:block mt-2">
+            <span className="text-neutral-300 text-[10px] line-clamp-1">Certificación</span>
+
                 <span className="text-neutral-300 text-sm line-clamp-1 ">
                   {post.lista_de_cedentes[0].post_title}
                 </span>
@@ -66,7 +76,7 @@ const Card9: FC<Card9Props> = ({
           className="object-cover w-full h-full rounded-3xl"
           src={imageURL}
         />
-        <span className="absolute inset-0 bg-black bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+       <span className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 group-hover:opacity-100 transition-opacity"></span>
       </Link>
       <Link
         to={`/curso/${slug}`}

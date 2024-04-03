@@ -32,10 +32,11 @@ import PageCancelSubscription from "containers/PageMSK/profile/PageCancelSubscri
 import PageNewsletter from "containers/PageMSK/PageNewsletter";
 import PageTrial from "containers/PageMSK/PageTrial";
 import PageTrialSuscribe from "containers/PageMSK/PageTrialSuscribe";
+import PageNewHome from "containers/PageMSK/PageNewHome";
 
 export const pages: Page[] = [
-  { path: "/", exact: true, component: PageHome, auth: false },
-  { path: "/#", exact: true, component: PageHome, auth: false },
+  { path: "/", exact: true, component: PageNewHome, auth: false },
+  { path: "/#", exact: true, component: PageNewHome, auth: false },
   { path: "/mision", component: PageMission, auth: false },
   { path: "/quienes-somos", component: PageMission, auth: false },
   { path: "/tienda", component: PageStore, auth: false },

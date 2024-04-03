@@ -1,4 +1,4 @@
-export const parseHtml = (contentHtml: string) => {
+export const parseHtml = (contentHtml: string, removesContainer: boolean = false) => {
   // Tu contenido HTML
   const htmlContent: string = contentHtml;
 
@@ -66,6 +66,12 @@ export const parseHtml = (contentHtml: string) => {
       liElement.insertBefore(imgElement, liElement.firstChild);
     });
   });
+
+  if (removesContainer) {
+    // Obtener el contenido HTML del primer hijo del tempElement
+    const child = tempElement?.firstChild as HTMLElement;
+    return child ? child.innerHTML : '';
+  }
 
   // Obtener el contenido modificado como cadena de texto
   const modifiedHtmlContent = tempElement.innerHTML;

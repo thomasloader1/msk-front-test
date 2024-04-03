@@ -1,5 +1,6 @@
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import React, { FC, ReactNode } from "react";
+import { parseHtml } from "utils/parseHTML";
 
 export interface SectionHeroProps {
   className?: string;
@@ -18,6 +19,7 @@ const SectionHero: FC<SectionHeroProps> = ({
   btnText,
   btnOnClick,
 }) => {
+
   return (
     <div
       className={`nc-SectionHero relative ${className}`}

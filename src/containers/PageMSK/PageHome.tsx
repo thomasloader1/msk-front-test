@@ -16,7 +16,6 @@ import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
-import { CourseDataType, SingleProduct } from "data/types";
 
 const PageHome: React.FC = () => {
   const history = useHistory()

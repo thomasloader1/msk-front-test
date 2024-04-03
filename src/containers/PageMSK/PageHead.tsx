@@ -81,7 +81,7 @@ const PageHead: FC<PageHeadProps> = ({
     : "";
 
   const schema = generateSchemaJson(schemaJson, schemaJsonData)
-  console.log({schema ,schemaJson})
+  //console.log({schema ,schemaJson})
 
   return (
     <Helmet>

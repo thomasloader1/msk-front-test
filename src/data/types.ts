@@ -473,6 +473,7 @@ export interface DurationFilter {
 export interface ResourceFilter {
   id: number;
   name: string;
+  slug?: string;
 }
 
 export interface CourseDataType {

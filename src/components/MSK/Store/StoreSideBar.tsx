@@ -31,6 +31,19 @@ interface Props {
   specialties: Specialty[];
 }
 
+let resources = [
+  {
+    id: 1,
+    name: "Curso",
+    slug: "curso",
+  },
+  {
+    id: 2,
+    name: "Guías profesionales",
+    slug: "guias-profesionales",
+  },
+];
+
 const StoreSideBar: FC<Props> = ({
                                    onChangeSpecialty,
                                    onChangeProfession,
@@ -74,13 +87,37 @@ const StoreSideBar: FC<Props> = ({
     }
   };
 
+  const setResourceFilter = (resource: ResourceFilter, action: string) => {
+    const resourceSlug = slugifySpecialty(resource.name);
+    console.log("RESOURCE CLICKEADO", resource);
+    console.log("RESOURCESLUG", resourceSlug);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    onChangeResource(resource);
+    //Check if it exists in the URL and is the same resource slug
+    if (action == 'add'){
+      urlSearchParams.set("recurso", resourceSlug);
+    }else{
+      urlSearchParams.delete("recurso");
+    }
+    const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
+    window.history.pushState({path: newurl}, '', newurl);
+  };
+
   const updateResults = () => {
     console.log('UPDATING RESULTS FROM REFRESH', currentSpecialty);
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
+    const resourceSlug = params.get("recurso");
     if (specialtySlug && specialtySlug !== currentSpecialty) {
       const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
       setSpecialtyFilter({name: specialtyName});
+    }
+    if (resourceSlug) {
+      //find resource from variable resources where resources.slug is resourceSlug
+      let resource = resources.find((resource) => resource.slug == resourceSlug);
+      if (resource){
+        setResourceFilter(resource, 'add');
+      }
     }
   }
 
@@ -101,7 +138,7 @@ const StoreSideBar: FC<Props> = ({
                   <li key={`spe_${index}`}>
                     <div className="course-sidebar-list">
                       <input
-                        className="edu-check-box"
+                        className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
                         onChange={() => setSpecialtyFilter(specialty)}
@@ -128,27 +165,28 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={toggleResourceVisibility}>Recurso</h3>
           {resourceVisible && (
             <ul>
-              {Object.entries(resourcesMapping).map(([key, value], index) => (
-                <li key={index}>
-                  <div className="course-sidebar-list">
-                    <input
-                      className="edu-check-box"
-                      type="checkbox"
-                      id={`res_${key}`}
-                      /*onChange={(event) => onChangeResource({ id: key, name: value })}*/
-                      // Implement your checked logic here
-                    />
-                    <label
-                      className="edu-check-label"
-                      htmlFor={`res_${key}`}
-                    >
-                      {value}
-                    </label>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+              {resources.map((resource, index) => {
+                return (
+                  <li key={`res_${index}`}>
+                    <div className="course-sidebar-list">
+                      <input
+                        className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
+                        type="checkbox"
+                        id={`res_${resource.id}`}
+                        //If it's checked pass 'add' if not pass 'delete'
+                        onChange={(e) => setResourceFilter(resource, e.target.checked ? 'add' : 'delete')}
+                      />
+                      <label
+                        className="edu-check-label"
+                        htmlFor={`res_${resource.id}`}
+                      >
+                        {resource.name}
+                      </label>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>)}
         </div>
       </div>
       {/* <div className="course-sidebar-widget mb-2">

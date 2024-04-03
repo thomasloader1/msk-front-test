@@ -181,7 +181,7 @@ const StoreContent: FC<Props> = ({
 
   const applyFilters = () => {
     console.log('Applying filters');
-    console.log("Store Filters",storeFilters);
+    console.log("Store Filters", storeFilters);
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -196,6 +196,7 @@ const StoreContent: FC<Props> = ({
     );
 
     console.log('SELECTED SPECIALTIES', selectedSpecialties);
+    console.log('SELECTED RESOURCES', selectedResources);
     if ( //No filters, set the products to the original list
       !(
         selectedSpecialties.length ||
@@ -237,15 +238,15 @@ const StoreContent: FC<Props> = ({
         //     )
         //   );
 
-        // const resourcesMatch = selectedResources
-        //   .filter((e: string) => e != undefined)
-        //   .every((resource) => {
-        //     if (resource === "Curso") {
-        //       return product.father_post_type === "course";
-        //     } else if (resource === "Guías profesionales") {
-        //       return product.father_post_type === "downloadable";
-        //     }
-        //   });
+        const resourcesMatch = selectedResources
+          .filter((e: string) => e != undefined)
+          .every((resource) => {
+            if (resource === "Curso") {
+              return product.father_post_type === "course";
+            } else if (resource === "Guías profesionales") {
+              return product.father_post_type === "downloadable";
+            }
+          });
 
         // const durationsMatch = selectedDurations.every((duration) => {
         //   const currentDuration = parseInt(prodDuration);
@@ -259,10 +260,10 @@ const StoreContent: FC<Props> = ({
         //   }
         // });
 
-        return specialtiesMatch;
-        // &&
+        return specialtiesMatch
+         &&
         // professionsMatch &&
-        // resourcesMatch &&
+         resourcesMatch
         // durationsMatch
       });
       console.log("FILTERED PRODUCTS", filteredProducts);

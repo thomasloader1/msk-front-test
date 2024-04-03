@@ -14,13 +14,15 @@ export const parseHtml = (contentHtml: string, removesContainer: boolean = false
 
   const spanElements = tempElement.querySelectorAll("span");
   spanElements.forEach(span => {
-    if (!span.classList.contains('font-lora')) {
+    console.log(span.id)
+    if (!span.classList.contains('font-lora') && span.id != 'font-lora-italic') {
       // Si no tiene la clase 'font-lora', remueve todas las clases existentes
       span.className = '';
   
       // Agrega la clase 'font-lora'
       span.classList.add('font-lora');
     }
+
   });
 
   ulElements.forEach((ulElement) => {

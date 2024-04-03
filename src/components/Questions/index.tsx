@@ -1,5 +1,6 @@
 import Accordion from 'components/Accordion/Accordion';
 import { FC, useState } from 'react'
+import { parseHtml } from 'utils/parseHTML';
 import { stripHtmlTags } from 'utils/stripHtmlTags';
 
 interface QuestionProps{
@@ -36,7 +37,7 @@ const Questions: FC<QuestionProps> = ({ content }) => {
                 <div
                   className="accordion-content p-3 border-t transition-all"
                 >
-                    <p className='text-violet-wash text-left'>{item.parrafo}</p>
+                    <div className='text-violet-wash text-left' dangerouslySetInnerHTML={{ __html: parseHtml(item.parrafo)}} />
                 </div>
               </Accordion>
             );

@@ -84,7 +84,7 @@ const PageNewHome: React.FC = () => {
                             className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
                             btnText="Comienza tu experiencia"
                             btnOnClick={scrollToContactForm}
-                            heading={<h2 dangerouslySetInnerHTML={{ __html: parseHtml(content?.header.cabecera as string, true)}} />}
+                            heading={content?.header.cabecera}
                         />
                     </div>
 
@@ -106,12 +106,12 @@ const PageNewHome: React.FC = () => {
 
                        <ContainerSecondary contentAttribute={content?.recomendaciones} >
                         
-                        <div className="flex flex-col lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-center justify-center mt-4">
-                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-14 px-4">
+                        <div className="flex flex-col lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-center justify-center mt-12">
+                            <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-4 px-4 ">
                                 {content?.recomendaciones.items_1.map( (cri, index) => (
                                     <div key={index} className="mb-6">
                                         <h4 className="font-lora-italic text-[36px] text-[#392C35]">{cri.titulo}</h4>
-                                        <p className="text-[18px] text-[#8D929E]">{cri.parrafo}</p>
+                                        <p className="text-[18px] text-[#8D929E] max-w-[228px]">{cri.parrafo}</p>
                                     </div>
                                 ))}
                             </div>

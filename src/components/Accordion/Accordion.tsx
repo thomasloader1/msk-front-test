@@ -45,7 +45,7 @@ const Accordion: FC<Props> = ({
             <img src={isOpen ? minusIcon : plusIcon} className="ml-2" />
           </div>
           <h2 className="font-normal inter text-[16px] py-0.5 ml-2">
-            {forModules ? (<span className="font-medium">Módulo {index +1}</span> ) : null} 
+            {forModules ? (<span className="font-medium mr-1">Módulo {index +1} •</span> ) : null} 
             {title.replace(/^\s*Módulo\s*\d+\.\s*/, '')}
           </h2>
         </div>

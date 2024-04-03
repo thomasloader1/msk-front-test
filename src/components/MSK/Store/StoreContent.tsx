@@ -54,8 +54,8 @@ const StoreContent: FC<Props> = ({
           return profession.slug === auxURLParams.profesion;
         });
         setStoreURLParams(auxProfessions);
-        applyFilters();
       }
+      applyFilters();
     }, [window.location.search, professions]);
   }
   const [currentPage, setCurrentPage] = useState(1);
@@ -169,11 +169,13 @@ const StoreContent: FC<Props> = ({
     } else addFilter("resources", resource);
   };
   const onChangeDuration = (duration: DurationFilter) => {
+    console.log('Durationnnn', duration);
     const durationExists = storeFilters.duration.filter(
       (item: DurationFilter) => {
-        return item.value == duration.value;
+        return item.slug == duration.slug;
       }
     );
+    console.log('Duration Exists', durationExists);
     if (durationExists.length) {
       removeFilter("duration", duration);
     } else addFilter("duration", duration);
@@ -192,11 +194,13 @@ const StoreContent: FC<Props> = ({
       (filter: ResourceFilter) => filter.name
     );
     const selectedDurations = storeFilters.duration.map(
-      (filter: DurationFilter) => filter.value
+      (filter: DurationFilter) => filter.slug
     );
 
     console.log('SELECTED SPECIALTIES', selectedSpecialties);
     console.log('SELECTED RESOURCES', selectedResources);
+    console.log('SELECTED PROFESSIONS', selectedProfessions);
+    console.log('SELECTED DURATIONS', selectedDurations);
     if ( //No filters, set the products to the original list
       !(
         selectedSpecialties.length ||
@@ -225,19 +229,19 @@ const StoreContent: FC<Props> = ({
           );
         }
 
-        // if (
-        //   storeURLParams &&
-        //   !selectedProfessions.includes(storeURLParams.slug)
-        // ) {
-        //   selectedProfessions.push(storeURLParams.slug);
-        // }
-        // const professionsMatch =
-        //   selectedProfessions.length === 0 ||
-        //   selectedProfessions.some((profession) =>
-        //     prodProfessions.some((prodProfession) =>
-        //       prodProfession.toLowerCase().includes(profession?.toLowerCase())
-        //     )
-        //   );
+        /*if (
+          storeURLParams &&
+          !selectedProfessions.includes(storeURLParams.slug)
+        ) {
+          selectedProfessions.push(storeURLParams.slug);
+        }*/
+        const professionsMatch =
+          selectedProfessions.length === 0 ||
+          selectedProfessions.some((profession) =>
+            prodProfessions.some((prodProfession) =>
+              prodProfession.toLowerCase().includes(profession?.toLowerCase())
+            )
+          );
 
         const resourcesMatch = selectedResources
           .filter((e: string) => e != undefined)
@@ -249,23 +253,24 @@ const StoreContent: FC<Props> = ({
             }
           });
 
-        // const durationsMatch = selectedDurations.every((duration) => {
-        //   const currentDuration = parseInt(prodDuration);
-        //   switch (duration) {
-        //     case "less_100":
-        //       return currentDuration <= 100;
-        //     case "100_300":
-        //       return currentDuration > 100 && currentDuration <= 300;
-        //     case "more_300":
-        //       return currentDuration > 300;
-        //   }
-        // });
+        const durationsMatch = selectedDurations.some((duration) => {
+          const currentDuration = parseInt(prodDuration);
+/*          console.log("CURRENT DURATION", currentDuration);
+          console.log("DURATION", duration);*/
+          switch (duration) {
+            case "dur_1":
+              return currentDuration <= 100;
+            case "dur_2":
+              return currentDuration > 100 && currentDuration <= 300;
+            case "dur_3":
+              return currentDuration > 300;
+          }
+        });
 
-        return specialtiesMatch
-         &&
-        // professionsMatch &&
-         resourcesMatch
-        // durationsMatch
+        return specialtiesMatch &&
+          professionsMatch &&
+          resourcesMatch &&
+          durationsMatch
       });
       console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);

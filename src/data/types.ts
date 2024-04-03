@@ -468,6 +468,7 @@ export interface DurationFilter {
   id: number;
   name: string;
   value?: string;
+  slug?: string;
 }
 
 export interface ResourceFilter {

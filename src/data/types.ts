@@ -430,6 +430,7 @@ export interface FetchSingleProduct {
   total_price: string;
   sale_price: string;
   regular_price: string;
+  cantidad_modulos: number;
 }
 export interface FetchCourseType {
   id: number;
@@ -462,6 +463,7 @@ export interface FetchCourseType {
   excerpt?: string;
   date?: string;
   author?: any;
+  cantidad_modulos: number;
 }
 
 export interface Category {

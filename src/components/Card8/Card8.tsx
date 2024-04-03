@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import { CountryContext } from "context/country/CountryContext";
 import timeIcon from "../../../public/images/icons/time.svg"
+import moduleIcon from "../../../public/images/icons/themesToSee.svg"
 
 export interface Card8Props {
   className?: string;
@@ -23,7 +24,6 @@ const Card8: FC<Card8Props> = ({
   const { state } = useContext(CountryContext);
   const imageURL = image.replace(`${state.country || "mx"}.`, "");
 
-  console.log(post)
   return (
     <div
       className={`nc-Card8 group relative [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] overflow-hidden z-0 ${className}`}
@@ -73,6 +73,13 @@ const Card8: FC<Card8Props> = ({
             {title}
           </Link>
         </h2>
+
+        {post.cantidad_modulos && (
+           <div className="flex items-center mt-2">
+            <img src={moduleIcon} className="size-[10px] mr-2" alt="Cantidad Modulos" /> 
+            <span className="text-neutral-300 text-[14px] line-clamp-1">{post.cantidad_modulos} temas</span>
+          </div>
+        )}
 
         {post.duration && (
           <div className="flex items-center mt-2">

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
 import { CountryContext } from "context/country/CountryContext";
 import timeIcon from "../../../public/images/icons/time.svg"
+import moduleIcon from "../../../public/images/icons/themesToSee.svg"
 
 export interface Card9Props {
   className?: string;
@@ -37,6 +38,13 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h4>
+
+          {post.cantidad_modulos && (
+           <div className="flex items-center mt-2">
+            <img src={moduleIcon} className="size-[10px] mr-2" alt="Cantidad Modulos" /> 
+            <span className="text-neutral-300 text-[14px] line-clamp-1">{post.cantidad_modulos} temas</span>
+          </div>
+        )}
 
           {post.duration && (
           <div className="flex items-center mt-2">

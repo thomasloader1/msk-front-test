@@ -1,7 +1,7 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC } from "react";
 import FooterNewsletter from "components/Footer/Newsletter";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 export interface PageProps {
   className?: string;

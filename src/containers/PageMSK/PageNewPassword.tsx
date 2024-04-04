@@ -6,7 +6,7 @@ import NcLink from "components/NcLink/NcLink";
 import { Helmet } from "react-helmet";
 import api from "Services/api";
 import { useHistory, useParams } from "react-router-dom";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 export interface PageNewPasswordProps {
     className?: string;

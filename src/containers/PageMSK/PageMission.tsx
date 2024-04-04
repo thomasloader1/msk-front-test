@@ -6,7 +6,7 @@ import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
 import SingleHeader from "../PageMSK/mission/SingleHeader";
 import { removeUrlParams } from "lib/removeUrlParams";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import api from "Services/api";
 import { CountryContext } from "context/country/CountryContext";
 

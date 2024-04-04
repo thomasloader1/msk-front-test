@@ -7,7 +7,7 @@ import { useAppDispatch } from "app/hooks";
 import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import usePoliticsPrivacy from "hooks/usePoliticsPrivacy";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import SingleHeader from "./mission/SingleHeader";
 
 const SINGLE: SinglePageType = {

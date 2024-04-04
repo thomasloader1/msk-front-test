@@ -11,7 +11,7 @@ import Button from "components/Button/Button";
 import NcModal from "components/NcModal/NcModal";
 import SpecialtiesModal from "../note/SpecialtiesModal";
 import { DataContext } from "context/data/DataContext";
-import PageHead from "../PageHead";
+import PageHead from "../../../containers/Head/PageHead";
 import notesMapping from "../../../data/jsons/__notes.json";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import BlogSummary from "../home/BlogSummary";

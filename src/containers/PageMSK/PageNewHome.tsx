@@ -12,7 +12,7 @@ import SectionHero from "components/SectionHero/SectionHero";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import useWpContent from "hooks/useWpContent";
@@ -23,6 +23,9 @@ import Questions from "components/Questions";
 import ReferenceSlider from "components/Sliders/ReferenceSlider";
 import ReferenceCard from "components/ReferenceCard";
 import HomeSkeleton from "components/Skeleton/HomeSkeleton";
+
+
+
 
 const PageNewHome: React.FC = () => {
   const history = useHistory()

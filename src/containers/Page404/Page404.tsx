@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import notFoundImg from "/images/404-msk.png";
-import PageHead from "containers/PageMSK/PageHead";
+import PageHead from "../../containers/Head/PageHead";
 import { AuthContext } from "context/user/AuthContext";
 import { isNull } from "lodash";
 import { useHistory } from "react-router-dom";

@@ -1,4 +1,4 @@
-export const parseHtml = (contentHtml: string, removesContainer: boolean = false) => {
+export const parseHtml = (contentHtml: string, removesContainer: boolean = false, options: {ignoreClassName: string} | null = null) => {
   // Tu contenido HTML
   const htmlContent: string = contentHtml;
 
@@ -14,13 +14,14 @@ export const parseHtml = (contentHtml: string, removesContainer: boolean = false
 
   const spanElements = tempElement.querySelectorAll("span");
   spanElements.forEach(span => {
-    console.log(span.id)
-    if (!span.classList.contains('font-lora') && span.id != 'font-lora-italic') {
+    console.log({span, options})
+    if (options != null || (!span.classList.contains('font-lora') && span.id != 'font-lora-italic')) {
       // Si no tiene la clase 'font-lora', remueve todas las clases existentes
       span.className = '';
-  
+      if(options != null  && options.ignoreClassName !== 'font-lora'){
+        span.classList.add('font-lora');
+      }
       // Agrega la clase 'font-lora'
-      span.classList.add('font-lora');
     }
 
   });

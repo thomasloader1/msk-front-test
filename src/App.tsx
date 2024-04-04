@@ -5,7 +5,7 @@ import { CountryProvider } from "context/country/CountryProvider";
 import UTMProvider from "context/utm/UTMProvider";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import DataProvider from "context/data/DataProvider";
-import PageHead from "containers/PageMSK/PageHead";
+import PageHead from "containers/Head/PageHead";
 import { useContext } from "react";
 import { DataContext } from "context/data/DataContext";
 

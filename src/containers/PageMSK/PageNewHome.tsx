@@ -72,7 +72,7 @@ const PageNewHome: React.FC = () => {
       />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">
-        {(!loading ) ? (
+        {(loading ) ? (
                 <HomeSkeleton />
             ) : (
                 <>

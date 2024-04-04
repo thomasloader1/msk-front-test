@@ -22,6 +22,7 @@ import ContainerSecondary from "components/Container/ContainerSecondary";
 import Questions from "components/Questions";
 import ReferenceSlider from "components/Sliders/ReferenceSlider";
 import ReferenceCard from "components/ReferenceCard";
+import HomeSkeleton from "components/Skeleton/HomeSkeleton";
 
 const PageNewHome: React.FC = () => {
   const history = useHistory()
@@ -71,8 +72,8 @@ const PageNewHome: React.FC = () => {
       />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">
-        {(loading ) ? (
-                <p>asd</p>
+        {(!loading ) ? (
+                <HomeSkeleton />
             ) : (
                 <>
                 {(content != null && typeof content !== 'undefined') && (

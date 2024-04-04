@@ -1,16 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 export interface SkeletonProps {
   className?: string;
   height?: string;
   name?: string;
+  withStart?: ReactNode;
 }
 
-const ImageSkeleton: FC<SkeletonProps> = ({ className = "", height = "", name= 'spinner' }) => {
+const ImageSkeleton: FC<SkeletonProps> = ({ className = "", height = "", name= 'spinner', withStart = null }) => {
 
   if(name == 'spinner'){
     return (
-
+<div>
+      {withStart}
       <div role="status"  style={{ height }}
       className={
         "flex items-center justify-center h-full bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700" +
@@ -27,6 +29,7 @@ const ImageSkeleton: FC<SkeletonProps> = ({ className = "", height = "", name= '
             </svg>
           <span className="sr-only">Loading...</span>
       </div>
+</div>
       )
   }
 

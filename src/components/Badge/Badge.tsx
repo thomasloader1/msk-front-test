@@ -67,6 +67,10 @@ const Badge: FC<BadgeProps> = ({
         return `text-neutral-900 bg-blue-post ${
           hasHover ? "hover:bg-blue-800" : ""
         }`;
+      case "blue-home":
+        return `text-[#445BA3] bg-[#BAC6EB] py-1.5 font-normal text-sm ${
+          hasHover ? "hover:bg-blue-800" : ""
+        }`;
       case "yellow-strong-post":
         return `text-neutral-900 bg-yellow-strong-post ${
           hasHover ? "hover:bg-blue-800" : ""
@@ -99,6 +103,8 @@ const Badge: FC<BadgeProps> = ({
         return `text-trial-strong bg-trial ${
           hasHover ? "hover:bg-blue-800" : ""
         }`;
+      case "sale":
+        return `text-white font-bold bg-[#E9A800] text-[14px]`;
       default:
         return `text-pink-800 bg-pink-100 ${
           hasHover ? "hover:bg-pink-800" : ""

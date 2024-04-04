@@ -16,7 +16,6 @@ import ContactForm from "components/ContactForm/ContactForm";
 import PageHead from "./PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
-import { CourseDataType, SingleProduct } from "data/types";
 
 const PageHome: React.FC = () => {
   const history = useHistory()
@@ -53,12 +52,14 @@ const PageHome: React.FC = () => {
       });
     }
   };
+
   return (
     <div className="nc-PageHome relative animate-fade-down">
       {/* === SEO === */}
       <PageHead
         title="Inicio"
         description="Una propuesta moderna para expandir tus metas profesionales"
+        schemaJson={"WebSite"}
       />
       {/* === END SEO === */}
       <div className="relative overflow-hidden">

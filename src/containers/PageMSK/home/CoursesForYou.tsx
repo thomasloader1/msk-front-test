@@ -5,7 +5,8 @@ import Card9 from "components/Card9/Card9";
 import { FetchCourseType } from "data/types";
 import { PostDataType } from "data/types";
 import ImageSkeleton from "components/Skeleton/ImageSkeleton";
-
+import { useWindowSize } from "@uidotdev/usehooks";
+import CoursesSlider from "components/Sliders/CoursesSlider";
 interface SectionMagazine1Props {
   tabs: string[];
   posts: PostDataType[];
@@ -74,7 +75,6 @@ const CoursesForYou: FC<Props> = ({
         onClickTab={handleClickTab}
       />
       {loading ? (
-        <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
             <ImageSkeleton className="col-span-2" height="200px" />
             <ImageSkeleton className="col-span-1" height="200px" />
@@ -83,14 +83,13 @@ const CoursesForYou: FC<Props> = ({
             <ImageSkeleton className="col-span-1" height="200px" />
             <ImageSkeleton className="col-span-2" height="200px" />
           </div>
-        </>
       ) : (
         <>
-          {!localCourses ||
-            (!localCourses.length && (
-              <span>No encontramos publicaciones.!</span>
-            ))}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          {!localCourses || (!localCourses.length && (<span>No encontramos publicaciones.!</span>))}
+
+          <CoursesSlider products={localCourses} />
+          
+          <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {localCourses && localCourses[0] && (
               <Card8
                 className="sm:col-span-2 rounded-3xl"

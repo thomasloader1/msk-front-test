@@ -11,6 +11,7 @@ import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import api from "Services/api";
 import PageHead from "./PageHead";
+import Breadcrum from "components/Breadcrum";
 
 export interface PageSingleTemp3SidebarProps {
   className?: string;
@@ -97,6 +98,8 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
                 {/* SINGLE HEADER */}
                 <div className="dark container relative z-10">
                   <div>
+              <Breadcrum onBlog={true}  onNote={note}/>
+
                     <SingleHeader
                       hiddenDesc={false}
                       metaActionStyle="style2"

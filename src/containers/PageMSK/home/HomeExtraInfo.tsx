@@ -39,7 +39,7 @@ const SectionAds: FC<SectionAdsProps> = ({
   return (
     <div
       onClick={() => (btnOnClick ? btnOnClick() : "")}
-      className="cursor-pointer"
+      className="cursor-pointer mb-[96px]"
     >
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}

@@ -17,6 +17,7 @@ import specialtiesMapping from "../../data/jsons/__specialties.json";
 import resourcesMapping from "../../data/jsons/__resources.json";
 import StoreBar from "./StoreBar";
 import { keepOnlySpecifiedParams } from "lib/removeUrlParams";
+import Breadcrum from "components/Breadcrum";
 
 interface Props {
   products: FetchCourseType[];
@@ -212,6 +213,7 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
+      <Breadcrum />
       {storeFilters.specialties.length > 0 && (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}

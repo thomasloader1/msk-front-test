@@ -133,17 +133,21 @@ const FooterEduman = () => {
                       <li>
                         <Link to="/mision">Nuestra misión</Link>
                       </li>
-                      <li>
+                     {/*  <li>
                         <Link to="/partners">Conviértete en Partner</Link>
+                      </li> */}
+
+                      <li>
+                        <Link to="/quienes-somos">Quiénes somos</Link>
                       </li>
                       <li>
                         <a href="https://ayuda.msklatam.com/" target="_blank">
                           Centro de ayuda
                         </a>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link to="/convenios">Convenios</Link>
-                      </li>
+                      </li> */}
 
                       {state.country.includes("ec") && (
                         <li>

@@ -1,4 +1,4 @@
-export const parseHtml = (contentHtml: string) => {
+export const parseHtml = (contentHtml: string, removesContainer: boolean = false) => {
   // Tu contenido HTML
   const htmlContent: string = contentHtml;
 
@@ -14,13 +14,15 @@ export const parseHtml = (contentHtml: string) => {
 
   const spanElements = tempElement.querySelectorAll("span");
   spanElements.forEach(span => {
-    if (!span.classList.contains('font-lora')) {
+    console.log(span.id)
+    if (!span.classList.contains('font-lora') && span.id != 'font-lora-italic') {
       // Si no tiene la clase 'font-lora', remueve todas las clases existentes
       span.className = '';
   
       // Agrega la clase 'font-lora'
       span.classList.add('font-lora');
     }
+
   });
 
   ulElements.forEach((ulElement) => {
@@ -66,6 +68,12 @@ export const parseHtml = (contentHtml: string) => {
       liElement.insertBefore(imgElement, liElement.firstChild);
     });
   });
+
+  if (removesContainer) {
+    // Obtener el contenido HTML del primer hijo del tempElement
+    const child = tempElement?.firstChild as HTMLElement;
+    return child ? child.innerHTML : '';
+  }
 
   // Obtener el contenido modificado como cadena de texto
   const modifiedHtmlContent = tempElement.innerHTML;

@@ -122,12 +122,14 @@ const StoreContent: FC<Props> = ({
           removeAccents(event.toLowerCase())
         )
       );
+      console.log(filteredProducts);
       setCurrentItems(
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(1);
     } else {
+      console.log('event?')
       setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
       setTotalPages(Math.ceil(products.length / itemsPerPage));
       setCurrentPage(1);
@@ -253,24 +255,25 @@ const StoreContent: FC<Props> = ({
             }
           });
 
-        const durationsMatch = selectedDurations.some((duration) => {
-          const currentDuration = parseInt(prodDuration);
-/*          console.log("CURRENT DURATION", currentDuration);
-          console.log("DURATION", duration);*/
-          switch (duration) {
-            case "dur_1":
-              return currentDuration <= 100;
-            case "dur_2":
-              return currentDuration > 100 && currentDuration <= 300;
-            case "dur_3":
-              return currentDuration > 300;
-          }
-        });
+        let durationsMatch = true;
+        if (selectedDurations && selectedDurations.length) {
+          durationsMatch = selectedDurations.some((duration) => {
+            const currentDuration = parseInt(prodDuration);
+            switch (duration) {
+              case "dur_1":
+                return currentDuration <= 100;
+              case "dur_2":
+                return currentDuration > 100 && currentDuration <= 300;
+              case "dur_3":
+                return currentDuration > 300;
+            }
+          });
+        }
 
-        return specialtiesMatch &&
-          professionsMatch &&
-          resourcesMatch &&
-          durationsMatch
+        return specialtiesMatch
+          && professionsMatch
+          && resourcesMatch
+          && durationsMatch
       });
       console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);

@@ -1,7 +1,6 @@
 import ImageSkeleton from './ImageSkeleton'
 import TextSkeleton from './TextSkeleton'
 import SimpleInputSkeleton from './SimpleInputSkeleton'
-import Accordion from 'components/Accordion/Accordion'
 
 const HomeSkeleton = () => {
   return (
@@ -10,13 +9,14 @@ const HomeSkeleton = () => {
 
     <div className={`nc-SectionHero relative pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20`} data-nc-id="SectionHero">
       <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 items-center relative text-center lg:text-left">
-        <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1">
+       
+        <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1 flex flex-col items-center lg:items-start">
             <TextSkeleton lines="3" />
             <SimpleInputSkeleton className='mt-8 w-[250px]' />
         </div>
-        <div className="hero-img">
-            <ImageSkeleton className='w-full' height="180px" />
-        </div>
+        
+            <ImageSkeleton className='w-[700px]' height="180px" />
+        
       </div>
     </div>
 
@@ -26,8 +26,8 @@ const HomeSkeleton = () => {
 
         <section className="flex justify-around mb-8 ">
             <ImageSkeleton className="min-w-[400px]" height="150px" />
-            <ImageSkeleton className="min-w-[400px]" height="150px" />
-            <ImageSkeleton className="min-w-[400px]" height="150px" />
+            <ImageSkeleton className="min-w-[400px] hidden lg:flex" height="150px" />
+            <ImageSkeleton className="min-w-[400px] hidden xl:flex" height="150px" />
         </section>
         
 

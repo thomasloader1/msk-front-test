@@ -52,16 +52,6 @@ const PageNewHome: React.FC = () => {
     setBestSeller(allBestSellers);
   }, [allCourses, allPosts, allBestSellers]);
 
-  /* const scrollToContactForm = () => {
-    const contactForm = document.getElementById("contactanos");
-    if (contactForm) {
-      window.scrollTo({
-        top: document.getElementById("contactanos")!.offsetTop,
-        behavior: "smooth",
-      });
-    }
-  }; */
-
   return (
     <div className="nc-PageNewHome relative animate-fade-down">
       {/* === SEO === */}

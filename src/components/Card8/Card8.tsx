@@ -82,7 +82,7 @@ const Card8: FC<Card8Props> = ({
         )}
 
         {post.duration && (
-          <div className="flex items-center mt-2">
+          <div className="flex items-center">
             <img src={timeIcon} className="size-[10px] mr-2" alt="Horas Estimadas" /> 
             <span className="text-neutral-300 text-[14px] line-clamp-1">{post.duration} horas estimadas</span>
           </div>
@@ -91,7 +91,7 @@ const Card8: FC<Card8Props> = ({
         
 
         {post.lista_de_cedentes ? (
-          <div className="sm:block mt-2">
+          <div className="sm:block ">
             <span className="text-neutral-300 text-[10px] line-clamp-1">Certificación</span>
             <span className="text-neutral-300 text-sm line-clamp-1">
               {post.lista_de_cedentes[0].post_title}

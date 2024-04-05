@@ -1,87 +1,110 @@
 import ImageSkeleton from './ImageSkeleton'
 import TextSkeleton from './TextSkeleton'
 import SimpleInputSkeleton from './SimpleInputSkeleton'
+import Accordion from 'components/Accordion/Accordion'
 
 const HomeSkeleton = () => {
   return (
     <>
-       <div className="container  animate-fade-down">
-        <div className='flex items-center gap-x-4 mb-[96px]'>
-            <div>
+       <section className="container  animate-fade-down">
+
+    <div className={`nc-SectionHero relative pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20`} data-nc-id="SectionHero">
+      <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 items-center relative text-center lg:text-left">
+        <div className="w-screen max-w-full space-y-5 lg:space-y-7 flex-1">
             <TextSkeleton lines="3" />
-            <SimpleInputSkeleton className='mt-4' />
-            </div>
-            <ImageSkeleton className="h-100 w-full" height="150px" />
+            <SimpleInputSkeleton className='mt-8 w-[250px]' />
         </div>
-        <div className="mb-[96px]">
-            <ImageSkeleton height="150px" />
+        <div className="hero-img">
+            <ImageSkeleton className='w-full' height="180px" />
         </div>
-
-        <div className="flex justify-between mb-8">
-            <ImageSkeleton className="min-w-[200px]" height="150px" />
-            <ImageSkeleton className="min-w-[200px]" height="150px" />
-            <ImageSkeleton className="min-w-[200px]" height="150px" />
-        </div>
-        <div className='mb-[96px]'>
-            <ImageSkeleton className="w-full" height="70px" />
-        </div>
-
-        <div className='mb-[96px]'>
-            <TextSkeleton className='w-[300px]' />
-            <TextSkeleton className='w-[100px]' />
-            <div className="flex justify-between mt-8">
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-            </div>
-        </div>
-
-        <div className='mb-[96px]'>
-            <ImageSkeleton className="w-full" height="200px" />
-        </div>
+      </div>
     </div>
 
-    <ImageSkeleton className="w-full" height="400px " />
+    <section className='mb-[96px]'>
+            <ImageSkeleton className="w-full" height="300px" />
+        </section>
+
+        <section className="flex justify-around mb-8 ">
+            <ImageSkeleton className="min-w-[400px]" height="150px" />
+            <ImageSkeleton className="min-w-[400px]" height="150px" />
+            <ImageSkeleton className="min-w-[400px]" height="150px" />
+        </section>
+        
+
+        <section className='mb-[96px]'>
+            <ImageSkeleton className="w-full mt-8" height="60px" />
+        </section>
+
+        <section className='nc-SectionGridCategoryBox relative mb-[96px]'>
+            <div className='mt-4 mb-8'>
+                <TextSkeleton />
+                <TextSkeleton />
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6 md:gap-8 justify-center w-full">
+                <ImageSkeleton className="min-w-[120px]" height="150px" />
+                <ImageSkeleton className="min-w-[120px]" height="150px" />
+                <ImageSkeleton className="min-w-[120px]" height="150px" />
+                <ImageSkeleton className="min-w-[120px]" height="150px" />
+                <ImageSkeleton className="min-w-[120px]" height="150px" />
+            </div>
+
+            
+        </section>
+
+    </section>
+
+    <ImageSkeleton className="w-full mb-[96px]" height="660px" />
 
     <div className="container  animate-fade-down my-[96px]">
     <div className='mb-[96px]'>
+            <div className='w-full mb-12'>
             <TextSkeleton className='w-[300px]' />
             <TextSkeleton className='w-[100px]' />
-            <div className="flex justify-between mt-8">
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
-                <ImageSkeleton className="min-w-[120px]" height="150px" />
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <ImageSkeleton className="col-span-2" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-2" height="200px" />
+          </div>
+        </div>
+
+        <div className='mb-[96px]'>
+            <div className='w-full mb-12'>
+            <TextSkeleton className='w-[300px]' />
+            <TextSkeleton className='w-[100px]' />
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                <ImageSkeleton className="col-span-2" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-1" height="200px" />
+                <ImageSkeleton className="col-span-2" height="200px" />
+          </div>
+        </div>
+
+        <div className="mb-[96px]">
+            <div className='w-full mb-12'>
+                <TextSkeleton className='w-[300px] mx-auto' />
+            </div>
+
+            <div>
+
+            {[1,1,1,1,1,1,1,1].map((item, index) => {
+            return (
+                <ImageSkeleton key={item} className="mb-2" height="60px" />
+            );
+          })}
             </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 animate-fade-down h-[400px] mb-[96px]">
-            
-            <ImageSkeleton className="h-auto col-span-1"  withStart={<div className='row-start-1 row-end-1 col-start-1'>
-                <TextSkeleton className='w-[300px]' />
-                <TextSkeleton className='w-[100px]' />
-            </div>} />
-            <div className="grid grid-cols-1 gap-5 col-start-2">
-              <ImageSkeleton className="col-span-1 h-100" height="100px" />
-              <ImageSkeleton className="col-span-1" height="100px" />
-              <ImageSkeleton className="col-span-1" height="100px" />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 animate-fade-down h-[400px]">
-            
-            <ImageSkeleton className="h-auto col-span-1"  withStart={<div className='row-start-1 row-end-1 col-start-1'>
-                <TextSkeleton className='w-[300px]' />
-                <TextSkeleton className='w-[100px]' />
-            </div>} />
-            <div className="grid grid-cols-1 gap-5 col-start-2">
-              <ImageSkeleton className="col-span-1 h-100" height="100px" />
-              <ImageSkeleton className="col-span-1" height="100px" />
-              <ImageSkeleton className="col-span-1" height="100px" />
-            </div>
-          </div>
+        
     </div>
+        <ImageSkeleton className="w-full mb-[96px]" height="700px" />
     </>
   )
 }

@@ -24,9 +24,6 @@ import ReferenceSlider from "components/Sliders/ReferenceSlider";
 import ReferenceCard from "components/ReferenceCard";
 import HomeSkeleton from "components/Skeleton/HomeSkeleton";
 
-
-
-
 const PageNewHome: React.FC = () => {
   const history = useHistory()
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =

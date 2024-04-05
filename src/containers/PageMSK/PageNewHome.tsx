@@ -65,7 +65,7 @@ const PageNewHome: React.FC = () => {
         {(loading ) ? (
                 <HomeSkeleton />
             ) : (
-                <section className="container">
+                <section className="md:container">
                 {(content != null && typeof content !== 'undefined') && (
                     <>
                      <div className="container relative">
@@ -115,7 +115,7 @@ const PageNewHome: React.FC = () => {
                         </div>
                        </ContainerSecondary>
 
-                        <div className="container relative">
+                      <div className="container relative">
                         {/* === SECTION 3 === */}
                         <CoursesForYou
                             courses={courses}

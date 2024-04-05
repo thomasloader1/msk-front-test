@@ -75,7 +75,7 @@ const PageNewHome: React.FC = () => {
         {(loading ) ? (
                 <HomeSkeleton />
             ) : (
-                <section className="px-9">
+                <section className="container">
                 {(content != null && typeof content !== 'undefined') && (
                     <>
                      <div className="container relative">

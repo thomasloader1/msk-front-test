@@ -79,8 +79,6 @@ const StoreContent: FC<Props> = ({
   const [totalPages, setTotalPages] = useState(
     Math.ceil(products.length / itemsPerPage)
   );
-
-  const pathname = usePathname();
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
     const pageExists = storeFilters.page.some(
@@ -116,6 +114,7 @@ const StoreContent: FC<Props> = ({
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
+    applyFilters();
     if (event) {
       const filteredProducts = products.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
@@ -128,11 +127,6 @@ const StoreContent: FC<Props> = ({
       );
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(1);
-    } else {
-      console.log('event?')
-      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setTotalPages(Math.ceil(products.length / itemsPerPage));
-      setCurrentPage(1);
     }
   };
 
@@ -141,9 +135,13 @@ const StoreContent: FC<Props> = ({
   };
 
   // END STOREBAR FILTERS
-  // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
+    //Remove the value on the input with id store-search
+    const input = document.getElementById("store-search") as HTMLInputElement;
+    if (input) {
+      input.value = "";
+    }
     if (specialty == null) {
       clearSpecialties();
     } else {

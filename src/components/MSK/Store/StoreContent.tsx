@@ -137,7 +137,7 @@ const StoreContent: FC<Props> = ({
   // END STOREBAR FILTERS
 
   const onChangeSpecialty = (specialty: Specialty) => {
-    //Remove the value on the input with id store-search
+    //Clear store search bar
     const input = document.getElementById("store-search") as HTMLInputElement;
     if (input) {
       input.value = "";

@@ -10,6 +10,7 @@ const SearchBar: FC<{
           <div className="bar-search-icon">
             <i className="flaticon-search"></i>
             <input
+              id="store-search"
               type="text"
               placeholder="Buscar"
               onChange={handleSearchInput}

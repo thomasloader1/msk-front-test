@@ -4,8 +4,8 @@ import { CountryContext } from "@/context/country/CountryContext";
 import { FetchCourseType } from "@/data/types";
 import NcLink from "../NcLink/NcLink";
 import NcImage from "../NcImage/NcImage";
-import { getAllCourses } from "@/lib/allData";
 import { usePathname } from "next/navigation";
+import ssr from "../../../Services/ssr";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -43,23 +43,37 @@ const SearchProducts = () => {
     }, 200);
   };
 
+  const onFocus = () => {
+    setIsInputFocused(true);
+  };
+
   const clearInputValue = () => {
     setInputValue("");
   };
+
   const pathname = usePathname();
   useEffect(() => {
-    if (pathname?.includes("/blog")) {
-      // setAuxProducts([...allPosts]);
-      // setProducts(allPosts);
-      // setIsOnBlog(true);
-    } else {
-      if (getAllCourses().length) {
-        setAuxProducts([...getAllCourses()]);
-        setProducts(getAllCourses());
-        setIsOnBlog(false);
+    const fetchData = async () => {
+      try {
+        console.log('FETCHING DATA');
+        let courses;
+        if (pathname?.includes("/blog")) {
+          // Fetch blog posts
+        } else {
+          //const currentCountry = cookies().get("country")?.value;
+          courses = await ssr.getAllCourses('ar');
+          console.log('Courses', courses);
+          setAuxProducts(courses);
+          setProducts(courses);
+          setIsOnBlog(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    }
-  }, [pathname, getAllCourses()]);
+    };
+
+    fetchData();
+  }, [pathname]);
 
   return (
     <div className="search-products">
@@ -71,8 +85,8 @@ const SearchProducts = () => {
           sizeClass="h-[42px] pl-4 py-3"
           value={inputValue}
           onChange={triggerSearch}
-          onFocus={() => setIsInputFocused(true)}
-          onBlur={() => onBlur()}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <NcImage
           src={"/images/icons/search.svg"}
@@ -90,7 +104,7 @@ const SearchProducts = () => {
                 href={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
                 className="product-item font-medium"
-                onClick={() => clearInputValue()} // Clear input value and update URL
+                onClick={() => clearInputValue()}
               >
                 <div className="img-container">
                   <NcImage

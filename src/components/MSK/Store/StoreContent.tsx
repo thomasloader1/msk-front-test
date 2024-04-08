@@ -119,12 +119,14 @@ const StoreContent: FC<Props> = ({
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
+    applyFilters();
     if (event) {
       const filteredProducts = products.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
           removeAccents(event.toLowerCase())
         )
       );
+      console.log(filteredProducts);
       setCurrentItems(
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
@@ -142,9 +144,13 @@ const StoreContent: FC<Props> = ({
   };
 
   // END STOREBAR FILTERS
-  // ToDo: Sidebar Filters
 
   const onChangeSpecialty = (specialty: Specialty) => {
+    //Clear store search bar
+    const input = document.getElementById("store-search") as HTMLInputElement;
+    if (input) {
+      input.value = "";
+    }
     if (specialty == null) {
       clearSpecialties();
     } else {
@@ -259,26 +265,25 @@ const StoreContent: FC<Props> = ({
             }
           });
 
-        const durationsMatch = selectedDurations.some((duration) => {
-          const currentDuration = parseInt(prodDuration);
-/*          console.log("CURRENT DURATION", currentDuration);
-          console.log("DURATION", duration);*/
-          switch (duration) {
-            case "dur_1":
-              return currentDuration <= 100;
-            case "dur_2":
-              return currentDuration > 100 && currentDuration <= 300;
-            case "dur_3":
-              return currentDuration > 300;
-          }
-        });
-        
-        console.log({specialtiesMatch, professionsMatch, resourcesMatch, durationsMatch})
+        let durationsMatch = true;
+        if (selectedDurations && selectedDurations.length) {
+          durationsMatch = selectedDurations.some((duration) => {
+            const currentDuration = parseInt(prodDuration);
+            switch (duration) {
+              case "dur_1":
+                return currentDuration <= 100;
+              case "dur_2":
+                return currentDuration > 100 && currentDuration <= 300;
+              case "dur_3":
+                return currentDuration > 300;
+            }
+          });
+        }
 
-        return specialtiesMatch &&
-          professionsMatch &&
-          resourcesMatch &&
-          durationsMatch
+        return specialtiesMatch
+          && professionsMatch
+          && resourcesMatch
+          && durationsMatch
       });
       console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);

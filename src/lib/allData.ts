@@ -1,6 +1,10 @@
+import { WpContentData } from "@/data/types";
+import ssr from "@Services/ssr";
+
 // Courses
 let allCourses: any = [];
 let loadingCourses: boolean = false;
+
 export const setAllCourses = (courses: any) => {
   allCourses = courses;
 };
@@ -38,3 +42,21 @@ export const setAllStoreSpecialties = (value: any) => {
 
 export const getAllStoreSpecialties = () => allStoreSpecialties;
 export const isLoadingStoreSpecialties = () => loadingAllStoreSpecialties;
+
+//PageHome
+export let pageHomeWpContent: WpContentData | undefined = undefined;
+let loadingPageHomeWpContent: boolean = false;
+
+export const setPageHomeWpContent = (value: any) => {
+  pageHomeWpContent = value;
+};
+export const getPageHomeWpContent = () => pageHomeWpContent;
+export const getPageHomeWpData = async (currentCountry:string) => {
+  const pageData = getPageHomeWpContent()
+  
+  if (typeof pageData === 'undefined') {
+    const fetchedContent = await ssr.getWpContent("/home-msk",currentCountry);
+    setPageHomeWpContent(fetchedContent);
+  }
+}
+export const isLoadingPageHomeWpContent = () => loadingPageHomeWpContent;

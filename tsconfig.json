@@ -26,6 +26,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@Services/*": [
+        "./Services/*"
       ]
     }
   },
@@ -35,8 +38,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/NcListBox",
-    "dist/types/**/*.ts"
-  ],
+    "dist/types/**/*.ts"  ],
   "exclude": [
     "node_modules"
   ]

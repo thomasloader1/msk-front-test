@@ -471,6 +471,10 @@ export interface DurationFilter {
   slug?: string;
 }
 
+export interface PageFilter {
+  id: number;
+}
+
 export interface ResourceFilter {
   id: number;
   name: string;
@@ -644,3 +648,51 @@ export interface JsonIdentificationsMapping {
     type: string;
   }>;
 }
+
+export type WpContentData = {
+  params: {
+    country?: string;
+  };
+  header: {
+    cabecera: string;
+    cta: {
+      title: string;
+      url: string;
+      target: string;
+    };
+    imagen: string;
+  };
+  sobre_mks: {
+    etiqueta: string;
+    texto_1: string;
+    texto_2: string;
+  };
+  cedentes: {
+    texto: string;
+  };
+  recomendaciones: {
+    texto_1: string;
+    texto_2: string;
+    items_1: {
+      titulo: string;
+      parrafo: string;
+    }[];
+    items_2: {
+      imagen: string;
+      titulo: string;
+      numero: string;
+      parrafo: string;
+      redes: {
+        value: string;
+        label: string;
+      };
+    }[];
+  };
+  preguntas_frecuentes: {
+    texto: string;
+    items: {
+      titulo: string;
+      parrafo: string;
+    }[];
+  };
+};

@@ -19,7 +19,6 @@ export const filterSpecialtiesAux: any = null;
 export const setFilterSpecialty = (specialty: string) => {};
 
 export const isSpecialtySelected = (slug: string) => {
-  // console.log("SAAAA", slug);
   return !!specialtiesMapping[slug as keyof typeof specialtiesMapping];
 };
 

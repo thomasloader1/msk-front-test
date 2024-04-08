@@ -3,7 +3,7 @@ import { PostDataType, TaxonomyType } from "@/data/types";
 // import { changeCurrentPage } from "@/app/pages/pages";
 // import SingleHeader from "../PageMSK/mission/SingleHeader";
 import { removeUrlParams } from "@/lib/removeUrlParams";
-import PageHead from "../PageHead";
+import PageHead from "../../Head/PageHeadServer";
 import { CommentType } from "@/components/CommentCard/CommentCard";
 import { useAppDispatch } from "@/hooks/hooks";
 import SingleHeader from "../Blog/Post/PostSingleHeader";

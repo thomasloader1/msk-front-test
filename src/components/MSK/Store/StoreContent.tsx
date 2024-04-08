@@ -14,7 +14,7 @@ import {
 import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import StoreBar from "./StoreBar";
 import {getParamsFromURL} from "@/lib/removeUrlParams";
-import {usePathname} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
@@ -34,10 +34,12 @@ const StoreContent: FC<Props> = ({
                                    // handleTriggerSearch,
                                    // handleTriggerFilter,
                                  }) => {
+
   const [storeURLParams, setStoreURLParams] = useState({});
-  const [localProducts, setLocalProducts] = useState<FetchCourseType[]>([]);
-  const [allProducts, setAllProducts] = useState<FetchCourseType[]>([]);
+  const [localProducts, setLocalProducts] = useState<FetchCourseType[]>(products);
+  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
+
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
@@ -58,7 +60,11 @@ const StoreContent: FC<Props> = ({
       applyFilters();
     }, [window.location.search, professions]);
   }
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const searchParams = useSearchParams();
+  console.log(searchParams.get('page'))
+
+  const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
 
   const {
     storeFilters,
@@ -73,19 +79,15 @@ const StoreContent: FC<Props> = ({
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
-
-  const [totalPages, setTotalPages] = useState(
-    Math.ceil(products.length / itemsPerPage)
-  );
+  const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
 
   const pathname = usePathname();
+
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
-    const pageExists = storeFilters.page.some(
-      (item: PageFilter) => item.id === pageNumber
-    );
+    const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
+    //console.log({pageExists, storePage: storeFilters.page, pageNumber})
     if (!pageExists) {
       updateFilter("page", {
         id: pageNumber,
@@ -110,6 +112,7 @@ const StoreContent: FC<Props> = ({
       setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
       setLocalProducts(products);
       setAllProducts(products);
+      setCurrentPage(currentPage);
     }
   }, [products]);
 
@@ -126,11 +129,11 @@ const StoreContent: FC<Props> = ({
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-      setCurrentPage(1);
+      setCurrentPage(currentPage);
     } else {
       setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
       setTotalPages(Math.ceil(products.length / itemsPerPage));
-      setCurrentPage(1);
+      setCurrentPage(currentPage);
     }
   };
 
@@ -182,8 +185,9 @@ const StoreContent: FC<Props> = ({
   };
 
   const applyFilters = () => {
-    console.log('Applying filters');
-    console.log("Store Filters", storeFilters);
+
+  console.group("applyFilters()")
+    console.log("Store Filters", {storeFilters});
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -196,11 +200,18 @@ const StoreContent: FC<Props> = ({
     const selectedDurations = storeFilters.duration.map(
       (filter: DurationFilter) => filter.slug
     );
+     const selectedPage = storeFilters.page.map(
+      (filter: PageFilter) => filter.id
+    );
 
-    console.log('SELECTED SPECIALTIES', selectedSpecialties);
-    console.log('SELECTED RESOURCES', selectedResources);
-    console.log('SELECTED PROFESSIONS', selectedProfessions);
-    console.log('SELECTED DURATIONS', selectedDurations);
+    console.group("FILTERS SELECTED")
+      console.log('SPECIALTIES', selectedSpecialties);
+      console.log('RESOURCES', selectedResources);
+      console.log('PROFESSIONS', selectedProfessions);
+      console.log('DURATIONS', selectedDurations);
+      console.log('PAGE', selectedPage);
+    console.groupEnd()
+
     if ( //No filters, set the products to the original list
       !(
         selectedSpecialties.length ||
@@ -229,12 +240,6 @@ const StoreContent: FC<Props> = ({
           );
         }
 
-        /*if (
-          storeURLParams &&
-          !selectedProfessions.includes(storeURLParams.slug)
-        ) {
-          selectedProfessions.push(storeURLParams.slug);
-        }*/
         const professionsMatch =
           selectedProfessions.length === 0 ||
           selectedProfessions.some((profession) =>
@@ -247,6 +252,7 @@ const StoreContent: FC<Props> = ({
           .filter((e: string) => e != undefined)
           .every((resource) => {
             if (resource === "Curso") {
+              console.log({resource, type: product.father_post_type},product.father_post_type === "course")
               return product.father_post_type === "course";
             } else if (resource === "Guías profesionales") {
               return product.father_post_type === "downloadable";
@@ -266,6 +272,8 @@ const StoreContent: FC<Props> = ({
               return currentDuration > 300;
           }
         });
+        
+        console.log({specialtiesMatch, professionsMatch, resourcesMatch, durationsMatch})
 
         return specialtiesMatch &&
           professionsMatch &&
@@ -275,8 +283,10 @@ const StoreContent: FC<Props> = ({
       console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-      setCurrentPage(1);
+      setCurrentPage(currentPage);
     }
+  console.groupEnd()
+
   };
 
   return (
@@ -314,7 +324,7 @@ const StoreContent: FC<Props> = ({
               storeFilters.duration.length
             }
           />
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
             {currentItems.length ? (
               currentItems.map((product, index) => {
                 return (
@@ -344,6 +354,7 @@ const StoreContent: FC<Props> = ({
               totalPages={totalPages}
               onPageChange={handlePageChange}
               currentPage={currentPage}
+              urlTrack={true}
             />
           </div>
         </div>

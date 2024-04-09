@@ -4,7 +4,7 @@ import Input from "@/components/Input/Input";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import api from "../../../Services/api";
 import { useRouter } from "next/router";
-import PageHead from "./PageHead";
+import PageHead from "../Head/PageHeadServer";
 
 export interface PageNewPasswordProps {
   className?: string;

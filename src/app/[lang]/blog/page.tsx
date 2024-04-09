@@ -8,11 +8,18 @@ import ssr from "../../../../Services/ssr";
 import { FetchPostType } from "@/data/types";
 import WelcomeBlog from "@/components/MSK/Blog/WelcomeBlog";
 import NewsletterBlog from "@/components/MSK/Blog/NewsletterBlog";
+import { Metadata } from "next";
 
 interface PageProps {
   params: any;
 }
 export const runtime = 'edge';
+export const metadata: Metadata = {
+  title: "Blog",
+  alternates:{
+    canonical: `${process.env.NEXT_PUBLIC_URL}/blog`
+  }
+};
 
 const PageBlog: React.FC<PageProps> = async ({ params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;

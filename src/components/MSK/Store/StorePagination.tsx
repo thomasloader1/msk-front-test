@@ -1,14 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
 import fai from "../../../styles/fai/fontAwesome5Pro.module.css";
-import NcLink from "@/components/NcLink/NcLink";
 import {
   keepOnlySpecifiedParams,
   removeUrlParams,
 } from "@/lib/removeUrlParams";
+import Link from "next/link";
 
 interface Props {
   totalPages: number;
   currentPage: number;
+  urlTrack?: boolean;
   onPageChange: (page: number) => void;
 }
 
@@ -16,6 +17,7 @@ const StorePagination: FC<Props> = ({
   totalPages,
   onPageChange,
   currentPage,
+  urlTrack = false
 }) => {
   const [pages, setPages] = useState<number[]>([]);
 
@@ -40,14 +42,13 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                {/* <NcLink
-                  to={`${urlTrack}${
-                    currentPage - 1 > 1 ? `&page=${currentPage - 1}` : ""
-                  }`}
-                  colorClass=""
-                > */}
-                <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                {/* </NcLink> */}
+                { urlTrack ? 
+                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                    <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                  </Link> 
+                    : 
+                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                }
               </li>
             ) : (
               ""
@@ -63,12 +64,15 @@ const StorePagination: FC<Props> = ({
                   key={`page_${page}`}
                   onClick={() => onPageChange(page)}
                 >
-                  {/* <NcLink
-                    to={`${urlTrack}${page > 1 ? `&page=${page}` : ""}`}
-                    colorClass=""
-                  > */}
-                  {page < 10 ? `0${page}` : page}
-                  {/* </NcLink> */}
+                  { urlTrack ? 
+                    <Link href={`?page=${page}`}>
+                      {page < 10 ? `0${page}` : page}
+                    </Link> 
+                      : 
+                    <>
+                      {page < 10 ? `0${page}` : page}
+                    </>
+                  }
                 </li>
               );
             })}
@@ -77,33 +81,47 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                {/* <NcLink to={`${urlTrack}&page=${currentPage + 1}`}> */}
-                <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                {/* </NcLink> */}
+                  { urlTrack ? 
+                    <Link href={`?page=${currentPage + 1}`}>
+                      <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                    </Link> 
+                      : 
+                    <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                  }
               </li>
             ) : null}
           </ul>
+
           <div className="flex sm:hidden mx-auto justify-center mt-2">
             {currentPage > 1 ? (
               <li
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer"
               >
-                <a>
+                { urlTrack ? 
+                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                    <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                  </Link> 
+                    : 
                   <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                </a>
+                }
               </li>
             ) : (
               ""
             )}
+
             {totalPages > 1 && currentPage < totalPages ? (
               <li
-                onClick={() => onPageChange(currentPage + 1)}
+                onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer"
               >
-                <a>
-                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                </a>
+                { urlTrack ? 
+                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                    <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                  </Link> 
+                    : 
+                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
+                }
               </li>
             ) : null}
           </div>

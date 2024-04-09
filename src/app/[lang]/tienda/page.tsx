@@ -1,3 +1,4 @@
+
 import { FC } from "react";
 import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
@@ -9,7 +10,35 @@ import {
   setAllCourses,
   setAllStoreSpecialties,
 } from "@/lib/allData";
-import HomeExtraInfo from "@/components/MSK/HomeExtraInfo";
+import { Metadata } from "next";
+
+type Props = {
+  params: { lang: string, page: string }
+  searchParams: { page: string; };
+}
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+    //console.log(searchParams)
+    const currentCountry = params.lang || cookies().get("country")?.value;  
+    const nextPrevUrls = Number(searchParams.page) > 1 ? 
+              [
+                { rel: 'next', url: `${process.env.NEXT_PUBLIC_URL}/${currentCountry}/tienda/?page=3` },
+                { rel: 'prev', url: `${process.env.NEXT_PUBLIC_URL}/${currentCountry}/tienda/?page=1` }
+              ] :
+              [
+                { rel: 'next', url: `${process.env.NEXT_PUBLIC_URL}/${currentCountry}/tienda/?page=2` },
+              ]
+
+    return {
+            title: 'Tienda',
+            alternates:{
+              canonical: "/tienda",
+            },
+            icons: {
+              other: nextPrevUrls
+            }
+          };
+}
 
 export interface PageStoreProps {
   className?: string;

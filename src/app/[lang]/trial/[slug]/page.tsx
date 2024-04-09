@@ -9,8 +9,10 @@ import HomeExtraInfo from "@/components/MSK/HomeExtraInfo";
 import SectionHero from "@/components/SectionHero/SectionHero";
 import SectionGridCategoryBox from "@/components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "@/components/MSK/BrandSlider";
+import PageHead from "@/components/Head/PageHeadServer";
 import { cookies } from "next/headers";
-import ssr from "../../../Services/ssr";
+import ssr from "@Services/ssr";
+
 import {
   getAllBestSellers,
   getAllCourses,
@@ -20,21 +22,17 @@ import {
   setAllBestSellers,
   setAllCourses,
   setAllPosts,
-  setPageHomeWpContent,
-  pageHomeWpContent,
 } from "@/lib/allData";
 import ContactForm from "@/components/MSK/ContactForm";
-import { generateSchemaJson } from "@/lib/pageSchemaJson";
-import Script from "next/script";;
-import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
+import InputSkeleton from "@/components/Skeleton/InputSkeleton";
 
 interface PageProps {
   params: any;
 }
 
-const PageHome: React.FC<PageProps> = async ({ params }) => {
+const PageTrial: React.FC<PageProps> = async ({ params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;
-
+  
   if (!getAllCourses().length) {
     const fetchedCourses = await ssr.getAllCourses(currentCountry);
     setAllCourses(fetchedCourses);
@@ -48,28 +46,30 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     setAllPosts(fetchedPosts);
   }
 
-  if (typeof pageHomeWpContent === 'undefined') {
-    const fetchedContent = await ssr.getWpContent("/home-msk",currentCountry);
-    setPageHomeWpContent(fetchedContent);
-  }
-
-  const jsonLd = generateSchemaJson("WebSite");
-  const heroTitle = pageHomeWpContent?.header.cabecera || ''
-  const heroImage = pageHomeWpContent?.header.imagen || ''
 
   return (
-    <div className="nc-PageHome relative animate-fade-down">
-      
-      <Script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}/>
-
+    <div className="nc-PageTrial relative animate-fade-down">
+      <PageHead
+        title="Inicio"
+        description="Una propuesta moderna para expandir tus metas profesionales"
+      />
       <div className="relative overflow-hidden">
         <div className="container relative">
           <SectionHero
-            rightImg={removeFirstSubdomain(heroImage)}
+            rightImg={"/images/hero-msk.png"}
             className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
             btnText="Comienza tu experiencia"
-            redirectUrl="/tienda"
-            heading={heroTitle}
+            heading={
+              <>
+                Una propuesta moderne
+                <br />
+                para
+                <span className="font-lora-italic"> expandir </span>
+                tus
+                <br />
+                metas profesionales
+              </>
+            }
           />
           <SectionGridCategoryBox
             headingCenter={false}
@@ -104,7 +104,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
               heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
+              uniqueSliderClass="pageTrial-section6"
             />
           </div>
         </div>
@@ -116,4 +116,4 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
   );
 };
 
-export default PageHome;
+export default PageTrial;

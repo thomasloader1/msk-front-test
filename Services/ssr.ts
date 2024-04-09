@@ -271,6 +271,30 @@ class ApiSSRService {
       return error;
     }
   }
+
+  async getWpContent(endpoint:string,country: string) {
+    try {
+      let validCountries = countries.map((item) => item.id);
+      const countryParam = validCountries.includes(country)
+        ? `&country=${country}`
+        : `&country=int`;
+      
+        //console.log(`${API_URL}${endpoint}${countryParam}`)
+      
+        const response = await fetch(`${API_URL}${endpoint}?${countryParam}`);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch ${endpoint}. HTTP status ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      return data
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new ApiSSRService();

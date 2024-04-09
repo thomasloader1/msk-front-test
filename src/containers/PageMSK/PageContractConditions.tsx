@@ -7,7 +7,7 @@ import { useAppDispatch } from "app/hooks";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
 import useContractConditions from "hooks/useContractConditions";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",

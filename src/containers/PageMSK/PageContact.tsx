@@ -1,7 +1,7 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC } from "react";
 import ContactForm from "components/ContactForm/ContactForm";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 export interface PageContactProps {
   className?: string;

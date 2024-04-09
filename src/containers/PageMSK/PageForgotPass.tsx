@@ -5,7 +5,7 @@ import ButtonPrimary from "components/Button/ButtonPrimary";
 import NcLink from "components/NcLink/NcLink";
 import api from "Services/api";
 import { useHistory } from "react-router-dom";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageForgotPassProps {

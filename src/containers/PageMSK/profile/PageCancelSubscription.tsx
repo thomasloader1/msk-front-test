@@ -8,7 +8,7 @@ import {
   isFormDisabled,
 } from "./arrepentimientoCompra";
 import { removeUrlParams } from "lib/removeUrlParams";
-import PageHead from "../PageHead";
+import PageHead from "../../../containers/Head/PageHead";
 
 export const argDocumentTypes = [
   {

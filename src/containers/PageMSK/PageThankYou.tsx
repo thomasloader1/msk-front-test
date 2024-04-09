@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import { Helmet } from "react-helmet";
 import { useHistory, useLocation } from "react-router-dom";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 export interface PageThankYouProps {
   className?: string;

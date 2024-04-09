@@ -1,7 +1,7 @@
 import LayoutPage from "components/LayoutPage/LayoutPage";
 import { FC } from "react";
 import { Helmet } from "react-helmet";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import { useLocation } from "react-router-dom";
 
 export interface PageEmailSentProps {

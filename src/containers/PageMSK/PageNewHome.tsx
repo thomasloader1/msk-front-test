@@ -12,7 +12,7 @@ import SectionHero from "components/SectionHero/SectionHero";
 import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
 import BrandSlider from "components/BrandSlider/BrandSlider";
 import ContactForm from "components/ContactForm/ContactForm";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "context/user/AuthContext";
 import useWpContent from "hooks/useWpContent";
@@ -52,16 +52,6 @@ const PageNewHome: React.FC = () => {
     setBestSeller(allBestSellers);
   }, [allCourses, allPosts, allBestSellers]);
 
-  /* const scrollToContactForm = () => {
-    const contactForm = document.getElementById("contactanos");
-    if (contactForm) {
-      window.scrollTo({
-        top: document.getElementById("contactanos")!.offsetTop,
-        behavior: "smooth",
-      });
-    }
-  }; */
-
   return (
     <div className="nc-PageNewHome relative animate-fade-down">
       {/* === SEO === */}
@@ -75,7 +65,7 @@ const PageNewHome: React.FC = () => {
         {(loading ) ? (
                 <HomeSkeleton />
             ) : (
-                <>
+                <section className="md:container">
                 {(content != null && typeof content !== 'undefined') && (
                     <>
                      <div className="container relative">
@@ -105,7 +95,7 @@ const PageNewHome: React.FC = () => {
                         </div>
 
                        <ContainerSecondary contentAttribute={content?.recomendaciones} >
-                        <div className="flex flex-col  lg:grid lg:grid-cols-[35%_65%] lg:gap-x-8 lg:items-stretch justify-center mt-12">
+                        <div className="flex flex-col  lg:grid lg:grid-cols-[30%_65%] lg:gap-x-8 lg:items-stretch justify-center mt-12">
                             
                             <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-4 px-4 mb-8 md:mb-0">
                                 {content?.recomendaciones.items_1.map( (cri, index) => (
@@ -125,7 +115,7 @@ const PageNewHome: React.FC = () => {
                         </div>
                        </ContainerSecondary>
 
-                        <div className="container relative">
+                      <div className="container relative">
                         {/* === SECTION 3 === */}
                         <CoursesForYou
                             courses={courses}
@@ -148,23 +138,23 @@ const PageNewHome: React.FC = () => {
 
                         <Questions content={content.preguntas_frecuentes} />
                         {/* === SECTION 6 === */}
-                        <div className="relative py-16 mb-[96px]">
-                            <BackgroundSection />
-                            <SectionSliderPosts
-                            posts={bestSeller}
-                            loading={loadingBestSellers}
-                            postCardName="card9"
-                            heading="Nuestros cursos más elegidos"
-                            subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-                            sliderStype="style2"
-                            uniqueSliderClass="pageNewHome-section6"
-                            />
-                        </div>
                     </div>
+                        <div className="rounded-[40px] bg-neutral-100 dark:bg-black dark:bg-opacity-20 relative py-16 mb-[96px] w-full px-14">
+                            {/* <BackgroundSection /> */}
+                            <SectionSliderPosts
+                              posts={bestSeller}
+                              loading={loadingBestSellers}
+                              className="w-full"
+                              postCardName="card9"
+                              heading="Nuestros cursos más elegidos"
+                              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+                              sliderStype="style2"
+                              uniqueSliderClass="pageNewHome-section6"
+                              />
+                        </div>
                     </>
                 )}
-                   
-                </>
+                </section>
         )}
         {/* ======= END CONTAINER ============= */}
         {/* === SECTION  === */}

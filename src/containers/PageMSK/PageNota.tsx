@@ -10,7 +10,7 @@ import ImageSkeleton from "components/Skeleton/ImageSkeleton";
 import TitleSkeleton from "components/Skeleton/TitleSkeleton";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import api from "Services/api";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import Breadcrum from "components/Breadcrum";
 
 export interface PageSingleTemp3SidebarProps {

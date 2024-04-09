@@ -8,7 +8,7 @@ import { AuthContext } from "context/user/AuthContext";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
 
 export interface PageLoginProps {

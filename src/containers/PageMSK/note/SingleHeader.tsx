@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import SingleTitle from "./SingleTitle";
 import { SinglePageType } from "./SingleSidebar";
 import CategoryBadgeList from "components/CategoryBadgeList/CategoryBadgeList";
-import PageHead from "../PageHead";
 
 export interface SingleHeaderProps {
   pageData: SinglePageType;

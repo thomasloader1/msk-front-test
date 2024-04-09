@@ -14,9 +14,7 @@ import { CountryCode } from "libphonenumber-js/types";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import PageHead from "./PageHead";
-import NcImage from "components/NcImage/NcImage";
-import errorIcon from "/images/icons/error-icon.svg";
+import PageHead from "containers/Head/PageHead";
 import ShowErrorMessage from "components/ShowErrorMessage";
 export interface PageSignUpProps {
   className?: string;

@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import LoadingText from "components/Loader/Text";
 import { CountryContext } from "context/country/CountryContext";
 import useSingleProduct from "hooks/useSingleProduct";
-import PageHead from "containers/PageMSK/PageHead";
+import PageHead from "containers/Head/PageHead";
 import { useParams } from "react-router-dom";
 
 const PageSingleProduct = () => {

@@ -11,7 +11,7 @@ const ImageSkeleton: FC<SkeletonProps> = ({ className = "", height = "", name= '
 
   if(name == 'spinner'){
     return (
-<div>
+<div className={className}>
       {withStart}
       <div role="status"  style={{ height }}
       className={

@@ -16,7 +16,7 @@ import ProductAccount from "./profile/ProductAccount";
 import ItemSkeleton from "components/Skeleton/ItemSkeleton";
 import AvatarSkeleton from "components/Skeleton/AvatarSkeleton";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import HeaderFilter from "./home/HeaderFilter";
 
 export interface PageAuthorProps {

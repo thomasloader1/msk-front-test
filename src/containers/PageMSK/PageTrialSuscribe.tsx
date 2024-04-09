@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { CountryContext } from "context/country/CountryContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import TrialInfo from "components/Trial/TrialInfo";
 import mpImg from "../../../public/images/MP.png";
 import stImg from "../../../public/images/ST.svg";

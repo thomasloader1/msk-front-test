@@ -16,7 +16,7 @@ import { useStoreFilters } from "context/storeFilters/StoreFiltersProvider";
 import { CountryContext } from "context/country/CountryContext";
 import { useHistory } from "react-router-dom";
 import { DataContext } from "context/data/DataContext";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 import { removeAccents } from "lib/removeAccents";
 
 export interface PageStoreProps {

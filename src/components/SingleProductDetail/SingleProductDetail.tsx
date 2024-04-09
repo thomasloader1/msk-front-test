@@ -178,7 +178,7 @@ const SingleProductDetail: FC<Props> = ({ product }) => {
                     </div>
                   </div>
                 )}
-                <div className="text-violet-strong !font-inter" dangerouslySetInnerHTML={{__html: parseHtml(product.ficha.description)}} />
+                <div className="text-violet-strong !font-inter" dangerouslySetInnerHTML={{__html: parseHtml(product.ficha.description, false, { ignoreClassName:'font-lora'})}} />
               </div>
             )}
 

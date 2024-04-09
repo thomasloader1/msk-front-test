@@ -14,7 +14,7 @@ import ModalSignOut from "components/Modal/SignOut";
 import { getUserCourses } from "Services/user";
 import { AuthContext } from "context/user/AuthContext";
 import { DataContext } from "context/data/DataContext";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 export interface PageDashboardProps {
   className?: string;

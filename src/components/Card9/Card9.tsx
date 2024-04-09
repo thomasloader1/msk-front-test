@@ -41,14 +41,14 @@ const Card9: FC<Card9Props> = ({
 
           {post.cantidad_modulos && (
            <div className="flex items-center mt-2">
-            <img src={moduleIcon} className="size-[10px] mr-2" alt="Cantidad Modulos" /> 
+            <img src={moduleIcon} className=" mr-2" width="15px"  height="15px" alt="Cantidad Modulos" /> 
             <span className="text-neutral-300 text-[14px] line-clamp-1">{post.cantidad_modulos} temas</span>
           </div>
         )}
 
           {post.duration && (
           <div className="flex items-center mt-2">
-            <img src={timeIcon} className="size-[10px] mr-2" alt="Horas Estimadas" /> 
+            <img src={timeIcon} className=" mr-2" width="15px"  height="15px" alt="Horas Estimadas" /> 
             <span className="text-neutral-300 text-[14px] line-clamp-1">{post.duration} horas estimadas</span>
           </div>
         )}

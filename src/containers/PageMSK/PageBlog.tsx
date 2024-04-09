@@ -8,7 +8,7 @@ import WelcomeBlog from "./blog/WelcomeBlog";
 import Newsletter from "./blog/Newsletter";
 import { FetchPostType } from "data/types";
 import { DataContext } from "context/data/DataContext";
-import PageHead from "./PageHead";
+import PageHead from "containers/Head/PageHead";
 
 const PageBlog: React.FC = () => {
   const { state, loadingCourses, loadingPosts, loadingBestSellers } =

@@ -75,7 +75,7 @@ const CoursesForYou: FC<Props> = ({
         onClickTab={handleClickTab}
       />
       {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             <ImageSkeleton className="col-span-2" height="200px" />
             <ImageSkeleton className="col-span-1" height="200px" />
             <ImageSkeleton className="col-span-1" height="200px" />

@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, useFormikContext } from "formik";
 import { FC } from "react";
-import errorIcon from "../../../public/images/icons/error-icon.svg";
+import errorIcon from "/public/images/icons/error-icon.svg";
+import Image from "next/image";
 
 interface InputFieldProps {
   label: string;
@@ -28,7 +29,7 @@ const InputField: FC<InputFieldProps> = ({
       </label>
       {hasError && (
         <span className="error flex items-center">
-          <img src={errorIcon} className="h-6" alt="Error" />
+          <Image {...errorIcon} className="h-6" alt="Error" />
           <ErrorMessage name={name} component="span" className="error" />
         </span>
       )}

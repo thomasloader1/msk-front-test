@@ -1,21 +1,14 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
-import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
-// import SectionSliderPosts from "@/containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
 import { FetchSingleProduct } from "@/data/types";
 import ProductEvaluation from "./ProductEvaluation";
-// import ContactFormSection from "@/components/ContactForm/ContactForm";
-// import StorePagination from "@/components/Store/StorePagination";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
-import { CountryContext } from "@/context/country/CountryContext";
 import ProductFeaturedText from "./ProductFeaturedText";
-import { DataContext } from "@/context/data/DataContext";
 import productDetails from "@/hooks/ssr/productDetails";
 import SectionSliderPosts from "../Sections/SectionSliderPosts";
-import StorePagination from "../MSK/Store/StorePagination";
 import ProductInstructors from "./ProductInstructors";
 import ContactFormSection from "../MSK/ContactForm";
 
@@ -25,27 +18,6 @@ interface Props {
 }
 
 const SingleProductDetail: FC<Props> = ({ product, country }) => {
-  // const { state: dataState, loadingBestSellers } = useContext(DataContext);
-  // const { allBestSellers } = dataState;
-  // const [bestSellers, setBestSellers] = useState([]);
-  // useEffect(() => {
-  //   setBestSellers(allBestSellers);
-  // }, [allBestSellers]);
-
-  // const history = useHistory();
-
-  // const textRef = useRef<HTMLDivElement>(null);
-  // const [textDesctiption, setTextDesctiption] = useState<string>("");
-
-  // useEffect(() => {
-  //   const htmlElement = document.createElement("div");
-  //   htmlElement.innerHTML = product.ficha.description;
-  //   if (textRef.current) {
-  //     textRef.current.innerHTML = "";
-  //     textRef.current.appendChild(htmlElement);
-  //     setTextDesctiption(textRef?.current?.textContent as string);
-  //   }
-  // }, [location]);
 
   const currentPage = 1;
   const itemsPerPage = 6;
@@ -54,10 +26,6 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
   const currentItems = product.authors.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(product.authors.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber: number) => {
-    // console.log(pageNumber);
-    // setCurrentPage(pageNumber);
-  };
 
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");
@@ -72,13 +40,8 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
     return listOfGoals;
   };
 
-  // const { state } = useContext(CountryContext);
-
   let { isEbook, imagen, title } = productDetails(product);
 
-  // if (imagen) {
-  //   imagen = imagen.replace(`${state.country || "mx"}.`, "");
-  // }
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">

@@ -13,7 +13,7 @@ import Script from "next/script";
 import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,22 +22,22 @@ const poppins = Poppins({
 });
 
 type Props = {
-  params: { lang: string }
-}
+  params: { lang: string };
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
- const currentCountry = params.lang || cookies().get("country")?.value;
- return { 
-          title: {
-            default: "MSK | Cursos de medicina para expandir tus metas profesionales",
-            template: "MSK | %s",
-          },
-          description: "Cursos de medicina para expandir tus metas profesionales",
-          metadataBase: new URL(`${process.env.NEXT_PUBLIC_URL}/${currentCountry}`),
-          alternates:{
-            canonical: "/"
-          }
-        }
+  const currentCountry = params.lang || cookies().get("country")?.value;
+  return {
+    title: {
+      default: "MSK | Cursos de medicina para expandir tus metas profesionales",
+      template: "MSK | %s",
+    },
+    description: "Cursos de medicina para expandir tus metas profesionales",
+    // metadataBase: new URL(`${process.env.NEXT_PUBLIC_URL}/${currentCountry}`),
+    alternates: {
+      canonical: "/",
+    },
+  };
 }
 
 interface LayoutProps {

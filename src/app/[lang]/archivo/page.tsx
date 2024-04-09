@@ -23,7 +23,7 @@ import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export interface PageArchiveProps {
   className?: string;
@@ -146,7 +146,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   let loaders = [];
   for (let i = 0; i < 6; i++) {
-    loaders.push(<LoaderImage />);
+    loaders.push(<LoaderImage key={`loader_${i}`} />);
   }
 
   return (

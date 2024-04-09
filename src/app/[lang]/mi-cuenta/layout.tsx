@@ -90,15 +90,19 @@ const PageDashboard: FC<PageDashboardProps> = ({
                           } ${navClassName}`}
                           colorClass={
                             pathname.includes(`/mi-cuenta${sPath}`)
-                              ? "text-neutral-600"
+                              ? "text-white"
                               : "text-white-900"
                           }
                           href={`/mi-cuenta/${sPath}`}
                         >
                           <img
                             src={`/images/icons/${icon}.svg`}
+                            className={`mr-2 ${
+                              pathname.includes(`/mi-cuenta${sPath}`)
+                                ? "menu-profile-icon-active"
+                                : ""
+                            }`}
                             width="16"
-                            className="mr-2 menu-profile-icon"
                           />
                           {pageName}
                         </NcLink>{" "}

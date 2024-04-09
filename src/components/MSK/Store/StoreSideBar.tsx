@@ -1,14 +1,14 @@
-import {FC, useContext, useEffect, useReducer, useState} from "react";
+import { FC, useContext, useEffect, useReducer, useState } from "react";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
-import {slugifySpecialty} from "@/lib/Slugify";
-import {useParams, useRouter, useSearchParams} from "next/navigation";
-import {DataContext} from "@/context/data/DataContext";
+import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
+import { slugifySpecialty } from "@/lib/Slugify";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { DataContext } from "@/context/data/DataContext";
 import Link from "next/link";
 import {
   addFilterNew,
@@ -19,8 +19,9 @@ import {
 } from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
-import reducer, {State} from "@/context/storeFilters/storeFiltersReducer";
-import {json} from "stream/consumers";
+import reducer, { State } from "@/context/storeFilters/storeFiltersReducer";
+import { json } from "stream/consumers";
+import { StoreFiltersContext } from "@/context/storeFilters/StoreContext";
 
 interface Props {
   onChangeSpecialty: (specialty: any) => void;
@@ -63,23 +64,30 @@ let durations = [
 ];
 
 const StoreSideBar: FC<Props> = ({
-                                   onChangeSpecialty,
-                                   onChangeProfession,
-                                   onChangeResource,
-                                   onChangeDuration,
-                                   professions,
-                                   specialties,
-                                 }) => {
+  onChangeSpecialty,
+  onChangeProfession,
+  onChangeResource,
+  onChangeDuration,
+  professions,
+  specialties,
+}) => {
   const [specialtyVisible, setSpecialtyVisible] = useState<boolean>(true);
   const [resourceVisible, setResourceVisible] = useState<boolean>(false);
   const [professionVisible, setProfessionVisible] = useState<boolean>(false);
   const [durationVisible, setDurationVisible] = useState<boolean>(false);
 
-  const toggleSpecialtyVisibility = () => { setSpecialtyVisible((prevVisible) => !prevVisible);};
-  const toggleResourceVisibility = () => {setResourceVisible((prevVisible) => !prevVisible);};
-  const toggleProfessionVisibility = () => {setProfessionVisible((prevVisible) => !prevVisible);};
-  const toggleDurationVisibility = () => {setDurationVisible((prevVisible) => !prevVisible);};
-
+  const toggleSpecialtyVisibility = () => {
+    setSpecialtyVisible((prevVisible) => !prevVisible);
+  };
+  const toggleResourceVisibility = () => {
+    setResourceVisible((prevVisible) => !prevVisible);
+  };
+  const toggleProfessionVisibility = () => {
+    setProfessionVisible((prevVisible) => !prevVisible);
+  };
+  const toggleDurationVisibility = () => {
+    setDurationVisible((prevVisible) => !prevVisible);
+  };
 
   const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
   const setSpecialtyFilter = (specialty: Specialty) => {
@@ -92,16 +100,24 @@ const StoreSideBar: FC<Props> = ({
       setCurrentSpecialty(null);
       onChangeSpecialty(null);
       urlSearchParams.delete("especialidad");
-      const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
-      window.history.pushState({path: newurl}, '', newurl);
+      const newurl =
+        window.location.origin +
+        window.location.pathname +
+        "?" +
+        urlSearchParams.toString();
+      window.history.pushState({ path: newurl }, "", newurl);
     } else {
       console.log("CAMBIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(specialtySlug);
       onChangeSpecialty(specialty);
       //Add especialidad to the url
       urlSearchParams.set("especialidad", specialtySlug);
-      const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
-      window.history.pushState({path: newurl}, '', newurl);
+      const newurl =
+        window.location.origin +
+        window.location.pathname +
+        "?" +
+        urlSearchParams.toString();
+      window.history.pushState({ path: newurl }, "", newurl);
     }
   };
 
@@ -112,13 +128,17 @@ const StoreSideBar: FC<Props> = ({
     const urlSearchParams = new URLSearchParams(window.location.search);
     onChangeResource(resource);
     //Check if it exists in the URL and is the same slug
-    if (action == 'add'){
+    if (action == "add") {
       urlSearchParams.set("recurso", resourceSlug);
-    }else{
+    } else {
       urlSearchParams.delete("recurso");
     }
-    const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
-    window.history.pushState({path: newurl}, '', newurl);
+    const newurl =
+      window.location.origin +
+      window.location.pathname +
+      "?" +
+      urlSearchParams.toString();
+    window.history.pushState({ path: newurl }, "", newurl);
   };
 
   const setProfessionFilter = (profession: Profession, action: string) => {
@@ -128,13 +148,17 @@ const StoreSideBar: FC<Props> = ({
     const urlSearchParams = new URLSearchParams(window.location.search);
     onChangeProfession(profession);
     //Check if it exists in the URL and is the same slug
-    if (action == 'add'){
+    if (action == "add") {
       urlSearchParams.set("profesion", professionSlug);
-    }else{
+    } else {
       urlSearchParams.delete("profesion");
     }
-    const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
-    window.history.pushState({path: newurl}, '', newurl);
+    const newurl =
+      window.location.origin +
+      window.location.pathname +
+      "?" +
+      urlSearchParams.toString();
+    window.history.pushState({ path: newurl }, "", newurl);
   };
 
   const setDurationFilter = (duration: DurationFilter, action: string) => {
@@ -144,33 +168,39 @@ const StoreSideBar: FC<Props> = ({
     const urlSearchParams = new URLSearchParams(window.location.search);
     onChangeDuration(duration);
     //Check if it exists in the URL and is the same slug
-    if (action == 'add'){
+    if (action == "add") {
       urlSearchParams.set("duracion", professionSlug);
-    }else{
+    } else {
       urlSearchParams.delete("duracion");
     }
-    const newurl = window.location.origin + window.location.pathname + '?' + urlSearchParams.toString();
-    window.history.pushState({path: newurl}, '', newurl);
+    const newurl =
+      window.location.origin +
+      window.location.pathname +
+      "?" +
+      urlSearchParams.toString();
+    window.history.pushState({ path: newurl }, "", newurl);
   };
 
-
   const updateResults = () => {
-    console.log('UPDATING RESULTS FROM REFRESH', currentSpecialty);
+    console.log("UPDATING RESULTS FROM REFRESH", currentSpecialty);
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     const resourceSlug = params.get("recurso");
     if (specialtySlug && specialtySlug !== currentSpecialty) {
-      const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
-      setSpecialtyFilter({name: specialtyName});
+      const specialtyName =
+        specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
+      setSpecialtyFilter({ name: specialtyName });
     }
     if (resourceSlug) {
       //find resource from variable resources where resources.slug is resourceSlug
-      let resource = resources.find((resource) => resource.slug == resourceSlug);
-      if (resource){
-        setResourceFilter(resource, 'add');
+      let resource = resources.find(
+        (resource) => resource.slug == resourceSlug
+      );
+      if (resource) {
+        setResourceFilter(resource, "add");
       }
     }
-  }
+  };
 
   if (typeof window != "undefined") {
     useEffect(() => {
@@ -180,8 +210,14 @@ const StoreSideBar: FC<Props> = ({
   return (
     <>
       <div className="course-sidebar-widget mb-2">
-        <div className={`course-sidebar-info ${specialtyVisible ? "content-visible" : "content-hidden"}`}>
-          <h3 className="drop-btn" onClick={toggleSpecialtyVisibility}>Especialidades</h3>
+        <div
+          className={`course-sidebar-info ${
+            specialtyVisible ? "content-visible" : "content-hidden"
+          }`}
+        >
+          <h3 className="drop-btn" onClick={toggleSpecialtyVisibility}>
+            Especialidades
+          </h3>
           {specialties && specialties.length ? (
             <ul>
               {specialties.map((specialty, index) => {
@@ -212,8 +248,14 @@ const StoreSideBar: FC<Props> = ({
         </div>
       </div>
       <div className="course-sidebar-widget mb-2">
-        <div className={`course-sidebar-info ${resourceVisible ? "content-visible" : "content-hidden"}`}>
-          <h3 className="drop-btn" onClick={toggleResourceVisibility}>Recurso</h3>
+        <div
+          className={`course-sidebar-info ${
+            resourceVisible ? "content-visible" : "content-hidden"
+          }`}
+        >
+          <h3 className="drop-btn" onClick={toggleResourceVisibility}>
+            Recurso
+          </h3>
           {resourceVisible && (
             <ul>
               {resources.map((resource, index) => {
@@ -225,25 +267,37 @@ const StoreSideBar: FC<Props> = ({
                         type="checkbox"
                         id={`res_${resource.id}`}
                         //If it's checked pass 'add' if not pass 'delete'
-                        onChange={(e) => setResourceFilter(resource, e.target.checked ? 'add' : 'delete')}
+                        onChange={(e) =>
+                          setResourceFilter(
+                            resource,
+                            e.target.checked ? "add" : "delete"
+                          )
+                        }
                       />
                       <label
                         className="edu-check-label"
                         htmlFor={`res_${resource.id}`}
                       >
-                        {resource.name}
+                        {resource.name}{" "}
                       </label>
                     </div>
                   </li>
                 );
               })}
-            </ul>)}
+            </ul>
+          )}
         </div>
       </div>
 
       <div className="course-sidebar-widget mb-2">
-        <div className={`course-sidebar-info ${professionVisible ? "content-visible" : "content-hidden"}`}>
-          <h3 className="drop-btn" onClick={toggleProfessionVisibility}>Profesión</h3>
+        <div
+          className={`course-sidebar-info ${
+            professionVisible ? "content-visible" : "content-hidden"
+          }`}
+        >
+          <h3 className="drop-btn" onClick={toggleProfessionVisibility}>
+            Profesión
+          </h3>
           {professions.length ? (
             <ul>
               {professions.map((profession, index: number) => {
@@ -254,7 +308,12 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`profession_${profession.id}`}
-                        onChange={(e) => setProfessionFilter(profession, e.target.checked ? 'add' : 'delete')}
+                        onChange={(e) =>
+                          setProfessionFilter(
+                            profession,
+                            e.target.checked ? "add" : "delete"
+                          )
+                        }
                       />
                       <label
                         className="edu-check-label"
@@ -272,8 +331,14 @@ const StoreSideBar: FC<Props> = ({
       </div>
 
       <div className="course-sidebar-widget mb-2">
-        <div className={`course-sidebar-info ${durationVisible ? "content-visible" : "content-hidden"}`}>
-          <h3 className="drop-btn" onClick={toggleDurationVisibility}>Duración</h3>
+        <div
+          className={`course-sidebar-info ${
+            durationVisible ? "content-visible" : "content-hidden"
+          }`}
+        >
+          <h3 className="drop-btn" onClick={toggleDurationVisibility}>
+            Duración
+          </h3>
           <ul>
             {durations.map((item, index) => {
               return (
@@ -283,7 +348,12 @@ const StoreSideBar: FC<Props> = ({
                       className="edu-check-box"
                       type="checkbox"
                       id={`dur_${item.id}`}
-                      onChange={(e) => setDurationFilter(item, e.target.checked ? 'add' : 'delete')}
+                      onChange={(e) =>
+                        setDurationFilter(
+                          item,
+                          e.target.checked ? "add" : "delete"
+                        )
+                      }
                     />
                     <label
                       className="edu-check-label"

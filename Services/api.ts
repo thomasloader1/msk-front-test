@@ -621,14 +621,17 @@ class ApiService {
       const ipResponse = await fetch("https://api.ipify.org/?format=json");
       const ipData = await ipResponse.json();
       const ip = ipData.ip;
+      console.log("getCountryCode", ipData);
 
       let response;
       if (PROD) {
         response = await fetch(`${IP_API}?ip=${ip}`);
+        console.log(`${IP_API}?ip=${ip}` + " PROD country by IP Response", response);
       } else {
         response = await fetch(
           `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
         );
+        console.log(" DEV country by IP Response", response);
       }
 
       if (!response.ok) {

@@ -84,6 +84,7 @@ class ApiSSRService {
     try {
       const queryParams = [countryParam, tagParam].filter(Boolean).join("");
 
+      console.log('getAllCourses URL', `${API_URL}/products?limit=-1${queryParams}`);
       const response = await fetch(
         `${API_URL}/products?limit=-1${queryParams}`
       );
@@ -117,6 +118,7 @@ class ApiSSRService {
         countryParam = `${country}`;
       }
 
+      console.log('getBestSellers URL', `${API_URL}/home/best-sellers?country=${countryParam}`);
       const response = await fetch(
         `${API_URL}/home/best-sellers?country=${countryParam}`
       );
@@ -149,6 +151,7 @@ class ApiSSRService {
         countryParam = `${country}`;
       }
 
+      console.log('getPosts URL', `${API_URL}/posts?year=${currentYear}&country=${countryParam}`);
       const response = await fetch(
         `${API_URL}/posts?year=${currentYear}&country=${countryParam}`
       );

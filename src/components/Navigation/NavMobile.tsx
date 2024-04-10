@@ -27,6 +27,7 @@ import {
   setAllCourses,
   setAllStoreSpecialties,
 } from "@/lib/allData";
+import api from "@Services/api";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -54,11 +55,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
       </ul>
     );
   };
-
-  // if (!getAllStoreSpecialties().length) {
-  //   const fetchedSpecialties = await ssr.getSpecialtiesStore(currentCountry);
-  //   setAllStoreSpecialties(fetchedSpecialties);
-  // }
 
   const _renderItemHasChild = (
     item: NavItemType,
@@ -136,8 +132,18 @@ const NavMobile: React.FC<NavMobileProps> = ({
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
 
-  const { state: dataState } = useContext(DataContext);
-  // const { allStoreProfessions, allStoreSpecialties } = dataState;
+  const fetchProfessions = async () => {
+    const professionList = await api.getStoreProfessions();
+    setProfessions(professionList);
+  };
+  const fetchSpecialties = async () => {
+    const specialtiesList = await api.getSpecialtiesStore();
+    setSpecialties(specialtiesList);
+  };
+  useEffect(() => {
+    fetchProfessions();
+    fetchSpecialties();
+  }, [specialties, professions]);
 
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
@@ -145,11 +151,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
   ];
   // const history = useHistory();
   const { storeFilters } = useStoreFilters();
-
-  // useEffect(() => {
-  //   setProfessions(allStoreProfessions);
-  //   setSpecialties(allStoreSpecialties);
-  // }, [allStoreProfessions, allStoreSpecialties]);
 
   const isChecked = (type: string, value: any) => {
     switch (type) {

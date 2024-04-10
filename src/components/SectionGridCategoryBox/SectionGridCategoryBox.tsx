@@ -7,7 +7,6 @@ import CardCategory5 from "@/components/CardCategory5/CardCategory5";
 import Heading from "@/components/Heading/Heading";
 import { DEMO_CATEGORIES } from "@/data/taxonomies";
 import { Specialty, TaxonomyType } from "@/data/types";
-import Link from "next/link";
 import React from "react";
 import NcLink from "../NcLink/NcLink";
 

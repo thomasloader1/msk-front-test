@@ -16,7 +16,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
   const [isLoading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     if (!user.id) fetchUser();
   }, [state?.profile]);
@@ -24,6 +24,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const fetchUser = async () => {
     setLoading(true);
     const res = await api.getUserData();
+    console.log({res})
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);

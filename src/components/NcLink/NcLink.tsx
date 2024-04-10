@@ -32,7 +32,7 @@ const NcLink: FC<NcLinkProps> = ({
       href={href as Route}
       target={target}
       onClick={handleClick} // Pass the handleClick function to onClick
-      prefetch={true}
+      prefetch={false}
       {...args}
     >
       {children}

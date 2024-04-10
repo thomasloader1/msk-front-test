@@ -14,10 +14,11 @@ import {
 import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import StoreBar from "./StoreBar";
 import {getParamsFromURL} from "@/lib/removeUrlParams";
-import {usePathname, useSearchParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
+import Breadcrum from "@/components/Breadcrum/Breadcrum";
 
 interface Props {
   products: FetchCourseType[];
@@ -35,8 +36,6 @@ const StoreContent: FC<Props> = ({
                                    // handleTriggerFilter,
                                  }) => {
 
-  const [storeURLParams, setStoreURLParams] = useState({});
-  const [localProducts, setLocalProducts] = useState<FetchCourseType[]>(products);
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
 
@@ -55,15 +54,12 @@ const StoreContent: FC<Props> = ({
         const auxProfessions = professions.filter((profession: Profession) => {
           return profession.slug === auxURLParams.profesion;
         });
-        setStoreURLParams(auxProfessions);
       }
       applyFilters();
     }, [window.location.search, professions]);
   }
 
   const searchParams = useSearchParams();
-  console.log(searchParams.get('page'))
-
   const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
 
   const {
@@ -81,8 +77,6 @@ const StoreContent: FC<Props> = ({
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
   const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
-
-  const pathname = usePathname();
 
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
@@ -110,7 +104,6 @@ const StoreContent: FC<Props> = ({
     console.log('PRODUCTS WERE UPDATED', products);
     if (products) {
       setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setLocalProducts(products);
       setAllProducts(products);
       setCurrentPage(currentPage);
     }
@@ -258,7 +251,7 @@ const StoreContent: FC<Props> = ({
           .filter((e: string) => e != undefined)
           .every((resource) => {
             if (resource === "Curso") {
-              console.log({resource, type: product.father_post_type},product.father_post_type === "course")
+              //console.log({resource, type: product.father_post_type},product.father_post_type === "course")
               return product.father_post_type === "course";
             } else if (resource === "Guías profesionales") {
               return product.father_post_type === "downloadable";
@@ -296,6 +289,10 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
+
+      <Breadcrum />
+
+
       {storeFilters.specialties.length > 0 ? (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}

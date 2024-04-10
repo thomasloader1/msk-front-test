@@ -1,39 +1,26 @@
 import {
-  //   ALL_PRODUCTS_MX,
   API_URL,
-  //   BEST_SELLERS_MX,
   IP_API,
   NOTE_SPECIALITIES,
   baseUrl,
 } from "@/data/api";
-// import { Login, ContactUs, SignUp, Newsletter } from "@/data/types";
-// import countryStates from "@/data/jsons/__countryStates.json";
-// import { BodyNewPassword } from "@/components/MSK/PageNewPassword";
-// import { ContactFormSchema } from "@/hooks/useYupValidation";
 import { countries } from "@/data/countries";
 import {
   setAllCourses,
   setLoadingBestSellers,
   setLoadingCourses,
 } from "@/lib/allData";
+
 let validCountries = countries.map((item) => item.id);
+
 const PROD = process.env.PROD;
 
-// const tempURL = "https://msklatam.com/msk-laravel/public";
-
-// const WP_URL = API_URL;
 const apiSignUpURL = `${baseUrl}/api/signup`;
-// const apiSignInURL = `${baseUrl}/api/login`;
-// const apiRecoverURL = `${baseUrl}/api/RequestPasswordChange`;
-// const apiNewPassword = `${baseUrl}/api/newPassword`;
-// const apiProfileUrl = `${baseUrl}/api/profile`;
-// const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
-// const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
+const apiProfileUrl = `${baseUrl}/api/profile`;
 
 class ApiSSRService {
   baseUrl = apiSignUpURL;
-  token =
-    typeof window !== "undefined" ? localStorage.getItem("tokenLogin") : null;
+  token = typeof window !== "undefined" ? localStorage.getItem("tokenLogin") : null;
 
   async getCountryCode() {
     try {
@@ -293,6 +280,41 @@ class ApiSSRService {
       return data
     } catch (error) {
       return error;
+    }
+  }
+
+  async getUserData() {
+    if (typeof window !== "undefined") {
+      const email = localStorage.getItem("email");
+      
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          
+          const response = await fetch(`${apiProfileUrl}/${email}`, {
+            headers: {
+              ...headers,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              `Failed to get user data. HTTP status ${response.status}`
+            );
+          }
+
+          const data = await response.json();
+          return data.user;
+        }
+      } catch (error) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        // console.log({error});
+      }
     }
   }
 }

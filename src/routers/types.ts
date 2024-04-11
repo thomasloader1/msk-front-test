@@ -29,7 +29,7 @@ export interface LocationStates {
   "/gracias"?: {};
   "/politica-de-privacidad"?: {};
   "/terminos-y-condiciones"?: {};
-  "/campanas-promocionales"?: {};
+  "/bases-promocionales"?: {};
   "/politica-de-cookies"?: {};
   "/condiciones-de-contratacion"?: {};
   "/author/:slug"?: {};

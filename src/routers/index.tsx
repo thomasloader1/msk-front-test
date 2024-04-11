@@ -63,7 +63,7 @@ export const pages: Page[] = [
     component: PagePoliticsPrivacy,
     auth: false,
   },
-  { path: "/campanas-promocionales", component: PageTyC, auth: false },
+  { path: "/bases-promocionales", component: PageTyC, auth: false },
   { path: "/politica-de-cookies", component: PageCookies, auth: false },
   {
     path: "/terminos-y-condiciones",

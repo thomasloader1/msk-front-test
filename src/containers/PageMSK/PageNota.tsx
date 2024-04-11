@@ -98,7 +98,7 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
                 {/* SINGLE HEADER */}
                 <div className="dark container relative z-10">
                   <div>
-              <Breadcrum onBlog={true}  onNote={note}/>
+                    <Breadcrum onBlog={true}  onNote={note}/>
 
                     <SingleHeader
                       hiddenDesc={false}
@@ -110,11 +110,11 @@ const PageNota: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
                 {/* FEATURED IMAGE */}
                 <div className="px-[16px]">
                   {note.featured_image && note.featured_image.length ? (
-                    <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-8 header-image-container ">
+                    <div className="container rounded-lg md:rounded-[40px] relative overflow-hidden top-4 md:top-8 header-image-container ">
                       <NcImage
                         containerClassName="absolute inset-0"
                         src={note.featured_image[0]}
-                        className="object-cover w-full h-full"
+                        className="object-cover w-full h-full max-h-[350px] sm:max-h-full rounded-lg"
                       />
                     </div>
                   ) : null}

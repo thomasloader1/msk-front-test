@@ -97,7 +97,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
   return (
     <>
-      <PageHead title="Campañas promocionales" />
+      <PageHead title="Bases promocionales" />
 
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}

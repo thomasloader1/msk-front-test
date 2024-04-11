@@ -519,7 +519,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                     className="error"
                   />
                   <Link
-                        to="/condiciones-de-contratacion#trial"
+                        to="/terminos-y-condiciones#trial"
                         target="_blank"
                         className="text-primary hover:text-primary underline"
                       >

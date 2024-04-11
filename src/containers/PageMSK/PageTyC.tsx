@@ -1,10 +1,7 @@
-import React, { FC, ReactNode, useContext, useEffect } from "react";
-import Helmet from "react-helmet";
+import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
-import { useAppDispatch } from "app/hooks";
-import { changeCurrentPage } from "app/pages/pages";
 import { CountryContext } from "context/country/CountryContext";
 import useTyC from "hooks/useTyC";
 import PageHead from "containers/Head/PageHead";
@@ -13,7 +10,7 @@ import SingleHeader from "./mission/SingleHeader";
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Términos y condiciones",
+  title: "Bases promocionales",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -87,7 +84,6 @@ export interface SinglePageType extends PostDataType {
 }
 
 const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
-  const dispatch = useAppDispatch();
   const { state } = useContext(CountryContext);
   const { data, loading, error } = useTyC(state.country);
 
@@ -101,7 +97,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
   return (
     <>
-      <PageHead title="Términos y condiciones" />
+      <PageHead title="Campañas promocionales" />
 
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}

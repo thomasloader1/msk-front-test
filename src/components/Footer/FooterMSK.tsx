@@ -92,7 +92,7 @@ const FooterEduman = () => {
                       Una propuesta moderna que desafía a expandir las metas
                       profesionales
                     </p>
-                    <p>© 2023 • Medical&Scientific Knowledge S.L.</p>
+                    <p>© 2024 • Medical&Scientific Knowledge S.L.</p>
                   </div>
                   <div className="footer-icon ml-auto">
                     <a
@@ -166,8 +166,8 @@ const FooterEduman = () => {
                         <Link to="/contacto">Contacto</Link>
                       </li>
                       <li>
-                        <Link to="/terminos-y-condiciones">
-                          Términos y condiciones
+                        <Link to="/bases-promocionales">
+                          Bases promocionales
                         </Link>
                       </li>
                       <li>
@@ -181,8 +181,8 @@ const FooterEduman = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/condiciones-de-contratacion">
-                          Condiciones de contratación
+                        <Link to="/terminos-y-condiciones">
+                          Términos y condiciones
                         </Link>
                       </li>
                     </ul>

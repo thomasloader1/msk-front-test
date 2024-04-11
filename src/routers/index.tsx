@@ -51,11 +51,7 @@ export const pages: Page[] = [
   { path: "/archivo", component: PageArchive, auth: false },
   { path: "/iniciar-sesion", component: PageLogin, auth: false },
   { path: "/crear-cuenta", component: PageSignUp, auth: false },
-  {
-    path: "/cancelar-suscripcion",
-    component: PageCancelSubscription,
-    auth: false,
-  },
+  { path: "/cancelar-suscripcion", component: PageCancelSubscription, auth: false },
   { path: "/recuperar", component: PageForgotPass, auth: false },
   { path: "/change-pass/:token", component: PageNewPassword, auth: false },
   { path: "/correo-enviado", component: PageEmailSent, auth: false },

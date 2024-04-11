@@ -1,9 +1,7 @@
 import React, { FC, ReactNode, useContext } from "react";
-import Helmet from "react-helmet";
 import { PostDataType, TaxonomyType } from "data/types";
 import SingleContent from "../PageMSK/privacy/SingleContent";
 import { CommentType } from "components/CommentCard/CommentCard";
-import { useAppDispatch } from "app/hooks";
 import { CountryContext } from "context/country/CountryContext";
 import SingleHeader from "./privacy/SingleHeader";
 import useContractConditions from "hooks/useContractConditions";
@@ -12,7 +10,7 @@ import PageHead from "containers/Head/PageHead";
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Condiciones de contratación",
+  title: "Términos y condiciones",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -88,7 +86,6 @@ export interface SinglePageType extends PostDataType {
 const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
-  const dispatch = useAppDispatch();
   const { state } = useContext(CountryContext);
   const { data, loading, error } = useContractConditions(state.country);
 

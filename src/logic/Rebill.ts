@@ -11,14 +11,12 @@ declare global {
   }
 }
 
-const { 
-        PROD, 
-        NEXT_PUBLIC_REBILL_URL, 
-        NEXT_PUBLIC_REBILL_API_KEY_TEST,
-        NEXT_PUBLIC_REBILL_API_KEY_PRD,
-        NEXT_PUBLIC_REBILL_ORG_ID_TEST,
-        NEXT_PUBLIC_REBILL_ORG_ID_PRD,
-      } = process.env
+let PROD = process.env.PROD;
+let NEXT_PUBLIC_REBILL_URL = process.env.NEXT_PUBLIC_REBILL_URL;
+let NEXT_PUBLIC_REBILL_API_KEY_TEST = process.env.NEXT_PUBLIC_REBILL_API_KEY_TEST;
+let NEXT_PUBLIC_REBILL_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_API_KEY_PRD;
+let NEXT_PUBLIC_REBILL_ORG_ID_TEST = process.env.NEXT_PUBLIC_REBILL_ORG_ID_TEST;
+let NEXT_PUBLIC_REBILL_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_ORG_ID_PRD;
 
 const rebillCountriesPrices: JsonMapping = rebillCountryPriceMapping
 

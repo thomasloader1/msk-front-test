@@ -1,16 +1,16 @@
 "use client"
-import { FC, useContext, useEffect, useRef, useState } from "react";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import {FC, useContext, useEffect, useRef, useState} from "react";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import mpImg from "/public/images/MP.png";
 import stImg from "/public/images/ST.svg";
 import installmentsMapping from '@/data/jsons/__countryInstallments.json'
-import { JsonInstallmentsMapping } from "@/data/types";
-import { useParams } from "next/navigation";
-import { CountryContext } from "@/context/country/CountryContext";
-import { DataContext } from "@/context/data/DataContext";
+import {JsonInstallmentsMapping, User} from "@/data/types";
+import {useParams} from "next/navigation";
+import {CountryContext} from "@/context/country/CountryContext";
+import {DataContext} from "@/context/data/DataContext";
 import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
 import api from "@Services/api";
-import { REBILL_CONF, initRebill } from "@/logic/Rebill";
+import {REBILL_CONF, initRebill} from "@/logic/Rebill";
 import TrialInfo from "@/components/Trial/TrialInfo";
 import InputSkeleton from "@/components/Skeleton/InputSkeleton";
 import TextSkeleton from "@/components/Skeleton/TextSkeleton";
@@ -20,6 +20,7 @@ import TrialModalContent from "@/components/NcModal/TrialModalContent";
 import MissingModalContent from "@/components/NcModal/MissingModalContent";
 import Script from "next/script";
 import ssr from "@Services/ssr";
+
 export interface PageTrialSuscribeProps {
   className?: string;
 }
@@ -27,77 +28,85 @@ export interface PageTrialSuscribeProps {
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
-  const { state: { country } } = useContext(CountryContext);
-  const { state: { allCourses } } = useContext(DataContext);
+  const {state: {country}} = useContext(CountryContext);
+  const {state: {allCourses}} = useContext(DataContext);
   const [product] = allCourses.filter((course: any) => slug === course.slug)
 
   const [show, setShow] = useState<boolean>(false)
-  const [userProfile, setUserProfile] = useState<string | null>(JSON.parse(localStorage.getItem("userProfile") as string))
+  //const [userProfile, setUserProfile] = useState<string | null>(null)
+  const [user, setUser] = useState<User>({} as User);
   const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
   const [faliedMessage, setFaliedMessage] = useState<string>("")
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null)
   const [initedRebill, setInitedRebill] = useState<boolean | null>(null)
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const {executeRecaptcha} = useGoogleReCaptcha();
 
-  const { slug }: { slug: string } = useParams();
-  const { gateway } = installmentsJSON[country];
+  let gateway = null;
+  const {slug}: { slug: string } = useParams();
+  if (installmentsJSON && country && installmentsJSON[country]) {
+    gateway = installmentsJSON[country].gateway;
+  }
 
-  const mountedInputObjectState = { state: mountedInput, setState: setMountedInput }
-  const { 
-    hasCoursedRequested, 
-    showAlreadyRequest, 
-    showMissingData, 
+  const mountedInputObjectState = {state: mountedInput, setState: setMountedInput}
+  const {
+    hasCoursedRequested,
+    showAlreadyRequest,
+    showMissingData,
     setShowAlreadyRequest,
-    setShowMissingData 
+    setShowMissingData
   } = useRequestedTrialCourse(product);
 
   useEffect(() => {
-    const profile = JSON.parse(window.localStorage.getItem("userProfile") as string);
-    
-   // console.log({profile}, window.localStorage)
-    
-    const fetchProfile = async () =>{
+    if (typeof window !== 'undefined') {
+      const profile = user;
+      //console.log(profile)
+      const fetchProfile = async () => {
         const res = await api.getUserData();
-        setUserProfile(res)
-    }
-    
-    if(profile == null || typeof userProfile === 'undefined'){
-      fetchProfile()
+        setUser(res)
+      }
+
+      if (profile == null || typeof user === 'undefined') {
+        fetchProfile()
+      }
     }
 
-  },[userProfile])
+  }, [user])
 
   useEffect(() => {
-    
-    console.table({globalRebill: window.Rebill, REBILL_CONF})
+    if (typeof window !== 'undefined') {
 
-    if(typeof window.Rebill !== 'undefined'){
+      //console.table({globalRebill: window.Rebill, REBILL_CONF})
+
+      if (typeof window.Rebill !== 'undefined') {
         const initialization = {
           organization_id: REBILL_CONF.ORG_ID,
           api_key: REBILL_CONF.API_KEY,
           api_url: REBILL_CONF.URL,
         };
-    
+
+        console.log(REBILL_CONF);
+        console.log(initialization);
         let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
-    
+
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
-        const verifiedProductAndProfile = (typeof product !== 'undefined' && userProfile != null && Object.keys(userProfile).length > 1);
-    
-        if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
-          setInitedRebill(true)
-          console.group("Rebill")
-          localStorage.removeItem('trialURL');
-          initRebill(userProfile, country, product, RebillSDKCheckout, setShow,setFaliedMessage, setPaymentCorrect, setMountedInput);
-          console.groupEnd()
-        }
+         const verifiedProductAndProfile = (typeof product !== 'undefined' && user != null && Object.keys(user).length > 1);
+
+         if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
+           setInitedRebill(true)
+           console.group("Rebill")
+           localStorage.removeItem('trialURL');
+           initRebill(user, country, product, RebillSDKCheckout, setShow, setFaliedMessage, setPaymentCorrect, setMountedInput);
+           console.groupEnd()
+         }
+      }
     }
-  }, [product, hasCoursedRequested, userProfile, window.Rebill])
+  }, [product, hasCoursedRequested, user])
 
 
   return (
     <div ref={viewRef} className="nc-PageSuscribe relative animate-fade-down">
-     
+
       <div className="relative overflow-hidden">
         <div className="container grid grid-cols-1 lg:grid-cols-[60%_40%] gap-5 my-24">
           <TrialInfo
@@ -109,14 +118,14 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
           <section>
             <div className="text-center mb-4 text-violet-strong">
-              Ingresa los datos de tu tarjeta de débito o crédito. <br />
+              Ingresa los datos de tu tarjeta de débito o crédito. <br/>
               No se realizará ningún cargo hasta el octavo día.
             </div>
             <div
               id="rebill_elements"
               className="flex items-center justify-center h-auto"
             >
-              {mountedInput && <InputSkeleton className="w-[390px]" />}
+              {mountedInput && <InputSkeleton className="w-[390px]"/>}
             </div>
             {mountedInput ? (<div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
               <span>Pagos procesados con</span>
@@ -124,8 +133,8 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
                 src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
                 alt="gateway image"
               />
-              
-            </div>) : <TextSkeleton className="w-full flex items-center justify-center" />}
+
+            </div>) : <TextSkeleton className="w-full flex items-center justify-center"/>}
             <NcLink
               href="/condiciones-de-contratacion#trial"
               target="_blank"
@@ -167,7 +176,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         )}
       />
 
-    <NcModalSmall
+      <NcModalSmall
         isOpenProp={showMissingData}
         onCloseModal={() => {
           setShowMissingData(false);

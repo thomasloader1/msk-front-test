@@ -20,7 +20,10 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) => {
   const currency = currencyJSON[country];
-  const installments = installmentsJSON[country].quotes;
+  let installments = 0 as number | null;
+  if (installmentsJSON && country && installmentsJSON[country]) {
+      installments = installmentsJSON[country].quotes;
+  }
   const [totalAmount, setTotalAmount] = useState(0)
   const [installmentAmount, setInstallmentAmount] = useState(0)
   const {state: mountedInput } = mountedInputState

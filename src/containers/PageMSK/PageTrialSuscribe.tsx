@@ -120,7 +120,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
               
             </div>) : <TextSkeleton className="w-full flex items-center justify-center" />}
             <Link
-              to="/condiciones-de-contratacion#trial"
+              to="/terminos-y-condiciones#trial"
               target="_blank"
               className="text-primary hover:text-primary underline flex items-center justify-center mt-3"
             >

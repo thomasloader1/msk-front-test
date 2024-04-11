@@ -67,10 +67,10 @@ export const pages: Page[] = [
     component: PagePoliticsPrivacy,
     auth: false,
   },
-  { path: "/terminos-y-condiciones", component: PageTyC, auth: false },
+  { path: "/campanas-promocionales", component: PageTyC, auth: false },
   { path: "/politica-de-cookies", component: PageCookies, auth: false },
   {
-    path: "/condiciones-de-contratacion",
+    path: "/terminos-y-condiciones",
     component: PageContractConditions,
     auth: false,
   },

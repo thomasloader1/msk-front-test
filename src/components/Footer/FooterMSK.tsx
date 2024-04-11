@@ -166,8 +166,8 @@ const FooterEduman = () => {
                         <Link to="/contacto">Contacto</Link>
                       </li>
                       <li>
-                        <Link to="/terminos-y-condiciones">
-                          Términos y condiciones
+                        <Link to="/campanas-promocionales">
+                          Campañas promocionales
                         </Link>
                       </li>
                       <li>
@@ -181,8 +181,8 @@ const FooterEduman = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/condiciones-de-contratacion">
-                          Condiciones de contratación
+                        <Link to="/terminos-y-condiciones">
+                          Términos y condiciones
                         </Link>
                       </li>
                     </ul>

@@ -91,6 +91,7 @@ const Card2: FC<Card2Props> = ({
           <CardAuthor2 className="relative my-4" date={date} author={author} />
         )}
       </div>
+      <p>asd</p>
     </div>
   );
 };

@@ -28,9 +28,10 @@ import { generateSchemaJson } from "@/lib/pageSchemaJson";
 import Script from "next/script";;
 import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 import WelcomeBox from "@/components/WelcomeBox/WelcomeBox";
-import {WpContentData} from "@/data/types";
+import {FetchCourseType, WpContentData} from "@/data/types";
 import Phrase from "@/components/Phrase/Phrase";
 import CommentReferences from "@/components/CommentReferences";
+import Questions from "@/components/Questions/Questions";
 
 interface PageProps {
   params: any;
@@ -90,7 +91,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
           <CommentReferences content={pageHomeWpContent as WpContentData} />
           <CoursesForYou
-            courses={getAllCourses()}
+            courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
             bestSeller={getAllBestSellers()}
             tabs={TABS_HOME}
             className="py-16"
@@ -106,6 +107,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             desc=""
             showTitle
           />
+
+          <Questions content={pageHomeWpContent?.preguntas_frecuentes} />
+
           <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderPosts

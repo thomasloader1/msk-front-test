@@ -7,6 +7,7 @@ import HeaderFilter from "./HeaderFilter";
 import ImageSkeleton from "@/components/MSK/ImageSkeleton";
 import { removeAccents } from "@/lib/removeAccents";
 import NoResults from "../NoResults/NoResults";
+import BlogSlider from "@/components/Sliders/BlogSlider";
 
 export interface BlogSummaryProps {
   tabs: string[];
@@ -89,7 +90,10 @@ const BlogSummary: FC<BlogSummaryProps> = ({
         </>
       )}
       {!auxPosts.length && !loading && <NoResults />}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+
+      <BlogSlider posts={auxPosts} />
+
+      <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} kind="blog" />}
         <div>
           <div className="grid gap-6 md:gap-8">

@@ -1,7 +1,11 @@
 import ssr from "/Services/ssr";
+import { countries } from "@/data/countries";
+
+let locales = countries.map((item) => item.id);
+locales.push("int");
 
 const i18nConfig = {
-  locales: ["int", "mx", "ar", "cl", "ec"],
+  locales: locales,
   defaultLocale: "int",
   serverSetCookie: "always",
   localeDetector: async (request, config) => {

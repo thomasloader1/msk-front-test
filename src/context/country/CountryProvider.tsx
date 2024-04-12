@@ -116,21 +116,16 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
 
     const getCountryFromURL = () => {
       const url = window.location.href;
-      switch (true) {
-        // case url.includes("/es/"):
-        //   return "es";
-        case url.includes("/cl/"):
-          return "cl";
-        case url.includes("/ar/"):
-          return "ar";
-        case url.includes("/ec/"):
-          return "ec";
-        case url.includes("/mx/"):
-          return "mx";
-        // Add more cases for other substrings
-        default:
-          return "";
+      let validCountryUrl = validCountries.filter(
+        (country) =>
+          url.includes("/" + country + "/") ||
+          url.endsWith("/" + country)
+      );
+      console.log(validCountryUrl);
+      if (validCountryUrl.length) {
+        return validCountryUrl[0];
       }
+      return "";
     };
 
     fetchData();

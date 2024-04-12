@@ -433,6 +433,7 @@ export interface FetchCourseType {
   total_price: string;
   price_installments: string;
   lista_de_cedentes: any[];
+  cantidad_modulos: string;
   excerpt?: string;
   date?: string;
   author?: any;

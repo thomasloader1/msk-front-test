@@ -83,6 +83,7 @@ const Card6: FC<Card6Props> = ({
           fill
         />
       </NcLink>
+      <p>asd</p>
     </div>
   );
 };

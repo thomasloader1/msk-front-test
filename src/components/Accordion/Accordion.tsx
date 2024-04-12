@@ -6,6 +6,7 @@ interface Props {
   index: number;
   currentIndex: number | null;
   setCurrentIndex: (index: number) => void;
+  forModules?: boolean;
 }
 
 const Accordion: FC<Props> = ({
@@ -14,6 +15,7 @@ const Accordion: FC<Props> = ({
   index,
   currentIndex,
   setCurrentIndex,
+    forModules = true
 }: Props) => {
   const isOpen = index === currentIndex;
   const [isAnimating, setIsAnimating] = useState(false);
@@ -48,7 +50,8 @@ const Accordion: FC<Props> = ({
               <path d="M19 9l-7 7-7-7"></path>
             </svg>
           </div>
-          <h2 className="font-medium inter text-[16px] py-0.5">{title}</h2>
+          {forModules ? (<span className="font-medium mr-1">Módulo {index +1} •</span> ) : null}
+          {title.replace(/^\s*Módulo\s*\d+\.\s*/, '')}
         </div>
       </div>
       {isOpen && children}

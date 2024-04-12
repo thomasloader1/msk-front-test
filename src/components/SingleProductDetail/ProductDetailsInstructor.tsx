@@ -1,4 +1,6 @@
 import React, { FC, useContext, useState } from "react";
+import Image from "next/image";
+import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
 // import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 interface Props {
   instructor: any;
@@ -16,18 +18,20 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
     <div className="course-instructors">
       <div className="instructors-heading">
         <div className="instructors-img">
-          <img
-            src={instructor.image.replace(`${country || "mx"}.`, "")}
-            alt="img not found"
+          <Image
+            src={removeFirstSubdomain(instructor.image)}
+            alt={`${instructor.name} picture`}
             className="animate-fade"
+            width={130}
+            height={130}
           />
         </div>
-        <div className="instructors-body">
+        <div className="instructors-body ">
           <h3
             dangerouslySetInnerHTML={instructorName}
-            className="animate-fade"
+            className="animate-fade font-poppins"
           ></h3>
-          <p className="mt-2 animate-fade">{instructor.description}</p>
+          <p className="mt-2 animate-fade font-poppins text-violet-wash text-[14px]">{instructor.description}</p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
               onClick={triggerDisplayBiography}
@@ -40,10 +44,8 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
           )}
         </div>
       </div>
-      {(displayBiography && instructor.specialties.length) ||
-      instructor.centres.length ? (
+      {(displayBiography && instructor.specialties.length && instructor.centres.length ) ? (
         <div className="intructors-content">
-          {instructor.specialties.length ? (
             <div>
               <h5 className="mb-2">Especialidad</h5>
               <ul>
@@ -59,11 +61,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
                 )}
               </ul>
             </div>
-          ) : (
-            <></>
-          )}
 
-          {instructor.centres.length ? (
             <div>
               <h5 className="mt-4 mb-2">Hospitales / Centros</h5>
               <ul>
@@ -77,9 +75,6 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
                 })}
               </ul>
             </div>
-          ) : (
-            <></>
-          )}
         </div>
       ) : (
         <></>

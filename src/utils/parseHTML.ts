@@ -1,4 +1,4 @@
-export const parseHtml = (contentHtml: string) => {
+export const parseHtml = (contentHtml: string, removesContainer: boolean = false, options: {ignoreClassName: string} | null = null) => {
   // Tu contenido HTML
   const htmlContent: string = contentHtml;
 
@@ -9,12 +9,27 @@ export const parseHtml = (contentHtml: string) => {
   // Buscar elementos UL dentro del contenido
   const ulElements = tempElement.querySelectorAll("ul");
 
+  const pElement = tempElement.querySelector("p");
+  pElement?.classList.add("text-violet-strong")
+
+  const spanElements = tempElement.querySelectorAll("span");
+  spanElements.forEach(span => {
+    console.log({span, options})
+    if (options != null || (!span.classList.contains('font-lora') && span.id != 'font-lora-italic')) {
+      // Si no tiene la clase 'font-lora', remueve todas las clases existentes
+      span.className = '';
+      if(options != null  && options.ignoreClassName !== 'font-lora'){
+        span.classList.add('font-lora');
+      }
+      // Agrega la clase 'font-lora'
+    }
+  });
+
   ulElements.forEach((ulElement) => {
     // Buscar elementos LI dentro de cada UL
     ulElement.classList.add("m-0", "flex", "flex-col");
     const liElements = ulElement.querySelectorAll("li");
     const brElements = ulElement.querySelectorAll("br");
-    // console.log({ liElements });
 
     brElements.forEach((brElement) => {
       if (brElement.parentNode) {
@@ -32,19 +47,20 @@ export const parseHtml = (contentHtml: string) => {
 
       const spanElements = liElement.querySelectorAll("span");
 
+
       spanElements.forEach((spanElement) => {
         // Verificar si el <span> está vacío
         if (spanElement.parentNode && spanElement.textContent) {
           // Si el <span> está vacío, eliminarlo
           spanElement?.textContent.trim() === ""
-            ? spanElement.parentNode.removeChild(spanElement)
-            : null;
+              ? spanElement.parentNode.removeChild(spanElement)
+              : null;
         }
       });
 
       const imgElement = document.createElement("img");
       imgElement.classList.add("m-0", "mr-3", "mt-1", "w-5");
-      //// console.log({ imgElement });
+      //console.log({ imgElement });
       imgElement.src = "/images/vectors/isotipo.svg"; // Cambia la URL de la imagen según tus necesidades
       imgElement.alt = "Imagen"; // Cambia el texto alternativo según tus necesidades
 
@@ -52,6 +68,12 @@ export const parseHtml = (contentHtml: string) => {
       liElement.insertBefore(imgElement, liElement.firstChild);
     });
   });
+
+  if (removesContainer) {
+    // Obtener el contenido HTML del primer hijo del tempElement
+    const child = tempElement?.firstChild as HTMLElement;
+    return child ? child.innerHTML : '';
+  }
 
   // Obtener el contenido modificado como cadena de texto
   const modifiedHtmlContent = tempElement.innerHTML;

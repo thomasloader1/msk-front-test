@@ -9,6 +9,7 @@ import specialtiesMapping from "@/data/jsons/__specialties.json";
 import notesMapping from "@/data/jsons/__notes.json";
 import { JsonMapping } from "@/data/types";
 import NcLink from "../NcLink/NcLink";
+import Image from "next/image";
 
 interface BreadcrumbMapping {
   [key: string]: string[];
@@ -110,10 +111,12 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
       {window.location.pathname !== "/" && (
         <NcLink href="/">
-          <img
+          <Image
             src={`${
               onBlog ? breadcrumHomeIconWhite.src : breadcrumHomeIcon.src
             }`}
+            width={20}
+            height={20}
             alt="Home"
             className="h-4"
           />
@@ -148,6 +151,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
             // Partes intermedias
             <NcLink
               href={handleUrl(part)}
+              colorClass=""
               className={`${
                 onBlog ? "text-white" : "text-[#ABABAB]"
               } hover:underline hover:text-[#FF5D5E] `}

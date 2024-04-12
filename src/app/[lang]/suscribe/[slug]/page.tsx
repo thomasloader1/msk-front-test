@@ -18,8 +18,7 @@ import NcLink from "@/components/NcLink/NcLink";
 import NcModalSmall from "@/components/NcModal/NcModalSmall";
 import TrialModalContent from "@/components/NcModal/TrialModalContent";
 import MissingModalContent from "@/components/NcModal/MissingModalContent";
-import Script from "next/script";
-import ssr from "@Services/ssr";
+import useSingleProduct from "@/hooks/useSingleProduct";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -29,11 +28,13 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {state: {country}} = useContext(CountryContext);
-  const {state: {allCourses}} = useContext(DataContext);
-  const [product] = allCourses.filter((course: any) => slug === course.slug)
+  const {slug}: { slug: string } = useParams();
 
+  console.log(slug)
+  const {product} = useSingleProduct(slug,{country})
+
+  //const [product] = allCourses.filter((course: any) => slug === course.slug)
   const [show, setShow] = useState<boolean>(false)
-  //const [userProfile, setUserProfile] = useState<string | null>(null)
   const [user, setUser] = useState<User>({} as User);
   const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
@@ -43,7 +44,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {executeRecaptcha} = useGoogleReCaptcha();
 
   let gateway = null;
-  const {slug}: { slug: string } = useParams();
   if (installmentsJSON && country && installmentsJSON[country]) {
     gateway = installmentsJSON[country].gateway;
   }
@@ -76,21 +76,17 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
 
-      //console.table({globalRebill: window.Rebill, REBILL_CONF})
-
       if (typeof window.Rebill !== 'undefined') {
         const initialization = {
           organization_id: REBILL_CONF.ORG_ID,
           api_key: REBILL_CONF.API_KEY,
           api_url: REBILL_CONF.URL,
         };
-
-        console.log(REBILL_CONF);
-        console.log(initialization);
+        console.log({REBILL_CONF, initialization});
         let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
-         const verifiedProductAndProfile = (typeof product !== 'undefined' && user != null && Object.keys(user).length > 1);
+        const verifiedProductAndProfile = (typeof product !== 'undefined' && user != null && Object.keys(user).length > 1);
 
          if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
            setInitedRebill(true)

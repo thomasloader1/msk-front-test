@@ -1,23 +1,19 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
-import ProductDetailsInstructor from "./ProductDetailsInstructor";
 import ProductDetailSidebar from "./ProductDetailSidebar";
-// import SectionSliderPosts from "@/containers/PageMSK/home/SectionSliderPosts";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import CourseRequirements from "./Requirements/CourseRequirements";
 import { FetchSingleProduct } from "@/data/types";
 import ProductEvaluation from "./ProductEvaluation";
-// import ContactFormSection from "@/components/ContactForm/ContactForm";
-// import StorePagination from "@/components/Store/StorePagination";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
-import { CountryContext } from "@/context/country/CountryContext";
 import ProductFeaturedText from "./ProductFeaturedText";
-import { DataContext } from "@/context/data/DataContext";
 import productDetails from "@/hooks/ssr/productDetails";
 import SectionSliderPosts from "../Sections/SectionSliderPosts";
-import StorePagination from "../MSK/Store/StorePagination";
 import ProductInstructors from "./ProductInstructors";
 import ContactFormSection from "../MSK/ContactForm";
+import Breadcrum from "@/components/Breadcrum/Breadcrum";
+import Image from "next/image";
+import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
 
 interface Props {
   product: FetchSingleProduct;
@@ -25,28 +21,6 @@ interface Props {
 }
 
 const SingleProductDetail: FC<Props> = ({ product, country }) => {
-  // const { state: dataState, loadingBestSellers } = useContext(DataContext);
-  // const { allBestSellers } = dataState;
-  // const [bestSellers, setBestSellers] = useState([]);
-  // useEffect(() => {
-  //   setBestSellers(allBestSellers);
-  // }, [allBestSellers]);
-
-  // const history = useHistory();
-
-  // const textRef = useRef<HTMLDivElement>(null);
-  // const [textDesctiption, setTextDesctiption] = useState<string>("");
-
-  // useEffect(() => {
-  //   const htmlElement = document.createElement("div");
-  //   htmlElement.innerHTML = product.ficha.description;
-  //   if (textRef.current) {
-  //     textRef.current.innerHTML = "";
-  //     textRef.current.appendChild(htmlElement);
-  //     setTextDesctiption(textRef?.current?.textContent as string);
-  //   }
-  // }, [location]);
-
   const currentPage = 1;
   const itemsPerPage = 6;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -54,10 +28,6 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
   const currentItems = product.authors.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(product.authors.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber: number) => {
-    // console.log(pageNumber);
-    // setCurrentPage(pageNumber);
-  };
 
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");
@@ -72,19 +42,14 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
     return listOfGoals;
   };
 
-  // const { state } = useContext(CountryContext);
-
   let { isEbook, imagen, title } = productDetails(product);
-
-  // if (imagen) {
-  //   imagen = imagen.replace(`${state.country || "mx"}.`, "");
-  // }
   // @ts-ignore
   return (
     <section className="course-details-area my-1 pb-90">
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div>
           <div className="course-details-wrapper animate-fade-down">
+              <Breadcrum isEbook={isEbook} onProduct={product} />
             <div className="flex gap-2">
               <CategoryBadgeList
                 categories={product.ficha.categorias}
@@ -109,14 +74,14 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                         <div className="col-span-12 sm:col-span-5">
                           <div className="course-meta-wrapper">
                             <div className="course-meta-img">
-                              <img src={imagen} alt={title} />
+                              <Image src={removeFirstSubdomain(imagen)} width={1000} height={1000} alt={title} />
                             </div>
-                            <div>
+                            <div className="text-violet-strong">
                               <span className="raleway text-dark-blue-custom">
                                 Cedente
                               </span>
                               <div className="flex flex-col text-dark-blue-custom">
-                                <div className="raleway-bold">
+                                <div className="font-raleway font-bold">
                                   {title || product.authors[0]?.name}
                                 </div>
                               </div>
@@ -126,7 +91,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                       ) : null}
                       <div className="hidden sm:block border-line-meta" />
                       {product.temario ? (
-                        <div className="col-span-4 sm:col-span-2 my-auto text-dark-blue-custom">
+                        <div className="col-span-4 sm:col-span-2 my-auto text-violet-strong ">
                           <div className="flex flex-col">
                             <span className="raleway">Contenido</span>
                             <div className="raleway-bold">
@@ -137,7 +102,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                       ) : null}
                       <div className="border-line-meta" />
                       {product.details && product.details["duration"] ? (
-                        <div className="col-span-6 sm:col-span-3 my-auto text-dark-blue-custom">
+                        <div className="col-span-6 sm:col-span-3 my-auto text-violet-strong">
                           <span className="raleway ">Duración</span>
                           <div className="raleway-bold">
                             {product.details["duration"].value} horas estimadas
@@ -166,6 +131,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                   certificacion: product.certificacion,
                   idioma: product.idioma,
                 }}
+                product={product}
                 isEbook={isEbook}
               />
             </div>
@@ -185,6 +151,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                   </div>
                 )}
                 <div
+                    className="text-violet-strong font-normal"
                   dangerouslySetInnerHTML={{
                     __html: product.ficha.description,
                   }}
@@ -255,6 +222,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
               certificacion: product.certificacion,
               idioma: product.idioma,
             }}
+            product={product}
             isEbook={isEbook}
           />
         </div>

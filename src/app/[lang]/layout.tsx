@@ -10,10 +10,10 @@ import AuthProvider from "@/context/user/AuthProvider";
 import { StoreFiltersProvider } from "@/context/storeFilters/StoreFiltersProvider";
 import Header from "@/components/Header/Header";
 import Script from "next/script";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,22 +22,23 @@ const poppins = Poppins({
 });
 
 type Props = {
-  params: { lang: string }
-}
+  params: { lang: string };
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
- const currentCountry = params.lang || cookies().get("country")?.value;
- return { 
-          title: {
-            default: "MSK | Cursos de medicina para expandir tus metas profesionales",
-            template: "MSK | %s",
-          },
-          description: "Cursos de medicina para expandir tus metas profesionales",
-          metadataBase: new URL(`${process.env.NEXT_PUBLIC_URL}/${currentCountry}`),
-          alternates:{
-            canonical: "/"
-          }
-        }
+  const currentCountry = params.lang || cookies().get("country")?.value;
+  
+  return {
+    title: {
+      default: "MSK | Cursos de medicina para expandir tus metas profesionales",
+      template: "MSK | %s",
+    },
+    description: "Cursos de medicina para expandir tus metas profesionales",
+    metadataBase: new URL(`${process.env.NEXT_PUBLIC_URL}/${currentCountry}`),
+    alternates: {
+      canonical: "/",
+    },
+  };
 }
 
 interface LayoutProps {
@@ -48,8 +49,7 @@ interface LayoutProps {
 export default async function RootLayout({ params, children }: LayoutProps) {
   return (
     <html lang="es" className={poppins.className}>
-      <Script src="https://sdk.rebill.to/v2/rebill.min.js" />
-      <body className="">
+      <body>
         <div className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
           <GoogleCaptchaWrapper>
             <DataProvider>
@@ -59,6 +59,7 @@ export default async function RootLayout({ params, children }: LayoutProps) {
                     <StoreFiltersProvider>
                       <Header />
                       {children}
+                      <Script strategy="beforeInteractive" src="https://sdk.rebill.to/v2/rebill.min.js" />
                       <Footer />
                     </StoreFiltersProvider>
                   </AuthProvider>

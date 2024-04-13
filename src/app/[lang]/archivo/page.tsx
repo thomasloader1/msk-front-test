@@ -4,14 +4,9 @@ import { JsonMapping, PostDataType, TaxonomyType } from "@/data/types";
 import NcImage from "@/components/NcImage/NcImage";
 import { CommentType } from "@/components/CommentCard/CommentCard";
 import Card11 from "@/components/Card11/Card11";
-// import StorePagination from "@/components/Store/StorePagination";
 import ArchiveFilterListBox from "@/components/ArchiveFilterListBox/ArchiveFilterListBox";
 import { removeAccents } from "@/lib/removeAccents";
-import Button from "@/components/Button/Button";
 import NcModal from "@/components/NcModal/NcModal";
-// import SpecialtiesModal from "../note/SpecialtiesModal";
-import { DataContext } from "@/context/data/DataContext";
-// import PageHead from "../PageHead";
 import notesMapping from "../../../data/jsons/__notes.json";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import { TABS_BLOG } from "@/data/MSK/blog";
@@ -23,7 +18,7 @@ import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 export interface PageArchiveProps {
   className?: string;
@@ -46,8 +41,8 @@ const FILTERS = [{ name: "Más recientes" }, { name: "Más leídos" }];
 const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   const [posts, setPosts] = useState([]);
   const [auxPosts, setAuxPosts] = useState([]);
-  const [bestSeller, setBestSeller] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
+
   const fetchPosts = async () => {
     if (posts.length) return;
     const allPosts = await api.getPosts();
@@ -146,7 +141,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   let loaders = [];
   for (let i = 0; i < 6; i++) {
-    loaders.push(<LoaderImage />);
+    loaders.push(<LoaderImage key={`loader_${i}`} />);
   }
 
   return (

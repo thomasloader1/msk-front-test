@@ -27,6 +27,11 @@ import ContactForm from "@/components/MSK/ContactForm";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
 import Script from "next/script";;
 import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
+import WelcomeBox from "@/components/WelcomeBox/WelcomeBox";
+import {FetchCourseType, WpContentData} from "@/data/types";
+import Phrase from "@/components/Phrase/Phrase";
+import CommentReferences from "@/components/CommentReferences";
+import Questions from "@/components/Questions/Questions";
 
 interface PageProps {
   params: any;
@@ -71,15 +76,22 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             redirectUrl="/tienda"
             heading={heroTitle}
           />
+
+          <WelcomeBox content={pageHomeWpContent as WpContentData} />
+          <BrandSlider />
+          <Phrase content={pageHomeWpContent?.cedentes.texto as string}/>
           <SectionGridCategoryBox
             headingCenter={false}
             categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}
             categoryCardType="card2"
             className="pb-16 lg:pb-28"
           />
-          <BrandSlider />
+
+          <HomeExtraInfo country={currentCountry} />
+
+          <CommentReferences content={pageHomeWpContent as WpContentData} />
           <CoursesForYou
-            courses={getAllCourses()}
+            courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
             bestSeller={getAllBestSellers()}
             tabs={TABS_HOME}
             className="py-16"
@@ -87,7 +99,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             desc="Cursos destacados para realizar a distancia"
             loading={isLoadingCourses() || isLoadingBestSellers()}
           />
-          <HomeExtraInfo country={currentCountry} />
           <BlogSummary
             posts={getAllPosts()}
             tabs={TABS_BLOG}
@@ -96,6 +107,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             desc=""
             showTitle
           />
+
+          <Questions content={pageHomeWpContent?.preguntas_frecuentes} />
+
           <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderPosts

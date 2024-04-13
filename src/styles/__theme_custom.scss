@@ -327,6 +327,12 @@ h6 {
   }
 }
 
+.account-menu-item {
+  .menu-profile-icon-active {
+    filter: invert(1);
+  }
+}
+
 .course-sidebar-info.content-hidden {
   ul {
     display: none;

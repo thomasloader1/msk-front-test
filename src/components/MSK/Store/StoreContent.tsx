@@ -1,5 +1,5 @@
 "use client";
-import React, {FC, Suspense, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -14,10 +14,11 @@ import {
 import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import StoreBar from "./StoreBar";
 import {getParamsFromURL} from "@/lib/removeUrlParams";
-import {usePathname, useSearchParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
+import Breadcrum from "@/components/Breadcrum/Breadcrum";
 
 interface Props {
   products: FetchCourseType[];
@@ -35,7 +36,7 @@ const StoreContent: FC<Props> = ({
                                    // handleTriggerFilter,
                                  }) => {
 
-  const [storeURLParams, setStoreURLParams] = useState({});
+  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
 
   const fetchProfessions = async () => {
@@ -53,14 +54,12 @@ const StoreContent: FC<Props> = ({
         const auxProfessions = professions.filter((profession: Profession) => {
           return profession.slug === auxURLParams.profesion;
         });
-        setStoreURLParams(auxProfessions);
       }
       applyFilters();
     }, [window.location.search, professions]);
   }
 
   const searchParams = useSearchParams();
-
   const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
 
   const {
@@ -77,12 +76,12 @@ const StoreContent: FC<Props> = ({
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
-  const [totalPages, setTotalPages] = useState(Math.ceil(products.length / itemsPerPage));
+  const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
 
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
     const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
-   // console.log({pageExists, storePage: storeFilters.page, pageNumber})
+    //console.log({pageExists, storePage: storeFilters.page, pageNumber})
     if (!pageExists) {
       updateFilter("page", {
         id: pageNumber,
@@ -103,9 +102,10 @@ const StoreContent: FC<Props> = ({
 
   useEffect(() => {
     console.log('PRODUCTS WERE UPDATED', products);
-
     if (products) {
-      applyFilters()
+      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+      setAllProducts(products);
+      setCurrentPage(currentPage);
     }
   }, [products]);
 
@@ -219,7 +219,7 @@ const StoreContent: FC<Props> = ({
         selectedDurations.length
       )
     ) {
-      console.log('PRODUCTS', products);
+      console.log('SET LOCAL PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     } else { //There are filters we need to apply
@@ -251,7 +251,7 @@ const StoreContent: FC<Props> = ({
           .filter((e: string) => e != undefined)
           .every((resource) => {
             if (resource === "Curso") {
-             // console.log({resource, type: product.father_post_type},product.father_post_type === "course")
+              //console.log({resource, type: product.father_post_type},product.father_post_type === "course")
               return product.father_post_type === "course";
             } else if (resource === "Guías profesionales") {
               return product.father_post_type === "downloadable";
@@ -289,11 +289,19 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
+
+      <Breadcrum />
+
+
       {storeFilters.specialties.length > 0 ? (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
         </h1>
-      ) : null}
+      ) : (
+        <h1 className="text-xl sm:text-3xl mb-10">
+          Cursos
+        </h1>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
@@ -322,11 +330,11 @@ const StoreContent: FC<Props> = ({
             {currentItems.length ? (
               currentItems.map((product, index) => {
                 return (
-                    <StoreProduct
-                      product={product}
-                      key={`${product.slug}_${index}`}
-                      kind={product.father_post_type}
-                    />
+                  <StoreProduct
+                    product={product}
+                    key={`${product.slug}_${index}`}
+                    kind={product.father_post_type}
+                  />
                 );
               })
             ) : (

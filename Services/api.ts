@@ -31,6 +31,7 @@ const apiNewPassword = `${baseUrl}/api/newPassword`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
+const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
 const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 
 class ApiService {
@@ -206,10 +207,10 @@ class ApiService {
   }
 
   async getUserData() {
-    if (typeof window !== "undefined") {
-      const email = localStorage.getItem("email");
+      const email = window.localStorage.getItem("email");
+     
       try {
-        const token = localStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         if (token) {
           const headers = {
             Authorization: `Bearer ${token}`,
@@ -222,20 +223,18 @@ class ApiService {
           });
 
           if (!response.ok) {
-            throw new Error(
-              `Failed to get user data. HTTP status ${response.status}`
-            );
+            throw new Error(`Failed to get user data. HTTP status ${response.status}`);
           }
 
           const data = await response.json();
           return data.user;
         }
       } catch (error) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("user");
         // console.log({error});
       }
-    }
+    
   }
 
   async getAllCourses(state?: any, dispatch?: any) {
@@ -621,14 +620,17 @@ class ApiService {
       const ipResponse = await fetch("https://api.ipify.org/?format=json");
       const ipData = await ipResponse.json();
       const ip = ipData.ip;
+      console.log("getCountryCode", ipData);
 
       let response;
       if (PROD) {
         response = await fetch(`${IP_API}?ip=${ip}`);
+        console.log(`${IP_API}?ip=${ip}` + " PROD country by IP Response", response);
       } else {
         response = await fetch(
           `https://pro.ip-api.com/json/?fields=61439&key=OE5hxPrfwddjYYP`
         );
+        console.log(" DEV country by IP Response", response);
       }
 
       if (!response.ok) {
@@ -803,6 +805,31 @@ class ApiService {
     } catch (error) {
       console.error("Network error:", error);
       return error;
+    }
+  }
+
+  async createContactTrialZoho(data: any, country:string) {
+     try {
+      const res = await fetch(apiCreateTrialContract, {method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+
+       if (!res.ok) {
+        throw new Error(
+          `Failed to get courses progress status. HTTP status ${res.status}`
+        );
+      }
+
+      console.log({ res });
+      window.location.href = `/${country}/gracias?origen=trial`
+
+      return res.json();
+    } catch (e: any) {
+      console.log({ e });
+      return e;
     }
   }
 

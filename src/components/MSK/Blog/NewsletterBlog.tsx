@@ -6,6 +6,7 @@ import Input from "@/components/Input/Input";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import NcModal from "@/components/NcModal/NcModal";
 import FooterNewsletter from "@/components/Footer/Newsletter";
+import { ArrowLongRightIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 
 export interface NewsletterProps {
   className?: string;
@@ -63,9 +64,9 @@ const NewsletterBlog: FC<NewsletterProps> = ({ className = "" }) => {
           />
           <ButtonPrimary
             type="submit"
-            className="absolute transform -translate-y-10 -translate-x-14 left-full w-12"
+            className="absolute transform -translate-y-10 -translate-x-[72px] h-[36px] left-full"
           >
-            <i className="las la-arrow-right text-sm"></i>
+            <ArrowLongRightIcon style={{ width: 20, color: "white" }} />
           </ButtonPrimary>
         </form>
       </div>

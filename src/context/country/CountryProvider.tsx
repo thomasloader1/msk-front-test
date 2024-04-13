@@ -27,45 +27,28 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   );
 
   const validCountries = countries.map((item) => item.id);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      let currentCountry = "";
-      const currentUrl = window.location.pathname;
-      const validCountryUrl = validCountries.filter(
-        (country) =>
-          currentUrl.includes("/" + country + "/") ||
-          currentUrl.includes("/" + country)
-      );
-      if (validCountryUrl.length) {
-        currentCountry = validCountryUrl[0];
-      }
-
-      const cookies = parse(document.cookie);
-      const countryCookie = cookies.country;
-      if (!countryCookie) {
-        const fetchData = async () => {};
-        fetchData();
-      }
-    }
-  });
 
   useEffect(() => {
+    console.log("Country Provider UseEffect 2");
     const fetchData = async () => {
       let redirectUrl = "";
       try {
-        //// console.log("Country Provider");
         let currentCountry = "";
-
         if (bypassRedirect == "1") {
-          // console.log("bypassRedirect");
+          console.log("bypassRedirect");
           const currentUrl = window.location.pathname;
           const validCountryUrl = validCountries.filter(
             (country) =>
               currentUrl.includes("/" + country + "/") ||
-              currentUrl.includes("/" + country)
+              currentUrl.endsWith("/" + country)
           );
+
           if (validCountryUrl.length) {
-            currentCountry = validCountryUrl[0];
+            console.log('its on a valid country');
+            dispatch({
+              type: "SET_COUNTRY",
+              payload: { country: validCountryUrl[0] },
+            });
           }
           // console.log("Country Provider", currentCountry);
         } else {
@@ -133,21 +116,16 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
 
     const getCountryFromURL = () => {
       const url = window.location.href;
-      switch (true) {
-        // case url.includes("/es/"):
-        //   return "es";
-        case url.includes("/cl/"):
-          return "cl";
-        case url.includes("/ar/"):
-          return "ar";
-        case url.includes("/ec/"):
-          return "ec";
-        case url.includes("/mx/"):
-          return "mx";
-        // Add more cases for other substrings
-        default:
-          return "";
+      let validCountryUrl = validCountries.filter(
+        (country) =>
+          url.includes("/" + country + "/") ||
+          url.endsWith("/" + country)
+      );
+      console.log(validCountryUrl);
+      if (validCountryUrl.length) {
+        return validCountryUrl[0];
       }
+      return "";
     };
 
     fetchData();

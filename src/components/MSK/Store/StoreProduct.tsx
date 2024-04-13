@@ -1,10 +1,11 @@
-import { FC, Suspense, useContext } from "react";
+import { FC, useContext } from "react";
 import { FetchCourseType } from "@/data/types";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "@/components/Badge/Badge";
 import { CountryContext } from "@/context/country/CountryContext";
 import NcLink from "@/components/NcLink/NcLink";
-import Link from "next/link";
+import Image from "next/image";
+import clockIcon from '/public/images/icons/clock.svg'
 
 interface Props {
   product: FetchCourseType;
@@ -20,17 +21,16 @@ const StoreProduct: FC<Props> = ({
   kind,
 }): any => {
   const { state } = useContext(CountryContext);
-
+  
   const imageURL = product.thumbnail.high
     .replace(`${state.country}.`, "")
     .replace("wpmsklatam", "wp.msklatam");
 
   return (
-    <Suspense fallback={<p>asd</p>}>
-<div className={`protfolio-course-2-wrapper ${className}`}>
+    <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
         <NcLink href={`/curso/${product.slug}`}>
-          <img src={imageURL} alt="course-img" />
+          <Image src={imageURL} className="transition-all" width={1000} height={1000} alt="course-img " />
         </NcLink>
       </div>
       {hoverEffect ? (
@@ -46,6 +46,24 @@ const StoreProduct: FC<Props> = ({
               <NcLink href={`/curso/${product.slug}`}>
                 <h3 className="">{product.title}</h3>
               </NcLink>
+              {/* <div className="cart-lavel">
+                <h5>
+                  Nivel: <span>{product.level}</span>
+                </h5>
+                <p>{product.desc}</p>
+              </div> */}
+              {/* <div className="info-cart-text">
+                <ul>
+                  {product.list?.map((item: any, index) => {
+                    return (
+                      <li key={index}>
+                        <i className="far fa-check"></i>
+                        {item.title}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div> */}
               <div className="course-action">
                 <NcLink
                   href={`/curso/${product.slug}`}
@@ -85,36 +103,37 @@ const StoreProduct: FC<Props> = ({
               textSize="text-xs sm:text-xs"
             />
           </div>
+          
           <div className="portfolio-course-2 line-clamp-3">
             <NcLink href={`/curso/${product.slug}`}>
               <h3 className="font-bold text-sm">{product.title}</h3>
             </NcLink>
           </div>
+
           {product.lista_de_cedentes ? (
             <p className="text-sm">{product.lista_de_cedentes[0].post_title}</p>
           ) : null}
         </div>
       </div>
+
       <div className="course-2-footer">
         {product.duration ? (
           <div className="coursee-clock">
-            <i className="flaticon-clock"></i>
+            <Image {...clockIcon} className="mr-2"/>
             <span>{product.duration} horas</span>
           </div>
         ) : (
           <div></div>
         )}
 
-        <Link
+        <NcLink
           href={`/curso/${product.slug}`}
           className="course-network text-primary font-bold"
         >
           Descubrir
-        </Link>
+        </NcLink>
       </div>
     </div>
-    </Suspense>
-    
   );
 };
 

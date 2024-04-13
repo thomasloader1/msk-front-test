@@ -81,7 +81,9 @@ const NavigationUser = () => {
                             />
                           </div>
                           <div className="ml-4">
-                            <p className="text-sm font-medium">{"Mi Perfil"}</p>
+                            <p className="text-sm font-medium text-neutral-500">
+                              {"Mi Perfil"}
+                            </p>
                           </div>
                         </NcLink>
 
@@ -101,7 +103,7 @@ const NavigationUser = () => {
                             />
                           </div>
                           <div className="ml-4">
-                            <p className="text-sm font-medium ">
+                            <p className="text-sm font-medium text-neutral-500">
                               {"Configurar mi cuenta"}
                             </p>
                           </div>

@@ -433,6 +433,7 @@ export interface FetchCourseType {
   total_price: string;
   price_installments: string;
   lista_de_cedentes: any[];
+  cantidad_modulos: string;
   excerpt?: string;
   date?: string;
   author?: any;
@@ -610,6 +611,83 @@ export interface JsonMapping {
   [key: string]: string;
 }
 
+export interface JsonInstallmentsMapping {
+  [key: string]: {
+    quotes: number | null;
+    gateway: string;
+  };
+}
+export interface RebillTransaction{
+  id: string,
+  cartId: string;
+  organizationId: string;
+  paidBags: [
+      {
+          payment: {
+              amount: string;
+              id: string;
+              currency: string;
+              status: string;
+              gateway: {
+                  id: string;
+                  type: string;
+                  country: string;
+                  description:string;
+                  status: string;
+              },
+              errorMessage: string;
+              createdAt: string;
+              source: string;
+          },
+          prices: [
+              {
+                  id: string;
+                  quantity: number
+              }
+          ],
+          schedules: string[]
+      }
+  ],
+  buyer: {
+      customer: {
+          id: string;
+          firstName: string;
+          lastName:string;
+          cellPhone: string;
+          birthday: string;
+          taxIdType:string;
+          taxIdNumber: string;
+          personalIdType:string;
+          personalIdNumber: string;
+          userEmail: string;
+          address: {
+              street: string;
+              city: string;
+              state: string;
+              country: string;
+              zipCode: string;
+              number: string;
+              floor: string;
+              apt: string;
+              description: string;
+          }
+      },
+      card: {
+          id: string;
+          bin: number;
+          last4: string;
+          cardHolder: string;
+          cardNumber: string;
+          expiration: {
+              month: number;
+              year: string;
+          }
+      }
+  },
+  type: string;
+  createdAt: string;
+}
+
 export interface PageFilter {
   id: number;
   name: string;
@@ -695,4 +773,21 @@ export type WpContentData = {
       parrafo: string;
     }[];
   };
+};
+
+export type ContactCRM = {
+  First_Name: string;
+  Last_Name: string;
+  Email: string;
+  Phone: string;
+  Date_of_Birth: string;
+  Identificacion: string;
+  Tipo_de_Documento: string;
+  Mailing_Street: string;
+  Mailing_City: string;
+  Mailing_State: string;
+  Mailing_Zip: string;
+  Pais: string;
+  Full_Name: string;
+  id: string;
 };

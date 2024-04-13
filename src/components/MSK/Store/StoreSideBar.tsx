@@ -1,26 +1,13 @@
-import {FC, useContext, useEffect, useReducer, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import {slugifySpecialty} from "@/lib/Slugify";
-import {useParams, useRouter, useSearchParams} from "next/navigation";
-import {DataContext} from "@/context/data/DataContext";
-import Link from "next/link";
-import {
-  addFilterNew,
-  filterSpecialtiesAux,
-  getFilters,
-  isSpecialtySelected,
-  setFilterSpecialty,
-} from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
-import reducer, {State} from "@/context/storeFilters/storeFiltersReducer";
-import {json} from "stream/consumers";
 
 interface Props {
   onChangeSpecialty: (specialty: any) => void;
@@ -80,13 +67,15 @@ const StoreSideBar: FC<Props> = ({
   const toggleProfessionVisibility = () => {setProfessionVisible((prevVisible) => !prevVisible);};
   const toggleDurationVisibility = () => {setDurationVisible((prevVisible) => !prevVisible);};
 
-
   const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
+  const [currentResource, setCurrentResource] = useState<string | null>();
+
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
     console.log("SPECIALTY CLICKEADA", specialty);
     console.log("SPECIALTYSLUG", specialtySlug);
     const urlSearchParams = new URLSearchParams(window.location.search);
+
     if (currentSpecialty == specialtySlug) {
       console.log("LIMPIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(null);
@@ -110,6 +99,7 @@ const StoreSideBar: FC<Props> = ({
     console.log("RESOURCE CLICKEADO", resource);
     console.log("RESOURCESLUG", resourceSlug);
     const urlSearchParams = new URLSearchParams(window.location.search);
+    setCurrentResource(resourceSlug)
     onChangeResource(resource);
     //Check if it exists in the URL and is the same slug
     if (action == 'add'){
@@ -159,13 +149,16 @@ const StoreSideBar: FC<Props> = ({
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     const resourceSlug = params.get("recurso");
+
     if (specialtySlug && specialtySlug !== currentSpecialty) {
       const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
       setSpecialtyFilter({name: specialtyName});
     }
+
     if (resourceSlug) {
       //find resource from variable resources where resources.slug is resourceSlug
       let resource = resources.find((resource) => resource.slug == resourceSlug);
+      console.log({resourceSlug, resource, resources})
       if (resource){
         setResourceFilter(resource, 'add');
       }
@@ -225,6 +218,7 @@ const StoreSideBar: FC<Props> = ({
                         type="checkbox"
                         id={`res_${resource.id}`}
                         //If it's checked pass 'add' if not pass 'delete'
+                        checked={resource.slug === currentResource}
                         onChange={(e) => setResourceFilter(resource, e.target.checked ? 'add' : 'delete')}
                       />
                       <label

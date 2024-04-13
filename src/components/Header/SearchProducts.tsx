@@ -62,7 +62,7 @@ const SearchProducts = () => {
         } else {
           //const currentCountry = cookies().get("country")?.value;
           courses = await ssr.getAllCourses('ar');
-          console.log('Courses', courses);
+          //console.log('Courses', courses);
           setAuxProducts(courses);
           setProducts(courses);
           setIsOnBlog(false);

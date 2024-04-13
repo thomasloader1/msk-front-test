@@ -64,8 +64,8 @@ export type Action =
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
-      console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
-      /* if (action.payload.filterType === "specialties") { //Replace instead of combining filters
+      //console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
+      if (action.payload.filterType === "specialties") { //Replace instead of combining filters
         return {
           ...state,
           storeFilters: {
@@ -75,7 +75,8 @@ const reducer = (state: State, action: Action): State => {
             ],
           },
         };
-      } */
+      }  
+
       addParameterToURL(action.payload.filterType, action.payload.filterValue.name)
 
       return {

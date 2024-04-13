@@ -1,5 +1,5 @@
 "use client";
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, Suspense, useEffect, useState} from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -36,8 +36,6 @@ const StoreContent: FC<Props> = ({
                                  }) => {
 
   const [storeURLParams, setStoreURLParams] = useState({});
-  const [localProducts, setLocalProducts] = useState<FetchCourseType[]>(products);
-  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
 
   const fetchProfessions = async () => {
@@ -62,7 +60,6 @@ const StoreContent: FC<Props> = ({
   }
 
   const searchParams = useSearchParams();
-  console.log(searchParams.get('page'))
 
   const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
 
@@ -80,14 +77,12 @@ const StoreContent: FC<Props> = ({
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
-  const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
-
-  const pathname = usePathname();
+  const [totalPages, setTotalPages] = useState(Math.ceil(products.length / itemsPerPage));
 
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
     const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
-    //console.log({pageExists, storePage: storeFilters.page, pageNumber})
+   // console.log({pageExists, storePage: storeFilters.page, pageNumber})
     if (!pageExists) {
       updateFilter("page", {
         id: pageNumber,
@@ -108,11 +103,9 @@ const StoreContent: FC<Props> = ({
 
   useEffect(() => {
     console.log('PRODUCTS WERE UPDATED', products);
+
     if (products) {
-      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setLocalProducts(products);
-      setAllProducts(products);
-      setCurrentPage(currentPage);
+      applyFilters()
     }
   }, [products]);
 
@@ -226,7 +219,7 @@ const StoreContent: FC<Props> = ({
         selectedDurations.length
       )
     ) {
-      console.log('SET LOCAL PRODUCTS', products);
+      console.log('PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     } else { //There are filters we need to apply
@@ -258,7 +251,7 @@ const StoreContent: FC<Props> = ({
           .filter((e: string) => e != undefined)
           .every((resource) => {
             if (resource === "Curso") {
-              console.log({resource, type: product.father_post_type},product.father_post_type === "course")
+             // console.log({resource, type: product.father_post_type},product.father_post_type === "course")
               return product.father_post_type === "course";
             } else if (resource === "Guías profesionales") {
               return product.father_post_type === "downloadable";
@@ -300,11 +293,7 @@ const StoreContent: FC<Props> = ({
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
         </h1>
-      ) : (
-        <h1 className="text-xl sm:text-3xl mb-10">
-          Cursos
-        </h1>
-      )}
+      ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
@@ -333,11 +322,11 @@ const StoreContent: FC<Props> = ({
             {currentItems.length ? (
               currentItems.map((product, index) => {
                 return (
-                  <StoreProduct
-                    product={product}
-                    key={`${product.slug}_${index}`}
-                    kind={product.father_post_type}
-                  />
+                    <StoreProduct
+                      product={product}
+                      key={`${product.slug}_${index}`}
+                      kind={product.father_post_type}
+                    />
                 );
               })
             ) : (

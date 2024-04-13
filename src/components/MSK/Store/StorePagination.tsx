@@ -5,6 +5,8 @@ import {
   removeUrlParams,
 } from "@/lib/removeUrlParams";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { updateQueryString } from "@/utils/updateQueryString";
 
 interface Props {
   totalPages: number;
@@ -20,6 +22,14 @@ const StorePagination: FC<Props> = ({
   urlTrack = false
 }) => {
   const [pages, setPages] = useState<number[]>([]);
+  const searchParams = useSearchParams()
+
+  const searchParamsObject = Object.fromEntries(searchParams);
+
+  // Convertimos el objeto JavaScript en una cadena de consulta (query string)
+  const queryString = Object.entries(searchParamsObject)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join('&');
 
   useEffect(() => {
     const newPages = [];
@@ -28,9 +38,6 @@ const StorePagination: FC<Props> = ({
     }
     setPages(newPages);
   }, [totalPages]);
-
-  // const hasSearch = history.location.search;
-  // const urlTrack = hasSearch ? `${keepOnlySpecifiedParams(hasSearch)}` : "?";
 
   return (
     <>
@@ -43,7 +50,7 @@ const StorePagination: FC<Props> = ({
                 className="cursor-pointer hidden sm:block"
               >
                 { urlTrack ? 
-                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                  <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`})}>
                     <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
                   </Link> 
                     : 
@@ -65,7 +72,7 @@ const StorePagination: FC<Props> = ({
                   onClick={() => onPageChange(page)}
                 >
                   { urlTrack ? 
-                    <Link href={`?page=${page}`}>
+                    <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${page}`})}>
                       {page < 10 ? `0${page}` : page}
                     </Link> 
                       : 
@@ -82,7 +89,7 @@ const StorePagination: FC<Props> = ({
                 className="cursor-pointer hidden sm:block"
               >
                   { urlTrack ? 
-                    <Link href={`?page=${currentPage + 1}`}>
+                    <Link href={updateQueryString('/tienda',queryString,{key: "page", value: `${currentPage + 1}`})}>
                       <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
                     </Link> 
                       : 
@@ -116,7 +123,7 @@ const StorePagination: FC<Props> = ({
                 className="cursor-pointer"
               >
                 { urlTrack ? 
-                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                  <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`})}>
                     <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
                   </Link> 
                     : 

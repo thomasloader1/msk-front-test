@@ -1,5 +1,5 @@
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
@@ -67,6 +67,7 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
         country={currentCountry}
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
+
           <StoreContent
             products={getAllCourses()}
             productsLength={getAllCourses().length}

@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, Suspense, useContext } from "react";
 import { FetchCourseType } from "@/data/types";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "@/components/Badge/Badge";
@@ -26,7 +26,8 @@ const StoreProduct: FC<Props> = ({
     .replace("wpmsklatam", "wp.msklatam");
 
   return (
-    <div className={`protfolio-course-2-wrapper ${className}`}>
+    <Suspense fallback={<p>asd</p>}>
+<div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
         <NcLink href={`/curso/${product.slug}`}>
           <img src={imageURL} alt="course-img" />
@@ -45,24 +46,6 @@ const StoreProduct: FC<Props> = ({
               <NcLink href={`/curso/${product.slug}`}>
                 <h3 className="">{product.title}</h3>
               </NcLink>
-              {/* <div className="cart-lavel">
-                <h5>
-                  Nivel: <span>{product.level}</span>
-                </h5>
-                <p>{product.desc}</p>
-              </div> */}
-              {/* <div className="info-cart-text">
-                <ul>
-                  {product.list?.map((item: any, index) => {
-                    return (
-                      <li key={index}>
-                        <i className="far fa-check"></i>
-                        {item.title}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div> */}
               <div className="course-action">
                 <NcLink
                   href={`/curso/${product.slug}`}
@@ -102,10 +85,6 @@ const StoreProduct: FC<Props> = ({
               textSize="text-xs sm:text-xs"
             />
           </div>
-          {/* <div className="portfolio-price">
-            <span>${product.discount_price}</span>
-            <del>${product.price}</del>
-          </div> */}
           <div className="portfolio-course-2 line-clamp-3">
             <NcLink href={`/curso/${product.slug}`}>
               <h3 className="font-bold text-sm">{product.title}</h3>
@@ -134,6 +113,8 @@ const StoreProduct: FC<Props> = ({
         </Link>
       </div>
     </div>
+    </Suspense>
+    
   );
 };
 

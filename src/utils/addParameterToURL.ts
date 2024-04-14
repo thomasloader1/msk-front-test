@@ -6,6 +6,6 @@ export const addParameterToURL = (param: string, value: string) => {
         url.searchParams.set("recurso", valueToUrl);
         // Actualizar la URL con el nuevo parámetro
         window.history.replaceState({}, document.title, url.toString());
-        console.log(url,window.history,{param,value})
+        //console.log(url,window.history,{param,value})
     }
   }

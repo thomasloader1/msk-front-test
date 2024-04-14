@@ -18,20 +18,17 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
   useEffect(() => {
     const checkTrialCourses = async () => {
       const userProfile: any = await ssr.getUserData();
-      console.log({userProfile})
       const hasTrialCourses = userProfile?.contact.trial_course_sites;
 
       if(!(userProfile?.contact.type_doc || userProfile?.contact.identification)){
         setShowMissingData(true)
       }
       
-      console.log({hasTrialCourses, product, userProfile})
       if (hasTrialCourses && hasTrialCourses.length > 0 && typeof product !== 'undefined') {
         hasTrialCourses.forEach((tc: any) => {
           let contract = JSON.parse(tc.contractJson);
           let productWpCode = product?.ficha?.product_code ?? product.product_code; 
-          
-          
+
           let isMatch = contract.data[0].Product_Details.map((pd:any) => {
             return Number(pd.product.Product_Code) === productWpCode;
         });
@@ -49,6 +46,8 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
       } else if (typeof userProfile !== 'undefined' && Object.keys(userProfile).length > 1) {
         setHasCoursedRequested(false);
       }
+
+      console.log({hasTrialCourses, product, userProfile})
     };
 
     checkTrialCourses();

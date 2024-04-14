@@ -29,7 +29,6 @@ const ProductDetailSidebar: FC<Props> = ({
   isEbook,
   sideData,
 }) => {
-  console.log(product)
   const { slug }: { slug: string } = useParams();
   const { state: authState } = useContext(AuthContext);
 
@@ -99,7 +98,7 @@ const ProductDetailSidebar: FC<Props> = ({
     );
   };
   const {hasCoursedRequested} = useRequestedTrialCourse(product);
-
+  
   return (
     <div className={`course-video-widget`}>
       <div

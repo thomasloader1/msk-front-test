@@ -78,8 +78,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   useEffect(() => {
-    setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
-  }, [indexOfFirstItem, indexOfLastItem, allCourses]);
+    setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+  }, [indexOfFirstItem, indexOfLastItem, userCourses]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -115,15 +115,15 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const handleUserTabChange = (item: string) => {
     switch (item) {
       case "Todo":
-        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
-        setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
         break;
       case "Mis cursos":
         setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
         setTotalPages(Math.ceil(userCourses.length / itemsPerPage));
         break;
       default:
-        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
+        setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
         break;
     }
     setCurrentPage(1);

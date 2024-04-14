@@ -1,3 +1,4 @@
+"use client"
 import { FC } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailSidebar from "./ProductDetailSidebar";

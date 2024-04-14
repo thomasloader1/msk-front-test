@@ -36,9 +36,9 @@ const Questions: FC<QuestionProps> = ({ content }) => {
                         bordered={true}
                     >
                         <div
-                            className="accordion-content p-3 border-t transition-all"
+                            className="accordion-content p-3 py-5 border-t transition-all"
                         >
-                            <div className='text-violet-wash text-left' dangerouslySetInnerHTML={{ __html: parseHtml(item.parrafo) as string}} />
+                            <div className='text-violet-wash text-left' dangerouslySetInnerHTML={{ __html: parseHtml(item.parrafo, true) as string}} />
                         </div>
                     </Accordion>
                 );

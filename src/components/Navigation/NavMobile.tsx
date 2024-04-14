@@ -370,7 +370,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
                     </Disclosure.Button>
                     <Disclosure.Panel>
                       <ul className="pl-6 flex flex-col gap-2">
-                        {professions.map((profession, index: number) => {
+                        {professions?.map((profession, index: number) => {
                           return (
                             <li key={index}>
                               <div className="course-sidebar-list">

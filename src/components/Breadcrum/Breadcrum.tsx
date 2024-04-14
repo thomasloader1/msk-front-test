@@ -65,7 +65,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       }
       //console.log(onNote);
       if (part.includes("Curso|Guía profesional")) {
-        return isEbook ? onProduct.ficha.title : onProduct.ficha.title;
+        return isEbook ? onProduct.ficha.title : onProduct?.ficha?.title;
       }
 
       if (part.includes("searchCategory")) {

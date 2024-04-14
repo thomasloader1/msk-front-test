@@ -66,7 +66,7 @@ const SectionGridCategoryBox: React.FC<SectionGridCategoryBoxProps> = ({
         <div className="w-full col-span-2 sm:col-span-1 flex justify-items-center">
           <NcLink
             href="/tienda"
-            className="w-full nc-CardCategory2 h-full text-primary font-medium sm:font-semibold flex items-center justify-center text-center mx-auto [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ]"
+            className="w-full !border-white nc-CardCategory2 h-full text-primary font-medium sm:font-semibold flex items-center justify-center text-center mx-auto  [ nc-dark-box-bg-has-hover ]"
           >
             Ver todas
           </NcLink>

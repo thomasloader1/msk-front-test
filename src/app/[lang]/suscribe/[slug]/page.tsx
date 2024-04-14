@@ -7,7 +7,6 @@ import installmentsMapping from '@/data/jsons/__countryInstallments.json'
 import {JsonInstallmentsMapping, User} from "@/data/types";
 import {useParams} from "next/navigation";
 import {CountryContext} from "@/context/country/CountryContext";
-import {DataContext} from "@/context/data/DataContext";
 import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
 import api from "@Services/api";
 import {REBILL_CONF, initRebill} from "@/logic/Rebill";
@@ -181,7 +180,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         renderTrigger={() => {
           return null;
         }}
-        contentExtraClass="max-w-screen-lg"
+        contentExtraClass="max-w-[500px] md:max-w-screen-lg"
         blurView={viewRef}
         renderContent={() => (
           <MissingModalContent

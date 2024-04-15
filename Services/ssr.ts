@@ -259,6 +259,39 @@ class ApiSSRService {
     }
   }
 
+  async getAllProfessions(country: string) {
+    try {
+      const response = await fetch(`${baseUrl}/api/store/professions`);
+
+      if (!response.ok) {
+        throw new Error(
+            `Failed to fetch store professions. HTTP status ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      // Modify slug based on profession name
+      data.map((profession: any) => {
+        switch (profession.name) {
+          case "Personal médico":
+            profession.slug = "medicos";
+            break;
+          case "Personal de enfermería y auxiliares":
+            profession.slug = "enfermeros-auxiliares";
+            break;
+          case "Otra profesión":
+            profession.slug = "otra-profesion";
+            break;
+        }
+      });
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getWpContent(endpoint:string,country: string) {
     try {
       let validCountries = countries.map((item) => item.id);

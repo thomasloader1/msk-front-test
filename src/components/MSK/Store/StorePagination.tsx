@@ -1,12 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
 import fai from "../../../styles/fai/fontAwesome5Pro.module.css";
-import {
-  keepOnlySpecifiedParams,
-  removeUrlParams,
-} from "@/lib/removeUrlParams";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { updateQueryString } from "@/utils/updateQueryString";
+import updateQueryString from "@/utils/updateQueryString";
 
 interface Props {
   totalPages: number;

@@ -94,6 +94,7 @@ class ApiService {
       name: string;
       speciality: string;
       token_type: string;
+      message?: string;
     };
     status: number;
   }> {

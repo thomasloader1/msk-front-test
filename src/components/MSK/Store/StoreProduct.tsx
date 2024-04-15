@@ -6,6 +6,7 @@ import { CountryContext } from "@/context/country/CountryContext";
 import NcLink from "@/components/NcLink/NcLink";
 import Image from "next/image";
 import clockIcon from '/public/images/icons/clock.svg'
+import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
 
 interface Props {
   product: FetchCourseType;
@@ -19,18 +20,15 @@ const StoreProduct: FC<Props> = ({
   className,
   hoverEffect = false,
   kind,
-}): any => {
-  const { state } = useContext(CountryContext);
-  
-  const imageURL = product.thumbnail.high
-    .replace(`${state.country}.`, "")
-    .replace("wpmsklatam", "wp.msklatam");
+}) => {
+
+  const imageURL = removeFirstSubdomain(product.thumbnail.high);
 
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
         <NcLink href={`/curso/${product.slug}`}>
-          <Image src={imageURL} className="transition-all" width={1000} height={1000} alt="course-img " />
+          <Image src={imageURL} className="transition-all" width={1000} height={1000} alt={`${product.title}`} />
         </NcLink>
       </div>
       {hoverEffect ? (

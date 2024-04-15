@@ -48,9 +48,7 @@ const StoreContent: FC<Props> = ({
     useEffect(() => {
       if (!professions.length) fetchProfessions();
       if (professions.length) {
-        const auxURLParams = getParamsFromURL(window.location.href, [
-          "profesion",
-        ]);
+        const auxURLParams = getParamsFromURL(window.location.href, ["profesion",]);
         const auxProfessions = professions.filter((profession: Profession) => {
           return profession.slug === auxURLParams.profesion;
         });
@@ -289,9 +287,7 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
-
       <Breadcrum />
-
 
       {storeFilters.specialties.length > 0 ? (
         <h1 className="text-xl sm:text-3xl mb-10">

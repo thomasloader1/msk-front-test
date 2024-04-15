@@ -589,7 +589,7 @@ export interface AuthState {
   profile: UserProfile | null;
   email: string | null;
   token: string | null;
-  expires_at: number | null;
+  expires_at: string | null;
   bypassRedirect: boolean | number | null;
 }
 

@@ -43,22 +43,23 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
   const [forcedRoundedPrice, cents] = installmentAmount.toFixed(2).split(".")
 
   return (
-    <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 text-violet-strong">
+    <section className="bg-white rounded-lg drop-shadow-2xl shadow-gray-100 mb-8 ">
       <div className="px-6 pt-6">
-        <h2 className="text-3xl font-bold mb-3">
-          Finaliza tu inscripción de prueba 
-        </h2>
+        <h2 className="text-3xl font-bold mb-3 text-violet-strong">Finaliza tu inscripción de prueba</h2>
         <p className="mb-3 text-violet-wash">
-          ¡Prepárate para la experiencia MSK! Con tu <strong>prueba de 7 días gratis</strong> podrás disfrutar de los contenidos principales del curso elegido. Accederás a ellos dentro de tu perfil personal, donde también podrás cancelar el período de prueba sin costo. 
+          ¡Prepárate para la experiencia MSK! Con tu <span className="font-bold">prueba de 7 días gratis</span> podrás disfrutar de los contenidos principales del curso elegido. Accederás a ellos dentro de tu perfil personal, donde también podrás cancelar el período de prueba sin costo. 
         </p>
         <p className="text-violet-wash">A partir del octavo día, se confirmará tu inscripción al curso completo.</p>
 
         <div className="my-5 border p-3 rounded-lg max-w-[350px]">
-          <p className="text-violet-strong">¡Ahora!</p>
-          <h4 className="text-2xl mb-3 font-bold !font-inter">Prueba gratuita de 7 días</h4>
+          <p className="text-violet-strong font-medium">¡Ahora!</p>
+          <h4 className="text-2xl mb-3 font-bold !font-inter text-violet-strong">Prueba gratuita de 7 días</h4>
           <span className="text-violet-wash">
             Luego, {installments} pagos de{" "}
-            {!mountedInput ? <TextSkeleton /> : <strong>{formatAmount(Number(forcedRoundedPrice), currency)}</strong>}
+            {!mountedInput ? <TextSkeleton /> : <span className="font-bold">{formatAmount(Number(forcedRoundedPrice), currency)}</span>}
+          </span>
+          <span className="text-violet-wash inline-block">
+            {!mountedInput ? <TextSkeleton className="w-50" /> : <>Total: <span className="font-bold">{formatAmount(Number(totalAmount), currency)}</span></>}
           </span>
         {country === 'ec' && 
           <span className="text-violet-wash block">+ impuestos aplicables</span>
@@ -76,7 +77,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
           {!mountedInput ? <TextSkeleton /> : <span className="text-violet-strong">
             x1{" "}
             <span className="font-bold text-violet-strong">
-              {product?.title}
+              {product.ficha.title}
             </span>
           </span>}
         </div>

@@ -1,6 +1,7 @@
 
 import ssr from '@Services/ssr';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import api from "@Services/api";
 
 interface TrialCoursesStatus {
   hasCoursedRequested: boolean;
@@ -17,7 +18,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
 
   useEffect(() => {
     const checkTrialCourses = async () => {
-      const userProfile: any = await ssr.getUserData();
+      const userProfile: any = await api.getUserData();
       const hasTrialCourses = userProfile?.contact.trial_course_sites;
 
       if(!(userProfile?.contact.type_doc || userProfile?.contact.identification)){
@@ -33,7 +34,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
             return Number(pd.product.Product_Code) === productWpCode;
         });
 
-          console.log({contract, isMatch,productWpCode,product})
+          //console.log({contract, isMatch,productWpCode,product})
           
           if (isMatch) {
             setHasCoursedRequested(isMatch);
@@ -47,8 +48,10 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
         setHasCoursedRequested(false);
       }
 
-      console.log({hasTrialCourses, product, userProfile})
+      //console.log({hasTrialCourses, product, userProfile})
     };
+
+
 
     checkTrialCourses();
   }, [product]);

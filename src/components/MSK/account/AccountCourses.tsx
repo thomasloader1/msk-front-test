@@ -12,7 +12,7 @@ interface AccountCoursesProps {
 const AccountCourses: FC<AccountCoursesProps> = ({ courses, email }) => {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
+  //const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const handleResize = () => {

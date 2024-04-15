@@ -29,8 +29,7 @@ interface DashboardPage {
 }
 
 const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
-  // let { path, url } = useRouteMatch();
-  // const history = useHistory();
+
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
   const [courses, setCourses] = useState<UserCourseProgress[]>([]);

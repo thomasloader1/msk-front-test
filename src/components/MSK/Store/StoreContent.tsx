@@ -293,15 +293,11 @@ const StoreContent: FC<Props> = ({
       <Breadcrum />
 
 
-      {storeFilters.specialties.length > 0 ? (
+      {storeFilters.specialties.length > 0 && (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
         </h1>
-      ) : (
-        <h1 className="text-xl sm:text-3xl mb-10">
-          Cursos
-        </h1>
-      )}
+      ) }
 
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">

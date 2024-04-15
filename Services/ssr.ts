@@ -283,6 +283,24 @@ class ApiSSRService {
     }
   }
 
+  async getEmailByIdZohoCRM(module: string, email: string) {
+    try {
+      const response = await fetch(`${baseUrl}/api/crm/GetByEmail/${module}/${email}`);
+
+      if (!response.ok) {
+        throw new Error(
+            `Failed to get email by ID from Zoho CRM. HTTP status ${response.status}`
+        );
+      }
+
+      let { data } = await response.json();
+     // console.log({data: data[0]})
+      return data[0]
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getUserData() {
     if (typeof window !== "undefined") {
       const email = localStorage.getItem("email");

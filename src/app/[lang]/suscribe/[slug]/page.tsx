@@ -3,13 +3,14 @@ import {FC, useContext, useEffect, useRef, useState} from "react";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import mpImg from "/public/images/MP.png";
 import stImg from "/public/images/ST.svg";
+import rbImg from "/public/images/icons/rebill.svg";
 import installmentsMapping from '@/data/jsons/__countryInstallments.json'
 import {JsonInstallmentsMapping, User} from "@/data/types";
 import {useParams} from "next/navigation";
 import {CountryContext} from "@/context/country/CountryContext";
 import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
 import api from "@Services/api";
-import {REBILL_CONF, initRebill} from "@/logic/Rebill";
+import {REBILL_CONF, initRebill, getRebillInitialization} from "@/logic/Rebill";
 import TrialInfo from "@/components/Trial/TrialInfo";
 import InputSkeleton from "@/components/Skeleton/InputSkeleton";
 import TextSkeleton from "@/components/Skeleton/TextSkeleton";
@@ -18,6 +19,9 @@ import NcModalSmall from "@/components/NcModal/NcModalSmall";
 import TrialModalContent from "@/components/NcModal/TrialModalContent";
 import MissingModalContent from "@/components/NcModal/MissingModalContent";
 import useSingleProduct from "@/hooks/useSingleProduct";
+import {AuthContext} from "@/context/user/AuthContext";
+import ssr from "@Services/ssr";
+import Image from "next/image";
 
 export interface PageTrialSuscribeProps {
   className?: string;
@@ -27,14 +31,12 @@ const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {state: {country}} = useContext(CountryContext);
+  const {state: AuthState ,dispatch} = useContext(AuthContext);
   const {slug}: { slug: string } = useParams();
-
-  console.log(slug)
-  const {product} = useSingleProduct(slug,{country})
+  const { product} = useSingleProduct(slug,{country})
 
   //const [product] = allCourses.filter((course: any) => slug === course.slug)
   const [show, setShow] = useState<boolean>(false)
-  const [user, setUser] = useState<User>({} as User);
   const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
   const [faliedMessage, setFaliedMessage] = useState<string>("")
@@ -58,50 +60,63 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const profile = user;
-      //console.log(profile)
+      const profile = AuthState.profile;
+      console.log(profile)
       const fetchProfile = async () => {
-        const res = await api.getUserData();
-        setUser(res)
+        const res = await ssr.getUserData();
+       // console.log(res)
+        dispatch({type: 'UPDATE_PROFILE', payload: {profile: res.contact}});
       }
 
-      if (profile == null || typeof user === 'undefined') {
+      if (profile == null || typeof AuthState === 'undefined') {
         fetchProfile()
       }
     }
 
-  }, [user])
+  }, [AuthState.profile])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
 
       if (typeof window.Rebill !== 'undefined') {
-        const initialization = {
-          organization_id: REBILL_CONF.ORG_ID,
-          api_key: REBILL_CONF.API_KEY,
-          api_url: REBILL_CONF.URL,
-        };
-        console.log({REBILL_CONF, initialization});
+        const initialization = getRebillInitialization(country)
+
         let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
-        const verifiedProductAndProfile = (typeof product !== 'undefined' && user != null && Object.keys(user).length > 1);
+        const verifiedProductAndProfile = (typeof product !== 'undefined' && AuthState.profile != null && Object.keys(AuthState.profile).length > 1);
 
-         if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
+        console.log({
+          initedRebill,
+          verifiedProductAndProfile: {
+            product: typeof product !== 'undefined',
+            productData: product,
+            profile:AuthState.profile != null,
+            profileData: AuthState.profile
+          },
+          verifiedCoursedRequested:{
+            condition: hasCoursedRequested != null && !hasCoursedRequested,
+            hasCoursedRequested
+          },
+          showMissingData,
+          condition: initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData
+        })
+
+        if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
            setInitedRebill(true)
            console.group("Rebill")
            localStorage.removeItem('trialURL');
-           initRebill(user, country, product, RebillSDKCheckout, setShow, setFaliedMessage, setPaymentCorrect, setMountedInput);
+           //console.log({user: AuthState, country, product, RebillSDKCheckout, setShow, setFaliedMessage, setPaymentCorrect, setMountedInput})
+           initRebill(AuthState, country, product, RebillSDKCheckout, setShow, setFaliedMessage, setPaymentCorrect, setMountedInput);
            console.groupEnd()
          }
       }
     }
-  }, [product, hasCoursedRequested, user])
+  }, [product, hasCoursedRequested, AuthState.profile])
 
 
   return (
     <div ref={viewRef} className="nc-PageSuscribe relative animate-fade-down">
-
       <div className="relative overflow-hidden">
         <div className="container grid grid-cols-1 lg:grid-cols-[60%_40%] gap-5 my-24">
           <TrialInfo
@@ -112,24 +127,23 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
 
           <section>
-            <div className="text-center mb-4 text-violet-strong">
+            <p className="text-center mb-4 text-violet-strong font-normal">
               Ingresa los datos de tu tarjeta de débito o crédito. <br/>
               No se realizará ningún cargo hasta el octavo día.
-            </div>
+            </p>
             <div
               id="rebill_elements"
               className="flex items-center justify-center h-auto"
             >
               {mountedInput && <InputSkeleton className="w-[390px]"/>}
             </div>
-            {mountedInput ? (<div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
+            {mountedInput ? (<div className="text-violet-wash flex items-center justify-center gap-x-3 mb-4">
               <span>Pagos procesados con</span>
-              <img
-                src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
-                alt="gateway image"
-              />
+
+              <Image src={rbImg.src} width={70} height={80} alt={"Rebill Image"} />
 
             </div>) : <TextSkeleton className="w-full flex items-center justify-center"/>}
+
             <NcLink
               href="/condiciones-de-contratacion#trial"
               target="_blank"

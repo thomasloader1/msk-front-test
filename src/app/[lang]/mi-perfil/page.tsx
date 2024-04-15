@@ -1,5 +1,5 @@
 "use client";
-import { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { User, UserCourseProgress } from "@/data/types";
 import { getUserCourses } from "../../../../Services/user";
 import api from "../../../../Services/api";
@@ -20,6 +20,7 @@ import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import ProductAccount from "@/components/Containers/profile/ProductAccount";
 import StorePagination from "@/components/MSK/Store/StorePagination";
 import { useRouter } from "next/navigation";
+import NcLink from "@/components/NcLink/NcLink";
 
 export interface PageAuthorProps {
   className?: string;
@@ -209,14 +210,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                     Aún puedes descubrir mucho más en Medical & Scientific
                     Knowledge
                   </p>
+
                   <ButtonPrimary
-                    onClick={goToStore}
+                    href={"/tienda"}
                     sizeClass="py-3 "
                     className="font-semibold px-6"
                   >
-                    {tabActive == "Favoritos"
-                      ? "Comienza tu experiencia"
-                      : "Comienza un curso"}
+                    Comienza un curso
                   </ButtonPrimary>
                 </div>
               )}

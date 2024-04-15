@@ -65,10 +65,16 @@ export const authReducer = (
         user: userInLocal ? JSON.parse(userInLocal) : null,
       };
     case UPDATE_PROFILE:
-      return {
+      let profileInLocal = {
         ...state,
+        user: localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user") as string) : null,
+        email: localStorage.getItem("email"),
+        token: localStorage.getItem("token"),
+        expires_at: localStorage.getItem("expires_at"),
         profile: action.payload.profile,
       };
+
+      return {...profileInLocal};
     case UPDATE_COURSES:
       return {
         ...state,

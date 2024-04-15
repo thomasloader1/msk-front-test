@@ -55,17 +55,21 @@ const SearchProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('FETCHING DATA');
+        //console.log('FETCHING DATA: ', products);
+        //console.log('STATE: ', state);
         let courses;
         if (pathname?.includes("/blog")) {
           // Fetch blog posts
         } else {
-          //const currentCountry = cookies().get("country")?.value;
-          courses = await ssr.getAllCourses('ar');
-          //console.log('Courses', courses);
-          setAuxProducts(courses);
-          setProducts(courses);
-          setIsOnBlog(false);
+          if (products.length == 0 ){
+            //const currentCountry = cookies().get("country")?.value;
+            let productsCountry = state.country == 'int' ? '' : state.country;
+            courses = await ssr.getAllCourses(productsCountry);
+            console.log('Courses', courses);
+            setAuxProducts(courses);
+            setProducts(courses);
+            setIsOnBlog(false);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);

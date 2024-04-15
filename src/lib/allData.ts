@@ -43,6 +43,16 @@ export const setAllStoreSpecialties = (value: any) => {
 export const getAllStoreSpecialties = () => allStoreSpecialties;
 export const isLoadingStoreSpecialties = () => loadingAllStoreSpecialties;
 
+let allProfessions: any = [];
+let loadingAllProfessions: boolean = false;
+export const setAllProfessions = (value: any) => {
+  console.log("Seteando profesiones:",{value})
+  allProfessions = value;
+};
+
+export const getAllProfessions = () => allProfessions;
+export const isLoadingProfessions = () => loadingAllProfessions;
+
 //PageHome
 export let pageHomeWpContent: WpContentData | undefined = undefined;
 let loadingPageHomeWpContent: boolean = false;

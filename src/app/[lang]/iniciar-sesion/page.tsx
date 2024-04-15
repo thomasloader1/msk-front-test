@@ -22,7 +22,6 @@ export const runtime = "edge";
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   // @ts-ignore
   const router = useRouter();
-  const locale = useCurrentLocale(i18nConfig);
   //// console.log("LANG", locale);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loginError, setLoginError] = useState<string>("");
@@ -67,7 +66,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
             dispatch({ type: "LOGIN", payload: loginData });
             changeRoute("/mi-perfil");
           } else {
-            setLoginError(data.message);
+            setLoginError(data?.message as string);
           }
         }
       } catch (error) {

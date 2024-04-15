@@ -5,18 +5,16 @@ import { countryReducer } from "./CountryReducer";
 import { CountryState } from "@/data/types";
 import { countries } from "@/data/countries";
 import api from "../../../Services/api";
-import { parse } from "cookie";
+import Cookies from "js-cookie";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const CountryProvider: React.FC<Props> = ({ children }) => {
+
   const initialState: CountryState = {
-    country:
-      typeof window !== "undefined"
-        ? localStorage.getItem("country") || ""
-        : "",
+    country: Cookies.get('NEXT_LOCALE') || 'int'
   };
 
   const [state, dispatch] = useReducer(countryReducer, initialState);
@@ -29,7 +27,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   const validCountries = countries.map((item) => item.id);
 
   useEffect(() => {
-    console.log("Country Provider UseEffect 2");
+    console.log("Country Provider UseEffect");
     const fetchData = async () => {
       let redirectUrl = "";
       try {
@@ -61,9 +59,6 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           if (currentCountry && currentCountry == currentPathName) return; //Special use case for homepage.
           if (!validCountries.includes(currentCountry)) {
             currentCountry = "";
-          }
-          if (typeof window !== "undefined") {
-            localStorage.setItem("country", currentCountry);
           }
 
           // console.log("stateCountry: " + state.country);

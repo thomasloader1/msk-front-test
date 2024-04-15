@@ -5,10 +5,10 @@ import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
 import ssr from "../../../../Services/ssr";
 import {
-  getAllCourses,
-  getAllStoreSpecialties,
-  setAllCourses,
-  setAllStoreSpecialties,
+    getAllCourses, getAllProfessions,
+    getAllStoreSpecialties,
+    setAllCourses, setAllProfessions,
+    setAllStoreSpecialties,
 } from "@/lib/allData";
 import { Metadata } from "next";
 
@@ -55,6 +55,12 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
     const fetchedSpecialties = await ssr.getSpecialtiesStore(currentCountry);
     setAllStoreSpecialties(fetchedSpecialties);
   }
+
+    if (!getAllProfessions().length) {
+        const fetchedProfessions = await ssr.getAllProfessions(currentCountry);
+        setAllProfessions(fetchedProfessions);
+    }
+
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}

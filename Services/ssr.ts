@@ -261,6 +261,7 @@ class ApiSSRService {
 
   async getAllProfessions(country: string) {
     try {
+      console.log('Get professions 1');
       const response = await fetch(`${baseUrl}/api/store/professions`);
 
       if (!response.ok) {

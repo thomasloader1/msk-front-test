@@ -124,6 +124,14 @@ export const initRebill = async (
     const contactZoho: ContactCRM = await ssr.getEmailByIdZohoCRM("Contacts", user.email);
     console.log({contactZoho, user})
     const customerRebill = mappingCheckoutFields(contactZoho);
+    console.log({customerRebill})
+    console.log({cardHolder:{
+        name: contactZoho.Full_Name,
+        identification: {
+          type: contactZoho.Tipo_de_Documento,
+          value: contactZoho.Identificacion,
+        },
+      }})
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
 
@@ -138,7 +146,16 @@ export const initRebill = async (
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
-    //console.log({idPrice: id});
+    console.log({
+      transaction: {
+        prices: [
+          {
+            id,
+            quantity,
+          },
+        ],
+      }
+    });
     RebillSDKCheckout.setTransaction({
       prices: [
         {

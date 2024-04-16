@@ -36,12 +36,12 @@ const Card9: FC<Card9Props> = ({
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
-          <h2 className="block text-lg font-semibold text-white">
+          <h2 className="block text-lg font-semibold text-white mb-2">
             <span className="text-xl font-raleway font-bold" title={title}>
               {title}
             </span>
           </h2>
-          {post.cantidad_modulos && <Showing title={`${post.cantidad_modulos} temas`} icon={moduleIcon.src} />}
+          {post.cantidad_modulos && <Showing title={`${post.cantidad_modulos} temas`} icon={moduleIcon.src} className="mb-2" />}
           {post.duration && <Showing title={`${post.duration} horas estimadas`} icon={timeIcon.src} />}
           <>
             {showDescription && post.lista_de_cedentes ? (

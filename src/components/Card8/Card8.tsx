@@ -56,7 +56,7 @@ const Card8: FC<Card8Props> = ({
           isEbook={kind === "guia"}
         />
         <h2
-          className={`mt-3 relative block font-semibold text-neutral-50 text-lg sm:text-2xl `}
+          className={`mt-3 mb-2 relative block font-semibold text-neutral-50 text-lg sm:text-2xl `}
         >
           <NcLink
             href={`/curso/${slug}`}

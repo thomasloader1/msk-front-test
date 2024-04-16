@@ -19,40 +19,45 @@ import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
+import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StoreSkeleton from "@/components/Skeleton/StoreSkeleton";
 import NoResultFound from "@/components/NoResultFound";
 
 interface Props {
   products: FetchCourseType[];
+  productsLength: number;
   specialties?: any;
   // handleTriggerSearch: (e: any) => void;
   // handleTriggerFilter: (e: any) => void;
 }
 
-const StoreContent: FC<Props> = ({ products,specialties }) => {
+const StoreContent: FC<Props> = ({
+                                   products,
+                                   productsLength,
+                                   specialties,
+                                   // handleTriggerSearch,
+                                   // handleTriggerFilter,
+                                 }) => {
 
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
+  const [professionsFetched, setProfessionsFetched] = useState(false);
   const [mutationProducts, setMutationProducts] = useState(true);
 
   const fetchProfessions = async () => {
+    console.log('Fetching professions');
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
+    setProfessionsFetched(true);
   };
 
   if (typeof window != "undefined") {
     useEffect(() => {
-      if (!professions.length) fetchProfessions();
-      if (professions.length) {
-        const auxURLParams = getParamsFromURL(window.location.href, [
-          "profesion",
-        ]);
-        const auxProfessions = professions.filter((profession: Profession) => {
-          return profession.slug === auxURLParams.profesion;
-        });
+      if (!professionsFetched) {
+        fetchProfessions();
       }
-      applyFilters();
-    }, [window.location.search, professions]);
+      //applyFilters();
+    }, []);
   }
 
   const searchParams = useSearchParams();
@@ -63,6 +68,7 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
     addFilter,
     removeFilter,
     updateFilter,
+    clearFilters,
     clearSpecialties,
   } = useStoreFilters();
 
@@ -108,7 +114,6 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
 
   const handleTriggerSearch = (event: any) => {
     applyFilters();
-
     if (event) {
       const filteredProducts = products.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
@@ -162,14 +167,9 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
         return item.id == resource.id;
       }
     );
-
-    console.log({resource, resourceExists}, resourceExists);
-
     if (resourceExists.length) {
       removeFilter("resources", resource);
-    } else {
-      addFilter("resources", resource);
-    }
+    } else addFilter("resources", resource);
   };
   const onChangeDuration = (duration: DurationFilter) => {
     console.log('Duration', duration);
@@ -186,8 +186,8 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
 
   const applyFilters = () => {
   setMutationProducts(true)
-  console.group("applyFilters()")
-    console.log("Store Filters - filtrengy", {storeFilters});
+  //console.group("applyFilters()")
+    //console.log("Store Filters", {storeFilters});
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -204,13 +204,13 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
       (filter: PageFilter) => filter.id
     );
 
-    console.group("FILTERS SELECTED")
+   /* console.group("FILTERS SELECTED")
       console.log('SPECIALTIES', selectedSpecialties);
       console.log('RESOURCES', selectedResources);
       console.log('PROFESSIONS', selectedProfessions);
       console.log('DURATIONS', selectedDurations);
       console.log('PAGE', selectedPage);
-    console.groupEnd()
+    console.groupEnd()*/
 
     if ( //No filters, set the products to the original list
       !(
@@ -220,14 +220,12 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
         selectedDurations.length
       )
     ) {
-      console.log('SET LOCAL PRODUCTS', products);
+      //console.log('SET LOCAL PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
       setMutationProducts(false)
     } else { //There are filters we need to apply
-      console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations});
-      setMutationProducts(true)
-
+      //console.log('There are filters we need to apply');
       const filteredProducts = products.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
@@ -250,7 +248,7 @@ const StoreContent: FC<Props> = ({ products,specialties }) => {
               prodProfession.toLowerCase().includes(profession?.toLowerCase())
             )
           );
-console.log({selectedResources})
+
         const resourcesMatch = selectedResources
           .filter((e: string) => e != undefined)
           .every((resource) => {
@@ -277,23 +275,19 @@ console.log({selectedResources})
           });
         }
 
-        setMutationProducts(false)
-
-
         return specialtiesMatch
           && professionsMatch
           && resourcesMatch
           && durationsMatch
       });
-
-      console.log("FILTERED PRODUCTS", filteredProducts);
+      //console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(currentPage);
       setMutationProducts(false)
 
     }
-  console.groupEnd()
+  //console.groupEnd()
 
   };
 

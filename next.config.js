@@ -4,7 +4,7 @@ const withNextIntl = require("next-intl/plugin")("./i18n.ts");
 const nextConfig = {
   //output: 'export', //For static site (loses SSR cappabilites)
   //distDir: "dist",
-
+  reactStrictMode: false,
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

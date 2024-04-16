@@ -21,7 +21,7 @@ if (LSCountry) {
   COUNTRY = LSCountry;
 }
 
-const tempURL = "https://msklatam.com/msk-laravel/public";
+const tempURL = "https://dev.msklatam.tech/msk-laravel/public";
 
 const WP_URL = API_URL;
 const apiSignUpURL = `${baseUrl}/api/signup`;
@@ -72,6 +72,7 @@ class ApiService {
     try {
       const response = await fetch(apiSignUpURL, {
         method: "POST",
+        mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },

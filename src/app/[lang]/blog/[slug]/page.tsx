@@ -1,6 +1,4 @@
-import SingleProductDetail from "@/components/SingleProductDetail/SingleProductDetail";
-import React, { FC, useContext } from "react";
-// import LoadingText from "@/components/Loader/Text";
+import React, { FC } from "react";
 import ssr from "../../../../../Services/ssr";
 import SingleHeader from "@/components/MSK/Blog/Post/PostSingleHeader";
 import NcImage from "@/components/NcImage/NcImage";
@@ -27,13 +25,13 @@ const PageNota: FC<PageCourseProps> = async ({ params }) => {
         <header className="relative pt-10 z-10 md:py-20 lg:py-14 dark:bg-black background-note-blog animate-fade-down">
           {/* SINGLE HEADER */}
           <div className="dark container relative z-10">
-            <div>
+
               <SingleHeader
                 hiddenDesc={false}
                 metaActionStyle="style2"
                 pageData={post}
               />
-            </div>
+
           </div>
           {/* FEATURED IMAGE */}
           <div className="px-[16px]">
@@ -43,7 +41,7 @@ const PageNota: FC<PageCourseProps> = async ({ params }) => {
                   containerClassName="absolute inset-0"
                   src={post.featured_image[0]}
                   className="object-cover w-full h-full"
-                  alt=""
+                  alt={`${post.title}`}
                   height="400"
                   width="1080"
                 />

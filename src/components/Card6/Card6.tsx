@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import NcImage from "@/components/NcImage/NcImage";
 import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
 import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
@@ -21,6 +21,7 @@ export interface Card6Props {
   authorRow?: boolean;
   badgeColor?: string;
   kind?: string;
+  forSingleNote?: boolean
 }
 
 const Card6: FC<Card6Props> = ({
@@ -29,8 +30,9 @@ const Card6: FC<Card6Props> = ({
   authorRow,
   kind = "blog",
   badgeColor,
+                                 forSingleNote
 }) => {
-  const { title, slug, image, categories, link, author, date } = post;
+  const { title, slug, image, categories, link, author, date, reading_time } = post;
   const categoriesOrder =
     kind === "blog" ? categories.sort(compareByNameDescending) : categories;
 
@@ -66,8 +68,12 @@ const Card6: FC<Card6Props> = ({
             className="relative my-4"
             author={author}
             flex={authorRow}
+            readingTime={Number(reading_time)}
+            forSingleNote={forSingleNote}
           />
         </div>
+
+
       </div>
 
       <NcLink
@@ -83,7 +89,7 @@ const Card6: FC<Card6Props> = ({
           fill
         />
       </NcLink>
-      <p>asd</p>
+
     </div>
   );
 };

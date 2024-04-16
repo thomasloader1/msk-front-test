@@ -37,6 +37,8 @@ interface PageProps {
   params: any;
 }
 
+export interface FAQS{ texto: string; items: { titulo: string; parrafo: string;}[];}
+
 const PageHome: React.FC<PageProps> = async ({ params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;
 
@@ -104,11 +106,12 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             tabs={TABS_BLOG}
             className="py-16 "
             heading=""
-            desc=""
+            desc="Recursos para informarte y aprender de distintas maneras"
             showTitle
+            forSingleNote={false}
           />
 
-          <Questions content={pageHomeWpContent?.preguntas_frecuentes} />
+          <Questions content={pageHomeWpContent?.preguntas_frecuentes as FAQS} />
 
           <div className="relative py-16">
             <BackgroundSection />

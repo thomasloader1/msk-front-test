@@ -10,16 +10,15 @@ import {
   setLoadingBestSellers,
   setLoadingCourses,
 } from "@/lib/allData";
+import {SignUp} from "@/data/types";
 
 let validCountries = countries.map((item) => item.id);
 
 const PROD = process.env.PROD;
 
-const apiSignUpURL = `${baseUrl}/api/signup`;
 const apiProfileUrl = `${baseUrl}/api/profile`;
 
 class ApiSSRService {
-  baseUrl = apiSignUpURL;
   token = typeof window !== "undefined" ? localStorage.getItem("tokenLogin") : null;
 
   async getCountryCode() {
@@ -367,6 +366,26 @@ class ApiSSRService {
         localStorage.removeItem("user");
         // console.log({error});
       }
+    }
+  }
+
+  async postSignUp(jsonData: SignUp){
+    try {
+      const response = await fetch(`${baseUrl}/api/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to sign up. HTTP status ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (e) {
+      return e;
     }
   }
 }

@@ -30,6 +30,7 @@ import InputField from "@/components/InputField/InputField";
 import Link from "next/link";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import ShowErrorMessage from "@/components/ShowErrorMessage";
+import ssr from "@Services/ssr";
 
 export interface PageTrialProps {
   className?: string;
@@ -207,10 +208,11 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
         };
 
         try {
-          const res = await api.postSignUp(formData);
+          const res = await ssr.postSignUp(formData);
+          console.log({res})
           if (res.status !== 200) {
             setSuccess(false);
-            console.error(res.data.errors)
+            console.error(res)
 
             const errorMessages = Object.values(res.data.errors)
               .map((errorMessage: any, i) => {

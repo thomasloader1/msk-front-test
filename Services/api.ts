@@ -11,6 +11,7 @@ import countryStates from "@/data/jsons/__countryStates.json";
 import { BodyNewPassword } from "@/components/MSK/PageNewPassword";
 import { ContactFormSchema } from "@/hooks/useYupValidation";
 import { countries } from "@/data/countries";
+import {base} from "next/dist/build/webpack/config/blocks/base";
 
 let validCountries = countries.map((item) => item.id);
 const PROD = process.env.PROD;
@@ -363,7 +364,7 @@ class ApiService {
   async getProfessions() {
     try {
       console.log('Get professions 2');
-      const response = await fetch(`${tempURL}/api/professions`);
+      const response = await fetch(`${baseUrl}/api/professions`);
 
       if (!response.ok) {
         throw new Error(
@@ -414,7 +415,7 @@ class ApiService {
 
   async getSpecialties() {
     try {
-      const response = await fetch(`${tempURL}/api/specialities`);
+      const response = await fetch(`${baseUrl}/api/specialities`);
 
       if (!response.ok) {
         throw new Error(
@@ -431,7 +432,7 @@ class ApiService {
 
   async getSpecialtiesAndGroups() {
     try {
-      const response = await fetch(`${tempURL}/api/specialities`);
+      const response = await fetch(`${baseUrl}/api/specialities`);
 
       if (!response.ok) {
         throw new Error(

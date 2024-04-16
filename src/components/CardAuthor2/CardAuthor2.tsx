@@ -8,6 +8,7 @@ export interface CardAuthor2Props
   readingTime?: PostDataType["readingTime"];
   hoverReadingTime?: boolean;
   flex?: boolean;
+  forSingleNote?: boolean;
 }
 
 const CardAuthor2: FC<CardAuthor2Props> = ({
@@ -17,6 +18,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
   date,
   flex,
   hoverReadingTime = true,
+                                             forSingleNote= true
 }) => {
   return (
     <div
@@ -33,29 +35,57 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
         />
       )}
 
-      <div className={flex ? "flex gap-2" : ""}>
-        {author?.name && (
-          <h2
-            className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-bold`}
-          >
-            {author?.name}
-          </h2>
-        )}
+      {forSingleNote ? (
+          <div className={flex ? "flex gap-2" : ""}>
+            {author?.name && (
+                <h2
+                    className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-bold`}
+                >
+                  {author?.name}
+                </h2>
+            )}
 
-        <span
-          className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400`}
-        >
+            <span
+                className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400`}
+            >
           <span>
             {date}{" "}
             {readingTime != null && (
-              <span className={`${readingTime <= 0 && "hidden"}`}>
+                <span className={`${readingTime <= 0 && "hidden"}`}>
                 {" "}
-                — {readingTime} min lectura
+                  — {readingTime} min lectura
               </span>
             )}
           </span>
         </span>
-      </div>
+          </div>
+      ) : (
+          <div>
+            {author?.name && (
+                <h2
+                    className={`text-sm text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white font-bold`}
+                >
+                  {author?.name}
+                </h2>
+            )}
+
+            <span
+                className={`flex items-center text-sm text-neutral-500 dark:text-neutral-400 mt-1`}
+            >
+          <span>
+            {date}{" "}
+            {readingTime != null && (
+                <span className={`${readingTime <= 0 && "hidden"}`}>
+                {" "}
+                  — {readingTime} min lectura
+              </span>
+            )}
+          </span>
+        </span>
+          </div>
+      )}
+
+
     </div>
   );
 };

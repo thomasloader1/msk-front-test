@@ -1,16 +1,12 @@
 "use client";
-import { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { User, UserCourseProgress } from "@/data/types";
 import { getUserCourses } from "../../../../Services/user";
 import api from "../../../../Services/api";
 import { DataContext } from "@/context/data/DataContext";
 import Avatar from "@/components/Avatar/Avatar";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
-// import StorePagination from "@/components/Store/StorePagination";
-// import SectionSliderPosts from "./home/SectionSliderPosts";
-// import CardCategory6 from "@/components/CardCategory6/CardCategory6";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
-import Heading from "@/components/Heading/Heading";
 import CardCategory6 from "@/components/CardCategory6/CardCategory6";
 import HeaderFilter from "@/components/MSK/HeaderFilter";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
@@ -108,10 +104,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     },
   ];
 
-  const goToStore = () => {
-    // tabActive == "Favoritos" ? history.push("/") : history.push("/tienda");
-  };
-
   const handleUserTabChange = (item: string) => {
     switch (item) {
       case "Todo":
@@ -129,6 +121,16 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     setCurrentPage(1);
     setCoursesTabActive(item);
   };
+
+  if(typeof window !== 'undefined'){
+    useEffect(() =>{
+      const redirectToTrialURL = localStorage.getItem('continueTrialAccess');
+      if(redirectToTrialURL){
+        router.push(redirectToTrialURL)
+      }
+    }, []);
+  }
+
 
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">
@@ -209,14 +211,13 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
                     Aún puedes descubrir mucho más en Medical & Scientific
                     Knowledge
                   </p>
+
                   <ButtonPrimary
-                    onClick={goToStore}
+                    href={"/tienda"}
                     sizeClass="py-3 "
                     className="font-semibold px-6"
                   >
-                    {tabActive == "Favoritos"
-                      ? "Comienza tu experiencia"
-                      : "Comienza un curso"}
+                    Comienza un curso
                   </ButtonPrimary>
                 </div>
               )}

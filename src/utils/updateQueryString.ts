@@ -1,16 +1,19 @@
-const updateQueryString = (
-    endpoint: string,
-    queryString: string,
-    { key, value }: { key: string; value: string }
-): string => {
-    const currentQuery = new URLSearchParams(queryString);
-    if (value) {
-        currentQuery.set(key, value);
-    } else {
-        currentQuery.delete(key);
-    }
-    const queryParams = currentQuery.toString();
-    return `${endpoint}${queryParams ? `?${queryParams}` : ''}`;
-};
+type newQueryTerm ={
+    key: string;
+    value: string;
+}
 
-export default updateQueryString;
+export function updateQueryString(endpoint: string,queryString: string, newQueryString: newQueryTerm) {
+    const searchParams = new URLSearchParams(queryString);
+    
+        if (searchParams.has(newQueryString.key)) {
+            searchParams.set(newQueryString.key, newQueryString.value);
+          } else {
+            searchParams.append(newQueryString.key, newQueryString.value);
+          }
+        
+          return `${endpoint}?${searchParams.toString()}`;
+   
+  }
+
+  

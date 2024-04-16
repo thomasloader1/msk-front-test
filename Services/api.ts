@@ -150,8 +150,9 @@ class ApiService {
           `Failed to get email by ID from Zoho CRM. HTTP status ${response.status}`
         );
       }
-
-      return await response.json();
+      let data = await response.json();
+      console.log({data})
+      return data;
     } catch (error) {
       return error;
     }

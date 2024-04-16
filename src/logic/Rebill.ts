@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import rebillCountryPriceMapping from "@/data/jsons/__rebillCurrencyPrices.json"
 import { getEnv } from "@/utils/getEnv";
 import api from "@Services/api";
+import ssr from "@Services/ssr";
 
 declare global {
   interface Window {
@@ -18,6 +19,13 @@ let NEXT_PUBLIC_REBILL_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_API_KEY_PRD;
 let NEXT_PUBLIC_REBILL_ORG_ID_TEST = process.env.NEXT_PUBLIC_REBILL_ORG_ID_TEST;
 let NEXT_PUBLIC_REBILL_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_ORG_ID_PRD;
 
+//CL
+let NEXT_PUBLIC_REBILL_CL_API_KEY_TEST = process.env.NEXT_PUBLIC_REBILL_CL_API_KEY_TEST;
+let NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST = process.env.NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST;
+let NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD;
+let NEXT_PUBLIC_REBILL_CL_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_CL_API_KEY_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST = process.env.NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST;
+
 const rebillCountriesPrices: JsonMapping = rebillCountryPriceMapping
 
 export const REBILL_CONF = {
@@ -27,11 +35,36 @@ export const REBILL_CONF = {
   GATEWAYS: {
     ST: ["co", "uy", "cr","hn","ve","pe","ni","sv","bo", "py","gt","pa","ec"],
     MP: ["ar", "mx", "cl"],
+    REBILL: ['cl','co','uy','mx']
   },
+  PRICES: {
+    NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST,
+}
 };
 
+export const getRebillInitialization = (country: string) => {
+  console.log({country, PROD,NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST,NEXT_PUBLIC_REBILL_CL_API_KEY_TEST})
+  switch (country){
+    case 'cl':
+      return {
+        organization_id: PROD ? NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD : NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST,
+        api_key: PROD ? NEXT_PUBLIC_REBILL_CL_API_KEY_PRD : NEXT_PUBLIC_REBILL_CL_API_KEY_TEST,
+        api_url: REBILL_CONF.URL,
+
+      };
+    default:
+      return {
+        organization_id: REBILL_CONF.ORG_ID,
+        api_key: REBILL_CONF.API_KEY,
+        api_url: REBILL_CONF.URL,
+      };
+  }
+
+}
+
 const mappingCheckoutFields = (contactZoho: ContactCRM) => {
-  console.log({contactZoho})
+  //console.log({contactZoho})
+
   return {
     firstName: contactZoho.First_Name,
     lastName: contactZoho.Last_Name,
@@ -65,7 +98,7 @@ const mappingCheckoutFields = (contactZoho: ContactCRM) => {
 };
 
 const getPlan = (country: string) => {
-  const gateway = REBILL_CONF.GATEWAYS.ST.includes(country) ? "STRIPE" : "MP";
+  const gateway = REBILL_CONF.GATEWAYS.REBILL.includes(country) ? "REBILL" : null;
   const countryPrice = rebillCountriesPrices[country];
   const price = getEnv(`REBILL_${gateway}_${countryPrice}_FREEMIUM`);
 
@@ -88,7 +121,7 @@ export const initRebill = async (
   setMountedInput: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
-    const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
+    const contactZoho: ContactCRM = await ssr.getEmailByIdZohoCRM("Contacts", user.email);
     console.log({contactZoho, user})
     const customerRebill = mappingCheckoutFields(contactZoho);
     //Seteo de customer
@@ -105,7 +138,7 @@ export const initRebill = async (
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
-    console.log({idPrice: id});
+    //console.log({idPrice: id});
     RebillSDKCheckout.setTransaction({
       prices: [
         {

@@ -126,23 +126,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
   const [professions, setProfessions] = useState<Profession[]>(getAllProfessions());
   const [specialties, setSpecialties] = useState<Specialty[]>(getAllStoreSpecialties());
 
-
-  /*useEffect(() => {
-    const fetchDataPage = async () => {
-      if(getAllStoreSpecialties().length === 0){
-        const specialtiesList = await api.getSpecialtiesStore();
-        setSpecialties(specialtiesList);
-      }
-
-      if(getAllProfessions().length === 0) {
-        const professionList = await api.getStoreProfessions();
-        setProfessions(professionList);
-      }
-    }
-
-    fetchDataPage()
-  }, [specialties, professions]);*/
-
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
     { name: "Guías profesionales", id: 2 },

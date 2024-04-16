@@ -356,6 +356,7 @@ class ApiService {
 
   async getProfessions() {
     try {
+      console.log('Get professions 2');
       const response = await fetch(`${tempURL}/api/professions`);
 
       if (!response.ok) {
@@ -373,6 +374,7 @@ class ApiService {
 
   async getStoreProfessions() {
     try {
+      console.log('Get professions 3');
       const response = await fetch(`${baseUrl}/api/store/professions`);
 
       if (!response.ok) {

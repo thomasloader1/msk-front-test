@@ -38,23 +38,22 @@ const StoreContent: FC<Props> = ({
 
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
+  const [professionsFetched, setProfessionsFetched] = useState(false);
 
   const fetchProfessions = async () => {
+    console.log('Fetching professions');
     const professionList = await api.getStoreProfessions();
     setProfessions(professionList);
+    setProfessionsFetched(true);
   };
 
   if (typeof window != "undefined") {
     useEffect(() => {
-      if (!professions.length) fetchProfessions();
-      if (professions.length) {
-        const auxURLParams = getParamsFromURL(window.location.href, ["profesion",]);
-        const auxProfessions = professions.filter((profession: Profession) => {
-          return profession.slug === auxURLParams.profesion;
-        });
+      if (!professionsFetched) {
+        fetchProfessions();
       }
-      applyFilters();
-    }, [window.location.search, professions]);
+      //applyFilters();
+    }, []);
   }
 
   const searchParams = useSearchParams();
@@ -183,8 +182,8 @@ const StoreContent: FC<Props> = ({
 
   const applyFilters = () => {
 
-  console.group("applyFilters()")
-    console.log("Store Filters", {storeFilters});
+  /*console.group("applyFilters()")
+    console.log("Store Filters", {storeFilters});*/
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -201,13 +200,13 @@ const StoreContent: FC<Props> = ({
       (filter: PageFilter) => filter.id
     );
 
-    console.group("FILTERS SELECTED")
+   /* console.group("FILTERS SELECTED")
       console.log('SPECIALTIES', selectedSpecialties);
       console.log('RESOURCES', selectedResources);
       console.log('PROFESSIONS', selectedProfessions);
       console.log('DURATIONS', selectedDurations);
       console.log('PAGE', selectedPage);
-    console.groupEnd()
+    console.groupEnd()*/
 
     if ( //No filters, set the products to the original list
       !(
@@ -217,11 +216,11 @@ const StoreContent: FC<Props> = ({
         selectedDurations.length
       )
     ) {
-      console.log('SET LOCAL PRODUCTS', products);
+      //console.log('SET LOCAL PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     } else { //There are filters we need to apply
-      console.log('There are filters we need to apply');
+      //console.log('There are filters we need to apply');
       const filteredProducts = products.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
@@ -276,12 +275,12 @@ const StoreContent: FC<Props> = ({
           && resourcesMatch
           && durationsMatch
       });
-      console.log("FILTERED PRODUCTS", filteredProducts);
+      //console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(currentPage);
     }
-  console.groupEnd()
+  //console.groupEnd()
 
   };
 

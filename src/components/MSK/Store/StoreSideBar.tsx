@@ -182,7 +182,7 @@ const StoreSideBar: FC<Props> = ({
   };
 
   const updateResults = () => {
-    console.log("UPDATING RESULTS FROM REFRESH", currentSpecialty);
+    //console.log("UPDATING RESULTS FROM REFRESH", currentSpecialty);
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     const resourceSlug = params.get("recurso");

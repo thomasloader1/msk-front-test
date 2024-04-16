@@ -72,12 +72,15 @@ class ApiService {
     try {
       const response = await fetch(apiSignUpURL, {
         method: "POST",
-        mode: 'no-cors',
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(jsonData),
       });
+
+      console.log(await response.text());
+      console.log(response.headers);
 
       if (!response.ok) {
         throw new Error(`Failed to sign up. HTTP status ${response.status}`);
@@ -85,6 +88,7 @@ class ApiService {
 
       return await response.json();
     } catch (e) {
+      console.log(e);
       return e;
     }
   }

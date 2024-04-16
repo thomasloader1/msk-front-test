@@ -56,6 +56,7 @@ class ApiService {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: "POST",
       headers: {
+        "Accept": "application/json",
         "Content-Type": "application/json",
         // Add any other headers you may need, such as authorization
       },
@@ -108,6 +109,7 @@ class ApiService {
       const response = await fetch(apiSignInURL, {
         method: "POST",
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(jsonData),
@@ -129,6 +131,7 @@ class ApiService {
       const response = await fetch(apiRecoverURL, {
         method: "POST",
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(jsonData),
@@ -171,6 +174,7 @@ class ApiService {
         {
           method: "POST",
           headers: {
+            "Accept": "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify(jsonData),
@@ -196,6 +200,7 @@ class ApiService {
         {
           method: "POST",
           headers: {
+            "Accept": "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify(jsonData),
@@ -227,6 +232,8 @@ class ApiService {
             headers: {
               ...headers,
               "Content-Type": "application/json",
+              "Accept": "application/json",
+
             },
           });
 
@@ -506,6 +513,7 @@ class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
           product_code,
@@ -535,7 +543,8 @@ class ApiService {
         if (token) {
           const headers = {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json", // Add Content-Type header
+            "Content-Type": "application/json",
+            "Accept": "application/json",
           };
           const response = await fetch(`${apiProfileUrl}/${userEmail}`, {
             method: "PUT",
@@ -677,6 +686,7 @@ class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(jsonData),
       });
@@ -738,6 +748,7 @@ class ApiService {
         body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          "Accept": "application/json",
         },
       });
     } catch (error) {
@@ -779,6 +790,7 @@ class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
           product_code,
@@ -823,6 +835,7 @@ class ApiService {
       const res = await fetch(apiCreateTrialContract, {method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(data)
       });
@@ -849,6 +862,7 @@ class ApiService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
           product,

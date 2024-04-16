@@ -370,7 +370,7 @@ class ApiSSRService {
     }
   }
 
-  async postSignUp(jsonData: SignUp){
+  async postSignUp(jsonData: SignUp) {
     try {
       const response = await fetch(`${baseUrl}/api/signup`, {
         method: "POST",
@@ -385,11 +385,19 @@ class ApiSSRService {
         throw new Error(`Failed to sign up. HTTP status ${response.status}`);
       }
 
-      return await response.json();
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        return await response.json();
+      } else {
+        console.log(response);
+        return null;
+      }
     } catch (e) {
-      return e;
+      console.error("Error in postSignUp:", e);
+      return null; // Or handle the error as needed
     }
   }
+
 }
 
 export default new ApiSSRService();

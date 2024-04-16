@@ -210,11 +210,11 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
         try {
           const res = await ssr.postSignUp(formData);
           console.log({res})
-          if (res.status !== 200) {
+          if (!res?.access_token) {
             setSuccess(false);
             console.error(res)
 
-            const errorMessages = Object.values(res.data.errors)
+            const errorMessages = Object.values(res.errors)
               .map((errorMessage: any, i) => {
                 if (errorMessage[i].includes("El Email ya ha sido registrado")) {
                   const redirectURL = '/iniciar-sesion';
@@ -222,7 +222,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                   loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom";
                   loginLink.href = redirectURL;
                   loginLink.innerHTML = 'Inicia sesión';
-                  res.data.errors.email[0] += ` ${loginLink.outerHTML}`
+                  res.errors.email[0] += ` ${loginLink.outerHTML}`
                 }
 
                 return `- ${errorMessage}`;
@@ -240,7 +240,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
             }, 1500);
           }
         } catch (error) {
-          console.error("Error al ejecutar reCAPTCHA:", error);
+          //console.error("Error al ejecutar reCAPTCHA:", error);
         } finally {
           setOnRequest(false);
         }

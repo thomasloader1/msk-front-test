@@ -214,6 +214,7 @@ export interface FetchPostType {
   author: any;
   content: string;
   father_post_type?: string;
+  reading_time: string;
 }
 
 export interface PostDataType {
@@ -437,6 +438,7 @@ export interface FetchCourseType {
   excerpt?: string;
   date?: string;
   author?: any;
+  reading_time:string;
 }
 
 export interface Category {

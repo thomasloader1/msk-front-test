@@ -6,9 +6,10 @@ import Card2 from "@/components/Card2/Card2";
 
 interface BlogSliderProps{
     posts: FetchPostType[];
+    forSingleNote?: boolean
 }
 
-const BlogSlider: FC<BlogSliderProps> = ({ posts }) => {
+const BlogSlider: FC<BlogSliderProps> = ({ posts,forSingleNote }) => {
 
     return (
         <div className="swiper-container md:hidden">
@@ -24,7 +25,7 @@ const BlogSlider: FC<BlogSliderProps> = ({ posts }) => {
             >
                 {posts.map((post, i) => (
                     <SwiperSlide key={i} className="w-100 bg-primary">
-                        <Card2 kind="blog" post={post} className="h-[500px]" />
+                        <Card2 kind="blog" post={post} className="h-[500px]" forSingleNote={forSingleNote}/>
                     </SwiperSlide>
                 ))}
             </Swiper>

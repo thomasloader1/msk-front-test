@@ -68,13 +68,13 @@ const SingleContent: FC<SingleContentProps> = ({
             />
             <NoteExtraData suggest_content={data.suggest_content} />
             <div>
-              <h4 className="source-title">Fuente/s:</h4>
+              <h4 className="source-title font-poppins">Fuente/s:</h4>
               {sources && sources.length > 0
                 ? sources.map((source, index) => {
                     return (
                       <p
                         key={`source_${index}`}
-                        className="source-content lg:pr-20 break-words"
+                        className="source-content lg:pr-20 break-words font-poppins"
                       >
                         {source.fuente}
                       </p>

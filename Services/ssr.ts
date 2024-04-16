@@ -349,6 +349,7 @@ class ApiSSRService {
             headers: {
               ...headers,
               "Content-Type": "application/json",
+              "Accept": "application/json",
             },
           });
 
@@ -375,6 +376,7 @@ class ApiSSRService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(jsonData),
       });

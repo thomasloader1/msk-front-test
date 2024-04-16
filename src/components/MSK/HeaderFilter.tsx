@@ -48,7 +48,7 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
         </Nav>
         <NcLink
           href={viewMore}
-          className={`${mobileHidden} sm:block flex-shrink-0`}
+          className={` sm:block flex-shrink-0`}
         >
           <ButtonSecondary
             className="!leading-none border-solid border-1 border-neutral-200 text-neutral-400"

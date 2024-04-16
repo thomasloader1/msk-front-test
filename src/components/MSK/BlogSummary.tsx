@@ -17,6 +17,7 @@ export interface BlogSummaryProps {
   desc?: string;
   loading?: boolean;
   showTitle?: boolean;
+  forSingleNote?: boolean;
 }
 
 const BlogSummary: FC<BlogSummaryProps> = ({
@@ -27,6 +28,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   desc = "",
   loading = false,
   showTitle,
+                                             forSingleNote=false
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [auxPosts, setPosts] = useState<FetchPostType[]>([]);
@@ -66,7 +68,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   return (
     <div className={`nc-BlogSummary ${className} animate-fade-down`}>
       {showTitle && (
-        <h2 className={`text-3xl md:text-4xl font-medium mb-12`}>Blog</h2>
+        <h2 className={`text-3xl md:text-4xl font-medium `}>Blog</h2>
       )}
       <HeaderFilter
         tabActive={tabActive}
@@ -91,7 +93,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
       )}
       {!auxPosts.length && !loading && <NoResults />}
 
-      <BlogSlider posts={auxPosts} />
+      <BlogSlider posts={auxPosts} forSingleNote={forSingleNote} />
 
       <div className="hidden md:grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {auxPosts[0] && <Card2 size="large" post={auxPosts[0]} kind="blog" />}
@@ -106,6 +108,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
                   className="rounded-3xl"
                   kind="blog"
                   authorRow
+                  forSingleNote
                 />
               ))}
           </div>

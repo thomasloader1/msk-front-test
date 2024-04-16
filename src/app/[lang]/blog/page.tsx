@@ -37,8 +37,9 @@ const PageBlog: React.FC<PageProps> = async ({ params }) => {
             tabs={TABS_BLOG}
             className="py-16 "
             heading=""
-            desc=""
+            desc="Recursos para informarte y aprender de distintas maneras"
             showTitle
+            forSingleNote={false}
           />
           <HomeExtraInfo country={currentCountry} className="mb-16" />
           <div className="relative py-16">

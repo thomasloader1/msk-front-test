@@ -30,6 +30,7 @@ export interface SectionSliderPostsProps {
   uniqueSliderClass: string;
   loading?: boolean;
   showPosts?: string;
+  forSingleNote?:boolean;
 }
 
 const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
@@ -42,6 +43,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   uniqueSliderClass,
   loading,
   showPosts,
+  forSingleNote=false
 }) => {
   const { state: dataState, loadingBestSellers } = useContext(DataContext);
   const [bestSellers, setBestSellers] = useState([]);
@@ -92,6 +94,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             post={item}
             showDescription={true}
             kind="curso"
+            forSingleNote={forSingleNote}
           />
         )}
         itemPerRow={perView}

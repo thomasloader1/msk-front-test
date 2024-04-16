@@ -64,7 +64,7 @@ export type Action =
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
-      //console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
+      console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
       /* if (action.payload.filterType === "specialties") { //Replace instead of combining filters
         return {
           ...state,
@@ -82,10 +82,12 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         storeFilters: {
           ...state.storeFilters,
-          [action.payload.filterType]: [
-            ...state.storeFilters[action.payload.filterType],
-            action.payload.filterValue,
-          ],
+          specialties: [...state.storeFilters.specialties],
+          professions: [...state.storeFilters.professions],
+          duration: [...state.storeFilters.duration],
+          resources: [...state.storeFilters.resources],
+          page:[...state.storeFilters.page],
+          [action.payload.filterType]: [action.payload.filterValue],
         },
       };
     case "UPDATE_FILTER":

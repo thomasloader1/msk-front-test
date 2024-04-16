@@ -73,13 +73,10 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
         country={currentCountry}
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-
-                <StoreContent
-                    products={getAllCourses()}
-                    productsLength={getAllCourses().length}
-                    specialties={getAllStoreSpecialties()}
-                />
-
+            <StoreContent
+                products={getAllCourses()}
+                specialties={getAllStoreSpecialties()}
+            />
         </section>
       </StoreLayout>
     </div>

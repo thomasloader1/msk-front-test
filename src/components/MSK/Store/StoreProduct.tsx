@@ -117,7 +117,7 @@ const StoreProduct: FC<Props> = ({
       <div className="course-2-footer">
         {product.duration ? (
           <div className="coursee-clock">
-            <Image {...clockIcon} className="mr-2"/>
+            <Image src={clockIcon.src} width={clockIcon.width} height={clockIcon.height} className="mr-2" alt="clock icon"/>
             <span>{product.duration} horas</span>
           </div>
         ) : (

@@ -19,25 +19,17 @@ import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
-import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StoreSkeleton from "@/components/Skeleton/StoreSkeleton";
 import NoResultFound from "@/components/NoResultFound";
 
 interface Props {
   products: FetchCourseType[];
-  productsLength: number;
   specialties?: any;
   // handleTriggerSearch: (e: any) => void;
   // handleTriggerFilter: (e: any) => void;
 }
 
-const StoreContent: FC<Props> = ({
-                                   products,
-                                   productsLength,
-                                   specialties,
-                                   // handleTriggerSearch,
-                                   // handleTriggerFilter,
-                                 }) => {
+const StoreContent: FC<Props> = ({ products,specialties }) => {
 
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
@@ -71,7 +63,6 @@ const StoreContent: FC<Props> = ({
     addFilter,
     removeFilter,
     updateFilter,
-    clearFilters,
     clearSpecialties,
   } = useStoreFilters();
 
@@ -117,6 +108,7 @@ const StoreContent: FC<Props> = ({
 
   const handleTriggerSearch = (event: any) => {
     applyFilters();
+
     if (event) {
       const filteredProducts = products.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
@@ -170,9 +162,14 @@ const StoreContent: FC<Props> = ({
         return item.id == resource.id;
       }
     );
+
+    console.log({resource, resourceExists}, resourceExists);
+
     if (resourceExists.length) {
       removeFilter("resources", resource);
-    } else addFilter("resources", resource);
+    } else {
+      addFilter("resources", resource);
+    }
   };
   const onChangeDuration = (duration: DurationFilter) => {
     console.log('Duration', duration);
@@ -190,7 +187,7 @@ const StoreContent: FC<Props> = ({
   const applyFilters = () => {
   setMutationProducts(true)
   console.group("applyFilters()")
-    console.log("Store Filters", {storeFilters});
+    console.log("Store Filters - filtrengy", {storeFilters});
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -228,7 +225,9 @@ const StoreContent: FC<Props> = ({
       setTotalPages(Math.ceil(products.length / itemsPerPage));
       setMutationProducts(false)
     } else { //There are filters we need to apply
-      console.log('There are filters we need to apply');
+      console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations});
+      setMutationProducts(true)
+
       const filteredProducts = products.filter((product) => {
         const prodSpecialties = product.categories.map(
           (category) => category.name
@@ -251,7 +250,7 @@ const StoreContent: FC<Props> = ({
               prodProfession.toLowerCase().includes(profession?.toLowerCase())
             )
           );
-
+console.log({selectedResources})
         const resourcesMatch = selectedResources
           .filter((e: string) => e != undefined)
           .every((resource) => {
@@ -278,11 +277,15 @@ const StoreContent: FC<Props> = ({
           });
         }
 
+        setMutationProducts(false)
+
+
         return specialtiesMatch
           && professionsMatch
           && resourcesMatch
           && durationsMatch
       });
+
       console.log("FILTERED PRODUCTS", filteredProducts);
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));

@@ -1,27 +1,13 @@
-import { FC, useContext, useEffect, useReducer, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   DurationFilter,
   Profession,
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
 import { slugifySpecialty } from "@/lib/Slugify";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { DataContext } from "@/context/data/DataContext";
-import Link from "next/link";
-import {
-  addFilterNew,
-  filterSpecialtiesAux,
-  getFilters,
-  isSpecialtySelected,
-  setFilterSpecialty,
-} from "@/lib/storeFilters";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
-import reducer, { State } from "@/context/storeFilters/storeFiltersReducer";
-import { json } from "stream/consumers";
-import { StoreFiltersContext } from "@/context/storeFilters/StoreContext";
 
 interface Props {
   onChangeSpecialty: (specialty: any) => void;
@@ -90,11 +76,13 @@ const StoreSideBar: FC<Props> = ({
   };
 
   const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
+  const [currentResource, setCurrentResource] = useState<string | null>();
   const setSpecialtyFilter = (specialty: Specialty) => {
     const specialtySlug = slugifySpecialty(specialty.name);
-    console.log("SPECIALTY CLICKEADA", specialty);
+    console.group("SPECIALTY CLICKEADA", specialty);
     console.log("SPECIALTYSLUG", specialtySlug);
     const urlSearchParams = new URLSearchParams(window.location.search);
+
     if (currentSpecialty == specialtySlug) {
       console.log("LIMPIO", currentSpecialty, specialtySlug);
       setCurrentSpecialty(null);
@@ -119,11 +107,12 @@ const StoreSideBar: FC<Props> = ({
         urlSearchParams.toString();
       window.history.pushState({ path: newurl }, "", newurl);
     }
+    console.groupEnd()
   };
 
   const setResourceFilter = (resource: ResourceFilter, action: string) => {
     const resourceSlug = slugifySpecialty(resource.name);
-    console.log("RESOURCE CLICKEADO", resource);
+    console.group("RESOURCE CLICKEADO", resource);
     console.log("RESOURCESLUG", resourceSlug);
     const urlSearchParams = new URLSearchParams(window.location.search);
     onChangeResource(resource);
@@ -139,6 +128,7 @@ const StoreSideBar: FC<Props> = ({
       "?" +
       urlSearchParams.toString();
     window.history.pushState({ path: newurl }, "", newurl);
+    console.groupEnd()
   };
 
   const setProfessionFilter = (profession: Profession, action: string) => {
@@ -182,24 +172,28 @@ const StoreSideBar: FC<Props> = ({
   };
 
   const updateResults = () => {
-    console.log("UPDATING RESULTS FROM REFRESH", currentSpecialty);
+    console.group("UPDATING RESULTS FROM REFRESH", currentSpecialty);
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     const resourceSlug = params.get("recurso");
+    console.log({ specialtySlug, resourceSlug });
+
     if (specialtySlug && specialtySlug !== currentSpecialty) {
-      const specialtyName =
-        specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
+      const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
       setSpecialtyFilter({ name: specialtyName });
     }
+
     if (resourceSlug) {
       //find resource from variable resources where resources.slug is resourceSlug
       let resource = resources.find(
         (resource) => resource.slug == resourceSlug
       );
       if (resource) {
+        setCurrentResource(resource.slug)
         setResourceFilter(resource, "add");
       }
     }
+    console.groupEnd()
   };
 
   if (typeof window != "undefined") {
@@ -266,6 +260,7 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`res_${resource.id}`}
+                        checked={ currentResource == resource.slug }
                         //If it's checked pass 'add' if not pass 'delete'
                         onChange={(e) =>
                           setResourceFilter(

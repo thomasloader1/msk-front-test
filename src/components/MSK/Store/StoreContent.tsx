@@ -19,6 +19,9 @@ import {removeAccents} from "@/lib/removeAccents";
 import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
+import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
+import StoreSkeleton from "@/components/Skeleton/StoreSkeleton";
+import NoResultFound from "@/components/NoResultFound";
 
 interface Props {
   products: FetchCourseType[];
@@ -38,6 +41,7 @@ const StoreContent: FC<Props> = ({
 
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
   const [professions, setProfessions] = useState([]);
+  const [mutationProducts, setMutationProducts] = useState(true);
 
   const fetchProfessions = async () => {
     const professionList = await api.getStoreProfessions();
@@ -171,7 +175,7 @@ const StoreContent: FC<Props> = ({
     } else addFilter("resources", resource);
   };
   const onChangeDuration = (duration: DurationFilter) => {
-    console.log('Durationnnn', duration);
+    console.log('Duration', duration);
     const durationExists = storeFilters.duration.filter(
       (item: DurationFilter) => {
         return item.slug == duration.slug;
@@ -184,7 +188,7 @@ const StoreContent: FC<Props> = ({
   };
 
   const applyFilters = () => {
-
+  setMutationProducts(true)
   console.group("applyFilters()")
     console.log("Store Filters", {storeFilters});
     const selectedSpecialties = storeFilters.specialties.map(
@@ -222,6 +226,7 @@ const StoreContent: FC<Props> = ({
       console.log('SET LOCAL PRODUCTS', products);
       setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
+      setMutationProducts(false)
     } else { //There are filters we need to apply
       console.log('There are filters we need to apply');
       const filteredProducts = products.filter((product) => {
@@ -282,6 +287,8 @@ const StoreContent: FC<Props> = ({
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(currentPage);
+      setMutationProducts(false)
+
     }
   console.groupEnd()
 
@@ -289,10 +296,7 @@ const StoreContent: FC<Props> = ({
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
-
       <Breadcrum />
-
-
       {storeFilters.specialties.length > 0 && (
         <h1 className="text-xl sm:text-3xl mb-10">
           Cursos de {storeFilters.specialties[0].name}
@@ -322,8 +326,9 @@ const StoreContent: FC<Props> = ({
               storeFilters.duration.length
             }
           />
+
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
-            {currentItems.length ? (
+            {currentItems.length && !mutationProducts ? (
               currentItems.map((product, index) => {
                 return (
                   <StoreProduct
@@ -334,26 +339,21 @@ const StoreContent: FC<Props> = ({
                 );
               })
             ) : (
-              <div
-                className="text-center col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center h-[350px]">
-                <img src="/images/icons/no_items.svg" className="mb-5"/>
-                <p>
-                  No hay resultados para tu búsqueda.
-                  <br/>
-                  Modifica los filtros y encuentra tu curso ideal.
-                </p>
-              </div>
+              <>
+                { mutationProducts ? <StoreSkeleton /> : <NoResultFound /> }
+              </>
             )}
           </div>
 
           <div className="flex justify-center md:justify-start">
             {/*<p>Total pages: {totalPages}</p>*/}
-            <StorePagination
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              currentPage={currentPage}
-              urlTrack={true}
-            />
+            {!mutationProducts && ( <StorePagination
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                currentPage={currentPage}
+                urlTrack={true}
+            />)}
+
           </div>
         </div>
       </div>

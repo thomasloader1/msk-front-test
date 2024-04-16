@@ -58,9 +58,7 @@ const TrialInfo: FC<TrialInfoProps> = ({ country, product, mountedInputState }) 
             Luego, {installments} pagos de{" "}
             {!mountedInput ? <TextSkeleton /> : <span className="font-bold">{formatAmount(Number(forcedRoundedPrice), currency)}</span>}
           </span>
-          <span className="text-violet-wash inline-block">
-            {!mountedInput ? <TextSkeleton className="w-50" /> : <>Total: <span className="font-bold">{formatAmount(Number(totalAmount), currency)}</span></>}
-          </span>
+
         {country === 'ec' && 
           <span className="text-violet-wash block">+ impuestos aplicables</span>
         }

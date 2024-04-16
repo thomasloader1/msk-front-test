@@ -6,11 +6,7 @@ import api from "../../../../Services/api";
 import { DataContext } from "@/context/data/DataContext";
 import Avatar from "@/components/Avatar/Avatar";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
-// import StorePagination from "@/components/Store/StorePagination";
-// import SectionSliderPosts from "./home/SectionSliderPosts";
-// import CardCategory6 from "@/components/CardCategory6/CardCategory6";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
-import Heading from "@/components/Heading/Heading";
 import CardCategory6 from "@/components/CardCategory6/CardCategory6";
 import HeaderFilter from "@/components/MSK/HeaderFilter";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
@@ -20,7 +16,6 @@ import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import ProductAccount from "@/components/Containers/profile/ProductAccount";
 import StorePagination from "@/components/MSK/Store/StorePagination";
 import { useRouter } from "next/navigation";
-import NcLink from "@/components/NcLink/NcLink";
 
 export interface PageAuthorProps {
   className?: string;
@@ -109,10 +104,6 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     },
   ];
 
-  const goToStore = () => {
-    // tabActive == "Favoritos" ? history.push("/") : history.push("/tienda");
-  };
-
   const handleUserTabChange = (item: string) => {
     switch (item) {
       case "Todo":
@@ -130,6 +121,16 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     setCurrentPage(1);
     setCoursesTabActive(item);
   };
+
+  if(typeof window !== 'undefined'){
+    useEffect(() =>{
+      const redirectToTrialURL = localStorage.getItem('continueTrialAccess');
+      if(redirectToTrialURL){
+        router.push(redirectToTrialURL)
+      }
+    }, []);
+  }
+
 
   return (
     <div className={`nc-PageAuthor  ${className}`} data-nc-id="PageAuthor">

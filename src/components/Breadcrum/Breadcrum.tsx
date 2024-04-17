@@ -10,6 +10,7 @@ import notesMapping from "@/data/jsons/__notes.json";
 import { JsonMapping } from "@/data/types";
 import NcLink from "../NcLink/NcLink";
 import Image from "next/image";
+import {usePathname} from "next/navigation";
 
 interface BreadcrumbMapping {
   [key: string]: string[];
@@ -31,10 +32,9 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
   onProduct = false,
   onNote = false,
 }) => {
-  const parts =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/").filter((part) => part !== "")
-      : [];
+    const pathname = usePathname();
+  const parts = pathname.split("/").filter((part) => part !== "");
+
   // Construir la ruta acumulativa
   const breadcrumMap: BreadcrumbMapping = breadcrumMapping;
 
@@ -109,7 +109,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center mb-10">
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
-      {typeof window !== 'undefined' && window.location.pathname !== "/" && (
+      {pathname !== "/" && (
         <NcLink href="/">
           <Image
             src={`${

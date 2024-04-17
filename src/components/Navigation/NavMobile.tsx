@@ -121,9 +121,9 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   const { state } = useContext(AuthContext);
-  console.log({professions: getAllProfessions(), specialties: getAllStoreSpecialties()})
+  const professions: Profession[] = getAllProfessions();
+  console.log({professions, specialties: getAllStoreSpecialties()})
 
-  const [professions, setProfessions] = useState<Profession[]>(getAllProfessions());
   const [specialties, setSpecialties] = useState<Specialty[]>(getAllStoreSpecialties());
 
   const resources: ResourceFilter[] = [

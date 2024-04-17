@@ -258,16 +258,10 @@ class ApiSSRService {
     }
   }
 
-  async getAllProfessions(country: string) {
+  async getAllProfessions() {
     try {
       console.log('Get professions 1');
       const response = await fetch(`${baseUrl}/api/store/professions`);
-
-      if (!response.ok) {
-        throw new Error(
-            `Failed to fetch store professions. HTTP status ${response.status}`
-        );
-      }
 
       const data = await response.json();
 
@@ -381,16 +375,13 @@ class ApiSSRService {
         body: JSON.stringify(jsonData),
       });
 
-      if (!response.ok) {
-        throw new Error(`Failed to sign up. HTTP status ${response.status}`);
-      }
 
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         return await response.json();
       } else {
         console.log(response);
-        return null;
+        return response;
       }
     } catch (e) {
       console.error("Error in postSignUp:", e);

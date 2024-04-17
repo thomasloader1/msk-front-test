@@ -219,19 +219,17 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                 if (errorMessage[i].includes("El Email ya ha sido registrado")) {
                   const redirectURL = '/iniciar-sesion';
                   const loginLink = document.createElement('a');
-                  loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom";
+                  loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom font-bold";
                   loginLink.href = redirectURL;
                   loginLink.innerHTML = 'Inicia sesión';
                   res.errors.email[0] += ` ${loginLink.outerHTML}`
                 }
 
-                return `- ${errorMessage}`;
+                return ` ${errorMessage}`;
               })
               .join("<br />");
 
-            setError(
-              `Ocurrió un error.<br /> Por favor, revisa los campos e inténtalo de nuevo. <br />${errorMessages}`
-            );
+            setError(`${errorMessages}`);
           } else {
             setError("");
             setSuccess(true);

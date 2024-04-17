@@ -51,15 +51,9 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
     const fetchedCourses = await ssr.getAllCourses(currentCountry);
     setAllCourses(fetchedCourses);
   }
-  if (!getAllStoreSpecialties().length) {
-    const fetchedSpecialties = await ssr.getSpecialtiesStore(currentCountry);
-    setAllStoreSpecialties(fetchedSpecialties);
-  }
 
-    if (!getAllProfessions().length) {
-        const fetchedProfessions = await ssr.getAllProfessions(currentCountry);
-        setAllProfessions(fetchedProfessions);
-    }
+  const specialties = await getAllStoreSpecialties(currentCountry)
+   const professions = await getAllProfessions()
 
   return (
     <div
@@ -75,7 +69,8 @@ const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
             <StoreContent
                 products={getAllCourses()}
-                specialties={getAllStoreSpecialties()}
+                specialties={specialties}
+                professions={professions}
             />
         </section>
       </StoreLayout>

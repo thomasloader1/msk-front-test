@@ -40,7 +40,16 @@ export const setAllStoreSpecialties = (value: any) => {
   allStoreSpecialties = value;
 };
 
-export const getAllStoreSpecialties = () => allStoreSpecialties;
+export const getAllStoreSpecialties = (currentCountry: string) => {
+  if (!allStoreSpecialties.length) {
+    ssr.getSpecialtiesStore(currentCountry).then((specialties) => {
+      setAllStoreSpecialties(specialties);
+      return specialties;
+    }).catch(e => [])
+  }
+
+  return allStoreSpecialties
+};
 export const isLoadingStoreSpecialties = () => loadingAllStoreSpecialties;
 
 let allProfessions: any = [];
@@ -50,7 +59,19 @@ export const setAllProfessions = (value: any) => {
   allProfessions = value;
 };
 
-export const getAllProfessions = () => allProfessions;
+export const getAllProfessions =  () => {
+  if(!allProfessions.length) {
+
+     ssr.getAllProfessions().then((professions) => {
+      setAllProfessions(professions)
+       return allProfessions;
+
+    }).catch(e => [])
+
+    }
+
+  return allProfessions;
+};
 export const isLoadingProfessions = () => loadingAllProfessions;
 
 //PageHome

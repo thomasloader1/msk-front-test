@@ -25,40 +25,22 @@ import NoResultFound from "@/components/NoResultFound";
 
 interface Props {
   products: FetchCourseType[];
-  productsLength: number;
   specialties?: any;
+  professions?: any;
   // handleTriggerSearch: (e: any) => void;
   // handleTriggerFilter: (e: any) => void;
 }
 
 const StoreContent: FC<Props> = ({
                                    products,
-                                   productsLength,
-                                   specialties,
+                               specialties,
+    professions,
                                    // handleTriggerSearch,
                                    // handleTriggerFilter,
                                  }) => {
 
   const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
-  const [professions, setProfessions] = useState([]);
-  const [professionsFetched, setProfessionsFetched] = useState(false);
-  const [mutationProducts, setMutationProducts] = useState(true);
-
-  const fetchProfessions = async () => {
-    console.log('Fetching professions');
-    const professionList = await api.getStoreProfessions();
-    setProfessions(professionList);
-    setProfessionsFetched(true);
-  };
-
-  if (typeof window != "undefined") {
-    useEffect(() => {
-      if (!professionsFetched) {
-        fetchProfessions();
-      }
-      //applyFilters();
-    }, []);
-  }
+  const [mutationProducts, setMutationProducts] = useState(false);
 
   const searchParams = useSearchParams();
   const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
@@ -325,7 +307,7 @@ const StoreContent: FC<Props> = ({
           />
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
-            {currentItems.length && !mutationProducts ? (
+            {(currentItems.length && !mutationProducts) ? (
               currentItems.map((product, index) => {
                 return (
                   <StoreProduct

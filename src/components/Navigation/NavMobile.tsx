@@ -20,6 +20,7 @@ import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
 import ModalSignOut from "@/components/Modal/SignOut";
 import Link from "next/link";
 import {getAllProfessions, getAllStoreSpecialties} from "@/lib/allData";
+import {CountryContext} from "@/context/country/CountryContext";
 
 export interface NavMobileProps {
   data?: NavItemType[];
@@ -121,14 +122,15 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   const { state } = useContext(AuthContext);
+  const { state: countryState } = useContext(CountryContext);
   const professions: Profession[] = getAllProfessions();
-  console.log({professions, specialties: getAllStoreSpecialties()})
+  const specialties: Specialty[] = getAllStoreSpecialties(countryState.country);
 
-  const [specialties, setSpecialties] = useState<Specialty[]>(getAllStoreSpecialties());
+  console.log({professions, specialties})
 
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
-    { name: "Guías profesionales", id: 2 },
+    { name: "Guías profesionales", id: 2 }
   ];
 
   const { storeFilters } = useStoreFilters();
@@ -258,10 +260,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
                                     //     )}&recurso=curso`
                                     //   );
                                     // }}
-                                    checked={isChecked(
-                                      "specialties",
-                                      specialty
-                                    )}
+                                    checked={isChecked("specialties",specialty)}
                                   />
                                   <label
                                     className="edu-check-label"

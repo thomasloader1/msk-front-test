@@ -20,9 +20,7 @@ import { AuthContext } from "@/context/user/AuthContext";
 import useSingleProduct from "@/hooks/useSingleProduct";
 import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
 import { CountryContext } from "@/context/country/CountryContext";
-
 import countryIdentificationsMapping from '@/data/jsons/__countryIdentifications.json'
-import api from "@Services/api";
 import { countries } from "@/data/countries";
 import LayoutPage from "@/components/MSK/LayoutPage";
 import SimpleInputSkeleton from "@/components/Skeleton/SimpleInputSkeleron";

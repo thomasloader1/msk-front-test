@@ -1,6 +1,5 @@
 import { Filter } from "@/context/storeFilters/storeFiltersReducer";
 import specialtiesMapping from "@/data/jsons/__specialties.json";
-
 import {
   DurationFilter,
   FetchCourseType,

@@ -46,7 +46,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       | ResourceFilter
       | PageFilter
   ) => {
-    console.log('Add filter dispatch');
+    console.log('Add filter dispatch',{filterType, filterValue});
     dispatch({type: "ADD_FILTER", payload: {filterType, filterValue}});
   };
 

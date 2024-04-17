@@ -1,14 +1,14 @@
 
-import { FC, Suspense } from "react";
+import { FC } from "react";
 import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
 import ssr from "../../../../Services/ssr";
 import {
-    getAllCourses, getAllProfessions,
+    getAllCourses,
+    getAllProfessions,
     getAllStoreSpecialties,
-    setAllCourses, setAllProfessions,
-    setAllStoreSpecialties,
+    setAllCourses
 } from "@/lib/allData";
 import { Metadata } from "next";
 
@@ -18,7 +18,6 @@ type Props = {
 }
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-    //console.log(searchParams)
     const currentCountry = params.lang || cookies().get("country")?.value;  
     const nextPrevUrls = Number(searchParams.page) > 1 ? 
               [
@@ -47,13 +46,14 @@ export interface PageStoreProps {
 
 const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
   const currentCountry = params.lang || cookies().get("country")?.value;
+
   if (!getAllCourses().length) {
     const fetchedCourses = await ssr.getAllCourses(currentCountry);
     setAllCourses(fetchedCourses);
   }
 
   const specialties = await getAllStoreSpecialties(currentCountry)
-   const professions = await getAllProfessions()
+  const professions = await getAllProfessions()
 
   return (
     <div

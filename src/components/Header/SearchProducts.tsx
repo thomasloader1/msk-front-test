@@ -6,6 +6,7 @@ import NcLink from "../NcLink/NcLink";
 import NcImage from "../NcImage/NcImage";
 import { usePathname } from "next/navigation";
 import ssr from "../../../Services/ssr";
+import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -65,7 +66,7 @@ const SearchProducts = () => {
             //const currentCountry = cookies().get("country")?.value;
             let productsCountry = state.country == 'int' ? '' : state.country;
             courses = await ssr.getAllCourses(productsCountry);
-            console.log('Courses', courses);
+            //console.log('Courses', courses);
             setAuxProducts(courses);
             setProducts(courses);
             setIsOnBlog(false);
@@ -102,8 +103,7 @@ const SearchProducts = () => {
       </div>
       {inputValue && isInputFocused && (
         <div className="search-products-results">
-          {products
-            .map((product, index) => (
+          {products.map((product, index) => (
               <NcLink
                 href={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
@@ -112,7 +112,7 @@ const SearchProducts = () => {
               >
                 <div className="img-container">
                   <NcImage
-                    src={product.image.replace(`${state.country}.`, "")}
+                    src={removeFirstSubdomain(product.image)}
                     alt={product.title}
                     width="50"
                     height="50"
@@ -120,8 +120,7 @@ const SearchProducts = () => {
                 </div>
                 <p>{product.title}</p>
               </NcLink>
-            ))
-            .filter((product, index) => index < 5)}
+            )).filter((product, index) => index < 5)}
         </div>
       )}
     </div>

@@ -13,13 +13,10 @@ import {
 } from "@/data/types";
 import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
 import StoreBar from "./StoreBar";
-import {getParamsFromURL} from "@/lib/removeUrlParams";
 import {useSearchParams} from "next/navigation";
 import {removeAccents} from "@/lib/removeAccents";
-import api from "../../../../Services/api";
 import {filterStoreProducts} from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
-import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StoreSkeleton from "@/components/Skeleton/StoreSkeleton";
 import NoResultFound from "@/components/NoResultFound";
 
@@ -27,24 +24,9 @@ interface Props {
   products: FetchCourseType[];
   specialties?: any;
   professions?: any;
-  // handleTriggerSearch: (e: any) => void;
-  // handleTriggerFilter: (e: any) => void;
 }
 
-const StoreContent: FC<Props> = ({
-                                   products,
-                               specialties,
-    professions,
-                                   // handleTriggerSearch,
-                                   // handleTriggerFilter,
-                                 }) => {
-
-  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
-  const [mutationProducts, setMutationProducts] = useState(false);
-
-  const searchParams = useSearchParams();
-  const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
-
+const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
   const {
     storeFilters,
     addFilter,
@@ -54,11 +36,16 @@ const StoreContent: FC<Props> = ({
     clearSpecialties,
   } = useStoreFilters();
 
+  const searchParams = useSearchParams();
+  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
+  const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
+
+  const [mutationProducts, setMutationProducts] = useState(false);
+  const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
   const itemsPerPage = 18;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
   const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
 
   const handlePageChange = (pageNumber: number) => {
@@ -83,26 +70,16 @@ const StoreContent: FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    console.log('PRODUCTS WERE UPDATED', products);
-    if (products) {
-      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setAllProducts(products);
-      setCurrentPage(currentPage);
-    }
-  }, [products]);
-
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
-    applyFilters();
     if (event) {
       const filteredProducts = products.filter((product) =>
         removeAccents(product.title.toLowerCase()).includes(
           removeAccents(event.toLowerCase())
         )
       );
-      console.log(filteredProducts);
+      console.log("handleTriggerSearch",{filteredProducts});
       setCurrentItems(
         filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
       );
@@ -167,9 +144,9 @@ const StoreContent: FC<Props> = ({
   };
 
   const applyFilters = () => {
-  setMutationProducts(true)
-  //console.group("applyFilters()")
-    //console.log("Store Filters", {storeFilters});
+    setMutationProducts(true)
+    console.group("applyFilters()")
+    console.log("Store Filters", {storeFilters});
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -186,41 +163,27 @@ const StoreContent: FC<Props> = ({
       (filter: PageFilter) => filter.id
     );
 
-   /* console.group("FILTERS SELECTED")
-      console.log('SPECIALTIES', selectedSpecialties);
-      console.log('RESOURCES', selectedResources);
-      console.log('PROFESSIONS', selectedProfessions);
-      console.log('DURATIONS', selectedDurations);
-      console.log('PAGE', selectedPage);
-    console.groupEnd()*/
+    console.log("condition filter apply",{selectedSpecialties,selectedProfessions,selectedResources,selectedDurations,selectedPage})
 
-    if ( //No filters, set the products to the original list
-      !(
-        selectedSpecialties.length ||
-        selectedProfessions.length ||
-        selectedResources.length ||
-        selectedDurations.length
-      )
-    ) {
-      //console.log('SET LOCAL PRODUCTS', products);
-      setCurrentItems([...products.slice(indexOfFirstItem, indexOfLastItem)]);
-      setTotalPages(Math.ceil(products.length / itemsPerPage));
+    if (!(selectedSpecialties.length || selectedProfessions.length || selectedResources.length || selectedDurations.length)) {
+      // No filters, set the products to the original list
+
+      setCurrentItems([...allProducts.slice(indexOfFirstItem, indexOfLastItem)]);
+      setTotalPages(Math.ceil(allProducts.length / itemsPerPage));
       setMutationProducts(false)
-    } else { //There are filters we need to apply
-      //console.log('There are filters we need to apply');
-      const filteredProducts = products.filter((product) => {
-        const prodSpecialties = product.categories.map(
-          (category) => category.name
-        );
-        const prodProfessions = product.professions.map(
-          (profession) => profession.name
-        );
+
+    } else {
+      console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations, selectedPage});
+
+      const filteredProducts = allProducts.filter((product) => {
+        const prodSpecialties = product.categories.map((category) => category.name);
+        const prodProfessions = product.professions.map((profession) => profession.name);
         const prodDuration = product.duration;
+
         let specialtiesMatch = true;
+
         if (selectedSpecialties.length) {
-          specialtiesMatch = selectedSpecialties.some((specialty) =>
-            prodSpecialties.includes(specialty)
-          );
+          specialtiesMatch = selectedSpecialties.some((specialty) => prodSpecialties.includes(specialty));
         }
 
         const professionsMatch =
@@ -231,9 +194,7 @@ const StoreContent: FC<Props> = ({
             )
           );
 
-        const resourcesMatch = selectedResources
-          .filter((e: string) => e != undefined)
-          .every((resource) => {
+        const resourcesMatch = selectedResources.filter((e: string) => e != undefined).every((resource) => {
             if (resource === "Curso") {
               //console.log({resource, type: product.father_post_type},product.father_post_type === "course")
               return product.father_post_type === "course";
@@ -257,30 +218,32 @@ const StoreContent: FC<Props> = ({
           });
         }
 
-        return specialtiesMatch
-          && professionsMatch
-          && resourcesMatch
-          && durationsMatch
+        return specialtiesMatch && professionsMatch && resourcesMatch && durationsMatch
       });
-      //console.log("FILTERED PRODUCTS", filteredProducts);
+
+      console.log("FILTERED PRODUCTS", {filteredProducts});
+
       setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
       setCurrentPage(currentPage);
       setMutationProducts(false)
 
     }
-  //console.groupEnd()
-
+    console.groupEnd()
   };
+
+  if(typeof window !== "undefined") {
+    useEffect(() => {
+      console.log('PRODUCTS WERE UPDATED', products);
+      applyFilters();
+    }, [window.location.search, storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources]);
+  }
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">
       <Breadcrum />
-      {storeFilters.specialties.length > 0 && (
-        <h1 className="text-xl sm:text-3xl mb-10">
-          Cursos de {storeFilters.specialties[0].name}
-        </h1>
-      ) }
+
+      {storeFilters.specialties.length > 0 && (<h1 className="text-xl sm:text-3xl mb-10">Cursos de {storeFilters.specialties[0].name}</h1>)}
 
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
@@ -297,7 +260,7 @@ const StoreContent: FC<Props> = ({
           <StoreBar
             onSearch={handleTriggerSearch}
             onFilter={triggerFilter}
-            length={products.length}
+            length={currentItems.length}
             filtersCount={
               storeFilters.specialties.length +
               storeFilters.professions.length +

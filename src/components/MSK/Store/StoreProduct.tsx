@@ -44,24 +44,7 @@ const StoreProduct: FC<Props> = ({
               <NcLink href={`/curso/${product.slug}`}>
                 <h3 className="">{product.title}</h3>
               </NcLink>
-              {/* <div className="cart-lavel">
-                <h5>
-                  Nivel: <span>{product.level}</span>
-                </h5>
-                <p>{product.desc}</p>
-              </div> */}
-              {/* <div className="info-cart-text">
-                <ul>
-                  {product.list?.map((item: any, index) => {
-                    return (
-                      <li key={index}>
-                        <i className="far fa-check"></i>
-                        {item.title}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div> */}
+
               <div className="course-action">
                 <NcLink
                   href={`/curso/${product.slug}`}

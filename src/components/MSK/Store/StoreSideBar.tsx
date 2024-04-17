@@ -176,7 +176,7 @@ const StoreSideBar: FC<Props> = ({
     const params = new URLSearchParams(window.location.search);
     const specialtySlug = params.get("especialidad");
     const resourceSlug = params.get("recurso");
-    console.log({ specialtySlug, resourceSlug });
+    console.log({ specialtySlug, resourceSlug },specialtySlug && specialtySlug !== currentSpecialty);
 
     if (specialtySlug && specialtySlug !== currentSpecialty) {
       const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];

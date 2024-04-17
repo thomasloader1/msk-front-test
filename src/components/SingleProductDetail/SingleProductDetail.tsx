@@ -22,13 +22,6 @@ interface Props {
 }
 
 const SingleProductDetail: FC<Props> = ({ product, country }) => {
-  const currentPage = 1;
-  const itemsPerPage = 6;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = product.authors.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(product.authors.length / itemsPerPage);
-
 
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");

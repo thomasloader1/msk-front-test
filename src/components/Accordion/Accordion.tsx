@@ -47,7 +47,7 @@ const Accordion: FC<Props> = ({
       >
         <div className="flex items-center">
           <div className="w-[20px]">
-            <Image {...iconAccordion} className="ml-1"/>
+            <Image src={iconAccordion.src} width={iconAccordion.width} height={iconAccordion.height} alt="accordion img" className="ml-1"/>
           </div>
           {forModules ? (<span className="font-medium mr-1">Módulo {index + 1} •</span>) : null}
           {title.replace(/^\s*Módulo\s*\d+\.\s*/, '')}

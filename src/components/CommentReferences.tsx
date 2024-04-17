@@ -1,6 +1,5 @@
 "use client"
 import React, { FC } from 'react'
-import { parseHtml } from '@/utils/parseHTML'
 import ContainerSecondary from "@/components/ContainerSecondary";
 import {WpContentData} from "@/data/types";
 import ReferenceSlider from "@/components/Reference/ReferenceSlider";
@@ -13,7 +12,7 @@ const CommentReferences: FC<{content: WpContentData}> = ({content}) => {
                 <div className="flex justify-center items-center flex-col bg-[#F6F7F8] border border-[#6474A6] rounded-xl py-4 px-4 mb-8 md:mb-0">
                     {content?.recomendaciones.items_1.map( (cri, index) => (
                         <div key={index} className="mb-6">
-                            <h4 className="font-lora-italic text-[30px] md:text-[36px] text-[#392C35]">{cri.titulo}</h4>
+                            <h4 className="!font-lora-italic font-normal text-[30px] md:text-[36px] text-[#392C35]">{cri.titulo}</h4>
                             <p className="text-[14px] md:text-[20px] text-[#8D929E] max-w-[228px]">{cri.parrafo}</p>
                         </div>
                     ))}

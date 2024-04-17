@@ -35,10 +35,6 @@ const PricingDetail: FC<PricingDetailProps> = ({ isEbook, product }) => {
                 <span className="text-[32px] font-bold text-violet-dark">{formatAmount(Number(installmentProductPrice), currency)}</span>
             </div>
         )
-    }else{
-        return (
-            <div className="course-video-price mt-2"><span>💳 Pagos sin intereses</span></div>
-        )
     }
 
 

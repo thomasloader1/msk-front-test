@@ -12,7 +12,7 @@
 }
 
 @font-face {
-  font-family: "Lora-Italic";
+  font-family: "Lora-italic";
   font-style: italic;
   src: url("/fonts/Lora/Lora-italic.ttf");
 }
@@ -71,13 +71,9 @@ $lora: "Lora", serif;
 $fontawesome: "Font Awesome 5 Pro";
 
 .font-lora {
-  font-family: "Lora", serif;
+  font-family: $lora;
 }
 
-.font-lora-italic {
-  font-family: "Lora-Italic", serif !important;
-  font-weight: 500;
-}
 
 .raleway {
   font-family: "Raleway", sans-serif !important;

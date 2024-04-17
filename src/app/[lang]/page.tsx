@@ -65,71 +65,70 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
   const heroImage = pageHomeWpContent?.header.imagen || ''
 
   return (
-    <div className="nc-PageHome relative animate-fade-down">
-      
-      <Script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}/>
+      <div className="nc-PageHome relative animate-fade-down">
+        <Script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}/>
 
-      <div className="relative overflow-hidden">
-        <div className="container relative">
-          <SectionHero
-            rightImg={removeFirstSubdomain(heroImage)}
-            className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
-            btnText="Comienza tu experiencia"
-            redirectUrl="/tienda"
-            heading={heroTitle}
-          />
-
-          <WelcomeBox content={pageHomeWpContent as WpContentData} />
-          <BrandSlider />
-          <Phrase content={pageHomeWpContent?.cedentes.texto as string}/>
-          <SectionGridCategoryBox
-            headingCenter={false}
-            categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}
-            categoryCardType="card2"
-            className="pb-16 lg:pb-28"
-          />
-
-          <HomeExtraInfo country={currentCountry} />
-
-          <CommentReferences content={pageHomeWpContent as WpContentData} />
-          <CoursesForYou
-            courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
-            bestSeller={getAllBestSellers()}
-            tabs={TABS_HOME}
-            className="py-16"
-            heading="Oportunidades para ti"
-            desc="Cursos destacados para realizar a distancia"
-            loading={isLoadingCourses() || isLoadingBestSellers()}
-          />
-          <BlogSummary
-            posts={getAllPosts()}
-            tabs={TABS_BLOG}
-            className="py-16 "
-            heading=""
-            desc="Recursos para informarte y aprender de distintas maneras"
-            showTitle
-            forSingleNote={false}
-          />
-
-          <Questions content={pageHomeWpContent?.preguntas_frecuentes as FAQS} />
-
-          <div className="relative py-16">
-            <BackgroundSection />
-            <SectionSliderPosts
-              posts={getAllBestSellers()}
-              postCardName="card9"
-              heading="Nuestros cursos más elegidos"
-              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-              sliderStype="style2"
-              uniqueSliderClass="pageHome-section6"
+        <div className="relative overflow-hidden">
+          <div className="container relative">
+            <SectionHero
+                rightImg={removeFirstSubdomain(heroImage)}
+                className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
+                btnText="Comienza tu experiencia"
+                redirectUrl="/tienda"
+                heading={heroTitle}
             />
+
+            <WelcomeBox content={pageHomeWpContent as WpContentData}/>
+            <BrandSlider/>
+            <Phrase content={pageHomeWpContent?.cedentes.texto as string}/>
+            <SectionGridCategoryBox
+                headingCenter={false}
+                categories={HOME_SPECIALTIES.filter((_, i) => i < 4)}
+                categoryCardType="card2"
+                className="pb-16 lg:pb-28"
+            />
+
+            <HomeExtraInfo country={currentCountry}/>
+
+            <CommentReferences content={pageHomeWpContent as WpContentData}/>
+            <CoursesForYou
+                courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
+                bestSeller={getAllBestSellers()}
+                tabs={TABS_HOME}
+                className="py-16"
+                heading="Oportunidades para ti"
+                desc="Cursos destacados para realizar a distancia"
+                loading={isLoadingCourses() || isLoadingBestSellers()}
+            />
+            <BlogSummary
+                posts={getAllPosts()}
+                tabs={TABS_BLOG}
+                className="py-16 "
+                heading=""
+                desc="Recursos para informarte y aprender de distintas maneras"
+                showTitle
+                forSingleNote={false}
+            />
+
+            <Questions content={pageHomeWpContent?.preguntas_frecuentes as FAQS}/>
+
+            <div className="relative py-16">
+              <BackgroundSection/>
+              <SectionSliderPosts
+                  posts={getAllBestSellers()}
+                  postCardName="card9"
+                  heading="Nuestros cursos más elegidos"
+                  subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+                  sliderStype="style2"
+                  uniqueSliderClass="pageHome-section6"
+              />
+            </div>
+          </div>
+          <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
+            <ContactForm/>
           </div>
         </div>
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
-          <ContactForm />
-        </div>
       </div>
-    </div>
   );
 };
 

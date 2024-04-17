@@ -8,6 +8,7 @@ import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
 import Badge from "@/components/Badge/Badge";
 import Image from "next/image";
 import PricingDetail from "@/components/SingleProductDetail/PricingDetail";
+import {REBILL_CONF} from "@/logic/Rebill";
 
 interface Props {
   ficha: Ficha;
@@ -31,10 +32,9 @@ const ProductDetailSidebar: FC<Props> = ({
 }) => {
   const { slug }: { slug: string } = useParams();
   const { state: authState } = useContext(AuthContext);
-
+  const { state: countryState } = useContext(CountryContext);
   const [isFixed, setIsFixed] = useState(false);
   const [bottomDistance, setBottomDistance] = useState(0);
-  const { state } = useContext(CountryContext);
   let scrollPosition = 0;
 
   const image = ficha.image;
@@ -179,7 +179,7 @@ const ProductDetailSidebar: FC<Props> = ({
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
-          {!isEbook && (
+          {(!isEbook && REBILL_CONF.GATEWAYS.REBILL.includes(countryState.country)) && (
               <button
                   onClick={() => requestTrial(slug)}
                   className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"

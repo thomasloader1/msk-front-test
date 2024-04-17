@@ -84,7 +84,7 @@ module.exports = {
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
-        "lora-italic": ["Lora-Italic", "sans-serif"],
+        "lora-italic": ["var(--font-lora-italic)", "sans-serif"],
         lora: ["Lora", "sans-serif"],
         inter: ["Inter", "sans-serif"],
         raleway: ["Raleway", "sans-serif"],

@@ -7,7 +7,7 @@ import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
 const ReferenceCard: FC<{reference: any;}> = ({reference}) => {
 
     const stars = Array.from({ length: Number(reference.numero) }, (_, index) => (
-        <Image key={index} {...starIcon} width={25} height={25} alt="Star" />
+        <Image key={index} src={starIcon.src} width={25} height={25} alt="Star" />
     ));
 
     const personReferenceImage = removeFirstSubdomain(reference.imagen)
@@ -22,7 +22,7 @@ const ReferenceCard: FC<{reference: any;}> = ({reference}) => {
                         {stars}
                     </div>
                 </div>
-                <Image {...googleIcon} width={35} height={35} className="ml-auto mr-3" />
+                <Image src={googleIcon.src} alt="Google icon" width={35} height={35} className="ml-auto mr-3" />
             </div>
             <p className="text-violet-wash text-left text-sm">{reference.parrafo}</p>
         </div>

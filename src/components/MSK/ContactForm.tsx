@@ -23,8 +23,9 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { DataContext } from "@/context/data/DataContext";
 import api from "../../../Services/api";
 import NcLink from "../NcLink/NcLink";
-import { useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {isFormValid} from "@/components/Footer/Newsletter";
+import ShowErrorMessage from "@/components/ShowErrorMessage";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -59,7 +60,8 @@ const ContactForm: FC<ContactFormProps> = ({
   const [defaultCountry, setDefaultCountry] = useState<CountryCode>(
     "" as CountryCode
   );
-
+  const pathname = usePathname();
+  const resourcePDFName = pathname.split("/").pop();
   useEffect(() => {
     setDefaultCountry(state.country?.toUpperCase() as CountryCode);
   }, [state]);
@@ -122,6 +124,8 @@ const ContactForm: FC<ContactFormProps> = ({
     career: "",
     URL_ORIGEN: urlOrigen,
     leadSource: "",
+    Ebook_consultado: isEbook ? productName : null,
+    Cursos_consultados: isEbook ? null : productName,
   };
 
   const { contactFormValidation } = useYupValidation();
@@ -215,7 +219,7 @@ const ContactForm: FC<ContactFormProps> = ({
               break;
           }
           // @ts-ignore
-          if (response.status === 200) {
+          if (response.data[0].code === "SUCCESS") {
             let routeChange = isEbook
               ? "/gracias?origen=descarga-ebook"
               : "/gracias?origen=contact";
@@ -257,7 +261,7 @@ const ContactForm: FC<ContactFormProps> = ({
                   a.download = fileNameMatch[1];
                 } else {
                   // Si no se encontró el nombre del archivo en el encabezado, utiliza un nombre predeterminado
-                  a.download = "ebook.pdf";
+                  a.download = `${resourcePDFName}.pdf`;
                 }
 
                 // Simula un clic en el enlace para iniciar la descarga
@@ -681,14 +685,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           </button>
                         </div>
                       </div>
-                      <p
-                        className="text-red-500 font-bold"
-                        style={{
-                          visibility: formError ? "visible" : "hidden",
-                        }}
-                      >
-                        {formError}
-                      </p>
+                      <ShowErrorMessage text={formError} visible={Boolean(formError)} />
                       <p
                         className="success-message"
                         style={{

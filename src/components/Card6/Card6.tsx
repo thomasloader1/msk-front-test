@@ -36,6 +36,8 @@ const Card6: FC<Card6Props> = ({
   const categoriesOrder =
     kind === "blog" ? categories.sort(compareByNameDescending) : categories;
 
+
+
   return (
     <div
       className={`nc-Card6 relative flex group flex-col-reverse sm:flex-row sm:items-center p-4  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}

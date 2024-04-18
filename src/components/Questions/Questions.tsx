@@ -22,7 +22,7 @@ const Questions: FC<QuestionProps> = ({ content }) => {
 
     return (
         <section className='text-center mb-[96px]'>
-            <h2 className='text-[36px] mb-8'>{stripHtmlTags(content.texto)}</h2>
+            <h2 className='text-[22px] md:text-[36px] font-medium mb-8'>{stripHtmlTags(content.texto)}</h2>
 
             {content.items.map((item, index) => {
                 return (
@@ -38,7 +38,7 @@ const Questions: FC<QuestionProps> = ({ content }) => {
                         <div
                             className="accordion-content p-3 py-5 border-t transition-all"
                         >
-                            <div className='text-violet-wash text-left' dangerouslySetInnerHTML={{ __html: parseHtml(item.parrafo, true) as string}} />
+                            <div className='text-violet-wash text-left px-5' dangerouslySetInnerHTML={{ __html: parseHtml(item.parrafo, true) as string}} />
                         </div>
                     </Accordion>
                 );

@@ -112,7 +112,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
             <Questions content={pageHomeWpContent?.preguntas_frecuentes as FAQS}/>
 
-            <div className="relative py-16">
+            <div className="relative py-16 px-6">
               <BackgroundSection/>
               <SectionSliderPosts
                   posts={getAllBestSellers()}

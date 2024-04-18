@@ -1,6 +1,4 @@
-import { API_BACKEND_URL } from "@/data/api";
-import { ContactUs, Newsletter, Profession, Specialty } from "@/data/types";
-
+import { Newsletter, Profession, Specialty } from "@/data/types";
 import React, {
   FC,
   useContext,
@@ -10,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
-import { UTMAction } from "@/context/utm/UTMContext";
 import * as Yup from "yup";
 import {
   ErrorMessage,
@@ -25,6 +22,9 @@ import { CountryContext } from "@/context/country/CountryContext";
 import { DataContext } from "@/context/data/DataContext";
 import NcLink from "../NcLink/NcLink";
 import api from "../../../Services/api";
+import {useRouter} from "next/navigation";
+import Image from "next/image";
+import ShowErrorMessage from "@/components/ShowErrorMessage";
 
 interface Props {
   email: string;
@@ -60,6 +60,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     setSpecialties(allSpecialties);
     setSpecialtiesGroup(allSpecialtiesGroups);
   }, [allProfessions, allSpecialties]);
+
   const [specialties, setSpecialties] = useState([]);
   const [newsletterSpecialties, setNewsletterSpecialties] = useState([]);
   const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState("");
@@ -107,6 +108,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     } else {
       setSelectedOptionProfession("");
       setSelectedProfessionId("");
+      formik.setFieldValue("Profesion", "");
     }
   };
 
@@ -114,10 +116,10 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     fetchNewsletterSpecialties();
   }, []);
 
-  // const history = useHistory();
+   const router = useRouter();
 
   const changeRoute = (newRoute: string): void => {
-    // history.push(newRoute);
+     router.push(newRoute);
   };
 
   const formRef = useRef<HTMLFormElement>(null!);
@@ -158,7 +160,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         try {
           let response = await api.postNewsletter(body as Newsletter);
           // @ts-ignore
-          if (response.status === 200) {
+          if (response.data[0].code === "SUCCESS") {
             setShow(false);
             resetForm();
             setTimeout(() => {
@@ -175,6 +177,32 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       }
     },
   });
+
+  console.log({errors: formik.errors, formik})
+
+  function isFormValid(requiredFields: string[], formValues: any, formErrors: any, formTouched: any) {
+    for (let i = 0; i < requiredFields.length; i++) {
+      const fieldName = requiredFields[i];
+      // Verificar si el campo está en formValues y tiene un valor válido
+      if (!(fieldName in formValues) || formValues[fieldName] === "" || formValues[fieldName] === null || formValues[fieldName] === false) {
+        return false;
+      }
+      // Verificar si el campo está en formErrors y ha sido tocado
+      if (fieldName in formErrors && formTouched[fieldName]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const requiredFormFields = ["First_Name",
+      "Last_Name",
+      "Email",
+      "Profesion",
+      "Especialidad",
+      "Temas_de_interes",
+      "Terms_And_Conditions2"];
+  const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
   return (
     <FormikProvider value={formik}>
       <Form
@@ -316,7 +344,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
                     onChange={handleOptionSpecialtyChange}
                     value={selectedOptionSpecialty}
                   >
-                    <option defaultValue="">Seleccionar especialidad</option>
+                    <option defaultValue="" value="">Seleccionar especialidad</option>
                     {selectedOptionProfession && currentGroup.length
                       ? currentGroup.map((s: any) => (
                           <option
@@ -436,21 +464,16 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
               type="submit"
               id="submit-newsletter"
               className="cont-btn rounded flex center"
-              disabled={!formik.values.Terms_And_Conditions2}
+              disabled={isSubmitDisabled}
             >
               <div className="flex center gap-2 px-2 text-sm my-auto">
                 Suscribirme
-                <img src="/images/icons/plane.svg" className="subscribe-icon" />
+                <Image width={15} height={15} alt="suscribe icon" src="/images/icons/plane.svg" className="subscribe-icon" />
               </div>
             </button>
           </div>
         </div>
-        <p
-          className="text-red-500 font-bold text-center"
-          style={{ visibility: formError ? "visible" : "hidden" }}
-        >
-          {formError}
-        </p>
+        <ShowErrorMessage text={formError} visible={Boolean(formError)} />
       </Form>
     </FormikProvider>
   );

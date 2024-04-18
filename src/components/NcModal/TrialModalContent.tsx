@@ -68,7 +68,7 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
     }
 
     if (title.includes("Listo") && goToAccount) {
-      history.push("/gracias?trial=success");
+      history.push("/gracias?origen=trial");
     }
 
     if (

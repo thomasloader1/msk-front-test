@@ -23,7 +23,7 @@ export const sendToZoho = async (
   const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
   const currencyJSON: any = currencyMapping;
   
-  //console.log({country, slug: product.slug})
+  console.log({response,user,country,product})
    const { invoice, failedTransaction, pendingTransaction } = response;
 
   if (failedTransaction != null) {
@@ -60,13 +60,12 @@ export const sendToZoho = async (
       product
     };
 
-    const currentProduct = product.slug === window.location.href.split("/").pop()
+   /* const currentProduct = product.slug === window.location.href.split("/").pop()
 
-    if(currentProduct){
+    if(currentProduct){*/
      await api.createContactTrialZoho(contractData, country); 
-    }
-  
-  
+   /* }*/
+
     setPaymentCorrect(true)
     setShow(true)
   }

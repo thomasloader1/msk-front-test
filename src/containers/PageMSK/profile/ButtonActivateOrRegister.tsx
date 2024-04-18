@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 interface ButtonActivateOrRegisterProps {
     isDisabledActivate: boolean;
     handleActivateClick: () => void;
-    whenActivate: string | boolean;
+    whenActivate: boolean;
     status: string;
     productSlug: string | undefined;
 }

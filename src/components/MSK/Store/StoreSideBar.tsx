@@ -8,46 +8,27 @@ import {
 import { slugifySpecialty } from "@/lib/Slugify";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
+import durationsMapping from "../../../data/jsons/__durations.json";
 
 interface Props {
-  onChangeSpecialty: (specialty: any) => void;
+  onChangeSpecialty: (specialty: any, action: string) => void;
   onChangeProfession: (profession: Profession) => void;
-  onChangeResource: (resource: ResourceFilter) => void;
-  onChangeDuration: (duration: DurationFilter) => void;
+  onChangeResource: (resource: ResourceFilter, action: string) => void;
+  onChangeDuration: (duration: DurationFilter, action: string) => void;
   professions: Profession[];
   specialties: Specialty[];
+  currentResource: string | null | undefined;
+  currentSpecialty: string | null | undefined;
+  currentDuration: string | null | undefined;
+  currentProfession: string | null | undefined;
+  setCurrentResource: (resource: any) => void;
+  setCurrentSpecialty: (specialty: any) => void;
+  setCurrentDuration: (duration: any) => void;
+  setCurrentProfession: (profession: any) => void;
 }
 
-let resources = [
-  {
-    id: 1,
-    name: "Curso",
-    slug: "curso",
-  },
-  {
-    id: 2,
-    name: "Guías profesionales",
-    slug: "guias-profesionales",
-  },
-];
-
-let durations = [
-  {
-    id: 1,
-    name: "Hasta 100 horas",
-    slug: "dur_1",
-  },
-  {
-    id: 2,
-    name: "De 100 a 300 horas",
-    slug: "dur_2",
-  },
-  {
-    id: 3,
-    name: "Más de 300 horas",
-    slug: "dur_3",
-  },
-];
+let resources = resourcesMapping;
+let durations = durationsMapping;
 
 const StoreSideBar: FC<Props> = ({
   onChangeSpecialty,
@@ -56,6 +37,14 @@ const StoreSideBar: FC<Props> = ({
   onChangeDuration,
   professions,
   specialties,
+  currentResource,
+  currentDuration,
+  setCurrentResource,
+  setCurrentProfession,
+  setCurrentSpecialty,
+  setCurrentDuration,
+  currentSpecialty,
+  currentProfession,
 }) => {
   const [specialtyVisible, setSpecialtyVisible] = useState<boolean>(true);
   const [resourceVisible, setResourceVisible] = useState<boolean>(false);
@@ -75,132 +64,26 @@ const StoreSideBar: FC<Props> = ({
     setDurationVisible((prevVisible) => !prevVisible);
   };
 
-  const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
-  const [currentResource, setCurrentResource] = useState<string | null>();
-  const setSpecialtyFilter = (specialty: Specialty) => {
-    const specialtySlug = slugifySpecialty(specialty.name);
-    console.group("SPECIALTY CLICKEADA", specialty);
-    console.log("SPECIALTYSLUG", specialtySlug);
-    const urlSearchParams = new URLSearchParams(window.location.search);
-
-    if (currentSpecialty == specialtySlug) {
-      console.log("LIMPIO", currentSpecialty, specialtySlug);
-      setCurrentSpecialty(null);
-      onChangeSpecialty(null);
-      urlSearchParams.delete("especialidad");
-      const newurl =
-        window.location.origin +
-        window.location.pathname +
-        "?" +
-        urlSearchParams.toString();
-      window.history.pushState({ path: newurl }, "", newurl);
-    } else {
-      console.log("CAMBIO", currentSpecialty, specialtySlug);
-      setCurrentSpecialty(specialtySlug);
-      onChangeSpecialty(specialty);
-      //Add especialidad to the url
-      urlSearchParams.set("especialidad", specialtySlug);
-      const newurl =
-        window.location.origin +
-        window.location.pathname +
-        "?" +
-        urlSearchParams.toString();
-      window.history.pushState({ path: newurl }, "", newurl);
-    }
-    console.groupEnd()
+  const setSpecialtyFilter = (specialty: Specialty, action: string) => {
+    (action == "add") ? setCurrentSpecialty(slugifySpecialty(specialty.name)) : setCurrentSpecialty(null);
+    onChangeSpecialty(specialty, action);
   };
 
   const setResourceFilter = (resource: ResourceFilter, action: string) => {
-    const resourceSlug = slugifySpecialty(resource.name);
-    console.group("RESOURCE CLICKEADO", resource);
-    console.log("RESOURCESLUG", resourceSlug);
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    onChangeResource(resource);
-    //Check if it exists in the URL and is the same slug
-    if (action == "add") {
-      urlSearchParams.set("recurso", resourceSlug);
-    } else {
-      urlSearchParams.delete("recurso");
-    }
-    const newurl =
-      window.location.origin +
-      window.location.pathname +
-      "?" +
-      urlSearchParams.toString();
-    window.history.pushState({ path: newurl }, "", newurl);
-    console.groupEnd()
+    (action == "add") ? setCurrentResource(resource.slug) : setCurrentResource(null);
+    onChangeResource(resource, action);
   };
 
   const setProfessionFilter = (profession: Profession, action: string) => {
-    const professionSlug = slugifySpecialty(profession.name);
-    console.log("PROFESSION CLICKEADO", profession);
-    console.log("PROFESSION SLUG", professionSlug);
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    (action == "add") ? setCurrentProfession(profession.slug) : setCurrentProfession(null);
     onChangeProfession(profession);
-    //Check if it exists in the URL and is the same slug
-    if (action == "add") {
-      urlSearchParams.set("profesion", professionSlug);
-    } else {
-      urlSearchParams.delete("profesion");
-    }
-    const newurl =
-      window.location.origin +
-      window.location.pathname +
-      "?" +
-      urlSearchParams.toString();
-    window.history.pushState({ path: newurl }, "", newurl);
   };
 
   const setDurationFilter = (duration: DurationFilter, action: string) => {
-    const professionSlug = slugifySpecialty(duration.name);
-    console.log("DURATION CLICKEADO", duration);
-    console.log("DURATION SLUG", professionSlug);
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    onChangeDuration(duration);
-    //Check if it exists in the URL and is the same slug
-    if (action == "add") {
-      urlSearchParams.set("duracion", professionSlug);
-    } else {
-      urlSearchParams.delete("duracion");
-    }
-    const newurl =
-      window.location.origin +
-      window.location.pathname +
-      "?" +
-      urlSearchParams.toString();
-    window.history.pushState({ path: newurl }, "", newurl);
+    (action == "add") ? setCurrentDuration(duration.slug) : setCurrentDuration(null);
+    onChangeDuration(duration, action);
   };
 
-  const updateResults = () => {
-    console.group("UPDATING RESULTS FROM REFRESH", currentSpecialty);
-    const params = new URLSearchParams(window.location.search);
-    const specialtySlug = params.get("especialidad");
-    const resourceSlug = params.get("recurso");
-    console.log({ specialtySlug, resourceSlug },specialtySlug && specialtySlug !== currentSpecialty);
-
-    if (specialtySlug && specialtySlug !== currentSpecialty) {
-      const specialtyName = specialtiesMapping[specialtySlug as keyof typeof specialtiesMapping];
-      setSpecialtyFilter({ name: specialtyName });
-    }
-
-    if (resourceSlug) {
-      //find resource from variable resources where resources.slug is resourceSlug
-      let resource = resources.find(
-        (resource) => resource.slug == resourceSlug
-      );
-      if (resource) {
-        setCurrentResource(resource.slug)
-        setResourceFilter(resource, "add");
-      }
-    }
-    console.groupEnd()
-  };
-
-  if (typeof window != "undefined") {
-    useEffect(() => {
-      updateResults();
-    }, [window.location.search]);
-  }
   return (
     <>
       <div className="course-sidebar-widget mb-2">
@@ -222,7 +105,7 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
-                        onChange={() => setSpecialtyFilter(specialty)}
+                        onChange={(e) => setSpecialtyFilter(specialty, e.target.checked ? "add" : "delete")}
                         checked={
                           currentSpecialty == slugifySpecialty(specialty.name)
                         }
@@ -261,7 +144,6 @@ const StoreSideBar: FC<Props> = ({
                         type="checkbox"
                         id={`res_${resource.id}`}
                         checked={ currentResource == resource.slug }
-                        //If it's checked pass 'add' if not pass 'delete'
                         onChange={(e) =>
                           setResourceFilter(
                             resource,
@@ -303,6 +185,7 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`profession_${profession.id}`}
+                        checked={ currentProfession == profession.slug }
                         onChange={(e) =>
                           setProfessionFilter(
                             profession,
@@ -335,26 +218,27 @@ const StoreSideBar: FC<Props> = ({
             Duración
           </h3>
           <ul>
-            {durations.map((item, index) => {
+            {durations.map((duration, index) => {
               return (
                 <li key={`dur_${index}`}>
                   <div className="course-sidebar-list">
                     <input
                       className="edu-check-box"
                       type="checkbox"
-                      id={`dur_${item.id}`}
+                      id={`dur_${duration.id}`}
+                      checked={ currentDuration == duration.slug }
                       onChange={(e) =>
                         setDurationFilter(
-                          item,
+                          duration,
                           e.target.checked ? "add" : "delete"
                         )
                       }
                     />
                     <label
                       className="edu-check-label"
-                      htmlFor={`dur_${item.id}`}
+                      htmlFor={`dur_${duration.id}`}
                     >
-                      {item.name}
+                      {duration.name}
                     </label>
                   </div>
                 </li>
@@ -363,9 +247,6 @@ const StoreSideBar: FC<Props> = ({
           </ul>
         </div>
       </div>
-      {/*
-
-       */}
     </>
   );
 };

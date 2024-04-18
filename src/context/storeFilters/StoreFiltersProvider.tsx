@@ -63,6 +63,7 @@ export const StoreFiltersProvider: FC<Props> = ({ children }) => {
       | ResourceFilter
       | PageFilter
   ) => {
+    console.log('Removing filterr');
     dispatch({ type: "REMOVE_FILTER", payload: { filterType, filterValue } });
   };
 

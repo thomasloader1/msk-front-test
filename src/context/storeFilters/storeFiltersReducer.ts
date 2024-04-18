@@ -9,6 +9,7 @@ import {
 } from "@/data/types";
 import { addParameterToURL } from "@/utils/addParameterToURL";
 import { updateParameterToURL } from "@/utils/updateParameterToURL";
+import {removeParameterFromURL} from "@/utils/removeParameterFromURL";
 
 export type Filter = {
   specialties: Specialty[];
@@ -65,9 +66,8 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_FILTER":
       console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
-      addParameterToURL(action.payload.filterType, action.payload.filterValue.name)
-
-      return {
+      addParameterToURL(action.payload.filterType, action.payload.filterValue)
+      let stateAux = {
         ...state,
         storeFilters: {
           ...state.storeFilters,
@@ -79,6 +79,8 @@ const reducer = (state: State, action: Action): State => {
           [action.payload.filterType]: [action.payload.filterValue],
         },
       };
+      console.log("State aux: ", stateAux);
+      return stateAux ;
     case "UPDATE_FILTER":
       updateParameterToURL(action.payload.filterType, action.payload.filterValue.name)
       return {
@@ -89,6 +91,8 @@ const reducer = (state: State, action: Action): State => {
         },
       };
     case "REMOVE_FILTER":
+      console.log('Processing REMOVE_FILTER dispatch');
+      removeParameterFromURL(action.payload.filterType, action.payload.filterValue.name)
       return {
         ...state,
         storeFilters: {
@@ -104,6 +108,10 @@ const reducer = (state: State, action: Action): State => {
         },
       };
     case "CLEAR_FILTERS":
+      removeParameterFromURL("specialties", '');
+      removeParameterFromURL("resources", '');
+      removeParameterFromURL("professions", '');
+      removeParameterFromURL("specialdurationties", '');
       return {
         ...state,
         storeFilters: {
@@ -115,6 +123,7 @@ const reducer = (state: State, action: Action): State => {
         },
       };
     case "CLEAR_SPECIALTIES":
+      removeParameterFromURL("specialties", '');
       return {
         ...state,
         storeFilters: {

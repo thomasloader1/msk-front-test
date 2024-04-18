@@ -22,10 +22,9 @@ import { ContactFormSchema, useYupValidation } from "@/hooks/useYupValidation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { DataContext } from "@/context/data/DataContext";
 import api from "../../../Services/api";
-import Link from "next/link";
 import NcLink from "../NcLink/NcLink";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import {isFormValid} from "@/components/Footer/Newsletter";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -60,9 +59,11 @@ const ContactForm: FC<ContactFormProps> = ({
   const [defaultCountry, setDefaultCountry] = useState<CountryCode>(
     "" as CountryCode
   );
+
   useEffect(() => {
     setDefaultCountry(state.country?.toUpperCase() as CountryCode);
   }, [state]);
+
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
@@ -84,15 +85,8 @@ const ContactForm: FC<ContactFormProps> = ({
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
-  let pathname = usePathname();
-  const [urlOrigen, setUrlOrigen] = useState<string>(
-    typeof window !== "undefined" ? window.location.href : ""
-  );
-
-  useEffect(() => {
-    // setUrlOrigen(window.location.href);
-  }, [pathname]);
-
+  const [urlOrigen, setUrlOrigen] = useState<string>(typeof window !== "undefined" ? window.location.href : "");
+  const router = useRouter()
   useEffect(() => {
     setProfessions(allProfessions);
     setSpecialties(allSpecialties);
@@ -131,9 +125,8 @@ const ContactForm: FC<ContactFormProps> = ({
   };
 
   const { contactFormValidation } = useYupValidation();
-
   const changeRoute = (newRoute: any): void => {
-    // router.push(newRoute);
+    router.push(newRoute);
   };
 
   const handlePhoneChange = (value: string) => {
@@ -184,12 +177,13 @@ const ContactForm: FC<ContactFormProps> = ({
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
-      const groups =
-        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      const groups = specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup(groups);
     } else {
       setSelectedOptionProfession("");
       setSelectedProfessionId("");
+      formik.setFieldValue("Profesion", "");
+
     }
   };
 
@@ -312,6 +306,14 @@ const ContactForm: FC<ContactFormProps> = ({
   const handleContactPreferenceChange = (value: string) => {
     formik.setFieldValue("Preferencia_de_contactaci_n", value);
   };
+  const requiredFormFields = ["First_Name",
+    "Last_Name",
+    "Email",
+      "Phone",
+    "Profesion",
+    "Especialidad",
+    "Terms_And_Conditions"];
+  const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
 
   return (
     <>
@@ -582,7 +584,7 @@ const ContactForm: FC<ContactFormProps> = ({
                               onChange={handleOptionSpecialtyChange}
                               value={selectedOptionSpecialty}
                             >
-                              <option defaultValue="">
+                              <option defaultValue="" value="">
                                 Seleccionar especialidad
                               </option>
                               {selectedOptionProfession && currentGroup.length
@@ -673,7 +675,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={!formik.values.Terms_And_Conditions}
+                            disabled={isSubmitDisabled}
                           >
                             {onRequest ? "Enviando ..." : submitText}
                           </button>

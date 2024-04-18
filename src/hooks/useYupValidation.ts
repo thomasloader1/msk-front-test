@@ -134,6 +134,10 @@ const emailValidation = Yup.string()
 const termsAndConditionsValidation = Yup.boolean()
   .oneOf([true], "Debes aceptar los términos y condiciones")
   .required("Debes aceptar los términos y condiciones");
+const themesNewsletterValidation = Yup.array()
+        .of(Yup.string())
+        .min(1, "Se requiere al menos 1 tema de interés")
+        .required()
 
 export const useYupValidation = () => {
   const contactFormValidation: Yup.Schema<ContactFormSchema> =
@@ -177,10 +181,20 @@ export const useYupValidation = () => {
       zsWebFormCaptchaWord: Yup.string().required("El captcha es requerido"),
       Terms_And_Conditions: termsAndConditionsValidation,
     });
+  const newsletterValidation =  Yup.object().shape({
+      First_Name: firstNameValidation,
+      Last_Name: lastNameValidation,
+      Email: emailValidation,
+      Profesion: professionValidation,
+      Especialidad: specialtyValidation,
+      Temas_de_interes: themesNewsletterValidation,
+      Terms_And_Conditions2: termsAndConditionsValidation
+  });
 
   return {
     contactFormValidation,
     temarioFormValidation,
     cancelSubscriptionValidation,
+      newsletterValidation
   };
 };

@@ -25,29 +25,29 @@ import api from "../../../Services/api";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import ShowErrorMessage from "@/components/ShowErrorMessage";
+import {useYupValidation} from "@/hooks/useYupValidation";
 
 interface Props {
   email: string;
   setShow: (state: boolean) => void;
 }
 
-const validationSchema = Yup.object().shape({
-  First_Name: Yup.string().required("El nombre es requerido"),
-  Last_Name: Yup.string().required("El apellido es requerido"),
-  Email: Yup.string()
-    .email("Correo electrónico inválido")
-    .required("El correo electrónico es requerido"),
-  Profesion: Yup.string().required("La profesión es requerida"),
-  Especialidad: Yup.string().required("La especialidad es requerida"),
-  Temas_de_interes: Yup.array()
-    .of(Yup.string())
-    .min(1, "Se requiere al menos 1 tema de interés")
-    .required(),
-  Terms_And_Conditions2: Yup.boolean().oneOf(
-    [true],
-    "Debe aceptar los términos y condiciones"
-  ),
-});
+export function isFormValid(requiredFields: string[], formValues: any, formErrors: any, formTouched: any) {
+  for (let i = 0; i < requiredFields.length; i++) {
+    const fieldName = requiredFields[i];
+    // Verificar si el campo está en formValues y tiene un valor válido
+    if (!(fieldName in formValues) || formValues[fieldName] === "" || formValues[fieldName] === null || formValues[fieldName] === false) {
+      return false;
+    }
+    // Verificar si el campo está en formErrors y ha sido tocado
+    if (fieldName in formErrors && formTouched[fieldName]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const { newsletterValidation } = useYupValidation();
 const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const { state: dataState } = useContext(DataContext);
@@ -149,7 +149,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   };
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    validationSchema: newsletterValidation,
     onSubmit: async (values) => {
       if (executeRecaptcha) {
         const body = {
@@ -178,23 +178,6 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     },
   });
 
-  console.log({errors: formik.errors, formik})
-
-  function isFormValid(requiredFields: string[], formValues: any, formErrors: any, formTouched: any) {
-    for (let i = 0; i < requiredFields.length; i++) {
-      const fieldName = requiredFields[i];
-      // Verificar si el campo está en formValues y tiene un valor válido
-      if (!(fieldName in formValues) || formValues[fieldName] === "" || formValues[fieldName] === null || formValues[fieldName] === false) {
-        return false;
-      }
-      // Verificar si el campo está en formErrors y ha sido tocado
-      if (fieldName in formErrors && formTouched[fieldName]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   const requiredFormFields = ["First_Name",
       "Last_Name",
       "Email",
@@ -202,6 +185,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
       "Especialidad",
       "Temas_de_interes",
       "Terms_And_Conditions2"];
+
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
   return (
     <FormikProvider value={formik}>

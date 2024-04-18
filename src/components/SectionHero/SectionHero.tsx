@@ -40,7 +40,7 @@ const SectionHero: FC<SectionHeroProps> = ({
     <div className={`nc-SectionHero relative ${className}`}>
       <div className="flex flex-col lg:flex-row space-y-14 lg:space-y-0 lg:space-x-10 rtl:space-x-reverse items-center relative text-center lg:text-left">
         <div className="w-screen max-w-full xl:max-w-lg space-y-5 lg:space-y-7">
-          <h2 className="!leading-tight text-neutral-900 section-hero-title dark:text-neutral-100 font-bold text-[35px] sm:text-[42px]" dangerouslySetInnerHTML={{__html: removeFirstTag(heading)}}/>
+          <h2 className="!leading-tight text-neutral-900 section-hero-title dark:text-neutral-100 font-bold text-[24px] md:text-[35px] sm:text-[42px]" dangerouslySetInnerHTML={{__html: removeFirstTag(heading)}}/>
            
           {subHeading ? (
             <span className="block text-base xl:text-lg text-neutral-6000 dark:text-neutral-400">

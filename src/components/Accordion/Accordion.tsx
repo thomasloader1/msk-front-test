@@ -40,13 +40,13 @@ const Accordion: FC<Props> = ({
   return (
     <div className={`overflow-hidden accordion ${bordered && "border"}`}>
       <div
-        className={`bg-natural-100 py-3 px-1 cursor-pointer flex items-center justify-between ${
+        className={`bg-natural-100 py-3 px-1 cursor-pointer flex items-center justify-start ${
           isAnimating ? "opacity-0" : ""
         }`}
         onClick={toggleAccordion}
       >
-        <div className="flex items-center">
-          <div className="w-[20px]">
+        <div className="flex items-center text-left">
+          <div className="w-[20px] mr-1">
             <Image src={iconAccordion.src} width={iconAccordion.width} height={iconAccordion.height} alt="accordion img" className="ml-1"/>
           </div>
           {forModules ? (<span className="font-medium mr-1">Módulo {index + 1} •</span>) : null}

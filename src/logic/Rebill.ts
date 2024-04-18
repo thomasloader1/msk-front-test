@@ -122,16 +122,16 @@ export const initRebill = async (
 ) => {
   try {
     const contactZoho: ContactCRM = await ssr.getEmailByIdZohoCRM("Contacts", user.email);
-    console.log({contactZoho, user})
+    /*console.log({contactZoho, user})*/
     const customerRebill = mappingCheckoutFields(contactZoho);
-    console.log({customerRebill})
+   /* console.log({customerRebill})
     console.log({cardHolder:{
         name: contactZoho.Full_Name,
         identification: {
           type: contactZoho.Tipo_de_Documento,
           value: contactZoho.Identificacion,
         },
-      }})
+      }})*/
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
 
@@ -146,7 +146,7 @@ export const initRebill = async (
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
-    console.log({
+   /* console.log({
       transaction: {
         prices: [
           {
@@ -155,7 +155,7 @@ export const initRebill = async (
           },
         ],
       }
-    });
+    });*/
     RebillSDKCheckout.setTransaction({
       prices: [
         {
@@ -167,7 +167,10 @@ export const initRebill = async (
 
     //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
     RebillSDKCheckout.setCallbacks({
-      onSuccess: (response: any) => sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect, setFaliedMessage),
+      onSuccess: (response: any) => {
+        console.log("Rebill success callback")
+        sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect, setFaliedMessage)
+      },
       onError: (error: any) => {
          console.error({ callbackRebillError: error })
         },

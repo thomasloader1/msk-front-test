@@ -207,12 +207,6 @@ class ApiService {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Failed to post newsletter data. HTTP status ${response.status}`
-        );
-      }
-
       return await response.json();
     } catch (error) {
       return error;
@@ -840,14 +834,8 @@ class ApiService {
         body: JSON.stringify(data)
       });
 
-       if (!res.ok) {
-        throw new Error(
-          `Failed to get courses progress status. HTTP status ${res.status}`
-        );
-      }
-
       console.log({ res });
-      window.location.href = `/${country}/gracias?origen=trial`
+      //window.location.href = `/${country}/gracias?origen=trial`
 
       return res.json();
     } catch (e: any) {

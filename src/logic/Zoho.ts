@@ -68,6 +68,6 @@ export const sendToZoho = async (
   
   
     setPaymentCorrect(true)
-    //setShow(true)
+    setShow(true)
   }
 };

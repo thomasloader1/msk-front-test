@@ -48,6 +48,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   const { state: dataState, loadingBestSellers } = useContext(DataContext);
   const [bestSellers, setBestSellers] = useState([]);
   const { allBestSellers } = dataState;
+
   useEffect(() => {
     setBestSellers(allBestSellers);
   }, [allBestSellers]);

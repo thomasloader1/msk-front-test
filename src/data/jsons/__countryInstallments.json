@@ -1,6 +1,6 @@
 {
     "cl": {
-        "gateway": "MP",
+        "gateway": "REBILL",
         "quotes": 8
     },
     "ar": {
@@ -24,7 +24,7 @@
         "quotes": 12
     },
     "mx": {
-        "gateway": "MP",
+        "gateway": "REBILL",
         "quotes": 12
     },
     "bo": {
@@ -32,7 +32,7 @@
         "quotes": 12
     },
     "co": {
-        "gateway": "ST",
+        "gateway": "REBILL",
         "quotes": 12
     },
     "cr": {

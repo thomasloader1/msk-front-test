@@ -35,7 +35,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {slug}: { slug: string } = useParams();
   const { product} = useSingleProduct(slug,{country})
 
-  //const [product] = allCourses.filter((course: any) => slug === course.slug)
   const [show, setShow] = useState<boolean>(false)
   const viewRef = useRef<any>();
   const [mountedInput, setMountedInput] = useState<boolean>(false)
@@ -61,7 +60,8 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const profile = AuthState.profile;
-      console.log(profile)
+      console.log("Profile Effect",{profile})
+
       const fetchProfile = async () => {
         const res = await ssr.getUserData();
        // console.log(res)
@@ -86,7 +86,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
         const verifiedProductAndProfile = (typeof product !== 'undefined' && AuthState.profile != null && Object.keys(AuthState.profile).length > 1);
 
-        console.log({
+        /*console.log({
           initedRebill,
           verifiedProductAndProfile: {
             product: typeof product !== 'undefined',
@@ -100,7 +100,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
           },
           showMissingData,
           condition: initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData
-        })
+        })*/
 
         if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
            setInitedRebill(true)
@@ -124,7 +124,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             product={product}
             mountedInputState={mountedInputObjectState}
           />
-
 
           <section>
             <p className="text-center mb-4 text-violet-strong font-normal">

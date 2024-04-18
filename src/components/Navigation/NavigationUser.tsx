@@ -27,7 +27,7 @@ const NavigationUser = () => {
               >
                 <NcImage
                   src={"/images/icons/profile.svg"}
-                  alt=""
+                  alt="Profile icon"
                   className="ml-4 mt-2"
                   width="25"
                   height="25"
@@ -75,7 +75,7 @@ const NavigationUser = () => {
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300 w-[20px]">
                             <NcImage
                               src={"/images/icons/profile.svg"}
-                              alt=""
+                              alt="Profile Icon"
                               width="20"
                               height="20"
                             />
@@ -97,7 +97,7 @@ const NavigationUser = () => {
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                             <NcImage
                               src={"/images/icons/config-account.svg"}
-                              alt=""
+                              alt="config account icon"
                               width="20"
                               height="20"
                             />
@@ -119,7 +119,7 @@ const NavigationUser = () => {
                           <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                             <NcImage
                               src={"/images/icons/logout.svg"}
-                              alt=""
+                              alt="Logout icon"
                               width="20"
                               height="20"
                             />

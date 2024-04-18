@@ -57,7 +57,7 @@ const SectionHero: FC<SectionHeroProps> = ({
           <NcImage
             className="w-full"
             src={rightImg}
-            alt=""
+            alt="arrow next"
             width="1200"
             height="400"
           />

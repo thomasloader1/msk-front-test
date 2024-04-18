@@ -1,4 +1,4 @@
-import {REBILL_CONF} from "@/logic/Rebill";
+import { REBILL_CONF } from "@/logic/Rebill";
 
 export const getEnv = (name: string) => {
   const { PROD } = process.env;

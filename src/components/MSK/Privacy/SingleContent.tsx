@@ -1,23 +1,17 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, {FC, useContext, useEffect, useRef, useState} from "react";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import { SinglePageType } from "@/data/types";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
 import api from "../../../../Services/api";
+import {DataContext} from "@/context/data/DataContext";
 
 export interface SingleContentProps {
   data: SinglePageType;
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
-  const [courses, setCourses] = useState([]);
+  const { state:{allBestSellers} } = useContext(DataContext);
 
-  const fetchCourses = async () => {
-    const res = await api.getBestSellers();
-    setCourses(res);
-  };
-  useEffect(() => {
-    fetchCourses();
-  }, []);
   return (
     <div className="nc-SingleContent space-y-10">
       {/* ENTRY CONTENT */}
@@ -25,7 +19,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
       {data?.content && (
         <div
           id="single-entry-content"
-          className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
+          className="container prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: data.content as string }}
         />
       )}
@@ -46,7 +40,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           heading="Comienza tu experiencia aquí"
           subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
           sliderStype="style2"
-          posts={courses}
+          posts={allBestSellers}
           uniqueSliderClass="pageHome-section6"
         />
       </div>

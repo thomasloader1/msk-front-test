@@ -1,16 +1,17 @@
 "use client";
-import React, { FC, ReactNode, useContext, useEffect } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
-import useTyC from "@/hooks/useTyC";
 import { CommentType } from "@/components/CommentCard/CommentCard";
-import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
+import useContractConditions from "@/hooks/useContractConditions";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
+import Image from "next/image";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Términos y condiciones",
+  title: "Términos y Condiciones",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -76,21 +77,23 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
-  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
+  articles: { title: string | null; content: string }[];
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
+const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
+  className = "",
+}) => {
   const { state } = useContext(CountryContext);
-  const { data } = useTyC(state.country);
+  const { data, loading, error } = useContractConditions(state.country);
 
   return (
     <>
       <div
-        className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
+        className={`nc-PageSingleTemp3Sidebar animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">
@@ -104,17 +107,18 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
             </div>
           </div>
 
-          <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
-            <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
-            <img
+          <div className="mt-8 md:mt-0 md:absolute md:top-0 md:right-0 md:bottom-0 md:w-1/2 lg:w-2/5 2xl:w-1/3 mission-image-container">
+            <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
+            <Image
               className="mission-image"
               src="/images/misc/mission.png"
-              alt=""
+              alt="Nuestra Mision"
+              width={1000}
+              height={500}
             />
           </div>
         </header>
 
-        {/* SINGLE MAIN CONTENT */}
         <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
@@ -125,4 +129,4 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   );
 };
 
-export default PageTyC;
+export default PageContractConditions;

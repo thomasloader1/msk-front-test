@@ -6,6 +6,7 @@ import { CommentType } from "@/components/CommentCard/CommentCard";
 import useCookiesTerms from "@/hooks/useCookieTerms";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import Image from "next/image";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -87,14 +88,6 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const { state } = useContext(CountryContext);
   const { data, loading, error } = useCookiesTerms(state.country);
 
-  // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
-  /*  useEffect(() => {
-     dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
-     return () => {
-       dispatch(changeCurrentPage({ type: "/", data: {} }));
-     };
-   }, []); */
-
   return (
     <>
       <div
@@ -114,16 +107,18 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
           <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
             <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
-            <img
-              className="mission-image"
-              src="/images/misc/mission.png"
-              alt=""
+            <Image
+                className="mission-image"
+                src="/images/misc/mission.png"
+                alt="Nuestra Mision"
+                width={1000}
+                height={500}
             />
           </div>
         </header>
 
         {/* SINGLE MAIN CONTENT */}
-        <div className="container flex flex-col my-10 lg:flex-row">
+        <div className=" flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>

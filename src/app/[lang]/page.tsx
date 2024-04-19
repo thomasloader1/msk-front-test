@@ -77,8 +77,10 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
                 redirectUrl="/tienda"
                 heading={heroTitle}
             />
+</div>
+          <WelcomeBox content={pageHomeWpContent as WpContentData}/>
 
-            <WelcomeBox content={pageHomeWpContent as WpContentData}/>
+          <div className="container relative">
             <BrandSlider/>
             <Phrase content={pageHomeWpContent?.cedentes.texto as string}/>
             <SectionGridCategoryBox
@@ -89,9 +91,10 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             />
 
             <HomeExtraInfo country={currentCountry}/>
-
+          </div>
             <CommentReferences content={pageHomeWpContent as WpContentData}/>
-            <CoursesForYou
+          <div className="container relative">
+          <CoursesForYou
                 courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
                 bestSeller={getAllBestSellers()}
                 tabs={TABS_HOME}

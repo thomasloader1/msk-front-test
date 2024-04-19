@@ -45,13 +45,6 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   showPosts,
   forSingleNote=false
 }) => {
-  const { state: dataState, loadingBestSellers } = useContext(DataContext);
-  const [bestSellers, setBestSellers] = useState([]);
-  const { allBestSellers } = dataState;
-
-  useEffect(() => {
-    setBestSellers(allBestSellers);
-  }, [allBestSellers]);
 
   let CardComponent = Card4;
 
@@ -88,7 +81,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
       </Heading>
 
       <MySlider
-        data={posts || allBestSellers}
+        data={posts}
         renderItem={(item, indx) => (
           <CardComponent
             key={indx}
@@ -98,8 +91,8 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             forSingleNote={forSingleNote}
           />
         )}
-        itemPerRow={perView}
-        loading={showPosts ? loadingBestSellers : loading}
+        itemPerRow={posts.length > 4 ? perView : posts.length}
+        //loading={showPosts ? loadingBestSellers : loading}
       />
     </div>
   );

@@ -30,7 +30,7 @@ export interface PageTrialSuscribeProps {
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
-  const {state: {country}} = useContext(CountryContext);
+  const {countryState: {country}} = useContext(CountryContext);
   const {state: AuthState ,dispatch} = useContext(AuthContext);
   const {slug}: { slug: string } = useParams();
   const { product} = useSingleProduct(slug,{country})

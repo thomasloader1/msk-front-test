@@ -61,11 +61,6 @@ const StoreContent: FC<Props> = ({ professions }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
 
-  const [currentResource, setCurrentResource] = useState<string | null>();
-  const [currentSpecialty, setCurrentSpecialty] = useState<string | null>();
-  const [currentDuration, setCurrentDuration] = useState<string | null>();
-  const [currentProfession, setCurrentProfession] = useState<string | null>();
-
   let products: FetchCourseType[] = [];
   // @ts-ignore
   useEffect(async () => {
@@ -278,7 +273,6 @@ const StoreContent: FC<Props> = ({ professions }) => {
         console.log('URL RESOURCE: ', urlResource);
         if (urlResource){
           onChangeResource(urlResource, 'add');
-          setCurrentResource(urlResource.slug);
         }
       }
 
@@ -288,21 +282,18 @@ const StoreContent: FC<Props> = ({ professions }) => {
         console.log('URL SPECIALTY: ', urlSpecialty);
         if (urlSpecialty){
           onChangeSpecialty(urlSpecialty, 'add');
-          setCurrentSpecialty(slugifySpecialty(urlSpecialty.name));
         }
       }
       if (profesion){
         let urlProfession = professions.find((profession: any) => profession.slug === profesion);
         if (urlProfession){
           onChangeProfession(urlProfession);
-          setCurrentProfession(urlProfession.slug);
         }
       }
       if(duracion){
         let urlDuration = durations.find((duration) => duration.slug === duracion);
         if (urlDuration){
           onChangeDuration(urlDuration, 'add');
-          setCurrentDuration(urlDuration.slug);
         }
       }
     }, [specialties, allProducts]);
@@ -320,15 +311,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
             onChangeSpecialty={onChangeSpecialty}
             onChangeProfession={onChangeProfession}
             onChangeResource={onChangeResource}
-            onChangeDuration={onChangeDuration}
-            currentResource={currentResource}
-            currentSpecialty={currentSpecialty}
-            currentDuration={currentDuration}
-            currentProfession={currentProfession}
-            setCurrentResource={setCurrentResource}
-            setCurrentSpecialty={setCurrentSpecialty}
-            setCurrentDuration={setCurrentDuration}
-           setCurrentProfession={setCurrentProfession}/>
+            onChangeDuration={onChangeDuration}/>
         </div>
         <div>
           <StoreBar

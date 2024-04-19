@@ -19,22 +19,22 @@ import {
 import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 import ModalSignOut from "@/components/Modal/SignOut";
 import Link from "next/link";
-import {getAllProfessions, getAllStoreSpecialties} from "@/lib/allData";
 import {CountryContext} from "@/context/country/CountryContext";
 import {slugifySpecialty} from "@/lib/Slugify";
+import {useLocation} from "react-use";
+import resourcesMapping from "@/data/jsons/__resources.json";
+import durationsMapping from "@/data/jsons/__durations.json";
 
 export interface NavMobileProps {
   data?: NavItemType[];
   userNav?: NavItemType[];
   onClickClose?: () => void;
-  currentSpecialty?: string;
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
   data = NAVIGATION_MSK,
   userNav = NAVIGATION_USER,
   onClickClose,
-  currentSpecialty
 }) => {
   const _renderMenuChild = (item: NavItemType) => {
     return (
@@ -126,15 +126,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
 
   const { state } = useContext(AuthContext);
   const { countryState: countryState } = useContext(CountryContext);
-  /*const professions: Profession[] = getAllProfessions();
-  const specialties: Specialty[] = getAllStoreSpecialties(countryState.country);*/
-  const professions: any[] = [];
-  const specialties: any[] = [];
 
-  const resources: ResourceFilter[] = [
-    { name: "Curso", id: 1 },
-    { name: "Guías profesionales", id: 2 }
-  ];
+  let specialties : Specialty[] = useStoreFilters().specialties;
+  let professions : Profession[] = useStoreFilters().professions;
+  let resources = resourcesMapping;
+  let durations = durationsMapping;
 
   const { storeFilters } = useStoreFilters();
 
@@ -160,12 +156,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
         ).length;
     }
   };
-
-  const duration = [
-    { name: "Hasta 100 horas", id: 1, value: "less_100" },
-    { name: "De 100 a 300 horas", id: 2, value: "100_300" },
-    { name: "Más de 300 horas", id: 3, value: "more_300" },
-  ];
 
   const { addFilter, removeFilter, clearFilters } = useStoreFilters();
 
@@ -201,12 +191,16 @@ const NavMobile: React.FC<NavMobileProps> = ({
     } else addFilter("duration", duration);
   };
 
+  const setSpecialtyFilter = (specialty: Specialty, action: string) => {
+    (action == "add") ? addFilter('specialties', specialty) : removeFilter('specialties', specialty);
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // const location = useLocation();
+  const location = useLocation();
 
   return (
     <div className="w-full h-full py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 border-r border-transparent dark:border-neutral-700">
@@ -221,7 +215,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <ul className="flex flex-col py-2 px-2 space-y-1">
           {data.map((item, index) => _renderItem(item, index, false))}
         </ul>
-        {location.pathname.includes("/tienda") && (
+        {location && typeof location.pathname != 'undefined' && location.pathname.includes("/tienda") && (
           <>
             <div className="border-t border-neutral-200 dark:border-neutral-700 w-[90%] mx-auto px-2 space-y-1" />
             <ul className="flex flex-col py-2 px-2 space-y-1">
@@ -252,13 +246,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
                             return (
                               <li key={`spe_${index}`}>
                                 <div className="course-sidebar-list">
-                                  <p>{currentSpecialty}</p>
+                                  {/*<p>{currentSpecialty}</p>*/}
                                   <input
                                     className="edu-check-box"
                                     type="checkbox"
                                     id={`specialty_${specialty.name}`}
-                                    /*checked={isChecked("specialties",specialty)}*/
-                                    checked={ currentSpecialty == slugifySpecialty(specialty.name)}
+                                    checked={ !!storeFilters.specialties.find((item: Specialty) => item.name == specialty.name) }
+                                    onChange={(e) => setSpecialtyFilter(specialty, e.target.checked ? "add" : "delete")}
                                   />
                                   <label
                                     className="edu-check-label"
@@ -398,7 +392,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
                     </Disclosure.Button>
                     <Disclosure.Panel>
                       <ul className="pl-6 flex flex-col gap-2">
-                        {duration.map((item, index) => {
+                        {durations.map((item, index) => {
                           return (
                             <li key={`dur_${index}`}>
                               <div className="course-sidebar-list">

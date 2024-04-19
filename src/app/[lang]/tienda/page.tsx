@@ -11,6 +11,9 @@ import {
     setAllCourses
 } from "@/lib/allData";
 import { Metadata } from "next";
+import Head from "next/head";
+import Script from "next/script";
+import {generateSchemaJson} from "@/lib/pageSchemaJson";
 
 type Props = {
   params: { lang: string, page: string }

@@ -1,9 +1,8 @@
 "use client";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import {FC, useContext} from "react";
 import Heading from "@/components/Heading/Heading";
 import Card4 from "@/components/Card4/Card4";
 import Card7 from "@/components/Card7/Card7";
-import { FetchCourseType, FetchPostType, PostDataType } from "@/data/types";
 import Card9 from "@/components/Card9/Card9";
 import Card10 from "@/components/Card10/Card10";
 import Card11 from "@/components/Card11/Card11";
@@ -46,12 +45,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   forSingleNote=false
 }) => {
   const { state: dataState, loadingBestSellers } = useContext(DataContext);
-  const [bestSellers, setBestSellers] = useState([]);
   const { allBestSellers } = dataState;
-
-  useEffect(() => {
-    setBestSellers(allBestSellers);
-  }, [allBestSellers]);
 
   let CardComponent = Card4;
 
@@ -87,20 +81,23 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         {heading}
       </Heading>
 
-      <MySlider
-        data={posts || allBestSellers}
-        renderItem={(item, indx) => (
+  <MySlider
+      data={posts || allBestSellers}
+      className="container"
+      renderItem={(item, indx) => (
           <CardComponent
-            key={indx}
-            post={item}
-            showDescription={true}
-            kind="curso"
-            forSingleNote={forSingleNote}
+              key={indx}
+              post={item}
+              showDescription={true}
+              kind="curso"
+              forSingleNote={forSingleNote}
           />
-        )}
-        itemPerRow={perView}
-        loading={showPosts ? loadingBestSellers : loading}
-      />
+      )}
+      itemPerRow={perView}
+      loading={showPosts ? loadingBestSellers : loading}
+  />
+
+
     </div>
   );
 };

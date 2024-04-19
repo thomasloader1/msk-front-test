@@ -49,7 +49,7 @@ const Accordion: FC<Props> = ({
           <div className="w-[20px] mr-2">
             <Image src={iconAccordion.src} width={iconAccordion.width} height={iconAccordion.height} alt="accordion img" className="ml-1"/>
           </div>
-          {forModules ? (<span className="font-medium">Módulo {index + 1} • <span className="font-normal">{titleItem}</span></span>) : null}
+          {forModules ? (<span className="font-medium">Módulo {index + 1} • <span className="font-normal">{titleItem}</span></span>) : titleItem}
 
         </div>
       </div>

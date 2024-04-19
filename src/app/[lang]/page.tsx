@@ -25,7 +25,7 @@ import {
 } from "@/lib/allData";
 import ContactForm from "@/components/MSK/ContactForm";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
-import Script from "next/script";;
+import Script from "next/script";
 import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 import WelcomeBox from "@/components/WelcomeBox/WelcomeBox";
 import {FetchCourseType, WpContentData} from "@/data/types";
@@ -77,7 +77,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
                 redirectUrl="/tienda"
                 heading={heroTitle}
             />
-</div>
+          </div>
           <WelcomeBox content={pageHomeWpContent as WpContentData}/>
 
           <div className="container relative">
@@ -92,9 +92,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
             <HomeExtraInfo country={currentCountry}/>
           </div>
-            <CommentReferences content={pageHomeWpContent as WpContentData}/>
+          <CommentReferences content={pageHomeWpContent as WpContentData}/>
           <div className="container relative">
-          <CoursesForYou
+            <CoursesForYou
                 courses={getAllCourses().filter((course: FetchCourseType) => course.father_post_type === 'course')}
                 bestSeller={getAllBestSellers()}
                 tabs={TABS_HOME}
@@ -115,17 +115,18 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
             <Questions content={pageHomeWpContent?.preguntas_frecuentes as FAQS}/>
 
-            <div className="relative py-16 px-6">
-              <BackgroundSection/>
-              <SectionSliderPosts
-                  posts={getAllBestSellers()}
-                  postCardName="card9"
-                  heading="Nuestros cursos más elegidos"
-                  subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-                  sliderStype="style2"
-                  uniqueSliderClass="pageHome-section6"
-              />
-            </div>
+
+          </div>
+          <div className="relative py-16 px-6">
+            <BackgroundSection/>
+            <SectionSliderPosts
+                posts={getAllBestSellers()}
+                postCardName="card9"
+                heading="Nuestros cursos más elegidos"
+                subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+                sliderStype="style2"
+                uniqueSliderClass="pageHome-section6"
+            />
           </div>
           <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
             <ContactForm/>

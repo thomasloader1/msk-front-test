@@ -29,8 +29,8 @@ const Card9: FC<Card9Props> = ({
   kind,
 }) => {
   const { title, categories, id, slug, image } = post;
-  const { state } = useContext(CountryContext);
-  const imageURL = image ? image.replace(`${state.country || "mx"}.`, "") : "";
+  const { countryState } = useContext(CountryContext);
+  const imageURL = image ? image.replace(`${countryState.country || "mx"}.`, "") : "";
 
   const renderMeta = () => {
     return (

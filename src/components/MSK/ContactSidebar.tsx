@@ -3,14 +3,14 @@ import { CountryContext } from "@/context/country/CountryContext";
 import React, { useContext, useEffect } from "react";
 
 const ContactSidebar = () => {
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   const [phone, setPhone] = React.useState<string | null>(null);
   const [secondaryPhone, setSecondaryPhone] = React.useState<string | null>(
     null
   );
   useEffect(() => {
-    if (state.country) {
-      switch (state.country) {
+    if (countryState.country) {
+      switch (countryState.country) {
         case "ec":
           setPhone("(+593) 2 4016114");
         case "mx":
@@ -22,7 +22,7 @@ const ContactSidebar = () => {
           setSecondaryPhone("011-5263-0582");
       }
     }
-  }, [state.country]);
+  }, [countryState.country]);
 
   return (
     <div className="sidebar-widget-wrapper">

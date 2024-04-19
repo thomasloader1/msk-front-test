@@ -106,11 +106,13 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
     return managedURL ?? `/${part.toLowerCase()}`;
   };
 
+  console.log(pathname)
+
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center mb-10">
+    <div className="flex flex-wrap md:flex-nowrap items-center mb-10 md:max-w-[600px] w-full">
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
       {pathname !== "/" && (
-        <NcLink href="/">
+        <NcLink href="/" className="">
           <Image
             src={`${
               onBlog ? breadcrumHomeIconWhite.src : breadcrumHomeIcon.src
@@ -118,7 +120,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
             width={20}
             height={20}
             alt="Home"
-            className="h-4"
+            className="h-4 lg:mr-5"
           />
         </NcLink>
       )}
@@ -141,7 +143,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
 
           {index === partsFlattened.length - 1 ? (
             <span
-              className={`font-bold truncate ${
+              className={`font-bold truncate max-w-[230px] sm:max-w-[500px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[400px] ${
                 onBlog ? "text-white" : "text-[#ABABAB]"
               }`}
             >

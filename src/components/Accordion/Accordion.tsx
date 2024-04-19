@@ -36,7 +36,7 @@ const Accordion: FC<Props> = ({
   };
 
   const iconAccordion = isOpen ? minusIcon : plusIcon
-
+  const titleItem = title.replace(/^Módulo\s+\d+:\s*/, '');
   return (
     <div className={`overflow-hidden accordion ${bordered && "border"}`}>
       <div
@@ -46,11 +46,11 @@ const Accordion: FC<Props> = ({
         onClick={toggleAccordion}
       >
         <div className="flex items-center text-left">
-          <div className="w-[20px] mr-1">
+          <div className="w-[20px] mr-2">
             <Image src={iconAccordion.src} width={iconAccordion.width} height={iconAccordion.height} alt="accordion img" className="ml-1"/>
           </div>
-          {forModules ? (<span className="font-medium mr-1">Módulo {index + 1} •</span>) : null}
-          {title.replace(/^\s*Módulo\s*\d+\.\s*/, '')}
+          {forModules ? (<span className="font-medium">Módulo {index + 1} • <span className="font-normal">{titleItem}</span></span>) : titleItem}
+
         </div>
       </div>
       {isOpen && children}

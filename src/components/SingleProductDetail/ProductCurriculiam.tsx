@@ -74,7 +74,7 @@ const ProductCurriculiam: FC<Props> = ({ topics, hours, link, slug }) => {
         </div>
         <div className="flex items-center justify-between">
           <p className="modules-description">
-            {accordionContent.length} módulos • {hours?.value} horas estimadas
+            {accordionContent.length} módulos <br className="md:hidden" /> <span className="hidden md:inline-block">•</span> {hours?.value} horas estimadas
           </p>
           {link ? (
             <ButtonPrimary

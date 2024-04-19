@@ -313,10 +313,11 @@ const ContactForm: FC<ContactFormProps> = ({
   const requiredFormFields = ["First_Name",
     "Last_Name",
     "Email",
-      "Phone",
+    "Phone",
+    "Preferencia_de_contactaci_n",
     "Profesion",
-    "Especialidad",
     "Terms_And_Conditions"];
+  console.log(formik.values)
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
 
   return (

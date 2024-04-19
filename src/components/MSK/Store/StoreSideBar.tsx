@@ -6,17 +6,16 @@ import {
   Specialty,
 } from "@/data/types";
 import { slugifySpecialty } from "@/lib/Slugify";
-import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
+import {useStoreFilters} from "@/context/storeFilters/StoreProvider";
+
 
 interface Props {
   onChangeSpecialty: (specialty: any, action: string) => void;
   onChangeProfession: (profession: Profession) => void;
   onChangeResource: (resource: ResourceFilter, action: string) => void;
   onChangeDuration: (duration: DurationFilter, action: string) => void;
-  professions: Profession[];
-  specialties: Specialty[];
   currentResource: string | null | undefined;
   currentSpecialty: string | null | undefined;
   currentDuration: string | null | undefined;
@@ -35,8 +34,6 @@ const StoreSideBar: FC<Props> = ({
   onChangeProfession,
   onChangeResource,
   onChangeDuration,
-  professions,
-  specialties,
   currentResource,
   currentDuration,
   setCurrentResource,
@@ -50,6 +47,9 @@ const StoreSideBar: FC<Props> = ({
   const [resourceVisible, setResourceVisible] = useState<boolean>(false);
   const [professionVisible, setProfessionVisible] = useState<boolean>(false);
   const [durationVisible, setDurationVisible] = useState<boolean>(false);
+
+  let specialties : Specialty[] = useStoreFilters().specialties;
+  let professions : Profession[] = useStoreFilters().professions;
 
   const toggleSpecialtyVisibility = () => {
     setSpecialtyVisible((prevVisible) => !prevVisible);
@@ -106,9 +106,7 @@ const StoreSideBar: FC<Props> = ({
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
                         onChange={(e) => setSpecialtyFilter(specialty, e.target.checked ? "add" : "delete")}
-                        checked={
-                          currentSpecialty == slugifySpecialty(specialty.name)
-                        }
+                        checked={ currentSpecialty == slugifySpecialty(specialty.name)}
                       />
                       <label
                         className="edu-check-label"
@@ -175,7 +173,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={toggleProfessionVisibility}>
             Profesión
           </h3>
-          {professions.length ? (
+          {professions && professions.length ? (
             <ul>
               {professions.map((profession, index: number) => {
                 return (

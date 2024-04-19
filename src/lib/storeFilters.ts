@@ -1,4 +1,4 @@
-import { Filter } from "@/context/storeFilters/storeFiltersReducer";
+import { Filter } from "@/context/storeFilters/storeReducer";
 import specialtiesMapping from "@/data/jsons/__specialties.json";
 import {
   DurationFilter,

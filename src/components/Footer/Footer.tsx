@@ -12,7 +12,7 @@ const FooterEduman = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   const scrollToContactForm = () => {
     const contactForm = document.getElementById("contactanos");
     if (contactForm) {
@@ -187,7 +187,7 @@ const FooterEduman = () => {
                         <NcLink href="/convenios">Convenios</NcLink>
                       </li> */}
 
-                      {state.country.includes("ec") && (
+                      {countryState.country.includes("ec") && (
                         <li>
                           <NcLink href="/cancelar-suscripcion">
                             Arrepentimiento de compra

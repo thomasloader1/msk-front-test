@@ -16,22 +16,25 @@ import {
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import { useStoreFilters } from "@/context/storeFilters/StoreFiltersProvider";
+import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 import ModalSignOut from "@/components/Modal/SignOut";
 import Link from "next/link";
 import {getAllProfessions, getAllStoreSpecialties} from "@/lib/allData";
 import {CountryContext} from "@/context/country/CountryContext";
+import {slugifySpecialty} from "@/lib/Slugify";
 
 export interface NavMobileProps {
   data?: NavItemType[];
   userNav?: NavItemType[];
   onClickClose?: () => void;
+  currentSpecialty?: string;
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
   data = NAVIGATION_MSK,
   userNav = NAVIGATION_USER,
   onClickClose,
+  currentSpecialty
 }) => {
   const _renderMenuChild = (item: NavItemType) => {
     return (
@@ -122,11 +125,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   const { state } = useContext(AuthContext);
-  const { state: countryState } = useContext(CountryContext);
-  const professions: Profession[] = getAllProfessions();
-  const specialties: Specialty[] = getAllStoreSpecialties(countryState.country);
-
-  console.log({professions, specialties})
+  const { countryState: countryState } = useContext(CountryContext);
+  /*const professions: Profession[] = getAllProfessions();
+  const specialties: Specialty[] = getAllStoreSpecialties(countryState.country);*/
+  const professions: any[] = [];
+  const specialties: any[] = [];
 
   const resources: ResourceFilter[] = [
     { name: "Curso", id: 1 },
@@ -208,7 +211,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
   return (
     <div className="w-full h-full py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 border-r border-transparent dark:border-neutral-700">
       <div className="py-4 px-5 flex justify-between">
-        <Logo isOnBlog={window.location.href.includes("blog")} />
+        <Logo isOnBlog={typeof window !== 'undefined' && window.location.href.includes("blog")} />
         <ButtonClose onClick={onClickClose} />
       </div>
       <div className="z-10 px-4 pb-4">
@@ -249,18 +252,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
                             return (
                               <li key={`spe_${index}`}>
                                 <div className="course-sidebar-list">
+                                  <p>{currentSpecialty}</p>
                                   <input
                                     className="edu-check-box"
                                     type="checkbox"
                                     id={`specialty_${specialty.name}`}
-                                    // onChange={(event) => {
-                                    //   history.push(
-                                    //     `?especialidad=${slugifySpecialty(
-                                    //       specialty.name
-                                    //     )}&recurso=curso`
-                                    //   );
-                                    // }}
-                                    checked={isChecked("specialties",specialty)}
+                                    /*checked={isChecked("specialties",specialty)}*/
+                                    checked={ currentSpecialty == slugifySpecialty(specialty.name)}
                                   />
                                   <label
                                     className="edu-check-label"

@@ -17,7 +17,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
     country: Cookies.get('NEXT_LOCALE') || 'int'
   };
 
-  const [state, dispatch] = useReducer(countryReducer, initialState);
+  const [countryState, dispatch] = useReducer(countryReducer, initialState);
   const [bypassRedirect, setBypassRedirect] = useState(
     typeof window !== "undefined"
       ? localStorage.getItem("bypassRedirect") || ""
@@ -61,11 +61,8 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
             currentCountry = "";
           }
 
-          // console.log("stateCountry: " + state.country);
-          // console.log("currentCountry: " + currentCountry);
-
           if (
-            state.country != currentCountry ||
+            countryState.country != currentCountry ||
             getCountryFromURL() != currentCountry
           ) {
             if (
@@ -127,7 +124,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   return (
-    <CountryContext.Provider value={{ state, dispatch }}>
+    <CountryContext.Provider value={{ countryState, dispatch }}>
       {children}
     </CountryContext.Provider>
   );

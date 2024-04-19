@@ -8,7 +8,7 @@ import NcImage from "../NcImage/NcImage";
 import { CountryContext } from "@/context/country/CountryContext";
 const NavigationUser = () => {
   const { state } = useContext(AuthContext);
-  const { state: countryState } = useContext(CountryContext);
+  const { countryState: countryState } = useContext(CountryContext);
   const { dispatch } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalLogout = () => {

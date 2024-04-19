@@ -40,15 +40,18 @@ export const setAllStoreSpecialties = (value: any) => {
   allStoreSpecialties = value;
 };
 
-export const getAllStoreSpecialties = (currentCountry: string) => {
+export const getAllStoreSpecialties = async (currentCountry: string) => {
   if (!allStoreSpecialties.length) {
-    ssr.getSpecialtiesStore(currentCountry).then((specialties) => {
+    try {
+      const specialties = await ssr.getSpecialtiesStore(currentCountry);
       setAllStoreSpecialties(specialties);
       return specialties;
-    }).catch(e => [])
+    } catch (error) {
+      console.error("Error fetching specialties:", error);
+      return [];
+    }
   }
-
-  return allStoreSpecialties
+  return allStoreSpecialties;
 };
 export const isLoadingStoreSpecialties = () => loadingAllStoreSpecialties;
 
@@ -59,19 +62,20 @@ export const setAllProfessions = (value: any) => {
   allProfessions = value;
 };
 
-export const getAllProfessions =  () => {
-  if(!allProfessions.length) {
-
-     ssr.getAllProfessions().then((professions) => {
-      setAllProfessions(professions)
-       return allProfessions;
-
-    }).catch(e => [])
-
+export const getAllProfessions = async () => {
+  if (!allProfessions.length) {
+    try {
+      const professions = await ssr.getAllProfessions();
+      setAllProfessions(professions);
+      return professions;
+    } catch (error) {
+      console.error("Error fetching professions:", error);
+      return [];
     }
-
+  }
   return allProfessions;
 };
+
 export const isLoadingProfessions = () => loadingAllProfessions;
 
 //PageHome

@@ -1,5 +1,5 @@
 "use client";
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -11,7 +11,7 @@ import {
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import {useStoreFilters} from "@/context/storeFilters/StoreFiltersProvider";
+import {useStoreFilters} from "@/context/storeFilters/StoreProvider";
 import StoreBar from "./StoreBar";
 import {useSearchParams} from "next/navigation";
 import {removeAccents} from "@/lib/removeAccents";
@@ -23,9 +23,11 @@ import resourcesMapping from "@/data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
 
 import {slugifySpecialty} from "@/lib/Slugify";
+import {getAllCourses, setAllCourses} from "@/lib/allData";
+import ssr from "@Services/ssr";
+import {CountryContext} from "@/context/country/CountryContext";
 
 interface Props {
-  products: FetchCourseType[];
   specialties?: any;
   professions?: any;
 }
@@ -33,8 +35,8 @@ interface Props {
 let resources = resourcesMapping;
 let durations = durationsMapping;
 
-const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
-  const {
+const StoreContent: FC<Props> = ({ professions }) => {
+  let {
     storeFilters,
     addFilter,
     removeFilter,
@@ -43,8 +45,12 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
     clearSpecialties,
   } = useStoreFilters();
 
+  const { specialties } = useStoreFilters();
+
+  const { countryState } = useContext(CountryContext);
+
   const searchParams = useSearchParams();
-  const [allProducts, setAllProducts] = useState<FetchCourseType[]>(products);
+  const [allProducts, setAllProducts] = useState<FetchCourseType[]>([]);
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
 
   const [mutationProducts, setMutationProducts] = useState(false);
@@ -60,6 +66,18 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
   const [currentDuration, setCurrentDuration] = useState<string | null>();
   const [currentProfession, setCurrentProfession] = useState<string | null>();
 
+  let products: FetchCourseType[] = [];
+  // @ts-ignore
+  useEffect(async () => {
+    if (!getAllCourses().length) {
+      products = await ssr.getAllCourses(countryState.country);
+      setAllCourses(products);
+      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+      setAllProducts(products);
+    }
+  }, [countryState.country]);
+
+
   const handlePageChange = (pageNumber: number) => {
     console.log('HANDLING PAGE CHANGE');
     const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
@@ -71,12 +89,14 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
         total: totalPages,
       });
       const indexOfFirstItem = (pageNumber - 1) * itemsPerPage;
-      const currentItems = products.slice(
-        indexOfFirstItem,
-        indexOfFirstItem + itemsPerPage
-      );
-      setCurrentItems(currentItems);
-      setCurrentPage(pageNumber);
+      if (products){
+        const currentItems = products.slice(
+          indexOfFirstItem,
+          indexOfFirstItem + itemsPerPage
+        );
+        setCurrentItems(currentItems);
+        setCurrentPage(pageNumber);
+      }
     } else {
       removeFilter("page", {id: pageNumber, name: String(pageNumber)});
     }
@@ -85,27 +105,31 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
-    if (event) {
-      const filteredProducts = products.filter((product) =>
-        removeAccents(product.title.toLowerCase()).includes(
-          removeAccents(event.toLowerCase())
-        )
-      );
-      console.log("handleTriggerSearch",{filteredProducts});
-      setCurrentItems(
-        filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
-      );
-      setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-      setCurrentPage(currentPage);
-    } else {
-      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setTotalPages(Math.ceil(products.length / itemsPerPage));
-      setCurrentPage(currentPage);
+    if (products){
+      if (event) {
+        const filteredProducts = products.filter((product) =>
+          removeAccents(product.title.toLowerCase()).includes(
+            removeAccents(event.toLowerCase())
+          )
+        );
+        console.log("handleTriggerSearch",{filteredProducts});
+        setCurrentItems(
+          filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
+        );
+        setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
+        setCurrentPage(currentPage);
+      } else {
+        setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+        setTotalPages(Math.ceil(products.length / itemsPerPage));
+        setCurrentPage(currentPage);
+      }
     }
   };
 
   const triggerFilter = (event: any) => {
-    setCurrentItems(filterStoreProducts(products, event));
+    if (products){
+      setCurrentItems(filterStoreProducts(products, event));
+    }
   };
 
   // END STOREBAR FILTERS
@@ -257,7 +281,8 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
           setCurrentResource(urlResource.slug);
         }
       }
-      if (especialidad){
+
+      if (especialidad && specialties){
         console.log('SPECIALTIES: ', specialties);
         let urlSpecialty = specialties.find((specialty: any) => slugifySpecialty(specialty.name) === especialidad);
         console.log('URL SPECIALTY: ', urlSpecialty);
@@ -280,7 +305,7 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
           setCurrentDuration(urlDuration.slug);
         }
       }
-    }, []);
+    }, [specialties, allProducts]);
   }
 
   return (
@@ -296,8 +321,6 @@ const StoreContent: FC<Props> = ({ products, specialties, professions }) => {
             onChangeProfession={onChangeProfession}
             onChangeResource={onChangeResource}
             onChangeDuration={onChangeDuration}
-            professions={professions}
-            specialties={specialties}
             currentResource={currentResource}
             currentSpecialty={currentSpecialty}
             currentDuration={currentDuration}

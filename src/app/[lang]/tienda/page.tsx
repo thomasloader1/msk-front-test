@@ -1,5 +1,4 @@
-
-import { FC } from "react";
+import {FC, useContext} from "react";
 import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
@@ -11,6 +10,9 @@ import {
     setAllCourses
 } from "@/lib/allData";
 import { Metadata } from "next";
+import {StoreContext} from "@/context/storeFilters/StoreContext";
+import {CountryContext} from "@/context/country/CountryContext";
+import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 
 type Props = {
   params: { lang: string, page: string }
@@ -44,36 +46,21 @@ export interface PageStoreProps {
   params?: any;
 }
 
-const PageStore: FC<PageStoreProps> = async ({ className = "", params }) => {
-  const currentCountry = params.lang || cookies().get("country")?.value;
-
-  if (!getAllCourses().length) {
-    const fetchedCourses = await ssr.getAllCourses(currentCountry);
-    setAllCourses(fetchedCourses);
-  }
-
-  const specialties = await getAllStoreSpecialties(currentCountry)
-  const professions = await getAllProfessions()
-
+const PageStore: FC<PageStoreProps> = ({ className = "", params }) => {
   return (
     <div
       className={`nc-PageStore ${className} animate-fade-down`}
       data-nc-id="PageStore"
     >
-      <StoreLayout
+{      <StoreLayout
         subHeading=""
         headingEmoji=""
         heading="Tienda"
-        country={currentCountry}
       >
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
-            <StoreContent
-                products={getAllCourses()}
-                specialties={specialties}
-                professions={professions}
-            />
+            <StoreContent/>
         </section>
-      </StoreLayout>
+      </StoreLayout>}
     </div>
   );
 };

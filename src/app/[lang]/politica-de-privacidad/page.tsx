@@ -87,8 +87,8 @@ export interface SinglePageType extends PostDataType {
 const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
-  const { state } = useContext(CountryContext);
-  const { data } = usePoliticsPrivacy(state.country);
+  const { countryState } = useContext(CountryContext);
+  const { data } = usePoliticsPrivacy(countryState.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {

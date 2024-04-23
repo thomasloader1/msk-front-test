@@ -2,10 +2,10 @@
 import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
+import useTyC from "@/hooks/useTyC";
 import { CommentType } from "@/components/CommentCard/CommentCard";
-import useContractConditions from "@/hooks/useContractConditions";
-import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
+import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import Image from "next/image";
 
 const SINGLE: SinglePageType = {
@@ -77,23 +77,21 @@ export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
   comments: CommentType[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
-  articles: { title: string | null; content: string }[];
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
-  className = "",
-}) => {
-  const { state } = useContext(CountryContext);
-  const { data, loading, error } = useContractConditions(state.country);
+const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
+  const { countryState } = useContext(CountryContext);
+  const { data } = useTyC(countryState.country);
 
   return (
     <>
       <div
-        className={`nc-PageSingleTemp3Sidebar animate-fade-down ${className}`}
+        className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">
@@ -119,6 +117,7 @@ const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
           </div>
         </header>
 
+        {/* SINGLE MAIN CONTENT */}
         <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
@@ -129,4 +128,4 @@ const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
   );
 };
 
-export default PageContractConditions;
+export default PageTyC;

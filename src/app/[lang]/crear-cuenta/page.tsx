@@ -57,7 +57,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
   const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
 
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
 
   //console.log({product},window.location,`${window.location.origin}${window.location.pathname.replace("trial","curso")}`)
 
@@ -87,7 +87,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
     Otra_especialidad: "",
     Career: "",
     Year: "",
-    country: state.country,
+    country: countryState.country,
     type: "",
     identification: "",
     Terms_And_Conditions: false,
@@ -277,7 +277,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                             id="phone"
                             placeholder="Ingresar número telefónico"
                             defaultCountry={
-                              state.country.toUpperCase() as CountryCode
+                              countryState.country.toUpperCase() as CountryCode
                             }
                             onChange={(value: any) => {
                               form.setFieldValue("phone", value);
@@ -311,8 +311,8 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                     <option defaultValue="" value="">
                       Seleccionar tipo
                     </option>
-                    {documents[state.country]
-                        ? documents[state.country].map((p: any) => (
+                    {documents[countryState.country]
+                        ? documents[countryState.country].map((p: any) => (
                             <option key={p.id} value={`${p.type}/${p.id}`}>
                               {p.type}
                             </option>

@@ -56,15 +56,15 @@ const ContactForm: FC<ContactFormProps> = ({
 }) => {
   const { state: dataState } = useContext(DataContext);
   const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   const [defaultCountry, setDefaultCountry] = useState<CountryCode>(
     "" as CountryCode
   );
   const pathname = usePathname();
   const resourcePDFName = pathname.split("/").pop();
   useEffect(() => {
-    setDefaultCountry(state.country?.toUpperCase() as CountryCode);
-  }, [state]);
+    setDefaultCountry(countryState.country?.toUpperCase() as CountryCode);
+  }, [countryState]);
 
   const [professions, setProfessions] = useState<Profession[]>([]);
   const [specialtiesGroup, setSpecialtiesGroup] = useState<Specialty[]>([]);
@@ -313,10 +313,11 @@ const ContactForm: FC<ContactFormProps> = ({
   const requiredFormFields = ["First_Name",
     "Last_Name",
     "Email",
-      "Phone",
+    "Phone",
+    "Preferencia_de_contactaci_n",
     "Profesion",
-    "Especialidad",
     "Terms_And_Conditions"];
+  console.log(formik.values)
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
 
   return (

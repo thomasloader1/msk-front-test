@@ -2,19 +2,44 @@ import { Popover, Transition } from "@headlessui/react";
 import Avatar from "@/components/Avatar/Avatar";
 import ModalSignOut from "@/components/Modal/SignOut";
 import { AuthContext } from "@/context/user/AuthContext";
-import { Fragment, useContext, useState } from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import NcLink from "../NcLink/NcLink";
 import NcImage from "../NcImage/NcImage";
 import { CountryContext } from "@/context/country/CountryContext";
+
 const NavigationUser = () => {
   const { state } = useContext(AuthContext);
-  const { state: countryState } = useContext(CountryContext);
+  const { countryState: countryState } = useContext(CountryContext);
   const { dispatch } = useContext(AuthContext);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalLogout = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  const handlePopoverOpen = () => {
+    setPopoverOpen((prev) => !prev);
+  };
+
   const urlPre = countryState.country ? `/${countryState.country}` : "";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Verificar si el Popover está abierto y se ha hecho scroll
+      if (popoverOpen) {
+        // Cerrar el Popover al hacer scroll
+        setPopoverOpen(false);
+      }
+    };
+
+    // Agregar el evento de scroll al componente de nivel superior (puede ser <body> o <html>)
+    document.addEventListener("scroll", handleScroll);
+
+    // Limpiar el efecto cuando el componente se desmonte
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [popoverOpen]);
 
   return (
     <>
@@ -24,6 +49,7 @@ const NavigationUser = () => {
             <>
               <Popover.Button
                 className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                onClick={() => handlePopoverOpen()}
               >
                 <NcImage
                   src={"/images/icons/profile.svg"}
@@ -42,6 +68,7 @@ const NavigationUser = () => {
                 leave="transition ease-in duration-150"
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
+                show={popoverOpen}
               >
                 <Popover.Panel className="absolute z-10 w-screen max-w-[260px] px-4 mt-3 -right-10 sm:right-0 sm:px-0">
                   {({ close }) => (

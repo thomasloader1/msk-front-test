@@ -2,10 +2,10 @@
 import React, { FC, ReactNode, useContext, useEffect } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
-import useTyC from "@/hooks/useTyC";
 import { CommentType } from "@/components/CommentCard/CommentCard";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import useContractConditions from "@/hooks/useContractConditions";
 import Image from "next/image";
 
 const SINGLE: SinglePageType = {
@@ -80,18 +80,30 @@ export interface SinglePageType extends PostDataType {
   articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
+  articles: { title: string | null; content: string }[];
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
-  const { state } = useContext(CountryContext);
-  const { data } = useTyC(state.country);
+const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
+  className = "",
+}) => {
+  // const dispatch = useAppDispatch();
+  const { countryState } = useContext(CountryContext);
+  const { data, loading, error } = useContractConditions(countryState.country);
+
+  // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
+  /*  useEffect(() => {
+       dispatch(changeCurrentPage({ type: "/single/:slug", data: SINGLE }));
+       return () => {
+         dispatch(changeCurrentPage({ type: "/", data: {} }));
+       };
+     }, []); */
 
   return (
     <>
       <div
-        className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
+        className={`nc-PageSingleTemp3Sidebar animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">
@@ -117,7 +129,6 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
           </div>
         </header>
 
-        {/* SINGLE MAIN CONTENT */}
         <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
@@ -128,4 +139,4 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   );
 };
 
-export default PageTyC;
+export default PageContractConditions;

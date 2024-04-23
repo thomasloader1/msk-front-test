@@ -55,10 +55,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
     setAllPosts(fetchedPosts);
   }
 
-  if (typeof pageHomeWpContent === 'undefined') {
-    const fetchedContent = await ssr.getWpContent("/home-msk",currentCountry);
-    setPageHomeWpContent(fetchedContent);
-  }
+  const fetchedContent = await ssr.getWpContent("/home-msk",currentCountry);
+  setPageHomeWpContent(fetchedContent);
+
 
   const jsonLd = generateSchemaJson("WebSite");
   const heroTitle = pageHomeWpContent?.header.cabecera || ''

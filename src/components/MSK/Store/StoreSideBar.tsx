@@ -6,25 +6,16 @@ import {
   Specialty,
 } from "@/data/types";
 import { slugifySpecialty } from "@/lib/Slugify";
-import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import resourcesMapping from "../../../data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
+import {useStoreFilters} from "@/context/storeFilters/StoreProvider";
+
 
 interface Props {
   onChangeSpecialty: (specialty: any, action: string) => void;
   onChangeProfession: (profession: Profession) => void;
   onChangeResource: (resource: ResourceFilter, action: string) => void;
   onChangeDuration: (duration: DurationFilter, action: string) => void;
-  professions: Profession[];
-  specialties: Specialty[];
-  currentResource: string | null | undefined;
-  currentSpecialty: string | null | undefined;
-  currentDuration: string | null | undefined;
-  currentProfession: string | null | undefined;
-  setCurrentResource: (resource: any) => void;
-  setCurrentSpecialty: (specialty: any) => void;
-  setCurrentDuration: (duration: any) => void;
-  setCurrentProfession: (profession: any) => void;
 }
 
 let resources = resourcesMapping;
@@ -35,21 +26,17 @@ const StoreSideBar: FC<Props> = ({
   onChangeProfession,
   onChangeResource,
   onChangeDuration,
-  professions,
-  specialties,
-  currentResource,
-  currentDuration,
-  setCurrentResource,
-  setCurrentProfession,
-  setCurrentSpecialty,
-  setCurrentDuration,
-  currentSpecialty,
-  currentProfession,
 }) => {
   const [specialtyVisible, setSpecialtyVisible] = useState<boolean>(true);
   const [resourceVisible, setResourceVisible] = useState<boolean>(false);
   const [professionVisible, setProfessionVisible] = useState<boolean>(false);
   const [durationVisible, setDurationVisible] = useState<boolean>(false);
+
+  let specialties : Specialty[] = useStoreFilters().specialties;
+  let professions : Profession[] = useStoreFilters().professions;
+
+  const { storeFilters } = useStoreFilters();
+
 
   const toggleSpecialtyVisibility = () => {
     setSpecialtyVisible((prevVisible) => !prevVisible);
@@ -65,22 +52,18 @@ const StoreSideBar: FC<Props> = ({
   };
 
   const setSpecialtyFilter = (specialty: Specialty, action: string) => {
-    (action == "add") ? setCurrentSpecialty(slugifySpecialty(specialty.name)) : setCurrentSpecialty(null);
     onChangeSpecialty(specialty, action);
   };
 
   const setResourceFilter = (resource: ResourceFilter, action: string) => {
-    (action == "add") ? setCurrentResource(resource.slug) : setCurrentResource(null);
     onChangeResource(resource, action);
   };
 
   const setProfessionFilter = (profession: Profession, action: string) => {
-    (action == "add") ? setCurrentProfession(profession.slug) : setCurrentProfession(null);
     onChangeProfession(profession);
   };
 
   const setDurationFilter = (duration: DurationFilter, action: string) => {
-    (action == "add") ? setCurrentDuration(duration.slug) : setCurrentDuration(null);
     onChangeDuration(duration, action);
   };
 
@@ -106,9 +89,7 @@ const StoreSideBar: FC<Props> = ({
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
                         onChange={(e) => setSpecialtyFilter(specialty, e.target.checked ? "add" : "delete")}
-                        checked={
-                          currentSpecialty == slugifySpecialty(specialty.name)
-                        }
+                        checked={ !!storeFilters.specialties.find((item: Specialty) => item.name == specialty.name) }
                       />
                       <label
                         className="edu-check-label"
@@ -143,7 +124,7 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`res_${resource.id}`}
-                        checked={ currentResource == resource.slug }
+                        checked={ !!storeFilters.resources.find((item: ResourceFilter) => item.slug == resource.slug)}
                         onChange={(e) =>
                           setResourceFilter(
                             resource,
@@ -175,7 +156,7 @@ const StoreSideBar: FC<Props> = ({
           <h3 className="drop-btn" onClick={toggleProfessionVisibility}>
             Profesión
           </h3>
-          {professions.length ? (
+          {professions && professions.length ? (
             <ul>
               {professions.map((profession, index: number) => {
                 return (
@@ -185,7 +166,7 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`profession_${profession.id}`}
-                        checked={ currentProfession == profession.slug }
+                        checked={ !!storeFilters.professions.find((item: Profession) => item.slug == profession.slug)}
                         onChange={(e) =>
                           setProfessionFilter(
                             profession,
@@ -226,7 +207,7 @@ const StoreSideBar: FC<Props> = ({
                       className="edu-check-box"
                       type="checkbox"
                       id={`dur_${duration.id}`}
-                      checked={ currentDuration == duration.slug }
+                      checked={ !!storeFilters.duration.find((item: DurationFilter) => item.slug == duration.slug)}
                       onChange={(e) =>
                         setDurationFilter(
                           duration,

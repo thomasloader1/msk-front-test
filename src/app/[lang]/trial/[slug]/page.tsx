@@ -66,10 +66,10 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
   const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
 
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   const { state: authState } = useContext(AuthContext);
   const { product, loading } = useSingleProduct(slug, {
-    country: state.country,
+    country: countryState.country,
   });
  
   //console.log({product},window.location,`${window.location.origin}${window.location.pathname.replace("trial","curso")}`)
@@ -314,7 +314,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                         id="phone"
                         placeholder="Ingresar número telefónico"
                         defaultCountry={
-                          state.country.toUpperCase() as CountryCode
+                          countryState.country.toUpperCase() as CountryCode
                         }
                         onChange={(value: any) => {
                           form.setFieldValue("phone", value);
@@ -348,8 +348,8 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
                     <option defaultValue="" value="">
                       Seleccionar tipo
                     </option>
-                    {documents[state.country]
-                      ? documents[state.country].map((p: any) => (
+                    {documents[countryState.country]
+                      ? documents[countryState.country].map((p: any) => (
                         <option key={p.id} value={`${p.type}/${p.id}`}>
                           {p.type}
                         </option>

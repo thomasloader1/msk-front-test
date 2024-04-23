@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
+import bts from "../../styles/bts.module.css";
 import NcModal from "@/components/NcModal/NcModal";
 import FooterNewsletter from "./Newsletter";
 import { CountryContext } from "@/context/country/CountryContext";
@@ -11,7 +12,16 @@ const FooterEduman = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [isOnBlog, setIsOnBlog] = useState(false);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
+  const scrollToContactForm = () => {
+    const contactForm = document.getElementById("contactanos");
+    if (contactForm) {
+      window.scrollTo({
+        top: document.getElementById("contactanos")!.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const openModal = (e: any) => {
     e.preventDefault();
@@ -53,7 +63,7 @@ const FooterEduman = () => {
                     <div className="field">
                       <NcImage
                         src={"/images/icons/email_alt.svg"}
-                        alt="Email Icon"
+                        alt=""
                         width="10"
                         height="20"
                       />
@@ -69,7 +79,7 @@ const FooterEduman = () => {
                       Suscribirme
                       <NcImage
                         src={"/images/icons/plane.svg"}
-                        alt="Send Icon"
+                        alt=""
                         width="20"
                         height="20"
                       />
@@ -108,7 +118,7 @@ const FooterEduman = () => {
                     >
                       <NcImage
                         src={"/images/icons/fb.svg"}
-                        alt="Facebook Icon"
+                        alt=""
                         width="10"
                         height="10"
                         className="object-fill"
@@ -121,7 +131,7 @@ const FooterEduman = () => {
                     >
                       <NcImage
                         src={"/images/icons/ig.svg"}
-                        alt="Instagram Icon"
+                        alt=""
                         width="20"
                         height="20"
                         className="object-fill"
@@ -135,7 +145,7 @@ const FooterEduman = () => {
                       <NcImage
                         src={"/images/icons/yt.svg"}
                         className="object-fill pt-[4px]"
-                        alt="Youtube Icon"
+                        alt=""
                         width="20"
                         height="20"
                       />
@@ -148,7 +158,7 @@ const FooterEduman = () => {
                       <NcImage
                         src={"/images/icons/in.svg"}
                         className="object-fill"
-                        alt="LinkedIn Icon"
+                        alt=""
                         width="20"
                         height="20"
                       />
@@ -177,7 +187,7 @@ const FooterEduman = () => {
                         <NcLink href="/convenios">Convenios</NcLink>
                       </li> */}
 
-                      {state.country.includes("ec") && (
+                      {countryState.country.includes("ec") && (
                         <li>
                           <NcLink href="/cancelar-suscripcion">
                             Arrepentimiento de compra
@@ -197,10 +207,10 @@ const FooterEduman = () => {
                       </li>
                       <li>
                         <NcLink
-                          href="/bases-promocionales"
+                          href="/terminos-y-condiciones"
                           className="font-light"
                         >
-                          Bases promocionales
+                          Términos y condiciones
                         </NcLink>
                       </li>
                       <li>
@@ -221,10 +231,10 @@ const FooterEduman = () => {
                       </li>
                       <li>
                         <NcLink
-                          href="/terminos-y-condiciones"
+                          href="/condiciones-de-contratacion"
                           className="font-light"
                         >
-                          Términos y condiciones
+                          Condiciones de contratación
                         </NcLink>
                       </li>
                     </ul>

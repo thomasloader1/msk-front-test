@@ -84,8 +84,8 @@ export interface SinglePageType extends PostDataType {
 }
 
 const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
-  const { state } = useContext(CountryContext);
-  const { data } = useTyC(state.country);
+  const { countryState } = useContext(CountryContext);
+  const { data } = useTyC(countryState.country);
 
   return (
     <>

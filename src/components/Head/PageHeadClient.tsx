@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Head from "next/head";
-import { StoreFiltersContext } from "@/context/storeFilters/StoreContext";
+import { StoreContext } from "@/context/storeFilters/StoreContext";
 import { getDescriptionContent } from "@/lib/pageHeadUtils";
 import { PageFilter } from "@/data/types";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
@@ -24,7 +24,7 @@ const PageHeadClient: React.FC<PageHeadClientProps> = ({
   schemaJson = "",
   schemaJsonData = null,
 }) => {
-  const state = useContext(StoreFiltersContext);
+  const state = useContext(StoreContext);
   const isProduction =
     typeof window !== "undefined"
       ? window.location.hostname === "msklatam.com"

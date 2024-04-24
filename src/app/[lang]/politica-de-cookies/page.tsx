@@ -84,8 +84,8 @@ export interface SinglePageType extends PostDataType {
 }
 
 const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
-  const { state } = useContext(CountryContext);
-  const { data, loading, error } = useCookiesTerms(state.country);
+  const { countryState } = useContext(CountryContext);
+  const { data, loading, error } = useCookiesTerms(countryState.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {

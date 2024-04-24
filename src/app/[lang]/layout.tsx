@@ -7,7 +7,7 @@ import DataProvider from "@/context/data/DataProvider";
 import UTMProvider from "@/context/utm/UTMProvider";
 import CountryProvider from "@/context/country/CountryProvider";
 import AuthProvider from "@/context/user/AuthProvider";
-import {StoreFiltersProvider} from "@/context/storeFilters/StoreFiltersProvider";
+import {StoreProvider} from "@/context/storeFilters/StoreProvider";
 import Header from "@/components/Header/Header";
 import Script from "next/script";
 import {Metadata} from "next";
@@ -66,12 +66,12 @@ export default async function RootLayout({params, children}: LayoutProps) {
             <UTMProvider>
               <CountryProvider>
                 <AuthProvider>
-                  <StoreFiltersProvider>
+                  <StoreProvider>
                     <Header/>
                     {children}
                     <Script strategy="beforeInteractive" src="https://sdk.rebill.to/v2/rebill.min.js"/>
                     <Footer/>
-                  </StoreFiltersProvider>
+                  </StoreProvider>
                 </AuthProvider>
               </CountryProvider>
             </UTMProvider>

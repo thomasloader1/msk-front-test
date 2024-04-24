@@ -87,8 +87,8 @@ const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
   // const dispatch = useAppDispatch();
-  const { state } = useContext(CountryContext);
-  const { data, loading, error } = useContractConditions(state.country);
+  const { countryState } = useContext(CountryContext);
+  const { data, loading, error } = useContractConditions(countryState.country);
 
   // UPDATE CURRENTPAGE DATA IN PAGEREDUCERS
   /*  useEffect(() => {

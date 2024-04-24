@@ -28,7 +28,7 @@ export interface PageTrialSuscribeProps {
 }
 
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
-console.log(process.env)
+
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {countryState: {country}} = useContext(CountryContext);
   const {state: AuthState ,dispatch} = useContext(AuthContext);
@@ -98,7 +98,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     }
   }, [product, hasCoursedRequested, AuthState.profile])
 
-
   return (
     <div ref={viewRef} className="nc-PageSuscribe relative animate-fade-down">
       <div className="relative overflow-hidden">
@@ -143,7 +142,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         onCloseModal={() => {
           setShow(false);
           viewRef.current.classList.remove("blur-md")
-
         }}
         renderTrigger={() => {
           return null;

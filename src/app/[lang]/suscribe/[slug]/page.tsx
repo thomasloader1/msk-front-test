@@ -28,7 +28,7 @@ export interface PageTrialSuscribeProps {
 }
 
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
-
+console.log(process.env)
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const {countryState: {country}} = useContext(CountryContext);
   const {state: AuthState ,dispatch} = useContext(AuthContext);

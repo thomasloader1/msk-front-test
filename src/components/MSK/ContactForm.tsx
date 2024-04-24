@@ -319,7 +319,7 @@ const ContactForm: FC<ContactFormProps> = ({
     "Terms_And_Conditions"];
 
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
-
+  console.log()
   return (
     <>
       <div className="col-span-3" id="contactanos">

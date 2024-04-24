@@ -86,22 +86,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);
         const verifiedProductAndProfile = (typeof product !== 'undefined' && AuthState.profile != null && Object.keys(AuthState.profile).length > 1);
 
-        /*console.log({
-          initedRebill,
-          verifiedProductAndProfile: {
-            product: typeof product !== 'undefined',
-            productData: product,
-            profile:AuthState.profile != null,
-            profileData: AuthState.profile
-          },
-          verifiedCoursedRequested:{
-            condition: hasCoursedRequested != null && !hasCoursedRequested,
-            hasCoursedRequested
-          },
-          showMissingData,
-          condition: initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData
-        })*/
-
         if (initedRebill == null && verifiedCoursedRequested && verifiedProductAndProfile && !showMissingData) {
            setInitedRebill(true)
            console.group("Rebill")

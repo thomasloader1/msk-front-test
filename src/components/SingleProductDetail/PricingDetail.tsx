@@ -15,7 +15,7 @@ const PricingDetail: FC<PricingDetailProps> = ({ isEbook, product }) => {
     if (isEbook) return null
 
     // @ts-ignore
-    const {state:countryState} = useContext(CountryContext);
+    const {countryState} = useContext(CountryContext);
     const currencyJSON: JsonMapping = currencyMapping;
     const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
     const installments = installmentsJSON[countryState.country].quotes;

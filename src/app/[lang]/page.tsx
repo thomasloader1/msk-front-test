@@ -63,8 +63,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
   const heroTitle = pageHomeWpContent?.header.cabecera || ''
   const heroImage = pageHomeWpContent?.header.imagen || ''
 
-
-  console.log({pageHomeWpContent})
   return (
       <div className="nc-PageHome relative animate-fade-down">
         <Script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}/>

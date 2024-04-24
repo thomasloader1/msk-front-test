@@ -327,7 +327,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
           />
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
-            {(currentItems.length && !mutationProducts) ? (
+            {(currentItems.length) ? (
               currentItems.map((product, index) => {
                 return (
                   <StoreProduct
@@ -338,9 +338,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
                 );
               })
             ) : (
-              <>
-                { mutationProducts ? <StoreSkeleton /> : <NoResultFound /> }
-              </>
+               <NoResultFound />
             )}
           </div>
 

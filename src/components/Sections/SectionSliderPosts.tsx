@@ -91,7 +91,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             forSingleNote={forSingleNote}
           />
         )}
-        itemPerRow={posts.length > 4 ? perView : posts.length}
+        itemPerRow={posts?.length > 4 ? perView : posts?.length}
         //loading={showPosts ? loadingBestSellers : loading}
       />
     </div>

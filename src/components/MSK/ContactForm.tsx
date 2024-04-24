@@ -317,7 +317,7 @@ const ContactForm: FC<ContactFormProps> = ({
     "Preferencia_de_contactaci_n",
     "Profesion",
     "Terms_And_Conditions"];
-  console.log(formik.values)
+
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
 
   return (

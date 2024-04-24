@@ -61,26 +61,26 @@ export const REBILL_CONF = {
 };
 
 export const getRebillInitialization = (country: string) => {
-  console.log()
+
   switch (country){
     case 'cl':
       return {
-        organization_id: PROD ? NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD : NEXT_PUBLIC_REBILL_ORG_ID_TEST,
-        api_key: PROD ? NEXT_PUBLIC_REBILL_CL_API_KEY_PRD : NEXT_PUBLIC_REBILL_API_KEY_TEST,
+        organization_id: NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_CL_API_KEY_PRD,
         api_url: REBILL_CONF.URL,
 
       };
     case 'co':
       return {
-        organization_id: PROD ? NEXT_PUBLIC_REBILL_COP_ORG_ID_PRD : NEXT_PUBLIC_REBILL_ORG_ID_TEST,
-        api_key: PROD ? NEXT_PUBLIC_REBILL_COP_API_KEY_PRD : NEXT_PUBLIC_REBILL_API_KEY_TEST,
+        organization_id: NEXT_PUBLIC_REBILL_COP_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_COP_API_KEY_PRD,
         api_url: REBILL_CONF.URL,
 
       };
     case 'uy':
       return {
-        organization_id: PROD ? NEXT_PUBLIC_REBILL_UY_ORG_ID_PRD : NEXT_PUBLIC_REBILL_ORG_ID_TEST,
-        api_key: PROD ? NEXT_PUBLIC_REBILL_UY_API_KEY_PRD : NEXT_PUBLIC_REBILL_API_KEY_TEST,
+        organization_id: NEXT_PUBLIC_REBILL_UY_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_UY_API_KEY_PRD,
         api_url: REBILL_CONF.URL,
 
       };

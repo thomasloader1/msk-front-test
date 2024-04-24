@@ -81,6 +81,8 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
       if (typeof window.Rebill !== 'undefined') {
         const initialization = getRebillInitialization(country)
 
+        console.log({initialization})
+
         let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
         const verifiedCoursedRequested = (hasCoursedRequested != null && !hasCoursedRequested);

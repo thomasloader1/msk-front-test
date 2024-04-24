@@ -6,7 +6,7 @@ export interface ContactFormSchema {
   Email: string;
   Phone: string;
   Profesion: string;
-  Especialidad: string;
+  Especialidad?: string;
   Terms_And_Conditions: boolean;
   Description?: string;
   Pais?: string;
@@ -60,9 +60,17 @@ const phoneValidation = Yup.string().required("El teléfono es requerido");
 
 const professionValidation = Yup.string().required("La profesión es requerida");
 
-const specialtyValidation = Yup.string().required(
-  "La especialidad es requerida"
-);
+const specialtyValidation = Yup.string().test(
+  "specialty",
+  "La especialidad es requerida",
+  function (value) {
+    const profession = this.parent.Profesion;
+    if (profession === "Estudiante") {
+      return false;
+    }
+    return true;
+  }
+)
 
 const anotherProfessionValidation = Yup.string().test(
   "other-profession",
@@ -124,18 +132,11 @@ const anotherSpecialtyValidation = Yup.string().test(
   }
 );
 
-const identificationValidation = Yup.string().required(
-  "La identificación es requerida"
-);
+const identificationValidation = Yup.string().required("La identificación es requerida");
 
 const formReason = Yup.string().required("El motivo de solicitud es requerido");
-const emailValidation = Yup.string()
-  .email("Correo electrónico inválido")
-  .required("El correo electrónico es requerido");
-
-const termsAndConditionsValidation = Yup.boolean()
-  .oneOf([true], "Debes aceptar los términos y condiciones")
-  .required("Debes aceptar los términos y condiciones");
+const emailValidation = Yup.string().email("Correo electrónico inválido").required("El correo electrónico es requerido");
+const termsAndConditionsValidation = Yup.boolean().oneOf([true], "Debes aceptar los términos y condiciones").required("Debes aceptar los términos y condiciones");
 
 export const useYupValidation = () => {
   const contactFormValidation: Yup.Schema<ContactFormSchema> =
@@ -153,6 +154,7 @@ export const useYupValidation = () => {
       Otra_especialidad: anotherSpecialtyValidation,
       Terms_And_Conditions: termsAndConditionsValidation,
     });
+
   const temarioFormValidation: Yup.Schema<TemarioFormSchema> =
     Yup.object().shape({
       First_Name: firstNameValidation,
@@ -166,6 +168,7 @@ export const useYupValidation = () => {
       career: careerValidation,
       Terms_And_Conditions: termsAndConditionsValidation,
     });
+
   const cancelSubscriptionValidation: Yup.Schema<CancelSubscriptionSchema> =
     Yup.object().shape({
       first_name: firstNameValidation,

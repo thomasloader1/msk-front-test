@@ -72,10 +72,10 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const { allProfessions, allSpecialties, allSpecialtiesGroups } = dataState;
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [professions, setProfessions] = useState<Profession[]>([]);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   useEffect(() => {
-    setDefaultCountry(state.country?.toUpperCase() as CountryCode);
-  }, [state]);
+    setDefaultCountry(countryState.country?.toUpperCase() as CountryCode);
+  }, [countryState]);
   const [formSubmitted, setFormSubmitted] = useState(true);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
@@ -262,7 +262,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
             cl: /^\d{7,8}-[0-9Kk]$/, // RUT para Chile (ejemplo, ajusta según necesites)
           };
 
-          return countryRegexMap[state.country]?.test(value) || false;
+          return countryRegexMap[countryState.country]?.test(value) || false;
         }
       )
       .required("Este campo es obligatorio"),
@@ -389,7 +389,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
                   name="phone"
                   id="phone"
                   placeholder="Ingresar número telefónico"
-                  defaultCountry={state.country.toUpperCase() as CountryCode}
+                  defaultCountry={countryState.country.toUpperCase() as CountryCode}
                   value={formik.values.phone || user.contact?.phone}
                   onChange={(value: any) => {
                     form.setFieldValue("phone", value);
@@ -655,8 +655,8 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
               <option defaultValue="" value="">
                 Seleccionar tipo
               </option>
-              {currentDocumentsType[state.country]
-                ? currentDocumentsType[state.country].map((p) => (
+              {currentDocumentsType[countryState.country]
+                ? currentDocumentsType[countryState.country].map((p) => (
                     <option key={p.id} value={`${p.type}/${p.id}`}>
                       {p.type}
                     </option>

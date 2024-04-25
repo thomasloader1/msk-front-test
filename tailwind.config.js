@@ -70,6 +70,7 @@ module.exports = {
         "blue-post": "#759CFF",
         "orange-post": "#FF7728",
         "red-post": "#FF5D5E",
+        "red-2": "#FF384F",
         "emerald-post": "#9AFFD6",
         "brown-post": "#E8874E",
         "teal-active": "#F3FEFC",

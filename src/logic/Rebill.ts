@@ -5,6 +5,7 @@ import rebillCountryPriceMapping from "@/data/jsons/__rebillCurrencyPrices.json"
 import { getEnv } from "@/utils/getEnv";
 import api from "@Services/api";
 import ssr from "@Services/ssr";
+import translateDocumentType from "@/utils/translateDocumentType";
 
 declare global {
   interface Window {
@@ -20,11 +21,23 @@ let NEXT_PUBLIC_REBILL_ORG_ID_TEST = process.env.NEXT_PUBLIC_REBILL_ORG_ID_TEST;
 let NEXT_PUBLIC_REBILL_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_ORG_ID_PRD;
 
 //CL
-let NEXT_PUBLIC_REBILL_CL_API_KEY_TEST = process.env.NEXT_PUBLIC_REBILL_CL_API_KEY_TEST;
-let NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST = process.env.NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST;
 let NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD;
 let NEXT_PUBLIC_REBILL_CL_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_CL_API_KEY_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_PRD = process.env.NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_PRD;
 let NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST = process.env.NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST;
+
+//UY
+let NEXT_PUBLIC_REBILL_UY_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_UY_ORG_ID_PRD;
+let NEXT_PUBLIC_REBILL_UY_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_UY_API_KEY_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_PRD = process.env.NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_TEST = process.env.NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_TEST;
+
+//UY
+let NEXT_PUBLIC_REBILL_COP_ORG_ID_PRD = process.env.NEXT_PUBLIC_REBILL_COP_ORG_ID_PRD;
+let NEXT_PUBLIC_REBILL_COP_API_KEY_PRD = process.env.NEXT_PUBLIC_REBILL_COP_API_KEY_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_CO_FREEMIUM_PRD = process.env.NEXT_PUBLIC_REBILL_REBILL_COP_FREEMIUM_PRD;
+let NEXT_PUBLIC_REBILL_REBILL_CO_FREEMIUM_TEST = process.env.NEXT_PUBLIC_REBILL_REBILL_COP_FREEMIUM_TEST;
+
 
 const rebillCountriesPrices: JsonMapping = rebillCountryPriceMapping
 
@@ -38,17 +51,36 @@ export const REBILL_CONF = {
     REBILL: ['cl','co','uy','mx']
   },
   PRICES: {
+    NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_PRD,
+    NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_PRD,
+    NEXT_PUBLIC_REBILL_REBILL_CO_FREEMIUM_PRD,
     NEXT_PUBLIC_REBILL_REBILL_CL_FREEMIUM_TEST,
+    NEXT_PUBLIC_REBILL_REBILL_UY_FREEMIUM_TEST,
+    NEXT_PUBLIC_REBILL_REBILL_CO_FREEMIUM_TEST
 }
 };
 
 export const getRebillInitialization = (country: string) => {
-  console.log({country, PROD,NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST,NEXT_PUBLIC_REBILL_CL_API_KEY_TEST})
+
   switch (country){
     case 'cl':
       return {
-        organization_id: PROD ? NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD : NEXT_PUBLIC_REBILL_CL_ORG_ID_TEST,
-        api_key: PROD ? NEXT_PUBLIC_REBILL_CL_API_KEY_PRD : NEXT_PUBLIC_REBILL_CL_API_KEY_TEST,
+        organization_id: NEXT_PUBLIC_REBILL_CL_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_CL_API_KEY_PRD,
+        api_url: REBILL_CONF.URL,
+
+      };
+    case 'co':
+      return {
+        organization_id: NEXT_PUBLIC_REBILL_COP_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_COP_API_KEY_PRD,
+        api_url: REBILL_CONF.URL,
+
+      };
+    case 'uy':
+      return {
+        organization_id: NEXT_PUBLIC_REBILL_UY_ORG_ID_PRD,
+        api_key: NEXT_PUBLIC_REBILL_UY_API_KEY_PRD,
         api_url: REBILL_CONF.URL,
 
       };
@@ -122,40 +154,23 @@ export const initRebill = async (
 ) => {
   try {
     const contactZoho: ContactCRM = await ssr.getEmailByIdZohoCRM("Contacts", user.email);
-    /*console.log({contactZoho, user})*/
     const customerRebill = mappingCheckoutFields(contactZoho);
-   /* console.log({customerRebill})
-    console.log({cardHolder:{
-        name: contactZoho.Full_Name,
-        identification: {
-          type: contactZoho.Tipo_de_Documento,
-          value: contactZoho.Identificacion,
-        },
-      }})*/
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
 
-    //Seteo de identidicacion del customer
-    RebillSDKCheckout.setCardHolder({
+    const cardHolder = {
       name: contactZoho.Full_Name,
       identification: {
-        type: contactZoho.Tipo_de_Documento,
+        type: translateDocumentType(contactZoho.Tipo_de_Documento),
         value: contactZoho.Identificacion,
       },
-    });
+    }
+console.log(cardHolder);
+    //Seteo de identidicacion del customer
+    RebillSDKCheckout.setCardHolder(cardHolder);
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
-   /* console.log({
-      transaction: {
-        prices: [
-          {
-            id,
-            quantity,
-          },
-        ],
-      }
-    });*/
     RebillSDKCheckout.setTransaction({
       prices: [
         {

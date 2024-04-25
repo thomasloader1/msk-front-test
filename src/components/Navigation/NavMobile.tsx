@@ -436,7 +436,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
             </li>
           </ul>
         ) : (
-          <ul className="flex flex-col py-2 px-2 space-y-1">
+          <ul className="flex flex-col py-2 px-2 space-y-1 absolute bottom-0 right-0 left-0">
             <ButtonSecondary
               href={"/iniciar-sesion"}
               sizeClass="px-4 py-2 sm:px-5"

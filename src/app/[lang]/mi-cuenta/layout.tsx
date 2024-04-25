@@ -5,6 +5,7 @@ import ModalSignOut from "@/components/Modal/SignOut";
 import NcLink from "@/components/NcLink/NcLink";
 import { usePathname, useRouter } from "next/navigation";
 import { AuthContext } from "@/context/user/AuthContext";
+import Image from "next/image";
 export const runtime = "edge";
 export interface PageDashboardProps {
   className?: string;
@@ -93,28 +94,32 @@ const PageDashboard: FC<PageDashboardProps> = ({
                               ? "text-white"
                               : "text-white-900"
                           }
-                          href={`/mi-cuenta/${sPath}`}
+                          href={`/mi-cuenta${sPath}`}
                         >
-                          <img
+                          <Image
                             src={`/images/icons/${icon}.svg`}
                             className={`mr-2 ${
                               pathname.includes(`/mi-cuenta${sPath}`)
                                 ? "menu-profile-icon-active"
                                 : ""
                             }`}
-                            width="16"
+                            width={16}
+                            height={16}
+                            alt={`${pageName} icon`}
                           />
                           {pageName}
-                        </NcLink>{" "}
+                        </NcLink>
                       </li>
                     );
                   })}
                   <li className="cursor-pointer">
                     <a href="https://ayuda.msklatam.com/" target="_blank">
                       <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
-                        <img
+                        <Image
                           src={`/images/icons/faq.svg`}
-                          width="16"
+                          width={16}
+                          height={16}
+                          alt="FAQ Icon"
                           className="mr-2"
                         />
                         Centro de ayuda
@@ -123,9 +128,11 @@ const PageDashboard: FC<PageDashboardProps> = ({
                   </li>
                   <li className="cursor-pointer" onClick={handleModalLogout}>
                     <span className="flex px-6 py-2.5 rounded-lg hover:text-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-100">
-                      <img
+                      <Image
                         src={`/images/icons/session.svg`}
-                        width="16"
+                        width={16}
+                        height={16}
+                        alt="Session Icon"
                         className="mr-2"
                       />
                       Cerrar Sesión

@@ -13,7 +13,7 @@ const SearchProducts = () => {
   const [products, setProducts] = useState<FetchCourseType[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
   const [isOnBlog, setIsOnBlog] = useState(false);
 
   const removeAccents = (str: string) => {
@@ -56,17 +56,16 @@ const SearchProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //console.log('FETCHING DATA: ', products);
-        //console.log('STATE: ', state);
+        console.log('STATE: ', countryState);
         let courses;
         if (pathname?.includes("/blog")) {
           // Fetch blog posts
         } else {
           if (products.length == 0 ){
             //const currentCountry = cookies().get("country")?.value;
-            let productsCountry = state.country == 'int' ? '' : state.country;
+            let productsCountry = countryState.country == 'int' ? '' : countryState.country;
             courses = await ssr.getAllCourses(productsCountry);
-            //console.log('Courses', courses);
+
             setAuxProducts(courses);
             setProducts(courses);
             setIsOnBlog(false);
@@ -96,7 +95,7 @@ const SearchProducts = () => {
         <NcImage
           src={"/images/icons/search.svg"}
           className="absolute top-2.5 right-2"
-          alt=""
+          alt="Search Icon"
           width="21"
           height="21"
         />

@@ -103,7 +103,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     userData.contact?.type_doc || ""
   );
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>(
-    userData.contact?.type_doc ? state.country : ""
+    userData.contact?.type_doc ? countryState.country : ""
   );
 
   const handleOptionTypeChange = (

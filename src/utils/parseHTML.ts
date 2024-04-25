@@ -23,7 +23,6 @@ export const parseHtml = (contentHtml: string, removesContainer: boolean = false
       }
       // Agrega la clase 'font-lora'
     }
-
   });
 
   ulElements.forEach((ulElement) => {

@@ -1,8 +1,6 @@
 import React, { FC } from "react";
 import NcImage from "components/NcImage/NcImage";
-import { TaxonomyType, TwMainColor } from "data/types";
 import { Link } from "react-router-dom";
-import Badge from "components/Badge/Badge";
 
 export interface CardCategory6Props {
   className?: string;

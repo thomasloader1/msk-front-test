@@ -39,6 +39,8 @@ const useInterval = (url: string): UseIntervalResult => {
       } finally {
         if (intents === 0) {
           clearInterval(intervalId);
+          console.log("Clear Interval",{intervalId});
+          window.location.reload();
           setIsRunning(false);
         }
         console.log(intents);
@@ -46,8 +48,8 @@ const useInterval = (url: string): UseIntervalResult => {
     }, 5000);
 
     setIntervalId(interval);
-    return interval;
     console.groupEnd();
+    return interval;
   };
 
   useEffect(() => {

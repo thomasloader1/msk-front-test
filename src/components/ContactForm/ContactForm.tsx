@@ -23,6 +23,7 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import { ContactFormSchema, useYupValidation } from "hooks/useYupValidation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { DataContext } from "context/data/DataContext";
+import { isFormValid } from "utils/isFormValid";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -59,12 +60,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [showInputProfession, setShowInputProfession] = useState(false);
   const [showInputSpecialties, setShowInputSpecialties] = useState(false);
-  const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>("");
+  const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>("");
   const [selectedProfessionId, setSelectedProfessionId] = useState<string>("");
   const [currentGroup, setCurrentGroup] = useState<any>([]);
-  const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>("");
+  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>("");
   const [selectedCareer, setSelectedCareer] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
@@ -162,6 +161,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
+    
     if (value && value.length) {
       const values = value.split("/");
       const profession = values[0];
@@ -171,10 +171,10 @@ const ContactFormSection: FC<ContactFormProps> = ({
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
-      const groups =
-        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      const groups = specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup(groups);
     } else {
+      formik.setFieldValue("Profesion", "");
       setSelectedOptionProfession("");
       setSelectedProfessionId("");
     }
@@ -301,6 +301,16 @@ const ContactFormSection: FC<ContactFormProps> = ({
     formik.setFieldValue("Preferencia_de_contactaci_n", value);
   };
 
+  const requiredFormFields = ["First_Name",
+    "Last_Name",
+    "Email",
+    "Phone",
+    "Preferencia_de_contactaci_n",
+    "Profesion",
+    "Terms_And_Conditions"];
+
+  const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched) || onRequest;
+
   return (
     <>
       <div className="col-span-3" id="contactanos">
@@ -310,7 +320,6 @@ const ContactFormSection: FC<ContactFormProps> = ({
               <Form
                 onSubmit={formik.handleSubmit}
                 action="/leads"
-                className=""
                 autoComplete="off"
                 ref={formRef}
               >
@@ -525,7 +534,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                             className="error"
                           />
                           <Field as="select" name="year">
-                            <option defaultValue="">Año</option>
+                            <option defaultValue="" value="">Año</option>
                             {optionsArray.map((y) => (
                               <option key={`st_year_${y}`} defaultValue={y}>
                                 {y}
@@ -545,7 +554,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                             onChange={handleOptionCareerChange}
                             value={selectedCareer}
                           >
-                            <option defaultValue="">Seleccionar carrera</option>
+                            <option defaultValue="" value="">Seleccionar carrera</option>
                             {currentGroup.map((s: any) => (
                               <option
                                 key={`st_carrer_${s.id}`}
@@ -572,7 +581,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                               onChange={handleOptionSpecialtyChange}
                               value={selectedOptionSpecialty}
                             >
-                              <option defaultValue="">
+                              <option defaultValue="" value="">
                                 Seleccionar especialidad
                               </option>
                               {selectedOptionProfession && currentGroup.length
@@ -663,10 +672,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={
-                              !formik.values.Terms_And_Conditions ||
-                              !formik.isValid || onRequest
-                            }
+                            disabled={isSubmitDisabled}
                           >
                             {onRequest ? "Enviando ..." : submitText}
                           </button>

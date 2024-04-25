@@ -55,12 +55,13 @@ const ProductAccountButton: FC<ProductAccountButtonProps> = ({
       </div>
 
       <ButtonActivateOrRegister
-      isDisabledActivate={isDisabled || onRequest || isRunning || statusOV.isDisabled}
+      isDisabledActivate={isDisabled || statusOV.isDisabled}
       handleActivateClick={onClick}
-      whenActivate={onRequest || isRunning || (status && status.includes("Listo para enrolar"))}
+      whenActivate={onRequest || isRunning || (typeof status === 'string' && status.includes("Listo para enrolar"))}
       status={status}
       productSlug={product.slug}
       />
+      
       <CancelTrialModal 
       isOpenProp={showCancelTrial} item={product} 
       onCloseModal={() => setShowCancelTrial(false)}

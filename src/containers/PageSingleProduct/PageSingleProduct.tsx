@@ -29,11 +29,11 @@ const PageSingleProduct = () => {
           ) : product ? (
             <>
             <PageHead
-          title={product?.ficha.title as string}
-          description={product?.ficha.description}
-          schemaJson="Course"
-          schemaJsonData={product}
-        />
+              title={product?.ficha.title as string}
+              description={product?.ficha.description}
+              schemaJson="Course"
+              schemaJsonData={product}
+            />
             <SingleProductDetail product={product} />
             </>
           ) : null}

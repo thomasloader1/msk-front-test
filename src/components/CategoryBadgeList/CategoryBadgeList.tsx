@@ -35,6 +35,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
 }) => {
   const notesJSON: JsonMapping = notesMapping;
   const [sortedCategories, setSortedCategories] = React.useState<any[]>([]);
+
   useEffect(() => {
     const compararPorSlug = (a: any, b: any) => {
       const slugA = a.slug.toLowerCase();
@@ -49,6 +50,7 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       }
       return 0;
     };
+
 
     const sortedCategoriesList = categories.sort(compararPorSlug);
 

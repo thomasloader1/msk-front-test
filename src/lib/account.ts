@@ -74,21 +74,44 @@ export const statusCourse = (status: string) => {
 };
 
 export const statusOrdenVenta = (status: string) => {
-  const statusObj: { isDisabled: boolean; hasText: string; color: string } = {
+
+
+  const statusObj: {
+    isDisabled: boolean;
+    hasText: string | null;
+    disabledText: string | null;
+    color: string
+  } = {
     isDisabled: true,
-    hasText: "",
+    disabledText: null,
+    hasText: null,
     color: "",
   };
+
 
   switch (status) {
     case "Baja":
       statusObj.isDisabled = true;
-      statusObj.hasText = "Baja";
+      statusObj.disabledText = "Baja"
+      statusObj.hasText = null;
       statusObj.color = "red";
+      break;
+    case "Trial suspendido":
+      statusObj.isDisabled = true;
+      statusObj.disabledText = "Prueba cancelada";
+      statusObj.hasText = null;
+      statusObj.color = "trial";
+      break;
+    case "Trial":
+      statusObj.isDisabled = false;
+      statusObj.hasText = "Prueba";
+      statusObj.disabledText = "Prueba";
+      statusObj.color = "trial";
       break;
     default:
       statusObj.isDisabled = false;
       statusObj.hasText = "";
+      statusObj.disabledText = "";
       statusObj.color = "";
       break;
   }

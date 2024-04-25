@@ -5,7 +5,6 @@ import { User, UserCourseProgress } from "@/data/types";
 import { AuthContext } from "@/context/user/AuthContext";
 import api from "../../../../../Services/api";
 import { getUserCourses } from "../../../../../Services/user";
-import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import TableSkeleton from "@/components/Skeleton/TableSkeleton";
 
 export interface PageDashboardProps {

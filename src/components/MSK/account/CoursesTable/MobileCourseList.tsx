@@ -19,13 +19,19 @@ const MobileCourseList: FC<MobileCourseListProps> = ({
 }) => {
   return (
     <>
-      {items.map((item) => (
+      {items.map((item, i) => (
+          <>
+
         <MobileCourseItem
           key={item.product_code}
           item={item}
           email={email}
           goToLMS={goToLMS}
         />
+            {items.length -1 != i &&
+                <div className="border-b"></div>
+            }
+          </>
       ))}
     </>
   );

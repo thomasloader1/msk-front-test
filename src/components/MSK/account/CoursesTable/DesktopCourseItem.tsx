@@ -101,9 +101,7 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         ) : (
           <Badge
             name={statusOV.isDisabled ? statusOV.hasText : item.status}
-            color={colorStatus(
-              statusOV.isDisabled ? statusOV.hasText : item.status
-            )}
+            color={colorStatus(statusOV.isDisabled ? statusOV.hasText : item.status)}
             textSize="text-sm"
           />
         )}
@@ -112,14 +110,14 @@ const DesktopCourseItem: FC<DesktopCourseItemProps> = ({
         <span className="text-sm"> {item.avance ? item.avance : 0}%</span>
       </td>
       <td className="px-4">
-        <div className="w-[110px]">
+        <div className="w-[110px] my-2">
           <ButtonAccessOrSignCourse
             email={email}
             goToEnroll={goToEnroll}
             goToLMS={goToLMS}
             item={item}
           />
-          {item.ov.includes("Trial") && (
+          {item.ov === "Trial" && (
             <ButtonOffTrial item={item} email={email} />
           )}
         </div>

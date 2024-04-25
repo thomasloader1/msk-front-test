@@ -41,6 +41,10 @@ const TrialModalContent: FC<TrialModalContentProps> = ({
   const handleCloseModal = (forElement: string | null = null) => {
     setInteract(true);
     if (title.includes("Prueba ya solicitada") && goToCourse) {
+      if(typeof window !== 'undefined'){
+        localStorage.removeItem("continueTrialAccess");
+      }
+
       history.push(`/curso/${goToCourse}`);
       return;
     }

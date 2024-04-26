@@ -98,7 +98,7 @@ const ProductDetailSidebar: FC<Props> = ({
     );
   };
   const {hasCoursedRequested} = useRequestedTrialCourse(product);
-  
+  console.log(hasCoursedRequested)
   return (
     <div className={`course-video-widget`}>
       <div

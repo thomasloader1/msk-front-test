@@ -63,6 +63,7 @@ export interface Contact {
   career?: string;
   year?: string;
   courses_progress: CourseProgress[];
+  type_doc?: string;
 }
 
 export interface Contract {

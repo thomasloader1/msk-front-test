@@ -40,9 +40,7 @@ interface Props {
 const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
   const router = useRouter();
   const [userData, setUserData] = useState(user);
-  const [localUser, setLocalUser] = useState<Contact>(
-    userData.contact as Contact
-  );
+  const [localUser, setLocalUser] = useState<Contact>(userData.contact as Contact);
   const [defaultCountry, setDefaultCountry] = useState("" as CountryCode);
   const initialValues = {
     name: localUser?.name || "",
@@ -59,9 +57,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     country: localUser?.country || "",
     postal_code: localUser?.postal_code || "",
     state: localUser?.state || "",
-    /*  rfc: localUser?.rfc || "",
-  dni: localUser?.dni || "",
-  rut: localUser?.rut || "", */
     fiscal_regime: localUser?.fiscal_regime || "",
     type_doc: localUser?.type_doc || "",
     identification: localUser?.identification || "",
@@ -90,20 +85,12 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
     type: "",
   });
   const [currentStates, setCurrentStates] = useState<string[]>([]);
-  const [currentDocumentsType, setCurrentDocumentsType] =
-    useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
-  const [selectedOptionProfession, setSelectedOptionProfession] =
-    useState<string>(userData.contact?.profession || "");
-  const [selectedOptionSpecialty, setSelectedOptionSpecialty] =
-    useState<string>(userData.contact?.speciality || "");
-  const [phoneNumber, setPhoneNumber] = useState<string>(
-    userData?.contact?.phone || ""
-  );
-  const [selectedDocument, setSelectedDocument] = useState<string>(
-    userData.contact?.type_doc || ""
-  );
-  const [selectedDocumentId, setSelectedDocumentId] = useState<string>(
-    userData.contact?.type_doc ? countryState.country : ""
+  const [currentDocumentsType, setCurrentDocumentsType] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping);
+  const [selectedOptionProfession, setSelectedOptionProfession] = useState<string>(userData.contact?.profession || "");
+  const [selectedOptionSpecialty, setSelectedOptionSpecialty] = useState<string>(userData.contact?.speciality || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(userData?.contact?.phone || "");
+  const [selectedDocument, setSelectedDocument] = useState<string>(userData.contact?.type_doc || "");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string>(userData.contact?.type_doc ? `${countryState.country}-${userData.contact?.type_doc.toLowerCase()}` : ""
   );
 
   const handleOptionTypeChange = (
@@ -194,21 +181,6 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       formik.setFieldValue("state", value);
     }
   };
-
-  // useEffect(() => {
-  //   const hasOtherProfession = selectedOptionProfession.includes("Otra ");
-  //   const hasOtherSpeciality = selectedOptionSpecialty.includes("Otra ");
-  //   setShowInputProfession(hasOtherProfession);
-  //   setShowInputSpecialties(hasOtherSpeciality);
-
-  //   return () => {
-  //     setLocalUser((prevState) => ({
-  //       ...prevState,
-  //       other_profession: hasOtherProfession ? localUser.other_profession : "",
-  //       other_speciality: hasOtherSpeciality ? localUser.other_speciality : "",
-  //     }));
-  //   };
-  // }, [selectedOptionProfession, selectedOptionSpecialty]);
 
   const getStates = async (country: string) => {
     const res = await api.getStatesFromCountry(country);

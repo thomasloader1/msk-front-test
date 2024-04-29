@@ -15,8 +15,7 @@ import {base} from "next/dist/build/webpack/config/blocks/base";
 
 let validCountries = countries.map((item) => item.id);
 const PROD = process.env.PROD;
-const LSCountry =
-  typeof window !== "undefined" ? localStorage.getItem("country") : null;
+const LSCountry = typeof window !== "undefined" ? localStorage.getItem("country") : null;
 let COUNTRY = "int";
 if (LSCountry) {
   COUNTRY = LSCountry;
@@ -246,19 +245,17 @@ class ApiService {
     
   }
 
-  async getAllCourses(state?: any, dispatch?: any) {
-    const tag = new URLSearchParams(window.location.search).get("tag");
+  async getAllCourses(country:string) {
     let validCountries = countries.map((item) => item.id);
     let siteEnv = window.location.hostname !== "msklatam.com";
 
     const countryParam = validCountries.includes(COUNTRY)
       ? `&country=${COUNTRY}`
       : `&country=int`;
-    const tagParam = tag ? `&tag=${tag}` : "";
-    const filterParam = siteEnv ? `&filter=all` : "";
+    const filterParam = siteEnv ? `&asd=1&filter=all` : "";
 
     try {
-      const queryParams = [countryParam, tagParam, filterParam]
+      const queryParams = [countryParam, filterParam]
         .filter(Boolean)
         .join("");
 
@@ -274,29 +271,6 @@ class ApiService {
 
       const courses = await response.json();
       return courses.products;
-    } catch (error) {
-      if (tag && !countryParam.length && dispatch) {
-        dispatch({
-          type: "SET_ERROR",
-          payload: `No se encontraron productos para el tag ${tag} y el país ${COUNTRY}`,
-        });
-      }
-      return error;
-    }
-  }
-
-  async getAllProductsMX() {
-    try {
-      const response = await fetch(ALL_PRODUCTS_MX);
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch products. HTTP status ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      return data.products;
     } catch (error) {
       return error;
     }
@@ -364,7 +338,7 @@ class ApiService {
 
   async getProfessions() {
     try {
-      console.log('Get professions 2');
+      //console.log('Get professions 2');
       const response = await fetch(`${baseUrl}/api/professions`);
 
       if (!response.ok) {
@@ -382,7 +356,7 @@ class ApiService {
 
   async getStoreProfessions() {
     try {
-      console.log('Get professions 3');
+      //console.log('Get professions 3');
       const response = await fetch(`${baseUrl}/api/store/professions`);
 
       if (!response.ok) {

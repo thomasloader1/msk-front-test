@@ -27,13 +27,13 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
   const validCountries = countries.map((item) => item.id);
 
   useEffect(() => {
-    console.log("Country Provider UseEffect");
+    //console.log("Country Provider UseEffect");
     const fetchData = async () => {
       let redirectUrl = "";
       try {
         let currentCountry = "";
         if (bypassRedirect == "1") {
-          console.log("bypassRedirect");
+          //console.log("bypassRedirect");
           const currentUrl = window.location.pathname;
           const validCountryUrl = validCountries.filter(
             (country) =>
@@ -42,7 +42,7 @@ export const CountryProvider: React.FC<Props> = ({ children }) => {
           );
 
           if (validCountryUrl.length) {
-            console.log('its on a valid country');
+            //console.log('its on a valid country');
             dispatch({
               type: "SET_COUNTRY",
               payload: { country: validCountryUrl[0] },

@@ -30,7 +30,6 @@ const loraItalic = Lora({
 })
 
 
-
 type Props = {
   params: { lang: string };
 };
@@ -58,27 +57,27 @@ interface LayoutProps {
 
 export default async function RootLayout({params, children}: LayoutProps) {
   return (
-      <html lang="es" className={poppins.className +" "+ loraItalic.variable}>
-      <body>
-      <div className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
-        <GoogleCaptchaWrapper>
+    <html lang="es" className={poppins.className + " " + loraItalic.variable}>
+    <body>
+    <div className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
+      <GoogleCaptchaWrapper>
+        <CountryProvider>
           <DataProvider>
             <UTMProvider>
-              <CountryProvider>
-                <AuthProvider>
-                  <StoreProvider>
-                    <Header/>
-                    {children}
-                    <Script strategy="beforeInteractive" src="https://sdk.rebill.to/v2/rebill.min.js"/>
-                    <Footer/>
-                  </StoreProvider>
-                </AuthProvider>
-              </CountryProvider>
+              <AuthProvider>
+                <StoreProvider>
+                  <Header/>
+                  {children}
+                  <Script strategy="beforeInteractive" src="https://sdk.rebill.to/v2/rebill.min.js"/>
+                  <Footer/>
+                </StoreProvider>
+              </AuthProvider>
             </UTMProvider>
           </DataProvider>
-        </GoogleCaptchaWrapper>
-      </div>
-      </body>
-      </html>
+        </CountryProvider>
+      </GoogleCaptchaWrapper>
+    </div>
+    </body>
+    </html>
   );
 }

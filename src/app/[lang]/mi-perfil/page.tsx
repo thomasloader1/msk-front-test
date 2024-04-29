@@ -35,8 +35,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     loadingProductsMX,
   } = useContext(DataContext);
   const router = useRouter();
-  const { allBestSellers } = dataState;
-  const [allCourses, setAllCourses] = useState([]);
+  const { allBestSellers, allCourses } = dataState;
   const [tabActive, setTabActive] = useState<string>(TABS[0]);
   const [coursesTabActive, setCoursesTabActive] = useState<string>("Todo");
   const [user, setUser] = useState<User>({} as User);
@@ -47,14 +46,11 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   const [userCourses, setUserCourses] = useState<UserCourseProgress[]>([]);
   const fetchUser = async () => {
     try {
-      const productList = await api.getAllProductsMX();
-      const fetchedCourses = await api.getAllCourses();
-      setAllCourses(fetchedCourses);
-      setTotalPages(Math.ceil(fetchedCourses.length / itemsPerPage));
+      setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
       const res = await api.getUserData();
       if (!res.message) {
         setUser(res);
-        let coursesList = getUserCourses(res, productList);
+        let coursesList = getUserCourses(res, allCourses);
         setUserCourses(coursesList);
         setLoadingUser(false);
       } else {

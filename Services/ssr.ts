@@ -70,8 +70,7 @@ class ApiSSRService {
     try {
       const queryParams = [countryParam, tagParam].filter(Boolean).join("");
 
-      console.log('getAllCourses URL', `${API_URL}/products?limit=-1${queryParams}`);
-      const response = await fetch(
+     const response = await fetch(
         `${API_URL}/products?limit=-1${queryParams}`
       );
 
@@ -260,7 +259,7 @@ class ApiSSRService {
 
   async getAllProfessions() {
     try {
-      console.log('Get professions 1');
+      //console.log('Get professions 1');
       const response = await fetch(`${baseUrl}/api/store/professions`);
 
       const data = await response.json();

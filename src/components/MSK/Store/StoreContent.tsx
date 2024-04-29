@@ -23,19 +23,14 @@ import resourcesMapping from "@/data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
 
 import {slugifySpecialty} from "@/lib/Slugify";
-import {getAllCourses, setAllCourses} from "@/lib/allData";
-import ssr from "@Services/ssr";
 import {CountryContext} from "@/context/country/CountryContext";
+import {DataContext} from "@/context/data/DataContext";
 
-interface Props {
-  specialties?: any;
-  professions?: any;
-}
 
 let resources = resourcesMapping;
 let durations = durationsMapping;
 
-const StoreContent: FC<Props> = ({ professions }) => {
+const StoreContent: FC<{ }> = () => {
   let {
     storeFilters,
     addFilter,
@@ -45,12 +40,13 @@ const StoreContent: FC<Props> = ({ professions }) => {
     clearSpecialties,
   } = useStoreFilters();
 
+  const { state: dataState } = useContext(DataContext);
+  const { allCourses, allStoreProfessions } = dataState;
   const { specialties } = useStoreFilters();
 
   const { countryState } = useContext(CountryContext);
 
   const searchParams = useSearchParams();
-  const [allProducts, setAllProducts] = useState<FetchCourseType[]>([]);
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
 
   const [mutationProducts, setMutationProducts] = useState(false);
@@ -59,20 +55,21 @@ const StoreContent: FC<Props> = ({ professions }) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
+  const [totalPages, setTotalPages] = useState(Math.ceil(allCourses.length / itemsPerPage));
 
   let products: FetchCourseType[] = [];
+
+
   useEffect(() => {
+    console.log('USE EFFECT STORE CONTENT');
     async function fetchData() {
-      if (!getAllCourses().length) {
-        products = await ssr.getAllCourses(countryState.country);
-        setAllCourses(products);
-        setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-        setAllProducts(products);
+      console.log('All Courses', allCourses);
+      if (allCourses.length) {
+        setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
       }
     }
     fetchData();
-  }, [countryState.country]);
+  }, [countryState.country, allCourses]);
 
 
   const handlePageChange = (pageNumber: number) => {
@@ -102,6 +99,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
+    console.log('HANDLE TRIGGER SEARCH');
     if (products){
       if (event) {
         const filteredProducts = products.filter((product) =>
@@ -124,6 +122,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
   };
 
   const triggerFilter = (event: any) => {
+    console.log('TRIGGER FILTER', products);
     if (products){
       setCurrentItems(filterStoreProducts(products, event));
     }
@@ -190,14 +189,14 @@ const StoreContent: FC<Props> = ({ professions }) => {
       console.log('No filters');
       // No filters, set the products to the original list
 
-      setCurrentItems([...allProducts.slice(indexOfFirstItem, indexOfLastItem)]);
-      setTotalPages(Math.ceil(allProducts.length / itemsPerPage));
+      setCurrentItems([...allCourses.slice(indexOfFirstItem, indexOfLastItem)]);
+      setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
       setMutationProducts(false)
 
     } else {
       console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations, selectedPage});
 
-      const filteredProducts = allProducts.filter((product) => {
+      const filteredProducts = allCourses.filter((product: { categories: any[]; professions: any[]; duration: any; father_post_type: string; }) => {
         const prodSpecialties = product.categories.map((category) => category.name);
         const prodProfessions = product.professions.map((profession) => profession.name);
         const prodDuration = product.duration;
@@ -208,13 +207,16 @@ const StoreContent: FC<Props> = ({ professions }) => {
           specialtiesMatch = selectedSpecialties.some((specialty) => prodSpecialties.includes(specialty));
         }
 
-        const professionsMatch =
-          selectedProfessions.length === 0 ||
+
+        const professionsMatch = selectedProfessions.length === 0 ||
           selectedProfessions.some((profession) =>
             prodProfessions.some((prodProfession) =>
               prodProfession.toLowerCase().includes(profession?.toLowerCase())
             )
           );
+
+        //console.log(prodProfessions, selectedProfessions, professionsMatch);
+
 
         const resourcesMatch = selectedResources.filter((e: string) => e != undefined).every((resource) => {
           if (resource === "Curso") {
@@ -258,7 +260,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
     useEffect(() => {
       console.log('FILTERS WERE UPDATED');
       applyFilters();
-    }, [storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources, storeFilters.duration]);
+    }, [allCourses, storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources, storeFilters.duration]);
   }
 
   if(typeof window !== "undefined") {
@@ -278,6 +280,8 @@ const StoreContent: FC<Props> = ({ professions }) => {
         }
       }
 
+      console.log('SPECIALTIES: ', specialties);
+      console.log('ESPECIALIDAD: ', especialidad);
       if (especialidad && specialties){
         console.log('SPECIALTIES: ', specialties);
         let urlSpecialty = specialties.find((specialty: any) => slugifySpecialty(specialty.name) === especialidad);
@@ -286,8 +290,13 @@ const StoreContent: FC<Props> = ({ professions }) => {
           onChangeSpecialty(urlSpecialty, 'add');
         }
       }
-      if (profesion && professions){
-        let urlProfession = professions.find((profession: any) => profession.slug === profesion);
+
+      console.log('PROFESSIONS: ', allStoreProfessions);
+      console.log('PROFESSION: ', profesion);
+      if (profesion && allStoreProfessions){
+        console.log('changing profession');
+        let urlProfession = allStoreProfessions.find((profession: any) => profession.slug === profesion);
+        console.log('URL PROFESSION: ', urlProfession);
         if (urlProfession){
           onChangeProfession(urlProfession);
         }
@@ -298,7 +307,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
           onChangeDuration(urlDuration, 'add');
         }
       }
-    }, [specialties, allProducts]);
+    }, [allStoreProfessions, specialties]);
   }
 
   return (

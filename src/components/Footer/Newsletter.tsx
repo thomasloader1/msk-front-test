@@ -92,7 +92,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
   const [studentInputs, setStudentInputs] = useState(false);
   const [formError, setFormError] = useState("");
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
 
   const fetchNewsletterSpecialties = async () => {
     const newsletterSpecialtyList = await api.getNewsletterSpecialties();
@@ -160,7 +160,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
     Terms_And_Conditions2: false,
     Otra_profesion: "",
     Otra_especialidad: "",
-    country: state?.country,
+    country: countryState?.country,
     utm_source: utmState.utm_source,
     utm_medium: utmState.utm_medium,
     utm_campaign: utmState.utm_campaign,
@@ -175,7 +175,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
         const body = {
           ...values,
           recaptcha_token: await executeRecaptcha("newsletter"),
-          country: state?.country,
+          country: countryState?.country,
         };
         try {
           let response = await api.postNewsletter(body as Newsletter);
@@ -221,7 +221,7 @@ const FooterNewsletter: FC<Props> = ({ email, setShow }) => {
           id="URL_ORIGEN"
           value={window.location.href}
         />
-        <input type="hidden" name="country" value={state?.country} />
+        <input type="hidden" name="country" value={countryState?.country} />
         <div className="grid grid-cols-1 md:grid-cols-3 grid-row-6 gap-4">
           <div className="">
             <div className="contact-from-input">

@@ -56,7 +56,7 @@ const SearchProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('STATE: ', countryState);
+        //console.log('STATE: ', countryState);
         let courses;
         if (pathname?.includes("/blog")) {
           // Fetch blog posts

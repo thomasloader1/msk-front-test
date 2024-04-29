@@ -106,7 +106,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
     return managedURL ?? `/${part.toLowerCase()}`;
   };
 
-  console.log(pathname)
+  //console.log(pathname)
 
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center mb-10 md:max-w-[600px] w-full">

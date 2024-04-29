@@ -587,6 +587,7 @@ export interface BannerImg {
 }
 
 export interface AuthState {
+  stateLoaded : boolean;
   isAuthenticated: boolean;
   user: User | null;
   profile: UserProfile | null;

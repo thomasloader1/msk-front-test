@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { User, UserCourseProgress } from "@/data/types";
-import { getUserCourses } from "../../../../Services/user";
+import { getUserCourses } from "@Services/user";
 import api from "../../../../Services/api";
 import { DataContext } from "@/context/data/DataContext";
 import Avatar from "@/components/Avatar/Avatar";
@@ -48,6 +48,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
     try {
       setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
       const res = await api.getUserData();
+      console.log('FETCH USER RES: ', res);
       if (!res.message) {
         setUser(res);
         let coursesList = getUserCourses(res, allCourses);

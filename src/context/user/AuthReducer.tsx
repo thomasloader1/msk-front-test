@@ -26,6 +26,7 @@ export const authReducer = (
       return {
         ...state,
         isAuthenticated: true,
+        stateLoaded: true,
         user: user ? JSON.parse(user) : null,
         profile: action.payload.profile,
         email: action.payload.email,
@@ -42,6 +43,7 @@ export const authReducer = (
       return {
         ...state,
         isAuthenticated: false,
+        stateLoaded: true,
         user: null,
         email: null,
         token: null,

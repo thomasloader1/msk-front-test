@@ -6,6 +6,7 @@ import { AuthContext } from "@/context/user/AuthContext";
 import api from "../../../../../Services/api";
 import { getUserCourses } from "../../../../../Services/user";
 import TableSkeleton from "@/components/Skeleton/TableSkeleton";
+import {CountryContext} from "@/context/country/CountryContext";
 
 export interface PageDashboardProps {
   className?: string;
@@ -31,6 +32,8 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
 
   const { state, dispatch } = useContext(AuthContext);
   const [user, setUser] = useState<User>({} as User);
+  const { countryState: countryState } = useContext(CountryContext);
+
   const [courses, setCourses] = useState<UserCourseProgress[]>([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -41,7 +44,7 @@ const PageDashboard: FC<PageDashboardProps> = ({ className = "" }) => {
   const fetchUser = async () => {
     setLoading(true);
     const res = await api.getUserData();
-    const coursesList = await api.getAllCourses();
+    const coursesList = await api.getAllCourses(countryState.country);
     if (!res.message) {
       if (!res.contact.state) res.contact.state = "";
       setUser(res);

@@ -38,10 +38,11 @@ const PageDashboard: FC<PageDashboardProps> = ({
   const { state } = useContext(AuthContext);
   const router = useRouter();
   useEffect(() => {
-    if (!state.isAuthenticated) {
+    console.log(state);
+    if (state && state.stateLoaded && !state.isAuthenticated) {
       router.push("/");
     }
-  });
+  }, [state]);
   const subPages: DashboardPage[] = [
     {
       sPath: "/inicio",

@@ -62,14 +62,16 @@ const StoreContent: FC<Props> = ({ professions }) => {
   const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / itemsPerPage));
 
   let products: FetchCourseType[] = [];
-  // @ts-ignore
-  useEffect(async () => {
-    if (!getAllCourses().length) {
-      products = await ssr.getAllCourses(countryState.country);
-      setAllCourses(products);
-      setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-      setAllProducts(products);
+  useEffect(() => {
+    async function fetchData() {
+      if (!getAllCourses().length) {
+        products = await ssr.getAllCourses(countryState.country);
+        setAllCourses(products);
+        setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
+        setAllProducts(products);
+      }
     }
+    fetchData();
   }, [countryState.country]);
 
 
@@ -284,7 +286,7 @@ const StoreContent: FC<Props> = ({ professions }) => {
           onChangeSpecialty(urlSpecialty, 'add');
         }
       }
-      if (profesion){
+      if (profesion && professions){
         let urlProfession = professions.find((profession: any) => profession.slug === profesion);
         if (urlProfession){
           onChangeProfession(urlProfession);

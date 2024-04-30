@@ -11,6 +11,7 @@ export interface BadgeProps {
   icon?: string;
   rounded?: string;
   fontWeight?: string;
+  onClick?: () => void;
 }
 
 const Badge: FC<BadgeProps> = ({
@@ -22,6 +23,7 @@ const Badge: FC<BadgeProps> = ({
   href,
   icon,
   fontWeight = "font-medium",
+  onClick,
 }) => {
   const getColorClass = (hasHover = true) => {
     switch (color) {
@@ -69,7 +71,7 @@ const Badge: FC<BadgeProps> = ({
         }`;
       case "blue-home":
         return `text-[#445BA3] bg-[#BAC6EB] py-1.5 font-normal text-sm ${
-            hasHover ? "hover:bg-blue-800" : ""
+          hasHover ? "hover:bg-blue-800" : ""
         }`;
       case "yellow-strong-post":
         return `text-neutral-900 bg-yellow-strong-post ${
@@ -121,6 +123,10 @@ const Badge: FC<BadgeProps> = ({
   return !!href ? (
     <Link
       href={href || ""}
+      onClick={(e) => {
+        e.preventDefault(); // Evitar que el enlace se siga si se hace clic
+        onClick && onClick(); // Invocar onClick si está definido
+      }}
       className={`items-center duration-300 ${CLASSES} ${getColorClass(false)}`}
     >
       {icon && (
@@ -130,7 +136,13 @@ const Badge: FC<BadgeProps> = ({
       {name}
     </Link>
   ) : icon ? (
-    <div className={`items-center ${CLASSES} ${getColorClass(false)}`}>
+    <div
+      onClick={(e) => {
+        e.preventDefault(); // Evitar que el enlace se siga si se hace clic
+        onClick && onClick(); // Invocar onClick si está definido
+      }}
+      className={`items-center ${CLASSES} ${getColorClass(false)}`}
+    >
       <img src={`/images/icons/${icon}.svg`} width="15" className="mr-1" />
       <span className="font-normal">{name}</span>
     </div>

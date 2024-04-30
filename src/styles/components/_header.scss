@@ -1162,6 +1162,7 @@ div.mean-container {
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     position: absolute;
     background: white;
+    z-index: 10;
     .product-item {
       display: flex;
       gap: 16px;

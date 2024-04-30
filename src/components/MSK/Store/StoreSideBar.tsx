@@ -8,8 +8,7 @@ import {
 import { slugifySpecialty } from "@/lib/Slugify";
 import resourcesMapping from "../../../data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
-import {useStoreFilters} from "@/context/storeFilters/StoreProvider";
-
+import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 
 interface Props {
   onChangeSpecialty: (specialty: any, action: string) => void;
@@ -32,11 +31,10 @@ const StoreSideBar: FC<Props> = ({
   const [professionVisible, setProfessionVisible] = useState<boolean>(false);
   const [durationVisible, setDurationVisible] = useState<boolean>(false);
 
-  let specialties : Specialty[] = useStoreFilters().specialties;
-  let professions : Profession[] = useStoreFilters().professions;
+  let specialties: Specialty[] = useStoreFilters().specialties;
+  let professions: Profession[] = useStoreFilters().professions;
 
   const { storeFilters } = useStoreFilters();
-
 
   const toggleSpecialtyVisibility = () => {
     setSpecialtyVisible((prevVisible) => !prevVisible);
@@ -88,8 +86,17 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`specialty_${specialty.name}`}
-                        onChange={(e) => setSpecialtyFilter(specialty, e.target.checked ? "add" : "delete")}
-                        checked={ !!storeFilters.specialties.find((item: Specialty) => item.name == specialty.name) }
+                        onChange={(e) =>
+                          setSpecialtyFilter(
+                            specialty,
+                            e.target.checked ? "add" : "delete"
+                          )
+                        }
+                        checked={
+                          !!storeFilters.specialties.find(
+                            (item: Specialty) => item.name == specialty.name
+                          )
+                        }
                       />
                       <label
                         className="edu-check-label"
@@ -124,7 +131,11 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box bg-transparent border-none text-transparent focus:ring-0 focus:ring-offset-0"
                         type="checkbox"
                         id={`res_${resource.id}`}
-                        checked={ !!storeFilters.resources.find((item: ResourceFilter) => item.slug == resource.slug)}
+                        checked={
+                          !!storeFilters.resources.find(
+                            (item: ResourceFilter) => item.slug == resource.slug
+                          )
+                        }
                         onChange={(e) =>
                           setResourceFilter(
                             resource,
@@ -166,7 +177,11 @@ const StoreSideBar: FC<Props> = ({
                         className="edu-check-box"
                         type="checkbox"
                         id={`profession_${profession.id}`}
-                        checked={ !!storeFilters.professions.find((item: Profession) => item.slug == profession.slug)}
+                        checked={
+                          !!storeFilters.professions.find(
+                            (item: Profession) => item.slug == profession.slug
+                          )
+                        }
                         onChange={(e) =>
                           setProfessionFilter(
                             profession,
@@ -207,7 +222,11 @@ const StoreSideBar: FC<Props> = ({
                       className="edu-check-box"
                       type="checkbox"
                       id={`dur_${duration.id}`}
-                      checked={ !!storeFilters.duration.find((item: DurationFilter) => item.slug == duration.slug)}
+                      checked={
+                        !!storeFilters.duration.find(
+                          (item: DurationFilter) => item.slug == duration.slug
+                        )
+                      }
                       onChange={(e) =>
                         setDurationFilter(
                           duration,

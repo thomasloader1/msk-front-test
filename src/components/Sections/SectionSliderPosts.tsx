@@ -31,6 +31,7 @@ export interface SectionSliderPostsProps {
   loading?: boolean;
   showPosts?: string;
   forSingleNote?: boolean;
+  maxWidth?: string;
 }
 
 const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
@@ -40,10 +41,8 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   posts,
   postCardName = "card4",
   perView = 4,
-  uniqueSliderClass,
-  loading,
-  showPosts,
   forSingleNote = false,
+  maxWidth,
 }) => {
   let CardComponent = Card4;
 
@@ -81,6 +80,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
 
       <MySlider
         data={posts}
+        maxWidth={maxWidth}
         renderItem={(item, indx) => (
           <CardComponent
             key={indx}

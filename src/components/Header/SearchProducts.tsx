@@ -6,7 +6,7 @@ import NcLink from "../NcLink/NcLink";
 import NcImage from "../NcImage/NcImage";
 import { usePathname } from "next/navigation";
 import ssr from "../../../Services/ssr";
-import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
+import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 
 const SearchProducts = () => {
   const [auxProducts, setAuxProducts] = useState<FetchCourseType[]>([]);
@@ -61,9 +61,10 @@ const SearchProducts = () => {
         if (pathname?.includes("/blog")) {
           // Fetch blog posts
         } else {
-          if (products.length == 0 ){
+          if (products.length == 0) {
             //const currentCountry = cookies().get("country")?.value;
-            let productsCountry = countryState.country == 'int' ? '' : countryState.country;
+            let productsCountry =
+              countryState.country == "int" ? "" : countryState.country;
             courses = await ssr.getAllCourses(productsCountry);
 
             setAuxProducts(courses);
@@ -102,7 +103,8 @@ const SearchProducts = () => {
       </div>
       {inputValue && isInputFocused && (
         <div className="search-products-results">
-          {products.map((product, index) => (
+          {products
+            .map((product, index) => (
               <NcLink
                 href={`/${isOnBlog ? "blog" : "curso"}/${product.slug}`}
                 key={product.id}
@@ -119,7 +121,8 @@ const SearchProducts = () => {
                 </div>
                 <p>{product.title}</p>
               </NcLink>
-            )).filter((product, index) => index < 5)}
+            ))
+            .filter((product, index) => index < 5)}
         </div>
       )}
     </div>

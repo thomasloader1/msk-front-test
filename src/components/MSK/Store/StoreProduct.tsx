@@ -1,12 +1,13 @@
 import { FC, useContext } from "react";
-import { FetchCourseType } from "@/data/types";
+import { FetchCourseType, ResourceFilter } from "@/data/types";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
 import Badge from "@/components/Badge/Badge";
 import { CountryContext } from "@/context/country/CountryContext";
 import NcLink from "@/components/NcLink/NcLink";
 import Image from "next/image";
-import clockIcon from '/public/images/icons/clock.svg'
-import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
+import clockIcon from "/public/images/icons/clock.svg";
+import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
+import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 
 interface Props {
   product: FetchCourseType;
@@ -21,14 +22,36 @@ const StoreProduct: FC<Props> = ({
   hoverEffect = false,
   kind,
 }) => {
-
   const imageURL = removeFirstSubdomain(product.thumbnail.high);
+  const { storeFilters } = useStoreFilters();
+  const { addFilter, removeFilter, clearFilters } = useStoreFilters();
 
+  const handleBadgeClick = () => {
+    const resource = {
+      id: 2,
+      name: "Guías profesionales",
+      slug: "guias-profesionales",
+    };
+    const resourceExists = storeFilters.resources.filter(
+      (item: ResourceFilter) => {
+        return item.id == resource.id;
+      }
+    );
+    if (resourceExists.length) {
+      removeFilter("resources", resource);
+    } else addFilter("resources", resource);
+  };
   return (
     <div className={`protfolio-course-2-wrapper ${className}`}>
       <div className="student-course-img">
         <NcLink href={`/curso/${product.slug}`}>
-          <Image src={imageURL} className="transition-all" width={1000} height={1000} alt={`${product.title}`} />
+          <Image
+            src={imageURL}
+            className="transition-all"
+            width={1000}
+            height={1000}
+            alt={`${product.title}`}
+          />
         </NcLink>
       </div>
       {hoverEffect ? (
@@ -67,24 +90,24 @@ const StoreProduct: FC<Props> = ({
         <div className="portfolio-course-wrapper">
           <div className="flex flex-wrap gap-1">
             {product.duration ? null : (
-              <>
-                <Badge
-                  icon="elearning"
-                  color="emerald-post"
-                  name="Guía profesional"
-                  href={`/tienda?recurso=guias-profesionales`}
-                  textSize="text-xs sm:text-xs"
-                />
-              </>
+              <Badge
+                onClick={handleBadgeClick}
+                icon="elearning"
+                color="emerald-post"
+                name="Guía profesional"
+                href={`/tienda?recurso=guias-profesionales`}
+                textSize="text-xs sm:text-xs"
+              />
             )}
             <CategoryBadgeList
               categories={product.categories}
               color="yellow"
               isCourse={true}
               textSize="text-xs sm:text-xs"
+              onStore
             />
           </div>
-          
+
           <div className="portfolio-course-2 line-clamp-3">
             <NcLink href={`/curso/${product.slug}`}>
               <h3 className="font-bold text-sm">{product.title}</h3>
@@ -100,7 +123,13 @@ const StoreProduct: FC<Props> = ({
       <div className="course-2-footer">
         {product.duration ? (
           <div className="coursee-clock">
-            <Image src={clockIcon.src} width={clockIcon.width} height={clockIcon.height} className="mr-2" alt="clock icon"/>
+            <Image
+              src={clockIcon.src}
+              width={clockIcon.width}
+              height={clockIcon.height}
+              className="mr-2"
+              alt="clock icon"
+            />
             <span>{product.duration} horas</span>
           </div>
         ) : (

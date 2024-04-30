@@ -14,6 +14,7 @@ export interface MySliderProps<T> {
   renderItem?: (item: T, indx: number) => ReactNode;
   arrowBtnClass?: string;
   loading?: boolean;
+  maxWidth?: string;
 }
 
 export default function MySlider<T>({
@@ -23,6 +24,7 @@ export default function MySlider<T>({
   renderItem = () => <div></div>,
   arrowBtnClass = "top-1/2 -translate-y-1/2",
   loading,
+  maxWidth = "80%",
 }: MySliderProps<T>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -101,7 +103,7 @@ export default function MySlider<T>({
             }}
           >
             <div
-              className={`relative flow-root sm:max-w-[80%] mx-auto`}
+              className={`relative flow-root sm:max-w-[${maxWidth}] mx-auto`}
               {...handlers}
             >
               <div className={`flow-root overflow-hidden rounded-xl`}>

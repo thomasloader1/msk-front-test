@@ -1,5 +1,5 @@
-"use client"
-import { FC } from "react";
+"use client";
+import { FC, useContext, useEffect, useState } from "react";
 import ProductCurriculiam from "./ProductCurriculiam";
 import ProductDetailSidebar from "./ProductDetailSidebar";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
@@ -14,15 +14,15 @@ import ProductInstructors from "./ProductInstructors";
 import ContactFormSection from "../MSK/ContactForm";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
 import Image from "next/image";
-import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
+import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 
 interface Props {
   product: FetchSingleProduct;
   country?: string;
 }
-
+import api from "@Services/api";
 const SingleProductDetail: FC<Props> = ({ product, country }) => {
-
+  const [bestSellers, setBestSellers] = useState([]);
   const productsGoals = (htmlString: string) => {
     const paragraphs = htmlString.split("</p>\n<p>");
     const listOfGoals = paragraphs.map((paragraph) => {
@@ -35,7 +35,13 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
 
     return listOfGoals;
   };
-
+  const fetchBestSellers = async () => {
+    const res = await api.getBestSellers();
+    setBestSellers(res);
+  };
+  useEffect(() => {
+    if (!bestSellers.length) fetchBestSellers();
+  }, [bestSellers]);
   let { isEbook, imagen, title } = productDetails(product);
   // @ts-ignore
   return (
@@ -43,7 +49,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
       <div className="container grid grid-cols-1 lg:grid-cols-[65%_35%] mb-16">
         <div>
           <div className="course-details-wrapper animate-fade-down">
-              <Breadcrum isEbook={isEbook} onProduct={product} />
+            <Breadcrum isEbook={isEbook} onProduct={product} />
             <div className="flex gap-2">
               <CategoryBadgeList
                 categories={product.ficha.categorias}
@@ -68,7 +74,12 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                         <div className="col-span-12 sm:col-span-5">
                           <div className="course-meta-wrapper">
                             <div className="course-meta-img">
-                              <Image src={removeFirstSubdomain(imagen)} width={1000} height={1000} alt={title} />
+                              <Image
+                                src={removeFirstSubdomain(imagen)}
+                                width={1000}
+                                height={1000}
+                                alt={title}
+                              />
                             </div>
                             <div className="text-violet-strong">
                               <span className="raleway text-dark-blue-custom">
@@ -145,7 +156,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                   </div>
                 )}
                 <div
-                    className="text-violet-strong font-normal"
+                  className="text-violet-strong font-normal"
                   dangerouslySetInnerHTML={{
                     __html: product.ficha.description,
                   }}
@@ -231,17 +242,20 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
           }
         />
       </div>
-      <div className="container relative py-16 mb-20">
-        <BackgroundSection />
-        <SectionSliderPosts
-          postCardName="card9"
-          heading="Descubre nuestras capacitaciones destacadas"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          uniqueSliderClass="pageHome-section6"
-          showPosts="bestSellers"
-        />
-      </div>
+      {bestSellers.length && (
+        <div className="container relative py-16 mb-20">
+          <BackgroundSection />
+          <SectionSliderPosts
+            posts={bestSellers}
+            maxWidth="90%"
+            postCardName="card9"
+            heading="Descubre nuestras capacitaciones destacadas"
+            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+            sliderStype="style2"
+            uniqueSliderClass="pageHome-section6"
+          />
+        </div>
+      )}
 
       {product.related_products.length ? (
         <div className="container relative py-16 mt-16 ">

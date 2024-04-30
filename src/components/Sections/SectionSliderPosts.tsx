@@ -30,7 +30,7 @@ export interface SectionSliderPostsProps {
   uniqueSliderClass: string;
   loading?: boolean;
   showPosts?: string;
-  forSingleNote?:boolean;
+  forSingleNote?: boolean;
 }
 
 const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
@@ -43,9 +43,8 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   uniqueSliderClass,
   loading,
   showPosts,
-  forSingleNote=false
+  forSingleNote = false,
 }) => {
-
   let CardComponent = Card4;
 
   switch (postCardName) {

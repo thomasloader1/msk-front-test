@@ -39,7 +39,6 @@ const CoursesForYou: FC<Props> = ({
   const [localCourses, setLocalCourses] = useState<FetchCourseType[]>([]);
   const handleClickTab = (item: string) => {
     switch (item) {
-
       case "Novedades":
         const newCourses = courses.filter((course, i: number) => course.is_new);
         setLocalCourses(newCourses);
@@ -62,7 +61,7 @@ const CoursesForYou: FC<Props> = ({
 
   useEffect(() => {
     setLocalCourses(courses);
-    handleClickTab("Novedades")
+    handleClickTab("Novedades");
   }, [courses]);
 
   return (

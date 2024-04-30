@@ -28,7 +28,7 @@ const BlogSummary: FC<BlogSummaryProps> = ({
   desc = "",
   loading = false,
   showTitle,
-                                             forSingleNote=false
+  forSingleNote = false,
 }) => {
   const [tabActive, setTabActive] = useState<string>(tabs[0]);
   const [auxPosts, setPosts] = useState<FetchPostType[]>([]);
@@ -37,10 +37,10 @@ const BlogSummary: FC<BlogSummaryProps> = ({
     const itemParsed = removeAccents(item);
 
     let filteredPosts: any[] = [];
-    if (posts){
-        filteredPosts = posts.filter((post) =>
-            post.categories?.some((category: any) => category.name === itemParsed)
-        );
+    if (posts) {
+      filteredPosts = posts.filter((post) =>
+        post.categories?.some((category: any) => category.name === itemParsed)
+      );
     }
 
     const finalPosts = itemParsed.includes("Actualidad")
@@ -67,13 +67,10 @@ const BlogSummary: FC<BlogSummaryProps> = ({
 
   return (
     <div className={`nc-BlogSummary ${className} animate-fade-down`}>
-      {showTitle && (
-        <h2 className={`text-3xl md:text-4xl font-medium `}>Blog</h2>
-      )}
       <HeaderFilter
         tabActive={tabActive}
         tabs={tabs}
-        heading={heading}
+        heading={heading || "Blog"}
         onClickTab={handleClickTab}
         desc={desc}
         viewMore="/archivo"

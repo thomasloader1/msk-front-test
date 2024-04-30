@@ -11,7 +11,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
 const Heading: React.FC<HeadingProps> = ({
   children,
   desc = "",
-  className = "mb-12 md:mb-16 text-neutral-900 dark:text-neutral-50",
+  className = "mb-6 sm:mb-12 md:mb-16 text-neutral-900 dark:text-neutral-50",
   isCenter = false,
   hasNextPrev = false,
   ...args
@@ -25,11 +25,11 @@ const Heading: React.FC<HeadingProps> = ({
           isCenter ? "text-center w-full max-w-2xl mx-auto " : "w-full"
         }
       >
-        <h4 className={`text-[20px] md:text-4xl font-medium`} {...args}>
+        <h4 className={`text-[22px] md:text-4xl font-medium`} {...args}>
           {children}
         </h4>
         {desc && (
-          <span className="text-[14px] mt-2 md:mt-3 font-normal block  sm:text-xl text-violet-wash dark:text-neutral-400 leading-5">
+          <span className="text-[12px] mt-1 md:mt-3 font-normal block  sm:text-xl text-[#6474A6] dark:text-neutral-400 leading-5">
             {desc}
           </span>
         )}

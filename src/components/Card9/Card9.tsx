@@ -30,7 +30,9 @@ const Card9: FC<Card9Props> = ({
 }) => {
   const { title, categories, id, slug, image } = post;
   const { countryState } = useContext(CountryContext);
-  const imageURL = image ? image.replace(`${countryState.country || "mx"}.`, "") : "";
+  const imageURL = image
+    ? image.replace(`${countryState.country || "mx"}.`, "")
+    : "";
 
   const renderMeta = () => {
     return (
@@ -41,8 +43,19 @@ const Card9: FC<Card9Props> = ({
               {title}
             </span>
           </h2>
-          {post.cantidad_modulos && <Showing title={`${post.cantidad_modulos} temas`} icon={moduleIcon.src} className="mb-2" />}
-          {post.duration && <Showing title={`${post.duration} horas estimadas`} icon={timeIcon.src} />}
+          {post.cantidad_modulos && (
+            <Showing
+              title={`${post.cantidad_modulos} temas`}
+              icon={moduleIcon.src}
+              className="mb-2"
+            />
+          )}
+          {post.duration && (
+            <Showing
+              title={`${post.duration} horas estimadas`}
+              icon={timeIcon.src}
+            />
+          )}
           <>
             {showDescription && post.lista_de_cedentes ? (
               <div className="sm:block mt-2">
@@ -59,7 +72,7 @@ const Card9: FC<Card9Props> = ({
 
   return (
     <div
-      className={`nc-Card9 relative flex flex-col group rounded-3xl min-h-[400px] overflow-hidden z-0 ${hoverClass} ${className}`}
+      className={`nc-Card9 relative flex flex-col group rounded-2xl sm:rounded-3xl min-h-[400px] overflow-hidden z-0 ${hoverClass} ${className}`}
     >
       {/* 
         <div className="absolute inset-x-0 top-0 p-3 flex items-center justify-between transition-all opacity-0 z-[-1] group-hover:opacity-100 group-hover:z-10 duration-300">
@@ -70,7 +83,7 @@ const Card9: FC<Card9Props> = ({
       <div className={`flex items-start relative w-full ${ratio}`}></div>
       <Link href={`/curso/${slug}`}>
         <NcImage
-          containerClassName="absolute inset-0 rounded-3xl"
+          containerClassName="absolute inset-0 rounded-2xl sm:rounded-3xl"
           src={imageURL}
           fill
           sizes="200px"

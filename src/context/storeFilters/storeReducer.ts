@@ -83,6 +83,8 @@ const reducer = (state: State, action: Action): State => {
     case "ADD_FILTER":
       console.log("ADD_FILTER", action.payload.filterType, action.payload.filterValue);
       addParameterToURL(action.payload.filterType, action.payload.filterValue)
+      removeParameterFromURL("page", '')
+
       let stateAux = {
         ...state,
         storeFilters: {

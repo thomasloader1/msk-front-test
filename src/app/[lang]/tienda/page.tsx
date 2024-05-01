@@ -1,18 +1,8 @@
-import {FC, useContext} from "react";
+import {FC} from "react";
 import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
-import ssr from "../../../../Services/ssr";
-import {
-    getAllCourses,
-    getAllProfessions,
-    getAllStoreSpecialties,
-    setAllCourses
-} from "@/lib/allData";
 import { Metadata } from "next";
-import {StoreContext} from "@/context/storeFilters/StoreContext";
-import {CountryContext} from "@/context/country/CountryContext";
-import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 
 type Props = {
   params: { lang: string, page: string }

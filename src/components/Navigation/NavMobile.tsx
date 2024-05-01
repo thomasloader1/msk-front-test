@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import Logo from "@/components/Logo/Logo";
 import { Disclosure } from "@headlessui/react";
@@ -19,8 +19,6 @@ import {
 import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 import ModalSignOut from "@/components/Modal/SignOut";
 import Link from "next/link";
-import { CountryContext } from "@/context/country/CountryContext";
-import { slugifySpecialty } from "@/lib/Slugify";
 import { useLocation } from "react-use";
 import resourcesMapping from "@/data/jsons/__resources.json";
 import durationsMapping from "@/data/jsons/__durations.json";
@@ -125,14 +123,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   const { state } = useContext(AuthContext);
-  const { countryState: countryState } = useContext(CountryContext);
 
   let specialties: Specialty[] = useStoreFilters().specialties;
   let professions: Profession[] = useStoreFilters().professions;
   let resources = resourcesMapping;
   let durations = durationsMapping;
 
-  const { storeFilters } = useStoreFilters();
+  const { addFilter, removeFilter, updateFilter, storeFilters } = useStoreFilters();
 
   const isChecked = (type: string, value: any) => {
     switch (type) {
@@ -157,7 +154,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
     }
   };
 
-  const { addFilter, removeFilter, clearFilters } = useStoreFilters();
 
   const onChangeProfession = (profession: Profession) => {
     const professionExists = storeFilters.professions.filter(
@@ -171,6 +167,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
 
   const onChangeResource = (resource: ResourceFilter) => {
     // console.log(resource);
+    updateFilter("page", {
+      id: 1,
+      name: String(1),
+      total: 1
+    });
     const resourceExists = storeFilters.resources.filter(
       (item: ResourceFilter) => {
         return item.id == resource.id;
@@ -193,6 +194,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   const setSpecialtyFilter = (specialty: Specialty, action: string) => {
+    updateFilter("page", {
+      id: 1,
+      name: String(1),
+      total: 1
+    });
     action == "add"
       ? addFilter("specialties", specialty)
       : removeFilter("specialties", specialty);

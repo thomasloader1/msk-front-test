@@ -14,9 +14,12 @@ export const removeParameterFromURL = (param: string, value: string) => {
     url.searchParams.delete("duracion");
     window.history.replaceState({}, document.title, url.toString());
   }
-  console.log()
   if (param === 'specialties') {
     url.searchParams.delete("especialidad");
+    window.history.replaceState({}, document.title, url.toString());
+  }
+  if (param === 'page'){
+    url.searchParams.delete("page");
     window.history.replaceState({}, document.title, url.toString());
   }
 }

@@ -36,7 +36,6 @@ const StoreContent: FC<{ }> = () => {
     addFilter,
     removeFilter,
     updateFilter,
-    clearFilters,
     clearSpecialties,
   } = useStoreFilters();
 
@@ -129,11 +128,11 @@ const StoreContent: FC<{ }> = () => {
   };
 
   // END STOREBAR FILTERS
-
   const onChangeSpecialty = (specialty: Specialty, action: string) => {
     //Clear store search bar
     const input = document.getElementById("store-search") as HTMLInputElement;
     if (input) { input.value = "";}
+    resetPage();
     if (action == 'delete') {
       clearSpecialties();
     } else {
@@ -142,6 +141,7 @@ const StoreContent: FC<{ }> = () => {
     }
   };
   const onChangeProfession = (profession: Profession) => {
+    resetPage();
     const professionExists = storeFilters.professions.filter(
       (item: Profession) => {
         return item.slug == profession.slug;
@@ -151,17 +151,27 @@ const StoreContent: FC<{ }> = () => {
     else addFilter("professions", profession);
   };
   const onChangeResource = (resource: ResourceFilter, action : string) => {
+    resetPage();
     console.log('onChangeResource running');
     if (action !== 'add') {
       removeFilter("resources", resource);
     } else addFilter("resources", resource);
   };
   const onChangeDuration = (duration: DurationFilter, action: string) => {
+    resetPage();
     console.log('Duration', duration);
     if (action !== 'add') {
       removeFilter("duration", duration);
     } else addFilter("duration", duration);
   };
+
+  function resetPage(){
+    setCurrentPage(1);
+    //Remove parameter "page" from the url
+    const url = new URL(window.location.href);
+    url.searchParams.delete('page');
+    window.history.pushState({}, '', url);
+  }
 
   const applyFilters = () => {
     setMutationProducts(true)
@@ -185,13 +195,13 @@ const StoreContent: FC<{ }> = () => {
 
     console.log("condition filter apply",{selectedSpecialties,selectedProfessions,selectedResources,selectedDurations,selectedPage})
 
-    if (!(selectedSpecialties.length || selectedProfessions.length || selectedResources.length || selectedDurations.length)) {
+    if (!(selectedSpecialties.length || selectedProfessions.length || selectedResources.length || selectedDurations.length || selectedPage.length)) {
       console.log('No filters');
       // No filters, set the products to the original list
 
       setCurrentItems([...allCourses.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
-      setMutationProducts(false)
+      setMutationProducts(false);
 
     } else {
       console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations, selectedPage});
@@ -246,10 +256,19 @@ const StoreContent: FC<{ }> = () => {
       });
 
       console.log("FILTERED PRODUCTS", {filteredProducts});
+      console.log('setCurrentPage: ', selectedPage[0] || 1);
+      console.log('indexOfFirstItem: ', indexOfFirstItem);
+      console.log('indexOfLastItem: ', indexOfLastItem);
 
-      setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
+
+      let auxCurrentPage = selectedPage[0] || 1;
+      setCurrentPage(auxCurrentPage);
+      if (auxCurrentPage == 1){
+        setCurrentItems([...filteredProducts.slice(0, itemsPerPage)]);
+      }else{
+        setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
+      }
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-      setCurrentPage(currentPage);
       setMutationProducts(false)
 
     }
@@ -260,7 +279,7 @@ const StoreContent: FC<{ }> = () => {
     useEffect(() => {
       console.log('FILTERS WERE UPDATED');
       applyFilters();
-    }, [allCourses, storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources, storeFilters.duration]);
+    }, [allCourses, storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources, storeFilters.duration, storeFilters.page]);
   }
 
   if(typeof window !== "undefined") {
@@ -272,6 +291,11 @@ const StoreContent: FC<{ }> = () => {
       const especialidad = url.searchParams.get("especialidad");
       const profesion = url.searchParams.get("profesion");
       const duracion = url.searchParams.get("duracion");
+      const page = url.searchParams.get("page");
+      // check if there is anything in page, if not set to 1
+      /*if (!page) {
+        setCurrentPage(1);
+      }*/
       if (recurso){
         let urlResource = resources.find((resource) => resource.slug === recurso);
         console.log('URL RESOURCE: ', urlResource);

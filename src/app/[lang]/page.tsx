@@ -32,6 +32,8 @@ import { FetchCourseType, WpContentData } from "@/data/types";
 import Phrase from "@/components/Phrase/Phrase";
 import CommentReferences from "@/components/CommentReferences";
 import Questions from "@/components/Questions/Questions";
+import Head from "next/head";
+import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageProps {
   params: any;
@@ -67,11 +69,11 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
   return (
     <div className="nc-PageHome relative animate-fade-down">
-      <Script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <PageHeadServer
+        title="Cursos de medicina para expandir tus metas profesionales"
+        description="Cursos de medicina para expandir tus metas profesionales"
+        schemaJson={"WebSite"}
       />
-
       <div className="relative overflow-hidden">
         <div className="container relative">
           <SectionHero

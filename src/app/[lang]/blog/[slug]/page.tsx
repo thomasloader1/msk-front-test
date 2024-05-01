@@ -6,6 +6,8 @@ import SingleContent from "@/components/MSK/Blog/Post/SingleContent";
 import { cookies } from "next/headers";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
+import Head from "next/head";
+import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageCourseProps {
   params: any;
@@ -20,6 +22,11 @@ const PageNota: FC<PageCourseProps> = async ({ params }) => {
   const fuentes = post?.fuentes || [];
   return (
     <>
+      <PageHeadServer
+        title={`${post?.title}`}
+        description={`${post?.excerpt}`}
+        schemaJson={"WebSite"}
+      />
       <div
         className={`nc-PageSingleTemp3¸Sidebar`}
         data-nc-id="PageSingleTemp3Sidebar"

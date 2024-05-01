@@ -7,6 +7,8 @@ import { CommentType } from "@/components/CommentCard/CommentCard";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import Image from "next/image";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -90,6 +92,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
   return (
     <>
+      <PageHeadClient title="Términos y Condiciones" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

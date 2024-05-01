@@ -3,11 +3,12 @@ import { PostDataType, TaxonomyType } from "@/data/types";
 // import { changeCurrentPage } from "@/app/pages/pages";
 // import SingleHeader from "../PageMSK/mission/SingleHeader";
 import { removeUrlParams } from "@/lib/removeUrlParams";
-import PageHead from "../../Head/PageHeadServer";
 import { CommentType } from "@/components/CommentCard/CommentCard";
 import { useAppDispatch } from "@/hooks/hooks";
 import SingleHeader from "../Blog/Post/PostSingleHeader";
 import SingleContent from "./Single";
+import Head from "next/head";
+import PageHeadServer from "@/components/Head/PageHeadServer";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -127,8 +128,7 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <PageHead title="Misión" />
-
+      <PageHeadServer title="Misión" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

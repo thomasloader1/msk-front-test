@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useState } from "react";
-import minusIcon from "/public/images/icons/minusIcon.svg"
-import plusIcon from "/public/images/icons/plusIcon.svg"
+import minusIcon from "/public/images/icons/minusIcon.svg";
+import plusIcon from "/public/images/icons/plusIcon.svg";
 import Image from "next/image";
 
 interface Props {
@@ -20,7 +20,7 @@ const Accordion: FC<Props> = ({
   currentIndex,
   setCurrentIndex,
   forModules = true,
-  bordered = false
+  bordered = false,
 }: Props) => {
   const isOpen = index === currentIndex;
   const [isAnimating, setIsAnimating] = useState(false);
@@ -35,8 +35,8 @@ const Accordion: FC<Props> = ({
     }
   };
 
-  const iconAccordion = isOpen ? minusIcon : plusIcon
-  const titleItem = title.replace(/^Módulo\s+\d+:\s*/, '');
+  const iconAccordion = isOpen ? minusIcon : plusIcon;
+  const titleItem = title.replace(/^Módulo\s+\d+:\s*/, "");
   return (
     <div className={`overflow-hidden accordion ${bordered && "border"}`}>
       <div
@@ -47,10 +47,22 @@ const Accordion: FC<Props> = ({
       >
         <div className="flex items-center text-left">
           <div className="w-[20px] mr-2">
-            <Image src={iconAccordion.src} width={iconAccordion.width} height={iconAccordion.height} alt="accordion img" className="ml-1"/>
+            <Image
+              src={iconAccordion.src}
+              width={iconAccordion.width}
+              height={iconAccordion.height}
+              alt="accordion img"
+              className="ml-1"
+            />
           </div>
-          {forModules ? (<span className="font-medium">Módulo {index + 1} • <span className="font-normal">{titleItem}</span></span>) : titleItem}
-
+          {forModules ? (
+            <h2 className="font-medium">
+              Módulo {index + 1} •{" "}
+              <span className="font-normal">{titleItem}</span>
+            </h2>
+          ) : (
+            titleItem
+          )}
         </div>
       </div>
       {isOpen && children}

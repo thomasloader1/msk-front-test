@@ -9,16 +9,18 @@ import { FetchPostType } from "@/data/types";
 import WelcomeBlog from "@/components/MSK/Blog/WelcomeBlog";
 import NewsletterBlog from "@/components/MSK/Blog/NewsletterBlog";
 import { Metadata } from "next";
+import Head from "next/head";
+import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageProps {
   params: any;
 }
-export const runtime = 'edge';
+export const runtime = "edge";
 export const metadata: Metadata = {
   title: "Blog",
-  alternates:{
-    canonical: `${process.env.NEXT_PUBLIC_URL}/blog`
-  }
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL}/blog`,
+  },
 };
 
 const PageBlog: React.FC<PageProps> = async ({ params }) => {
@@ -29,6 +31,7 @@ const PageBlog: React.FC<PageProps> = async ({ params }) => {
 
   return (
     <div className="nc-PageBlog relative animate-fade-down">
+      <PageHeadServer title="Blog" />
       <div className="relative overflow-hidden">
         <div className="container relative">
           <WelcomeBlog tabs={[]} heading="" posts={welcomePosts} />

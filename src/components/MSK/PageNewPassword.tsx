@@ -4,7 +4,8 @@ import Input from "@/components/Input/Input";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import api from "../../../Services/api";
 import { useRouter } from "next/router";
-import PageHead from "../Head/PageHeadServer";
+import Head from "next/head";
+import PageHeadServer from "../Head/PageHeadServer";
 
 export interface PageNewPasswordProps {
   className?: string;
@@ -56,7 +57,7 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
       className={`nc-PageForgotPass animate-fade-down ${className}`}
       data-nc-id="PageForgotPass"
     >
-      <PageHead title="Cambia tu contraseña" />
+      <PageHeadServer title="Cambia tu contraseña" />
       <LayoutPage
         heading="Cambiar contraseña"
         subHeading="Te enviaremos un correo para que puedas crear una nueva"

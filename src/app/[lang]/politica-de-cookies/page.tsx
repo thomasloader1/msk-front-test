@@ -7,6 +7,8 @@ import useCookiesTerms from "@/hooks/useCookieTerms";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import Image from "next/image";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -90,6 +92,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
   return (
     <>
+      <PageHeadClient title="Política de cookies" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
@@ -108,11 +111,11 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
           <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
             <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
             <Image
-                className="mission-image"
-                src="/images/misc/mission.png"
-                alt="Nuestra Mision"
-                width={1000}
-                height={500}
+              className="mission-image"
+              src="/images/misc/mission.png"
+              alt="Nuestra Mision"
+              width={1000}
+              height={500}
             />
           </div>
         </header>

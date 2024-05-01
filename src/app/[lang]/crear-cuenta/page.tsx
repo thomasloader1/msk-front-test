@@ -1,39 +1,41 @@
-"use client"
+"use client";
 import "react-phone-number-input/style.css";
 import LayoutPage from "@/components/MSK/LayoutPage";
-import React, {FC, useContext, useReducer, useRef, useState} from "react";
+import React, { FC, useContext, useReducer, useRef, useState } from "react";
 import SimpleInputSkeleton from "@/components/Skeleton/SimpleInputSkeleron";
-import {ErrorMessage, Field, Form, FormikProvider, useFormik} from "formik";
+import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import InputField from "@/components/InputField/InputField";
-import PhoneInput, {parsePhoneNumber} from "react-phone-number-input";
-import {CountryCode} from "libphonenumber-js/types";
+import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
+import { CountryCode } from "libphonenumber-js/types";
 import Link from "next/link";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import ShowErrorMessage from "@/components/ShowErrorMessage";
 import ssr from "@Services/ssr";
 import * as Yup from "yup";
-import {countries} from "@/data/countries";
-import {DataContext} from "@/context/data/DataContext";
-import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import {useRouter} from "next/navigation";
-import {utmInitialState, utmReducer} from "@/context/utm/UTMReducer";
-import {JsonIdentificationsMapping} from "@/data/types";
+import { countries } from "@/data/countries";
+import { DataContext } from "@/context/data/DataContext";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useRouter } from "next/navigation";
+import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
+import { JsonIdentificationsMapping } from "@/data/types";
 import countryIdentificationsMapping from "@/data/jsons/__countryIdentifications.json";
-import {CountryContext} from "@/context/country/CountryContext";
-
+import { CountryContext } from "@/context/country/CountryContext";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export interface PageContactProps {
   className?: string;
 }
 const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   const {
-    state:{
+    state: {
       allSpecialties: specialties,
       allSpecialtiesGroups: specialtiesGroup,
       allProfessions: professions,
-      allCourses: allProducts
+      allCourses: allProducts,
     },
-    loadingProfessions, loadingSpecialties
+    loadingProfessions,
+    loadingSpecialties,
   } = useContext(DataContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -55,13 +57,17 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
-  const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
+  const [documents, setDocuments] = useState<JsonIdentificationsMapping>(
+    countryIdentificationsMapping
+  );
 
   const { countryState } = useContext(CountryContext);
 
   //console.log({product},window.location,`${window.location.origin}${window.location.pathname.replace("trial","curso")}`)
 
-  const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
+  const handleOptionTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { value } = event.target;
     if (value && value.length) {
       const values = value.split("/");
@@ -75,7 +81,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
       setSelectedDocument("");
       setSelectedDocumentId("");
     }
-  }
+  };
   const initialValues = {
     first_name: "",
     last_name: "",
@@ -98,12 +104,17 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
     last_name: Yup.string().required("El apellido es requerido"),
     identification: Yup.string().required("La identificacion es requerida"),
     type: Yup.string().required("El tipo de identificacion es requerido"),
-    email: Yup.string().email(`Correo electrónico inválido`).required("El correo electrónico es requerido"),
+    email: Yup.string()
+      .email(`Correo electrónico inválido`)
+      .required("El correo electrónico es requerido"),
     phone: Yup.string().required("El teléfono es requerido"),
     profession: Yup.string().required("La profesión es requerida"),
     speciality: Yup.string().required("La especialidad es requerida"),
     country: Yup.string(),
-    Terms_And_Conditions: Yup.boolean().oneOf([true],"Debes aceptar los términos y condiciones"),
+    Terms_And_Conditions: Yup.boolean().oneOf(
+      [true],
+      "Debes aceptar los términos y condiciones"
+    ),
   });
 
   const handlePhoneChange = (value: string) => {
@@ -117,7 +128,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   };
 
   const handleOptionSpecialtyChange = (
-      event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     setSelectedOptionSpecialty(value);
@@ -126,7 +137,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   };
 
   const handleOptionCareerChange = (
-      event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     formik.setFieldValue("Career", value);
@@ -135,7 +146,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
   };
 
   const handleOptionProfessionChange = (
-      event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
     if (value && value.length) {
@@ -149,7 +160,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
       formik.setFieldValue("profession", profession);
 
       const groups =
-          specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup([]);
       setCurrentGroup(groups);
     } else {
@@ -160,7 +171,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
 
   const fullCountry = (country: string): string => {
     return (
-        countries.find((c) => c.id === country.toLowerCase())?.name || country
+      countries.find((c) => c.id === country.toLowerCase())?.name || country
     );
   };
   const optionsArray = [1, 2, 3, 4, 5];
@@ -169,7 +180,6 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-
       if (executeRecaptcha) {
         setOnRequest(true);
         const formData = {
@@ -186,25 +196,28 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
 
         try {
           const res = await ssr.postSignUp(formData);
-          console.log({res})
+          console.log({ res });
           if (!res?.access_token) {
             setSuccess(false);
-            console.error(res)
+            console.error(res);
 
             const errorMessages = Object.values(res.errors)
-                .map((errorMessage: any, i) => {
-                  if (errorMessage[i].includes("El Email ya ha sido registrado")) {
-                    const redirectURL = '/iniciar-sesion';
-                    const loginLink = document.createElement('a');
-                    loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom font-bold";
-                    loginLink.href = redirectURL;
-                    loginLink.innerHTML = 'Inicia sesión';
-                    res.errors.email[0] += ` ${loginLink.outerHTML}`
-                  }
+              .map((errorMessage: any, i) => {
+                if (
+                  errorMessage[i].includes("El Email ya ha sido registrado")
+                ) {
+                  const redirectURL = "/iniciar-sesion";
+                  const loginLink = document.createElement("a");
+                  loginLink.className =
+                    "cursor-pointer text-violet-custom hover:underline hover:text-violet-custom font-bold";
+                  loginLink.href = redirectURL;
+                  loginLink.innerHTML = "Inicia sesión";
+                  res.errors.email[0] += ` ${loginLink.outerHTML}`;
+                }
 
-                  return ` ${errorMessage}`;
-                })
-                .join("<br />");
+                return ` ${errorMessage}`;
+              })
+              .join("<br />");
 
             setError(`${errorMessages}`);
           } else {
@@ -228,6 +241,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
       className={`nc-PageDashboard ${className} animate-fade-down`}
       data-nc-id="PageDashboard"
     >
+      <PageHeadClient title="Crear Cuenta" />
       <LayoutPage
         heading="Crear cuenta"
         subHeading="Regístrate y disfruta al máximo de nuestra propuesta educativa"
@@ -235,29 +249,29 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
         <div className="max-w-md mx-auto space-y-6">
           <FormikProvider value={formik}>
             <Form
-                onSubmit={formik.handleSubmit}
-                action="#"
-                className=""
-                autoComplete="off"
-                ref={formRef}
+              onSubmit={formik.handleSubmit}
+              action="#"
+              className=""
+              autoComplete="off"
+              ref={formRef}
             >
               <InputField
-                  label="E-mail"
-                  type="text"
-                  name="email"
-                  placeholder="Ingresar e-mail"
+                label="E-mail"
+                type="text"
+                name="email"
+                placeholder="Ingresar e-mail"
               />
               <InputField
-                  label="Nombre"
-                  type="text"
-                  name="first_name"
-                  placeholder="Ingresar nombre"
+                label="Nombre"
+                type="text"
+                name="first_name"
+                placeholder="Ingresar nombre"
               />
               <InputField
-                  label="Apellido"
-                  type="text"
-                  name="last_name"
-                  placeholder="Ingresar apellido"
+                label="Apellido"
+                type="text"
+                name="last_name"
+                placeholder="Ingresar apellido"
               />
 
               <div className="">
@@ -265,31 +279,30 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                   Teléfono
                 </label>
                 <Field name="phone">
-                  {({field, form, meta}: any) => (
-                      <div className="form-phone-std">
-                        <ErrorMessage
-                            name="phone"
-                            component="span"
-                            className="error"
-                        />
-                        <PhoneInput
-                            name="phone"
-                            id="phone"
-                            placeholder="Ingresar número telefónico"
-                            defaultCountry={
-                              countryState.country.toUpperCase() as CountryCode
-                            }
-                            onChange={(value: any) => {
-                              form.setFieldValue("phone", value);
-                              handlePhoneChange(value);
-                            }}
-                            className="phone-wrapper"
-                        />
-                      </div>
+                  {({ field, form, meta }: any) => (
+                    <div className="form-phone-std">
+                      <ErrorMessage
+                        name="phone"
+                        component="span"
+                        className="error"
+                      />
+                      <PhoneInput
+                        name="phone"
+                        id="phone"
+                        placeholder="Ingresar número telefónico"
+                        defaultCountry={
+                          countryState.country.toUpperCase() as CountryCode
+                        }
+                        onChange={(value: any) => {
+                          form.setFieldValue("phone", value);
+                          handlePhoneChange(value);
+                        }}
+                        className="phone-wrapper"
+                      />
+                    </div>
                   )}
                 </Field>
               </div>
-
 
               <div className="col-xl-6 col-span-2 md:col-span-1">
                 <div className="form-select-std">
@@ -297,37 +310,36 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                     Tipo de identificacion
                   </label>
                   <ErrorMessage
-                      name="type"
-                      component="span"
-                      className="error"
+                    name="type"
+                    component="span"
+                    className="error"
                   />
 
                   <Field
-                      as="select"
-                      name="type"
-                      onChange={handleOptionTypeChange}
-                      value={`${selectedDocument}/${selectedDocumentId}`}
+                    as="select"
+                    name="type"
+                    onChange={handleOptionTypeChange}
+                    value={`${selectedDocument}/${selectedDocumentId}`}
                   >
                     <option defaultValue="" value="">
                       Seleccionar tipo
                     </option>
                     {documents[countryState.country]
-                        ? documents[countryState.country].map((p: any) => (
-                            <option key={p.id} value={`${p.type}/${p.id}`}>
-                              {p.type}
-                            </option>
+                      ? documents[countryState.country].map((p: any) => (
+                          <option key={p.id} value={`${p.type}/${p.id}`}>
+                            {p.type}
+                          </option>
                         ))
-                        : ""}
+                      : ""}
                   </Field>
-
                 </div>
               </div>
 
               <InputField
-                  label="Identificacion"
-                  type="text"
-                  name="identification"
-                  placeholder="Ingresar identificacion"
+                label="Identificacion"
+                type="text"
+                name="identification"
+                placeholder="Ingresar identificacion"
               />
 
               <div className="col-xl-6 col-span-2 md:col-span-1">
@@ -336,166 +348,176 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                     Profesión
                   </label>
                   <ErrorMessage
-                      name="profession"
-                      component="span"
-                      className="error"
+                    name="profession"
+                    component="span"
+                    className="error"
                   />
 
-                  {loadingProfessions ? <SimpleInputSkeleton/> : <Field
+                  {loadingProfessions ? (
+                    <SimpleInputSkeleton />
+                  ) : (
+                    <Field
                       as="select"
                       name="profession"
                       onChange={handleOptionProfessionChange}
                       value={`${selectedOptionProfession}/${selectedProfessionId}`}
-                  >
-                    <option defaultValue="" value="">
-                      Seleccionar profesión
-                    </option>
-                    {professions
+                    >
+                      <option defaultValue="" value="">
+                        Seleccionar profesión
+                      </option>
+                      {professions
                         ? professions.map((p: any) => (
                             <option key={p.id} value={`${p.name}/${p.id}`}>
                               {p.name}
                             </option>
-                        ))
+                          ))
                         : ""}
-                  </Field>}
-
+                    </Field>
+                  )}
                 </div>
 
                 {showInputProfession && (
-                    <div className="form-input-std my-4">
-                      <ErrorMessage
-                          name="Otra_profesion"
-                          component="span"
-                          className="error"
-                      />
-                      <Field
-                          type="text"
-                          name="Otra_profesion"
-                          placeholder="Ingresar profesion"
-                      />
-                    </div>
+                  <div className="form-input-std my-4">
+                    <ErrorMessage
+                      name="Otra_profesion"
+                      component="span"
+                      className="error"
+                    />
+                    <Field
+                      type="text"
+                      name="Otra_profesion"
+                      placeholder="Ingresar profesion"
+                    />
+                  </div>
                 )}
               </div>
 
               {studentInputs ? (
-                  <div className="col-xl-12 flex gap-2 mt-2">
-                    <div className="form-select-std w-1/2">
-                      <ErrorMessage
-                          name="Year"
-                          component="span"
-                          className="error"
-                      />
-                      <Field as="select" name="Year">
-                        <option defaultValue="">Año</option>
-                        {optionsArray.map((y) => (
-                            <option key={`st_Year_${y}`} defaultValue={y}>
-                              {y}
-                            </option>
-                        ))}
-                      </Field>
-                    </div>
-                    <div className="form-select-std w-full">
-                      <ErrorMessage
-                          name="Career"
-                          component="span"
-                          className="error"
-                      />
-                      <Field
-                          as="select"
-                          name="Career"
-                          onChange={handleOptionCareerChange}
-                          value={selectedCareer}
-                      >
-                        <option defaultValue="">Seleccionar carrera</option>
-                        {currentGroup.map((s: any) => (
-                            <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
-                              {s.name}
-                            </option>
-                        ))}
-                      </Field>
-                    </div>
+                <div className="col-xl-12 flex gap-2 mt-2">
+                  <div className="form-select-std w-1/2">
+                    <ErrorMessage
+                      name="Year"
+                      component="span"
+                      className="error"
+                    />
+                    <Field as="select" name="Year">
+                      <option defaultValue="">Año</option>
+                      {optionsArray.map((y) => (
+                        <option key={`st_Year_${y}`} defaultValue={y}>
+                          {y}
+                        </option>
+                      ))}
+                    </Field>
                   </div>
+                  <div className="form-select-std w-full">
+                    <ErrorMessage
+                      name="Career"
+                      component="span"
+                      className="error"
+                    />
+                    <Field
+                      as="select"
+                      name="Career"
+                      onChange={handleOptionCareerChange}
+                      value={selectedCareer}
+                    >
+                      <option defaultValue="">Seleccionar carrera</option>
+                      {currentGroup.map((s: any) => (
+                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                </div>
               ) : (
-                  <>
-                    <div className={`col-xl-6`}>
-                      <div className="form-select-std">
-                        <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-                          Especialidad
-                        </label>
-                        <ErrorMessage
-                            name="speciality"
-                            component="span"
-                            className="error"
-                        />
-                        {loadingSpecialties ? <SimpleInputSkeleton/> : <Field
-                            as="select"
-                            name="speciality"
-                            onChange={handleOptionSpecialtyChange}
-                            value={selectedOptionSpecialty}
+                <>
+                  <div className={`col-xl-6`}>
+                    <div className="form-select-std">
+                      <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                        Especialidad
+                      </label>
+                      <ErrorMessage
+                        name="speciality"
+                        component="span"
+                        className="error"
+                      />
+                      {loadingSpecialties ? (
+                        <SimpleInputSkeleton />
+                      ) : (
+                        <Field
+                          as="select"
+                          name="speciality"
+                          onChange={handleOptionSpecialtyChange}
+                          value={selectedOptionSpecialty}
                         >
                           <option defaultValue="">
                             Seleccionar especialidad
                           </option>
                           {selectedOptionProfession && currentGroup.length
-                              ? currentGroup.map((s: any) => (
-                                  <option
-                                      key={`sp_group_${s.id}`}
-                                      defaultValue={s.name}
-                                  >
-                                    {s.name}
-                                  </option>
+                            ? currentGroup.map((s: any) => (
+                                <option
+                                  key={`sp_group_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
                               ))
-                              : specialties.map((s: any) => (
-                                  <option key={`sp_${s.id}`} defaultValue={s.name}>
-                                    {s.name}
-                                  </option>
+                            : specialties.map((s: any) => (
+                                <option
+                                  key={`sp_${s.id}`}
+                                  defaultValue={s.name}
+                                >
+                                  {s.name}
+                                </option>
                               ))}
-                        </Field>}
-                      </div>
-                      {showInputSpecialties && (
-                          <div className="form-input-std my-4">
-                            <Field
-                                type="text"
-                                name="Otra_especialidad"
-                                placeholder="Ingresar especialidad"
-                            />
-                            <ErrorMessage
-                                name="Otra_especialidad"
-                                component="div"
-                                className="error"
-                            />
-                          </div>
+                        </Field>
                       )}
                     </div>
-                  </>
+                    {showInputSpecialties && (
+                      <div className="form-input-std my-4">
+                        <Field
+                          type="text"
+                          name="Otra_especialidad"
+                          placeholder="Ingresar especialidad"
+                        />
+                        <ErrorMessage
+                          name="Otra_especialidad"
+                          component="div"
+                          className="error"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </>
               )}
               <div className="flex flex-wrap gap-4 mt-4 ">
                 <div className="contact-checkbox signup-checkbox">
                   <ErrorMessage
-                      name="Terms_And_Conditions"
-                      component="span"
-                      className="error"
+                    name="Terms_And_Conditions"
+                    component="span"
+                    className="error"
                   />
                   <Link
-                      href="/condiciones-de-contratacion#trial"
-                      target="_blank"
-                      className="text-primary hover:text-primary underline"
+                    href="/condiciones-de-contratacion#trial"
+                    target="_blank"
+                    className="text-primary hover:text-primary underline"
                   >
                     Ver términos y condiciones de prueba gratuita
                   </Link>
                   <div className="flex gap-2 center text-center">
                     <Field
-                        type="checkbox"
-                        name="Terms_And_Conditions"
-                        checked={formik.values.Terms_And_Conditions}
-                        className="hidden-checkbox mt-0.5"
+                      type="checkbox"
+                      name="Terms_And_Conditions"
+                      checked={formik.values.Terms_And_Conditions}
+                      className="hidden-checkbox mt-0.5"
                     />
                     <label>
                       Acepto las{" "}
                       <Link
-                          href="/politica-de-privacidad"
-                          target="_blank"
-                          className="text-primary"
+                        href="/politica-de-privacidad"
+                        target="_blank"
+                        className="text-primary"
                       >
                         politicas de privacidad
                       </Link>
@@ -506,24 +528,22 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
 
               <div className="flex flex-wrap gap-1 mt-2 mb-4">
                 <ButtonPrimary
-                    type="submit"
-                    className="w-full"
-                    disabled={!formik.values.Terms_And_Conditions || onRequest}
+                  type="submit"
+                  className="w-full"
+                  disabled={!formik.values.Terms_And_Conditions || onRequest}
                 >
                   {onRequest ? "Creando..." : "Crear"}
                 </ButtonPrimary>
-                {error && <ShowErrorMessage text={error}/>}
-
+                {error && <ShowErrorMessage text={error} />}
 
                 {success && (
-                    <p className="text-green-500 text-center w-full">
-                      Registrado correctamente!
-                    </p>
+                  <p className="text-green-500 text-center w-full">
+                    Registrado correctamente!
+                  </p>
                 )}
               </div>
             </Form>
           </FormikProvider>
-
         </div>
       </LayoutPage>
     </div>

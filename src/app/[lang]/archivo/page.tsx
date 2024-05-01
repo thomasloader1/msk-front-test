@@ -17,6 +17,8 @@ import BlogSummary from "@/components/MSK/BlogSummary";
 import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export const runtime = "edge";
 
@@ -149,6 +151,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
 
   return (
     <>
+      <PageHeadClient title="Archivo" />
       <div
         className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"

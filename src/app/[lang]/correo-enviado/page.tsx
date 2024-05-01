@@ -1,5 +1,7 @@
 "use client";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 import LayoutPage from "@/components/MSK/LayoutPage";
+import Head from "next/head";
 import { FC } from "react";
 export interface PageEmailSentProps {
   className?: string;
@@ -34,6 +36,7 @@ const PageEmailSent: FC<PageEmailSentProps> = ({ className = "" }) => {
       className={`nc-PageEmailSent animate-fade-down ${className}`}
       data-nc-id="PageEmailSent"
     >
+      <PageHeadClient title="Correo Enviado" />
       <LayoutPage subHeading="" heading=" ">
         <div className="thank-you-wrp py-16">
           <h1 className="text-center thank-you-title text-size-[24px]">

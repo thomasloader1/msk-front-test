@@ -38,11 +38,11 @@ const Card9: FC<Card9Props> = ({
     return (
       <div className="inline-flex items-center text-xs text-neutral-300">
         <div className="block ">
-          <h2 className="block text-lg font-semibold text-white mb-2">
+          <h4 className="block text-lg font-semibold text-white mb-2">
             <span className="text-xl font-raleway font-bold" title={title}>
               {title}
             </span>
-          </h2>
+          </h4>
           {post.cantidad_modulos && (
             <Showing
               title={`${post.cantidad_modulos} temas`}

@@ -7,6 +7,8 @@ import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import NcModal from "@/components/NcModal/NcModal";
 import FooterNewsletter from "@/components/Footer/Newsletter";
 import { ArrowLongRightIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export interface NewsletterProps {
   className?: string;
@@ -25,6 +27,7 @@ const NewsletterBlog: FC<NewsletterProps> = ({ className = "" }) => {
       className={`nc-Newsletter relative flex flex-col lg:flex-row items-center ${className}`}
       data-nc-id="Newsletter"
     >
+      <PageHeadClient title="Nuestro Newsletter" />
       <div className="flex-shrink-0 mb-2 lg:mb-0 lg:mr-10 lg:w-2/5">
         <h2 className="font-semibold text-[28px] sm:text-4xl">
           Disfruta nuestros contenidos

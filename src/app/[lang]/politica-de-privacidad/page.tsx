@@ -7,6 +7,8 @@ import { CommentType } from "@/components/CommentCard/CommentCard";
 import { useAppDispatch } from "@/hooks/hooks";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import Head from "next/head";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
@@ -100,6 +102,7 @@ const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
+      <PageHeadClient title="Política de Protección de Datos" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

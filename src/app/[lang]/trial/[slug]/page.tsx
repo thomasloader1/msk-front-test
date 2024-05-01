@@ -1,11 +1,5 @@
-"use client"
-import React, {
-  FC,
-  useContext,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+"use client";
+import React, { FC, useContext, useReducer, useRef, useState } from "react";
 import PhoneInput from "react-phone-number-input";
 import { parsePhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -14,13 +8,13 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { DataContext } from "@/context/data/DataContext";
-import { useParams, useRouter  } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { JsonIdentificationsMapping } from "@/data/types";
 import { AuthContext } from "@/context/user/AuthContext";
 import useSingleProduct from "@/hooks/useSingleProduct";
 import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
 import { CountryContext } from "@/context/country/CountryContext";
-import countryIdentificationsMapping from '@/data/jsons/__countryIdentifications.json'
+import countryIdentificationsMapping from "@/data/jsons/__countryIdentifications.json";
 import { countries } from "@/data/countries";
 import LayoutPage from "@/components/MSK/LayoutPage";
 import SimpleInputSkeleton from "@/components/Skeleton/SimpleInputSkeleron";
@@ -29,20 +23,22 @@ import Link from "next/link";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import ShowErrorMessage from "@/components/ShowErrorMessage";
 import ssr from "@Services/ssr";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export interface PageTrialProps {
   className?: string;
 }
 
 const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
-  const { 
-    state:{ 
-      allSpecialties: specialties, 
-      allSpecialtiesGroups: specialtiesGroup, 
+  const {
+    state: {
+      allSpecialties: specialties,
+      allSpecialtiesGroups: specialtiesGroup,
       allProfessions: professions,
-      allCourses: allProducts
-    }, 
-    loadingProfessions, loadingSpecialties 
+      allCourses: allProducts,
+    },
+    loadingProfessions,
+    loadingSpecialties,
   } = useContext(DataContext);
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -64,17 +60,21 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
-  const [documents, setDocuments] = useState<JsonIdentificationsMapping>(countryIdentificationsMapping)
+  const [documents, setDocuments] = useState<JsonIdentificationsMapping>(
+    countryIdentificationsMapping
+  );
 
   const { countryState } = useContext(CountryContext);
   const { state: authState } = useContext(AuthContext);
   const { product, loading } = useSingleProduct(slug, {
     country: countryState.country,
   });
- 
+
   //console.log({product},window.location,`${window.location.origin}${window.location.pathname.replace("trial","curso")}`)
 
-  const handleOptionTypeChange = ( event: React.ChangeEvent<HTMLSelectElement>) =>{
+  const handleOptionTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { value } = event.target;
     if (value && value.length) {
       const values = value.split("/");
@@ -82,13 +82,13 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
       const id = values[1];
       setSelectedDocument(type);
       setSelectedDocumentId(id);
-      
+
       formik.setFieldValue("type", type);
     } else {
       setSelectedDocument("");
       setSelectedDocumentId("");
     }
-  }
+  };
 
   const initialValues = {
     first_name: "",
@@ -115,12 +115,17 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     last_name: Yup.string().required("El apellido es requerido"),
     identification: Yup.string().required("La identificacion es requerida"),
     type: Yup.string().required("El tipo de identificacion es requerido"),
-    email: Yup.string().email(`Correo electrónico inválido`).required("El correo electrónico es requerido"),
+    email: Yup.string()
+      .email(`Correo electrónico inválido`)
+      .required("El correo electrónico es requerido"),
     phone: Yup.string().required("El teléfono es requerido"),
     profession: Yup.string().required("La profesión es requerida"),
     speciality: Yup.string().required("La especialidad es requerida"),
     country: Yup.string(),
-    Terms_And_Conditions: Yup.boolean().oneOf([true],"Debes aceptar los términos y condiciones"),
+    Terms_And_Conditions: Yup.boolean().oneOf(
+      [true],
+      "Debes aceptar los términos y condiciones"
+    ),
   });
 
   const handlePhoneChange = (value: string) => {
@@ -187,7 +192,7 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     initialValues,
     validationSchema,
     onSubmit: async (values: any) => {
-      localStorage.setItem('trialURL', `/suscribe/${slug}`);
+      localStorage.setItem("trialURL", `/suscribe/${slug}`);
 
       if (executeRecaptcha) {
         setOnRequest(true);
@@ -202,25 +207,31 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
           utm_content: utmState.utm_content,
           converted_by: "Trial Sitio web",
           Cursos_consultados: product?.ficha.title,
-          URL_DESCARGA: product?.temario_link_pdf?.replace(/^(https?:\/\/)(ar\.|mx\.|cl\.|ec\.)/,"$1")
+          URL_DESCARGA: product?.temario_link_pdf?.replace(
+            /^(https?:\/\/)(ar\.|mx\.|cl\.|ec\.)/,
+            "$1"
+          ),
         };
 
         try {
           const res = await ssr.postSignUp(formData);
-          console.log({res})
+          console.log({ res });
           if (!res?.access_token) {
             setSuccess(false);
-            console.error(res)
+            console.error(res);
 
             const errorMessages = Object.values(res.errors)
               .map((errorMessage: any, i) => {
-                if (errorMessage[i].includes("El Email ya ha sido registrado")) {
-                  const redirectURL = '/iniciar-sesion';
-                  const loginLink = document.createElement('a');
-                  loginLink.className ="cursor-pointer text-violet-custom hover:underline hover:text-violet-custom font-bold";
+                if (
+                  errorMessage[i].includes("El Email ya ha sido registrado")
+                ) {
+                  const redirectURL = "/iniciar-sesion";
+                  const loginLink = document.createElement("a");
+                  loginLink.className =
+                    "cursor-pointer text-violet-custom hover:underline hover:text-violet-custom font-bold";
                   loginLink.href = redirectURL;
-                  loginLink.innerHTML = 'Inicia sesión';
-                  res.errors.email[0] += ` ${loginLink.outerHTML}`
+                  loginLink.innerHTML = "Inicia sesión";
+                  res.errors.email[0] += ` ${loginLink.outerHTML}`;
                 }
 
                 return ` ${errorMessage}`;
@@ -244,323 +255,335 @@ const PageTrial: FC<PageTrialProps> = ({ className = "" }) => {
     },
   });
 
-
   if (authState.isAuthenticated) {
-     router.push(`/suscribe/${slug}`);
+    router.push(`/suscribe/${slug}`);
   }
 
-  
   return (
     <div
       className={`nc-PageSignUp ${className} animate-fade-down`}
       data-nc-id="PageSignUp"
     >
-      {/* <PageHead title="Crear cuenta" /> */}
+      <PageHeadClient title="Crear cuenta" />
+
       <LayoutPage
         subHeading="Regístrate y disfruta de los contenidos del curso sin costo durante 7 días"
         heading="Crear cuenta"
       >
         <div className="max-w-md mx-auto space-y-6">
-          {loading ? <>
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-            <SimpleInputSkeleton />
-          </> : <FormikProvider value={formik}>
-            <Form
-              onSubmit={formik.handleSubmit}
-              action="#"
-              className=""
-              autoComplete="off"
-              ref={formRef}
-            >
-              <InputField
-                label="E-mail"
-                type="text"
-                name="email"
-                placeholder="Ingresar e-mail"
-              />
-              <InputField
-                label="Nombre"
-                type="text"
-                name="first_name"
-                placeholder="Ingresar nombre"
-              />
-              <InputField
-                label="Apellido"
-                type="text"
-                name="last_name"
-                placeholder="Ingresar apellido"
-              />
+          {loading ? (
+            <>
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+              <SimpleInputSkeleton />
+            </>
+          ) : (
+            <FormikProvider value={formik}>
+              <Form
+                onSubmit={formik.handleSubmit}
+                action="#"
+                className=""
+                autoComplete="off"
+                ref={formRef}
+              >
+                <InputField
+                  label="E-mail"
+                  type="text"
+                  name="email"
+                  placeholder="Ingresar e-mail"
+                />
+                <InputField
+                  label="Nombre"
+                  type="text"
+                  name="first_name"
+                  placeholder="Ingresar nombre"
+                />
+                <InputField
+                  label="Apellido"
+                  type="text"
+                  name="last_name"
+                  placeholder="Ingresar apellido"
+                />
 
-              <div className="">
-                <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-                  Teléfono
-                </label>
-                <Field name="phone">
-                  {({ field, form, meta }: any) => (
-                    <div className="form-phone-std">
-                      <ErrorMessage
-                        name="phone"
-                        component="span"
-                        className="error"
-                      />
-                      <PhoneInput
-                        name="phone"
-                        id="phone"
-                        placeholder="Ingresar número telefónico"
-                        defaultCountry={
-                          countryState.country.toUpperCase() as CountryCode
-                        }
-                        onChange={(value: any) => {
-                          form.setFieldValue("phone", value);
-                          handlePhoneChange(value);
-                        }}
-                        className="phone-wrapper"
-                      />
-                    </div>
-                  )}
-                </Field>
-              </div>
-
-
-              <div className="col-xl-6 col-span-2 md:col-span-1">
-                <div className="form-select-std">
+                <div className="">
                   <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-                    Tipo de identificacion
+                    Teléfono
                   </label>
-                  <ErrorMessage
-                    name="type"
-                    component="span"
-                    className="error"
-                  />
-
-                  <Field
-                    as="select"
-                    name="type"
-                    onChange={handleOptionTypeChange}
-                    value={`${selectedDocument}/${selectedDocumentId}`}
-                  >
-                    <option defaultValue="" value="">
-                      Seleccionar tipo
-                    </option>
-                    {documents[countryState.country]
-                      ? documents[countryState.country].map((p: any) => (
-                        <option key={p.id} value={`${p.type}/${p.id}`}>
-                          {p.type}
-                        </option>
-                      ))
-                      : ""}
-                  </Field>
-                  
-                </div>
-                </div>
-                
-              <InputField
-                label="Identificacion"
-                type="text"
-                name="identification"
-                placeholder="Ingresar identificacion"
-              />
-
-              <div className="col-xl-6 col-span-2 md:col-span-1">
-                <div className="form-select-std">
-                  <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-                    Profesión
-                  </label>
-                  <ErrorMessage
-                    name="profession"
-                    component="span"
-                    className="error"
-                  />
-
-                  {loadingProfessions ? <SimpleInputSkeleton /> : <Field
-                    as="select"
-                    name="profession"
-                    onChange={handleOptionProfessionChange}
-                    value={`${selectedOptionProfession}/${selectedProfessionId}`}
-                  >
-                    <option defaultValue="" value="">
-                      Seleccionar profesión
-                    </option>
-                    {professions
-                      ? professions.map((p: any) => (
-                        <option key={p.id} value={`${p.name}/${p.id}`}>
-                          {p.name}
-                        </option>
-                      ))
-                      : ""}
-                  </Field>}
-                  
-                </div>
-
-                {showInputProfession && (
-                  <div className="form-input-std my-4">
-                    <ErrorMessage
-                      name="Otra_profesion"
-                      component="span"
-                      className="error"
-                    />
-                    <Field
-                      type="text"
-                      name="Otra_profesion"
-                      placeholder="Ingresar profesion"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {studentInputs ? (
-                <div className="col-xl-12 flex gap-2 mt-2">
-                  <div className="form-select-std w-1/2">
-                    <ErrorMessage
-                      name="Year"
-                      component="span"
-                      className="error"
-                    />
-                    <Field as="select" name="Year">
-                      <option defaultValue="">Año</option>
-                      {optionsArray.map((y) => (
-                        <option key={`st_Year_${y}`} defaultValue={y}>
-                          {y}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="form-select-std w-full">
-                    <ErrorMessage
-                      name="Career"
-                      component="span"
-                      className="error"
-                    />
-                    <Field
-                      as="select"
-                      name="Career"
-                      onChange={handleOptionCareerChange}
-                      value={selectedCareer}
-                    >
-                      <option defaultValue="">Seleccionar carrera</option>
-                      {currentGroup.map((s: any) => (
-                        <option key={`st_carrer_${s.id}`} defaultValue={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className={`col-xl-6`}>
-                    <div className="form-select-std">
-                      <label className="text-neutral-800 dark:text-neutral-200 mb-1">
-                        Especialidad
-                      </label>
-                      <ErrorMessage
-                        name="speciality"
-                        component="span"
-                        className="error"
-                      />
-                     {loadingSpecialties ? <SimpleInputSkeleton /> :  <Field
-                        as="select"
-                        name="speciality"
-                        onChange={handleOptionSpecialtyChange}
-                        value={selectedOptionSpecialty}
-                      >
-                        <option defaultValue="">
-                          Seleccionar especialidad
-                        </option>
-                        {selectedOptionProfession && currentGroup.length
-                          ? currentGroup.map((s: any) => (
-                            <option
-                              key={`sp_group_${s.id}`}
-                              defaultValue={s.name}
-                            >
-                              {s.name}
-                            </option>
-                          ))
-                          : specialties.map((s: any) => (
-                            <option key={`sp_${s.id}`} defaultValue={s.name}>
-                              {s.name}
-                            </option>
-                          ))}
-                      </Field>}
-                    </div>
-                    {showInputSpecialties && (
-                      <div className="form-input-std my-4">
-                        <Field
-                          type="text"
-                          name="Otra_especialidad"
-                          placeholder="Ingresar especialidad"
-                        />
+                  <Field name="phone">
+                    {({ field, form, meta }: any) => (
+                      <div className="form-phone-std">
                         <ErrorMessage
-                          name="Otra_especialidad"
-                          component="div"
+                          name="phone"
+                          component="span"
                           className="error"
+                        />
+                        <PhoneInput
+                          name="phone"
+                          id="phone"
+                          placeholder="Ingresar número telefónico"
+                          defaultCountry={
+                            countryState.country.toUpperCase() as CountryCode
+                          }
+                          onChange={(value: any) => {
+                            form.setFieldValue("phone", value);
+                            handlePhoneChange(value);
+                          }}
+                          className="phone-wrapper"
                         />
                       </div>
                     )}
-                  </div>
-                </>
-              )}
-              <div className="flex flex-wrap gap-4 mt-4 ">
-                <div className="contact-checkbox signup-checkbox">
-                  <ErrorMessage
-                    name="Terms_And_Conditions"
-                    component="span"
-                    className="error"
-                  />
-                  <Link
-                        href="/condiciones-de-contratacion#trial"
-                        target="_blank"
-                        className="text-primary hover:text-primary underline"
-                      >
-                        Ver términos y condiciones de prueba gratuita
-                      </Link>
-                  <div className="flex gap-2 center text-center">
-                    <Field
-                      type="checkbox"
-                      name="Terms_And_Conditions"
-                      checked={formik.values.Terms_And_Conditions}
-                      className="hidden-checkbox mt-0.5"
-                    />
-                    <label>
-                      Acepto las{" "}
-                      <Link
-                        href="/politica-de-privacidad"
-                        target="_blank"
-                        className="text-primary"
-                      >
-                        politicas de privacidad
-                      </Link>
+                  </Field>
+                </div>
+
+                <div className="col-xl-6 col-span-2 md:col-span-1">
+                  <div className="form-select-std">
+                    <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                      Tipo de identificacion
                     </label>
+                    <ErrorMessage
+                      name="type"
+                      component="span"
+                      className="error"
+                    />
+
+                    <Field
+                      as="select"
+                      name="type"
+                      onChange={handleOptionTypeChange}
+                      value={`${selectedDocument}/${selectedDocumentId}`}
+                    >
+                      <option defaultValue="" value="">
+                        Seleccionar tipo
+                      </option>
+                      {documents[countryState.country]
+                        ? documents[countryState.country].map((p: any) => (
+                            <option key={p.id} value={`${p.type}/${p.id}`}>
+                              {p.type}
+                            </option>
+                          ))
+                        : ""}
+                    </Field>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-wrap gap-1 mt-2 mb-4">
-                <ButtonPrimary
-                  type="submit"
-                  className="w-full"
-                  disabled={!formik.values.Terms_And_Conditions || onRequest}
-                >
-                  {onRequest ? "Creando..." : "Crear"}
-                </ButtonPrimary>
-                {error && <ShowErrorMessage text={error} />}
+                <InputField
+                  label="Identificacion"
+                  type="text"
+                  name="identification"
+                  placeholder="Ingresar identificacion"
+                />
 
+                <div className="col-xl-6 col-span-2 md:col-span-1">
+                  <div className="form-select-std">
+                    <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                      Profesión
+                    </label>
+                    <ErrorMessage
+                      name="profession"
+                      component="span"
+                      className="error"
+                    />
 
-                {success && (
-                  <p className="text-green-500 text-center w-full">
-                    Registrado correctamente!
-                  </p>
+                    {loadingProfessions ? (
+                      <SimpleInputSkeleton />
+                    ) : (
+                      <Field
+                        as="select"
+                        name="profession"
+                        onChange={handleOptionProfessionChange}
+                        value={`${selectedOptionProfession}/${selectedProfessionId}`}
+                      >
+                        <option defaultValue="" value="">
+                          Seleccionar profesión
+                        </option>
+                        {professions
+                          ? professions.map((p: any) => (
+                              <option key={p.id} value={`${p.name}/${p.id}`}>
+                                {p.name}
+                              </option>
+                            ))
+                          : ""}
+                      </Field>
+                    )}
+                  </div>
+
+                  {showInputProfession && (
+                    <div className="form-input-std my-4">
+                      <ErrorMessage
+                        name="Otra_profesion"
+                        component="span"
+                        className="error"
+                      />
+                      <Field
+                        type="text"
+                        name="Otra_profesion"
+                        placeholder="Ingresar profesion"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {studentInputs ? (
+                  <div className="col-xl-12 flex gap-2 mt-2">
+                    <div className="form-select-std w-1/2">
+                      <ErrorMessage
+                        name="Year"
+                        component="span"
+                        className="error"
+                      />
+                      <Field as="select" name="Year">
+                        <option defaultValue="">Año</option>
+                        {optionsArray.map((y) => (
+                          <option key={`st_Year_${y}`} defaultValue={y}>
+                            {y}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                    <div className="form-select-std w-full">
+                      <ErrorMessage
+                        name="Career"
+                        component="span"
+                        className="error"
+                      />
+                      <Field
+                        as="select"
+                        name="Career"
+                        onChange={handleOptionCareerChange}
+                        value={selectedCareer}
+                      >
+                        <option defaultValue="">Seleccionar carrera</option>
+                        {currentGroup.map((s: any) => (
+                          <option
+                            key={`st_carrer_${s.id}`}
+                            defaultValue={s.name}
+                          >
+                            {s.name}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className={`col-xl-6`}>
+                      <div className="form-select-std">
+                        <label className="text-neutral-800 dark:text-neutral-200 mb-1">
+                          Especialidad
+                        </label>
+                        <ErrorMessage
+                          name="speciality"
+                          component="span"
+                          className="error"
+                        />
+                        {loadingSpecialties ? (
+                          <SimpleInputSkeleton />
+                        ) : (
+                          <Field
+                            as="select"
+                            name="speciality"
+                            onChange={handleOptionSpecialtyChange}
+                            value={selectedOptionSpecialty}
+                          >
+                            <option defaultValue="">
+                              Seleccionar especialidad
+                            </option>
+                            {selectedOptionProfession && currentGroup.length
+                              ? currentGroup.map((s: any) => (
+                                  <option
+                                    key={`sp_group_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))
+                              : specialties.map((s: any) => (
+                                  <option
+                                    key={`sp_${s.id}`}
+                                    defaultValue={s.name}
+                                  >
+                                    {s.name}
+                                  </option>
+                                ))}
+                          </Field>
+                        )}
+                      </div>
+                      {showInputSpecialties && (
+                        <div className="form-input-std my-4">
+                          <Field
+                            type="text"
+                            name="Otra_especialidad"
+                            placeholder="Ingresar especialidad"
+                          />
+                          <ErrorMessage
+                            name="Otra_especialidad"
+                            component="div"
+                            className="error"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </>
                 )}
-              </div>
-            </Form>
-          </FormikProvider>}
-          
+                <div className="flex flex-wrap gap-4 mt-4 ">
+                  <div className="contact-checkbox signup-checkbox">
+                    <ErrorMessage
+                      name="Terms_And_Conditions"
+                      component="span"
+                      className="error"
+                    />
+                    <Link
+                      href="/condiciones-de-contratacion#trial"
+                      target="_blank"
+                      className="text-primary hover:text-primary underline"
+                    >
+                      Ver términos y condiciones de prueba gratuita
+                    </Link>
+                    <div className="flex gap-2 center text-center">
+                      <Field
+                        type="checkbox"
+                        name="Terms_And_Conditions"
+                        checked={formik.values.Terms_And_Conditions}
+                        className="hidden-checkbox mt-0.5"
+                      />
+                      <label>
+                        Acepto las{" "}
+                        <Link
+                          href="/politica-de-privacidad"
+                          target="_blank"
+                          className="text-primary"
+                        >
+                          politicas de privacidad
+                        </Link>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1 mt-2 mb-4">
+                  <ButtonPrimary
+                    type="submit"
+                    className="w-full"
+                    disabled={!formik.values.Terms_And_Conditions || onRequest}
+                  >
+                    {onRequest ? "Creando..." : "Crear"}
+                  </ButtonPrimary>
+                  {error && <ShowErrorMessage text={error} />}
+
+                  {success && (
+                    <p className="text-green-500 text-center w-full">
+                      Registrado correctamente!
+                    </p>
+                  )}
+                </div>
+              </Form>
+            </FormikProvider>
+          )}
         </div>
       </LayoutPage>
     </div>

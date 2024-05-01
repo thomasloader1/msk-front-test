@@ -1,13 +1,15 @@
+"use client";
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import {
-  setDependent,
-  zsRegenerateCaptcha,
-  isFormDisabled,
-} from "./arrepentimientoCompra";
 import PageHeadServer from "@/components/Head/PageHeadServer";
 import LayoutPage from "@/components/MSK/LayoutPage";
 import Link from "next/link";
+import {
+  isFormDisabled,
+  setDependent,
+  zsRegenerateCaptcha,
+} from "@/components/Containers/profile/arrepentimientoCompra";
+import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export const argDocumentTypes = [
   {
@@ -28,7 +30,7 @@ export interface PageCancelSubscriptionProps {
   className?: string;
 }
 
-const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
+const PageCancelSubscription: React.FC<PageCancelSubscriptionProps> = ({
   className = "",
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -51,7 +53,7 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
       className={`nc-PageCancelSubscription ${className} animate-fade-down`}
       data-nc-id="PageCancelSubscription"
     >
-      <PageHeadServer title="Cancelar inscripción" />
+      <PageHeadClient title="Cancelar inscripción" />
       <LayoutPage
         heading="Cancelar inscripción"
         subHeading="Puedes solicitar la cancelación de tu inscripción a un curso hasta 10 días hábiles luego de adquirido el mismo "

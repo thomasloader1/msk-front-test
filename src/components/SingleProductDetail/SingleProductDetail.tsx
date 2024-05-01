@@ -229,6 +229,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
             }}
             product={product}
             isEbook={isEbook}
+            fixedPosition
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import fai from "../../../styles/fai/fontAwesome5Pro.module.css";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {updateQueryString} from "@/utils/updateQueryString";
+import { updateQueryString } from "@/utils/updateQueryString";
 
 interface Props {
   totalPages: number;
@@ -15,17 +15,20 @@ const StorePagination: FC<Props> = ({
   totalPages,
   onPageChange,
   currentPage,
-  urlTrack = false
+  urlTrack = false,
 }) => {
   const [pages, setPages] = useState<number[]>([]);
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
   const searchParamsObject = Object.fromEntries(searchParams);
 
   // Convertimos el objeto JavaScript en una cadena de consulta (query string)
   const queryString = Object.entries(searchParamsObject)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join('&');
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    )
+    .join("&");
 
   useEffect(() => {
     const newPages = [];
@@ -45,13 +48,20 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                { urlTrack ? 
-                  <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`})}>
+                {urlTrack ? (
+                  <Link
+                    href={updateQueryString("/tienda", queryString, {
+                      key: "page",
+                      value: `${
+                        currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""
+                      }`,
+                    })}
+                  >
                     <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                  </Link> 
-                    : 
+                  </Link>
+                ) : (
                   <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                }
+                )}
               </li>
             ) : (
               ""
@@ -67,15 +77,18 @@ const StorePagination: FC<Props> = ({
                   key={`page_${page}`}
                   onClick={() => onPageChange(page)}
                 >
-                  { urlTrack ? 
-                    <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${page}`})}>
+                  {urlTrack ? (
+                    <Link
+                      href={updateQueryString("/tienda", queryString, {
+                        key: "page",
+                        value: `${page}`,
+                      })}
+                    >
                       {page < 10 ? `0${page}` : page}
-                    </Link> 
-                      : 
-                    <>
-                      {page < 10 ? `0${page}` : page}
-                    </>
-                  }
+                    </Link>
+                  ) : (
+                    <>{page < 10 ? `0${page}` : page}</>
+                  )}
                 </li>
               );
             })}
@@ -84,13 +97,18 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer hidden sm:block"
               >
-                  { urlTrack ? 
-                    <Link href={updateQueryString('/tienda',queryString,{key: "page", value: `${currentPage + 1}`})}>
-                      <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                    </Link> 
-                      : 
+                {urlTrack ? (
+                  <Link
+                    href={updateQueryString("/tienda", queryString, {
+                      key: "page",
+                      value: `${currentPage + 1}`,
+                    })}
+                  >
                     <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
-                  }
+                  </Link>
+                ) : (
+                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                )}
               </li>
             ) : null}
           </ul>
@@ -101,13 +119,17 @@ const StorePagination: FC<Props> = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer"
               >
-                { urlTrack ? 
-                  <Link href={`${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`}>
+                {urlTrack ? (
+                  <Link
+                    href={`${
+                      currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""
+                    }`}
+                  >
                     <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                  </Link> 
-                    : 
+                  </Link>
+                ) : (
                   <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                }
+                )}
               </li>
             ) : (
               ""
@@ -115,16 +137,23 @@ const StorePagination: FC<Props> = ({
 
             {totalPages > 1 && currentPage < totalPages ? (
               <li
-                onClick={() => onPageChange(currentPage - 1)}
+                onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer"
               >
-                { urlTrack ? 
-                  <Link href={updateQueryString("/tienda",queryString,{key: "page", value: `${currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""}`})}>
-                    <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                  </Link> 
-                    : 
-                  <i className={`${fai.fal} ${fai["fa-angle-left"]}`}></i>
-                }
+                {urlTrack ? (
+                  <Link
+                    href={updateQueryString("/tienda", queryString, {
+                      key: "page",
+                      value: `${
+                        currentPage - 1 > 1 ? `?page=${currentPage - 1}` : ""
+                      }`,
+                    })}
+                  >
+                    <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                  </Link>
+                ) : (
+                  <i className={`${fai.fal} ${fai["fa-angle-right"]}`}></i>
+                )}
               </li>
             ) : null}
           </div>

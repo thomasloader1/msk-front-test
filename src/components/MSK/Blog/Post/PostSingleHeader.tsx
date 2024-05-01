@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import SingleTitle from "./SingleTitle";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
-import {SinglePageType} from "@/data/types";
+import { SinglePageType } from "@/data/types";
 
 export interface SingleHeaderProps {
   pageData: SinglePageType;
@@ -31,7 +31,7 @@ const SingleHeader: FC<SingleHeaderProps> = ({
           />
           <SingleTitle mainClass={titleMainClass} title={title} />
           {!!excerpt && !hiddenDesc && (
-            <span className="inline-block text-[16px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-auto sm:h-[120px] leading-5">
+            <span className="inline-block text-[16px] sm:text-base text-neutral-500 md:text-lg dark:text-neutral-400 pb-1 h-auto leading-5">
               {excerpt}
             </span>
           )}

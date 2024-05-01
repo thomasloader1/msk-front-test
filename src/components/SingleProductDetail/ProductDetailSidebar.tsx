@@ -8,7 +8,7 @@ import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
 import Badge from "@/components/Badge/Badge";
 import Image from "next/image";
 import PricingDetail from "@/components/SingleProductDetail/PricingDetail";
-import {REBILL_CONF} from "@/logic/Rebill";
+import { REBILL_CONF } from "@/logic/Rebill";
 
 interface Props {
   ficha: Ficha;
@@ -22,13 +22,16 @@ interface Props {
     certificacion: string;
     idioma: string[];
   };
+  fixedPosition?: boolean;
 }
 
 const ProductDetailSidebar: FC<Props> = ({
-  ficha, product,
+  ficha,
+  product,
   details,
   isEbook,
   sideData,
+  fixedPosition = false,
 }) => {
   const { slug }: { slug: string } = useParams();
   const { state: authState } = useContext(AuthContext);
@@ -97,28 +100,48 @@ const ProductDetailSidebar: FC<Props> = ({
       authState.isAuthenticated ? `/suscribe/${slug}` : `/trial/${slug}`
     );
   };
-  const {hasCoursedRequested} = useRequestedTrialCourse(product);
+  const { hasCoursedRequested } = useRequestedTrialCourse(product);
   //console.log(hasCoursedRequested)
   return (
     <div className={`course-video-widget`}>
       <div
         className={`${
-          isFixed && bottomDistance == 0 && !isEbook
+          isFixed && bottomDistance == 0 && !isEbook && fixedPosition
             ? "course-widget-wrapper fixed"
             : "course-widget-wrapper"
         } ${bottomDistance != 0 && !isEbook ? "absolute bottom-0" : ""}`}
       >
-        {isFixed && !isEbook ?
-            <>
-              {(product.sale_price !== "0") && <Badge color="sale" name="EN PROMOCIÓN" className="hidden lg:inline-block mb-2" />}
-            </> : (
+        {isFixed && !isEbook ? (
+          <>
+            {product.sale_price !== "0" && (
+              <Badge
+                color="sale"
+                name="EN PROMOCIÓN"
+                className="hidden lg:inline-block mb-2"
+              />
+            )}
+          </>
+        ) : (
           <div className="course-video-thumb w-img hidden lg:flex">
-            {product.sale_price !== "0" && <Badge color="sale" name="EN PROMOCIÓN" className="absolute top-2 left-2" />}
-            <Image src={image} alt={`${slug} image`} width={1000} height={1000} />
+            {product.sale_price !== "0" && (
+              <Badge
+                color="sale"
+                name="EN PROMOCIÓN"
+                className="absolute top-2 left-2"
+              />
+            )}
+            <Image
+              src={image}
+              alt={`${slug} image`}
+              width={1000}
+              height={1000}
+            />
           </div>
         )}
 
-        {(product.sale_price !== "0") && <Badge color="sale" name="EN PROMOCIÓN" className="mb-2 lg:hidden" />}
+        {product.sale_price !== "0" && (
+          <Badge color="sale" name="EN PROMOCIÓN" className="mb-2 lg:hidden" />
+        )}
 
         <PricingDetail isEbook={isEbook} product={product} />
 
@@ -179,15 +202,18 @@ const ProductDetailSidebar: FC<Props> = ({
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
-          {(!isEbook && REBILL_CONF.GATEWAYS.REBILL.includes(countryState.country)) && (
+          {!isEbook &&
+            REBILL_CONF.GATEWAYS.REBILL.includes(countryState.country) && (
               <button
-                  onClick={() => requestTrial(slug)}
-                  className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"
-                  disabled={hasCoursedRequested}
+                onClick={() => requestTrial(slug)}
+                className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"
+                disabled={hasCoursedRequested}
               >
-                { hasCoursedRequested ? "Prueba ya solicitada" : "Prueba 7 días gratis" }
+                {hasCoursedRequested
+                  ? "Prueba ya solicitada"
+                  : "Prueba 7 días gratis"}
               </button>
-          )}
+            )}
         </div>
       </div>
     </div>

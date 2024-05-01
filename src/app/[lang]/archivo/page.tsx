@@ -31,7 +31,7 @@ export interface SinglePageType extends PostDataType {
 }
 
 const CATEGORIES_FILTERS = [
-  { name: "Otras categorías" },
+  { name: "Todas las categorías" },
   { name: "Actualidad" },
   { name: "Entrevistas" },
   { name: "Opinión" },
@@ -54,7 +54,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
     fetchPosts();
   }, []);
 
-  const [title, setTitle] = useState("Actualidad");
+  const [title, setTitle] = useState("Archivo");
   const [currentPage, setCurrentPage] = useState(1);
   const [showSpecialties, setShowSpecialties] = useState(false);
   const itemsPerPage = 12;
@@ -69,7 +69,10 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
   };
 
   const handleCategoryChange = (e: { name: string }) => {
-    if (e.name == "Otras categorías") return setPosts(auxPosts);
+    if (e.name == "Todas las categorías") {
+      setTitle("Archivo");
+      return setPosts(auxPosts);
+    }
     let filteredPosts = auxPosts.filter((post: PostDataType) => {
       return post.categories.some((category) =>
         category.name.includes(removeAccents(e.name))
@@ -118,7 +121,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
         ? specialtiesJSON[specialtyValue]
         : categoryValue && !categoryValue.includes("Otra")
         ? notesJSON[categoryValue]
-        : "Actualidad";
+        : "Archivo";
 
       setTitle(title);
 
@@ -236,7 +239,7 @@ const PageArchive: FC<PageArchiveProps> = ({ className = "" }) => {
             </>
           )}
           <BlogSummary
-            posts={posts}
+            posts={auxPosts}
             tabs={TABS_BLOG}
             loading={loadingPosts}
             className="py-16"

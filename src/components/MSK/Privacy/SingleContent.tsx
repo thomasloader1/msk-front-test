@@ -1,16 +1,18 @@
-import React, {FC, useContext, useEffect, useRef, useState} from "react";
+import React, { FC, useContext, useEffect, useRef, useState } from "react";
 import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
 import { SinglePageType } from "@/data/types";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
 import api from "../../../../Services/api";
-import {DataContext} from "@/context/data/DataContext";
+import { DataContext } from "@/context/data/DataContext";
 
 export interface SingleContentProps {
   data: SinglePageType;
 }
 
 const SingleContent: FC<SingleContentProps> = ({ data }) => {
-  const { state:{allBestSellers} } = useContext(DataContext);
+  const {
+    state: { allBestSellers },
+  } = useContext(DataContext);
 
   return (
     <div className="nc-SingleContent space-y-10">
@@ -33,14 +35,15 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         ))}
 
       {/* TAGS */}
-      <div className="relative py-16 my-32">
+      <div className="container relative py-16 mb-20">
         <BackgroundSection />
         <SectionSliderPosts
+          posts={allBestSellers}
+          maxWidth="80%"
           postCardName="card9"
           heading="Comienza tu experiencia aquí"
           subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
           sliderStype="style2"
-          posts={allBestSellers}
           uniqueSliderClass="pageHome-section6"
         />
       </div>

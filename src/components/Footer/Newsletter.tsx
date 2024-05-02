@@ -32,6 +32,7 @@ interface Props {
   setShow: (state: boolean) => void;
 }
 
+
 export function isFormValid(requiredFields: string[], formValues: any, formErrors: any, formTouched: any) {
   for (let i = 0; i < requiredFields.length; i++) {
     const fieldName = requiredFields[i];

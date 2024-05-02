@@ -4,9 +4,6 @@ import SingleHeader from "@/components/MSK/Blog/Post/PostSingleHeader";
 import NcImage from "@/components/NcImage/NcImage";
 import SingleContent from "@/components/MSK/Blog/Post/SingleContent";
 import { cookies } from "next/headers";
-import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
-import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
-import Head from "next/head";
 import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageCourseProps {

@@ -25,14 +25,12 @@ import {
 } from "@/lib/allData";
 import ContactForm from "@/components/MSK/ContactForm";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
-import Script from "next/script";
 import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 import WelcomeBox from "@/components/WelcomeBox/WelcomeBox";
 import { FetchCourseType, WpContentData } from "@/data/types";
 import Phrase from "@/components/Phrase/Phrase";
 import CommentReferences from "@/components/CommentReferences";
 import Questions from "@/components/Questions/Questions";
-import Head from "next/head";
 import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageProps {

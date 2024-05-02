@@ -1,7 +1,6 @@
 "use client";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import PageHeadServer from "@/components/Head/PageHeadServer";
 import LayoutPage from "@/components/MSK/LayoutPage";
 import Link from "next/link";
 import {

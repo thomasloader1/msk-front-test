@@ -7,7 +7,6 @@ import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import useContractConditions from "@/hooks/useContractConditions";
 import Image from "next/image";
-import Head from "next/head";
 import PageHeadClient from "@/components/Head/PageHeadClient";
 
 const SINGLE: SinglePageType = {

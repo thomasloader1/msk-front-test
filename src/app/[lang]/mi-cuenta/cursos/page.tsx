@@ -4,7 +4,7 @@ import { ComponentType, FC, useContext, useEffect, useState } from "react";
 import { User, UserCourseProgress } from "@/data/types";
 import { AuthContext } from "@/context/user/AuthContext";
 import api from "../../../../../Services/api";
-import { getUserCourses } from "../../../../../Services/user";
+import { getUserCourses } from "@Services/user";
 import TableSkeleton from "@/components/Skeleton/TableSkeleton";
 import {CountryContext} from "@/context/country/CountryContext";
 

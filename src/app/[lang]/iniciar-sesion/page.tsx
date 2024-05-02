@@ -8,11 +8,7 @@ import * as Yup from "yup";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import api from "../../../../Services/api";
 import LayoutPage from "@/components/MSK/LayoutPage";
-import { useCurrentLocale } from "next-i18n-router/client";
-// @ts-ignore
-import i18nConfig from "@/i18nConfig";
 import { useRouter } from "next/navigation";
-import Head from "next/head";
 import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export interface PageLoginProps {

@@ -1,15 +1,12 @@
 "use client";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import mpImg from "/public/images/MP.png";
-import stImg from "/public/images/ST.svg";
 import rbImg from "/public/images/icons/rebill.svg";
 import installmentsMapping from "@/data/jsons/__countryInstallments.json";
 import { JsonInstallmentsMapping, User } from "@/data/types";
 import { useParams } from "next/navigation";
 import { CountryContext } from "@/context/country/CountryContext";
 import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
-import api from "@Services/api";
 import {
   REBILL_CONF,
   initRebill,

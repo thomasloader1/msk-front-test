@@ -38,6 +38,9 @@ export function isFormValid(requiredFields: string[], formValues: any, formError
 
     // Verificar si el campo está en formValues y tiene un valor válido
     if (!(fieldName in formValues) || formValues[fieldName] === "" || formValues[fieldName] === null || formValues[fieldName] === false) {
+      if (fieldName.includes("Preferencia_de_contactaci_n")) { //los Ebooks no tienen este campo
+        continue;
+      }
       return false;
     }
 

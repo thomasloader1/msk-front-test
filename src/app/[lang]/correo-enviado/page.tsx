@@ -1,6 +1,7 @@
 "use client";
 import PageHeadClient from "@/components/Head/PageHeadClient";
 import LayoutPage from "@/components/MSK/LayoutPage";
+import Head from "next/head";
 import { FC } from "react";
 export interface PageEmailSentProps {
   className?: string;

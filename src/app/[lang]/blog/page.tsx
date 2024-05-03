@@ -9,6 +9,7 @@ import { FetchPostType } from "@/data/types";
 import WelcomeBlog from "@/components/MSK/Blog/WelcomeBlog";
 import NewsletterBlog from "@/components/MSK/Blog/NewsletterBlog";
 import { Metadata } from "next";
+import Head from "next/head";
 import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageProps {

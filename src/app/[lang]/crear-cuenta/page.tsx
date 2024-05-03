@@ -20,6 +20,7 @@ import { utmInitialState, utmReducer } from "@/context/utm/UTMReducer";
 import { JsonIdentificationsMapping } from "@/data/types";
 import countryIdentificationsMapping from "@/data/jsons/__countryIdentifications.json";
 import { CountryContext } from "@/context/country/CountryContext";
+import Head from "next/head";
 import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export interface PageContactProps {

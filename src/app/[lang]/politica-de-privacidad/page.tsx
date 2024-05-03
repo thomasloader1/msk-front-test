@@ -4,8 +4,10 @@ import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
 import usePoliticsPrivacy from "@/hooks/usePoliticsPrivacy";
 import { CommentType } from "@/components/CommentCard/CommentCard";
+import { useAppDispatch } from "@/hooks/hooks";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import Head from "next/head";
 import PageHeadClient from "@/components/Head/PageHeadClient";
 
 const SINGLE: SinglePageType = {

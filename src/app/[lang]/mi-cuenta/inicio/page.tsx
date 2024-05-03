@@ -1,9 +1,22 @@
 "use client";
+import LayoutPage from "@/components/MSK/LayoutPage";
 import AccountHome from "@/components/MSK/account/AccountHome";
+import AccountCourses from "@/components/MSK/account/AccountCourses";
+import AccountPersonalData from "@/components/MSK/account/AccountPersonalData";
 import { ComponentType, FC, useContext, useEffect, useState } from "react";
-import { User } from "@/data/types";
+// import AccountCourses from "@/components/MSK/account/AccountCourses";
+// import AccountHome from "@/components/MSK/account/AccountHome";
+// import { Helmet } from "react-helmet";
+import { User, UserCourseProgress } from "@/data/types";
+// import LoadingText from "@/components/Loader/Text";
+import ModalSignOut from "@/components/Modal/SignOut";
+// import { getUserCourses } from "Services/user";
 import { AuthContext } from "@/context/user/AuthContext";
+import { DataContext } from "@/context/data/DataContext";
 import api from "../../../../../Services/api";
+import { getUserCourses } from "../../../../../Services/user";
+import NcLink from "@/components/NcLink/NcLink";
+import { Switch } from "@headlessui/react";
 
 export interface PageDashboardProps {
   className?: string;

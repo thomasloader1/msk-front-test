@@ -26,7 +26,7 @@ const SingleContent: FC<SingleContentProps> = ({
   const [noteIntroduction, ...noteArticles] = articles;
 
   return (
-    <div className="nc-SingleContent  relative space-y-10 ">
+    <div className="nc-SingleContent  relative space-y-10 mb-16">
       <div className="container grid grid-cols-12 gap-4">
         <div className="content-container col-span-12 lg:col-span-8 animate-fade-down">
           <CardAuthor2
@@ -102,7 +102,7 @@ const SingleContent: FC<SingleContentProps> = ({
           />
         </div>
       </div>
-      <div className=" relative py-16">
+      <div className="relative py-16">
         <BackgroundSection />
         <SectionSliderPosts
           posts={bestSellers}

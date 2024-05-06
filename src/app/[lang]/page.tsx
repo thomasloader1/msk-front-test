@@ -85,7 +85,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           />
         </div>
         <WelcomeBox content={pageHomeWpContent as WpContentData} />
-
         <div className="container relative">
           <BrandSlider />
           <Phrase content={pageHomeWpContent?.cedentes.texto as string} />
@@ -99,6 +98,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           <HomeExtraInfo country={currentCountry} />
         </div>
         <CommentReferences content={pageHomeWpContent as WpContentData} />
+
         <div className="container relative">
           <CoursesForYou
             courses={getAllCourses().filter(
@@ -114,7 +114,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
           <BlogSummary
             posts={getAllPosts()}
             tabs={TABS_BLOG}
-            className="pt-2 pb-8"
+            className="pt-4 md:pt-16 pb-8"
             heading=""
             desc="Recursos para informarte y aprender de distintas maneras"
             showTitle
@@ -125,7 +125,7 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             content={pageHomeWpContent?.preguntas_frecuentes as FAQS}
           />
         </div>
-        <div className="relative py-16 px-6">
+        <div className="relative py-16">
           <BackgroundSection />
           <SectionSliderPosts
             posts={getAllBestSellers()}
@@ -136,9 +136,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             uniqueSliderClass="pageHome-section6"
           />
         </div>
-        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
-          <ContactForm />
-        </div>
+      </div>
+      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
+        <ContactForm />
       </div>
     </div>
   );

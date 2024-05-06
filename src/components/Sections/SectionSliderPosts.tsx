@@ -77,7 +77,6 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
       <Heading desc={subHeading} isCenter>
         {heading}
       </Heading>
-
       <MySlider
         data={posts}
         maxWidth={maxWidth}

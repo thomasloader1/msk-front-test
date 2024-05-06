@@ -21,7 +21,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
       {data?.content && (
         <div
           id="single-entry-content"
-          className="container prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
+          className="container prose lg:prose-lg !max-w-screen-lg mx-auto dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: data.content as string }}
         />
       )}
@@ -35,11 +35,10 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
         ))}
 
       {/* TAGS */}
-      <div className="container relative py-16 mb-20">
+      <div className="relative py-16 mb-20">
         <BackgroundSection />
         <SectionSliderPosts
           posts={allBestSellers}
-          maxWidth="80%"
           postCardName="card9"
           heading="Comienza tu experiencia aquí"
           subHeading="Estos son los cursos más elegidos entre profesionales de la salud"

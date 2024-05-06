@@ -95,7 +95,7 @@ export default function MySlider<T>({
           </div>
         </>
       ) : (
-        <div className={`nc-MySlider ${className}`}>
+        <div className={`nc-MySlider container ${className}`}>
           <MotionConfig
             transition={{
               x: { type: "spring", stiffness: 300, damping: 30 },

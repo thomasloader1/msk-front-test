@@ -248,7 +248,6 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
           <BackgroundSection />
           <SectionSliderPosts
             posts={bestSellers}
-            maxWidth="90%"
             postCardName="card9"
             heading="Descubre nuestras capacitaciones destacadas"
             subHeading="Estos son los cursos más elegidos entre profesionales de la salud"

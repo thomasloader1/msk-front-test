@@ -305,12 +305,11 @@ const ContactFormSection: FC<ContactFormProps> = ({
     "Last_Name",
     "Email",
     "Phone",
-    "Preferencia_de_contactaci_n",
     "Profesion",
     "Terms_And_Conditions"];
 
   const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched) || onRequest;
-
+  //console.log(!formik.dirty, !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched), onRequest, isSubmitDisabled);
   return (
     <>
       <div className="col-span-3" id="contactanos">
@@ -373,6 +372,7 @@ const ContactFormSection: FC<ContactFormProps> = ({
                           <Radio
                             name="Preferencia_de_contactaci_n"
                             label="Teléfono"
+                            selected={true}
                             id="Contact_Method_Teléfono"
                             onChange={() =>
                               handleContactPreferenceChange(

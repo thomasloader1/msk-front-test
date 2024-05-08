@@ -1,4 +1,5 @@
 export function isFormValid(requiredFields: string[], formValues: any, formErrors: any, formTouched: any) {
+  //console.log(requiredFields);
   for (let i = 0; i < requiredFields.length; i++) {
     const fieldName = requiredFields[i];
 

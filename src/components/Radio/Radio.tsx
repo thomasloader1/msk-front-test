@@ -4,8 +4,9 @@ export interface RadioProps {
   label?: string;
   id: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selected?: boolean;
 }
-const Radio: React.FC<RadioProps> = ({ name, label, id, onChange }) => {
+const Radio: React.FC<RadioProps> = ({ name, label, id, onChange, selected }) => {
   return (
     <div className="flex items-center">
       <input
@@ -15,6 +16,7 @@ const Radio: React.FC<RadioProps> = ({ name, label, id, onChange }) => {
         className="focus:ring-action-primary h-5 w-5 text-action-primary border-primary"
         onChange={onChange}
         required
+        checked={selected}
       />
       {label && (
         <label

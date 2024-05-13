@@ -62,7 +62,7 @@ const getPlan = (country: string) => {
   const countryPrice = rebillCountriesPrices[country];
   const price = getEnv(`REBILL_${gateway}_${countryPrice}_FREEMIUM`);
 
-  console.log({price, countryPrice})
+  console.log(`REBILL_${gateway}_${countryPrice}_FREEMIUM`,{price, countryPrice})
 
   return {
     id: price,

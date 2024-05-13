@@ -20,6 +20,18 @@
     </script>
 
   <meta charset="UTF-8" />
+  <style>
+    .grecaptcha-badge {
+width: 70px !important;
+overflow: hidden !important;
+transition: all 0.3s ease !important;
+left: -2px !important;
+bottom: 20px !important;
+}
+.grecaptcha-badge:hover {
+width: 256px !important;
+}
+  </style>
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>MSK</title>
@@ -34,18 +46,25 @@
   <div id="root"></div>
 
     <!-- START Botmaker Webchat-->
-  <!--<script>
-      (function () {
-          let js = document.createElement('script');
-          js.type = 'text/javascript';
-          js.async = 1;
-          js.src = 'https://go.botmaker.com/rest/webchat/p/XG5DC3KZSF/init.js';
-          document.body.appendChild(js);
+
+<script>
+  (function () {
+      let countries = ["ar","cl","mx","ec"];
+      let onValidCountry = window.location.pathname.split("/").some(part => countries.includes(part))
+      //console.log({onValidCountry})
+      if(!onValidCountry){
+        let js = document.createElement('script');
+        js.type = 'text/javascript';
+        js.async = 1;
+        js.src = 'https://go.botmaker.com/rest/webchat/p/XG5DC3KZSF/init.js';
+        document.body.appendChild(js);
+      }
       })();
-  </script>-->
-    <script src="https://sdk.rebill.to/v2/rebill.min.js"></script>
-    <script type="module" src="/src/index.tsx"></script>
+</script>
+  <script src="https://sdk.rebill.to/v2/rebill.min.js"></script>
+  <script type="module" src="/src/index.tsx"></script>
 
-  </body>
+</body>
 
-  </html>
+</html>
+

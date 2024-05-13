@@ -1,11 +1,8 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import ButtonPrimary from "components/Button/ButtonPrimary";
 import useInterval from "hooks/useInterval";
-//import { useInterval } from 'usehooks-ts'
 import { hasText, statusOrdenVenta } from "logic/account";
 import { UserCourseProgress } from "data/types";
-import { AuthContext } from "context/user/AuthContext";
-import api from "Services/api";
 
 interface ButtonAccessCourseProps {
   item: UserCourseProgress;

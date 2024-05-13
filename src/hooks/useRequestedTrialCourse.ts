@@ -30,7 +30,7 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
           let productWpCode = product?.ficha?.product_code ?? product.product_code; 
           
           
-          let isMatch = contract.data[0].Product_Details.map((pd:any) => {
+          let [isMatch] = contract.data[0].Product_Details.map((pd:any) => {
             return Number(pd.product.Product_Code) === productWpCode;
         });
 

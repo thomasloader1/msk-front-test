@@ -246,6 +246,7 @@ const DashboardEditProfile: FC<Props> = ({ user, setUser }) => {
       const countryRegexMap: any = {
         ar: /^[0-9]{7,8}$/, // DNI para Argentina
         co: /^[0-9]{6,10}$/, // CI para Colombia (ejemplo, ajusta según necesites)
+        bo: /^[0-9]{6,10}$/, // CI para Colombia (ejemplo, ajusta según necesites)
         mx: /^[A-ZÑ&]{3,4}[0-9]{6}[A-V1-9][0-9A-Z]$/, // RFC para México (ejemplo, ajusta según necesites)
         cl: /^\d{7,8}-[0-9Kk]$/, // RUT para Chile (ejemplo, ajusta según necesites)
       };

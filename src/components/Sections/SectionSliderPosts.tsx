@@ -11,6 +11,7 @@ import Card10V2 from "@/components/Card10/Card10V2";
 import MySlider from "@/components/MySlider";
 import Card20 from "../Card20/Card20";
 import { DataContext } from "@/context/data/DataContext";
+import ImageSkeleton from "../MSK/ImageSkeleton";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -77,21 +78,32 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
       <Heading desc={subHeading} isCenter>
         {heading}
       </Heading>
-      <MySlider
-        data={posts}
-        maxWidth={maxWidth}
-        renderItem={(item, indx) => (
-          <CardComponent
-            key={indx}
-            post={item}
-            showDescription={true}
-            kind="curso"
-            forSingleNote={forSingleNote}
-          />
-        )}
-        itemPerRow={posts?.length > 4 ? perView : posts?.length}
-        //loading={showPosts ? loadingBestSellers : loading}
-      />
+      {!posts.length ? (
+        <>
+          <div className="nc-MySlider relative container grid grid-cols-1 xl:grid-cols-4 gap-5 mb-16">
+            <ImageSkeleton height="200px" />
+            <ImageSkeleton height="200px" />
+            <ImageSkeleton height="200px" />
+            <ImageSkeleton height="200px" />
+          </div>
+        </>
+      ) : (
+        <MySlider
+          data={posts}
+          maxWidth={maxWidth}
+          renderItem={(item, indx) => (
+            <CardComponent
+              key={indx}
+              post={item}
+              showDescription={true}
+              kind="curso"
+              forSingleNote={forSingleNote}
+            />
+          )}
+          itemPerRow={posts?.length > 4 ? perView : posts?.length}
+          loading={!posts?.length}
+        />
+      )}
     </div>
   );
 };

@@ -243,33 +243,38 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
           }
         />
       </div>
-      {bestSellers.length && (
-        <div className="container relative py-16 mb-20">
-          <BackgroundSection />
-          <SectionSliderPosts
-            posts={bestSellers}
-            postCardName="card9"
-            heading="Descubre nuestras capacitaciones destacadas"
-            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-            sliderStype="style2"
-            uniqueSliderClass="pageHome-section6"
-          />
-        </div>
-      )}
-
-      {product.related_products.length ? (
-        <div className="container relative py-16 mt-16 ">
-          <BackgroundSection />
-          <SectionSliderPosts
-            postCardName="card9"
-            heading="¿Buscas capacitarte a distancia?"
-            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-            sliderStype="style2"
-            posts={product.related_products}
-            uniqueSliderClass="pageHome-section6"
-          />
-        </div>
-      ) : null}
+      <div className="max-w-[1700px] mx-auto">
+        {bestSellers.length && (
+          <div className="relative py-16 mb-20">
+            <BackgroundSection />
+            <SectionSliderPosts
+              posts={bestSellers}
+              postCardName="card9"
+              heading="Descubre nuestras capacitaciones destacadas"
+              subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+              sliderStype="style2"
+              uniqueSliderClass="pageHome-section6"
+              className="mx-auto max-w-[85%]"
+            />
+          </div>
+        )}
+      </div>
+      <div className="max-w-[1700px] mx-auto">
+        {product.related_products.length ? (
+          <div className="relative py-16 mt-16 ">
+            <BackgroundSection />
+            <SectionSliderPosts
+              postCardName="card9"
+              heading="¿Buscas capacitarte a distancia?"
+              subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+              sliderStype="style2"
+              posts={product.related_products}
+              uniqueSliderClass="pageHome-section6"
+              className="mx-auto max-w-[85%]"
+            />
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 };

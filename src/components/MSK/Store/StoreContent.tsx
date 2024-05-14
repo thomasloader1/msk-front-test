@@ -1,5 +1,5 @@
 "use client";
-import React, {FC, useContext, useEffect, useState} from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import StorePagination from "./StorePagination";
 import StoreSideBar from "./StoreSideBar";
 import StoreProduct from "./StoreProduct";
@@ -11,26 +11,25 @@ import {
   ResourceFilter,
   Specialty,
 } from "@/data/types";
-import {useStoreFilters} from "@/context/storeFilters/StoreProvider";
+import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 import StoreBar from "./StoreBar";
-import {useSearchParams} from "next/navigation";
-import {removeAccents} from "@/lib/removeAccents";
-import {filterStoreProducts} from "@/lib/storeFilters";
+import { useSearchParams } from "next/navigation";
+import { removeAccents } from "@/lib/removeAccents";
+import { filterStoreProducts } from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
 import StoreSkeleton from "@/components/Skeleton/StoreSkeleton";
 import NoResultFound from "@/components/NoResultFound";
 import resourcesMapping from "@/data/jsons/__resources.json";
 import durationsMapping from "../../../data/jsons/__durations.json";
 
-import {slugifySpecialty} from "@/lib/Slugify";
-import {CountryContext} from "@/context/country/CountryContext";
-import {DataContext} from "@/context/data/DataContext";
-
+import { slugifySpecialty } from "@/lib/Slugify";
+import { CountryContext } from "@/context/country/CountryContext";
+import { DataContext } from "@/context/data/DataContext";
 
 let resources = resourcesMapping;
 let durations = durationsMapping;
 
-const StoreContent: FC<{ }> = () => {
+const StoreContent: FC<{}> = () => {
   let {
     storeFilters,
     addFilter,
@@ -49,20 +48,23 @@ const StoreContent: FC<{ }> = () => {
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
 
   const [mutationProducts, setMutationProducts] = useState(false);
-  const [currentPage, setCurrentPage] = useState((Number(searchParams.get('page')) || 1));
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
   const itemsPerPage = 18;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const [totalPages, setTotalPages] = useState(Math.ceil(allCourses.length / itemsPerPage));
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(allCourses.length / itemsPerPage)
+  );
 
   let products: FetchCourseType[] = [];
 
-
   useEffect(() => {
-    console.log('USE EFFECT STORE CONTENT');
+    console.log("USE EFFECT STORE CONTENT");
     async function fetchData() {
-      console.log('All Courses', allCourses);
+      console.log("All Courses", allCourses);
       if (allCourses.length) {
         setCurrentItems(allCourses.slice(indexOfFirstItem, indexOfLastItem));
       }
@@ -70,10 +72,11 @@ const StoreContent: FC<{ }> = () => {
     fetchData();
   }, [countryState.country, allCourses]);
 
-
   const handlePageChange = (pageNumber: number) => {
-    console.log('HANDLING PAGE CHANGE');
-    const pageExists = storeFilters.page.some((item: PageFilter) => item.id === pageNumber);
+    console.log("HANDLING PAGE CHANGE");
+    const pageExists = storeFilters.page.some(
+      (item: PageFilter) => item.id === pageNumber
+    );
     //console.log({pageExists, storePage: storeFilters.page, pageNumber})
     if (!pageExists) {
       updateFilter("page", {
@@ -82,7 +85,7 @@ const StoreContent: FC<{ }> = () => {
         total: totalPages,
       });
       const indexOfFirstItem = (pageNumber - 1) * itemsPerPage;
-      if (products){
+      if (products) {
         const currentItems = products.slice(
           indexOfFirstItem,
           indexOfFirstItem + itemsPerPage
@@ -91,22 +94,22 @@ const StoreContent: FC<{ }> = () => {
         setCurrentPage(pageNumber);
       }
     } else {
-      removeFilter("page", {id: pageNumber, name: String(pageNumber)});
+      removeFilter("page", { id: pageNumber, name: String(pageNumber) });
     }
   };
 
   // STOREBAR FILTERS
 
   const handleTriggerSearch = (event: any) => {
-    console.log('HANDLE TRIGGER SEARCH');
-    if (products){
+    console.log("HANDLE TRIGGER SEARCH");
+    if (products) {
       if (event) {
         const filteredProducts = products.filter((product) =>
           removeAccents(product.title.toLowerCase()).includes(
             removeAccents(event.toLowerCase())
           )
         );
-        console.log("handleTriggerSearch",{filteredProducts});
+        console.log("handleTriggerSearch", { filteredProducts });
         setCurrentItems(
           filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
         );
@@ -121,8 +124,8 @@ const StoreContent: FC<{ }> = () => {
   };
 
   const triggerFilter = (event: any) => {
-    console.log('TRIGGER FILTER', products);
-    if (products){
+    console.log("TRIGGER FILTER", products);
+    if (products) {
       setCurrentItems(filterStoreProducts(products, event));
     }
   };
@@ -131,12 +134,14 @@ const StoreContent: FC<{ }> = () => {
   const onChangeSpecialty = (specialty: Specialty, action: string) => {
     //Clear store search bar
     const input = document.getElementById("store-search") as HTMLInputElement;
-    if (input) { input.value = "";}
+    if (input) {
+      input.value = "";
+    }
     resetPage();
-    if (action == 'delete') {
+    if (action == "delete") {
       clearSpecialties();
     } else {
-      console.log('Adding filter');
+      console.log("Adding filter");
       addFilter("specialties", specialty);
     }
   };
@@ -150,33 +155,33 @@ const StoreContent: FC<{ }> = () => {
     if (professionExists.length) removeFilter("professions", profession);
     else addFilter("professions", profession);
   };
-  const onChangeResource = (resource: ResourceFilter, action : string) => {
+  const onChangeResource = (resource: ResourceFilter, action: string) => {
     resetPage();
-    console.log('onChangeResource running');
-    if (action !== 'add') {
+    console.log("onChangeResource running");
+    if (action !== "add") {
       removeFilter("resources", resource);
     } else addFilter("resources", resource);
   };
   const onChangeDuration = (duration: DurationFilter, action: string) => {
     resetPage();
-    console.log('Duration', duration);
-    if (action !== 'add') {
+    console.log("Duration", duration);
+    if (action !== "add") {
       removeFilter("duration", duration);
     } else addFilter("duration", duration);
   };
 
-  function resetPage(){
+  function resetPage() {
     setCurrentPage(1);
     //Remove parameter "page" from the url
     const url = new URL(window.location.href);
-    url.searchParams.delete('page');
-    window.history.pushState({}, '', url);
+    url.searchParams.delete("page");
+    window.history.pushState({}, "", url);
   }
 
   const applyFilters = () => {
-    setMutationProducts(true)
-    console.group("applyFilters()")
-    console.log("Store Filters", {storeFilters});
+    setMutationProducts(true);
+    console.group("applyFilters()");
+    console.log("Store Filters", { storeFilters });
     const selectedSpecialties = storeFilters.specialties.map(
       (filter: Specialty) => filter.name
     );
@@ -193,96 +198,142 @@ const StoreContent: FC<{ }> = () => {
       (filter: PageFilter) => filter.id
     );
 
-    console.log("condition filter apply",{selectedSpecialties,selectedProfessions,selectedResources,selectedDurations,selectedPage})
+    console.log("condition filter apply", {
+      selectedSpecialties,
+      selectedProfessions,
+      selectedResources,
+      selectedDurations,
+      selectedPage,
+    });
 
-    if (!(selectedSpecialties.length || selectedProfessions.length || selectedResources.length || selectedDurations.length || selectedPage.length)) {
-      console.log('No filters');
+    if (
+      !(
+        selectedSpecialties.length ||
+        selectedProfessions.length ||
+        selectedResources.length ||
+        selectedDurations.length ||
+        selectedPage.length
+      )
+    ) {
+      console.log("No filters");
       // No filters, set the products to the original list
 
       setCurrentItems([...allCourses.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
       setMutationProducts(false);
-
     } else {
-      console.log('There are filters we need to apply',{selectedSpecialties, selectedProfessions, selectedResources, selectedDurations, selectedPage});
-
-      const filteredProducts = allCourses.filter((product: { categories: any[]; professions: any[]; duration: any; father_post_type: string; }) => {
-        const prodSpecialties = product.categories.map((category) => category.name);
-        const prodProfessions = product.professions.map((profession) => profession.name);
-        const prodDuration = product.duration;
-
-        let specialtiesMatch = true;
-
-        if (selectedSpecialties.length) {
-          specialtiesMatch = selectedSpecialties.some((specialty) => prodSpecialties.includes(specialty));
-        }
-
-
-        const professionsMatch = selectedProfessions.length === 0 ||
-          selectedProfessions.some((profession) =>
-            prodProfessions.some((prodProfession) =>
-              prodProfession.toLowerCase().includes(profession?.toLowerCase())
-            )
-          );
-
-        //console.log(prodProfessions, selectedProfessions, professionsMatch);
-
-
-        const resourcesMatch = selectedResources.filter((e: string) => e != undefined).every((resource) => {
-          if (resource === "Curso") {
-            //console.log({resource, type: product.father_post_type},product.father_post_type === "course")
-            return product.father_post_type === "course";
-          } else if (resource === "Guías profesionales") {
-            return product.father_post_type === "downloadable";
-          }
-        });
-
-        let durationsMatch = true;
-        if (selectedDurations && selectedDurations.length) {
-          durationsMatch = selectedDurations.some((duration) => {
-            const currentDuration = parseInt(prodDuration);
-            switch (duration) {
-              case "dur_1":
-                return currentDuration <= 100;
-              case "dur_2":
-                return currentDuration > 100 && currentDuration <= 300;
-              case "dur_3":
-                return currentDuration > 300;
-            }
-          });
-        }
-
-        return specialtiesMatch && professionsMatch && resourcesMatch && durationsMatch
+      console.log("There are filters we need to apply", {
+        selectedSpecialties,
+        selectedProfessions,
+        selectedResources,
+        selectedDurations,
+        selectedPage,
       });
 
-      console.log("FILTERED PRODUCTS", {filteredProducts});
-      console.log('setCurrentPage: ', selectedPage[0] || 1);
-      console.log('indexOfFirstItem: ', indexOfFirstItem);
-      console.log('indexOfLastItem: ', indexOfLastItem);
+      const filteredProducts = allCourses.filter(
+        (product: {
+          categories: any[];
+          professions: any[];
+          duration: any;
+          father_post_type: string;
+        }) => {
+          const prodSpecialties = product.categories.map(
+            (category) => category.name
+          );
+          const prodProfessions = product.professions.map(
+            (profession) => profession.name
+          );
+          const prodDuration = product.duration;
 
+          let specialtiesMatch = true;
+
+          if (selectedSpecialties.length) {
+            specialtiesMatch = selectedSpecialties.some((specialty) =>
+              prodSpecialties.includes(specialty)
+            );
+          }
+
+          const professionsMatch =
+            selectedProfessions.length === 0 ||
+            selectedProfessions.some((profession) =>
+              prodProfessions.some((prodProfession) =>
+                prodProfession.toLowerCase().includes(profession?.toLowerCase())
+              )
+            );
+
+          //console.log(prodProfessions, selectedProfessions, professionsMatch);
+
+          const resourcesMatch = selectedResources
+            .filter((e: string) => e != undefined)
+            .every((resource) => {
+              if (resource === "Curso") {
+                //console.log({resource, type: product.father_post_type},product.father_post_type === "course")
+                return product.father_post_type === "course";
+              } else if (resource === "Guías profesionales") {
+                return product.father_post_type === "downloadable";
+              }
+            });
+
+          let durationsMatch = true;
+          if (selectedDurations && selectedDurations.length) {
+            durationsMatch = selectedDurations.some((duration) => {
+              const currentDuration = parseInt(prodDuration);
+              switch (duration) {
+                case "dur_1":
+                  return currentDuration <= 100;
+                case "dur_2":
+                  return currentDuration > 100 && currentDuration <= 300;
+                case "dur_3":
+                  return currentDuration > 300;
+              }
+            });
+          }
+
+          return (
+            specialtiesMatch &&
+            professionsMatch &&
+            resourcesMatch &&
+            durationsMatch
+          );
+        }
+      );
+
+      console.log("FILTERED PRODUCTS", { filteredProducts });
+      console.log("setCurrentPage: ", selectedPage[0] || 1);
+      console.log("indexOfFirstItem: ", indexOfFirstItem);
+      console.log("indexOfLastItem: ", indexOfLastItem);
 
       let auxCurrentPage = selectedPage[0] || 1;
       setCurrentPage(auxCurrentPage);
-      if (auxCurrentPage == 1){
+      if (auxCurrentPage == 1) {
         setCurrentItems([...filteredProducts.slice(0, itemsPerPage)]);
-      }else{
-        setCurrentItems([...filteredProducts.slice(indexOfFirstItem, indexOfLastItem)]);
+      } else {
+        setCurrentItems([
+          ...filteredProducts.slice(indexOfFirstItem, indexOfLastItem),
+        ]);
       }
       setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-      setMutationProducts(false)
-
+      setMutationProducts(false);
     }
-    console.groupEnd()
+    console.groupEnd();
   };
 
-  if(typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     useEffect(() => {
-      console.log('FILTERS WERE UPDATED');
+      console.log("FILTERS WERE UPDATED");
       applyFilters();
-    }, [allCourses, storeFilters.page, storeFilters.specialties, storeFilters.professions, storeFilters.resources, storeFilters.duration, storeFilters.page]);
+    }, [
+      allCourses,
+      storeFilters.page,
+      storeFilters.specialties,
+      storeFilters.professions,
+      storeFilters.resources,
+      storeFilters.duration,
+      storeFilters.page,
+    ]);
   }
 
-  if(typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
     useEffect(() => {
       console.log("Store Component rendered, check URL to apply filters");
       //if the url has the search param recurso call onChange() for that resource
@@ -296,39 +347,47 @@ const StoreContent: FC<{ }> = () => {
       /*if (!page) {
         setCurrentPage(1);
       }*/
-      if (recurso){
-        let urlResource = resources.find((resource) => resource.slug === recurso);
-        console.log('URL RESOURCE: ', urlResource);
-        if (urlResource){
-          onChangeResource(urlResource, 'add');
+      if (recurso) {
+        let urlResource = resources.find(
+          (resource) => resource.slug === recurso
+        );
+        console.log("URL RESOURCE: ", urlResource);
+        if (urlResource) {
+          onChangeResource(urlResource, "add");
         }
       }
 
-      console.log('SPECIALTIES: ', specialties);
-      console.log('ESPECIALIDAD: ', especialidad);
-      if (especialidad && specialties){
-        console.log('SPECIALTIES: ', specialties);
-        let urlSpecialty = specialties.find((specialty: any) => slugifySpecialty(specialty.name) === especialidad);
-        console.log('URL SPECIALTY: ', urlSpecialty);
-        if (urlSpecialty){
-          onChangeSpecialty(urlSpecialty, 'add');
+      console.log("SPECIALTIES: ", specialties);
+      console.log("ESPECIALIDAD: ", especialidad);
+      if (especialidad && specialties) {
+        console.log("SPECIALTIES: ", specialties);
+        let urlSpecialty = specialties.find(
+          (specialty: any) => slugifySpecialty(specialty.name) === especialidad
+        );
+        console.log("URL SPECIALTY: ", urlSpecialty);
+        if (urlSpecialty) {
+          onChangeSpecialty(urlSpecialty, "add");
         }
       }
 
-      console.log('PROFESSIONS: ', allStoreProfessions);
-      console.log('PROFESSION: ', profesion);
-      if (profesion && allStoreProfessions){
-        console.log('changing profession');
-        let urlProfession = allStoreProfessions.find((profession: any) => profession.slug === profesion);
-        console.log('URL PROFESSION: ', urlProfession);
-        if (urlProfession){
+      console.log("PROFESSIONS: ", allStoreProfessions);
+      console.log("PROFESSION: ", profesion);
+      if (profesion && allStoreProfessions) {
+        console.log("changing profession");
+        let urlProfession = allStoreProfessions.find(
+          (profession: any) => profession.slug === profesion
+        );
+        console.log("URL PROFESSION: ", urlProfession);
+        if (urlProfession) {
           onChangeProfession(urlProfession);
         }
       }
-      if(duracion){
-        let urlDuration = durations.find((duration) => duration.slug === duracion);
-        if (urlDuration){
-          onChangeDuration(urlDuration, 'add');
+      if (duracion) {
+        let urlDuration = durations.find(
+          (duration) => duration.slug === duracion
+        );
+        if (urlDuration) {
+          onChangeDuration(urlDuration, "add");
         }
       }
     }, [allStoreProfessions, specialties]);
@@ -338,7 +397,11 @@ const StoreContent: FC<{ }> = () => {
     <section className="container course-content-area pb-90 animate-fade-down px-0">
       <Breadcrum />
 
-      {storeFilters.specialties.length > 0 && (<h1 className="text-xl sm:text-3xl mb-10">Cursos de {storeFilters.specialties[0].name}</h1>)}
+      {storeFilters.specialties.length > 0 && (
+        <h1 className="text-xl sm:text-3xl mb-10">
+          Cursos de {storeFilters.specialties[0].name}
+        </h1>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[28%_72%] gap-4 mb-10">
         <div className="hidden lg:flex flex-col">
@@ -346,13 +409,14 @@ const StoreContent: FC<{ }> = () => {
             onChangeSpecialty={onChangeSpecialty}
             onChangeProfession={onChangeProfession}
             onChangeResource={onChangeResource}
-            onChangeDuration={onChangeDuration}/>
+            onChangeDuration={onChangeDuration}
+          />
         </div>
         <div>
           <StoreBar
             onSearch={handleTriggerSearch}
             onFilter={triggerFilter}
-            length={currentItems.length}
+            length={allCourses.length}
             filtersCount={
               storeFilters.specialties.length +
               storeFilters.professions.length +
@@ -362,7 +426,7 @@ const StoreContent: FC<{ }> = () => {
           />
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
-            {(currentItems.length) ? (
+            {currentItems.length ? (
               currentItems.map((product, index) => {
                 return (
                   <StoreProduct
@@ -373,19 +437,20 @@ const StoreContent: FC<{ }> = () => {
                 );
               })
             ) : (
-               <NoResultFound />
+              <NoResultFound />
             )}
           </div>
 
           <div className="flex justify-center md:justify-start">
             {/*<p>Total pages: {totalPages}</p>*/}
-            {!mutationProducts && ( <StorePagination
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              currentPage={currentPage}
-              urlTrack={true}
-            />)}
-
+            {!mutationProducts && (
+              <StorePagination
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                currentPage={currentPage}
+                urlTrack={true}
+              />
+            )}
           </div>
         </div>
       </div>

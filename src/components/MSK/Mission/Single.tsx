@@ -25,7 +25,7 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
       {/* ENTRY CONTENT */}
       <div
         id="single-entry-content"
-        className="container prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
+        className="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
       >
         <p className="font-lora text-xl">
           Medical & Scientific Knowledge{" "}
@@ -61,17 +61,19 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
           reconocimiento en tu profesión?
         </p>
       </div>
-
-      <div className="relative py-16 my-32">
-        <BackgroundSection />
-        <SectionSliderPosts
-          postCardName="card9"
-          heading="Comienza tu experiencia aquí"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          posts={courses}
-          uniqueSliderClass="pageHome-section6"
-        />
+      <div className="max-w-[1700px] mx-auto">
+        <div className="relative py-16 my-32">
+          <BackgroundSection />
+          <SectionSliderPosts
+            postCardName="card9"
+            heading="Comienza tu experiencia aquí"
+            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+            sliderStype="style2"
+            posts={courses}
+            uniqueSliderClass="pageHome-section6"
+            className="mx-auto max-w-[85%]"
+          />
+        </div>
       </div>
     </div>
   );

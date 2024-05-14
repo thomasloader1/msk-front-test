@@ -121,7 +121,7 @@ const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
         </header>
 
         {/* SINGLE MAIN CONTENT */}
-        <div className="container flex flex-col my-10 lg:flex-row">
+        <div className="flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>

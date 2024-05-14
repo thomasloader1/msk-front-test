@@ -229,14 +229,14 @@ const FooterEduman = () => {
                           Política de cookies
                         </NcLink>
                       </li>
-                      <li>
+                      {/* <li>
                         <NcLink
                           href="/condiciones-de-contratacion"
                           className="font-light"
                         >
                           Condiciones de contratación
                         </NcLink>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

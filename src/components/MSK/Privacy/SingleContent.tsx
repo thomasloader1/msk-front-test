@@ -4,6 +4,7 @@ import { SinglePageType } from "@/data/types";
 import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
 import api from "../../../../Services/api";
 import { DataContext } from "@/context/data/DataContext";
+import LoadingText from "../Loader/Text";
 
 export interface SingleContentProps {
   data: SinglePageType;
@@ -21,30 +22,41 @@ const SingleContent: FC<SingleContentProps> = ({ data }) => {
       {data?.content && (
         <div
           id="single-entry-content"
-          className="container prose lg:prose-lg !max-w-screen-lg mx-auto dark:prose-invert"
+          className="prose lg:prose-lg !max-w-screen-lg mx-auto dark:prose-invert "
           dangerouslySetInnerHTML={{ __html: data.content as string }}
         />
       )}
 
+      {!data && (
+        <div className="flex flex-col gap-8 container">
+          <LoadingText />
+          <LoadingText />
+          <LoadingText />
+        </div>
+      )}
+
       {data?.terminos &&
         data.terminos.map((t) => (
-          <div>
+          <div className="container">
             <h2 className="font-raleway text-2xl mb-7">{t.titulo}</h2>
             <div dangerouslySetInnerHTML={{ __html: t.descripcion }} />
           </div>
         ))}
 
       {/* TAGS */}
-      <div className="relative py-16 mb-20">
-        <BackgroundSection />
-        <SectionSliderPosts
-          posts={allBestSellers}
-          postCardName="card9"
-          heading="Comienza tu experiencia aquí"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          uniqueSliderClass="pageHome-section6"
-        />
+      <div className="max-w-[1700px] mx-auto">
+        <div className="relative py-16 mb-20">
+          <BackgroundSection />
+          <SectionSliderPosts
+            posts={allBestSellers}
+            postCardName="card9"
+            heading="Comienza tu experiencia aquí"
+            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+            sliderStype="style2"
+            uniqueSliderClass="pageHome-section6"
+            className="mx-auto max-w-[85%]"
+          />
+        </div>
       </div>
     </div>
   );

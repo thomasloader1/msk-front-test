@@ -10,7 +10,6 @@ export const runtime = "edge";
 
 const PageSingleProduct: FC<PageCourseProps> = async ({ params }) => {
   const { product } = await ssr.getSingleProduct(params.slug, params.lang);
-
   return (
     <div className={`nc-PageSubcription `} data-nc-id="PageSubcription">
       <PageHeadServer

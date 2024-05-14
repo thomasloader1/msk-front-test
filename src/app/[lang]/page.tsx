@@ -84,7 +84,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             heading={heroTitle}
           />
         </div>
-        <WelcomeBox content={pageHomeWpContent as WpContentData} />
+        <div className="max-w-[1700px] mx-auto">
+          <WelcomeBox content={pageHomeWpContent as WpContentData} />
+        </div>
         <div className="container relative">
           <BrandSlider />
           <Phrase content={pageHomeWpContent?.cedentes.texto as string} />
@@ -97,7 +99,9 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
 
           <HomeExtraInfo country={currentCountry} />
         </div>
-        <CommentReferences content={pageHomeWpContent as WpContentData} />
+        <div className="max-w-[1700px] mx-auto">
+          <CommentReferences content={pageHomeWpContent as WpContentData} />
+        </div>
 
         <div className="container relative">
           <CoursesForYou
@@ -125,16 +129,19 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
             content={pageHomeWpContent?.preguntas_frecuentes as FAQS}
           />
         </div>
-        <div className="relative py-16">
-          <BackgroundSection />
-          <SectionSliderPosts
-            posts={getAllBestSellers()}
-            postCardName="card9"
-            heading="Nuestros cursos más elegidos"
-            subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-            sliderStype="style2"
-            uniqueSliderClass="pageHome-section6"
-          />
+        <div className="max-w-[1700px] mx-auto">
+          <div className="relative py-16">
+            <BackgroundSection />
+            <SectionSliderPosts
+              posts={getAllBestSellers()}
+              postCardName="card9"
+              heading="Nuestros cursos más elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+              sliderStype="style2"
+              uniqueSliderClass="pageHome-section6"
+              className="mx-auto max-w-[85%]"
+            />
+          </div>
         </div>
       </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">

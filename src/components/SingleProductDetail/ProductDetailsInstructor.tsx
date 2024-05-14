@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from "react";
 import Image from "next/image";
-import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
+import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 // import fai from "../../styles/fai/fontAwesome5Pro.module.css";
 interface Props {
   instructor: any;
@@ -31,7 +31,9 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
             dangerouslySetInnerHTML={instructorName}
             className="animate-fade font-poppins"
           ></h3>
-          <p className="mt-2 animate-fade font-poppins text-violet-wash text-[14px]">{instructor.description}</p>
+          <p className="mt-2 animate-fade font-poppins text-violet-wash text-[14px]">
+            {instructor.description}
+          </p>
           {instructor.specialties.length || instructor.centres.length ? (
             <p
               onClick={triggerDisplayBiography}
@@ -44,8 +46,9 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
           )}
         </div>
       </div>
-      {(displayBiography && instructor.specialties.length && instructor.centres.length ) ? (
+      {displayBiography ? (
         <div className="intructors-content">
+          {instructor.specialties.length ? (
             <div>
               <h5 className="mb-2">Especialidad</h5>
               <ul>
@@ -61,7 +64,9 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
                 )}
               </ul>
             </div>
+          ) : null}
 
+          {instructor.centres.length ? (
             <div>
               <h5 className="mt-4 mb-2">Hospitales / Centros</h5>
               <ul>
@@ -75,6 +80,7 @@ const ProductDetailsInstructor: FC<Props> = ({ instructor, country }) => {
                 })}
               </ul>
             </div>
+          ) : null}
         </div>
       ) : (
         <></>

@@ -44,7 +44,9 @@ const PageBlog: React.FC<PageProps> = async ({ params }) => {
             showTitle
             forSingleNote={false}
           />
-          <HomeExtraInfo country={currentCountry} className="mb-16" />
+          <HomeExtraInfo country={currentCountry} />
+        </div>
+        <div className="max-w-[1700px] mx-auto my-16">
           <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderPosts
@@ -54,8 +56,11 @@ const PageBlog: React.FC<PageProps> = async ({ params }) => {
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
               sliderStype="style2"
               uniqueSliderClass="PageBlog-section6"
+              className="mx-auto max-w-[85%]"
             />
           </div>
+        </div>
+        <div className="container relative">
           <NewsletterBlog />
         </div>
       </div>

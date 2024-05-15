@@ -13,7 +13,7 @@ import {
 } from "@/data/types";
 import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
 import StoreBar from "./StoreBar";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { removeAccents } from "@/lib/removeAccents";
 import { filterStoreProducts } from "@/lib/storeFilters";
 import Breadcrum from "@/components/Breadcrum/Breadcrum";
@@ -25,11 +25,13 @@ import durationsMapping from "../../../data/jsons/__durations.json";
 import { slugifySpecialty } from "@/lib/Slugify";
 import { CountryContext } from "@/context/country/CountryContext";
 import { DataContext } from "@/context/data/DataContext";
+import { updateQueryString } from "@/utils/updateQueryString";
 
 let resources = resourcesMapping;
 let durations = durationsMapping;
 
 const StoreContent: FC<{}> = () => {
+  const router = useRouter();
   let {
     storeFilters,
     addFilter,
@@ -261,8 +263,6 @@ const StoreContent: FC<{}> = () => {
               )
             );
 
-          //console.log(prodProfessions, selectedProfessions, professionsMatch);
-
           const resourcesMatch = selectedResources
             .filter((e: string) => e != undefined)
             .every((resource) => {
@@ -374,7 +374,7 @@ const StoreContent: FC<{}> = () => {
       console.log("PROFESSION: ", profesion);
       if (profesion && allStoreProfessions) {
         console.log("changing profession");
-        let urlProfession = allStoreProfessions.find(
+        let urlProfession = allStoreProfessions?.find(
           (profession: any) => profession.slug === profesion
         );
         console.log("URL PROFESSION: ", urlProfession);

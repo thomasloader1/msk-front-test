@@ -77,7 +77,7 @@ export default function MySlider<T>({
     trackMouse: true,
   });
 
-  if (!numberOfItems) {
+  if (!data.length) {
     return <div></div>;
   }
 
@@ -120,7 +120,9 @@ export default function MySlider<T>({
                         variants={variants(200, 1)}
                         key={indx}
                         style={{
-                          width: `calc(1/${numberOfItems} * 100%)`,
+                          width: `calc(${
+                            numberOfItems > 1 ? 1 / numberOfItems : "1"
+                          } * 100%)`,
                         }}
                       >
                         {renderItem(item, indx)}
@@ -131,16 +133,18 @@ export default function MySlider<T>({
               </motion.ul>
             </div>
 
-            <div className="flex gap-2 justify-center mt-16">
-              <PrevBtn
-                onClick={() => changeItemId(currentIndex - 1)}
-                className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
-              />
-              <NextBtn
-                onClick={() => changeItemId(currentIndex + 1)}
-                className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
-              />
-            </div>
+            {numberOfItems > 4 && (
+              <div className="flex gap-2 justify-center mt-16">
+                <PrevBtn
+                  onClick={() => changeItemId(currentIndex - 1)}
+                  className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
+                />
+                <NextBtn
+                  onClick={() => changeItemId(currentIndex + 1)}
+                  className={`w-12 h-12 xl:w-12 xl:h-12 text-lg z-[1] ${arrowBtnClass}`}
+                />
+              </div>
+            )}
           </div>
         </MotionConfig>
       </div>

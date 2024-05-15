@@ -110,6 +110,12 @@ export interface SinglePageType extends PostDataType {
   };
 }
 
+export async function generateMetadata() {
+  return {
+    title: "Misión",
+  };
+}
+
 const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
   className = "",
 }) => {
@@ -128,7 +134,6 @@ const PageSingleTemp3Sidebar: FC<PageSingleTemp3SidebarProps> = ({
 
   return (
     <>
-      <PageHeadServer title="Misión" />
       <div
         className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"

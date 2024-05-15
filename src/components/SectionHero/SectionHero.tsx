@@ -61,7 +61,7 @@ const SectionHero: FC<SectionHeroProps> = ({
         <div className="hero-img">
           {" "}
           <NcImage
-            className="max-w-[725px] w-full"
+            className="max-w-[725px] lg:max-w-[500px] xl:max-w-[725px] w-full"
             src={rightImg}
             alt="arrow next"
             width="1200"

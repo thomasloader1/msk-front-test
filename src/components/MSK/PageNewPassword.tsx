@@ -15,6 +15,11 @@ export interface BodyNewPassword {
   password: string;
   validator: string;
 }
+export async function generateMetadata() {
+  return {
+    title: "Cambia tu contraseña",
+  };
+}
 
 const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
   const router = useRouter();
@@ -57,7 +62,6 @@ const PageNewPassword: FC<PageNewPasswordProps> = ({ className = "" }) => {
       className={`nc-PageForgotPass animate-fade-down ${className}`}
       data-nc-id="PageForgotPass"
     >
-      <PageHeadServer title="Cambia tu contraseña" />
       <LayoutPage
         heading="Cambiar contraseña"
         subHeading="Te enviaremos un correo para que puedas crear una nueva"

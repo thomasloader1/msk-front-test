@@ -98,6 +98,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
               showDescription={true}
               kind="curso"
               forSingleNote={forSingleNote}
+              className="max-h-[150px]"
             />
           )}
           itemPerRow={posts?.length > 4 ? perView : posts?.length}

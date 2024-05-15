@@ -5,10 +5,13 @@ import { cookies } from "next/headers";
 import { Metadata } from "next";
 import Head from "next/head";
 import PageHeadServer from "@/components/Head/PageHeadServer";
+import { useRouter } from "next/router";
+import ssr from "@Services/ssr";
+import { slugifySpecialty } from "@/lib/Slugify";
 
 type Props = {
-  params: { lang: string; page: string };
-  searchParams: { page: string };
+  params: { lang: string; page: string; title?: string; filters?: string };
+  searchParams: { page: string; especialidad?: string };
 };
 
 export async function generateMetadata({
@@ -34,9 +37,15 @@ export async function generateMetadata({
             url: `${process.env.NEXT_PUBLIC_URL}/${currentCountry}/tienda/?page=2`,
           },
         ];
-
+  const storeSpecialties = await ssr.getSpecialtiesStore(
+    currentCountry || "int"
+  );
+  let urlSpecialty = storeSpecialties?.find(
+    (specialty: any) =>
+      slugifySpecialty(specialty.name) === searchParams.especialidad
+  );
   return {
-    title: "Tienda",
+    title: urlSpecialty ? `Cursos de ${urlSpecialty.name}` : "Tienda",
     alternates: {
       canonical: "/tienda",
     },
@@ -57,10 +66,6 @@ const PageStore: FC<PageStoreProps> = ({ className = "", params }) => {
       className={`nc-PageStore ${className} animate-fade-down`}
       data-nc-id="PageStore"
     >
-      <PageHeadServer
-        title="Tienda"
-        description="Una propuesta moderna para expandir tus metas profesionales"
-      />
       <StoreLayout subHeading="" headingEmoji="" heading="Tienda">
         <section className="text-neutral-600 text-sm md:text-base overflow-hidden">
           <StoreContent />

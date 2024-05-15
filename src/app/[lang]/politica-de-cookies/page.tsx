@@ -121,7 +121,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
         </header>
 
         {/* SINGLE MAIN CONTENT */}
-        <div className=" flex flex-col my-10 lg:flex-row">
+        <div className=" flex flex-col my-10 lg:flex-row container">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>

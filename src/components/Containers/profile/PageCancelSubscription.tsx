@@ -28,6 +28,12 @@ export interface PageCancelSubscriptionProps {
   className?: string;
 }
 
+export async function generateMetadata() {
+  return {
+    title: "Cancelar inscripción",
+  };
+}
+
 const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
   className = "",
 }) => {
@@ -51,7 +57,6 @@ const PageCancelSubscription: FC<PageCancelSubscriptionProps> = ({
       className={`nc-PageCancelSubscription ${className} animate-fade-down`}
       data-nc-id="PageCancelSubscription"
     >
-      <PageHeadServer title="Cancelar inscripción" />
       <LayoutPage
         heading="Cancelar inscripción"
         subHeading="Puedes solicitar la cancelación de tu inscripción a un curso hasta 10 días hábiles luego de adquirido el mismo "

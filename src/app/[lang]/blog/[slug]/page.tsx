@@ -4,15 +4,27 @@ import SingleHeader from "@/components/MSK/Blog/Post/PostSingleHeader";
 import NcImage from "@/components/NcImage/NcImage";
 import SingleContent from "@/components/MSK/Blog/Post/SingleContent";
 import { cookies } from "next/headers";
-import BackgroundSection from "@/components/BackgroundSection/BackgroundSection";
-import SectionSliderPosts from "@/components/Sections/SectionSliderPosts";
-import Head from "next/head";
-import PageHeadServer from "@/components/Head/PageHeadServer";
 
 interface PageCourseProps {
   params: any;
 }
 export const runtime = "edge";
+
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props) {
+  const postMetadata = await ssr.getSinglePost(params.slug);
+  return {
+    title: postMetadata.title,
+    description: postMetadata.excerpt,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_URL}/blog`,
+    },
+    schemaJson: "WebSite",
+  };
+}
 
 const PageNota: FC<PageCourseProps> = async ({ params }) => {
   const post = await ssr.getSinglePost(params.slug);
@@ -22,11 +34,6 @@ const PageNota: FC<PageCourseProps> = async ({ params }) => {
   const fuentes = post?.fuentes || [];
   return (
     <>
-      <PageHeadServer
-        title={`${post?.title}`}
-        description={`${post?.excerpt}`}
-        schemaJson={"WebSite"}
-      />
       <div
         className={`nc-PageSingleTemp3¸Sidebar`}
         data-nc-id="PageSingleTemp3Sidebar"

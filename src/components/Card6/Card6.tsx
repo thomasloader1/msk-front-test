@@ -21,7 +21,7 @@ export interface Card6Props {
   authorRow?: boolean;
   badgeColor?: string;
   kind?: string;
-  forSingleNote?: boolean
+  forSingleNote?: boolean;
 }
 
 const Card6: FC<Card6Props> = ({
@@ -30,13 +30,12 @@ const Card6: FC<Card6Props> = ({
   authorRow,
   kind = "blog",
   badgeColor,
-                                 forSingleNote
+  forSingleNote,
 }) => {
-  const { title, slug, image, categories, link, author, date, reading_time } = post;
+  const { title, slug, image, categories, link, author, date, reading_time } =
+    post;
   const categoriesOrder =
     kind === "blog" ? categories.sort(compareByNameDescending) : categories;
-
-
 
   return (
     <div
@@ -66,6 +65,7 @@ const Card6: FC<Card6Props> = ({
             </NcLink>
           </h2>
           <CardAuthor2
+            key={`author__${author?.id}`}
             date={date}
             className="relative my-4"
             author={author}
@@ -74,8 +74,6 @@ const Card6: FC<Card6Props> = ({
             forSingleNote={forSingleNote}
           />
         </div>
-
-
       </div>
 
       <NcLink
@@ -91,7 +89,6 @@ const Card6: FC<Card6Props> = ({
           fill
         />
       </NcLink>
-
     </div>
   );
 };

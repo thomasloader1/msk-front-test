@@ -1,4 +1,3 @@
-import  Head from "next/head";
 import { getDescriptionContent } from "@/lib/pageHeadUtils";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
 import { FC } from "react";
@@ -27,7 +26,6 @@ const PageHeadServer: FC<PageHeadServerProps> = ({
   );
 
   const schema = generateSchemaJson(schemaJson, schemaJsonData);
-
   return (
     <Head>
       <title>{`${prioryTitle || title} | MSK`}</title>
@@ -37,15 +35,4 @@ const PageHeadServer: FC<PageHeadServerProps> = ({
     </Head>
   );
 };
-
-export async function getServerSideProps(context: any) {
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL; // Obtener la URL del servidor desde las variables de entorno
-  console.log({context, serverUrl})
-  return {
-    props: {
-      serverUrl,
-    },
-  };
-}
-
 export default PageHeadServer;

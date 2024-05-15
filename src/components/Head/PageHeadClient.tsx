@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { StoreContext } from "@/context/storeFilters/StoreContext";
 import { getDescriptionContent } from "@/lib/pageHeadUtils";
@@ -23,6 +23,7 @@ const PageHeadClient: React.FC<PageHeadClientProps> = ({
   customDescription,
   schemaJson = "",
   schemaJsonData = null,
+  prevNextLinks,
 }) => {
   const state = useContext(StoreContext);
   const isProduction =
@@ -38,12 +39,23 @@ const PageHeadClient: React.FC<PageHeadClientProps> = ({
 
   const schema = generateSchemaJson(schemaJson, schemaJsonData);
 
-  const canonicalUrl = typeof window !== "undefined" ? removeUrlParams(window.location.href, ["especialidad"]) : "";
+  const canonicalUrl =
+    typeof window !== "undefined"
+      ? removeUrlParams(window.location.href, ["especialidad"])
+      : "";
 
-  const prevNextLinksGenerated = generatePrevNextLinks(state?.storeFilters?.page[0]);
+  const [prevNextLinksGenerated, setPrevNextLinksGenerated] =
+    useState<JSX.Element | null>(null);
+
+  useEffect(() => {
+    setPrevNextLinksGenerated(
+      generatePrevNextLinks(state?.storeFilters?.page[0])
+    );
+  }, [state?.storeFilters?.page]);
 
   return (
     <Head>
+      <title>{title}</title>
       {!isProduction && <meta name="robots" content="noindex, follow" />}
       <link rel="canonical" href={canonicalUrl} />
       {isProduction && window.location.href.includes("tienda") && prevNextLinks}
@@ -57,7 +69,7 @@ const PageHeadClient: React.FC<PageHeadClientProps> = ({
 
 export const generatePrevNextLinks = (page: PageFilter | undefined) => {
   if (!page) {
-    return ""; // Si no se proporciona la información de la página, retorna una cadena vacía.
+    return null; // Si no se proporciona la información de la página, retorna null.
   }
 
   const { id, total } = page;
@@ -91,9 +103,12 @@ export const generatePrevNextLinks = (page: PageFilter | undefined) => {
       />
     ) : null;
 
-  console.log({ prevLink, nextLink });
-
-  return [prevLink, nextLink];
+  return (
+    <>
+      {prevLink}
+      {nextLink}
+    </>
+  );
 };
 
 export default PageHeadClient;

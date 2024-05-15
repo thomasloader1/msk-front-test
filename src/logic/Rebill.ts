@@ -23,6 +23,57 @@ export const REBILL_CONF = {
   },
 };
 
+export const REBILL_CONF_CL = {
+  ORG_ID: getEnv("REBILL_CL_ORG_ID"),
+  API_KEY: getEnv("REBILL_CL_API_KEY"),
+  URL: import.meta.env.VITE_REBILL_URL,
+  PRICES:[ import.meta.env.VITE_REBILL_REBILL_CL_FREEMIUM_PRD ]
+};
+
+export const REBILL_CONF_UY = {
+  ORG_ID: getEnv("REBILL_UY_ORG_ID"),
+  API_KEY: getEnv("REBILL_UY_API_KEY"),
+  URL: import.meta.env.VITE_REBILL_URL,
+  PRICES:[ import.meta.env.VITE_REBILL_REBILL_UY_FREEMIUM_PRD ]
+};
+
+export const REBILL_CONF_CO = {
+  ORG_ID: getEnv("REBILL_COP_ORG_ID"),
+  API_KEY: getEnv("REBILL_COP_API_KEY"),
+  URL: import.meta.env.VITE_REBILL_URL,
+  PRICES:[ import.meta.env.VITE_REBILL_REBILL_COP_FREEMIUM_PRD ]
+};
+
+export const initRebillConfig = (country: string) =>{
+  switch(country){
+    case 'cl':
+      return {
+              organization_id: REBILL_CONF_CL.ORG_ID,
+              api_key: REBILL_CONF_CL.API_KEY,
+              api_url: REBILL_CONF.URL,
+            };
+    case 'uy':
+      return {
+              organization_id: REBILL_CONF_UY.ORG_ID,
+              api_key: REBILL_CONF_UY.API_KEY,
+              api_url: REBILL_CONF.URL,
+            };
+    case 'co':
+      return {
+              organization_id: REBILL_CONF_CO.ORG_ID,
+              api_key: REBILL_CONF_CO.API_KEY,
+              api_url: REBILL_CONF.URL,
+            };
+    default:
+      return {
+              organization_id: REBILL_CONF.ORG_ID,
+              api_key: REBILL_CONF.API_KEY,
+              api_url: REBILL_CONF.URL,
+            };
+  }
+
+}
+
 const mappingCheckoutFields = (contactZoho: ContactCRM) => {
   console.log({contactZoho})
   return {
@@ -58,11 +109,27 @@ const mappingCheckoutFields = (contactZoho: ContactCRM) => {
 };
 
 const getPlan = (country: string) => {
-  const gateway = REBILL_CONF.GATEWAYS.ST.includes(country) ? "STRIPE" : "MP";
-  const countryPrice = rebillCountriesPrices[country];
-  const price = getEnv(`REBILL_${gateway}_${countryPrice}_FREEMIUM`);
+  let price;
 
-  console.log(`REBILL_${gateway}_${countryPrice}_FREEMIUM`,{price, countryPrice})
+  switch(country){
+    case 'cl':
+      price = REBILL_CONF_CL.PRICES[0];
+      break;
+    case 'uy':
+      price = REBILL_CONF_UY.PRICES[0];
+      break;
+    case 'co':
+      price = REBILL_CONF_CO.PRICES[0];
+      break;
+    default:
+      const gateway = REBILL_CONF.GATEWAYS.ST.includes(country) ? "STRIPE" : "MP";
+      const countryPrice = rebillCountriesPrices[country];
+
+      price = getEnv(`REBILL_${gateway}_${countryPrice}_FREEMIUM`);
+
+      console.log(`REBILL_${gateway}_${countryPrice}_FREEMIUM`,{price, countryPrice})
+      break;
+  }
 
   return {
     id: price,
@@ -82,7 +149,6 @@ export const initRebill = async (
 ) => {
   try {
     const contactZoho: ContactCRM = await api.getEmailByIdZohoCRM("Contacts", user.email);
-    console.log({contactZoho, user})
     const customerRebill = mappingCheckoutFields(contactZoho);
     //Seteo de customer
     RebillSDKCheckout.setCustomer(customerRebill);
@@ -98,7 +164,9 @@ export const initRebill = async (
 
     //Seteo de plan para cobrar
     const { id, quantity } = getPlan(country);
-    console.log({idPrice: id});
+    
+    console.log({contactZoho, user, idPrice: id});
+
     RebillSDKCheckout.setTransaction({
       prices: [
         {

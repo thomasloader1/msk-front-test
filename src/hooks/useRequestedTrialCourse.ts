@@ -42,6 +42,8 @@ const useRequestedTrialCourse = (product?: any): TrialCoursesStatus => {
             return;
           } else {
             setHasCoursedRequested(isMatch);
+            setShowAlreadyRequest(isMatch);
+
           }
         });
       } else if (typeof userProfile !== 'undefined' && Object.keys(userProfile).length > 1) {

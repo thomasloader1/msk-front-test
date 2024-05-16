@@ -1,7 +1,7 @@
 "use client";
 import React, { FC, useEffect, useState } from "react";
 import Card2 from "@/components/Card2/Card2";
-import { FetchPostType } from "@/data/types";
+import { FetchPostType, PostDataType } from "@/data/types";
 import Card6 from "@/components/Card6/Card6";
 import HeaderFilter from "./HeaderFilter";
 import ImageSkeleton from "@/components/MSK/ImageSkeleton";
@@ -11,7 +11,7 @@ import BlogSlider from "@/components/Sliders/BlogSlider";
 
 export interface BlogSummaryProps {
   tabs: string[];
-  posts: FetchPostType[];
+  posts: FetchPostType[] | PostDataType[];
   heading?: string;
   className?: string;
   desc?: string;

@@ -81,8 +81,6 @@ export default function MySlider<T>({
     return <div></div>;
   }
 
-  const isRTL = document.querySelector("html")?.getAttribute("dir") === "rtl";
-
   return (
     <>
       <div className={`nc-MySlider ${className}`}>
@@ -108,14 +106,10 @@ export default function MySlider<T>({
                         className={`relative inline-block px-2 xl:px-4 whitespace-normal`}
                         custom={direction}
                         initial={{
-                          x: !isRTL
-                            ? `${(currentIndex - 1) * -100}%`
-                            : `${(currentIndex - 1) * 100}%`,
+                          x: `${(currentIndex - 1) * -100}%`,
                         }}
                         animate={{
-                          x: !isRTL
-                            ? `${currentIndex * -100}%`
-                            : `${currentIndex * 100}%`,
+                          x: `${currentIndex * -100}%`,
                         }}
                         variants={variants(200, 1)}
                         key={indx}

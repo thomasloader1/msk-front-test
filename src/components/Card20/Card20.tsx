@@ -4,7 +4,7 @@ import { Aval, PostDataType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
 import Tooltip from "@/components/Tooltip/Tooltip";
 import Image from "next/image";
-import {removeFirstSubdomain} from "@/utils/removeFirstSubdomain";
+import { removeFirstSubdomain } from "@/utils/removeFirstSubdomain";
 
 export interface Card20Props {
   className?: string;
@@ -33,11 +33,14 @@ const Card20: FC<Card20Props> = ({ className = "h-full", post, index }) => {
           height="300"
         />
       </div>
-      <Tooltip
-        text={description}
-        className={`absolute bottom-5`}
-      >
-        <Image src={"/images/icons/info_tooltip.svg"} width={15} height={15} alt="info cedente" className="ml-auto mr-2" />
+      <Tooltip text={description} className={`absolute bottom-5`}>
+        <Image
+          src={"/images/icons/info_tooltip.svg"}
+          width={15}
+          height={15}
+          alt="info cedente"
+          className="ml-auto mr-4"
+        />
       </Tooltip>
     </div>
   );

@@ -127,7 +127,7 @@ export default function MySlider<T>({
               </motion.ul>
             </div>
 
-            {numberOfItems > 4 && (
+            {numberOfItems > 3 && (
               <div className="flex gap-2 justify-center mt-16">
                 <PrevBtn
                   onClick={() => changeItemId(currentIndex - 1)}

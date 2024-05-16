@@ -1,19 +1,10 @@
 import React, { FC } from "react";
 import NcImage from "@/components/NcImage/NcImage";
-import PostCardMeta from "@/components/PostCardMeta/PostCardMeta";
-import PostCardSaveAction from "@/components/PostCardSaveAction/PostCardSaveAction";
-import {
-  BlogDataType,
-  FetchCourseType,
-  FetchPostType,
-  PostDataType,
-} from "@/data/types";
-import PostCardLikeAndComment from "@/components/PostCardLikeAndComment/PostCardLikeAndComment";
+import { FetchPostType } from "@/data/types";
 import CategoryBadgeList from "@/components/CategoryBadgeList/CategoryBadgeList";
-import PostTypeFeaturedIcon from "@/components/PostTypeFeaturedIcon/PostTypeFeaturedIcon";
 import CardAuthor2 from "@/components/CardAuthor2/CardAuthor2";
-import { compareByNameDescending } from "@/lib/compareByNameDescending";
 import NcLink from "../NcLink/NcLink";
+import { compareByNameOrderSet } from "@/lib/compareByNameOrderSet";
 
 export interface Card6Props {
   className?: string;
@@ -34,8 +25,9 @@ const Card6: FC<Card6Props> = ({
 }) => {
   const { title, slug, image, categories, link, author, date, reading_time } =
     post;
+
   const categoriesOrder =
-    kind === "blog" ? categories.sort(compareByNameDescending) : categories;
+    kind === "blog" ? categories.sort(compareByNameOrderSet) : categories;
 
   return (
     <div

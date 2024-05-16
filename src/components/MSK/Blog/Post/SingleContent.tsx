@@ -102,7 +102,7 @@ const SingleContent: FC<SingleContentProps> = ({
           />
         </div>
       </div>
-      <div className="relative py-16">
+      <div className="container relative py-16">
         <BackgroundSection />
         <SectionSliderPosts
           posts={bestSellers}

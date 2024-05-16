@@ -453,3 +453,25 @@ $xs: "(max-width: 575px)";
     display: block;
   }
 }
+
+.nc-SingleContent #single-entry-content {
+  @media (max-width: 450px) {
+    p {
+      overflow: hidden !important;
+      word-break: break-word !important;
+    }
+  }
+  .main-container {
+    max-width: 100%;
+    overflow-x: auto;
+    left: 0;
+    margin-left: 0;
+    position: relative;
+    display: block !important;
+
+    .table-container {
+      min-width: 1000px;
+      left: 0;
+    }
+  }
+}

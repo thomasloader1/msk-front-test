@@ -5,6 +5,7 @@ import PageHead from "containers/Head/PageHead";
 import TrialInfo from "components/Trial/TrialInfo";
 import mpImg from "../../../public/images/MP.png";
 import stImg from "../../../public/images/ST.svg";
+import rbImg from "../../../public/images/rebill.svg";
 import { JsonInstallmentsMapping } from "data/types";
 import installmentsMapping from "../../data/jsons/__countryInstallments.json";
 import TrialModalContent from "components/NcModal/TrialModalContent";
@@ -13,7 +14,7 @@ import InputSkeleton from "components/Skeleton/InputSkeleton";
 import { Link, useParams } from "react-router-dom";
 import TextSkeleton from "components/Skeleton/TextSkeleton";
 import { DataContext } from "context/data/DataContext";
-import { REBILL_CONF, initRebill } from "logic/Rebill";
+import { REBILL_CONF, initRebill, initRebillConfig } from "logic/Rebill";
 import useRequestedTrialCourse from "hooks/useRequestedTrialCourse";
 import api from "Services/api";
 import MissingModalContent from "components/NcModal/MissingModalContent";
@@ -49,6 +50,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     setShowMissingData 
   } = useRequestedTrialCourse(product);
 
+
   useEffect(() => {
     const profile = JSON.parse(localStorage.getItem("userProfile") as string);
 
@@ -64,11 +66,8 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   },[userProfile])
 
   useEffect(() => {
-    const initialization = {
-      organization_id: REBILL_CONF.ORG_ID,
-      api_key: REBILL_CONF.API_KEY,
-      api_url: REBILL_CONF.URL,
-    };
+    const initialization = initRebillConfig(country);
+    console.log({rebillConf: initialization})
 
     let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 
@@ -114,7 +113,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
             {mountedInput ? (<div className="text-violet-wash flex items-center justify-center gap-x-3 mt-4">
               <span>Pagos procesados con</span>
               <img
-                src={gateway === "MP" ? `${mpImg}` : `${stImg}`}
+                src={gateway === "MP" ? `${mpImg}` : gateway === "ST" ? `${stImg}` : `${rbImg}`}
                 alt="gateway image"
               />
               

@@ -22,15 +22,15 @@
   <meta charset="UTF-8" />
   <style>
     .grecaptcha-badge {
-width: 70px !important;
-overflow: hidden !important;
-transition: all 0.3s ease !important;
-left: -2px !important;
-bottom: 20px !important;
-}
-.grecaptcha-badge:hover {
-width: 256px !important;
-}
+    width: 70px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    left: -2px !important;
+    bottom: 20px !important;
+    }
+    .grecaptcha-badge:hover {
+    width: 256px !important;
+    }
   </style>
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -48,10 +48,25 @@ width: 256px !important;
     <!-- START Botmaker Webchat-->
 
 <script>
-  (function () {
+  /* async function getCountryCode() {
+    const ipResponse = await fetch("https://api.ipify.org/?format=json");
+    const {ip} = await ipResponse.json();
+  
+    const response = await fetch(`https://dev.msklatam.tech/msk-laravel/public/api/getCountryByIP?ip=${ip}`, { method: 'POST' })
+    const data = await response.json();
+
+    console.log({data})
+
+    if (data.countryCode) {
+      return data.countryCode.toLowerCase();
+    }
+    return "";
+  } */
+
+  (async function () {
       let countries = ["ar","cl","mx","ec"];
       let onValidCountry = window.location.pathname.split("/").some(part => countries.includes(part))
-      //console.log({onValidCountry})
+      
       if(!onValidCountry){
         let js = document.createElement('script');
         js.type = 'text/javascript';

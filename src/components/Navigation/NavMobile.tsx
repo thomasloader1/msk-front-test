@@ -129,7 +129,8 @@ const NavMobile: React.FC<NavMobileProps> = ({
   let resources = resourcesMapping;
   let durations = durationsMapping;
 
-  const { addFilter, removeFilter, updateFilter, storeFilters } = useStoreFilters();
+  const { addFilter, removeFilter, updateFilter, storeFilters } =
+    useStoreFilters();
 
   const isChecked = (type: string, value: any) => {
     switch (type) {
@@ -154,7 +155,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
     }
   };
 
-
   const onChangeProfession = (profession: Profession) => {
     const professionExists = storeFilters.professions.filter(
       (item: Profession) => {
@@ -170,7 +170,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
     updateFilter("page", {
       id: 1,
       name: String(1),
-      total: 1
+      total: 1,
     });
     const resourceExists = storeFilters.resources.filter(
       (item: ResourceFilter) => {
@@ -197,7 +197,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
     updateFilter("page", {
       id: 1,
       name: String(1),
-      total: 1
+      total: 1,
     });
     action == "add"
       ? addFilter("specialties", specialty)
@@ -234,7 +234,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
           location.pathname.includes("/tienda") && (
             <>
               <div className="border-t border-neutral-200 dark:border-neutral-700 w-[90%] mx-auto px-2 space-y-1" />
-              <ul className="flex flex-col py-2 px-2 space-y-1">
+              <ul className="flex flex-col py-2 px-2 space-y-1 store-menu">
                 <Disclosure>
                   {({ open }) => (
                     <li>

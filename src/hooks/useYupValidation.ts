@@ -14,7 +14,7 @@ export interface ContactFormSchema {
   year?: string;
   career?: string;
   Otra_especialidad?: string;
-  Preferencia_de_contactaci_n?: string;
+  Preferencia_de_contactaci_n?: string[];
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -22,8 +22,8 @@ export interface ContactFormSchema {
   recaptcha_token?: string | null;
   URL_ORIGEN?: string;
   leadSource?: string | null;
-    Ebook_consultado?: string | null;
-    Cursos_consultados?: string | null;
+  Ebook_consultado?: string | null;
+  Cursos_consultados?: string | null;
 }
 export interface TemarioFormSchema {
   First_Name: string;
@@ -137,9 +137,9 @@ const termsAndConditionsValidation = Yup.boolean()
   .oneOf([true], "Debes aceptar los términos y condiciones")
   .required("Debes aceptar los términos y condiciones");
 const themesNewsletterValidation = Yup.array()
-        .of(Yup.string())
-        .min(1, "Se requiere al menos 1 tema de interés")
-        .required()
+  .of(Yup.string())
+  .min(1, "Se requiere al menos 1 tema de interés")
+  .required();
 
 export const useYupValidation = () => {
   const contactFormValidation: Yup.Schema<ContactFormSchema> =
@@ -183,20 +183,20 @@ export const useYupValidation = () => {
       zsWebFormCaptchaWord: Yup.string().required("El captcha es requerido"),
       Terms_And_Conditions: termsAndConditionsValidation,
     });
-  const newsletterValidation =  Yup.object().shape({
-      First_Name: firstNameValidation,
-      Last_Name: lastNameValidation,
-      Email: emailValidation,
-      Profesion: professionValidation,
-      Especialidad: specialtyValidation,
-      Temas_de_interes: themesNewsletterValidation,
-      Terms_And_Conditions2: termsAndConditionsValidation
+  const newsletterValidation = Yup.object().shape({
+    First_Name: firstNameValidation,
+    Last_Name: lastNameValidation,
+    Email: emailValidation,
+    Profesion: professionValidation,
+    Especialidad: specialtyValidation,
+    Temas_de_interes: themesNewsletterValidation,
+    Terms_And_Conditions2: termsAndConditionsValidation,
   });
 
   return {
     contactFormValidation,
     temarioFormValidation,
     cancelSubscriptionValidation,
-      newsletterValidation
+    newsletterValidation,
   };
 };

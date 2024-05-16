@@ -23,9 +23,10 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { DataContext } from "@/context/data/DataContext";
 import api from "../../../Services/api";
 import NcLink from "../NcLink/NcLink";
-import {usePathname, useRouter} from "next/navigation";
-import {isFormValid} from "@/components/Footer/Newsletter";
+import { usePathname, useRouter } from "next/navigation";
+import { isFormValid } from "@/components/Footer/Newsletter";
 import ShowErrorMessage from "@/components/ShowErrorMessage";
+import Checkbox from "../Checkbox/Checkbox";
 
 interface ContactFormProps {
   hideHeader?: boolean;
@@ -87,8 +88,10 @@ const ContactForm: FC<ContactFormProps> = ({
   const [utmState, dispatchUTM] = useReducer(utmReducer, utmInitialState);
   const formRef = useRef<HTMLFormElement>(null);
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [urlOrigen, setUrlOrigen] = useState<string>(typeof window !== "undefined" ? window.location.href : "");
-  const router = useRouter()
+  const [urlOrigen, setUrlOrigen] = useState<string>(
+    typeof window !== "undefined" ? window.location.href : ""
+  );
+  const router = useRouter();
   useEffect(() => {
     setProfessions(allProfessions);
     setSpecialties(allSpecialties);
@@ -111,7 +114,7 @@ const ContactForm: FC<ContactFormProps> = ({
     Description: "",
     Especialidad: "",
     Phone: "",
-    Preferencia_de_contactaci_n: "",
+    Preferencia_de_contactaci_n: [],
     Pais: "",
     Otra_profesion: "",
     Otra_especialidad: "",
@@ -181,13 +184,13 @@ const ContactForm: FC<ContactFormProps> = ({
       setSelectedProfessionId(id);
       setShowInputProfession(profession === "Otra profesión");
       setStudentInputs(profession === "Estudiante");
-      const groups = specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
+      const groups =
+        specialtiesGroup[parseInt(id) as keyof typeof specialtiesGroup];
       setCurrentGroup(groups);
     } else {
       setSelectedOptionProfession("");
       setSelectedProfessionId("");
       formik.setFieldValue("Profesion", "");
-
     }
   };
 
@@ -308,18 +311,38 @@ const ContactForm: FC<ContactFormProps> = ({
   const optionsArray = [1, 2, 3, 4, 5];
 
   const handleContactPreferenceChange = (value: string) => {
-    formik.setFieldValue("Preferencia_de_contactaci_n", value);
+    const currentPreferences = formik.values.Preferencia_de_contactaci_n;
+    if (currentPreferences && currentPreferences.includes(value)) {
+      formik.setFieldValue(
+        "Preferencia_de_contactaci_n",
+        currentPreferences.filter((item) => item !== value)
+      );
+    } else if (currentPreferences) {
+      formik.setFieldValue("Preferencia_de_contactaci_n", [
+        ...currentPreferences,
+        value,
+      ]);
+    }
   };
-  const requiredFormFields = ["First_Name",
+  const requiredFormFields = [
+    "First_Name",
     "Last_Name",
     "Email",
     "Phone",
     "Preferencia_de_contactaci_n",
     "Profesion",
-    "Terms_And_Conditions"];
+    "Terms_And_Conditions",
+  ];
 
-  const isSubmitDisabled = !formik.dirty || !isFormValid(requiredFormFields, formik.values, formik.errors, formik.touched);
-  console.log()
+  const isSubmitDisabled =
+    !formik.dirty ||
+    !isFormValid(
+      requiredFormFields,
+      formik.values,
+      formik.errors,
+      formik.touched
+    );
+  console.log();
   return (
     <>
       <div className="col-span-3" id="contactanos">
@@ -380,34 +403,25 @@ const ContactForm: FC<ContactFormProps> = ({
                           Quiero hablar por
                         </p>
                         <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <Radio
-                            name="Preferencia_de_contactaci_n"
+                          <Checkbox
+                            name="Preferencia_de_contactaci_n_phone"
                             label="Teléfono"
-                            id="Contact_Method_Teléfono"
                             onChange={() =>
-                              handleContactPreferenceChange(
-                                "Contact_Method_Teléfono"
-                              )
+                              handleContactPreferenceChange("phone")
                             }
                           />
-                          <Radio
-                            name="Preferencia_de_contactaci_n"
+                          <Checkbox
+                            name="Preferencia_de_contactaci_n_email"
                             label="E-mail"
-                            id="Contact_Method_E-mail"
                             onChange={() =>
-                              handleContactPreferenceChange(
-                                "Contact_Method_E-mail"
-                              )
+                              handleContactPreferenceChange("email")
                             }
                           />
-                          <Radio
-                            name="Preferencia_de_contactaci_n"
+                          <Checkbox
+                            name="Preferencia_de_contactaci_n_whatsapp"
                             label="WhatsApp"
-                            id="Contact_Method_Whatsapp"
                             onChange={() =>
-                              handleContactPreferenceChange(
-                                "Contact_Method_Whatsapp"
-                              )
+                              handleContactPreferenceChange("whatsapp")
                             }
                           />
                         </div>
@@ -680,13 +694,16 @@ const ContactForm: FC<ContactFormProps> = ({
                           <button
                             type="submit"
                             className="cont-btn disabled:bg-grey-disabled"
-                            disabled={isSubmitDisabled}
+                            disabled={isSubmitDisabled || onRequest}
                           >
                             {onRequest ? "Enviando ..." : submitText}
                           </button>
                         </div>
                       </div>
-                      <ShowErrorMessage text={formError} visible={Boolean(formError)} />
+                      <ShowErrorMessage
+                        text={formError}
+                        visible={Boolean(formError)}
+                      />
                       <p
                         className="success-message"
                         style={{

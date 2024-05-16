@@ -4,9 +4,15 @@ export interface CheckboxProps {
   label?: string;
   subLabel?: string;
   name: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name }) => {
+const Checkbox: FC<CheckboxProps> = ({
+  subLabel = "",
+  label = "",
+  name,
+  onChange,
+}) => {
   return (
     <div className="flex items-start">
       <div className="flex items-center h-5">
@@ -15,6 +21,7 @@ const Checkbox: FC<CheckboxProps> = ({ subLabel = "", label = "", name }) => {
           name={name}
           type="checkbox"
           className="focus:ring-action-primary h-4 w-4 text-primary border-primary"
+          onChange={onChange}
         />
       </div>
       {label && (

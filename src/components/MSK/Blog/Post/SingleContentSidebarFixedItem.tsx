@@ -97,13 +97,12 @@ const SingleContentSidebarFixedItem: FC<SingleContentSidebarFixedItemProps> = ({
       <div className="side-content rounded-2xl ">
         <div className="flex w-full">
           <h5 className="side-content-header p-2.5">💼 Especialidades </h5>
-          <NcLink
-            href="/tienda"
+          <button
             onClick={() => setShowSpecialties(true)}
             className="course-network text-primary font-semibold text-sm my-auto ml-auto mr-4 pointer"
           >
             Ver todas
-          </NcLink>
+          </button>
         </div>
         {fiveSpecialtiesGroup?.map(
           ({ speciality_name, image, articles }, index) => (

@@ -19,9 +19,8 @@ const useSpecialitiesPosts = () => {
 
   const fetchPostsSpecialities = async () => {
     const res = await api.getNotesSpecialities();
-
-    setAllSpecialtiesGroup(res?.data.specialities);
-    setFiveSpecialtiesGroup(res?.data.specialities.slice(0, 5));
+    setAllSpecialtiesGroup(res?.specialities);
+    setFiveSpecialtiesGroup(res?.specialities.slice(0, 5));
     setLoading(false);
   };
 

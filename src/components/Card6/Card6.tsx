@@ -26,9 +26,6 @@ const Card6: FC<Card6Props> = ({
   const { title, slug, image, categories, link, author, date, reading_time } =
     post;
 
-  const categoriesOrder =
-    kind === "blog" ? categories.sort(compareByNameOrderSet) : categories;
-
   return (
     <div
       className={`nc-Card6 relative flex group flex-col-reverse sm:flex-row sm:items-center p-4  [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
@@ -41,7 +38,7 @@ const Card6: FC<Card6Props> = ({
       <div className="flex flex-col flex-grow">
         <div className="space-y-3 mb-4">
           <CategoryBadgeList
-            categories={categoriesOrder}
+            categories={categories}
             color={badgeColor}
             isCourse={kind === "curso"}
             isPost={kind === "blog"}

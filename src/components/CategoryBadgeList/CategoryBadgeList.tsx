@@ -7,6 +7,7 @@ import { badgeColor } from "@/lib/badgeColor";
 import { JsonMapping } from "@/data/types";
 import notesMapping from "@/data/jsons/__notes.json";
 import { useStoreFilters } from "@/context/storeFilters/StoreProvider";
+import { compareByNameOrderSet } from "@/lib/compareByNameOrderSet";
 
 export interface CategoryBadgeListProps {
   className?: string;
@@ -54,7 +55,9 @@ const CategoryBadgeList: FC<CategoryBadgeListProps> = ({
       }
       return 0;
     };
-    const sortedCategoriesList = categories.sort(compararPorSlug);
+    const sortedCategoriesList =
+      categories.sort(compareByNameOrderSet) ||
+      categories.sort(compararPorSlug);
 
     setSortedCategories(sortedCategoriesList);
   }, [categories]);

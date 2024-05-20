@@ -6,8 +6,6 @@ import NcLink from "@/components/NcLink/NcLink";
 import { usePathname, useRouter } from "next/navigation";
 import { AuthContext } from "@/context/user/AuthContext";
 import Image from "next/image";
-import Head from "next/head";
-import PageHeadClient from "@/components/Head/PageHeadClient";
 export const runtime = "edge";
 export interface PageDashboardProps {
   className?: string;
@@ -77,8 +75,6 @@ const PageDashboard: FC<PageDashboardProps> = ({
     >
       {state.isAuthenticated && (
         <>
-          <PageHeadClient title="Mi Cuenta" />
-
           <LayoutPage
             heading="Mi cuenta"
             subHeading="Aquí podrás controlar todo lo referido a tus capacitaciones y tu perfil personal"

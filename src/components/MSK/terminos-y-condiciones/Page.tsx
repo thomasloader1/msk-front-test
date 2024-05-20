@@ -2,8 +2,8 @@
 import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
+import useTyC from "@/hooks/useTyC";
 import { CommentType } from "@/components/CommentCard/CommentCard";
-import useCookiesTerms from "@/hooks/useCookieTerms";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import Image from "next/image";
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Política de cookies",
+  title: "Términos y Condiciones",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -76,17 +76,17 @@ export interface ThemesToSeeType {
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
-  articles: { title: string | null; content: string }[];
   comments: CommentType[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
+const PageTyC: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   const { countryState } = useContext(CountryContext);
-  const { data, loading, error } = useCookiesTerms(countryState.country);
+  const { data } = useTyC(countryState.country);
 
   return (
     <>
@@ -105,8 +105,8 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
             </div>
           </div>
 
-          <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
-            <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
+          <div className="mt-8 md:mt-0 md:absolute md:top-0 md:right-0 md:bottom-0 md:w-1/2 lg:w-2/5 2xl:w-1/3 mission-image-container">
+            <div className="hidden md:block absolute top-0 left-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r"></div>
             <Image
               className="mission-image"
               src="/images/misc/mission.png"
@@ -118,7 +118,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
         </header>
 
         {/* SINGLE MAIN CONTENT */}
-        <div className=" flex flex-col my-10 lg:flex-row container">
+        <div className="flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>
@@ -128,4 +128,4 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   );
 };
 
-export default PageCookies;
+export default PageTyC;

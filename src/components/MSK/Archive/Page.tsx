@@ -12,13 +12,10 @@ import specialtiesMapping from "../../../data/jsons/__specialties.json";
 import { TABS_BLOG } from "@/data/MSK/blog";
 import NoResults from "@/components/NoResults/NoResults";
 import SpecialtiesModal from "@/components/MSK/Blog/Post/SpecialtiesModal";
-import api from "../../../../Services/api";
 import BlogSummary from "@/components/MSK/BlogSummary";
 import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
-import Head from "next/head";
-import PageHeadClient from "@/components/Head/PageHeadClient";
 
 export const runtime = "edge";
 
@@ -148,7 +145,6 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
 
   return (
     <>
-      <PageHeadClient title="Archivo" />
       <div
         className={`nc-PageArchive pt-8 lg:pt-8 ${className} animate-fade-down`}
         data-nc-id="PageArchive"

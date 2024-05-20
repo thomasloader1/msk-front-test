@@ -3,15 +3,15 @@ import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
 import { CommentType } from "@/components/CommentCard/CommentCard";
-import useCookiesTerms from "@/hooks/useCookieTerms";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
+import useContractConditions from "@/hooks/useContractConditions";
 import Image from "next/image";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Política de cookies",
+  title: "Bases promocionales",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -76,22 +76,25 @@ export interface ThemesToSeeType {
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
-  articles: { title: string | null; content: string }[];
   comments: CommentType[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
+const PageContractConditions: FC<PageSingleTemp3SidebarProps> = ({
+                                                                   className = "",
+                                                                 }) => {
+  // const dispatch = useAppDispatch();
   const { countryState } = useContext(CountryContext);
-  const { data, loading, error } = useCookiesTerms(countryState.country);
+  const { data, loading, error } = useContractConditions(countryState.country);
 
   return (
     <>
       <div
-        className={`nc-PageSingleTemp3Sidebar  animate-fade-down ${className}`}
+        className={`nc-PageSingleTemp3Sidebar animate-fade-down ${className}`}
         data-nc-id="PageSingleTemp3Sidebar"
       >
         <header className="relative pt-16 z-10 md:py-20 lg:py-14 bg-neutral-900 dark:bg-black">
@@ -117,8 +120,7 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
           </div>
         </header>
 
-        {/* SINGLE MAIN CONTENT */}
-        <div className=" flex flex-col my-10 lg:flex-row container">
+        <div className="container flex flex-col my-10 lg:flex-row">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>
@@ -128,4 +130,4 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
   );
 };
 
-export default PageCookies;
+export default PageContractConditions;

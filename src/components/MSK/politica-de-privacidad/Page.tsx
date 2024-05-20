@@ -2,16 +2,15 @@
 import React, { FC, ReactNode, useContext } from "react";
 import { PostDataType, TaxonomyType } from "@/data/types";
 import { CountryContext } from "@/context/country/CountryContext";
+import usePoliticsPrivacy from "@/hooks/usePoliticsPrivacy";
 import { CommentType } from "@/components/CommentCard/CommentCard";
-import useCookiesTerms from "@/hooks/useCookieTerms";
 import SingleHeader from "@/components/MSK/Privacy/SingleHeader";
 import SingleContent from "@/components/MSK/Privacy/SingleContent";
-import Image from "next/image";
 
 const SINGLE: SinglePageType = {
   id: "eae0212192f63287e0c212",
   featuredImage: "/images/misc/mission.png",
-  title: "Política de cookies",
+  title: "Política de Protección de Datos",
   desc: "Medical & Scientific Knowledge es una propuesta moderna que desafía a expandir las metas profesionales. Nuestra presencia en Latinoamérica y España promueve la difusión de un nuevo concepto en e-learning que transforma la experiencia de aprendizaje a distancia del personal de la salud hispanoparlante, con orientación hacia los resultados y el éxito profesional.",
   date: "May 20, 2021",
   href: "/single/this-is-single-slug",
@@ -76,17 +75,19 @@ export interface ThemesToSeeType {
 export interface SinglePageType extends PostDataType {
   tags: TaxonomyType[];
   content: string | ReactNode;
-  articles: { title: string | null; content: string }[];
   comments: CommentType[];
+  articles: { title: string | null; content: string }[];
   excerpt?: string;
   contenido?: string;
   themes_to_se?: ThemesToSeeType[];
   authors?: any[];
 }
 
-const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
+const PagePoliticsPrivacy: FC<PageSingleTemp3SidebarProps> = ({
+                                                                className = "",
+                                                              }) => {
   const { countryState } = useContext(CountryContext);
-  const { data, loading, error } = useCookiesTerms(countryState.country);
+  const { data } = usePoliticsPrivacy(countryState.country);
 
   return (
     <>
@@ -107,25 +108,26 @@ const PageCookies: FC<PageSingleTemp3SidebarProps> = ({ className = "" }) => {
 
           <div className="mt-0 absolute top-0 right-0 bottom-0 w-1/2 lg:w-2/5 2xl:w-1/3">
             <div className=" block absolute top-0 left-0 bottom-0 from-neutral-900 dark:from-black bg-gradient-to-r w-full"></div>
-            <Image
+            <img
               className="mission-image"
               src="/images/misc/mission.png"
-              alt="Nuestra Mision"
-              width={1000}
-              height={500}
+              alt=""
             />
           </div>
         </header>
 
         {/* SINGLE MAIN CONTENT */}
-        <div className=" flex flex-col my-10 lg:flex-row container">
+        <div className="flex flex-col my-10 lg:flex-row container">
           <div className="w-full">
             <SingleContent data={data as SinglePageType} />
           </div>
         </div>
+
+        {/* RELATED POSTS */}
+        {/* <SingleRelatedPosts /> */}
       </div>
     </>
   );
 };
 
-export default PageCookies;
+export default PagePoliticsPrivacy;

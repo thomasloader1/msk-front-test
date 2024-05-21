@@ -12,6 +12,7 @@ import Header from "@/components/Header/Header";
 import Script from "next/script";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
+import React from "react";
 
 export const runtime = "edge";
 
@@ -64,13 +65,14 @@ export default async function RootLayout({ params, children }: LayoutProps) {
                 <UTMProvider>
                   <AuthProvider>
                     <StoreProvider>
-                      <Header />
+                      <Header/>
                       {children}
                       <Script
-                        strategy="beforeInteractive"
-                        src="https://sdk.rebill.to/v2/rebill.min.js"
+                          strategy="beforeInteractive"
+                          src="https://sdk.rebill.to/v2/rebill.min.js"
                       />
-                      <Footer />
+                      <script src="https://go.botmaker.com/rest/webchat/p/XG5DC3KZSF/init.js"></script>
+                      <Footer/>
                     </StoreProvider>
                   </AuthProvider>
                 </UTMProvider>

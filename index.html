@@ -64,7 +64,7 @@
   } */
 
   (async function () {
-      let countries = ["ar","cl","mx","ec"];
+      let countries = ["ar","cl","ec"];
       let onValidCountry = window.location.pathname.split("/").some(part => countries.includes(part))
       
       if(!onValidCountry){

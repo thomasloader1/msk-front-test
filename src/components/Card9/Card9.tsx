@@ -59,6 +59,8 @@ const Card9: FC<Card9Props> = ({
           <>
             {showDescription && post.lista_de_cedentes ? (
               <div className="sm:block mt-2">
+                <span className="text-neutral-300 text-[10px] line-clamp-1">Certificación</span>
+
                 <span className="text-neutral-300 text-sm line-clamp-1 ">
                   {post.lista_de_cedentes[0].post_title}
                 </span>

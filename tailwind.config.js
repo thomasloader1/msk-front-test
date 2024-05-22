@@ -26,6 +26,10 @@ module.exports = {
         "2xl": "128px",
       },
     },
+    fontFamily: {
+      display: ["var(--font-display)", ...defaultTheme.fontFamily.sans],
+      body: ["var(--font-body)", ...defaultTheme.fontFamily.sans],
+    },
 
     extend: {
       colors: {
@@ -103,5 +107,6 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
     require("@tailwindcss/aspect-ratio"),
+    require("tailwindcss-animated"),
   ],
 };

@@ -16,13 +16,13 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const postMetadata = await ssr.getSinglePost(params.slug);
+  console.log(postMetadata.title);
   return {
     title: postMetadata.title,
     description: postMetadata.excerpt,
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_URL}/blog`,
     },
-    schemaJson: "WebSite",
   };
 }
 

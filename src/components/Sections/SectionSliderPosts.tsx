@@ -74,38 +74,41 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   }
 
   return (
-    <div className={`nc-SectionSliderPosts ${className}`}>
-      <Heading desc={subHeading} isCenter>
-        {heading}
-      </Heading>
-      {!posts.length ? (
-        <>
-          <div className="nc-MySlider relative container grid grid-cols-1 xl:grid-cols-4 gap-5 mb-16">
-            <ImageSkeleton height="200px" />
-            <ImageSkeleton height="200px" />
-            <ImageSkeleton height="200px" />
-            <ImageSkeleton height="200px" />
-          </div>
-        </>
-      ) : (
-        <MySlider
-          data={posts}
-          maxWidth={maxWidth}
-          renderItem={(item, indx) => (
-            <CardComponent
-              key={indx}
-              post={item}
-              showDescription={true}
-              kind="curso"
-              forSingleNote={forSingleNote}
-              className="max-h-[150px]"
-            />
-          )}
-          itemPerRow={posts?.length > 4 ? perView : posts?.length}
-          loading={!posts?.length}
-        />
-      )}
+    <div className="rounded-[40px] bg-neutral-100 dark:bg-black dark:bg-opacity-20 relative py-16 mb-[96px] w-full px-14">
+      <div className={`nc-SectionSliderPosts ${className}`}>
+        <Heading desc={subHeading} isCenter>
+          {heading}
+        </Heading>
+        {!posts.length ? (
+          <>
+            <div className="nc-MySlider relative container grid grid-cols-1 xl:grid-cols-4 gap-5 mb-16">
+              <ImageSkeleton height="200px" />
+              <ImageSkeleton height="200px" />
+              <ImageSkeleton height="200px" />
+              <ImageSkeleton height="200px" />
+            </div>
+          </>
+        ) : (
+          <MySlider
+            data={posts}
+            maxWidth={maxWidth}
+            renderItem={(item, indx) => (
+              <CardComponent
+                key={indx}
+                post={item}
+                showDescription={true}
+                kind="curso"
+                forSingleNote={forSingleNote}
+                className="max-h-[150px]"
+              />
+            )}
+            itemPerRow={posts?.length > 4 ? perView : posts?.length}
+            loading={!posts?.length}
+          />
+        )}
+      </div>
     </div>
+
   );
 };
 

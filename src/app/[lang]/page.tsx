@@ -34,7 +34,7 @@ import Questions from "@/components/Questions/Questions";
 
 export async function generateMetadata() {
   return {
-    title: "MSK | Inicio",
+    title: "MSK",
     description: "Una propuesta moderna para expandir tus metas profesionales",
     alternates: {
       canonical: "/",

@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: {
       default: "MSK | Cursos de medicina para expandir tus metas profesionales",
-      template: "MSK | %s",
+      template: "%s",
     },
     description: "Cursos de medicina para expandir tus metas profesionales",
     metadataBase: new URL(`${process.env.NEXT_PUBLIC_URL}/${currentCountry}`),

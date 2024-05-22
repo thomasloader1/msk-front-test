@@ -3,9 +3,6 @@ import StoreLayout from "@/components/MSK/StoreLayout";
 import StoreContent from "@/components/MSK/Store/StoreContent";
 import { cookies } from "next/headers";
 import { Metadata } from "next";
-import Head from "next/head";
-import PageHeadServer from "@/components/Head/PageHeadServer";
-import { useRouter } from "next/router";
 import ssr from "@Services/ssr";
 import { slugifySpecialty } from "@/lib/Slugify";
 

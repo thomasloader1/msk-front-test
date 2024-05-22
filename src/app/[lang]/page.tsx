@@ -33,13 +33,13 @@ import CommentReferences from "@/components/CommentReferences";
 import Questions from "@/components/Questions/Questions";
 
 export async function generateMetadata() {
+
   return {
     title: "MSK",
     description: "Una propuesta moderna para expandir tus metas profesionales",
     alternates: {
       canonical: "/",
-    },
-    schemaJson: "WebSite",
+    }
   };
 }
 interface PageProps {
@@ -52,6 +52,7 @@ export interface FAQS {
 }
 
 const PageHome: React.FC<PageProps> = async ({ params }) => {
+  const jsonLd = generateSchemaJson("WebSite");
   const currentCountry = params.lang || cookies().get("country")?.value;
 
   if (!getAllCourses().length) {
@@ -70,7 +71,6 @@ const PageHome: React.FC<PageProps> = async ({ params }) => {
   const fetchedContent = await ssr.getWpContent("/home-msk", currentCountry);
   setPageHomeWpContent(fetchedContent);
 
-  const jsonLd = generateSchemaJson("WebSite");
   const heroTitle = pageHomeWpContent?.header.cabecera || "";
   const heroImage = pageHomeWpContent?.header.imagen || "";
 

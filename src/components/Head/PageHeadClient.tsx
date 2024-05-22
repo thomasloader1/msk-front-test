@@ -5,6 +5,7 @@ import { getDescriptionContent } from "@/lib/pageHeadUtils";
 import { PageFilter } from "@/data/types";
 import { generateSchemaJson } from "@/lib/pageSchemaJson";
 import { removeUrlParams } from "@/lib/removeUrlParams";
+import Script from "next/script";
 
 interface PageHeadClientProps {
   title: string;
@@ -62,7 +63,6 @@ const PageHeadClient: React.FC<PageHeadClientProps> = ({
       {prevNextLinksGenerated}
       <meta name="description" content={descriptionContent} />
       <meta name="theme-color" content="#008f68" />
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
     </Head>
   );
 };

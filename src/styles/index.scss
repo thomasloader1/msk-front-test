@@ -13,3 +13,14 @@
 @import "./components/note";
 @import "./components/tooltip";
 @import "/fonts/line-awesome-1.3.0/css/line-awesome.css";
+.grecaptcha-badge {
+  width: 70px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  left: -2px !important;
+  bottom: 20px !important;
+}
+.grecaptcha-badge:hover {
+  width: 256px !important;
+}
+

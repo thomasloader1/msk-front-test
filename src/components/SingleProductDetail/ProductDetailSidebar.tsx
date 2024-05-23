@@ -122,7 +122,7 @@ const ProductDetailSidebar: FC<Props> = ({
             )}
           </>
         ) : (
-          <div className="course-video-thumb w-img hidden lg:flex">
+          <div className="course-video-thumb mb-2 w-img hidden lg:flex relative">
             {product.sale_price !== "0" && (
               <Badge
                 color="sale"

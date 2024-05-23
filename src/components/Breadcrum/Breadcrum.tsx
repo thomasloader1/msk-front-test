@@ -143,9 +143,12 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
 
           {index === partsFlattened.length - 1 ? (
             <span
-              className={`truncate max-w-[230px] sm:max-w-[500px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[400px] ${
-                onBlog ? "text-white" : "text-[#ABABAB]"
-              }`}
+              className={`truncate max-w-[230px] sm:max-w-[500px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[400px]
+              ${onBlog ? "font-bold text-white" : "text-[#ABABAB]"}
+              ${onProduct ? "font-bold" : ""}
+              ${onNote ? "font-bold" : ""}
+              `}
+
             >
               {part}
             </span>

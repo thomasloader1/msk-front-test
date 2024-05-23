@@ -1,6 +1,8 @@
 "use client";
 import React, { FC, Suspense, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper";
+
 import 'swiper/swiper-bundle.css';
 import { BannerImg } from "@/data/types";
 import api from "../../../Services/api";
@@ -50,7 +52,7 @@ const StoreLayout: FC<LayoutPageProps> = ({
         {/* HEADER */}
         <header>
           <Swiper
-            scrollbar
+            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             slidesPerView={1}
             loop={true}
             autoplay={{

@@ -120,7 +120,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
             width={20}
             height={20}
             alt="Home"
-            className="h-4 lg:mr-5"
+            className="h-4 breadcrumb-home"
           />
         </NcLink>
       )}
@@ -143,7 +143,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
 
           {index === partsFlattened.length - 1 ? (
             <span
-              className={`font-bold truncate max-w-[230px] sm:max-w-[500px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[400px] ${
+              className={`truncate max-w-[230px] sm:max-w-[500px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[400px] ${
                 onBlog ? "text-white" : "text-[#ABABAB]"
               }`}
             >

@@ -40,7 +40,7 @@ const MainNav2: FC = () => {
   
   return (
     <div className={`nc-MainNav nc-MainNav2 relative z-10`}>
-      <div className="container py-3 relative flex justify-between items-center space-x-4 xl:space-x-8">
+      <div className="container py-5 relative flex justify-between items-center space-x-4 xl:space-x-8">
         <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
           <Logo isOnBlog={isOnBlog} />
           <div className="hidden sm:block flex-grow max-w-xs">

@@ -516,6 +516,10 @@ $xs: "(max-width: 575px)";
   }
 }
 
+.breadcrumb-home{
+  max-width: max-content;
+}
+
 .nc-SingleContent #single-entry-content {
   @media (max-width: 450px) {
     p {

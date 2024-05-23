@@ -55,6 +55,7 @@ export interface FAQS {
 const PageHome: React.FC<PageProps> = async ({params}) => {
   const jsonLd = generateSchemaJson("WebSite");
   const currentCountry = params.lang || cookies().get("country")?.value;
+  const loadingBestSellers = false;
 
   if (!getAllCourses().length) {
     const fetchedCourses = await ssr.getAllCourses(currentCountry);
@@ -131,15 +132,20 @@ const PageHome: React.FC<PageProps> = async ({params}) => {
               content={pageHomeWpContent?.preguntas_frecuentes as FAQS}
             />
           </div>
-          <SectionSliderPosts
-            posts={getAllBestSellers()}
-            postCardName="card9"
-            heading="Nuestros cursos más elegidos"
-            subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
-            sliderStype="style2"
-            uniqueSliderClass="pageHome-section6"
-            className="mx-auto w-full"
-          />
+
+          <div
+            className="rounded-[40px] bg-neutral-100 dark:bg-black dark:bg-opacity-20 relative py-16 mb-[96px] w-full px-14">
+            <SectionSliderPosts
+              posts={getAllBestSellers()}
+              loading={loadingBestSellers}
+              className="w-full"
+              postCardName="card9"
+              heading="Nuestros cursos más elegidos"
+              subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
+              sliderStype="style2"
+              uniqueSliderClass="pageNewHome-section6"
+            />
+          </div>
         </section>
       </div>
       <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">

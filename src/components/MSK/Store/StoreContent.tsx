@@ -145,6 +145,7 @@ const StoreContent: FC<{}> = () => {
     } else {
       console.log("Adding filter");
       addFilter("specialties", specialty);
+      addFilter("resources", { id: 1, slug: 'curso', name: "Curso" })
     }
   };
   const onChangeProfession = (profession: Profession) => {
@@ -160,6 +161,7 @@ const StoreContent: FC<{}> = () => {
   const onChangeResource = (resource: ResourceFilter, action: string) => {
     resetPage();
     console.log("onChangeResource running");
+    console.log("Resource", resource);
     if (action !== "add") {
       removeFilter("resources", resource);
     } else addFilter("resources", resource);

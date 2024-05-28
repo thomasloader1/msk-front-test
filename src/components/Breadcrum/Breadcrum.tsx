@@ -109,7 +109,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
   //console.log(pathname)
 
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center mb-10 md:max-w-[600px] w-full">
+    <div className="flex flex-wrap md:flex-nowrap items-center mb-10 w-full">
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
       {pathname !== "/" && (
         <NcLink href="/" className="">

@@ -148,11 +148,11 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                 className={
                   isEbook
                     ? "course-description pb-30"
-                    : "course-description mt-45 pb-30"
+                    : "course-description pt-45 pb-30"
                 }
               >
                 {!isEbook && (
-                  <div className="course-description mt-10">
+                  <div className="course-description">
                     <div className="font-semibold text-xl font-raleway">
                       Qué aprenderás
                     </div>
@@ -169,7 +169,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
 
             {product.avales && (
               <div
-                className={`bg-neutral-100 slider-container px-10 my-10 rounded-2xl ${
+                className={`bg-neutral-100 slider-container px-10 py-10 rounded-2xl ${
                   product.featured_product_text ? "mb-22" : "mb-24"
                 }`}
               >

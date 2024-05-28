@@ -44,6 +44,13 @@ export const REBILL_CONF_CO = {
   PRICES:[ import.meta.env.VITE_REBILL_REBILL_COP_FREEMIUM_PRD ]
 };
 
+export const REBILL_CONF_MX = {
+  ORG_ID: getEnv("REBILL_MX_ORG_ID"),
+  API_KEY: getEnv("REBILL_MX_API_KEY"),
+  URL: import.meta.env.VITE_REBILL_URL,
+  PRICES:[ import.meta.env.VITE_REBILL_REBILL_MX_FREEMIUM_PRD ]
+};
+
 export const initRebillConfig = (country: string) =>{
   switch(country){
     case 'cl':
@@ -62,6 +69,12 @@ export const initRebillConfig = (country: string) =>{
       return {
               organization_id: REBILL_CONF_CO.ORG_ID,
               api_key: REBILL_CONF_CO.API_KEY,
+              api_url: REBILL_CONF.URL,
+            };
+    case 'mx':
+      return {
+              organization_id: REBILL_CONF_MX.ORG_ID,
+              api_key: REBILL_CONF_MX.API_KEY,
               api_url: REBILL_CONF.URL,
             };
     default:
@@ -120,6 +133,9 @@ const getPlan = (country: string) => {
       break;
     case 'co':
       price = REBILL_CONF_CO.PRICES[0];
+      break;
+    case 'mx':
+      price = REBILL_CONF_MX.PRICES[0];
       break;
     default:
       const gateway = REBILL_CONF.GATEWAYS.ST.includes(country) ? "STRIPE" : "MP";

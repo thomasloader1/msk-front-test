@@ -14,7 +14,7 @@ export const parseHtml = (contentHtml: string, removesContainer: boolean = false
 
   const spanElements = tempElement.querySelectorAll("span");
   spanElements.forEach(span => {
-    console.log({span, options})
+    //console.log({span, options})
     if (options != null || (!span.classList.contains('font-lora') && span.id != 'font-lora-italic')) {
       // Si no tiene la clase 'font-lora', remueve todas las clases existentes
       span.className = '';

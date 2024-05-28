@@ -46,7 +46,6 @@ const Breadcrum: React.FC<BreadcrumProps> = ({isEbook=false, onBlog=false, onPro
     if (part.includes("mainCategory") && onNote) {
         return onNote.categories[0].name ;
       }
-    console.log(onNote)
     if (part.includes("Curso|Guía profesional")) {
       return isEbook ? onProduct.ficha.title : onProduct.ficha.title;
     }

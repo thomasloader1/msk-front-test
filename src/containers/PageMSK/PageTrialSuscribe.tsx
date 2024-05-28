@@ -67,7 +67,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
 
   useEffect(() => {
     const initialization = initRebillConfig(country);
-    console.log({rebillConf: initialization})
+    //console.log({rebillConf: initialization})
 
     let RebillSDKCheckout = new window.Rebill.PhantomSDK(initialization);
 

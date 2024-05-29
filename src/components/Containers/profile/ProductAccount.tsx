@@ -40,10 +40,10 @@ const ProductAccount: FC<Props> = ({
   const productExpiration = useRef(new Date(product.expiration));
   const productExpirationEnroll = useRef(new Date(product.limit_enroll));
   const [onRequest, setOnRequest] = useState<boolean>(false);
-  const { state } = useContext(CountryContext);
+  const { countryState } = useContext(CountryContext);
 
   const imageURL = product.thumbnail.high?.replace(
-    `${"mx" || state.country}.`,
+    `${"mx" || countryState.country}.`,
     ""
   );
 

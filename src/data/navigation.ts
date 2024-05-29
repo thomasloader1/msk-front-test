@@ -490,14 +490,12 @@ const accountMenu: NavItemType[] = [
 export const NAVIGATION_MSK: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/tienda",
     name: "Qué ofrecemos",
     type: "dropdown",
     children: aboutMenu,
   },
   {
     id: ncNanoId(),
-    href: "/recursos",
     name: "Recursos",
     type: "dropdown",
     children: resourcesMenu,
@@ -588,7 +586,6 @@ export const NAVIGATION_BLOG_MSK: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/recursos",
     name: "Recursos",
     type: "dropdown",
     children: resourcesMenuBlog,
@@ -645,7 +642,6 @@ export const NAVIGATION_ARCHIVE_MSK: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "/recursos",
     name: "Recursos",
     type: "dropdown",
     children: resourcesMenuBlog,

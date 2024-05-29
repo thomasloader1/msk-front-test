@@ -175,17 +175,15 @@ const FooterEduman = () => {
                           Nuestra misión
                         </NcLink>
                       </li>
-                      {/* <li>
-                        <NcLink href="/partners">Conviértete en Partner</NcLink>
-                      </li> */}
+                      {/*<li>
+                        <a href="/quienes-somos" >Quiénes somos</a>
+                      </li>*/}
                       <li>
                         <a href="https://ayuda.msklatam.com/" target="_blank">
                           Centro de ayuda
                         </a>
                       </li>
-                      {/* <li>
-                        <NcLink href="/convenios">Convenios</NcLink>
-                      </li> */}
+
 
                       {countryState.country.includes("ec") && (
                         <li>
@@ -206,11 +204,8 @@ const FooterEduman = () => {
                         </NcLink>
                       </li>
                       <li>
-                        <NcLink
-                          href="/terminos-y-condiciones"
-                          className="font-light"
-                        >
-                          Términos y condiciones
+                        <NcLink href="/bases-promocionales" className="font-light">
+                          Bases promocionales
                         </NcLink>
                       </li>
                       <li>
@@ -229,6 +224,16 @@ const FooterEduman = () => {
                           Política de cookies
                         </NcLink>
                       </li>
+                      <li>
+                        <NcLink
+                          href="/terminos-y-condiciones"
+                          className="font-light"
+                        >
+                          Términos y condiciones
+                        </NcLink>
+                      </li>
+
+
                       {/* <li>
                         <NcLink
                           href="/condiciones-de-contratacion"

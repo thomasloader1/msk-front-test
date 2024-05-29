@@ -15,7 +15,7 @@ export interface MegamenuItem {
 export interface NavItemType {
   id: string;
   name: string;
-  href: string;
+  href?: string;
   targetBlank?: boolean;
   children?: NavItemType[];
   megaMenu?: MegamenuItem[];
@@ -293,20 +293,30 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   const renderMainItem = (item: NavItemType) => {
     return (
       <div className="flex-shrink-0 flex items-center">
-        <Link
-          className="inline-flex items-center text-sm xl:text-base font-normal text-neutral-700 dark:text-neutral-300 py-2 px-4 xl:px-5 rounded	hover:text-neutral-100 hover:bg-red-500 dark:hover:bg-amber-600 dark:hover:text-neutral-200"
-          href={{
-            pathname: item.href || undefined,
-          }}
-        >
-          {item.name}
-          {item.type && (
-            <ChevronDownIcon
-              className="ms-1 -me-1 h-4 w-4 text-slate-400"
-              aria-hidden="true"
-            />
-          )}
-        </Link>
+        {item.href ? (
+          <Link
+            className="inline-flex items-center text-sm xl:text-base font-normal text-neutral-700 dark:text-neutral-300 py-2 px-4 xl:px-5 rounded hover:text-neutral-100 hover:bg-red-500 dark:hover:bg-amber-600 dark:hover:text-neutral-200"
+            href={{ pathname: item.href }}
+          >
+            {item.name}
+            {item.type && (
+              <ChevronDownIcon
+                className="ms-1 -me-1 h-4 w-4 text-slate-400"
+                aria-hidden="true"
+              />
+            )}
+          </Link>
+        ) : (
+          <div className="hover:cursor-default inline-flex items-center text-sm xl:text-base font-normal text-neutral-700 dark:text-neutral-300 py-2 px-4 xl:px-5 rounded hover:text-neutral-100 hover:bg-red-500 dark:hover:bg-amber-600 dark:hover:text-neutral-200">
+            {item.name}
+            {item.type && (
+              <ChevronDownIcon
+                className="ms-1 -me-1 h-4 w-4 text-slate-400"
+                aria-hidden="true"
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   };

@@ -101,6 +101,10 @@ const ProductDetailSidebar: FC<Props> = ({
     );
   };
   const { hasCoursedRequested } = useRequestedTrialCourse(product);
+
+  const hasGateway = Object.values(REBILL_CONF.GATEWAYS).some(array =>
+    array.includes(countryState.country)
+  );
   //console.log(hasCoursedRequested)
   return (
     <div className={`course-video-widget`}>
@@ -202,8 +206,7 @@ const ProductDetailSidebar: FC<Props> = ({
           >
             {isEbook ? "Descargar gratis" : "Contáctanos"}
           </button>
-          {!isEbook &&
-            REBILL_CONF.GATEWAYS.REBILL.includes(countryState.country) && (
+          {!isEbook && hasGateway && (
               <button
                 onClick={() => requestTrial(slug)}
                 className="video-cart-btn border-2 w-full disabled:border-grey-disabled disabled:text-grey-disabled disabled:cursor-not-allowed hover:disabled:bg-transparent hover:disabled:border-grey-disabled hover:disabled:text-grey-disabled"

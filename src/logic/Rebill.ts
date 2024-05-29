@@ -46,8 +46,8 @@ export const REBILL_CONF = {
   API_KEY: PROD ? NEXT_PUBLIC_REBILL_API_KEY_PRD : NEXT_PUBLIC_REBILL_API_KEY_TEST, //getEnv("REBILL_API_KEY")
   URL: NEXT_PUBLIC_REBILL_URL,
   GATEWAYS: {
-    ST: ["co", "uy", "cr","hn","ve","pe","ni","sv","bo", "py","gt","pa","ec"],
-    MP: ["ar", "mx", "cl"],
+    ST: ["cr","hn","ve","pe","ni","sv","bo","py","gt","pa","ec"],
+    MP: ["ar"],
     REBILL: ['cl','co','uy','mx']
   },
   PRICES: {

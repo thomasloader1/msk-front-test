@@ -93,7 +93,7 @@ const CoursesForYou: FC<Props> = ({
 
           <CoursesSlider products={localCourses} />
 
-          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6">
             {localCourses && localCourses[0] && (
               <Card8
                 className="sm:col-span-2 rounded-3xl"

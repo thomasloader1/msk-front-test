@@ -18,7 +18,7 @@ export const goToEnroll = async (product_code: number, email: string) => {
 export function hasText(status: string) {
   switch (status) {
     case "Sin enrolar":
-      return "Activar";
+      return "Inscríbete";
     case "Listo para enrolar":
       return "Ir a enrolar";
     case "Activo":
@@ -35,7 +35,7 @@ export const productFinishOrActive = (status: string) =>
 export const productStatusIsExpired = (status: string) =>
   status.includes("Expirado");
 
-export const getStatusIcon = (status: string) => {
+export const getStatusIcon = (status: string | null) => {
   switch (status) {
     case "Activo":
     case "Finalizado":
@@ -99,7 +99,7 @@ export const statusOrdenVenta = (status: string) => {
     case "Trial suspendido":
       statusObj.isDisabled = true;
       statusObj.disabledText = "Prueba cancelada";
-      statusObj.hasText = null;
+      statusObj.hasText = "Prueba cancelada";
       statusObj.color = "trial";
       break;
     case "Trial":

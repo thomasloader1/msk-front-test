@@ -53,6 +53,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
         setUser(res);
         let coursesList = getUserCourses(res, allCourses);
         setUserCourses(coursesList);
+        setTotalPages(Math.ceil(coursesList.length / itemsPerPage));
         setLoadingUser(false);
       } else {
         router.push("/iniciar-sesion");
@@ -64,8 +65,9 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
+    console.log('bb');
     fetchUser();
-  }, []);
+  }, [allCourses]);
   const itemsPerPage = 8;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -102,6 +104,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
   ];
 
   const handleUserTabChange = (item: string) => {
+    console.log(item);
+    console.log(userCourses);
     switch (item) {
       case "Todo":
         setCurrentItems(userCourses.slice(indexOfFirstItem, indexOfLastItem));
@@ -236,8 +240,8 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
           </div>
         </main>
         <div className="relative py-16 my-32">
-          <BackgroundSection />
-          <SectionSliderPosts
+          <div className={"nc-BackgroundSection absolute inset-y-0 w-screen xl:max-w-[1340px] 2xl:max-w-screen-2xl left-1/2 transform -translate-x-1/2 xl:rounded-[40px] z-0 bg-neutral-100 dark:bg-black dark:bg-opacity-20"}></div>
+          {<SectionSliderPosts
             postCardName="card9"
             heading="Nuestros cursos más elegidos"
             subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
@@ -245,7 +249,7 @@ const PageAuthor: FC<PageAuthorProps> = ({ className = "" }) => {
             posts={allBestSellers}
             loading={loadingBestSellers}
             uniqueSliderClass="pageHome-section6"
-          />
+          />}
         </div>
       </div>
     </div>

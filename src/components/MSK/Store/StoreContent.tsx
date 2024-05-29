@@ -48,6 +48,7 @@ const StoreContent: FC<{}> = () => {
 
   const searchParams = useSearchParams();
   const [currentItems, setCurrentItems] = useState<FetchCourseType[]>([]);
+  const [filteredItems, setFilteredItems] = useState<FetchCourseType[]>([]);
 
   const [mutationProducts, setMutationProducts] = useState(false);
   const [currentPage, setCurrentPage] = useState(
@@ -139,7 +140,6 @@ const StoreContent: FC<{}> = () => {
     if (input) {
       input.value = "";
     }
-    resetPage();
     if (action == "delete") {
       clearSpecialties();
     } else {
@@ -147,6 +147,7 @@ const StoreContent: FC<{}> = () => {
       addFilter("specialties", specialty);
       addFilter("resources", { id: 1, slug: 'curso', name: "Curso" })
     }
+
   };
   const onChangeProfession = (profession: Profession) => {
     resetPage();
@@ -224,6 +225,7 @@ const StoreContent: FC<{}> = () => {
 
       setCurrentItems([...allCourses.slice(indexOfFirstItem, indexOfLastItem)]);
       setTotalPages(Math.ceil(allCourses.length / itemsPerPage));
+      setFilteredItems(allCourses);
       setMutationProducts(false);
     } else {
       console.log("There are filters we need to apply", {
@@ -305,8 +307,10 @@ const StoreContent: FC<{}> = () => {
       console.log("indexOfFirstItem: ", indexOfFirstItem);
       console.log("indexOfLastItem: ", indexOfLastItem);
 
+      setFilteredItems(filteredProducts);
+
       let auxCurrentPage = selectedPage[0] || 1;
-      setCurrentPage(auxCurrentPage);
+      //setCurrentPage(auxCurrentPage);
       if (auxCurrentPage == 1) {
         setCurrentItems([...filteredProducts.slice(0, itemsPerPage)]);
       } else {
@@ -415,10 +419,13 @@ const StoreContent: FC<{}> = () => {
           />
         </div>
         <div>
+          {currentItems.length}  {currentPage}
           <StoreBar
             onSearch={handleTriggerSearch}
             onFilter={triggerFilter}
-            length={allCourses.length}
+            itemsPerPage={itemsPerPage}
+            showingCount={itemsPerPage * currentPage}
+            length={filteredItems.length}
             filtersCount={
               storeFilters.specialties.length +
               storeFilters.professions.length +

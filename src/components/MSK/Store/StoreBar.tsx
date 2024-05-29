@@ -9,6 +9,8 @@ import ShowingItems from "./ShowingItems";
 interface Props {
   onSearch: (searchTerm: string) => void;
   onFilter: (selectedOption: string) => void;
+  showingCount: number;
+  itemsPerPage: number;
   length: number;
   filtersCount: number;
 }
@@ -19,7 +21,7 @@ const filterItems = [
   { name: "Más horas", value: "mas_horas" },
   { name: "Menos horas", value: "menos_horas" },
 ];
-const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
+const StoreBar: FC<Props> = ({ onSearch, onFilter, length, showingCount, itemsPerPage, filtersCount }) => {
   const [selectedOption, setSelectedOption] = useState("Novedades");
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +40,7 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length, filtersCount }) => {
           <SearchBar handleSearchInput={handleSearchInput} />
           <div className="course-sidebar-tab">
             <div className="course-sidebar-wrapper">
-              <ShowingItems length={length} />
+              <ShowingItems showingCount={showingCount} length={length} />
               <Listbox
                 value={"selectedOption"}
                 onChange={(e: any) => handleSelectOption(e)}

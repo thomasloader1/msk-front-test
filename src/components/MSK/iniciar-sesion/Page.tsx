@@ -9,6 +9,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import api from "../../../../Services/api";
 import LayoutPage from "@/components/MSK/LayoutPage";
 import { useRouter } from "next/navigation";
+import NcImage from "@/components/NcImage/NcImage";
 
 
 export interface PageLoginProps {
@@ -22,6 +23,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loginError, setLoginError] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [onRequest, setOnRequest] = useState<boolean>(false);
   const { state, dispatch } = useContext(AuthContext);
   const formRef = useRef<HTMLFormElement>(null);
@@ -111,11 +113,23 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                   component="span"
                   className="error"
                 />
+
+                <div className="relative">
+                  <NcImage
+                    src={showPassword ? "/images/icons/eye-solid.svg" : "/images/icons/eye-slash-solid.svg"}
+                    className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                    alt="Toggle show password"
+                    width="21"
+                    height="21"
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
                 <Field
+                  type={showPassword ? 'text' : 'password'}
                   name="password"
-                  type="password"
                   placeholder="Ingresar contraseña"
+                  className="w-full"
                 />
+                </div>
               </div>
               <ButtonPrimary
                 type="submit"

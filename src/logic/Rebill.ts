@@ -194,7 +194,17 @@ export const initRebill = async (
 
     //Seteo de callbacks en saco de que el pago este correcto o tengo algun fallo
     RebillSDKCheckout.setCallbacks({
-      onSuccess: (response: any) => sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect, setFaliedMessage),
+      onSuccess: (response: any) => {
+      let sendRequestToServer = true;
+      
+      if(sendRequestToServer){
+        console.log({sendRequestToServer})
+        sendRequestToServer = false;
+
+        sendToZoho(response, contactZoho, country, product, setShow, setPaymentCorrect, setFaliedMessage)
+      }
+
+      },
       onError: (error: any) => {
          console.error({ callbackRebillError: error })
         },

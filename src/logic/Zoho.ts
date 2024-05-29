@@ -61,13 +61,9 @@ export const sendToZoho = async (
     };
 
     const currentProduct = product.slug === window.location.href.split("/").pop()
-    let readyToFetching = true
 
     if(currentProduct){
-      console.log({currentProduct,readyToFetching})
-      
-      if(readyToFetching){
-        readyToFetching = false //prevent the duplicated fetching
+      //console.log({currentProduct})
 
         await api.createContactTrialZoho(contractData, country); 
       }

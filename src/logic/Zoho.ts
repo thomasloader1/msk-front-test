@@ -64,10 +64,10 @@ export const sendToZoho = async (
     let counterFetch = 0
 
     if(currentProduct){
-      counterFetch++
+      ++counterFetch
       console.log({currentProduct,counterFetch})
       
-      if(counterFetch === 1){
+      if(counterFetch <= 1){
         await api.createContactTrialZoho(contractData, country); 
       }
      

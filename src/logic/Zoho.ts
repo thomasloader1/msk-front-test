@@ -61,11 +61,16 @@ export const sendToZoho = async (
     };
 
     const currentProduct = product.slug === window.location.href.split("/").pop()
+    let counterFetch = 0
 
     if(currentProduct){
-      console.log({currentProduct})
-     await api.createContactTrialZoho(contractData, country); 
-     return;
+      counterFetch++
+      console.log({currentProduct,counterFetch})
+      
+      if(counterFetch === 1){
+        await api.createContactTrialZoho(contractData, country); 
+      }
+     
     }
   
   

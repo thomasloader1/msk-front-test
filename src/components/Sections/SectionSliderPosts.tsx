@@ -68,15 +68,11 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
                                                            uniqueSliderClass,
                                                            loading,
                                                          }) => {
-  const UNIQUE_CLASS = "SectionSliderPosts_" + ncNanoId(uniqueSliderClass);
+  const UNIQUE_CLASS = "SectionSliderPosts_" + uniqueSliderClass;
   // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
   const MY_GLIDE = new Glide(`.${UNIQUE_CLASS}`, {
-    // @ts-ignore
-    direction:
-      document.querySelector("html")?.getAttribute("dir") === "rtl"
-        ? "rtl"
-        : "ltr",
+    direction: "ltr",
     perView: perView,
     gap: 32,
     bound: true,
@@ -101,7 +97,10 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
 
   useEffect(() => {
     if (!MY_GLIDE) return;
-    MY_GLIDE.mount();
+    console.log(UNIQUE_CLASS);
+    if (document.getElementsByClassName(UNIQUE_CLASS).length){
+      MY_GLIDE.mount();
+    }
   }, [MY_GLIDE]);
 
   const getPostComponent = () => {
@@ -251,10 +250,10 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             </button>
           </div>
         </div>
-        {/* <NextPrev
+         <NextPrev
           btnClassName="w-12 h-12"
           containerClassName="justify-center"
-        /> */}
+        />
       </div>
     </div>
   );

@@ -419,7 +419,6 @@ const StoreContent: FC<{}> = () => {
           />
         </div>
         <div>
-          {currentItems.length}  {currentPage}
           <StoreBar
             onSearch={handleTriggerSearch}
             onFilter={triggerFilter}

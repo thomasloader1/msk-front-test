@@ -85,7 +85,7 @@ const PageHome: React.FC<PageProps> = async ({params}) => {
               rightImg={removeFirstSubdomain(heroImage)}
               className="pt-10 pb-16 md:py-16 lg:pb-28 lg:pt-20"
               btnText="Comienza tu experiencia"
-              redirectUrl="/tienda"
+              redirectUrl="/tienda?recurso=curso"
               heading={heroTitle}
             />
           </div>

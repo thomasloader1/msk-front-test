@@ -17,6 +17,7 @@ export type Filter = {
   duration: DurationFilter[];
   resources: ResourceFilter[];
   page: PageFilter[];
+  search : string;
 };
 
 export type State = {
@@ -35,7 +36,8 @@ export type Action =
       | Profession
       | DurationFilter
       | ResourceFilter
-      | PageFilter;
+      | PageFilter
+      | string;
   };
 }
   | {
@@ -73,6 +75,32 @@ export type Action =
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case "REMOVE_FILTER":
+      console.log('Processing REMOVE_FILTER dispatch');
+      removeParameterFromURL(action.payload.filterType, action.payload.filterValue.name);
+      if (action.payload.filterType === 'search') {
+        return {
+          ...state,
+          storeFilters: {
+            ...state.storeFilters,
+            search: '',
+          },
+        };
+      }else{
+        return {
+          ...state,
+          storeFilters: {
+            ...state.storeFilters,
+            [action.payload.filterType]: state.storeFilters[ action.payload.filterType ].filter((filterValue: any) => {
+              return (
+                filterValue !== action.payload.filterValue &&
+                filterValue.name !== action.payload.filterValue.name
+              );
+            }),
+          },
+        };
+      }
+
     case "INITIALIZE":
       console.log('INITIALIZING', action);
       return {
@@ -108,23 +136,6 @@ const reducer = (state: State, action: Action): State => {
           page: [{...action.payload.filterValue}],
         },
       };
-    case "REMOVE_FILTER":
-      console.log('Processing REMOVE_FILTER dispatch');
-      removeParameterFromURL(action.payload.filterType, action.payload.filterValue.name)
-      return {
-        ...state,
-        storeFilters: {
-          ...state.storeFilters,
-          [action.payload.filterType]: state.storeFilters[
-            action.payload.filterType
-            ].filter((filterValue: any) => {
-            return (
-              filterValue !== action.payload.filterValue &&
-              filterValue.name !== action.payload.filterValue.name
-            );
-          }),
-        },
-      };
     case "CLEAR_FILTERS":
       removeParameterFromURL("specialties", '');
       removeParameterFromURL("resources", '');
@@ -138,6 +149,7 @@ const reducer = (state: State, action: Action): State => {
           duration: [],
           resources: [],
           page: [],
+          search: '',
         },
       };
     case "CLEAR_SPECIALTIES":

@@ -7,7 +7,6 @@ import SearchBar from "./SearchBar";
 import ShowingItems from "./ShowingItems";
 
 interface Props {
-  onSearch: (searchTerm: string) => void;
   onFilter: (selectedOption: string) => void;
   showingCount: number;
   itemsPerPage: number;
@@ -21,12 +20,8 @@ const filterItems = [
   { name: "Más horas", value: "mas_horas" },
   { name: "Menos horas", value: "menos_horas" },
 ];
-const StoreBar: FC<Props> = ({ onSearch, onFilter, length, showingCount, itemsPerPage, filtersCount }) => {
+const StoreBar: FC<Props> = ({  onFilter, length, showingCount, itemsPerPage, filtersCount }) => {
   const [selectedOption, setSelectedOption] = useState("Novedades");
-
-  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value);
-  };
 
   const handleSelectOption = (event: { name: string; value: string }) => {
     setSelectedOption(event.name);
@@ -37,7 +32,7 @@ const StoreBar: FC<Props> = ({ onSearch, onFilter, length, showingCount, itemsPe
       <div className="grid grid-cols-1 gap-2">
         <div className="course-main-wrapper mb-30 gap-2 xl:flex-nowrap px-0 mx-0">
           <FiltersApply filtersCount={filtersCount} />
-          <SearchBar handleSearchInput={handleSearchInput} />
+          <SearchBar/>
           <div className="course-sidebar-tab">
             <div className="course-sidebar-wrapper">
               <ShowingItems showingCount={showingCount} length={length} />

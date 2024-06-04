@@ -25,7 +25,6 @@ import durationsMapping from "../../../data/jsons/__durations.json";
 import { slugifySpecialty } from "@/lib/Slugify";
 import { CountryContext } from "@/context/country/CountryContext";
 import { DataContext } from "@/context/data/DataContext";
-import { updateQueryString } from "@/utils/updateQueryString";
 
 let resources = resourcesMapping;
 let durations = durationsMapping;
@@ -103,29 +102,6 @@ const StoreContent: FC<{}> = () => {
 
   // STOREBAR FILTERS
 
-  const handleTriggerSearch = (event: any) => {
-    console.log("HANDLE TRIGGER SEARCH");
-    if (products) {
-      if (event) {
-        const filteredProducts = products.filter((product) =>
-          removeAccents(product.title.toLowerCase()).includes(
-            removeAccents(event.toLowerCase())
-          )
-        );
-        console.log("handleTriggerSearch", { filteredProducts });
-        setCurrentItems(
-          filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
-        );
-        setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-        setCurrentPage(currentPage);
-      } else {
-        setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-        setTotalPages(Math.ceil(products.length / itemsPerPage));
-        setCurrentPage(currentPage);
-      }
-    }
-  };
-
   const triggerFilter = (event: any) => {
     console.log("TRIGGER FILTER", products);
     if (products) {
@@ -184,6 +160,7 @@ const StoreContent: FC<{}> = () => {
   }
 
   const applyFilters = () => {
+
     setMutationProducts(true);
     console.group("applyFilters()");
     console.log("Store Filters", { storeFilters });
@@ -203,12 +180,15 @@ const StoreContent: FC<{}> = () => {
       (filter: PageFilter) => filter.id
     );
 
+    const searchText = storeFilters.search[0] ?? '';
+
     console.log("condition filter apply", {
       selectedSpecialties,
       selectedProfessions,
       selectedResources,
       selectedDurations,
       selectedPage,
+      searchText,
     });
 
     if (
@@ -217,7 +197,8 @@ const StoreContent: FC<{}> = () => {
         selectedProfessions.length ||
         selectedResources.length ||
         selectedDurations.length ||
-        selectedPage.length
+        selectedPage.length ||
+          searchText.length
       )
     ) {
       console.log("No filters");
@@ -234,6 +215,7 @@ const StoreContent: FC<{}> = () => {
         selectedResources,
         selectedDurations,
         selectedPage,
+        searchText,
       });
 
       const filteredProducts = allCourses.filter(
@@ -242,6 +224,7 @@ const StoreContent: FC<{}> = () => {
           professions: any[];
           duration: any;
           father_post_type: string;
+          title: string;
         }) => {
           const prodSpecialties = product.categories.map(
             (category) => category.name
@@ -293,11 +276,19 @@ const StoreContent: FC<{}> = () => {
             });
           }
 
+          let searchMatch = true;
+          if (searchText) {
+            searchMatch = removeAccents(product.title.toLowerCase()).includes(
+              removeAccents(searchText.toLowerCase())
+            );
+          }
+
           return (
             specialtiesMatch &&
             professionsMatch &&
             resourcesMatch &&
-            durationsMatch
+            durationsMatch &&
+              searchMatch
           );
         }
       );
@@ -335,7 +326,7 @@ const StoreContent: FC<{}> = () => {
       storeFilters.professions,
       storeFilters.resources,
       storeFilters.duration,
-      storeFilters.page,
+      storeFilters.search,
     ]);
   }
 
@@ -420,7 +411,6 @@ const StoreContent: FC<{}> = () => {
         </div>
         <div>
           <StoreBar
-            onSearch={handleTriggerSearch}
             onFilter={triggerFilter}
             itemsPerPage={itemsPerPage}
             showingCount={itemsPerPage * currentPage}
@@ -433,21 +423,25 @@ const StoreContent: FC<{}> = () => {
             }
           />
 
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
-            {currentItems.length ? (
-              currentItems.map((product, index) => {
-                return (
-                  <StoreProduct
-                    product={product}
-                    key={`${product.slug}_${index}`}
-                    kind={product.father_post_type}
-                  />
-                );
-              })
+          {
+            !allCourses.length ? (
+              <StoreSkeleton />
             ) : (
-              <NoResultFound />
-            )}
-          </div>
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-12">
+                {currentItems.length ? (
+                  currentItems.map((product, index) => (
+                    <StoreProduct
+                      product={product}
+                      key={`${product.slug}_${index}`}
+                      kind={product.father_post_type}
+                    />
+                  ))
+                ) : (
+                  <NoResultFound />
+                )}
+              </div>
+            )
+          }
 
           <div className="flex justify-center md:justify-start">
             {/*<p>Total pages: {totalPages}</p>*/}

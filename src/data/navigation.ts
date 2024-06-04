@@ -436,7 +436,7 @@ const aboutMenu: NavItemType[] = [
     id: ncNanoId(),
     href: "/tienda",
     name: "Cursos para enfermería y otras profesiones",
-    search: "profesion=otra-profesion,enfermeros-auxiliares",
+    search: "profesion=otra-profesion",
   },
   // {
   //   id: ncNanoId(),

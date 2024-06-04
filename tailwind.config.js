@@ -23,7 +23,10 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: "1rem",
-        "2xl": "128px",
+        "md": "128px",
+      },
+      screens: {
+        md: '1792px', // Change from 1536px to 1792px
       },
     },
     fontFamily: {

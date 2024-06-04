@@ -440,6 +440,7 @@ export interface FetchCourseType {
   date?: string;
   author?: any;
   reading_time:string;
+  created_at: string;
 }
 
 export interface Category {

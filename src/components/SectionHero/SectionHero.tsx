@@ -58,7 +58,7 @@ const SectionHero: FC<SectionHeroProps> = ({
             </ButtonPrimary>
           )}
         </div>
-        <div className="hero-img">
+        <div className="hero-img flex justify-end">
           {" "}
           <NcImage
             className="max-w-[725px] lg:max-w-[500px] xl:max-w-[725px] w-full"

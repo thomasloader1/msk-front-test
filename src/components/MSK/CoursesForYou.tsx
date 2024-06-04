@@ -40,7 +40,14 @@ const CoursesForYou: FC<Props> = ({
   const handleClickTab = (item: string) => {
     switch (item) {
       case "Novedades":
-        const newCourses = courses.filter((course, i: number) => course.is_new);
+
+        //Check the created_at date of the courses and order by most recent
+
+        const newCourses = courses.sort((a, b) => {
+          const dateA = new Date(a.created_at);
+          const dateB = new Date(b.created_at);
+          return dateB.getTime() - dateA.getTime();
+        });
         setLocalCourses(newCourses);
         break;
       case "Recomendados":

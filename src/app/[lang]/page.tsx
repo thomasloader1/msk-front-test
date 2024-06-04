@@ -122,7 +122,7 @@ const PageHome: React.FC<PageProps> = async ({params}) => {
               posts={getAllPosts()}
               tabs={TABS_BLOG}
               className="pt-4 md:pt-16 pb-8"
-              heading=""
+              heading="Blog"
               desc="Recursos para informarte y aprender de distintas maneras"
               showTitle
               forSingleNote={false}
@@ -138,7 +138,7 @@ const PageHome: React.FC<PageProps> = async ({params}) => {
             <SectionSliderPosts
               posts={getAllBestSellers()}
               loading={loadingBestSellers}
-              className="w-full"
+              className="w-full section-slider-posts-container"
               postCardName="card9"
               heading="Nuestros cursos más elegidos"
               subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
@@ -146,10 +146,10 @@ const PageHome: React.FC<PageProps> = async ({params}) => {
               uniqueSliderClass="pageNewHome-section6"
             />
           </div>
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
+          <ContactForm/>
+        </div>
         </section>
-      </div>
-      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 my-16">
-        <ContactForm/>
       </div>
     </div>
   );

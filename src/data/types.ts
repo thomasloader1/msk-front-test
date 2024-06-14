@@ -169,6 +169,7 @@ export interface User {
 export interface UserProfile {
   courses_progress: CourseProgress[];
   contact?: Contact;
+  identification?:string;
 }
 
 export interface CustomUser {

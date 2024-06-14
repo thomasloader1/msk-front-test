@@ -5,7 +5,7 @@
     },
     "ar": {
         "gateway": "MP",
-        "quotes": 9
+        "quotes": 12
     },
     "ec": {
         "gateway": "ST",
@@ -68,7 +68,7 @@
         "quotes": 12
     },
     "uy": {
-        "gateway": "ST",
+        "gateway": "REBILL",
         "quotes": 12
     }
 }

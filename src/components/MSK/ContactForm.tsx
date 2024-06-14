@@ -114,7 +114,7 @@ const ContactForm: FC<ContactFormProps> = ({
     Description: "",
     Especialidad: "",
     Phone: "",
-    Preferencia_de_contactaci_n: [],
+    Preferencia_de_contactaci_n: "",
     Pais: "",
     Otra_profesion: "",
     Otra_especialidad: "",
@@ -311,18 +311,7 @@ const ContactForm: FC<ContactFormProps> = ({
   const optionsArray = [1, 2, 3, 4, 5];
 
   const handleContactPreferenceChange = (value: string) => {
-    const currentPreferences = formik.values.Preferencia_de_contactaci_n;
-    if (currentPreferences && currentPreferences.includes(value)) {
-      formik.setFieldValue(
-        "Preferencia_de_contactaci_n",
-        currentPreferences.filter((item) => item !== value)
-      );
-    } else if (currentPreferences) {
-      formik.setFieldValue("Preferencia_de_contactaci_n", [
-        ...currentPreferences,
-        value,
-      ]);
-    }
+      formik.setFieldValue("Preferencia_de_contactaci_n", value);
   };
   const requiredFormFields = [
     "First_Name",

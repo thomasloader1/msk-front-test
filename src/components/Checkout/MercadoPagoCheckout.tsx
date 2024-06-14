@@ -6,9 +6,11 @@ import {AuthContext} from "@/context/user/AuthContext";
 import Image from 'next/image'
 import {FetchSingleProduct} from "@/data/types";
 import InputSkeleton from "@/components/Skeleton/InputSkeleton";
+import api from "@Services/api";
 
 interface MercadoPagoCheckoutProps{
     product: FetchSingleProduct | undefined;
+    quotes: number | null;
     hasCoursedRequested: boolean;
     country: string;
     showMissingData: boolean;
@@ -21,7 +23,12 @@ interface MercadoPagoCheckoutProps{
     }
 }
 
-const MercadoPagoCheckout: FC<MercadoPagoCheckoutProps> = ({ product,country,mountedInputObjectState }) => {
+const MercadoPagoCheckout: FC<MercadoPagoCheckoutProps> = ({
+                                                               product,
+                                                                quotes,
+                                                               country,
+                                                               mountedInputObjectState
+}) => {
     const { state: AuthState } = useContext(AuthContext);
 
     const documentNumber = AuthState?.profile?.identification
@@ -50,41 +57,20 @@ const MercadoPagoCheckout: FC<MercadoPagoCheckoutProps> = ({ product,country,mou
         setOnPaymentRequest(true);
         let token = await cardToken();
         try {
-            const paymentResponse = await fetch('/api/gateway/api/mercadopago/payment/process', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer $2y$12$zg.e9Gk2MpnXHrZfdJcFOuFsCdBh/kzrb61aiLSbDRFBruRwCqkZ6`
-                },
-                body: JSON.stringify({
-                    token,
-                    transaction_amount: invoice.advancePayment.info.quoteForMonth,
-                    description: `Pago de contrato (SO: ${invoice.checkoutPayment.contract_so})`,
-                    installments: quotes,
-                    payment_method_id: 'visa',
-                    paymentDetails: invoice.checkoutPayment
-                })
-            });
+            const paymentResult = await api.createContactTrialMP({
+                token,
+                transaction_amount: product?.installmentAmount,
+                description: `Solicitud de trial (${product?.ficha.title})`,
+                installments: quotes,
+                payment_method_id: 'visa',
+            }, country)
 
-            const paymentResult = await paymentResponse.json();
-
-            if(paymentResult.error){
-
-                let templateMessage = `
-                                                ${paymentResult.full_error.message} <br/>
-                                                ${paymentResult?.full_error?.code ? `code: ${paymentResult?.full_error?.code}` : ''} 
-                                             `;
-
-                fireModalAlert('Error de pago',templateMessage, 'error');
-            }else{
-                fireModalAlert("Pago realizado con éxito",'' ,"success",{redirect: true});
-            }
 
             console.log('Payment Result: ', paymentResult);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error processing payment: ', {error});
             if(error.status === 504){
-                fireModalAlert('Error al procesar el pago', 'El servidor no logro procesar el pago correctamente, intentelo nuevamente', 'error');
+                console.log('Error al procesar el pago', 'El servidor no logro procesar el pago correctamente, intentelo nuevamente', 'error');
             }
         }finally {
             setOnPaymentRequest(false);

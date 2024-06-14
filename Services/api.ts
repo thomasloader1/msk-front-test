@@ -33,6 +33,7 @@ const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
 const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
+const apiCreateTrialMPContract = `${baseUrl}/api/gateway/api/mercadopago/payment/trial`;
 
 class ApiService {
   baseUrl = apiSignUpURL;
@@ -849,6 +850,39 @@ class ApiService {
       return error;
     }
   }
+
+  async createContactTrialMP(data: any, country:string) {
+    try {
+      const res = await fetch(apiCreateTrialMPContract, {method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          'Authorization': `Bearer $2y$12$zg.e9Gk2MpnXHrZfdJcFOuFsCdBh/kzrb61aiLSbDRFBruRwCqkZ6`
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+      console.log({ result });
+
+      if(result.error){
+
+        let templateMessage = `
+                                      ${result.full_error.message} <br/>
+                                      ${result?.full_error?.code ? `code: ${result?.full_error?.code}` : ''} 
+                                     `;
+
+        return templateMessage;
+      }else{
+       return "Pago realizado con éxito"
+      }
+
+    } catch (e: any) {
+      console.log({ e });
+      return e;
+    }
+  }
+
 }
 
 export default new ApiService();

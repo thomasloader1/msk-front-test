@@ -2,7 +2,7 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import installmentsMapping from "@/data/jsons/__countryInstallments.json";
-import { JsonInstallmentsMapping } from "@/data/types";
+import {JsonInstallmentsMapping, JsonMapping} from "@/data/types";
 import { useParams } from "next/navigation";
 import { CountryContext } from "@/context/country/CountryContext";
 import useRequestedTrialCourse from "@/hooks/useRequestedTrialCourse";
@@ -24,9 +24,7 @@ export interface PageTrialSuscribeProps {
 const installmentsJSON: JsonInstallmentsMapping = installmentsMapping;
 
 const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
-  const {
-    countryState: { country },
-  } = useContext(CountryContext);
+  const {countryState: { country }} = useContext(CountryContext);
   const { state: AuthState, dispatch } = useContext(AuthContext);
   const { slug }: { slug: string } = useParams();
   const { product } = useSingleProduct(slug, { country });
@@ -36,6 +34,12 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
   const [mountedInput, setMountedInput] = useState<boolean>(false);
   const [faliedMessage, setFaliedMessage] = useState<string>("");
   const [paymentCorrect, setPaymentCorrect] = useState<boolean | null>(null);
+
+  let installments = 0 as number | null;
+
+  const [totalAmount, setTotalAmount] = useState(0)
+  const [installmentAmount, setInstallmentAmount] = useState(0)
+
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   let gateway: null | string = null;
@@ -54,6 +58,23 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     setShowAlreadyRequest,
     setShowMissingData,
   } = useRequestedTrialCourse(product);
+
+  useEffect(() => {
+    if (installmentsJSON && country && installmentsJSON[country]) {
+      installments = installmentsJSON[country].quotes;
+    }
+
+    if(typeof product !== 'undefined' && installments != null){
+      let totalAmount = parseFloat(product.total_price.replace(/\./g, "").replace(",", ".").replaceAll(".",""));
+      setTotalAmount(totalAmount)
+      setInstallmentAmount(totalAmount / installments)
+
+      product.totalAmount = totalAmount
+      product.installmentAmount = (totalAmount / installments)
+    }
+
+  }, [product])
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -89,6 +110,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
       case 'MP':
         return <MercadoPagoCheckout
                     product={product}
+                    quotes={installments}
                     hasCoursedRequested={hasCoursedRequested}
                     country={country}
                     showMissingData={showMissingData}
@@ -104,8 +126,6 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
     }
   }
 
-
-
   return (
     <div ref={viewRef} className="nc-PageSuscribe relative animate-fade-down">
       <div className="relative overflow-hidden">
@@ -113,6 +133,7 @@ const PageTrialSuscribe: FC<PageTrialSuscribeProps> = () => {
           <TrialInfo
             country={country}
             product={product}
+            installmentAmount={installmentAmount}
             mountedInputState={mountedInputObjectState}
           />
 

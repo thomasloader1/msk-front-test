@@ -386,6 +386,9 @@ export interface Cedente {
   imagen: string;
 }
 export interface FetchSingleProduct {
+  installmentAmount?: number;
+  totalAmount?: number;
+  total_price: string;
   ficha: Ficha;
   description: string;
   details: Details;

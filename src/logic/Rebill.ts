@@ -165,7 +165,7 @@ export const initRebill = async (
         value: contactZoho.Identificacion,
       },
     }
-console.log(cardHolder);
+    console.log(cardHolder);
     //Seteo de identidicacion del customer
     RebillSDKCheckout.setCardHolder(cardHolder);
 

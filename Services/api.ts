@@ -477,7 +477,10 @@ class ApiService {
 
   async getLinkLMS(product_code: number, cod_curso: string, email: string) {
     try {
-      const response = await fetch(`${baseUrl}/api/sso/link`, {
+      console.log(product_code, cod_curso, email);
+      let url = `${baseUrl}/api/sso/link`;
+      console.log(url);
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

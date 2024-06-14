@@ -5,8 +5,18 @@ export const goToLMS = async (
   cod_curso: string,
   email: string
 ) => {
+  console.log('go to lms executed');
   const res = await api.getLinkLMS(product_code, cod_curso, email);
-  window.open(res.sso, "_blank");
+  console.log(res);
+  if (res.sso){
+    const a = document.createElement("a");
+    a.setAttribute('href', res.sso);
+    a.setAttribute('target', '_blank');
+    a.click();
+    //window.open(res.sso, "_blank");
+  }else{
+    alert('Hubo un problema al obtener el curso');
+  }
   return res;
 };
 

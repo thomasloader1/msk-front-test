@@ -1,12 +1,11 @@
 "use client";
-import { FC, useEffect } from "react";
+import {FC, useEffect, useState} from "react";
 import Heading from "@/components/Heading/Heading";
 import Card4 from "@/components/Card4/Card4";
 import Card7 from "@/components/Card7/Card7";
 
 import Glide from "@glidejs/glide";
 
-import ncNanoId from "@/utils/ncNanoId";
 import Card9 from "@/components/Card9/Card9";
 import NextPrev from "@/components/NextPrev/NextPrev";
 import Card10 from "@/components/Card10/Card10";
@@ -23,10 +22,6 @@ import Card18 from "@/components/Card18/Card18";
 import Card19 from "@/components/Card19/Card19";
 import Card20 from "@/components/Card20/Card20";
 import ImageSkeleton from "@/components/Skeleton/ImageSkeleton";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Autoplay, Navigation } from "swiper";
-
-//import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper/react";
 
 export interface SectionSliderPostsProps {
   className?: string;
@@ -68,6 +63,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
                                                            uniqueSliderClass,
                                                            loading,
                                                          }) => {
+  const [slidesCount, setSlidesCount] = useState(0);
   const UNIQUE_CLASS = "SectionSliderPosts_" + uniqueSliderClass;
   // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
@@ -101,6 +97,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
     if (document.getElementsByClassName(UNIQUE_CLASS).length){
       MY_GLIDE.mount();
     }
+    setSlidesCount(posts.length);
   }, [MY_GLIDE]);
 
   const getPostComponent = () => {
@@ -196,7 +193,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             </ul>
           )}
         </div>
-        {sliderStype === "style2" && (
+        {sliderStype === "style2" && slidesCount > perView && (
           <NextPrev
             btnClassName="w-12 h-12"
             containerClassName="justify-center"

@@ -70,9 +70,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                   {product.authors.length ||
                   product.temario ||
                   (product.details && product.details["duration"]) ? (
-                    <div
-                      className={`grid grid-cols-12 ${isEbook && "border-0"}`}
-                    >
+                    <div className={`grid grid-cols-12 ${isEbook && "border-0"}`}>
                       {product.authors.length ? (
                         <div className="col-span-12 sm:col-span-5">
                           <div className="course-meta-wrapper">

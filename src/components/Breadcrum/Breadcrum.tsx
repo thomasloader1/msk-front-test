@@ -50,7 +50,6 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       return breadcrumMap[rutaAcumulativa];
     })
     .filter(Boolean) as string[][];
-  // console.log({partsBreadcrumb, breadcrumMap, parts})
 
   // Aplanar el array de segmentos
   const partsFlattened = ([] as string[])
@@ -63,7 +62,6 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       if (part.includes("mainCategory") && onNote) {
         return onNote.categories[0].name;
       }
-      //console.log(onNote);
       if (part.includes("Curso|Guía profesional")) {
         return isEbook ? onProduct.ficha.title : onProduct?.ficha?.title;
       }
@@ -105,8 +103,6 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
 
     return managedURL ?? `/${part.toLowerCase()}`;
   };
-
-  //console.log(pathname)
 
   return (
     <div className="flex flex-wrap md:flex-nowrap items-center mb-10 w-full">

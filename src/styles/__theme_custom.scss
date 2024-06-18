@@ -526,7 +526,7 @@ $xs: "(max-width: 575px)";
 }
 
 .nc-SingleContent #single-entry-content {
-  a {
+  a:not(.nc-Button) {
     color: $primary;
   }
   @media (max-width: 450px) {

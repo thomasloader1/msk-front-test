@@ -587,6 +587,7 @@ $theme-bg: #f6f8fb;
 $body-text: #575757;
 $modules-text: #374161;
 $description-text: #6474a6;
+$light-white-text: #d9d9d9;
 
 // Border Colors ---------------
 $border: #edeef2;
@@ -605,4 +606,8 @@ $section-bg: #f6f8fb;
 
 .color-description-text-placeholder::placeholder{
   color: $description-text;
+}
+
+.color-light-white-text{
+  color: $light-white-text;
 }

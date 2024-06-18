@@ -42,11 +42,16 @@ const PageNota: FC<PageCourseProps> = async ({ params }) => {
           {/* SINGLE HEADER */}
           <div className="note-header-background" />
           <div className="dark container relative z-10">
-            <SingleHeader
-              hiddenDesc={false}
-              metaActionStyle="style2"
-              pageData={post}
-            />
+            <div className={"container"}>
+              <SingleHeader
+                hiddenDesc={false}
+                metaActionStyle="style2"
+                pageData={post}
+                className={""}
+                excerptClassName={"color-light-white-text"}
+              />
+            </div>
+
           </div>
           {/* FEATURED IMAGE */}
           <div className="px-[16px] ">

@@ -58,6 +58,12 @@
   }
 }
 
+.newsletter-arrow-button{
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #submit-newsletter:not(:disabled) {
   background-color: #9200ad;
 }

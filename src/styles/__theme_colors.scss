@@ -598,3 +598,11 @@ $heading-color2: #392c35;
 
 // section-bg Colors ---------------
 $section-bg: #f6f8fb;
+
+.color-description-text{
+  color: $description-text;
+}
+
+.color-description-text-placeholder::placeholder{
+  color: $description-text;
+}

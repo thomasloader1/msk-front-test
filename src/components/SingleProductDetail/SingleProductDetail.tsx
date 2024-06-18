@@ -176,7 +176,7 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
                   postCardName="card20"
                   sliderStype="style2"
                   posts={product.avales}
-                  uniqueSliderClass="pageHome-section6"
+                  uniqueSliderClass="curso-avales-slider"
                 />
               </div>
             )}

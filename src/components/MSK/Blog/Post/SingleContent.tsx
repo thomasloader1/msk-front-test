@@ -110,7 +110,7 @@ const SingleContent: FC<SingleContentProps> = ({
           heading="Nuestros cursos más elegidos"
           subHeading="Profesionales como tú ya se capacitaron con ellos. ¡Ahora te toca a ti!"
           sliderStype="style2"
-          uniqueSliderClass="pageHome-section6"
+          uniqueSliderClass="article-most-picked-courses"
         />
       </div>
     </div>

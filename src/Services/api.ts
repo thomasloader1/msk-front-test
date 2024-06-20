@@ -33,7 +33,7 @@ const apiEnrollCourse = `${baseUrl}/api/course/enroll`;
 const apiEnrollCourseStatus = `${baseUrl}/api/coursesProgress`;
 const apiCheckEmailUser = `${baseUrl}/api/user`;
 const apiCreateTrialContract = `${baseUrl}/api/crm/contracts/trial`;
-const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/test/cancel`;
+const apiCancelTrialContract = `${baseUrl}/api/crm/contracts/trial/cancel`;
 class ApiService {
   baseUrl = apiSignUpURL;
   token = localStorage.getItem("tokenLogin");

@@ -32,24 +32,24 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
   onProduct = false,
   onNote = false,
 }) => {
-    const pathname = usePathname();
+  const pathname = usePathname();
   const parts = pathname.split("/").filter((part) => part !== "");
 
   // Construir la ruta acumulativa
   const breadcrumMap: BreadcrumbMapping = breadcrumMapping;
 
-  const partsBreadcrumb = parts
-    .map((part) => {
+  const partsBreadcrumb = parts.map((part) => {
       if (part.length === 2 && /^[a-z]+$/i.test(part)) {
         // Si es un código ISO de país, no lo agregamos a la ruta acumulativa
         return false;
       }
 
+
       let rutaAcumulativa = "";
       rutaAcumulativa += "/" + part;
       return breadcrumMap[rutaAcumulativa];
-    })
-    .filter(Boolean) as string[][];
+    }).filter(Boolean) as string[][];
+
 
   // Aplanar el array de segmentos
   const partsFlattened = ([] as string[])
@@ -78,6 +78,23 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
 
       return part;
     });
+
+  //Check if the url has a search query parameter "especialidad" and add it to the parts array
+  const searchQuery = location.search.split("?")[1];
+  if (searchQuery) {
+    const searchQueryParts = searchQuery.split("&");
+    let especialidad = searchQueryParts.find((part) =>
+      part.startsWith("especialidad=")
+    );
+    if (especialidad) {
+      especialidad = especialidad.split("=")[1];
+      // @ts-ignore
+      if (specialtiesMapping[especialidad] !== undefined){
+        // @ts-ignore
+        partsFlattened.push(specialtiesMapping[especialidad]);
+      }
+    }
+  }
 
   const handleUrl = (part: string) => {
     let managedURL = null;
@@ -144,7 +161,6 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
               ${onProduct ? "font-bold" : ""}
               ${onNote ? "font-bold" : ""}
               `}
-
             >
               {part}
             </span>

@@ -2,6 +2,7 @@
     "cardiologia": "Cardiología",
     "emergentologia": "Emergentología",
     "medicina-general": "Medicina general",
+    "medicina": "Medicina",
     "infectologia": "Infectología",
     "medicina-familiar": "Medicina familiar",
     "nutricion": "Nutrición",
@@ -21,5 +22,7 @@
     "psiquiatria": "Psiquiatría",
     "oftalmologia": "Oftalmología",
     "administracion-y-gestion": "Administración y gestión",
-    "radiologia-e-imagenologia": "Radiología e imagenología"
+    "radiologia-e-imagenologia": "Radiología e imagenología",
+    "enfermeria": "Enfermería",
+    "e-learning": "E-learning"
 }

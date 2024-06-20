@@ -16,6 +16,8 @@ import BlogSummary from "@/components/MSK/BlogSummary";
 import LoaderImage from "@/components/MSK/Loader/Image";
 import ItemSkeleton from "@/components/Skeleton/ItemSkeleton";
 import StorePagination from "@/components/MSK/Store/StorePagination";
+import { slugifySpecialty } from "@/lib/Slugify";
+
 
 export const runtime = "edge";
 
@@ -76,6 +78,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
     });
     setTitle(e.name);
     setAuxPosts(filteredPosts);
+    setAuxPosts(filteredPosts);
   };
 
   const handleFilterChange = (e: { name: string }) => {
@@ -107,7 +110,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
         window.location.search.replace(/^.*\?categoria=/, "")
       );
       let specialtyValue = decodeURIComponent(
-        window.location.search.replace(/^.*\?especialidad=/, "")
+        window.location.search.replace(/^.*\?especialidad=/, "").replace(/^.*\?categoria=/, "")
       );
 
       const notesJSON: JsonMapping = notesMapping;
@@ -115,26 +118,31 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
 
       const title = specialtyValue
         ? specialtiesJSON[specialtyValue]
-        : categoryValue && !categoryValue.includes("Otra")
+        : (categoryValue && !categoryValue.includes("Otra") )
         ? notesJSON[categoryValue]
         : "Archivo";
 
       setTitle(title);
 
       if (!specialtyValue && !categoryValue) return setAuxPosts(posts);
-      // let filteredPosts = [];
-      // if (specialtyValue) {
-      //   filteredPosts = auxPosts.filter((post: PostDataType) => {
-      //     return post.specialty?.includes(specialtiesJSON[specialtyValue]);
-      //   });
-      // } else {
-      //   filteredPosts = auxPosts.filter((post: PostDataType) => {
-      //     return post.categories.some((category) =>
-      //       category.name.includes(notesJSON[categoryValue])
-      //     );
-      //   });
-      // }
-      // setPosts(filteredPosts);
+
+      let filteredPosts = [];
+       if (specialtyValue) {
+         filteredPosts = posts.filter((post: PostDataType) => {
+           let categories = post.categories.map((category) => slugifySpecialty(category.name));
+           console.log(categories);
+           return categories.includes(specialtyValue);
+         });
+       } else {
+         filteredPosts = auxPosts.filter((post: PostDataType) => {
+           return post.categories.some((category) =>
+             category.name.includes(notesJSON[categoryValue])
+           );
+         });
+       }
+      setCurrentPage(1);
+      setAuxPosts(filteredPosts);
+
     }, [window.location.search]);
   }
 

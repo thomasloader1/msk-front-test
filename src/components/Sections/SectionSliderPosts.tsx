@@ -85,7 +85,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
         gap: 20,
       },
       639: {
-        perView: 1.2,
+        perView: 1,
         gap: 20,
       },
     },

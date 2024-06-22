@@ -12,6 +12,10 @@ interface ReferenceSliderProps {
 }
 
 const ReferenceSlider: FC<ReferenceSliderProps> = ({ references }) => {
+  //if screen is mobile, set height to 200px, else set height to 325px
+  let screenWidht = window.innerWidth;
+  let heightClass = "max-h-[350px] " + (screenWidht < 1024 ? " h-[200px] " : " h-[325px] ");
+
   return (
     <div className="swiper-container h-full lg:hidden">
       <Swiper
@@ -22,7 +26,7 @@ const ReferenceSlider: FC<ReferenceSliderProps> = ({ references }) => {
           delay: 2000,
           disableOnInteraction: true,
         }}
-        className="h-[325px] sm:h-[200px] max-h-[350px]"
+        className={heightClass}
       >
         {references.map((reference, i) => (
           <SwiperSlide key={i} className="w-100 bg-primary mt-2 sm:mt-8">

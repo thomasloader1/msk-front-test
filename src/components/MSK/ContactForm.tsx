@@ -400,17 +400,17 @@ const ContactForm: FC<ContactFormProps> = ({
                             }
                           />
                           <Checkbox
-                            name="Preferencia_de_contactaci_n_email"
-                            label="E-mail"
-                            onChange={() =>
-                              handleContactPreferenceChange("email")
-                            }
-                          />
-                          <Checkbox
                             name="Preferencia_de_contactaci_n_whatsapp"
                             label="WhatsApp"
                             onChange={() =>
                               handleContactPreferenceChange("whatsapp")
+                            }
+                          />
+                          <Checkbox
+                            name="Preferencia_de_contactaci_n_email"
+                            label="E-mail"
+                            onChange={() =>
+                              handleContactPreferenceChange("email")
                             }
                           />
                         </div>

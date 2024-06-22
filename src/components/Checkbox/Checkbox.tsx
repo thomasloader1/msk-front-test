@@ -20,7 +20,7 @@ const Checkbox: FC<CheckboxProps> = ({
           id={name}
           name={name}
           type="checkbox"
-          className="focus:ring-action-primary h-4 w-4 text-primary border-primary"
+          className="cursor-pointer h-4 w-4 text-primary border-primary rounded-full"
           onChange={onChange}
         />
       </div>

@@ -123,7 +123,6 @@ const StoreContent: FC<{}> = () => {
       addFilter("specialties", specialty);
       addFilter("resources", { id: 1, slug: 'curso', name: "Curso" })
     }
-
   };
   const onChangeProfession = (profession: Profession) => {
     resetPage();
@@ -389,6 +388,13 @@ const StoreContent: FC<{}> = () => {
       }
     }, [allStoreProfessions, specialties]);
   }
+
+  //Event listener for when someone clicks on an anchor that has a search param with a value for "profession"
+  /*  console.log("Search param updated");
+    if (searchParams.get("profesion") != null){
+      //@ts-ignore
+      onChangeProfession({ name: searchParams.get("profesion"), slug: searchParams.get("profesion") });
+    }*/
 
   return (
     <section className="container course-content-area pb-90 animate-fade-down px-0">

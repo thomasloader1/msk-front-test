@@ -115,7 +115,7 @@ const Badge: FC<BadgeProps> = ({
   };
   /* transition-colors  */
   const CLASSES =
-    "nc-Badge inline-flex px-2 py-0.5" +
+    "nc-Badge inline-flex px-2 py-1" +
     ` ${className}` +
     ` ${rounded}` +
     ` ${fontWeight}`;

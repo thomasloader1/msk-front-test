@@ -67,6 +67,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       }
 
       if (part.includes("searchCategory")) {
+        if (typeof window === "undefined") return part;
         const parametroCategoria = location.search
           .split("?")[1]
           ?.split("&")
@@ -79,8 +80,12 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       return part;
     });
 
-  //Check if the url has a search query parameter "especialidad" and add it to the parts array
-  const searchQuery = location.search.split("?")[1];
+  let searchQuery = "";
+  if (typeof window !== "undefined"){
+    //Check if the url has a search query parameter "especialidad" and add it to the parts array
+    searchQuery = location.search.split("?")[1];
+  }
+
   if (searchQuery) {
     const searchQueryParts = searchQuery.split("&");
     let especialidad = searchQueryParts.find((part) =>
@@ -95,6 +100,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
       }
     }
   }
+
 
   const handleUrl = (part: string) => {
     let managedURL = null;
@@ -122,7 +128,7 @@ const Breadcrum: React.FC<BreadcrumProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap md:flex-nowrap items-center mb-10 w-full">
+    <div className="flex flex-wrap md:flex-nowrap items-center mb-5 w-full">
       {/* Incluir el ícono de Home solo si no estamos en la página principal */}
       {pathname !== "/" && (
         <NcLink href="/" className="">

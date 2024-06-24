@@ -116,6 +116,7 @@ const StoreContent: FC<{}> = () => {
     if (input) {
       input.value = "";
     }
+    resetPage();
     if (action == "delete") {
       clearSpecialties();
     } else {
@@ -153,9 +154,11 @@ const StoreContent: FC<{}> = () => {
   function resetPage() {
     setCurrentPage(1);
     //Remove parameter "page" from the url
-    const url = new URL(window.location.href);
-    url.searchParams.delete("page");
-    window.history.pushState({}, "", url);
+    if (typeof window !== "undefined"){
+      const url = new URL(window.location.href);
+      url.searchParams.delete("page");
+      window.history.pushState({}, "", url);
+    }
   }
 
   const applyFilters = () => {
@@ -401,7 +404,7 @@ const StoreContent: FC<{}> = () => {
       <Breadcrum />
 
       {storeFilters.specialties.length > 0 && (
-        <h1 className="text-xl sm:text-3xl mb-10">
+        <h1 className="text-xl sm:text-3xl mb-6">
           Cursos de {storeFilters.specialties[0].name}
         </h1>
       )}

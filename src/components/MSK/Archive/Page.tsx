@@ -9,6 +9,7 @@ import { removeAccents } from "@/lib/removeAccents";
 import NcModal from "@/components/NcModal/NcModal";
 import notesMapping from "../../../data/jsons/__notes.json";
 import specialtiesMapping from "../../../data/jsons/__specialties.json";
+import specialtiesBannersMapping from "../../../data/jsons/__specialties_banners.json";
 import { TABS_BLOG } from "@/data/MSK/blog";
 import NoResults from "@/components/NoResults/NoResults";
 import SpecialtiesModal from "@/components/MSK/Blog/Post/SpecialtiesModal";
@@ -54,6 +55,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
 
   const [title, setTitle] = useState("Archivo");
   const [currentPage, setCurrentPage] = useState(1);
+  const [bannerImage, setBannerImage] = useState("/images/banners/archive.jpg");
   const [showSpecialties, setShowSpecialties] = useState(false);
   const itemsPerPage = 12;
 
@@ -69,6 +71,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
   const handleCategoryChange = (e: { name: string }) => {
     if (e.name == "Todas las categorías") {
       setTitle("Archivo");
+      setBannerImage("/images/banners/archive.jpg");
       return setAuxPosts(posts);
     }
     let filteredPosts = posts.filter((post: PostDataType) => {
@@ -77,6 +80,8 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
       );
     });
     setTitle(e.name);
+    // @ts-ignore
+    setBannerImage(specialtiesBannersMapping[e.name]);
     setAuxPosts(filteredPosts);
     setAuxPosts(filteredPosts);
   };
@@ -115,6 +120,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
 
       const notesJSON: JsonMapping = notesMapping;
       const specialtiesJSON: JsonMapping = specialtiesMapping;
+      const specialtiesBannersJSON: JsonMapping = specialtiesBannersMapping;
 
       const title = specialtyValue
         ? specialtiesJSON[specialtyValue]
@@ -124,13 +130,23 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
 
       setTitle(title);
 
+      const bannerImg = specialtyValue
+        ? specialtiesBannersJSON[specialtyValue]
+        : (categoryValue && !categoryValue.includes("Otra") )
+          ? specialtiesBannersJSON[categoryValue]
+          : "/images/banners/archive.jpg";
+
+      console.log(categoryValue);
+      console.log(specialtyValue);
+      console.log(bannerImg);
+      setBannerImage(bannerImg)
+
       if (!specialtyValue && !categoryValue) return setAuxPosts(posts);
 
       let filteredPosts = [];
        if (specialtyValue) {
          filteredPosts = posts.filter((post: PostDataType) => {
            let categories = post.categories.map((category) => slugifySpecialty(category.name));
-           console.log(categories);
            return categories.includes(specialtyValue);
          });
        } else {
@@ -168,7 +184,7 @@ const PageArchiveComponent: FC<PageArchiveProps> = ({
                 <div className="container relative aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
                   <NcImage
                     className="rounded-3xl md:rounded-[40px] object-cover absolute inset-0 w-full h-full"
-                    src="/images/banners/archive.jpg"
+                    src={bannerImage}
                     alt=""
                     width="1920"
                     height="1080"

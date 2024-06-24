@@ -16,7 +16,6 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const postMetadata = await ssr.getSinglePost(params.slug);
-  console.log(postMetadata.title);
   return {
     title: postMetadata.title,
     description: postMetadata.excerpt,

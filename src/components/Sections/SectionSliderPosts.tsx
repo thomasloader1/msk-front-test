@@ -47,7 +47,7 @@ export interface SectionSliderPostsProps {
     | "card19"
     | "card20";
   sliderStype?: "style1" | "style2";
-  perView?: 2 | 3 | 4;
+  perView?:1 | 2 | 3 | 4;
   uniqueSliderClass: string;
   loading?: boolean;
 }
@@ -64,6 +64,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
                                                            loading,
                                                          }) => {
   const [slidesCount, setSlidesCount] = useState(0);
+  const [showArrows, setShowArrows] = useState(false);
   const UNIQUE_CLASS = "SectionSliderPosts_" + uniqueSliderClass;
   // const top_picks = posts.sort((a: any, b: any) => b.viewdCount - a.viewdCount);
 
@@ -97,8 +98,36 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
     if (document.getElementsByClassName(UNIQUE_CLASS).length){
       MY_GLIDE.mount();
     }
+    console.log(posts);
     setSlidesCount(posts.length);
   }, [MY_GLIDE]);
+
+
+  useEffect(() => {
+    // Function to handle resize events
+    const handleResize = () => {
+      console.log(sliderStype);
+      console.log(window.innerWidth);
+      console.log(window.innerWidth < 768);
+      console.log(slidesCount);
+      console.log(perView);
+      console.log(sliderStype === "style2" && window.innerWidth < 768);
+      console.log(sliderStype === "style2" && slidesCount > perView);
+      console.log((sliderStype === "style2" && window.innerWidth < 768) ||  (sliderStype === "style2" && slidesCount > perView));
+      setShowArrows(
+        (sliderStype === "style2" && window.innerWidth < 768) ||  (sliderStype === "style2" && slidesCount > perView)
+      );
+    };
+
+    // Execute handleResize initially and on every window resize
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [sliderStype, slidesCount, perView]);
 
   const getPostComponent = () => {
     switch (postCardName) {
@@ -193,7 +222,7 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
             </ul>
           )}
         </div>
-        {sliderStype === "style2" && slidesCount > perView && (
+        {showArrows && (
           <NextPrev
             btnClassName="w-12 h-12"
             containerClassName="justify-center"

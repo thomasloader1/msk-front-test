@@ -22,6 +22,7 @@ interface Props {
 }
 import api from "@Services/api";
 import {DataContext} from "@/context/data/DataContext";
+import {getAllBestSellers} from "@/lib/allData";
 const SingleProductDetail: FC<Props> = ({ product, country }) => {
   const { loadingBestSellers } = useContext(DataContext);
 
@@ -238,41 +239,49 @@ const SingleProductDetail: FC<Props> = ({ product, country }) => {
           </div>
         </div>
       </div>
-      <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <ContactFormSection
-          productName={product.ficha.title}
-          isEbook={isEbook}
-          submitReason={isEbook ? "Descarga ebook" : ""}
-          resourceMedia={
-            isEbook ? (product?.temario_link_pdf as string) : false
-          }
-        />
+
+      <div className="container">
+        <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <ContactFormSection
+            productName={product.ficha.title}
+            isEbook={isEbook}
+            submitReason={isEbook ? "Descarga ebook" : ""}
+            resourceMedia={
+              isEbook ? (product?.temario_link_pdf as string) : false
+            }
+          />
+        </div>
       </div>
+
       <div className="container relative py-16 mb-20">
-        <BackgroundSection />
-        <SectionSliderPosts
-          posts={bestSellers}
-          loading={loadingBestSellers}
-          postCardName="card9"
-          heading="Descubre nuestras capacitaciones destacadas"
-          subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-          sliderStype="style2"
-          uniqueSliderClass="pageHome-section6"
-        />
+        <div className="md:rounded-[40px] bg-neutral-100 dark:bg-black dark:bg-opacity-20 relative py-16 mb-[96px] w-full px-14">
+          <SectionSliderPosts
+            posts={bestSellers}
+            loading={loadingBestSellers}
+            className="w-full section-slider-posts-container"
+            postCardName="card9"
+            heading="Descubre nuestras capacitaciones destacadas"
+            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+            sliderStype="style2"
+            uniqueSliderClass="singleProduct-section6"
+          />
+        </div>
       </div>
 
 
       {product.related_products.length ? (
         <div className="container relative py-16 mt-16 ">
-          <BackgroundSection />
-          <SectionSliderPosts
-            postCardName="card9"
-            heading="¿Buscas capacitarte a distancia?"
-            subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
-            sliderStype="style2"
-            posts={product.related_products}
-            uniqueSliderClass="pageHome-section6"
-          />
+          <div className="md:rounded-[40px] bg-neutral-100 dark:bg-black dark:bg-opacity-20 relative py-16 mb-[96px] w-full px-14">
+            <SectionSliderPosts
+              posts={product.related_products}
+              className="w-full section-slider-posts-container"
+              postCardName="card9"
+              heading="¿Buscas capacitarte a distancia?"
+              subHeading="Estos son los cursos más elegidos entre profesionales de la salud"
+              sliderStype="style2"
+              uniqueSliderClass="singleProductRelated-section6"
+            />
+          </div>
         </div>
       ) : null}
 

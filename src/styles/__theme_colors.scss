@@ -600,6 +600,12 @@ $heading-color2: #392c35;
 // section-bg Colors ---------------
 $section-bg: #f6f8fb;
 
+$dark-green: #00853E;
+
+.color-dark-green{
+    color: $dark-green;
+}
+
 .color-description-text{
   color: $description-text;
 }

@@ -28,6 +28,13 @@
   }
 }
 
+.contact-radio-input{
+  &:checked{
+    background-image: url('/images/misc/radio-checked.png');
+    padding: 1px;
+  }
+}
+
 .contact-checkbox {
   display: flex;
   align-items: center;

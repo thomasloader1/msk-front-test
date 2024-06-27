@@ -393,6 +393,7 @@ const ContactForm: FC<ContactFormProps> = ({
                         </p>
                         <div className="mt-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                           <Checkbox
+                            inputClass="contact-radio-input"
                             name="Preferencia_de_contactaci_n_phone"
                             label="Teléfono"
                             onChange={() =>
@@ -400,6 +401,7 @@ const ContactForm: FC<ContactFormProps> = ({
                             }
                           />
                           <Checkbox
+                            inputClass="contact-radio-input"
                             name="Preferencia_de_contactaci_n_whatsapp"
                             label="WhatsApp"
                             onChange={() =>
@@ -407,6 +409,7 @@ const ContactForm: FC<ContactFormProps> = ({
                             }
                           />
                           <Checkbox
+                            inputClass="contact-radio-input"
                             name="Preferencia_de_contactaci_n_email"
                             label="E-mail"
                             onChange={() =>

@@ -94,11 +94,9 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
 
   useEffect(() => {
     if (!MY_GLIDE) return;
-    console.log(UNIQUE_CLASS);
     if (document.getElementsByClassName(UNIQUE_CLASS).length){
       MY_GLIDE.mount();
     }
-    console.log(posts);
     setSlidesCount(posts.length);
   }, [MY_GLIDE]);
 
@@ -106,14 +104,6 @@ const SectionSliderPosts: FC<SectionSliderPostsProps> = ({
   useEffect(() => {
     // Function to handle resize events
     const handleResize = () => {
-      console.log(sliderStype);
-      console.log(window.innerWidth);
-      console.log(window.innerWidth < 768);
-      console.log(slidesCount);
-      console.log(perView);
-      console.log(sliderStype === "style2" && window.innerWidth < 768);
-      console.log(sliderStype === "style2" && slidesCount > perView);
-      console.log((sliderStype === "style2" && window.innerWidth < 768) ||  (sliderStype === "style2" && slidesCount > perView));
       setShowArrows(
         (sliderStype === "style2" && window.innerWidth < 768) ||  (sliderStype === "style2" && slidesCount > perView)
       );

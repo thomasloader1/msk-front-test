@@ -13,8 +13,6 @@ import Script from "next/script";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
 
 export const runtime = "edge";
 
@@ -82,7 +80,6 @@ export default async function RootLayout({ params, children }: LayoutProps) {
             </CountryProvider>
           </GoogleCaptchaWrapper>
         </div>
-      <Analytics />
       </body>
     </html>
   );

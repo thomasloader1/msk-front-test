@@ -83,7 +83,6 @@ export default async function RootLayout({ params, children }: LayoutProps) {
           </GoogleCaptchaWrapper>
         </div>
       <Analytics />
-      <SpeedInsights />
       </body>
     </html>
   );
